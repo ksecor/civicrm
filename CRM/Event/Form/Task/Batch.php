@@ -117,7 +117,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         
         
         $this->assign( 'profileTitle', $this->_title );
-        $this->assign( 'participantIds', $this->_participantIds );
+        $this->assign( 'componentIds', $this->_participantIds );
         $fileFieldExists = false;
         
         //fix for CRM-2752

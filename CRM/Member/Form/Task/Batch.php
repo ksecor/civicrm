@@ -119,8 +119,7 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
         
         
         $this->assign( 'profileTitle', $this->_title );
-        
-        $this->assign( 'memberIds', $this->_memberIds );
+        $this->assign( 'componentIds', $this->_memberIds );
         $fileFieldExists = false;
         
         require_once "CRM/Core/BAO/CustomField.php";

@@ -4,7 +4,7 @@
     {
         var cId = new Array();	
         var i = 0;{/literal}
-        {foreach from=$contactIds item=field}
+        {foreach from=$componentIds item=field}
         {literal}cId[i++]{/literal} = {$field}
         {/foreach}
 	{literal}        

@@ -15,7 +15,7 @@
                 {/if}
              {/foreach}
             </tr>
-            {foreach from=$contactIds item=cid}
+            {foreach from=$componentIds item=cid}
              <tr class="{cycle values="odd-row,even-row"}">
               <td>{$sortName.$cid}</td> 
               {foreach from=$fields item=field key=fieldName}
@@ -60,6 +60,6 @@
 </fieldset>
 </div>
 
-{*include custom data js file*}
+{*include batch copy js js file*}
 {include file="CRM/common/batchCopy.tpl"}
 
