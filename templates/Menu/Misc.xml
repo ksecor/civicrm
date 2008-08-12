@@ -77,4 +77,8 @@
      <weight>9999</weight>
      <page_type>1</page_type>
   </item>
+  <item>
+    <path>civicrm/i18n</path>
+    <page_callback>CRM_Core_I18n_Form</page_callback>
+  </item>
 </menu>
