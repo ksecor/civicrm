@@ -124,7 +124,7 @@ Participant {$priceset+1}
 {ts}Billing Name and Address{/ts}
 
 ===========================================================
-{$name}
+{$billingName}
 {$address}
 {/if}
 
