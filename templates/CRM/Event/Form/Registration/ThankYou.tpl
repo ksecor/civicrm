@@ -111,7 +111,7 @@
         {ts}Billing Name and Address{/ts}
     </div>
     <div class="display-block">
-        <strong>{$name}</strong><br />
+        <strong>{$billingName}</strong><br />
         {$address|nl2br}
     </div>
     {/if}

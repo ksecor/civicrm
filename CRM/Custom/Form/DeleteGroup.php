@@ -79,7 +79,7 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
             CRM_Utils_System::redirect($url);
             return true;
         }
-        $this->assign( 'name' , $this->_title );
+        $this->assign( 'title' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Custom Group Delete') );
     }

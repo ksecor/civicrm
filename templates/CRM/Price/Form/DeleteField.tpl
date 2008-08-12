@@ -3,7 +3,7 @@
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
-          {ts 1=$name}WARNING: Deleting this price field will result in the loss of all '%1' data.{/ts} {ts}This action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
+          {ts 1=$title}WARNING: Deleting this price field will result in the loss of all '%1' data.{/ts} {ts}This action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
         </dd>
       </dl>
     </div>
