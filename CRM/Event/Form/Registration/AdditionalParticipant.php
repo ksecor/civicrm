@@ -246,7 +246,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 }
             }
 
-            if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+            if ( !$params['participant_role_id'] && $this->_values['event']['default_role_id'] ) {
                 $params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
             

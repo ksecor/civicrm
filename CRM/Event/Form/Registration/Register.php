@@ -624,7 +624,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } else {
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-            if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+            if ( !$params['participant_role_id'] && $this->_values['event']['default_role_id'] ) {
                 $params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
             
