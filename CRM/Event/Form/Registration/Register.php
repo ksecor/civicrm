@@ -632,11 +632,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             $this->_params                = array();
             $this->_params[]              = $params; 
+            $this->set( 'params', $this->_params );
+
             if ( !CRM_Utils_Array::value( 'additional_participants', $params ) ) {
                 self::processRegistration(  $this->_params,  $contactID );
             }
-            
-            $this->set( 'params', $this->_params );
         }
         
         // If registering > 1 participant, give status message
