@@ -278,7 +278,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                               'Payment Reminders'   => 'PaymentReminders'
                               );
         foreach ( $paneNames as $name => $type ) {
-            $urlParams = "snippet=1&formType={$type}";
+            $urlParams = "snippet=4&formType={$type}";
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/pledge', $urlParams ),
                                       'open' => 'false',
                                       'id'   => $type,
