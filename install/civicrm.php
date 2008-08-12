@@ -58,7 +58,11 @@ function civicrm_main( &$config ) {
          $config['loadGenerated'] ) {
         civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_generated.mysql', true );
     } else {
-        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+        if ( $installType == 'standalone' ) {
+            civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_standalone.mysql' );
+        } else {
+            civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+        }
     }
     
     // generate backend settings file

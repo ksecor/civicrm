@@ -187,7 +187,7 @@ class InstallRequirements {
                                                                        "Can't find the a MySQL server on '$databaseConfig[server]'", $databaseConfig['server']));
             if($this->requireMysqlConnection($databaseConfig['server'], $databaseConfig['username'], $databaseConfig['password'], 
                                              array("MySQL $dbName Configuration", "Are the access credentials correct", "That username/password doesn't work"))) {
-                @$this->requireMySQLVersion("4.1", array("MySQL $dbName Configuration", "MySQL version at least 4.1", "MySQL version 4.1 is required, you only have ", "MySQL " . mysql_get_server_info()));
+                @$this->requireMySQLVersion("5.0", array("MySQL $dbName Configuration", "MySQL version at least 5.0", "MySQL version 5.0 is required, you only have ", "MySQL " . mysql_get_server_info()));
             }
             $onlyRequire = ( $dbName == 'Drupal' ) ? true : false;
             $this->requireDatabaseOrCreatePermissions($databaseConfig['server'],

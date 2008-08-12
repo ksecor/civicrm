@@ -143,6 +143,8 @@ foreach ($locales as $locale) {
 
     // write the standalone base-data sql script
     $data .= $smarty->fetch('civicrm_uf.tpl');
+    $data .= $smarty->fetch('civicrm_acl.tpl');
+
     $filename = 'civicrm_standalone';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
@@ -151,7 +153,8 @@ foreach ($locales as $locale) {
     fclose( $fd );
 }
 
-$sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
+$sample  = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
+$sample .= file_get_contents( $smarty->template_dir . '/civicrm_acl.tpl' );
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
