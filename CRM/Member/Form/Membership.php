@@ -776,7 +776,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
                     $name .= " {$this->_params['billing_last_name']}";
                 }
-                $this->assign( 'name', $name );
+                $this->assign( 'billingName', $name );
                 
                 // assign the address formatted up for display
                 $addressParts  = array( "street_address-{$this->_bltID}",
