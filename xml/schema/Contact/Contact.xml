@@ -270,7 +270,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^(l(ast\s)?name)$/i</headerPattern>
+       <headerPattern>/^last|(l(ast\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+(\s\w+)?+$/</dataPattern>
        <localizable>true</localizable>
        <comment>Last Name.</comment>
