@@ -42,6 +42,12 @@ require_once 'CRM/Core/Payment.php';
  */
 class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_ContributionBase 
 {
+    /**
+     *Define default MembershipType Id
+     *
+     */
+    public $_defaultMemTypeId;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
