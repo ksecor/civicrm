@@ -1454,7 +1454,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } 
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
                         //fix for custom fields
-                        $customFields = CRM_Core_BAO_CustomField::getFields( $values['Individual'] );
+                        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );
 
                         // hack to add custom data for components
                         $components = array("Contribution", "Participant","Membership");
