@@ -42,7 +42,7 @@ class CRM_Core_IDS {
     private $threshold = array(
                                'log'      => 10,
                                'warn'     => 30,
-                               'kick'     => 75
+                               'kick'     => 50
                                );
 
 
@@ -90,6 +90,7 @@ class CRM_Core_IDS {
     scan_keys           = false
     exceptions[]        = __utmz
     exceptions[]        = __utmc
+    exceptions[]        = widget_code
     html[]              = html_message
     html[]              = description
     html[]              = intro
