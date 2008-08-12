@@ -111,7 +111,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         if ($this->_action == CRM_Core_Action::DELETE) {    
             if ( isset($this->_id) ) {
-                $this->assign( 'name' , $this->_title );
+                $this->assign( 'title' , $this->_title );
                 $this->assign( 'count', CRM_Contact_BAO_Group::memberCount( $this->_id ) );
                 CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
             }
