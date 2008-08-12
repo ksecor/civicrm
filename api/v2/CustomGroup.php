@@ -73,18 +73,32 @@ function civicrm_custom_group_create( $params )
         return civicrm_create_error( "params is not an array");
     }   
     
-    if(! trim($params['used_for']) ) {
-        return civicrm_create_error( "used_for is not set" );
+    // Require either param['class_name'] (string) - for backwards compatibility - OR parm['extends'] (array)
+    // If passing extends array - set class_name (e.g. 'Contact', 'Participant'...) as extends[0]. You may optionally
+    // pass an extends_entity_column_value as extends[1] (e.g. an Activity Type ID).
+    if( isset( $params['class_name'] ) && trim( $params['class_name'] ) ) {
+        $params['extends'][0] = trim( $params['class_name'] );
+    } else {
+        if ( ! isset( $params['extends'] ) || ! is_array( $params['extends'] ) ) { 
+            return civicrm_create_error( "Params must include either 'class_name' (string) or 'extends' (array)." );
+        } else {
+            if ( ! isset( $params['extends'][0] ) || ! trim( $params['extends'][0] ) ) {
+                return civicrm_create_error( "First item in params['extends'] must be a class name (e.g. 'Contact')." );
+            }
+        }
     }
-    
-    $params['extends'] = $params['used_for'];
+
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
     require_once 'CRM/Utils/String.php';
     if (! trim($params['title'] ) ) {
-        return civicrm_create_error( "Title is not set" );
+        return civicrm_create_error( "Title parameter is required." );
     } 
 
+    if ( ! isset( $params['style'] ) || ! trim( $params['style'] ) ) {
+        $params['style'] = 'Inline';
+    }
+        
     if (is_a($error, 'CRM_Core_Error')) {
         return civicrm_create_error( $error->_errors[0]['message'] );
     }
