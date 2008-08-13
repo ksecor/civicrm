@@ -115,6 +115,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->assign( 'action', $this->_action );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
@@ -126,9 +130,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
         
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            return;
-        }
         
         $this->_values = array( );
         // current pledge id
