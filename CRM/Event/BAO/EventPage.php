@@ -366,6 +366,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                             $title[] = $allTags[$tagId];
                         }
                         $values[$index] = implode( ', ', $title );
+                    } else if ( 'participant_role_id' == $name ) {
+                        $roles = CRM_Event_PseudoConstant::participantRole( );
+                        $values[$index] = $roles[$params[$name]];
+                    } else if ( 'participant_status_id' == $name ) {
+                        $status = CRM_Event_PseudoConstant::participantStatus( );
+                        $values[$index] = $status[$params[$name]];
                     } else {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                             if ($params[$name] ) {

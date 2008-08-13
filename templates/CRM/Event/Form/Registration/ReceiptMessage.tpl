@@ -21,7 +21,7 @@
 {$event.event_title}
 {$event.event_start_date|crmDate}{if $event.event_end_date}-{if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}{$event.event_end_date|date_format:"%I:%M %p"}{else}{$event.event_end_date|crmDate}{/if}{/if}
 
-{if $event.participant_role neq 'Attendee'}
+{if $event.participant_role neq 'Attendee' and $defaultRole}
 {ts}Participant Role{/ts} : {$event.participant_role}
 {/if}
 

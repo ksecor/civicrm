@@ -50,8 +50,7 @@
     <div class="display-block">
         {$email}
     </div>
-
-    {if $event.participant_role neq 'Attendee'}
+    {if $event.participant_role neq 'Attendee' and $defaultRole}
         <div class="header-dark">
             {ts}Participant Role{/ts}
         </div>
