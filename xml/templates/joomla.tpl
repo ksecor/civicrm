@@ -56,7 +56,7 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
-      <folder>civicrm/{$file}</folder>
+      <folder>civicrm/{$files}</folder>
     </files>
   </administration>
 </install>
