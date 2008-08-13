@@ -42,7 +42,6 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
     {
         $config =& CRM_Core_Config::singleton();
         $this->_locales = array_keys($config->languageLimit);
-        $this->assign('locales', $this->_locales);
 
         // get the part of the database we want to edit and validate it
         $this->_table = CRM_Utils_Request::retrieve('table', 'String', $this);
@@ -70,6 +69,9 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         }
 
         $this->addButtons(array(array('type' => 'next', 'name' => ts('Save'), 'isDefault' => true)));
+
+        $this->assign('locales', $this->_locales);
+        $this->assign('field',   $this->_field);
     }
 
     function setDefaultValues()
@@ -95,7 +97,8 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $query = CRM_Core_DAO::composeQuery($query, $params, true, $dao);
         $dao->query($query, false);
 
-        $session =& CRM_Core_Session::singleton();
-        $session->replaceUserContext(CRM_Utils_System::refererPath());
+        exit;
+#       $session =& CRM_Core_Session::singleton();
+#       $session->replaceUserContext(CRM_Utils_System::refererPath());
     }
 }
