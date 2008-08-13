@@ -45,23 +45,17 @@ for F in $SRC/sql/civicrm*.mysql; do
 	cp $F $TRG/sql
 done
 
-# delete any setup.sh or setup.php4.sh if present
-if [ -d $TRG/bin ] ; then
-  rm -f $TRG/bin/setup.sh
-  rm -f $TRG/bin/setup.php4.sh
-fi
-
 # remove Quest
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
 # delete SimpleTest
 if [ -d $TRG/packages/SimpleTest ] ; then
-  rm -f $TRG/packages/SimpleTest
+  rm -rf $TRG/packages/SimpleTest
 fi
 
 # delete UFPDF's stuff not required on installations
 if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
-  rm -f $TRG/packages/ufpdf/ttf2ufm-src
+  rm -rf $TRG/packages/ufpdf/ttf2ufm-src
 fi
 
 # copy docs
