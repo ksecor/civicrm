@@ -50,7 +50,7 @@ function civicrm_invoke( ) {
         $component  =& JComponentHelper::getComponent('com_civicrm');
         $menu       =& JSite::getMenu( );
         $item       =  $menu->getItems('componentid', $component->id, true);
-        $params     =  $menu->getParams( $item->id );
+        $params     =  $menu->getParams( $_GET['Itemid'] );
         $args = array( 'task', 'id', 'gid', 'reset' ); 
         foreach ( $args as $a ) { 
             $val = $params->get( $a, null ); 

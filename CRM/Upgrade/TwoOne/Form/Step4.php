@@ -94,6 +94,7 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
             $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
             $defaults['moneyvalueformat']   = '%!i';
             $defaults['fieldSeparator']     = ',';
+            $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
             // serialise settings 
             CRM_Core_BAO_Setting::add($defaults);            
         }
