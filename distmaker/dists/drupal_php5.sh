@@ -54,6 +54,9 @@ find $TRG -depth -name 'Quest' -exec rm -r {} \;
 if [ -d $TRG/packages/SimpleTest ] ; then
   rm -rf $TRG/packages/SimpleTest
 fi
+if [ -d $TRG/packages/drupal ] ; then
+  rm -rf $TRG/packages/drupal
+fi
 
 # delete UFPDF's stuff not required on installations
 if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
