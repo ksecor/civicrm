@@ -69,10 +69,7 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
             $this->_defaults[$locale] = $dao->$locale;
         }
 
-        $this->addButtons(array(
-            array('type' => 'next',   'name' => ts('Save'), 'isDefault' => true),
-            array('type' => 'cancel', 'name' => ts('Cancel'))
-        ));
+        $this->addButtons(array(array('type' => 'next', 'name' => ts('Save'), 'isDefault' => true)));
     }
 
     function setDefaultValues()
@@ -97,5 +94,8 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $dao =& new CRM_Core_DAO();
         $query = CRM_Core_DAO::composeQuery($query, $params, true, $dao);
         $dao->query($query, false);
+
+        $session =& CRM_Core_Session::singleton();
+        $session->replaceUserContext(CRM_Utils_System::refererPath());
     }
 }
