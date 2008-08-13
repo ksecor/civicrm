@@ -83,6 +83,12 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */ 
     function edit( ) 
     { 
+        // set https for offline cc transaction        
+        $mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+        if ( $mode == 'test' || $mode == 'live' ) {
+            CRM_Utils_System::redirectToSSL( );
+        }
+
         // build associated contributions
         $this->associatedContribution( );
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Participant', 

@@ -93,11 +93,10 @@ class CRM_Contribute_Invoke {
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
 
-        if ( ( $secondArg == 'transact' || $secondArg == 'offline' ) ) {
-            CRM_Utils_System::redirectToSSL( );
-        }
-
         if ( $secondArg == 'transact' ) {
+            //enable ssl
+            CRM_Utils_System::redirectToSSL( );
+
             // also reset the bread crumb
             CRM_Utils_System::resetBreadCrumb( );
 
@@ -129,10 +128,6 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
-        } else if ( $secondArg == 'offline' ) {
-            require_once 'CRM/Utils/Wrapper.php';
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contribute_Form_Offline', ts('Contribution Payment Form'), null);
         } else if ( $secondArg == 'manage' ) {
             require_once 'CRM/Contribute/Page/ContributionPage.php';
             $page =& new CRM_Contribute_Page_ContributionPage( );
