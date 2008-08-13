@@ -1648,7 +1648,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                      $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $componentId, 0, null); 
                      foreach ( $groupTrees as $groupTree ) {
                          CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
-                         $defaults[$fldName] = $defaults[$name];
+                         $defaults[$fldName] = CRM_Utils_Array::value( $name, $defaults );
                          unset($defaults[$name]);
                      }
                 }  
