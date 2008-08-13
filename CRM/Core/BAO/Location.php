@@ -368,6 +368,7 @@ WHERE e.id = %1";
                 continue;
             }
             
+            $primary_location_type = null;
             foreach ( $value as $locationTypeId => $val ) { 
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {
@@ -386,7 +387,6 @@ WHERE e.id = %1";
                 $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
                 $locations[ $locationNo ][$key] = $val;
 
-                $primary_location_type = null;
                 if ( CRM_Utils_Array::value( 'is_primary' , $val ) ) { 
                     $primary_location_type = $locationTypeId;
                 }

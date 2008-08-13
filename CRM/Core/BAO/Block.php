@@ -77,7 +77,7 @@ class CRM_Core_BAO_Block
             $count = 1;
             foreach( $blockIds[1] as $blockId ) {
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
-                $block->id = $blockId;
+                $block->id = $blockId['id'];
                 $getBlocks = self::retrieveBlock( $block, $blockName );
                 $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
                 $count++;
@@ -193,25 +193,32 @@ class CRM_Core_BAO_Block
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::allEntity' . $name . 's( $entityElements );');
         }
 
-        $locationCount = 1;
-        $blockCount    = 1;
-        $locationTypes = array( );
+        $locationCount  = 1;
+        $blockCount     = 1;
+        $locationTypes  = array( );
+        $locationBlocks = array( );
+
         foreach ( $allBlocks as $blocks ) {
             //logic to check when we should increment counter
             $locationTypeId = $blocks['locationTypeId'];
             if ( !empty( $locationTypes ) ) {
                 if ( in_array ( $locationTypeId, $locationTypes ) ) {
                     $locationCount = array_search( $locationTypeId, $locationTypes );
+                    $blockCount = CRM_Utils_Array::value( $locationTypeId, $locationBlocks, 1 );
+                    $blockCount++;
+                    $locationBlocks[$locationTypeId] = $blockCount;
                 } else {
                     $locationCount++;
                     $locationTypes[ $locationCount ] = $locationTypeId;
+                    $locationBlocks[$locationTypeId] = 1;
                 }
-                } else {
-                    $locationTypes[ $locationCount ]  = $locationTypeId;
-                }
+            } else {
+                $locationTypes[$locationCount]   = $locationTypeId;
+                $locationBlocks[$locationTypeId] = $blockCount;
+            }
 
-            $contactBlockIds[ $locationCount ][ $blockCount ] = $blocks['id'];
-            $blockCount++;
+            $contactBlockIds[ $locationCount ][ $blockCount ] = array( 'id'               => $blocks['id'],
+                                                                       'location_type_id' => $blocks['locationTypeId'] );
         }
         return $contactBlockIds;
     }
@@ -248,7 +255,6 @@ class CRM_Core_BAO_Block
         $blockIds      = self::getBlockIds( $blockName, $contactId, $entityElements );
         $isPrimary     = true;
         $isBilling     = true;
-        $locationCount = 1;
         $blocks        = array( );
 
         foreach ( $params[$blockName] as $value ) {
@@ -257,6 +263,7 @@ class CRM_Core_BAO_Block
             }
 
             $contactFields = array( );
+            $locBlockCount = 1;
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
             
@@ -265,8 +272,15 @@ class CRM_Core_BAO_Block
                     continue;
                 }
                 
-                if ( !empty( $blockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
+                if ( !empty( $blockIds ) ) {
+                    foreach( $blockIds as $locCount => $locIds ) {
+                        foreach ( $locIds as $locKey => $locVal ) {
+                            if ( $locKey == $locBlockCount && 
+                                 $locVal['location_type_id'] == $value['location_type_id'] ) {
+                                $val['id'] = $locVal['id'];
+                            }
+                        }
+                    }
                 }
 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
@@ -274,8 +288,10 @@ class CRM_Core_BAO_Block
                 if ( isset( $val['id'] ) && !$dataExits ) {
                     //delete the existing record
                     self::blockDelete( $name, array( 'id' => $val['id'] ) );
+                    $locBlockCount++;
                     continue;
                 } else if ( !$dataExits ) {
+                    $locBlockCount++;
                     continue;
                 }
                 
@@ -294,9 +310,8 @@ class CRM_Core_BAO_Block
                 }
                 $blockFields = array_merge( $val, $contactFields );
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
+                $locBlockCount++;
             }
-            
-            $locationCount++;
         }
 
         return $blocks;

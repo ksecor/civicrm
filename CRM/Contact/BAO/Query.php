@@ -731,9 +731,11 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_im':
 
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
-                                if ( $cond ) {
-                                    $this->_tables[$tName] .= " AND `$tName`.$cond ";
-                                }
+                                // we don't need this code anymore, we don't have primary blocks for non-primary locations
+                                // this prevents setting of defaults of non primary blocks. temporary commenting it.
+                                //if ( $cond ) {
+                                //$this->_tables[$tName] .= " AND `$tName`.$cond ";
+                                //}
 
                                 //build locationType join
                                 $locationTypeJoin[] = " ( `$tName`.location_type_id = $ltName.id )";
