@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
+for CODE in css i install js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -78,7 +78,7 @@ mkdir com_civicrm
 mkdir com_civicrm/admin
 mkdir com_civicrm/admin/civicrm
 
-cp -r -p $DM_SOURCEDIR/* com_civicrm/admin/civicrm/
+cp -r -p civicrm/* com_civicrm/admin/civicrm
 
 $DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 

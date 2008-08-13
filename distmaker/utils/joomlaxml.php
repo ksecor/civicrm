@@ -18,6 +18,18 @@ ini_set('include_path', ini_get('include_path') . ":$sourceCheckoutDir/packages"
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
+$path  = array( 'CRM', 'api', 'bin', 'css', 'i', 'install', 'js', 'sql', 'templates', 'joomla', 'packages', 'extern' );
+$files = array( 'agpl-3.0.txt'        => 1,
+                'civicrm-version.txt' => 1, 
+                'gpl.txt'             => 1, 
+                'README.txt'          => 1 );
+
+// prepare the list of files we going to make available /w tarball.
+foreach ( $path as $v ) {
+    $rootDir = "$targetDir/$v";
+    walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );
+}
+
 generateJoomlaConfig( $files );
 
 /**
@@ -50,4 +62,25 @@ function generateJoomlaConfig( &$files ) {
     fputs( $fd, $xml );
     fclose( $fd );
     
+}
+
+function walkDirectory( $iter, &$files, $length ) {
+    while ($iter->valid()) {
+        $node = $iter->current();
+        
+        $path = $node->getPathname( );
+        $name = $node->getFilename( );
+        if ( $node->isDir( )      && 
+             $node->isReadable( ) &&
+             ! $node->isDot( )    &&
+             $name != '.svn' ) {
+            walkDirectory(new DirectoryIterator( $path ), $files, $length);
+        } else if ( $node->isFile( ) ) {
+            if ( substr( $name, -1, 1 ) != '~' && substr( $name, 0, 1 ) != '#' ) {
+                $files[ substr( $path, $length + 1 ) ] = 1;
+            }
+        }
+        
+        $iter->next( );
+    }
 }

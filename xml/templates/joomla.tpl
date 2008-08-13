@@ -56,7 +56,9 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
-      <folder>civicrm/{$files}</folder>
+    {foreach from=$files item=file}
+      <filename>civicrm/{$file}</filename>
+    {/foreach}
     </files>
   </administration>
 </install>
