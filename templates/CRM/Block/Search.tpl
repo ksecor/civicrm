@@ -4,7 +4,7 @@
 <script type="text/javascript"> 
   dojo.require("dojox.data.QueryReadStore");
   dojo.require("dojo.parser");
-function getValue( )
+function getSearchURLValue( )
 {
     var contactId =  dijit.byId( 'id_sort_name' ).getValue();
 
@@ -57,7 +57,7 @@ function getValue( )
     <div class="tundra">
         <input type="hidden" name="contact_id" id="contact_id"/>
         <input type="text" name="sort_name" id="id_sort_name" value="" dojoType="civicrm.FilteringSelect" store="searchStore" mode="remote" searchAttr="name"  pageSize="10" />
-	<input type="submit" name="_qf_Basic_refresh" value="{ts}Go{/ts}" class="form-submit"  onclick="getValue( );"/>
+	<input type="submit" name="_qf_Basic_refresh" value="{ts}Go{/ts}" class="form-submit"  onclick="getSearchURLValue( );"/>
         <br />
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
     </div>
