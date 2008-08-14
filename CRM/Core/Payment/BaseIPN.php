@@ -557,8 +557,10 @@ class CRM_Core_Payment_BaseIPN {
         $template->assign( 'is_monetary', 1 );
         $template->assign( 'is_recur', $recur );
         if ( $recur ) {
-            require_once 'CRM/Contribute/Form/ContributionBase.php';
-            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $objects['paymentProcessor'] );
+            require_once 'CRM/Core/Payment.php';
+            $paymentObject =& CRM_Core_Payment::singleton( $contribution->is_test ? 'test' : 'live', 'Contribute',
+                                                           $objects['paymentProcessor'] );
+            $url = $paymentObject->cancelSubscriptionURL( );
             $template->assign( 'cancelSubscriptionUrl', $url );
         }
         
