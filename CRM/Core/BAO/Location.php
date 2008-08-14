@@ -518,6 +518,51 @@ SELECT count( civicrm_location.id )
             return $contact;
         }
     }
+
+    /**
+     * Function to cleanup Contact locations
+     * Basically we need to delete unwanted location types for a contact in Edit mode
+     * create() is also called by createProfileContact(), in that case we should preserve other location type's,
+     * This is a special case where we need to delete location types that are not submitted.
+     * 
+     * @param array $params associated array of formatted params
+     * @return void
+     * @static
+     */
+    static function cleanupContactLocations( $params )
+    {
+        //get the contact id from params
+        $contactId = CRM_Utils_Array::value( 'contact_id', $params );
+
+        // build submitted location types
+        if ( isset( $params['location'] ) ) {
+            $submittedLocationTypes = array( );
+            foreach ( $params['location'] as $key => $value ) {
+                $submittedLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+            }
+        }
+
+        // get existing locations
+        $entityBlock = array( 'contact_id' => $contactId );
+        $locations    = self::getValues( $entityBlock, $defaults );
+
+        if ( !empty( $locations ) ) {
+            $existingLocationTypes = array( );
+            foreach ( $locations as $key => $value ) {
+                $existingLocationTypes[ $value['location_type_id'] ] = $value['location_type_id'];
+            }
+        }
+        
+        // deleted existing locations that are not submitted
+        if ( !empty( $existingLocationTypes ) ) {
+            foreach ( $existingLocationTypes as $lType ) {
+                if ( !in_array( $lType, $submittedLocationTypes ) ) {
+                    self::deleteLocationBlocks( $contactId, $lType );
+                }
+            }
+        }
+    }
+    
 }
 
 ?>

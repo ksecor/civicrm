@@ -656,6 +656,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 $params['mail_to_household_id'] = false;
             }
         }
+
+        // cleanup unwanted location types
+        if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::cleanupContactLocations( $params );
+        }
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
