@@ -300,7 +300,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
 
             // add class to this row if overdue
-            if ( CRM_Utils_Date::overdue( $row['activity_date_time'] ) && $row['status_id'] == 1 ) {
+            if ( CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'activity_date_time', $row ) ) 
+                 && CRM_Utils_Array::value( 'status_id', $row) == 1 ) {
                 $row['overdue'] = 1;
                 $row['class']   = 'status-overdue';
             } else {
