@@ -268,4 +268,15 @@
        <comment>Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>name</name>
+       <uniqueName>location_name</uniqueName>
+       <title>Location Name</title>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/^location|(l(ocation\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <add>2.1</add>
+  </field>
 </table>
