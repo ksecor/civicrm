@@ -54,22 +54,16 @@
         <td>{$form.job_title.html}</td>
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
-    </tr><tr></tr>
+    </tr>
     </table>
 <div id="employer_option" class="form-item">
-   {$form.employer_option.label}{$form.employer_option.html}
+   {$form.employer_option.label}&nbsp;&nbsp;{$form.employer_option.html}
    &nbsp; <a href="#prefix_id" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
 </div>
-<div id="create_employer" class="form-item">
-    <span class="labels">
-        {$form.create_employer.label}
-    </span>
-    <span class="fields">
-        {$form.create_employer.html}
-    </span>
-
+<div id="create_employer_block" class="form-item">
+    &nbsp;&nbsp;{$form.create_employer.label}&nbsp;&nbsp;{$form.create_employer.html}
 </div>
-<div id="shared_employer" class="form-item">
+<div id="shared_employer_block" class="form-item">
 	<div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
             {$form.shared_employer.html}
        	{* Conditionally display the address currently selected in the comboBox *}
@@ -232,7 +226,7 @@
     }
 
     if (!document.getElementsByName("employer_option")[1].checked ) {
-        hide("shared_employer");
+        hide("shared_employer_block");
     }else { 
         dojo.addOnLoad( function( ) 
  	{
@@ -242,22 +236,23 @@
 	
     }
     if (!document.getElementsByName("employer_option")[0].checked ) {
-        hide("create_employer");
+        hide("create_employer_block");
     }
     function showHideEmployerOptions()
     {
-        if (document.getElementsByName("employer_option")[0].checked) {
+        var opt = document.getElementsByName("employer_option");
+        if ( opt[0].checked ) {
             dijit.byId("shared_employer").domNode.style.display = "none";
-            show("create_employer");
-            hide("shared_employer");   
-        } else if (document.getElementsByName("employer_option")[1].checked) {
+            show("create_employer_block");
+            hide("shared_employer_block");   
+        } else if ( opt[1].checked ) {
             document.getElementsByName("create_employer")[0].value = "";
-            hide("create_employer");
-            show("shared_employer");
+            hide("create_employer_block");
+            show("shared_employer_block");
             dijit.byId("shared_employer").domNode.style.display = "block";
         }else {
-            hide("create_employer");
-            hide("shared_employer");
+            hide("create_employer_block");
+            hide("shared_employer_block");
         }
     }
 

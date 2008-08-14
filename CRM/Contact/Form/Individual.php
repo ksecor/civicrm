@@ -197,10 +197,10 @@ setDefaultAddress();
         $this->assign('employerDataURL',$employerDataURL );
 
         $employerOptionsExtra = array( 'onclick' => "showHideEmployerOptions();" );
-        $employerOption = array( '0' => ts('Create new Organization'), '1' => ts('Select existing Organization') );
+        $employerOption = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
         $form->addRadio('employer_option', ts('Current Employer'),  $employerOption, $employerOptionsExtra);
 
-        $form->addElement('text', 'create_employer', ts('Create Organization'), array( 'maxlength' => 128 ) );
+        $form->addElement('text', 'create_employer', ts('Organization Name'), array( 'maxlength' => 128, 'class'=>'huge' ) );
         
         $form->addRule('create_employer', ts('This organization name already exists in database.'), 
                        'objectExists', array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'organization_name' ) );
