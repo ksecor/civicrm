@@ -672,7 +672,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $params['mail_to_household_id'] = 'null';
             }
         } 
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
         

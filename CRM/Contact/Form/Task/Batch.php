@@ -104,9 +104,10 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
 
         // remove file type field and then limit fields
+        $fileFieldExists = false;
         foreach ($this->_fields as $name => $field ) {
-            $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
-            if ( $type == 'File' ) {                        
+            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name) && 
+                 $this->_fields[$name]['data_type'] == 'File' ) {                        
                 $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
@@ -127,7 +128,6 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'componentIds', $this->_contactIds );
         
-        $fileFieldExists = false;
         foreach ($this->_contactIds as $contactId) {
             foreach ($this->_fields as $name => $field ) {
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contactId );
