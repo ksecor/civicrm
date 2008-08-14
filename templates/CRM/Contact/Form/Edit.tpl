@@ -241,6 +241,7 @@
     function showHideEmployerOptions()
     {
         var opt = document.getElementsByName("employer_option");
+        alert(opt.count);
         if ( opt[0].checked ) {
             dijit.byId("shared_employer").domNode.style.display = "none";
             show("create_employer_block");
