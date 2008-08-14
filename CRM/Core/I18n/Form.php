@@ -44,40 +44,45 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $this->_locales = array_keys($config->languageLimit);
 
         // get the part of the database we want to edit and validate it
-        $this->_table = CRM_Utils_Request::retrieve('table', 'String', $this);
-        $this->_field = CRM_Utils_Request::retrieve('field', 'String', $this);
-        $this->_id    = CRM_Utils_Request::retrieve('id',    'Int',    $this);
-        $structure    = CRM_Core_I18n_SchemaStructure::columns();
-        if (!isset($structure[$this->_table][$this->_field])) {
-            CRM_Core_Error::fatal("$this->_table.$this->_field is not internationalized.");
+        $table = CRM_Utils_Request::retrieve('table', 'String', $this);
+        $field = CRM_Utils_Request::retrieve('field', 'String', $this);
+        $id    = CRM_Utils_Request::retrieve('id',    'Int',    $this);
+        $this->_structure = CRM_Core_I18n_SchemaStructure::columns();
+        if (!isset($this->_structure[$table][$field])) {
+            CRM_Core_Error::fatal("$table.$field is not internationalized.");
         }
+
+        $this->addElement('hidden', 'table', $table);
+        $this->addElement('hidden', 'field', $field);
+        $this->addElement('hidden', 'id',    $id);
 
         $cols = array();
         foreach ($this->_locales as $locale) {
-            $cols[] = "{$this->_field}_{$locale} {$locale}";
+            $cols[] = "{$field}_{$locale} {$locale}";
         }
-        $query = 'SELECT ' . implode(', ', $cols) . " FROM $this->_table WHERE id = $this->_id";
+        $query = 'SELECT ' . implode(', ', $cols) . " FROM $table WHERE id = $id";
 
         $dao =& new CRM_Core_DAO();
         $dao->query($query, false);
         $dao->fetch();
 
         // we want TEXTAREAs for long fields and INPUTs for short ones
-        switch ($structure[$this->_table][$this->_field]) {
+        switch ($this->_structure[$table][$field]) {
         case 'text':         $type = 'textarea'; break;
         case 'varchar(255)': $type = 'textarea'; break;
         default:             $type = 'text';     break;
         }
         $languages = CRM_Core_I18n::languages(true);
         foreach ($this->_locales as $locale) {
-            $this->addElement($type, $locale, $languages[$locale], array('cols' => 60, 'rows' => 3));
-            $this->_defaults[$locale] = $dao->$locale;
+            $this->addElement($type, "{$field}_{$locale}", $languages[$locale], array('cols' => 60, 'rows' => 3));
+            $this->_defaults["{$field}_{$locale}"] = $dao->$locale;
         }
 
         $this->addButtons(array(array('type' => 'next', 'name' => ts('Save'), 'isDefault' => true)));
 
         $this->assign('locales', $this->_locales);
-        $this->assign('field',   $this->_field);
+        $this->assign('field',   $field);
+        $this->assign('context', CRM_Utils_Request::retrieve('context', 'String', $this));
     }
 
     function setDefaultValues()
@@ -88,16 +93,23 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
     function postProcess()
     {
         $values = $this->exportValues();
+        $table = $values['table'];
+        $field = $values['field'];
+
+        // validate table and field
+        if (!isset($this->_structure[$table][$field])) {
+            CRM_Core_Error::fatal("$table.$field is not internationalized.");
+        }
 
         $cols   = array();
-        $params = array(array($this->_id, 'Int'));
+        $params = array(array($values['id'], 'Int'));
         $i = 1;
         foreach ($this->_locales as $locale) {
-            $cols[] = "{$this->_field}_{$locale} = %$i";
-            $params[$i] = array($values[$locale], 'String');
+            $cols[] = "{$field}_{$locale} = %$i";
+            $params[$i] = array($values["{$field}_{$locale}"], 'String');
             $i++;
         }
-        $query = "UPDATE $this->_table SET " . implode(', ', $cols) . " WHERE id = %0";
+        $query = "UPDATE $table SET " . implode(', ', $cols) . " WHERE id = %0";
 
         $dao =& new CRM_Core_DAO();
         $query = CRM_Core_DAO::composeQuery($query, $params, true, $dao);
