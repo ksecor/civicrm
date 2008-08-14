@@ -292,7 +292,7 @@ WHERE  contribution_id = {$this->_id}
             //unset the honor type id:when delete the honor_contact_id
             //and edit the contribution, honoree infomation pane open
             //since honor_type_id is present
-            if ( ! $this->_values['honor_contact_id'] ) {
+            if ( ! CRM_Utils_Array::value( 'honor_contact_id', $this->_values ) ) {
                 unset( $this->_values['honor_type_id'] );
             }
             //to get note id 
@@ -428,8 +428,8 @@ WHERE  contribution_id = {$this->_id}
         if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
-        $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
-        $this->assign( "receive_date" ,$defaults['receive_date'] );
+        $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
+        $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         return $defaults;
     }
     
