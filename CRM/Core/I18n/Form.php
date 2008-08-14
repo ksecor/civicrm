@@ -49,7 +49,7 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $this->_id    = CRM_Utils_Request::retrieve('id',    'Int',    $this);
         $structure    = CRM_Core_I18n_SchemaStructure::columns();
         if (!isset($structure[$this->_table][$this->_field])) {
-            CRM_Core_Error::fatal("$this->_table.$this->_field is not intenationalized.");
+            CRM_Core_Error::fatal("$this->_table.$this->_field is not internationalized.");
         }
 
         $cols = array();
