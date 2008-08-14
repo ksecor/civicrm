@@ -47,8 +47,8 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $this->_table = CRM_Utils_Request::retrieve('table', 'String', $this);
         $this->_field = CRM_Utils_Request::retrieve('field', 'String', $this);
         $this->_id    = CRM_Utils_Request::retrieve('id',    'Int',    $this);
-        $valid = CRM_Core_I18n_SchemaStructure::columns();
-        if (!isset($valid[$this->_table][$this->_field])) {
+        $structure    = CRM_Core_I18n_SchemaStructure::columns();
+        if (!isset($structure[$this->_table][$this->_field])) {
             CRM_Core_Error::fatal("$this->_table.$this->_field is not intenationalized.");
         }
 
@@ -62,9 +62,15 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $dao->query($query, false);
         $dao->fetch();
 
+        // we want TEXTAREAs for long fields and INPUTs for short ones
+        switch ($structure[$this->_table][$this->_field]) {
+        case 'text':         $type = 'textarea'; break;
+        case 'varchar(255)': $type = 'textarea'; break;
+        default:             $type = 'text';     break;
+        }
         $languages = CRM_Core_I18n::languages(true);
         foreach ($this->_locales as $locale) {
-            $this->addElement('text', $locale, $languages[$locale]);
+            $this->addElement($type, $locale, $languages[$locale], array('cols' => 60, 'rows' => 3));
             $this->_defaults[$locale] = $dao->$locale;
         }
 
