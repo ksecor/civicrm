@@ -285,7 +285,7 @@ class CRM_Core_BAO_Block
                 }
                 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
-                crm_core_error::Debug('$dataExits', $dataExits );
+
                 if ( isset( $val['id'] ) && !$dataExits ) {
                     //delete the existing record
                     self::blockDelete( $name, array( 'id' => $val['id'] ) );
@@ -311,7 +311,7 @@ class CRM_Core_BAO_Block
                 }
 
                 $blockFields = array_merge( $val, $contactFields );
-                crm_core_error::debug('$blockFields', $blockFields ); exit();
+
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
                 $locBlockCount++;
             }
