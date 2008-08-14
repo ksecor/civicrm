@@ -56,7 +56,7 @@
         <td>{$form.external_identifier.html}</td>        
     </tr>
     </table>
-<div id="employer_option" class="form-item">
+<div id="employer_option_block" class="form-item">
    {$form.employer_option.label}&nbsp;&nbsp;{$form.employer_option.html}
    &nbsp; <a href="#prefix_id" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
 </div>
