@@ -308,7 +308,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // create uf group
         $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
 
-        if ( CRM_Utils_Array::value( 'is-active', $params ) ) {
+        if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
             //make entry in uf join table
             CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
         } else {
