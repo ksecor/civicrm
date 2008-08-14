@@ -17,9 +17,9 @@
 	<table class="form-layout">
     <tr>
 		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label} <a href="javascript:dijit.byId('i18n-first_name').show()"><img src="{$config->resourceBase}i/langs.png" /></a><span dojoType="dijit.Dialog" id="i18n-first_name" refreshOnShow="false" class="tundra" href="{crmURL p='civicrm/i18n' q="table=civicrm_contact&field=first_name&id=102&snippet=1&context=dialog"}"></span></td>
-		<td>{$form.middle_name.label}</td>
-		<td>{$form.last_name.label}</td>
+		<td>{$form.first_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name'}</td>
+		<td>{$form.middle_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name'}</td>
+		<td>{$form.last_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name'}</td>
 		<td>{$form.suffix_id.label}</td>
 	</tr>
 	<tr>

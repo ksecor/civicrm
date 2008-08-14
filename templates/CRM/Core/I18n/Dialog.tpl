@@ -1,0 +1,1 @@
+<a href="javascript:dijit.byId('i18n-{$field}').show()"><img src="{$config->resourceBase}i/langs.png" /></a><span dojoType="dijit.Dialog" id="i18n-{$field}" refreshOnShow="false" class="tundra" href="{crmURL p='civicrm/i18n' q="table=$table&field=$field&id=102&snippet=1&context=dialog"}"></span>
