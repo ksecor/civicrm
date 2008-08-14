@@ -673,6 +673,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
         } 
 
+        // cleanup unwanted location types
+        if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::cleanupContactLocations( $params );
+        }
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
         
