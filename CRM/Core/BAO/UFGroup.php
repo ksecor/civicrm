@@ -1146,11 +1146,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         // add permissioning for profiles only if not registration
         if ( ! $skipPermission ) {
             require_once 'CRM/Core/Permission.php';
-            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
-            if ( strpos( $query, 'WHERE' ) !== false ) {
-                $query .= " AND $permissionClause ";
+            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'civicrm_uf_group.' );
+            if ( strpos( $queryString, 'WHERE' ) !== false ) {
+                $queryString .= " AND $permissionClause ";
             } else {
-                $query .= " $permissionClause ";
+                $queryString .= " $permissionClause ";
             }
         }
 
