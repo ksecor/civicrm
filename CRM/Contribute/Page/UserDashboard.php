@@ -90,10 +90,10 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
         $config =& CRM_Core_Config::singleton( );
 
         require_once 'CRM/Core/Payment.php';
-        require_once 'api/utils.php';
+        require_once 'api/v2/utils.php';
         $recurRow = array();
         while( $recur->fetch() ) {
-            _crm_object_to_array($recur, $values);
+            _civicrm_object_to_array($recur, $values);
 
             $mode = $recur->is_test ? 'test' : 'live';
             $paymentProcessor = CRM_Contribute_BAO_ContributionRecur::getPaymentProcessor( $recur->id,
