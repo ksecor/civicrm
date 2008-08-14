@@ -78,10 +78,13 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
      * @access private
      */
     function upload( &$page, &$data, $pageName, $uploadName ) {
-       
-        if ( empty( $uploadName ) ) {
+        // make sure uploadName exists in the QF array
+        // else we skip
+        if ( empty( $uploadName ) ||
+             ! isset( $page->_elements[$uploadName] ) ) {
             return;
         }
+
         // get the element containing the upload
         $element =& $page->getElement( $uploadName );
         if ( 'file' == $element->getType( ) ) {
