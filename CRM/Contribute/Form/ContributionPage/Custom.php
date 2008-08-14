@@ -52,6 +52,10 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         $types    = array( 'Contact', 'Individual','Organization', 'Household','Contribution', 'Membership' );
         $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
 
+        if ( empty( $profiles ) ) {
+            CRM_Core_Error::statusBounce( ts( 'You need to first create Profiles to include them on a page' ) );
+        }
+
         $this->add( 'select', 'custom_pre_id' , ts('Include Profile') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + $profiles );
         $this->add( 'select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + $profiles );
 
