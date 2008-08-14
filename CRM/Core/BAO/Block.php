@@ -210,7 +210,7 @@ class CRM_Core_BAO_Block
                 } else {
                     $locationCount++;
                     $locationTypes[ $locationCount ] = $locationTypeId;
-                    $locationBlocks[$locationTypeId] = 1;
+                    $locationBlocks[$locationTypeId] = $blockCount = 1;
                 }
             } else {
                 $locationTypes[$locationCount]   = $locationTypeId;
