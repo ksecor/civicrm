@@ -67,7 +67,7 @@
            {ts}Membership Transaction #{/ts}: {$membership_trx_id}
         {/if}
         
-        {* Recurring contribution information *}
+        {* Recurring contribution / pledge information *}
         {if $is_recur}
             {if $installments}
                 <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}This recurring contribution will be automatically processed every %1 %2(s) for a total %3 installments (including this initial contribution).{/ts}</strong></p>
@@ -88,7 +88,11 @@
                 <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %2 for %3 installments.{/ts}</strong></p>
             {/if}
             <p>
+            {if $is_pay_later}
+                {ts 1=$receiptFromEmail}We will record your initial pledge payment when we receive it from you. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}
+            {else}
                 {ts 1=$receiptFromEmail}Your initial pledge payment has been processed. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}
+            {/if}
                 {if $max_reminders}
                     {ts 1=$initial_reminder_day}We will send you a payment reminder %1 days prior to each scheduled payment date. The reminder will include a link to a page where you can make your payment online.{/ts}
                 {/if}

@@ -210,6 +210,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
             $defaults['installments']            = 12;
+            $defaults['frequency_interval']      = 1;
             $defaults['frequency_day']           = 1;
             $defaults['initial_reminder_day']    = 5;
             $defaults['max_reminders']           = 1;
@@ -327,10 +328,23 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
              !$this->_isPending ) {
             $element->freeze( );
         }
+
+        $element =& $this->add( 'text', 'frequency_interval', ts('every'), 
+                               $attributes['frequency_interval'], true ); 
+        $this->addRule('frequency_interval', ts('Please enter a number for frequency (e.g. every "3" months).'), 'positiveInteger');
+        if ( $this->_id &&
+            !$this->_isPending ) {
+            $element->freeze( );
+        }
         
+        // Fix frequency unit display for use with frequency_interval
+        $freqUnitsDisplay = array( );
+        foreach ($this->_freqUnits as $val => $label) {
+            $freqUnitsDisplay[$val] = ts( '%1(s)', array( 1 => $val ) );
+        }
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
-                                array(''=>ts( '- select -' )) + $this->_freqUnits, 
+                                array(''=>ts( '- select -' )) + $freqUnitsDisplay, 
                                 true );
         
         if ( $this->_id &&
@@ -358,7 +372,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         if ( $this->_id &&
              !$this->_isPending ) {
-            $eachPaymentAmount = $this->_values['amount'] / $this->_values['installments'];
+            $eachPaymentAmount = floor($this->_values['amount'] / $this->_values['installments']);
             $this->assign("eachPaymentAmount" , $eachPaymentAmount );
             $this->assign("hideCalender" , true );
         }
@@ -477,6 +491,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $fields = array(
                          'frequency_unit',
+                         'frequency_interval',
                          'frequency_day',
                          'installments',
                          'contribution_type_id',
@@ -548,8 +563,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params["honor_contact_id"] = 'null';
         }
         
-        $params['frequency_interval'] = 1;
-
         //format custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $formValues ) ) {
             $params['hidden_custom'] = 1;

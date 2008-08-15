@@ -57,9 +57,9 @@ class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
         CRM_Pledge_BAO_Pledge::getValues( $params, 
                                           $values,  
                                           $ids );
-               
-        $values['frequencyUnits'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values['frequency_unit'], 'label', 'value' );
-        $values['eachPaymentAmount'] = $values['amount'] / $values['installments'];
+
+        $values['frequencyUnit'] = ts( '%1(s)', array( 1 => $values['frequency_unit'] ) );
+        $values['eachPaymentAmount'] = floor($values['amount'] / $values['installments']);
         
         if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
             $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];

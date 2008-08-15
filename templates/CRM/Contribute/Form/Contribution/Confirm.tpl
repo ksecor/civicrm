@@ -61,7 +61,11 @@
             {else}
                 <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %2 for %3 installments.{/ts}</strong></p>
             {/if}
-            <p>{ts 1=$receiptFromEmail}Your initial pledge payment will be processed when you click &quot;Make Contribution&quot; below. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}</p>
+            {if $is_pay_later}
+                <p>{ts 1=$receiptFromEmail}Click &quot;Make Contribution&quot; below to register your pledge. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}</p>
+            {else}
+                <p>{ts 1=$receiptFromEmail}Your initial pledge payment will be processed when you click &quot;Make Contribution&quot; below. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}</p>
+            {/if}
         {/if}
 
     </div>
