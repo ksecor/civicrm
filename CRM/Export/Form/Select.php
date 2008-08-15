@@ -245,6 +245,9 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         case CRM_Export_Form_Select::EVENT_EXPORT : 
             $exportType = 'Export Participant';
             break;
+        case CRM_Export_Form_Select::PLEDGE_EXPORT : 
+            $exportType = 'Export Participant';
+            break;
         }
 
         require_once "CRM/Core/BAO/Mapping.php";
