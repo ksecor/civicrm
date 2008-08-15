@@ -55,7 +55,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         CONTACT_EXPORT     = 1,
         CONTRIBUTE_EXPORT  = 2,
         MEMBER_EXPORT      = 3,
-        EVENT_EXPORT       = 4;
+        EVENT_EXPORT       = 4,
+        PLEDGE_EXPORT      = 5;
 
     /**
      * current export mode
@@ -98,7 +99,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
             $stateMachine  =& $this->controller->getStateMachine( );
             $formName      = CRM_Utils_System::getClassName($stateMachine);
             $componentName = explode( '_', $formName );
-            $components    = array( 'Contribute', 'Member', 'Event');
+            $components    = array( 'Contribute', 'Member', 'Event', 'Pledge' );
             
             if ( in_array( $componentName[1], $components ) ) {
                 eval( '$this->_exportMode = self::' . strtoupper( $componentName[1] ) . '_EXPORT;');

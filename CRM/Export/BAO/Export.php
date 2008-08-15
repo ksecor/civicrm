@@ -105,6 +105,8 @@ class CRM_Export_BAO_Export
                 $returnProperties['participant_id'] = 1;
             } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
                 $returnProperties['membership_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::PLEDGE_EXPORT ) {
+                $returnProperties['pledge_id'] = 1;
             }
         } else {
             $primary = true;
@@ -124,6 +126,7 @@ class CRM_Export_BAO_Export
                 $returnProperties['current_employer'] = 1;
             }
             
+            $extraReturnProperties = array( );
             $paymentFields = false;
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
             
@@ -141,12 +144,21 @@ class CRM_Export_BAO_Export
                 $paymentFields  = true;
                 $paymentTableId = "membership_id";
                 break;
+            case CRM_Export_Form_Select::PLEDGE_EXPORT :
+                $queryMode = CRM_Contact_BAO_Query::MODE_PLEDGE;
+                require_once 'CRM/Pledge/BAO/Query.php';
+                $extraReturnProperties = CRM_Pledge_BAO_Query::extraReturnProperties( $queryMode );
+                break;
             }
             
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
                 $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
-                
+        
+                if ( !empty( $extraReturnProperties ) ) {
+                    $returnProperties = array_merge( $returnProperties, $extraReturnProperties );
+                }
+        
                 // unset groups, tags, notes for components
                 foreach ( array( 'groups', 'tags', 'notes' ) as $value ) {
                     unset( $returnProperties[$value] );
@@ -262,6 +274,10 @@ class CRM_Export_BAO_Export
                 
                 if ( $field == 'id' ) {
                     $row[$field] = $dao->contact_id;
+                } else if ( $field == 'pledge_balance_amount' ) { //special case for calculated field
+                    $row[$field] = $dao->pledge_amount - $dao->pledge_total_paid;
+                } else if ( $field == 'pledge_next_pay_amount' ) { //special case for calculated field
+                    $row[$field] = $dao->pledge_next_pay_amount + $dao->pledge_outstanding_amount;
                 } else if ( is_array( $value ) && $field == 'location' ) {
                     // fix header for location type case
                     foreach ( $value as $ltype => $val ) {
@@ -298,7 +314,7 @@ class CRM_Export_BAO_Export
                     }
                 } else {
                     // if field is empty or null
-                    $row[$field] = '';
+                    $row[$field] = '';             
                 }
             }
             
@@ -351,6 +367,9 @@ class CRM_Export_BAO_Export
             
         case CRM_Export_Form_Select::EVENT_EXPORT : 
             return ts('CiviCRM Participant Search');
+
+        case CRM_Export_Form_Select::PLEDGE_EXPORT : 
+            return ts('CiviCRM Pledge Search');
         }
     }
 

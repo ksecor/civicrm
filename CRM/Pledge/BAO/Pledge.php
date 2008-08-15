@@ -37,6 +37,13 @@ require_once 'CRM/Pledge/DAO/Pledge.php';
 
 class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge 
 {
+    /**
+     * static field for all the pledge information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
 
     /**
      * class constructor
@@ -596,6 +603,44 @@ WHERE  $whereCond
                 CRM_Core_Error::fatal("Failed creating Activity for acknowledgment");
             }
         }
+    }
+
+    /**
+     * combine all the exportable fields from the lower levels object
+     *
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( ) 
+    {
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            
+            require_once 'CRM/Pledge/DAO/Pledge.php';
+            $fields = CRM_Pledge_DAO_Pledge::export( );
+
+            require_once 'CRM/Pledge/DAO/Payment.php';
+            $fields = array_merge( $fields, CRM_Pledge_DAO_Payment::export( ) );
+            
+            //set title to calculated fields
+            $calculatedFields = array( 'pledge_total_paid'          => array( 'title' => ts('Total Paid') ),
+                                       'pledge_balance_amount'      => array( 'title' => ts('Balance Amount') ),
+                                       'pledge_next_pay_date'       => array( 'title' => ts('Next Payment Date') ),
+                                       'pledge_next_pay_amount'     => array( 'title' => ts('Next Payment Amount') ),
+                                       'pledge_payment_paid_amount' => array( 'title' => ts('Paid Amount') ),
+                                       'pledge_payment_paid_date'   => array( 'title' => ts('Paid Date') )
+                                       );
+                        
+            $fields = array_merge( $fields, $calculatedFields );
+
+            // add custom data
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Pledge'));
+            self::$_exportableFields = $fields;
+        }
+
+        return self::$_exportableFields;
     }
     
 }

@@ -531,7 +531,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts('Find Signer');
+        return ts('Find Pledges');
     }
 
 }

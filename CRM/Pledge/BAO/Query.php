@@ -37,9 +37,8 @@ class CRM_Pledge_BAO_Query
 {
     static function &getFields( ) 
     {
-        $fields = array( );
-        require_once 'CRM/Pledge/DAO/Pledge.php';
-        $fields = array_merge( $fields, CRM_Pledge_DAO_Pledge::import( ) );
+        require_once 'CRM/Pledge/BAO/Pledge.php';
+        $fields = CRM_Pledge_BAO_Pledge::exportableFields( );
         return $fields;
     }
 
@@ -62,24 +61,20 @@ class CRM_Pledge_BAO_Query
         if ( CRM_Utils_Array::value( 'pledge_amount', $query->_returnProperties ) ) {
             $query->_select['pledge_amount'] = "civicrm_pledge.amount as pledge_amount";
             $query->_element['pledge_amount'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
         }
         
         if ( CRM_Utils_Array::value( 'pledge_create_date', $query->_returnProperties ) ) {
             $query->_select['pledge_create_date']  = "civicrm_pledge.create_date as pledge_create_date";
             $query->_element['pledge_create_date'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
         }
         
         if ( CRM_Utils_Array::value( 'pledge_status_id', $query->_returnProperties ) ) {
             $query->_select['pledge_status_id']  = "pledge_status.name as pledge_status_id";
             $query->_element['pledge_status'] = 1;
-            $query->_tables['pledge_status'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
-            $query->_whereTables['pledge_status'] = 1;
+            $query->_tables['pledge_status']  = $query->_whereTables['pledge_status'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
         }
 
         if ( CRM_Utils_Array::value( 'pledge_total_paid', $query->_returnProperties ) ) {
@@ -95,18 +90,67 @@ class CRM_Pledge_BAO_Query
         if ( CRM_Utils_Array::value( 'pledge_next_pay_amount', $query->_returnProperties ) ) {
             $query->_select['pledge_next_pay_amount']  = " (SELECT civicrm_pledge_payment.scheduled_amount FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_amount";
             $query->_element['pledge_next_pay_amount'] = 1;
-            $query->_select['pledge_outstanding_amount']  = " (SELECT sum(civicrm_pledge_payment.scheduled_amount) FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 6 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_outstanding_amount";
-            $query->_element['pledge_outstanding_amount'] = 1;
 
+            $query->_select['pledge_outstanding_amount']  = " (SELECT sum(civicrm_pledge_payment.scheduled_amount) FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 6 ) as pledge_outstanding_amount";
+            $query->_element['pledge_outstanding_amount'] = 1;
         }
         
         if ( CRM_Utils_Array::value( 'pledge_contribution_page_id', $query->_returnProperties ) ) {
             $query->_select['pledge_contribution_page_id']  = "civicrm_pledge.contribution_page_id as pledge_contribution_page_id";
             $query->_element['pledge_contribution_page_id'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_id', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_id'] = "civicrm_pledge_payment.id as pledge_payment_id";
+            $query->_element['pledge_payment_id'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_scheduled_amount', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_scheduled_amount'] = "civicrm_pledge_payment.scheduled_amount as pledge_payment_scheduled_amount";
+            $query->_element['pledge_payment_scheduled_amount'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_scheduled_date', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_scheduled_date'] = "civicrm_pledge_payment.scheduled_date as pledge_payment_scheduled_date";
+            $query->_element['pledge_payment_scheduled_date'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_paid_amount', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_paid_amount'] = "payment_contribution.total_amount as pledge_payment_paid_amount";
+            $query->_element['pledge_payment_paid_amount'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+            $query->_tables['payment_contribution'] = $query->_whereTables['payment_contribution'] = 1;
         }
         
+        if ( CRM_Utils_Array::value( 'pledge_payment_paid_date', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_paid_date'] = "payment_contribution.receive_date as pledge_payment_paid_date";
+            $query->_element['pledge_payment_paid_date'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+            $query->_tables['payment_contribution'] = $query->_whereTables['payment_contribution'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'pledge_payment_reminder_date', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_reminder_date'] = "civicrm_pledge_payment.reminder_date as pledge_payment_reminder_date";
+            $query->_element['pledge_payment_reminder_date'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_reminder_count', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_reminder_count'] = "civicrm_pledge_payment.reminder_count as pledge_payment_reminder_count";
+            $query->_element['pledge_payment_reminder_count'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_payment_status_id', $query->_returnProperties ) ) {
+            $query->_select['pledge_payment_status_id']  = "payment_status.name as pledge_payment_status_id";
+            $query->_element['pledge_payment_status_id'] = 1;
+            $query->_tables['payment_status'] = $query->_whereTables['payment_status'] = 1;
+            $query->_tables['civicrm_pledge_payment'] = $query->_whereTables['civicrm_pledge_payment'] = 1;
+        }
     }
     
     static function where( &$query ) 
@@ -309,11 +353,6 @@ class CRM_Pledge_BAO_Query
             $from .= " $side JOIN civicrm_option_group option_group_pledge_status ON (option_group_pledge_status.name = 'contribution_status')";
             $from .= " $side JOIN civicrm_option_value pledge_status ON (civicrm_pledge.status_id = pledge_status.value AND option_group_pledge_status.id = pledge_status.option_group_id ) ";
             break;
-            
-        case 'pledge_paid_amount': 
-            $from .= " $side  JOIN civicrm_pledge_payment ON civicrm_pledge_payment.pledge_id = pledge_id";
-            $from .= " $side  JOIN civicrm_contribution    ON civicrm_pledge_payment.contribution_id  = civicrm_contribution.id AND civicrm_contribution.contact_id = contact_a.id ";
-            break;
 
         case 'pledge_contribution_type':
             $from .= " $side JOIN civicrm_contribution_type ON civicrm_pledge.contribution_type_id = civicrm_contribution_type.id ";
@@ -325,7 +364,15 @@ class CRM_Pledge_BAO_Query
 
         case 'civicrm_pledge_payment':
             $from .= " $side JOIN civicrm_pledge_payment  ON civicrm_pledge_payment.pledge_id = civicrm_pledge.id ";
-            $from .= " $side JOIN civicrm_contribution pledge_payment ON civicrm_pledge_payment.contribution_id  = pledge_payment.id ";
+            break;
+
+        case 'payment_contribution':
+            $from .= " $side JOIN civicrm_contribution payment_contribution ON civicrm_pledge_payment.contribution_id  = payment_contribution.id ";
+            break;
+
+        case 'payment_status':
+            $from .= " $side JOIN civicrm_option_group option_group_payment_status ON (option_group_payment_status.name = 'contribution_status')";
+            $from .= " $side JOIN civicrm_option_value payment_status ON (civicrm_pledge_payment.status_id = payment_status.value AND option_group_payment_status.id = payment_status.option_group_id ) ";
             break;
         }
 
@@ -342,34 +389,66 @@ class CRM_Pledge_BAO_Query
         return (isset($this->_qill)) ? $this->_qill : "";
     }
    
+    /**
+     * Ideally this function should include fields that are displayed in the selector
+     */
     static function defaultReturnProperties( $mode ) 
     {
         $properties = null;
      
         if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) {
             $properties = array(  
-                                'contact_id'                    => 1,
-                                'contact_type'                  => 1, 
-                                'sort_name'                     => 1, 
-                                'display_name'                  => 1,
-                                'pledge_id'                     => 1,
-                                'pledge_amount'                 => 1,
-                                'pledge_create_date'            => 1,
-                                'pledge_total_paid'             => 1,
-                                'pledge_next_pay_date'          => 1,
-                                'pledge_next_pay_amount'        => 1,
-                                'pledge_status_id'              => 1,
-                                'pledge_payment_status_id'      => 1,
-                                'pledge_is_test'                => 1,
-                                'pledge_contribution_page_id'   => 1
+                                'contact_type'                    => 1, 
+                                'sort_name'                       => 1, 
+                                'display_name'                    => 1,
+                                'pledge_id'                       => 1,
+                                'pledge_amount'                   => 1,
+                                'pledge_total_paid'               => 1,
+                                'pledge_create_date'              => 1,
+                                'pledge_next_pay_date'            => 1,
+                                'pledge_next_pay_amount'          => 1,
+                                'pledge_status_id'                => 1,
+                                'pledge_is_test'                  => 1,
+                                'pledge_contribution_page_id'     => 1
                                 );
+        }
+        return $properties;
+    }
+    
+    /**
+     * This includes any extra fields that might need for export etc
+     */
+    static function extraReturnProperties( $mode ) 
+    {
+        $properties = null;
+     
+        if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) {
+            $properties = array(  
+                                'pledge_balance_amount'           => 1,
+                                'pledge_payment_id'               => 1,
+                                'pledge_payment_scheduled_amount' => 1,
+                                'pledge_payment_scheduled_date'   => 1,
+                                'pledge_payment_paid_amount'      => 1,
+                                'pledge_payment_paid_date'        => 1,
+                                'pledge_payment_reminder_date'    => 1,
+                                'pledge_payment_reminder_count'   => 1,
+                                'pledge_payment_status_id'        => 1
+                                );
+            
+            // also get all the custom pledge properties
+            require_once "CRM/Core/BAO/CustomField.php";
+            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Pledge');
+            if ( ! empty( $fields ) ) {
+                foreach ( $fields as $name => $dontCare ) {
+                    $properties[$name] = 1;
+                }
+            }
         }
         return $properties;
     }
 
     static function buildSearchForm( &$form ) 
     {
-        
         // Pledge date selects for date 
         $form->add('date', 'pledge_start_date_low', ts('Payments Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_start_date_low', ts('Select a valid date.'), 'qfDate'); 
@@ -475,5 +554,3 @@ class CRM_Pledge_BAO_Query
     }
   
 }
-
-

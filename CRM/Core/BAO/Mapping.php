@@ -377,6 +377,15 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $compArray['Membership'] = 'Membership';
             }
         }
+
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::PLEDGE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
+                require_once 'CRM/Pledge/BAO/Pledge.php';
+                $fields['Pledge'] =& CRM_Pledge_BAO_Pledge::exportableFields( );
+                unset($fields['Pledge']['pledge_contact_id']);
+                $compArray['Pledge'] = 'Pledge';
+            }
+        }
         
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
@@ -619,10 +628,8 @@ for(var i=0;i<noneArray.length;i++) {
         
         $form->setDefaults($defaults);
         
-        $form->setDefaultAction( 'refresh' );
-        
-    }
-    
+        $form->setDefaultAction( 'refresh' );       
+    }    
 
     /**
      * Function returns associated array of elements, that will be passed for search
