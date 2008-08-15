@@ -385,6 +385,7 @@ class CRM_Contact_BAO_Query
        
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode );
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
+
     }
 
     function buildParamsLookup( ) {
@@ -1220,7 +1221,7 @@ class CRM_Contact_BAO_Query
                 return;
             }
         }
-        
+
         $setTables = true;
         
         // FIXME: the LOWER/strtolower pairs below most probably won't work
@@ -1233,11 +1234,25 @@ class CRM_Contact_BAO_Query
         // mb_strtolower(), but then we'd require mb_strings support; we
         // could wrap this in function_exist(), though
         if ( substr($name,0,14) === 'state_province' ) {
+            if ( isset( $locType[1] ) &&
+                 is_numeric( $locType[1] ) ) {
+                $setTables = false;
+                    
+                //get the location name 
+                $locationType =& CRM_Core_PseudoConstant::locationType();
+                list($tName, $fldName ) = self::getLocationTableName( $field['where'], $locType );
+                $this->_whereTables[$tName] = $this->_tables[$tName];
+                $where = "`$tName`.$fldName";
+            } else {
+                $where = $field['where'];
+            }
+
+            $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
+
             $states =& CRM_Core_PseudoConstant::stateProvince(); 
             if ( is_numeric( $value ) ) {
                 $value  =  $states[(int ) $value];
             }
-            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('State') . " $op '$value'";
@@ -1245,11 +1260,24 @@ class CRM_Contact_BAO_Query
                 $this->_qill[$grouping][] = ts('State') . " ($lType) $op '$value'";
             }
         } else if ( substr($name,0,7) === 'country' ) {
+            if ( isset( $locType[1] ) &&
+                 is_numeric( $locType[1] ) ) {
+                $setTables = false;
+                    
+                //get the location name 
+                $locationType =& CRM_Core_PseudoConstant::locationType();
+                list($tName, $fldName ) = self::getLocationTableName( $field['where'], $locType );
+                $this->_whereTables[$tName] = $this->_tables[$tName];
+                $where = "`$tName`.$fldName";
+            } else {
+                $where = $field['where'];
+            }
+
             $countries =& CRM_Core_PseudoConstant::country( ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $countries[(int ) $value]; 
             }
-            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
+            $wc = ( $op != 'LIKE' ) ? "LOWER($where)" : $where;
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('Country') . " $op '$value'";
@@ -1355,32 +1383,24 @@ class CRM_Contact_BAO_Query
                     $op    = 'LIKE';
                 }
 
-                if (isset( $locType[1] ) && is_numeric( $locType[1] ) ) {
+                if ( isset( $locType[1] ) &&
+                     is_numeric( $locType[1] ) ) {
                     $setTables = false;
-                    list($tbName, $fldName) = explode("." , $field['where']);
                     
                     //get the location name 
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' || $locType[0] == 'openid' ) {
-                        if ($locType[2]) {
-                            $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-' . $locType[2];
-                        } else {
-                            $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
-                        }
-                    } else {
-                        $tName = $locationType[$locType[1]] . "-address";
-                    }
-                    $tName = str_replace( ' ', '_', $tName );
-                    $where = "`$tName`.$fldName";
-                    if ( $op != 'IN' ) {
+                    list($tName, $fldName ) = self::getLocationTableName( $$field['where'], $locType );
+
+                    $where = "`$tName`.$fldName"; 
+                   if ( $op != 'IN' ) {
                         $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
-                                                                          $op,
-                                                                          "'$value'" );
+                                                                        $op,
+                                                                        "'$value'" );
 
                     } else {
                         $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
-                                                                          $op,
-                                                                          $value );
+                                                                        $op,
+                                                                        $value );
                     }
                     $this->_whereTables[$tName] = $this->_tables[$tName];
                     if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
@@ -1417,9 +1437,34 @@ class CRM_Contact_BAO_Query
                 $this->_whereTables[$tableName] = 1;  
             }
         }
+
     }
 
-        
+
+    static function getLocationTableName( &$where, &$locType ) {
+        if (isset( $locType[1] ) && is_numeric( $locType[1] ) ) {
+            list($tbName, $fldName) = explode("." , $where);
+                    
+            //get the location name 
+            $locationType =& CRM_Core_PseudoConstant::locationType();
+            if ( $locType[0] == 'email' ||
+                 $locType[0] == 'im'    ||
+                 $locType[0] == 'phone' ||
+                 $locType[0] == 'openid' ) {
+                if ($locType[2]) {
+                    $tName = "{$locationType[$locType[1]]}-{$locType[0]}-{$locType[2]}";
+                } else {
+                    $tName = "{$locationType[$locType[1]]}-{$locType[0]}-1";
+                }
+            } else {
+                $tName = "{$locationType[$locType[1]]}-{$locType[0]}";
+            }
+            $tName = str_replace( ' ', '_', $tName );
+            return array( $tName, $fldName );
+        }
+        CRM_Core_Error::fatal( );
+    }
+
     /**
      * Given a result dao, extract the values and return that array
      *
