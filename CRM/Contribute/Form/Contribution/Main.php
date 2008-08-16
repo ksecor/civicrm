@@ -58,8 +58,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     {  
         parent::preProcess( );
         
-        $this->assign( 'intro_text' , $this->_values['intro_text'] );
-        $this->assign( 'footer_text', $this->_values['footer_text'] );
+        if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
+            $this->assign( 'intro_text' , $this->_values['intro_text'] );
+        }
+        
+        if ( CRM_Utils_Array::value( 'footer_text', $this->_values ) ) {
+            $this->assign( 'footer_text', $this->_values['footer_text'] );
+        }
 
         // to process Custom data that are appended to URL
         require_once 'CRM/Core/BAO/CustomGroup.php';
