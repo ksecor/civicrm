@@ -792,6 +792,12 @@ AND civicrm_participant_payment.participant_id {$componentClause} )
 INNER JOIN civicrm_membership_payment ON (civicrm_contribution.id = civicrm_membership_payment.contribution_id
 AND civicrm_membership_payment.membership_id {$componentClause} )
 ";
+        } else if ( $exportMode == CRM_Export_Form_Select::PLEDGE_EXPORT ) {
+            $componentSelect = " civicrm_pledge_payment.id id"; 
+            $additionalClause = "
+INNER JOIN civicrm_pledge_payment ON (civicrm_contribution.id = civicrm_pledge_payment.contribution_id
+AND civicrm_pledge_payment.pledge_id {$componentClause} )
+";
         }
         
         $query = " SELECT total_amount, contribution_status.name as status_id, payment_instrument.name as payment_instrument, receive_date,
