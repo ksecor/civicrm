@@ -248,7 +248,7 @@ class InstallRequirements {
         if ( $installType == 'drupal' ) {
             global $cmsPath;
             // make sure that we can write to sites/default and files/
-            $writableDirectories = array( 'files', 
+            $writableDirectories = array( 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'files', 
                                           'sites' . DIRECTORY_SEPARATOR . 'default' );
             foreach ( $writableDirectories as $dir ) {
                 $this->requireWriteable( $cmsPath . DIRECTORY_SEPARATOR . $dir,

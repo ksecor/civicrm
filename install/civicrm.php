@@ -44,7 +44,8 @@ function civicrm_main( &$config ) {
 
     if ( $installType == 'drupal' ) {
         global $cmsPath;
-        civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
+        civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . 
+                       'default' . DIRECTORY_SEPARATOR . 'files' );
     } elseif ( $installType == 'standalone' ) {
         $filesDirectory = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
         civicrm_setup( $filesDirectory );
