@@ -247,22 +247,12 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
 
             $total = $cancel = 0;
             
-            // also add the action and radio boxes
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
+            
             require_once 'CRM/Pledge/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Pledge_Task::tasks( );
-            if ( isset( $this->_ssID ) ) {
-                require_once "CRM/Core/Permission.php";
-                $permission = CRM_Core_Permission::getPermission( );
-                if ( $permission == CRM_Core_Permission::EDIT ) {
-                    $tasks = $tasks + CRM_Pledge_Task::optionalTaskTitle();
-                }
-                
-                $savedSearchValues = array( 'id' => $this->_ssID,
-                                            'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID, 'title' ) );
-                $this->assign_by_ref( 'savedSearch', $savedSearchValues );
-                $this->assign( 'ssID', $this->_ssID );
-            }
-
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Pledge_Task::permissionedTaskTitles( $permission );
+ 
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class'   => 'form-submit',

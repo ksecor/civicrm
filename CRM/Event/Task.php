@@ -107,5 +107,28 @@ class CRM_Event_Task
         return $tasks;
     }
 
+    /**
+     * show tasks selectively based on the permission level
+     * of the user
+     *
+     * @param int $permission
+     *
+     * @return array set of tasks that are valid for the user
+     * @access public
+     */
+    static function &permissionedTaskTitles( $permission ) 
+    {
+        $allTasks = self::tasks( );
+        if ( ( $permission == CRM_Core_Permission::EDIT ) 
+             || CRM_Core_Permission::check( 'edit event participants' ) ) {
+            return $allTasks; 
+        } else {
+            $tasks = array( 
+                           3  => self::$_tasks[3],
+                           6  => self::$_tasks[6]
+                           );
+            return $tasks;
+        }
+    }
 }
 

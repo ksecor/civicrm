@@ -259,13 +259,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
+
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
             
-            // also add the action and radio boxes
             require_once 'CRM/Event/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Event_Task::permissionedTaskTitles( $permission );
             if ( isset( $this->_ssID ) ) {
-                require_once "CRM/Core/Permission.php";
-                $permission = CRM_Core_Permission::getPermission( );
                 if ( $permission == CRM_Core_Permission::EDIT ) {
                     require_once "CRM/Contact/Task.php";
                     $tasks = $tasks + CRM_Event_Task::optionalTaskTitle();

@@ -266,10 +266,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             }
 
             $total = $cancel = 0;
-
-            // also add the action and radio boxes
+            
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
+            
             require_once 'CRM/Contribute/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::permissionedTaskTitles( $permission );
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class'   => 'form-submit',
@@ -279,7 +281,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') );
