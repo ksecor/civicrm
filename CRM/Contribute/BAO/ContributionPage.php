@@ -141,11 +141,11 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                  ! empty( $params['custom_post_id'] ) ) {
                 $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
             }
-
-            self::buildCustomDisplay( $values['custom_pre_id'] ,
+            
+            self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_pre_id', $values ) ,
                                       'customPre' , $contactID,
                                       $template, $params['custom_pre_id'] );
-            self::buildCustomDisplay( $values['custom_post_id'],
+            self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_post_id', $values ),
                                       'customPost', $contactID,
                                       $template, $params['custom_post_id'] );
             
