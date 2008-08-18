@@ -14,7 +14,7 @@
      {else}
       <dl>
  	    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-    	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    	<dt>{$form.description.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_group' field='description' id=$id}{/if}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
       </dl> 
      {/if}

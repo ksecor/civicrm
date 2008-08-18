@@ -8,11 +8,11 @@
         </p>
     </div>
     <dl>
-    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_set' field='title' id=$sid}{/if}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}The name of this Price Set{/ts}</dd>
-    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>
+    <dt>{$form.help_pre.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_set' field='help_pre' id=$sid}{/if}</dt><dd>{$form.help_pre.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of this group of fields.{/ts}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
+    <dt>{$form.help_post.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_price_set' field='help_post' id=$sid}{/if}</dt><dd>{$form.help_post.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
     {*if $action ne 4*}

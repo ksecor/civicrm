@@ -76,6 +76,8 @@ class CRM_Admin_Form_OptionGroup extends CRM_Admin_Form
             CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
+
+        $this->assign('id', $this->_id);
     }
 
        
