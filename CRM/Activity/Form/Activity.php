@@ -144,7 +144,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
 
-        $this->assign( 'atype',$this->_activityTypeId );
+        $this->assign( 'atype', $this->_activityTypeId );
                 
         //check the mode when this form is called either single or as
         //search task action
@@ -226,6 +226,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            // we need to set it in the session for the below code to work
+            // CRM-3014
+            $this->set( 'type'    , 'Activity' );
+            $this->set( 'subType' , $this->_activityTypeId );
+            $this->set( 'entityId', $this->_activityId );
             CRM_Custom_Form_CustomData::preProcess( $this );
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
             CRM_Custom_Form_CustomData::setDefaultValues( $this );
@@ -636,7 +641,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
+
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
