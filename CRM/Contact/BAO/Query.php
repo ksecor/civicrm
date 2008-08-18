@@ -445,7 +445,8 @@ class CRM_Contact_BAO_Query
         foreach ($this->_fields as $name => $field) {
 
             //skip component fields
-            if (substr( $name, 0, 12  ) == 'participant_' ) {
+            if ( ( substr( $name, 0, 12  ) == 'participant_' ) || 
+                 ( (substr( $name, 0, 7  ) == 'pledge_' ) ) ) {
                 continue;
             }
 
