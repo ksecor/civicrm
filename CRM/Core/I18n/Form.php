@@ -67,11 +67,8 @@ class CRM_Core_I18n_Form extends CRM_Core_Form
         $dao->fetch();
 
         // we want TEXTAREAs for long fields and INPUTs for short ones
-        switch ($this->_structure[$table][$field]) {
-        case 'text':         $type = 'textarea'; break;
-        case 'varchar(255)': $type = 'textarea'; break;
-        default:             $type = 'text';     break;
-        }
+        $this->_structure[$table][$field] == 'text' ? $type = 'textarea' : $type = 'text';
+
         $languages = CRM_Core_I18n::languages(true);
         foreach ($this->_locales as $locale) {
             $this->addElement($type, "{$field}_{$locale}", $languages[$locale], array('cols' => 60, 'rows' => 3));
