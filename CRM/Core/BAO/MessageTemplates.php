@@ -272,7 +272,9 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $body = $message->get();
             $headers = $message->headers();
             
+            CRM_Core_Error::ignoreException( );
             $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
         }
         
     }
