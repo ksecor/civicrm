@@ -384,17 +384,17 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 ),
                                           array(
                                                 'name'      => ts('Event Date(s)'),
-                                                'sort'      => 'start_date',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'sort'      => 'event_start_date',
+                                                'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'status_id',
+                                                'sort'      => 'participant_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Role'),
-                                                'sort'      => 'role_id',
+                                                'sort'      => 'participant_role_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc' => ts('Actions') ),
@@ -406,7 +406,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                              array( 
                                    'name'      => ts('Participant'), 
                                    'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::ASCENDING, 
+                                   'direction' => CRM_Utils_Sort::DONTCARE,
                                    )
                              );
                 self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
