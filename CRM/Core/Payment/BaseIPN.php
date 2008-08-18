@@ -553,7 +553,9 @@ class CRM_Core_Payment_BaseIPN {
                            CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
         $template->assign( 'contributeMode', 'notify' );
         $template->assign( 'action', $contribution->is_test ? 1024 : 1 );
-        $template->assign( 'receipt_text', CRM_Utils_Array::value( 'receipt_text', $values ) );
+        $template->assign( 'receipt_text',
+                           CRM_Utils_Array::value( 'receipt_text',
+                                                   $values ) );
         $template->assign( 'is_monetary', 1 );
         $template->assign( 'is_recur', $recur );
         if ( $recur ) {
@@ -641,7 +643,7 @@ class CRM_Core_Payment_BaseIPN {
                 $template->assign( 'is_separate_payment', 0);
             }
             $values['contribution_id']     = $contribution->id;
-            if ( isset( $ids['related_contact'] ) ) {
+            if ( CRM_Utils_Array::value( 'related_contact', $ids ) ) {
                 $values['related_contact'] = $ids['related_contact'];
                 if ( isset($ids['onbehalf_dupe_alert']) ) {
                     $values['onbehalf_dupe_alert'] = $ids['onbehalf_dupe_alert'];

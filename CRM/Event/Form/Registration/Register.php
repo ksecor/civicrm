@@ -286,7 +286,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } else if ( ! empty( $form->_values['custom']['label'] ) ) {
             $feeBlock = $form->_values['custom'];
             if ( isset( $form->_values['discount'] ) ) {
-                if ( ! isset( $discountId ) && ( $form->_action != CRM_Core_Action::UPDATE )) {
+                if ( ! isset( $discountId ) &&
+                     ( $form->_action != CRM_Core_Action::UPDATE )) {
                     require_once 'CRM/Core/BAO/Discount.php';
                     $form->_discountId = $discountId = 
                         CRM_Core_BAO_Discount::findSet( $form->_id, 'civicrm_event' );
