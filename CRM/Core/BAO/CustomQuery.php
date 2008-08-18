@@ -257,7 +257,6 @@ SELECT label, value
                 }
             }
         }
-
     }
 
     /**
@@ -297,7 +296,7 @@ SELECT label, value
                 switch ( $field['data_type'] ) {
 
                 case 'String':
-                    $sql = "LOWER($fieldName)";
+                    $sql = "$fieldName";
                     // if we are coming in from listings,
                     // for checkboxes the value is already in the right format and is NOT an array 
                     if ( is_array( $value ) ) {
