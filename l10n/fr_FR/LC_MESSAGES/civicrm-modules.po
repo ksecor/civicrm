@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-10 14:19-0700\n"
+"PO-Revision-Date: 2008-08-13 08:30-0700\n"
 "Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3059,6 +3059,10 @@ msgid ""
 "if you want to make an open-ended commitment. In either case, you can choose "
 "to cancel at any time."
 msgstr ""
+"Votre contribution récurrente sera traitée automatiquement pour le nombre de "
+"versements spécifiés. Vous pouvez laisser vierge le nombre de versements, "
+"si vous voulez vous engager pour une durée indéterminée. Dans tous les "
+"cas,vous pouvez décider d'arrêter à tout moment."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -3066,6 +3070,9 @@ msgid ""
 "receipts will include a link you can use if you decide to modify or cancel "
 "your future contributions."
 msgstr ""
+"Vous recevrez un email pour chaque contribution récurrente. L'accusé de "
+"réception incluera un lien que vous pourrez utiliser si vous décidez de "
+"modifier ou annuler vos futures contributions."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -3074,18 +3081,22 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
+"Si vous avez un compte PayPal, vous pouvez cliquer sur le bouton PayPal pour "
+"continuer. Sinon, remplissez les information de facturation et de la carte "
+"de crédit sur ce formulaire et cliquez sur le bouton "
+"<strong>Continuer</strong> en bas de la page."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Enter numbers only, no spaces or dashes."
-msgstr ""
+msgstr "Indiquez seulement des chiffres, pas d'espace, ni tiret."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Security Code Location on Credit Card"
-msgstr ""
+msgstr "Localisation du code de sécurité sur la carte de crédit"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
@@ -3093,6 +3104,8 @@ msgstr ""
 msgid ""
 "Usually the last 3-4 digits in the signature area on the back of the card."
 msgstr ""
+"Habituellement les 3-4 derniers chiffres au dos de la carte dans la case "
+"signature."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -3100,75 +3113,88 @@ msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
 msgstr ""
+"Indiquez le nom, comme il est indiqué sur la carte de crédit, et l'adresse "
+"de facturation pour cette carte."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Checkout with PayPal"
-msgstr ""
+msgstr "Payer avec PayPal"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Click the PayPal button to continue."
-msgstr ""
+msgstr "Cliquez sur le bouton PayPal pour continuer."
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Renewal Level"
-msgstr ""
+msgstr "Sélectionnez un niveau de renouvellement d'adhésion"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Level"
-msgstr ""
+msgstr "Sélectionnez un niveau d'adhésion"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
-msgstr ""
+msgstr "(contribue au moins à %1 pour être éligible à cette adhésion)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expired on %1."
-msgstr ""
+msgstr "Votre adhésion <strong>%2</strong> expire le %1."
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expires on %1."
-msgstr ""
+msgstr "Votre adhésion <strong>%2</strong> expire le %1."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "This is a preview of this product as it will appear on your Contributions "
 "page(s)."
 msgstr ""
+"Ceci est une prévisualisation de ce produit comme il apparaitra sur votre "
+"page de contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Use this form to select a premium to be offered on this Online Contribution "
 "Page."
 msgstr ""
+"Utilisez ce formulaire pour sélection un cadeau à offrir sur cette page de "
+"contribution en ligne."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to This Page"
-msgstr ""
+msgstr "Ajouter des produits sur cette page"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Remove Products from this Page"
-msgstr ""
+msgstr "Enlever des produits de cette page"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to remove this premium product from this Contribution "
 "page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Etes-vous sûr de vouloir enlever ce produit cadeau de cette page de "
+"contribution?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Pick a premium to include on this Contribution Page. Use <a href='%1'>Manage "
 "Premiums</a> to create or enable additional premium choices for your site."
 msgstr ""
+"Choisissez un cadeau à inclure sur cette page de contribution. Utilisez <a "
+"href='%1'>Gérer les cadeaux</a>  pour créer ou permettre des choix de cadeau "
+"additionnel pour votre site."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
+#, fuzzy
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
 msgstr ""
+"\"Weight\" contrôle l'ordre d'apparition des cadeaux sur la page de "
+"contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3181,11 +3207,19 @@ msgid ""
 "able to offer a recurring contribution option (<a href='%1' target='_blank' "
 "title='%2'>more info...</a>)."
 msgstr ""
+"Utilisez ce formulaire pour configurer les options de Montant des "
+"Contributions. Vous pouvez donner aux contributeurs la possibilité d'entrer "
+"leur propre montant de contribution et/ou leur donner une liste fixe de "
+"montants. Pour des montants fixes, vous pouvez entrer un label pour chaque "
+"'niveau' de contribution (ex. Ami, Soutien, ect.). Si vous permettez aux "
+"gens de fixer les propres montants, vous pouvez également indiquer des "
+"valeurs minimum et maximum. Selon votre établissement financier, vous "
+"pourrez également proposer l'option de contribution récurrente."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
-msgstr ""
+msgstr "Montants des Contributions"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3193,6 +3227,9 @@ msgid ""
 "signup ONLY, or to solicit in-kind / non-monetary donations such as "
 "furniture, equipment.. etc."
 msgstr ""
+"Décochez cette case si vous utilisez cette page de contribution pour "
+"l'enregistrement d'adhésion gratuite seulement, ou pour solliciter des dons "
+"en nature, non-monétaire, tels que fourniture, équipement, ect."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3200,6 +3237,10 @@ msgid ""
 "signup and renewal only - and you do NOT want users to select or enter any "
 "additional contribution amounts."
 msgstr ""
+"Décochez cette case si vous utilisez cette page de contribution pour "
+"l'enregistrement et le renouvellement d'adhésion seulement, et que vous ne "
+"voulez pas que les utilisateurs choisissent ou entrent des montants de "
+"contribution additionnels."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -3207,6 +3248,8 @@ msgid ""
 "Check this box if you want to give users the option to submit payment "
 "offline (e.g. mail in a check, call in a credit card, etc.)."
 msgstr ""
+"Cochez cette case si vous voulez permettre aux utilisateurs de payer hors "
+"ligne (ex. courrier, appel, ect.)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -3214,6 +3257,8 @@ msgid ""
 "Text displayed next to the checkbox for the 'pay later' option on the "
 "contribution form."
 msgstr ""
+"Texte affiché à côté de la case de l'option 'payer plus tard' sur le "
+"formulaire de contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -3222,13 +3267,20 @@ msgid ""
 "the 'pay later' option (e.g. 'Mail your check to ... within 3 business "
 "days.')."
 msgstr ""
+"Intructions ajoutées sur les pages de Confirmation et de Remerciement "
+"lorsque l'utilisateur choisi l'option 'payer plus tard' (ex. 'Courrier de "
+"contrôle ... dans les 3 jours ouvrables.')"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+#, fuzzy
 msgid ""
 "Check this box if you want to give users the option to make recurring "
 "contributions. (This feature requires that you use 'PayPal Website Standard' "
 "OR 'PayJunction' as your payment processor.)"
 msgstr ""
+"Cochez cette case si vous voulez permettre aux utilisateurs de faire des "
+"contributions périodiques. (Cela requiert l'utilisation de 'PayPal Website "
+"Standard' ou 'PayJunction' comme gestionnaire de paiement.)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3236,6 +3288,9 @@ msgid ""
 "contribution amount. Your page will then include a text field labeled "
 "<strong>Other Amount</strong>."
 msgstr ""
+"Cochez cette case si vous voulez permettre aux utilisateurs d'indiquer leur "
+"propre montant de contribution. Votre page incluera ensuite un champ texte "
+"intitulé <strong>Autre somme</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3243,11 +3298,14 @@ msgid ""
 "fields above to control minimum and/or maximum acceptable values (e.g. don't "
 "allow contribution amounts less than %1)."
 msgstr ""
+"Si vous avez choisi de <strong>Permettre d'Autres Sommes</strong>, vous "
+"pouvez utilisez les champs au-dessus pour contrôler les valeurs minimun "
+"et/ou maximum autorisées (ex. ne pas permettre de contribution de moins de "
+"%1)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#, fuzzy
 msgid "Fixed Contribution Options"
-msgstr "Chercher contacts"
+msgstr "Options de Contribution Fixes"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3255,10 +3313,13 @@ msgid ""
 "will be presented as a list of radio button options. Both the label and "
 "dollar amount will be displayed."
 msgstr ""
+"Utilisez le tableau ci-dessous pour entrer jusqu'à dix montants de "
+"contribution fixes. Cela sera présenté sous forme de liste à choix "
+"multiples, avec le label et le montant."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
-msgstr ""
+msgstr "Label des Contributions"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3268,6 +3329,12 @@ msgid ""
 "contribution form by selecting CiviCRM Profiles (collections of fields) to "
 "include at the beginning of the page, and/or at the bottom."
 msgstr ""
+"Vous pouvez collecter des informations sur les contributeurs autres que "
+"celles demandées pour faire une contribution. Par exemple, vous pouvez "
+"vouloir vous renseigner sur les capacités et les disponibilités des "
+"volontaires. Ajoutez autant de champs que vous le souhaitez à votre "
+"formulaire de contribution en sélectionnant les Profils CivCRM (liste des "
+"champs) à inclure au début et/ou à la fin de la page."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3277,6 +3344,11 @@ msgid ""
 "profiles (you can come back at any time to select or update the Profile(s) "
 "used for this page)."
 msgstr ""
+"Vous pouvez utiliser les Profils CiviCRM existants sur votre page OU en "
+"créer spécialement pour les pages de Contribution en ligne. Akkez à <a "
+"href='%1'>Administrer les Profils CiviCRM</a> si vous avez besoin de revoir, "
+"modifier ou créer des profils (vous pouvez y revenir à tout moment pour "
+"sélectionner ou mettre à jour le(s) profil(s) utilisés pour cette page)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3284,12 +3356,17 @@ msgid ""
 "and selecting a CiviCRM Profile to be included at the top of the page "
 "(immediately after the introductory message)."
 msgstr ""
+"Ajouter des champs additionnels sur cette page de contribution en ligne en "
+"configurant et sélectionnant un profil CiviCRM à inclure en haut de la page "
+"(immédiatement après le message d'introduction)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Include additional fields in this online contribution page by configuring "
 "and selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
+"Ajouter des champs additionnels sur cette page de contribution en ligne en "
+"configurant et sélectionnant un profil CiviCRM à inclure en bas de la page."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid ""
@@ -3300,6 +3377,13 @@ msgid ""
 "page, you first need to search for and delete all of the contribution "
 "transactions associated with this page in CiviContribute."
 msgstr ""
+"Vous ne pouvez pas supprimer cette page de Contribution parce qu'elle a déjà "
+"été utilisée pour soumettre une contribution ou le paiement d'une adhésion. "
+"Il est recommandé de désactiver la page au lieu de la supprimer, afin de "
+"préserver l'intégrité de l'historique des contributions. Si vous voulez "
+"complètement supprimer cette page de contribution, vous devez d'abord "
+"chercher et supprimer toutes les transactions de contributions associées à "
+"cette page dans CiviContribute."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -3309,27 +3393,33 @@ msgid ""
 "from a number of exciting thank-you gifts...). You can optionally provide a "
 "contact email address and/or phone number for inquiries."
 msgstr ""
+"Editez <strong>Paramètres des Cadeaux</strong>  pour permettre la section "
+"Cadeaux pour cette page de Contribution, et personnaliser le titre et le "
+"message d'introduction (ex: ... en remerciement de votre soutien, vous "
+"pouvez choisir un cadeau...). Vous pouvez ajouter un contact (adresse email "
+"ou numéro de téléphone) pour toute demande d'informations."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid ""
 "Then select and review the premiums that you want to offer on this "
 "contribution page."
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Ensuite sélectionnez les cadeaux que vous voulez mettre sur cette page de "
+"contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid "Premiums Settings"
-msgstr "Type de contact"
+msgstr "Paramètres des Cadeaux"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid "Is the Premiums section enabled for this Online Contributions page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Est-ce que cette section Cadeaux est activée pour cette page de "
+"Contributions en ligne?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
-msgstr ""
+msgstr "Titre apparaissant en haut de la section Cadeaux"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -3338,13 +3428,22 @@ msgid ""
 "include images, as long as they are already uploaded to a server - reference "
 "them using complete URLs."
 msgstr ""
+"Entrez le contenu du message d'introduction. Celui-ci sera affiché en-"
+"dessous du titre de la section Cadeaux. Vous pouvez inclure des tags au "
+"format HTML. Vous pouvez également ajouter des images, si elles sont déjà "
+"téléchargées sur le serveur - référencez-les en utilisant les URL complètes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
+#, fuzzy
 msgid ""
 "This email address is included in automated contribution receipts if the "
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
 msgstr ""
+"Cette adresse mail est ajoutée dans les reçus de contribution automatiques "
+"si le contributeur a sélectionné un cadeau. Ce doit être une boîte mail de "
+"contact approprié pour les questions sur le transport, l'acheminement du "
+"cadeau."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -3352,12 +3451,18 @@ msgid ""
 "contributor has selected a premium. It should be an appropriate phone number "
 "for inquiries about premium fulfillment/shipping."
 msgstr ""
+"Ce numéro de téléphone est ajouté dans les reçus de contribution "
+"automatiques si le contributeur a sélectionné un cadeau. Ce doit être numéro "
+"de téléphone approprié pour les questions sur le transport, l'acheminement "
+"du cadeau."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
 "Should the minimum contribution amount be automatically displayed after each "
 "premium description?"
 msgstr ""
+"Le montant de contribution minimum doit-il être automatiquement affiché "
+"après chaque description de cadeau?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3366,6 +3471,11 @@ msgid ""
 "audiences, campaigns, etc. Each page can have it's own introductory message, "
 "pre-configured contribution amounts, custom data collection fields, etc."
 msgstr ""
+"Cela est la première étape de la création de votre nouvelle Page de "
+"contribution en ligne. Vous pouvez une ou plusieurs pages de contributions "
+"pour différents sujets, audiences, campagnes, ect. Chaque page peut avoir "
+"son propre message d'introduction, montants de contribution préconfigurés, "
+"champs d'information personnalisés, ect."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3374,6 +3484,11 @@ msgid ""
 "message. You will be able to go back and modify all aspects of this page at "
 "any time after completing the setup wizard."
 msgstr ""
+"Dans cette étape, vous configurerez le titre de la page, le type de "
+"contribution (don, campagne de contribution, ect.), le nombre d'objectifs et "
+"le message d'introduction. Vous pourrez revenir en arrière et modifier tous "
+"les aspects de cette page à tout moment après avoir complété les paramètres "
+"de configuaration."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3381,6 +3496,10 @@ msgid ""
 "campaign contribution, etc.), goal amount, introduction, and status (active/"
 "inactive) for this online contribution page."
 msgstr ""
+"Utilisez ce formulaire pour éditer le titre de la page, le type de "
+"contribution (ex: don, campagne de contribution, ect.), le nombre "
+"d'objectifs, le message d'introduction et le statut (actif/inactif) pour "
+"cette page de contribution en ligne."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3390,10 +3509,17 @@ msgid ""
 "a>. Then return to this screen and assign the processor to this Contribution "
 "Page. (<a href='%3' target='_blank' title='%2'>read more...</a>)"
 msgstr ""
+"Aucun mode de traitement des paiements n'a été configuré ou activé pour "
+"votre site. Sauf si vous utilisez seulement CiviContribute pour solliciter "
+"des contributions non monétaires ou en nature, vous aurez besoin de <a "
+"href='%1'>configurer un mode de traitement des paiements</a>. Ensuite, "
+"retournez à cet écran et assigner le mode de traitement à cette Page de "
+"contribution (<a href='%3' target='_blank' title='%2'>En savoir "
+"plus...</a>)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
-msgstr ""
+msgstr "Ce titre sera affiché en haut de la page."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3402,6 +3528,11 @@ msgid ""
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
 msgstr ""
+"Sélectionnez le type de contribution correspondant aux contributions faites "
+"en utilisant cette page (ex: donation, frais d'adhésion, ect.). Vous pouvez "
+"ajouter ou modifier les types disponibles en utilisant l'option <strong>Type "
+" de Contribution</strong> à partir du panneau de contrôle administrateur "
+"CiviCRM."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3410,6 +3541,10 @@ msgid ""
 "contributions only). (<a href='%1' target='_blank' title='%2'>read more...</"
 "a>)"
 msgstr ""
+"Sélectionnez le mode de paiement qui sera utilisé pour les contributions "
+"soumises à partir de cette page de contribution (à moins que vous ne "
+"sollicitiez seulement des contributions non monétaires/en nature). (<a "
+"href='%1' target='_blank' title='%2'>En savoir plus...</a>)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3418,6 +3553,10 @@ msgid ""
 "images, as long as they are already uploaded to a server - reference them "
 "using complete URLs."
 msgstr ""
+"Entrez le contenu du message d'introduction. Celui-ci sera affiché au-"
+"dessous du titre de la page. Vous pouvez ajouter des tags au format HTML. "
+"Vous pouvez également inclure des images, si elles sont déjà téléchargées "
+"sur le serveur - référencez-les en utilisant les URL complètes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3426,6 +3565,10 @@ msgid ""
 "as long as they are already uploaded to a server - reference them using "
 "complete URLs."
 msgstr ""
+"Si vous voulez afficher du contenu en haut de la page de contribution, "
+"entrez-le ici. Vous pouvez ajouter des tags au format HTML. Vous pouvez "
+"également inclure des images, si elles sont déjà téléchargées sur le serveur "
+"- référencez-les en utilisant les URL complètes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3434,6 +3577,10 @@ msgid ""
 "will track progress against this goal. Otherwise, the goal will display as "
 "'no limit'."
 msgstr ""
+"Entrez un montant d'objectif optionnel pour cette page de contribution (ex: "
+"pour cette 'campagne'). Si vous activez un widget contribution pour cette "
+"page, celui-ci indiquera la progression de cet objectif. Sinon, l'objectif "
+"sera affiché en tant que 'pas de limite'."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3442,22 +3589,32 @@ msgid ""
 "included in the form. Honoree information is automatically saved and linked "
 "with the contribution record."
 msgstr ""
+"Si vous voulez permettre aux contributeurs de spécifier une personne qui "
+"recevra les cadeaux, cochez cette case. Une section optionnelle En faveur de "
+"sera incluse dans le formulaire. Les informations de cette section seront "
+"automatiquement sauvegardées et reliées à l'historique de la contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "Title for the Honoree section (e.g. &quot;Honoree Information&quot;)."
 msgstr ""
+"Titre pour la section En faveur de (ex: &quot;Information En faveur "
+"de&quot;)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "Optional explanatory text for the Honoree section (displayed above the "
 "Honoree fields)."
 msgstr ""
+"Texte explicatoire optionnel pour la section En faveur de (affiché au-dessus "
+"des champs)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
 msgstr ""
+"Quand votre page est activée, vous pouvez lier les gens à cette page en "
+"copiant et collant l'URL suivant:"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3466,6 +3623,9 @@ msgid ""
 "using the Menu Manager. Select <strong>Online Contribution</strong> and "
 "enter <strong>%1</strong> for the Contribution id."
 msgstr ""
+"Quand votre page est active, créez des liens vers la page de contribution en "
+"utilisant le Menu Manager. Sélectionnez <strong>Contribution en "
+"ligne</strong> et entrez <strong>%1</strong> pour le numéro de Contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -3476,22 +3636,33 @@ msgid ""
 "electronic receipt is automatically emailed to each contributor - and can "
 "add a custom message to that receipt."
 msgstr ""
+"Utilisez ce formulaire pour configurer le message de remerciement et les "
+"options de reception. Les contributeurs seront dirigés vers une page de "
+"confirmation et de remerciement dès qu'une contribution en ligne se sera "
+"achevée avec succès. Vous fournissez le contenu et la mise en forme de la "
+"section remerciement ci-dessous. Vous pouvez aussi envoyer automatiquement "
+"un accusé de réception par email à chaque contributeur en y ajoutant un "
+"message personnalisé."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid "Thank-you Message and Receipting"
-msgstr ""
+msgstr "Message de remerciement et accusé de réception"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "This title will be displayed at the top of the thank-you / transaction "
 "confirmation page."
 msgstr ""
+"Ce titre sera affiché en haut de la page de confirmation de transaction et "
+"de remerciement."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter text (and optional HTML layout tags) for the thank-you message that "
 "will appear at the top of the confirmation page."
 msgstr ""
+"Entrez le texte (et la mise en page HTML des tags en option) du message de "
+"remerciement, qui apparaîtra en haut de la page de confirmation."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""

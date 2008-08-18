@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-08-08 17:54-0700\n"
+"PO-Revision-Date: 2008-08-11 19:57-0700\n"
 "Last-Translator: Aplyca Tecnologia <riascos69@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -974,6 +974,14 @@ msgid ""
 "want to collect information specific to this contribution (e.g. target one "
 "or several projects or funds to support with this contribution)."
 msgstr ""
+"Si quiere recolectar información adicional de los contribuidores, necesitará "
+"configurar uno o dos Perfiles CiviCRM - que son colecciones de campos "
+"estándar o personalizados. Puede necesitar información acerca de la persona "
+"(por ejemplo, nombre y dirección si estos no son requeridos por el "
+"procesador de pagos, interés en suscribirse a un boletín o ser voluntario). "
+"También puede querer recolectar información específica para esta "
+"contribución (por ejemplo, concentrarse en uno o varios proyectos o "
+"financiaciones para respaldar con esta contribución)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -982,6 +990,10 @@ msgid ""
 "and then return to <strong>Manage Contribution Page</strong> and select your "
 "new profile."
 msgstr ""
+"Si todavía no ha configurado campos personalizados y un perfil para esto, "
+"puede guardar esta pantalla sin seleccionar un Perfil, complete los pasos a "
+"continuación y después retorne a <strong>Administrar Página de "
+"Contribución</strong> y seleccione el nuevo perfil."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -989,20 +1001,24 @@ msgid ""
 "<strong>Contributions</strong> depending on what type of information you're "
 "collecting."
 msgstr ""
+"Cree un nuevo grupo de campos personalizados que es 'Usado para' los "
+"<strong>Contactos</strong> o <strong>Contribuyentes</strong> dependiendo de "
+"que tipo de información está recolectando."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your field(s) this custom field group."
-msgstr ""
+msgstr "Adicione su campo(s) a este grupo de campos personalizados."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid "Create a profile (e.g. 'Contribution Information')."
-msgstr ""
+msgstr "Cree un perfil (p. j. 'Información de Contribución')."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your custom field(s) to this profile as profile fields."
 msgstr ""
+"Adicione el campo(s) personalizado(s) a este perfil como campos del perfil."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1010,6 +1026,9 @@ msgid ""
 "Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and "
 "select your profile."
 msgstr ""
+"Retorne a esta pantalla (<strong>Administrar CiviCRM >> Administrar Página "
+"de Contribución >> Configurar >> Elementos Personalizados</strong>) y "
+"seleccione su perfil."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
@@ -1018,6 +1037,9 @@ msgid ""
 "title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' "
 "target='_blank'>profiles</a>."
 msgstr ""
+"Refiérase a la documentación en línea para mayores detalles sobre crear <a "
+"href='%1' title='%3' target='_blank'>campos personalizados</a> y <a "
+"href='%2' title='%3' target='_blank'>perfiles</a>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1027,6 +1049,12 @@ msgid ""
 "toward your fund-raising goals, and include a 'Contribute' button which "
 "links people directly to the associated online contribution page."
 msgstr ""
+"Habilitar un componente para esta página de contribución le permite a usted "
+"y a sus contribuidores promover fácilmente esta campaña de recolección de "
+"fondos embebiendo un pedazo de contenido dinámico en cualquier página web. "
+"Los componentes del CiviContribute muestran el seguimiento en tiempo real de "
+"la meta de consecución de fondos, e incluye un botón de 'Contribuir' que "
+"enlaza a la gente a la página de contribución en línea asociada."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1036,6 +1064,12 @@ msgid ""
 "more). You can also modify the default color-scheme by expanding the 'Edit "
 "Widget Colors' section of the form."
 msgstr ""
+"Use el formulario a continuación para configurar un Título del Componente "
+"(con un logo opcional), el texto de su botón de contribución, una "
+"descripción corta de esta campaña de recolección de fondos, y un enlace a la "
+"página inicial de su organización (para las personas que quieren saber "
+"más). También puede modificar el esquema de colores expandiendo la sección "
+"del formulario llamada 'Editar los Colores del Componente'."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1044,6 +1078,11 @@ msgid ""
 "by clicking the 'Save and Preview' button. Then 'Select' and copy the "
 "'Widget Code' into any web page."
 msgstr ""
+"Marque la casilla de 'Habilitar Componente'. Después revise y modifique los "
+"valores del formulario de acuerdo con sus necesidades. Guarde su "
+"configuración y vea previamente la apariencia actual del componente "
+"presionando el botón 'Salvar y Vista Previa'. Después 'Seleccione' y copie "
+"el 'Código del Componente' en cualquier página web."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1051,6 +1090,9 @@ msgid ""
 "display the link to your Home Page instead of the Contribute button once the "
 "campaign is over."
 msgstr ""
+"Si esta campaña tiene fechas de comienzo y finalización específicas, los "
+"componentes embebidos mostrarán el enlace a su Página de Inicio en vez del "
+"botón de Contribución una vez que se haya terminado la campaña."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -1143,18 +1185,26 @@ msgid ""
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
+"Presione <strong>Prueba</strong> para ver la página en el <strong>modo de "
+"prueba</strong>. Esto le permite ver completamente el proceso de "
+"contribución usando una tarjeta de crédito Dummy en un servidor de prueba."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "If your page is enabled, click <strong>Live Page</strong> to view to the "
 "page in <strong>live mode</strong>."
 msgstr ""
+"Si su página está habilitada, presione <strong>Página En Línea</strong> para "
+"ver la página en el <strong>modo en línea</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "Click <a href='%1'>New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
 msgstr ""
+"Presione sobre <a href='%1'>Nueva Página de Contribución</a> para crear y "
+"configurar paso a paso una nueva página de contribución en línea usado el "
+"asistente."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "Read more..."
@@ -1203,6 +1253,10 @@ msgid ""
 "and then return to <strong>Manage Events</strong> and select your new "
 "profile."
 msgstr ""
+"Si todavía no ha configurado campos personalizados y un perfil para esto, "
+"puede guardar esta pantalla sin seleccionar un Perfil, complete los pasos a "
+"continuación y después retorne a <strong>Administrar Página de "
+"Contribución</strong> y seleccione el nuevo perfil."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid ""
@@ -1220,6 +1274,8 @@ msgid ""
 "&raquo; Configure &raquo; Online Registration</strong>) and select your "
 "profile."
 msgstr ""
+"Retorne a esta pantalla (<strong>Administrar CiviCRM >> Administrar Eventos "
+">> Configurar >> Registro En Línea</strong>) y seleccione su perfil."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1762,6 +1818,9 @@ msgid ""
 "Contribution Amount section, AND you want the membership fee to be handled "
 "as a separate transaction."
 msgstr ""
+"Marque esta casilla se está incluyendo Inscripción/Renovación de Membresía Y "
+"una sección de Cantidad de Contribución Y quiere que el cargo por la "
+"membrecía se maneje como una transacción separada."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1769,6 +1828,9 @@ msgid ""
 "users have an option to make an addtional contribution (two separate payment "
 "transactions will be generated)."
 msgstr ""
+"Con esta configuración, el cargo por la membrecía se cobra automáticamente y "
+"los usuarios tienen la opción de una contribución adicional (se generarán "
+"dos transacciones de pago separadas)."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1776,12 +1838,18 @@ msgid ""
 "then a single transaction is processed for their contribution amount which "
 "must at least cover the selected membership fee."
 msgstr ""
+"Si esta opción no está habilitada e incluye una sección de Cantidad de "
+"Contribución, entonces se procesa solamente una sola transacción para las "
+"cantidades de contribución que deben por lo menos cubrir el cargo "
+"seleccionado para la membrecía."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
 "NOTE: This option is NOT available for PayPal Website Payments Standard and "
 "Google Checkout."
 msgstr ""
+"NOTA: esta opción NO está disponible para el Sitio Web de Pagos Estándar "
+"PayPal ni para Google Checkout."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1789,16 +1857,21 @@ msgid ""
 "each membership option on the signup and renewal page. This is recommended "
 "for most configurations."
 msgstr ""
+"Cuando esta casilla está marcada, el cargo de la membrecía se incluye en las "
+"listas de cada opción de la membrecía en la página de inscripción y "
+"renovación."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
 "If the page is configured with 'Separate Membership Payment' enabled - then "
 "just the fee amount is displayed:"
 msgstr ""
+"Si la página está configurada con la opción 'Pago de Membresía Separado' "
+"habilitada - solo se muestra el valor del cargo:"
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid "General Membership - $100.00"
-msgstr ""
+msgstr "Membresía General - $100.00"
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1806,12 +1879,18 @@ msgid ""
 "Contribution Amount is enabled so that user's can opt to give more than the "
 "minimum membership fee - then the display looks like this:"
 msgstr ""
+"Si la página 'Pago de Membrecía Separada' NO está habilitada Y Cantidad de "
+"Contribución SI está habilitada de tal modo que los usuarios puede escoger "
+"no dar más que la cantidad mínima de la membrecía - a consecuencia la "
+"pantalla se ve así:"
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
 "General Membership (contribute at least $100.00 to be eligible for this "
 "membership)"
 msgstr ""
+"Membresía General (contribuya por lo menos en $100.00 para ser elegible para "
+"esta membrecía)"
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid "Contact Records for Members"
