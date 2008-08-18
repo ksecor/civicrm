@@ -631,7 +631,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
         //check for valid pledge status.
         if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
-            CRM_Core_Error::fatal( ts( "Oops. You cannot make a payment for this pledge - pledge status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
+            CRM_Core_Error::fatal(ts('Oops. You cannot make a payment for this pledge - pledge status is %1.', array(1 => CRM_Utils_Array::value($pledgeValues['status_id'], $allStatus)))); 
         }
     }
     

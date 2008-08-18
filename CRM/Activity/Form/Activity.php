@@ -587,14 +587,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         foreach ( $fields['assignee_contact'] as $key => $id ) {
             if ( $id && ! is_numeric($id)) {
-                $errors["assignee_contact[$key]"] = ts('Assignee Contact '.$key.' non-existant!');
+                $errors["assignee_contact[$key]"] = ts('Assignee Contact %1 does not exist.', array(1 => $key));
             }
         }
 
         if ( !empty($fields['target_contact']) ) {
             foreach ( $fields['target_contact'] as $key => $id ) {
                 if ( $id && ! is_numeric($id)) {
-                    $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+                    $errors["target_contact[$key]"] = ts('Target Contact %1 does not exist.', array(1 => $key));
                 }
             }
         }
