@@ -62,7 +62,7 @@
         {if $form.discount_id.label}
             <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
         {/if}
-        <dt class="label">{$form.amount.label}<span class="marker"> *</span></dt><dd>{$form.amount.html}
+        <dt class="label">{$form.amount.label}</dt><dd>{$form.amount.html}
         {if $action EQ 1}
             <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
         {/if}

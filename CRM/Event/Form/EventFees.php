@@ -274,7 +274,7 @@ class CRM_Event_Form_EventFees
             $form->_values = array( );
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
-            CRM_Event_Form_Registration_Register::buildAmount( $form, false, $form->_discountId );
+            CRM_Event_Form_Registration_Register::buildAmount( $form, true, $form->_discountId );
             $discounts = array( );
             if ( !empty( $form->_values['discount'] ) ) {
                 foreach( $form->_values['discount'] as $key => $value ) { 
