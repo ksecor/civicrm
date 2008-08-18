@@ -67,7 +67,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $this->addCheckBox('languageLimit', ts('Available Languages'), array_flip($lcMessages), null, null, null, null, ' &nbsp; ');
             $this->addElement('select', 'addLanguage', ts('Add Language'), array_merge(array('' => ts('- select -')), array_diff($locales, $lcMessages)));
         } else {
-            $warning = ts('WARNING: As of 2.1 version of CiviCRM, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is most recommended.');
+            $warning = ts('WARNING: As of CiviCRM 2.1, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
             $this->assign('warning', $warning);
 
             $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
@@ -141,6 +141,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         if ($values['makeMultilingual']) {
             require_once 'CRM/Core/I18n/Schema.php';
             CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
+            $values['languageLimit'][$values['lcMessages']] = 1;
         }
 
         // add a new db locale if the requested language is not yet supported by the db
@@ -152,10 +153,16 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
                 require_once 'CRM/Core/I18n/Schema.php';
                 CRM_Core_I18n_Schema::addLocale($values['addLanguage'], $values['lcMessages']);
             }
+            $values['languageLimit'][$values['addLanguage']] = 1;
         }
 
         // save all the settings
-        parent::postProcess();
+        parent::commonProcess($values);
+
+        // if we manipulated the language list, return to the localization admin screen
+        if ($values['makeMultilingual'] or $values['addLanguage']) {
+            CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/setting/localization', 'reset=1'));
+        }
     }
 
 }
