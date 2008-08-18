@@ -131,10 +131,17 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         // Set the FROM email address for reminder emails here.
                         // This must be a valid account for your SMTP service.
                         $from = "EMAIL@FIXME.ORG";
-                        CRM_Core_BAO_MessageTemplates::sendReminder( $dao->contact_id,
-                                                                     $toEmail,
-                                                                     $memType->renewal_msg_id,
-                                                                     $from );
+                        $result = CRM_Core_BAO_MessageTemplates::sendReminder( $dao->contact_id,
+                                                                               $toEmail,
+                                                                               $memType->renewal_msg_id,
+                                                                               $from );
+                        if ( ! $result ||
+                             is_a( $result, 'PEAR_Error' ) ) {
+                            // we could not send an email, for now we ignore
+                            // CRM-3406
+                            // at some point we might decide to do something
+                        }
+                
                         
                         //Set membership reminder date to NULL since we've sent the reminder.
                         crm_update_contact_membership( array('id'             => $dao->membership_id,
