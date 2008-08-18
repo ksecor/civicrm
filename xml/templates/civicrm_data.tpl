@@ -370,9 +370,7 @@ VALUES
   (@option_group_id_sfe, 'rtf'      ,  9, NULL   ,  NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'csv'      , 10, NULL   ,  NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'ppt'      , 11, NULL   ,  NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'html'     , 12, NULL   ,  NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'htm'      , 13, NULL   ,  NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
-
+ 
   (@option_group_id_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_group_id_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL), 
 

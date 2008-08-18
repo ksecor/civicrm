@@ -71,24 +71,34 @@ SELECT id FROM civicrm_option_group WHERE name = 'safe_file_extension'";
                 $query = "
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
 VALUES 
-({$dao->id}, 'jpg', '1', NULL, NULL, 0, 0, 1, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'jpeg', '2', NULL, NULL, 0, 0, 2, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'png', '3', NULL, NULL, 0, 0, 3, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'gif', '4', NULL, NULL, 0, 0, 4, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'txt', '5', NULL, NULL, 0, 0, 5, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'html', '6', NULL, NULL, 0, 0, 6, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'htm', '7', NULL, NULL, 0, 0, 7, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'pdf', '8', NULL, NULL, 0, 0, 8, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'doc', '9', NULL, NULL, 0, 0, 9, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'xls', '10', NULL, NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'rtf', '11', NULL, NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'csv', '12', NULL, NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'ppt', '13', NULL, NULL, 0, 0, 13, NULL, 0, 0, 1, NULL)
+({$dao->id}, 'jpg',  1, NULL, NULL, 0, 0,  1, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'jpeg'  2, NULL, NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'png',  3, NULL, NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'gif',  4, NULL, NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'txt',  5, NULL, NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'pdf',  6, NULL, NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'doc',  7, NULL, NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'xls',  8, NULL, NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'rtf',  9, NULL, NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'csv', 10, NULL, NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'ppt', 11, NULL, NULL, 0, 0, 11, NULL, 0, 0, 1, NULL)
 ";
                 $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             }
+        } else {
+            //fix for CRM-3252
+            //delete records from db.
+            
+            $labels = "(" . implode( ',', array( "'html'", "'htm'" ) ) . ")";
+            $query = "
+DELETE 
+FROM   `civicrm_option_value` 
+WHERE  `option_group_id` = {$sfeGroup->id}
+AND    `label` IN {$labels}
+";
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
-
+        
         $this->setVersion( '2.02' );
     }
     
