@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-08 17:50-0700\n"
+"PO-Revision-Date: 2008-08-11 21:01-0700\n"
 "Last-Translator: Aplyca Tecnologia <riascos69@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -8716,18 +8716,17 @@ msgstr ""
 "automáticamente correspondiente a cada uno.)"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
-#, fuzzy
 msgid ""
 "These settings are used to configure mailer properties for the optional "
 "CiviMail component. They are NOT used for the built-in 'Send Email to "
 "Contacts' feature. Refer to the <a href='%1' target='_blank' title='CiviMail "
 "Guide (opens in a new window)'>CiviMail Guide</a> for more information."
 msgstr ""
-"Estos ajustes se usan para configurar el componente de CiviCRM de correo "
-"CiviMail. Éstos no se usan para el sistema \"Enviar correo a los contactos"
-"\". Para más información <a href=\"%1\" target=\"_blank\" title=\"Guía de "
-"CiviMail (abre una ventana nueva)\">Guía de CiviMail</a> para mayor "
-"información."
+"Estas configuraciones se usan para configurar las propiedades del componente "
+"opcional CiviMail. No son usadas para la característica incorporada de "
+"'Enviar Correo a los Contactos'. Refiérase a la <a href='%1' target='_blank' "
+"title='CiviMail Guide (opens in a new window)'>Guía del CiviMail</a> para "
+"mayor información."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "CiviMail Configuration"
@@ -9404,6 +9403,10 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
+"Usted puede escoger registrar el Instrumento de Pago usado para cada "
+"contribución. Los métodos de pago comunes están instalados por defecto y no "
+"se pueden modificar (por ejemplo, Cheque, Efectivo, Tarjeta de Crédito...). "
+"Si su sitio requiere métodos de pago adicionales, los puede adicionar acá."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -9412,6 +9415,10 @@ msgid ""
 "are accepted by your chosen Payment Processor and update these entries "
 "accordingly."
 msgstr ""
+"Esta página lista las opciones de tarjeta de crédito que se ofrecerán a los "
+"contribuidores usando sus Página de Contribución En Línea. Puede necesitar "
+"verificar tarjetas cuales tarjetas son aceptadas por su Procesador de Pago y "
+"actualizar estas entradas de acuerdo a esta información."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -9419,6 +9426,10 @@ msgid ""
 "sites and/or contributors using the PayPal Express service (e.g. where "
 "billing information is collected on the Payment Processor's website)."
 msgstr ""
+"IMPORTANTE: Esta página NO controla las selecciones del método de tarjeta de "
+"crédito/pago para sitios y/o contribuidores usando el servicio PayPal "
+"Express (por ejemplo, donde la información de facturación es recolectada en "
+"el sitio web del Procesador de Pago)."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -11968,6 +11979,12 @@ msgid ""
 "with a personalized message. CiviCRM will record these solicitation "
 "activities, and will add the friends to your database."
 msgstr ""
+"Contar a un Amigo le da a sus contribuidores una forma fácil de esparcir la "
+"palabra acerca de esta campaña de recolección de fondos. La página de "
+"agradecimiento por la contribución incluirá un enlace a un formulario donde "
+"los usuarios pueden ingresar los correos electrónicos de sus amigos, junto "
+"con un mensaje personalizado. El CiviCRM registrará estas actividades de "
+"solicitudes y adicionará los amigos de los usuarios a su base de datos."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -11983,12 +12000,17 @@ msgid ""
 "This message is displayed to the %1 at the top of the Tell a Friend form. "
 "You may include HTML tags to add formatting or links."
 msgstr ""
+"Este mensaje se le muestra al %1 en la parte superior del formulario de "
+"Contar a un Amigo. Puede incluir etiquetas HTML para adicionar formato o "
+"enlaces."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Provides the %1 with suggested text for their personalized message to their "
 "friends."
 msgstr ""
+"Le proporciona al %1 el texto sugerido para los mensajes personalizados a "
+"sus amigos."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -11996,12 +12018,18 @@ msgid ""
 "you ALSO want to include a link providing general information about your "
 "organization, enter that link here (e.g <em>http://www.example.org/</em>)"
 msgstr ""
+"En el correo enviado a los amigos se incluye automáticamente un enlace a "
+"esta %1. Si TAMBIÉN quiere incluir un enlace que proporcione información "
+"general acerca de su organización, ingrese dicho enlace acá (por ejemplo, "
+"<em>http://www.ejemplo.com/</em>)."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Your message thanking the %1 for helping to spread the word. You may include "
 "HTML tags to add formatting or links."
 msgstr ""
+"Su mensaje agradeciendo al %1 por ayudar a esparcir la voz. Puede incluir "
+"etiquetas HTML para adicionar formato y enlaces."
 
 #: templates/CRM/Friend/Form/SubjectTemplate.tpl
 msgid "%1 wants you to know about %2"
@@ -13449,7 +13477,7 @@ msgstr "Cabecera de correo"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Header"
-msgstr ""
+msgstr "Título Descriptivo para este Encabezado."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for HTML formatted content."
@@ -13457,7 +13485,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for TEXT formatted content."
-msgstr ""
+msgstr "Muestra de Encabezado para contenido formateado en TEXTO."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
@@ -13465,15 +13493,15 @@ msgstr "Pie de página del correo"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Footer."
-msgstr ""
+msgstr "Título Descriptivo para este Pie de Página."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for HTML formatted content."
-msgstr ""
+msgstr "Muestra del Pie de Página para contenido formateado en HTML."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for TEXT formatted content."
-msgstr ""
+msgstr "Muestra del Pie de Página para contenido formateado en TEXTO."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Subscribe Message"
@@ -13495,9 +13523,8 @@ msgid "Re-subscribe Confirmation"
 msgstr "Sistema de Configuración"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Opt-out Confirmation"
-msgstr "Sistema de Configuración"
+msgstr "Confirmación de Decidir no Recibir."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
@@ -13505,13 +13532,16 @@ msgstr "Respuesta automática"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Please Send Inquiries to Our Contact Email Address"
-msgstr "Por favor enviar solicitudes a nuestra dirección de email de contacto."
+msgstr "Por Favor Envíe las Preguntas a Nuestra Dirección de Contacto"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid ""
 "This is an automated reply from an un-attended mailbox. Please send any "
 "inquiries to the contact email address listed on our web-site."
 msgstr ""
+"Esta es una respuesta automática de un correo sin atención. Por favor envíe "
+"cualquier pregunta al correo electrónico de contacto listado en nuestro "
+"sitio web."
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13555,9 +13585,8 @@ msgid "Payment Instruments"
 msgstr "Formas de Pago"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event Type"
-msgstr "Tipo del Componente"
+msgstr "Tipo de Evento"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Contact View Options"

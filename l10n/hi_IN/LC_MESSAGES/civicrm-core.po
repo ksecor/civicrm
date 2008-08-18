@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-10 22:02-0700\n"
+"PO-Revision-Date: 2008-08-12 05:58-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3862,15 +3862,15 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export PRIMARY contact fields"
-msgstr ""
+msgstr "प्राथमिक संपर्क क्षेत्रों निर्यात करे"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Select fields for export"
-msgstr ""
+msgstr "निर्यात के लिऐ क्षेत्र चुने"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export Type"
-msgstr ""
+msgstr "निर्यात प्रकार"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 msgid "Export All or Selected Fields"
@@ -3878,19 +3878,19 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Make Mailing Labels"
-msgstr ""
+msgstr "डाक लेबल बनाएँ"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Label"
-msgstr ""
+msgstr "लेबल चुने"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "- select label -"
-msgstr ""
+msgstr "- लेबल चुने -"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
-msgstr ""
+msgstr "स्थान चुनें"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Map Location(s)"
@@ -3904,7 +3904,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Event Info"
-msgstr ""
+msgstr "कार्यक्रम जानकारी"
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3912,23 +3912,23 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "Batch Profile Update"
-msgstr ""
+msgstr "प्रोफाइल सामूहिक अद्यतन"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "- select profile -"
-msgstr ""
+msgstr "- प्रोफाइल चुने -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "Select Profile"
-msgstr ""
+msgstr "प्रोफाइल चुने"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "CiviCRM Contact Listing"
-msgstr ""
+msgstr "सिवीसिआरम् संपर्क लिस्टिंग"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "Print Contact List"
-msgstr ""
+msgstr "संपर्क सूची छापिऐ"
 
 #: CRM/Contact/Form/Task/Record.php
 msgid "Your user record does not have a valid user ID"
@@ -3944,15 +3944,15 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Remove from Group"
-msgstr ""
+msgstr "समूह से निकालें"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Removed Contact(s) from %1"
-msgstr ""
+msgstr "संपर्क %1 से हटाया है"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) removed from group: %1"
-msgstr ""
+msgstr "समूह से कुल संपर्क हटाऐ : %1"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Total Contact(s) not in group: %1"
@@ -3960,11 +3960,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/RemoveFromTag.php
 msgid "Remove Tag Contacts"
-msgstr ""
+msgstr "संपर्क लेबल निकालिएँ"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
 msgid "Save Smart Group"
-msgstr ""
+msgstr "स्मार्ट समूह सुरक्षित करे"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
 msgid "Your smart group has been saved as '%1'."
@@ -3976,11 +3976,11 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Activity.php
 msgid "Contact Activities"
-msgstr ""
+msgstr "संपर्क गतिविधियां"
 
 #: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
-msgstr ""
+msgstr "गतिविधि रिकार्ड"
 
 #: CRM/Contact/Page/View/Case.php
 msgid "Are you sure you want to delete this case?"
@@ -3988,7 +3988,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Case.php templates/CRM/Case/Form/Case.tpl
 msgid "Edit Case"
-msgstr ""
+msgstr "मामला संपादन करे"
 
 #: CRM/Contact/Page/View/Case.php
 msgid "Add Activity"
@@ -3996,55 +3996,55 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "View Contribution"
-msgstr ""
+msgstr "योगदान देखें"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "Edit Contribution"
-msgstr ""
+msgstr "योगदान संपादन"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "Delete Contribution"
-msgstr ""
+msgstr "योगदान मिटाएँ"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
-msgstr ""
+msgstr "संर्पक मिटाएँ"
 
 #: CRM/Contact/Page/View/Email.php
 msgid "Email Sent"
-msgstr ""
+msgstr "ईमेल भेजा"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Renew Membership"
-msgstr ""
+msgstr "सदस्यता नवीनीकृत"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Create Membership"
-msgstr ""
+msgstr "सदस्यता बनाएँ"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "View Membership"
-msgstr ""
+msgstr "सदस्यता देखें"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Edit Membership"
-msgstr ""
+msgstr "सदस्यता संपादन"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Renew"
-msgstr ""
+msgstr "नवीनीकृत"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Delete Membership"
-msgstr ""
+msgstr "सदस्यता मिटाएँ"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Edit Membership Type"
-msgstr ""
+msgstr "सदस्यता प्रकार संपादन"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
-msgstr ""
+msgstr "संर्पक नाेट"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
@@ -4052,15 +4052,15 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "View Note"
-msgstr ""
+msgstr "नाेट देखें"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "Edit Note"
-msgstr ""
+msgstr "नाेट संपादन"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "Delete Note"
-msgstr ""
+msgstr "नाेट मिटाएँ"
 
 #: CRM/Contact/Page/View.php
 msgid "You do not have the necessary permission to view this contact."
@@ -4068,7 +4068,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Contact Relationships"
-msgstr ""
+msgstr "संपर्क संबंध"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to delete this relationship?"
@@ -4085,25 +4085,25 @@ msgstr ""
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
-msgstr ""
+msgstr "संबंध देखें"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship"
-msgstr ""
+msgstr "संबंध संपादन"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Enable Relationship"
-msgstr ""
+msgstr "सक्षम संबंध"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Disable Relationship"
-msgstr ""
+msgstr "निष्क्रिय संबंध"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Delete Relationship"
-msgstr ""
+msgstr "संबंध मिटाएँ"
 
 #: CRM/Contact/Page/View/Tabbed.php
 msgid "Elected Officials"
@@ -4135,7 +4135,7 @@ msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Group"
-msgstr ""
+msgstr "संपर्क समूह से जोड़ें"
 
 #: CRM/Contact/Task.php
 msgid "Tag Contacts (assign tags)"
@@ -4147,7 +4147,7 @@ msgstr "संपर्क का लेबल निकाले ( लेबल
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
-msgstr ""
+msgstr "संपर्कों काे ईमेल भेजें"
 
 #: CRM/Contact/Task.php
 msgid "Send SMS to Contacts"
@@ -4155,23 +4155,23 @@ msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Household"
-msgstr ""
+msgstr "संपर्क परिवार संबन्धी से जोड़ें"
 
 #: CRM/Contact/Task.php
 msgid "New Smart Group"
-msgstr ""
+msgstr "नया स्मार्ट समुह"
 
 #: CRM/Contact/Task.php
 msgid "Print Contacts"
-msgstr ""
+msgstr "संर्पक छापिएँ"
 
 #: CRM/Contact/Task.php templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Mailing Labels"
-msgstr ""
+msgstr "डाक लेबल"
 
 #: CRM/Contact/Task.php templates/CRM/Contact/Form/Task/PickProfile.tpl
 msgid "Batch Update via Profile"
-msgstr ""
+msgstr "सामूहिक अद्यतन द्वारा प्रोफाइल"
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
@@ -4179,7 +4179,7 @@ msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Event"
-msgstr ""
+msgstr "संपर्क कार्यक्रम से जोड़ें"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid ""
@@ -4211,15 +4211,15 @@ msgstr[1] ""
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Create an account?"
-msgstr ""
+msgstr "खाता बनाएँ?"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Username"
-msgstr ""
+msgstr "उपयोगकर्ता नाम"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Confirm Password"
-msgstr ""
+msgstr "संकेताक्षर पुष्टि"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Could not find an email address."
@@ -4227,7 +4227,7 @@ msgstr ""
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Please specify a username."
-msgstr ""
+msgstr "कृपया उपयोक्तानाम दिजिएँ"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Please specify a valid email address."
@@ -4235,23 +4235,23 @@ msgstr ""
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Please enter a password."
-msgstr ""
+msgstr "कृपया संकेताक्षर दिजिएँ।"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Password and Confirm Password values are not the same."
-msgstr ""
+msgstr "संकेताक्षर और पुष्टि संकेताक्षर का मूल्य एक नहीं है।"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "The username %1 is already taken. Please select another username."
-msgstr ""
+msgstr "%1 उपयोगकर्ता नाम पहले से है। कृपया आप काेई और उपयोगकर्ता नाम चुनें।"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
-msgstr ""
+msgstr "अक्षरांकीय"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Number"
-msgstr ""
+msgstr "संख्या"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
@@ -4306,11 +4306,11 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomGroup.php
 msgid "Are you sure you want to delete attached file."
-msgstr ""
+msgstr "क्या आप सचमुच संलग्न फ़ाइल हटाना चाहते हैं।"
 
 #: CRM/Core/BAO/CustomGroup.php templates/CRM/Custom/Form/DeleteFile.tpl
 msgid "Delete Attached File"
-msgstr ""
+msgstr "संलग्न फ़ाइल नष्ट करे"
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "greater than or equal to '%1'"
@@ -4322,7 +4322,7 @@ msgstr ""
 
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
-msgstr ""
+msgstr "कृपया मदद के लिये CiviCRM समर्थन से संर्पक करे"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Selected Mapping has been Deleted Successfuly."
@@ -4333,9 +4333,8 @@ msgid "Also include contacts where"
 msgstr ""
 
 #: CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "- select record type -"
-msgstr "- समूह चुने -"
+msgstr "- रिकार्ड प्रकार चुने -"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
@@ -4398,11 +4397,11 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Contribution Status"
-msgstr ""
+msgstr "योगदान स्थिति"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Status"
-msgstr ""
+msgstr "प्रतिभागि की स्थिति"
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Role"
@@ -4434,7 +4433,7 @@ msgstr "CiviCRM लघुपथ"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Quick Add"
-msgstr ""
+msgstr "CiviCRM त्वरित जोड़ें"
 
 #: CRM/Core/Block.php
 msgid "New Individual"
@@ -4442,7 +4441,7 @@ msgstr "नया व्यक्तिगत संपर्क"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
-msgstr ""
+msgstr "CiviCRM खोज"
 
 #: CRM/Core/Block.php
 msgid "Contact Search"
@@ -4450,7 +4449,7 @@ msgstr "सम्पर्क शाेध"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Menu"
-msgstr ""
+msgstr "CiviCRM मेनू"
 
 #: CRM/Core/Block.php
 msgid "GCC Shortcuts"
@@ -4478,20 +4477,19 @@ msgstr "मेरा संपर्क फलक"
 
 #: CRM/Core/Block.php
 msgid "New Participant"
-msgstr ""
+msgstr "नया प्रतिभागि"
 
 #: CRM/Core/Block.php
 msgid "List Participants"
-msgstr ""
+msgstr "प्रतिभागियों की सूची"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Reports"
-msgstr "बाहर से लाना"
+msgstr "रिपोर्ट"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"
-msgstr ""
+msgstr "विकल्प समूह सूची"
 
 #: CRM/Core/Block.php
 msgid "Update FAT"
@@ -4503,7 +4501,7 @@ msgstr "मेरा खाता"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
-msgstr ""
+msgstr "भेजें विपत्र"
 
 #: CRM/Core/Block.php
 msgid "Browse Sent Mailings"
@@ -4527,7 +4525,7 @@ msgstr "सिवीमेल"
 
 #: CRM/Core/Block.php
 msgid "Logout"
-msgstr ""
+msgstr "लॉगआउट"
 
 #: CRM/Core/Config.php
 msgid ""
@@ -4580,7 +4578,7 @@ msgstr ""
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
-msgstr ""
+msgstr "तिथि प्रारूप"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
@@ -4588,7 +4586,7 @@ msgstr ""
 
 #: CRM/Core/Form.php
 msgid "Don't Know"
-msgstr ""
+msgstr "पता नहीं"
 
 #: CRM/Core/Form.php xml/templates/civicrm_add_domain.tpl
 msgid "Other"
@@ -4596,11 +4594,11 @@ msgstr "अन्य"
 
 #: CRM/Core/Form.php
 msgid "Previous"
-msgstr ""
+msgstr "पिछला"
 
 #: CRM/Core/Form.php
 msgid "Processing"
-msgstr ""
+msgstr "प्रसंस्करण"
 
 #: CRM/Core/Form.php
 msgid "Please select %1"
@@ -4612,11 +4610,11 @@ msgstr ""
 
 #: CRM/Core/Form.php
 msgid "Additional Address 1"
-msgstr ""
+msgstr "अतिरिक्त पता १"
 
 #: CRM/Core/Form.php
 msgid "Additional Address 2"
-msgstr ""
+msgstr "अतिरिक्त पता २"
 
 #: CRM/Core/Form.php
 msgid "Please enter the City for %1."
@@ -4652,7 +4650,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "View Contact"
-msgstr ""
+msgstr "संपर्क देखें"
 
 #: CRM/Core/Invoke.php
 msgid "Activity Links"
@@ -4740,11 +4738,11 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "View Groups"
-msgstr ""
+msgstr "समुह देखें"
 
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
-msgstr ""
+msgstr "प्रोफाइल बनाएँ"
 
 #: CRM/Core/Invoke.php
 msgid "System Preferences"
@@ -4864,7 +4862,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "आयात / निर्यात मिलान"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5009,7 +5007,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Contact Summary"
-msgstr ""
+msgstr "संपर्क सारांश"
 
 #: CRM/Core/Menu.php
 msgid "Create New Group"
@@ -5041,11 +5039,11 @@ msgstr ""
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Online Contribution"
-msgstr ""
+msgstr "ऑनलाइन योगदान"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Online Event Registration"
-msgstr ""
+msgstr "ऑनलाइन कार्यक्रम पंजीकरण"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Please set a location type of %1"
@@ -5057,15 +5055,15 @@ msgstr ""
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing First Name"
-msgstr ""
+msgstr "बिलिंग पहला नाम"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Middle Name"
-msgstr ""
+msgstr "बिलिंग मध्य नाम"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Last Name"
-msgstr ""
+msgstr "बिलिंग अंतिम नाम"
 
 #: CRM/Core/Payment/Form.php
 msgid "Postal Code"
@@ -5252,7 +5250,7 @@ msgstr ""
 #: CRM/Core/SelectValues.php templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 msgid "Public"
-msgstr ""
+msgstr "सार्वजनिक"
 
 #: CRM/Core/SelectValues.php
 msgid "Admin"
@@ -5264,11 +5262,11 @@ msgstr "प्रारंभ दिन"
 
 #: CRM/Core/SelectValues.php
 msgid "end date"
-msgstr ""
+msgstr "अंतिम तिथि"
 
 #: CRM/Core/SelectValues.php
 msgid "join date"
-msgstr ""
+msgstr "शामिल हाेने की तिथि"
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
@@ -5328,11 +5326,11 @@ msgstr "इनलाइन"
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
-msgstr ""
+msgstr "उपयाेगकर्ता पंजीकरण"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "देखें / संपादन उपयाेगकर्ता खाता"
 
 #: CRM/Core/SelectValues.php
 msgid "Added"
@@ -5401,39 +5399,39 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "PayPal - Website Payments Pro"
-msgstr ""
+msgstr "पेपैल - वेबसाइट प्रो भुगतान"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "PayPal - Express"
-msgstr ""
+msgstr "पेपैल - एक्सप्रेस"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "PayPal - Website Payments Standard"
-msgstr ""
+msgstr "पेपैल -- वेबसाइट स्टांर्डड भुगतान"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Authorize.Net - AIM"
-msgstr ""
+msgstr "आँथाेराईझ . नेट - एेअायएम्"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Google Checkout"
-msgstr ""
+msgstr "गुगल चेकाऊट"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Moneris"
-msgstr ""
+msgstr "माेनेरिंज"
 
 #: CRM/Core/SelectValues.php
 msgid "Test Payment Processor"
-msgstr ""
+msgstr "परिक्षण भुगतान प्रोसेसर"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
-msgstr ""
+msgstr "याहु"
 
 #: CRM/Core/SelectValues.php
 msgid "Google"
-msgstr ""
+msgstr "गुगल"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
@@ -5489,7 +5487,7 @@ msgstr "देश चुने"
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
-msgstr ""
+msgstr "फ़ाइल चुनें"
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"

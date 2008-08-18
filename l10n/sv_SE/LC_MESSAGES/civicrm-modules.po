@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-10 11:45-0700\n"
+"PO-Revision-Date: 2008-08-11 04:24-0700\n"
 "Last-Translator: Jonas Hagberg <deg@jonashagberg.se>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -517,41 +517,36 @@ msgid "Please enter a valid amount (numbers and decimal point only)."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Honoree Prefix"
-msgstr "Förstavelse (Prefix)"
+msgstr "Hederspersons Förstavelse (Prefix)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Honoree First Name"
-msgstr "Förnamn"
+msgstr "Hederspersons Förnamn"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Honoree Last Name"
-msgstr "Efternamn"
+msgstr "Hederspersons Efternamn"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Honoree Email Address"
-msgstr "E-postadress"
+msgstr "Hederspersons E-postadress"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Honoree Email is not valid."
-msgstr "E-postadressen är inte giltig"
+msgstr "Hederspersons E-postadressen är inte giltig"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to make a one-time contribution."
-msgstr ""
+msgstr "Jag vill ge ett engångs bidrag."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to contribute this amount"
-msgstr ""
+msgstr "Jag vill bidraga med detta belopp"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Every"
-msgstr ""
+msgstr "Varje"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
@@ -559,12 +554,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "-period-"
-msgstr ""
+msgstr "-period-"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "day(s)"
-msgstr "Märke(n)"
+msgstr "dag(ar)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #, fuzzy
