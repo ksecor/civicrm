@@ -72,7 +72,7 @@ SELECT id FROM civicrm_option_group WHERE name = 'safe_file_extension'";
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
 VALUES 
 ({$dao->id}, 'jpg',  1, NULL, NULL, 0, 0,  1, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'jpeg'  2, NULL, NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
+({$dao->id}, 'jpeg', 2, NULL, NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
 ({$dao->id}, 'png',  3, NULL, NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
 ({$dao->id}, 'gif',  4, NULL, NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
 ({$dao->id}, 'txt',  5, NULL, NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
