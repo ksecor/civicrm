@@ -1,7 +1,7 @@
 <?php
 
 require_once 'api/v2/CustomGroup.php';
-
+require_once 'tests/CiviTest/CiviUnitTestCase.php';
 class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase 
 {
     
@@ -137,7 +137,6 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'is_required'     => 1,
                          'is_searchable'   => 0,
                          'is_active'       => 1,
-                         'option_type'     => 1,
                          'option_label'    => array( 'Label1','Label2'),
                          'option_value'    => array( 'val1', 'val2' ),
                          'option_weight'   => array( 1, 2),
@@ -145,7 +144,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          );
               
         $customField =& civicrm_custom_field_create($params);  
-
+       
         $this->assertEqual($customField['is_error'],0);
         $this->assertNotNull($customField['result']['customFieldId']);
         $this->customFieldDelete($customField['result']['customFieldId']);
@@ -163,7 +162,6 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'is_required'     => 1,
                          'is_searchable'   => 0,
                          'is_active'       => 1,
-                         'option_type'     => 1,
                          'option_label'    => array( 'Label1','Label2'),
                          'option_value'    => array( '10', '20' ),
                          'option_weight'   => array( 1, 2),
@@ -189,7 +187,6 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'is_required'     => 1,
                          'is_searchable'   => 0,
                          'is_active'       => 1,
-                         'option_type'     => 1,
                          'option_label'    => array( 'Label1','Label2'),
                          'option_value'    => array( '10', '20' ),
                          'option_weight'   => array( 1, 2),
@@ -216,7 +213,6 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'is_required'     => 1,
                          'is_searchable'   => 0,
                          'is_active'       => 1,
-                         'option_type'     => 1,
                          'option_label'    => array( 'radioLabel1','radioLabel2'),
                          'option_value'    => array( 10, 20 ),
                          'option_weight'   => array( 1, 2),
@@ -242,7 +238,6 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'is_required'     => 1,
                          'is_searchable'   => 0,
                          'is_active'       => 1,
-                         'option_type'     => 1,
                          'option_label'    => array( 'MultiLabel1','MultiLabel2'),
                          'option_value'    => array( 10, 20 ),
                          'option_weight'   => array( 1, 2),

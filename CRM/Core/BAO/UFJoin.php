@@ -86,6 +86,12 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         
         $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
         $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
+        // user reg / my account can have multiple entries, so we return if thats
+        // the case. (since entity_table/id is empty in those cases
+        if ( ! $dao->entity_table ||
+             ! $dao->entity_id ) {
+            return null;
+        }
         $dao->weight       = CRM_Utils_Array::value( 'weight'      , $params );
         if ( $dao->find( true ) ) {
             return $dao->id;

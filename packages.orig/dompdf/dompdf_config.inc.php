@@ -39,7 +39,7 @@
 
 /* $Id: dompdf_config.inc.php,v 1.19 2006/07/07 21:31:02 benjcarson Exp $ */
 
-// error_reporting(E_STRICT | E_ALL);
+error_reporting(E_STRICT | E_ALL);
 
 /**
  * The root of your DOMPDF installation
@@ -191,11 +191,7 @@ define("DOMPDF_ENABLE_REMOTE", true);
  */
 function DOMPDF_autoload($class) {
   $filename = mb_strtolower($class) . ".cls.php";
-  if ( file_exists( DOMPDF_INC_DIR . "/$filename" ) ) {
-      require_once(DOMPDF_INC_DIR . "/$filename");
-      return true;
-  }
-  return false;
+  require_once(DOMPDF_INC_DIR . "/$filename");
 }
 
 if ( !function_exists("__autoload") ) {

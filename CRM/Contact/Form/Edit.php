@@ -672,7 +672,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $params['mail_to_household_id'] = 'null';
             }
         } 
-        
+
+        // cleanup unwanted location types
+        if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            CRM_Core_BAO_Location::cleanupContactLocations( $params );
+        }
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
         
@@ -717,7 +723,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_contactType == 'Individual' ) {
-            if ( CRM_Utils_Array::value( 'employer_option', $params ) ) {
+            if ( isset( $params['employer_option'] ) ) {
                 // create current employer
                 if ( $params['employer_option'] ) {
                     //selected existing organization

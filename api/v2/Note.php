@@ -183,12 +183,12 @@ function &civicrm_note_get( &$params ) {
     }
 
     $note = CRM_Core_BAO_Note::getNote($params['entity_id'],$params['entity_table']);
-
+    
     if ( civicrm_error( $note ) ) {
         return $note;
     }
 
-    if ( count( $note ) != 1 ) {
+    if ( count( $note ) < 1 ) {
         return civicrm_create_error( ts( '%1 notes matching the input parameters', array( 1 => count( $note ) ) ) );
     }
     

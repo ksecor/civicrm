@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
+for CODE in css i install js l10n packages PEAR templates bin joomla CRM api drupal extern Reports; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -45,23 +45,20 @@ for F in $SRC/sql/civicrm*.mysql; do
 	cp $F $TRG/sql
 done
 
-# delete any setup.sh or setup.php4.sh if present
-if [ -d $TRG/bin ] ; then
-  rm -f $TRG/bin/setup.sh
-  rm -f $TRG/bin/setup.php4.sh
-fi
-
 # remove Quest
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
 # delete SimpleTest
 if [ -d $TRG/packages/SimpleTest ] ; then
-  rm -f $TRG/packages/SimpleTest
+  rm -rf $TRG/packages/SimpleTest
+fi
+if [ -d $TRG/packages/drupal ] ; then
+  rm -rf $TRG/packages/drupal
 fi
 
 # delete UFPDF's stuff not required on installations
 if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
-  rm -f $TRG/packages/ufpdf/ttf2ufm-src
+  rm -rf $TRG/packages/ufpdf/ttf2ufm-src
 fi
 
 # copy docs
@@ -81,7 +78,7 @@ mkdir com_civicrm
 mkdir com_civicrm/admin
 mkdir com_civicrm/admin/civicrm
 
-cp -r -p $DM_SOURCEDIR/* com_civicrm/admin/civicrm/
+cp -r -p civicrm/* com_civicrm/admin/civicrm
 
 $DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 

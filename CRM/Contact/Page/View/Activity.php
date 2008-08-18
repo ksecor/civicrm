@@ -167,8 +167,15 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
      */
     function run( )
     {
-        // we should call contact view, preprocess only for activity in contact summary
-        $this->preProcess( );
+        $context       = CRM_Utils_Request::retrieve('context', 'String', $this );
+
+        if ( $context == 'standalone' ) {
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign('action', $this->_action );
+        } else {
+            // we should call contact view, preprocess only for activity in contact summary
+            $this->preProcess( );
+        } 
         
         // route behaviour of contact/view/activity based on action defined
         if ( $this->_action & 

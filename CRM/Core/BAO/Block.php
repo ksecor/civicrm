@@ -210,7 +210,7 @@ class CRM_Core_BAO_Block
                 } else {
                     $locationCount++;
                     $locationTypes[ $locationCount ] = $locationTypeId;
-                    $locationBlocks[$locationTypeId] = 1;
+                    $locationBlocks[$locationTypeId] = $blockCount = 1;
                 }
             } else {
                 $locationTypes[$locationCount]   = $locationTypeId;
@@ -267,7 +267,7 @@ class CRM_Core_BAO_Block
             $locBlockCount = 1;
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
-            
+
             foreach ( $value as $k => $val ) {
                 if ( !is_array( $val ) ) {
                     continue;
@@ -285,14 +285,13 @@ class CRM_Core_BAO_Block
                 }
                 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
-                
+
+                $locBlockCount++;
                 if ( isset( $val['id'] ) && !$dataExits ) {
                     //delete the existing record
                     self::blockDelete( $name, array( 'id' => $val['id'] ) );
-                    $locBlockCount++;
                     continue;
                 } else if ( !$dataExits ) {
-                    $locBlockCount++;
                     continue;
                 }
                 
@@ -309,10 +308,9 @@ class CRM_Core_BAO_Block
                 } else {
                     $contactFields['is_billing'] = false;
                 }
-                
+
                 $blockFields = array_merge( $val, $contactFields );
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
-                $locBlockCount++;
             }
         }
         

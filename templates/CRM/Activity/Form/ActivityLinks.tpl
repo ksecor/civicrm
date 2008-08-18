@@ -22,7 +22,9 @@
 {* add hook links if any *}
 {if $hookLinks}
    {foreach from=$hookLinks item=link}
+{if $link.img}
       <a href="{$link.url}"><img src="{$link.img}" alt="{$link.title}" /></a>&nbsp;
+{/if}
       <a href="{$link.url}">{$link.title}</a>&nbsp;&nbsp;
    {/foreach}
 {/if}

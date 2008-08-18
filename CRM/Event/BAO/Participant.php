@@ -240,7 +240,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                     'modified_date' => date('Ymd')
                                     );
                 
-                CRM_Core_BAO_Note::add( $noteParams, $noteIds );
+                CRM_Core_BAO_Note::add( $noteParams, $noteIDs );
             }
         }
 
@@ -309,7 +309,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             }
         }
         return false;
-
     }
 
     /**

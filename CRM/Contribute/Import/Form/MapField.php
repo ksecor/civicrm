@@ -393,7 +393,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     static function formRule( &$fields, &$files, &$self ) {
-        $errors  = array( );
+        $errors       = array( );
+        $fieldMessage = null;
         
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();

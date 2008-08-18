@@ -273,7 +273,7 @@ class CRM_Dedupe_Merger
 
         $diffs = array();
         foreach (self::$validFields as $validField) {
-            if ($main[$validField] != $other[$validField]) {
+            if ( CRM_Utils_Array::value( $validField, $main ) != CRM_Utils_Array::value( $validField, $other) ) {
                 $diffs['contact'][] = $validField;
             }
         }

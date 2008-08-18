@@ -156,7 +156,7 @@ function civicrm_location_get( $contact ) {
         return civicrm_create_error('$contact is not valid contact datatype');
     }
     
-    $location_types = $contact['location_type' ];
+    $location_types = CRM_Utils_Array::value( 'location_type', $contact );
     if ( is_array($location_types) && ! count($location_types) ) {
         return civicrm_create_error('Location type array can not be empty');
     }

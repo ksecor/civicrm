@@ -75,7 +75,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
         $session =& CRM_Core_Session::singleton();
 
         $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/view',
-                                                          'action=browse&selectedChild=group' ),
+                                                          "action=browse&selectedChild=group&cid={$this->_contactId}" ),
                                    false);
         $controller->reset( );
 

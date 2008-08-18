@@ -35,20 +35,18 @@
     </td></tr></table></dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-    <dt>{$form.help_pre.label}</dt><dd class="editor">{$form.help_pre.html}</dd>
-    </dl>
-    <dl class="spacer">
+   <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the form.{/ts}</dd>
-    <dt>{$form.help_post.label}</dt><dd class="editor">{$form.help_post.html}</dd>
-    </dl>
-    <dl class="spacer">
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
+ 
+   
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the form.{/ts}</dd>
     </dl>
-    <dl class="spacer">	
+    <dl>	
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     </dl>
-    <dl class= "spacer">
-    <br />
+    
+  
     <div class="tundra">
       {foreach from=$allPanes key=paneName item=paneValue}
         {if $paneValue.open eq 'true'}
@@ -61,17 +59,17 @@
 
     {/if}
     {if $action ne 4}
-        <dt></dt>
+      <dl>  <dt></dt>
         <dd>
         <div id="crm-submit-buttons">{$form.buttons.html}</div>
         </dd>
-	<dt></dt> <dd></dd>
+	<dt></dt> <dd></dd></dl>
     {else}
         <div id="crm-done-button">
         <dt></dt><dd>{$form.done.html}</dd>
         </div>
     {/if} {* $action ne view *}
-    </dl>		
+  		
     </fieldset>
 </div>
   

@@ -64,7 +64,7 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
     protected $_componentIds;
 
     /**
-     * The array that holds all the participant ids
+     * The array that holds all the pledge ids
      *
      * @var array
      */
@@ -79,7 +79,7 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $this->_signerIds = array( );
+        $this->_pledgeIds = array( );
         
         $values = $this->controller->exportValues( 'Search' );
 

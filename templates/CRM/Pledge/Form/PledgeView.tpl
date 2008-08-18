@@ -4,7 +4,7 @@
       <dl>  
         <dt class="font-size12pt">{ts}Pledge By{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{ts}Total Amount{/ts}</dt><dd class="bold">{$amount|crmMoney}&nbsp;</dd>
-        <dt>{ts}To be paid in{/ts}</dt><dd>{$installments}&nbsp;{$frequencyUnits}&nbsp;installments of {$eachPaymentAmount|crmMoney}&nbsp;each</dd>
+        <dt>{ts}To be paid in{/ts}</dt><dd>{$installments}&nbsp;&nbsp;{ts}installments of{/ts} {$eachPaymentAmount|crmMoney}&nbsp;&nbsp;{ts}every{/ts}&nbsp;&nbsp;{$frequency_interval}&nbsp;{$frequencyUnit}</dd>
  	<dt>{ts}Payments are due on the{/ts}</dt><dd>{$frequency_day}&nbsp;day of the period</dd>
 
       	{if $start_date}     

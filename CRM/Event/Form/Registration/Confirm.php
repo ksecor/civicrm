@@ -153,8 +153,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             $this->_params[0]['invoiceID'] = $this->get( 'invoiceID' );
         }
+        $this->assign('defaultRole', false );
+        if ( CRM_Utils_Array::value( 'defaultRole', $this->_params[0] ) == 1 ) {
+            $this->assign( 'defaultRole', true );
+        }
         
-        if ( ! isset( $this->_params[0]['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'participant_role_id', $this->_params[0] ) && $this->_values['event']['default_role_id'] ) {
             $this->_params[0]['participant_role_id'] = $this->_values['event']['default_role_id'];
         }
         
@@ -162,8 +166,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
             $this->set( 'params', $this->_params );
         }
-        
-        
     }
     /**
      * overwrite action, since we are only showing elements in frozen mode

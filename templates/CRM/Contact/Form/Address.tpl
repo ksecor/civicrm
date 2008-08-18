@@ -8,9 +8,9 @@
     <div class="description">{$introText}</div>
 {/if}
 {foreach item=addressElement from=$addressSequence}
-    <span id="id_location_{$index}_address_{$addressElement}">
+    <div id="id_location_{$index}_address_{$addressElement}">
         {include file=CRM/Contact/Form/Address/$addressElement.tpl}
-    </span>
+    </div>
 {/foreach}
 
 {include file=CRM/Contact/Form/Address/geo_code.tpl}

@@ -16,7 +16,7 @@
                 {/if}
              {/foreach}
             </tr>
-            {foreach from=$participantIds item=pid}
+            {foreach from=$componentIds item=pid}
              <tr class="{cycle values="odd-row,even-row"}">
               <td>{$details.$pid.name}</td> 
               <td>{$details.$pid.title}</td>   
@@ -34,57 +34,5 @@
 </fieldset>
 </div>
 
-{literal}
-<script type="text/javascript">
-    function copyValues(fieldName) 
-    {
-        var pId = new Array();	
-        var i = 0;{/literal}
-        {foreach from=$participantIds item=field}
-        {literal}pId[i++]{/literal} = {$field}
-        {/foreach}
-	{literal}        
-	
-        if ( document.getElementById("field_"+pId[0]+"_"+fieldName ) ) {
-	    for ( k=0; k<pId.length; k++ ) {
-                document.getElementById("field_"+pId[k]+"_"+fieldName).value = document.getElementById("field_"+pId[0]+"_"+fieldName).value;           }  
-        } else if ( document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]")[0].type == "radio" ) {
-	    for ( t=0; t<document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]").length; t++ ) { 
-                if  (document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]")[t].checked == true ) {break}
-	    }
-	    if ( t == document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]").length ) {
-		for ( k=0; k<pId.length; k++ ) {
-		    for ( t=0; t<document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]").length; t++ ) {
-			document.getElementsByName("field"+"["+pId[k]+"]"+"["+fieldName+"]")[t].checked = false;
-		    }
-		}
-	    } else {
-		for ( k=0; k<pId.length; k++ ) {
-		    document.getElementsByName("field"+"["+pId[k]+"]"+"["+fieldName+"]")[t].checked = document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]")[t].checked;
-		}
-	    }   
-	} else if ( document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]")[0].type == "checkbox" ) {
-	    for ( k=0; k<pId.length; k++ ) {
-		document.getElementsByName("field"+"["+pId[k]+"]"+"["+fieldName+"]")[0].checked = document.getElementsByName("field"+"["+pId[0]+"]"+"["+fieldName+"]")[0].checked;
-	    }   
-	}
-    }
-
-    function copyValuesDate(fieldName) 
-    {
-	var pId = new Array();	
-	var i = 0;{/literal}
-	{foreach from=$participantIds item=field}
-	{literal}pId[i++]{/literal} = {$field}
-	{/foreach}
-	{literal}        
-	
-	for ( k=0; k<pId.length; k++ ) {
-	    document.getElementById("field["+pId[k]+"]["+fieldName+"][Y]").value = document.getElementById("field["+pId[0]+"]["+fieldName+"][Y]").value;
-	    document.getElementById("field["+pId[k]+"]["+fieldName+"][M]").value = document.getElementById("field["+pId[0]+"]["+fieldName+"][M]").value;
-	    document.getElementById("field["+pId[k]+"]["+fieldName+"][d]").value = document.getElementById("field["+pId[0]+"]["+fieldName+"][d]").value;
-	}
-    }
-
-</script>
-{/literal}
+{*include batch copy js js file*}
+{include file="CRM/common/batchCopy.tpl"}

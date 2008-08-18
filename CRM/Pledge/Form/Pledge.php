@@ -115,6 +115,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->assign( 'action', $this->_action );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
@@ -126,9 +130,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
         
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            return;
-        }
         
         $this->_values = array( );
         // current pledge id
@@ -208,8 +209,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
-            $defaults['installments']            = 1;
-            $defaults['frequency_day']           = 3;
+            $defaults['installments']            = 12;
+            $defaults['frequency_interval']      = 1;
+            $defaults['frequency_day']           = 1;
             $defaults['initial_reminder_day']    = 5;
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
@@ -278,7 +280,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                               'Payment Reminders'   => 'PaymentReminders'
                               );
         foreach ( $paneNames as $name => $type ) {
-            $urlParams = "snippet=1&formType={$type}";
+            $urlParams = "snippet=4&formType={$type}";
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/pledge', $urlParams ),
                                       'open' => 'false',
                                       'id'   => $type,
@@ -312,7 +314,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                       'onkeyup' => "calculatedPaymentAmount( );");
         
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
-                                array_merge( $attributes['amount'], $js ), true );
+                                array_merge( $attributes['pledge_amount'], $js ), true );
         $this->addRule( 'amount', ts('Please enter a valid monetary amount.'), 'money');
         if ( $this->_id && 
              !$this->_isPending ) {
@@ -326,10 +328,23 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
              !$this->_isPending ) {
             $element->freeze( );
         }
+
+        $element =& $this->add( 'text', 'frequency_interval', ts('every'), 
+                               $attributes['frequency_interval'], true ); 
+        $this->addRule('frequency_interval', ts('Please enter a number for frequency (e.g. every "3" months).'), 'positiveInteger');
+        if ( $this->_id &&
+            !$this->_isPending ) {
+            $element->freeze( );
+        }
         
+        // Fix frequency unit display for use with frequency_interval
+        $freqUnitsDisplay = array( );
+        foreach ($this->_freqUnits as $val => $label) {
+            $freqUnitsDisplay[$val] = ts( '%1(s)', array( 1 => $val ) );
+        }
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
-                                array(''=>ts( '- select -' )) + $this->_freqUnits, 
+                                array(''=>ts( '- select -' )) + $freqUnitsDisplay, 
                                 true );
         
         if ( $this->_id &&
@@ -357,7 +372,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         if ( $this->_id &&
              !$this->_isPending ) {
-            $eachPaymentAmount = $this->_values['amount'] / $this->_values['installments'];
+            $eachPaymentAmount = floor($this->_values['amount'] / $this->_values['installments']);
             $this->assign("eachPaymentAmount" , $eachPaymentAmount );
             $this->assign("hideCalender" , true );
         }
@@ -378,6 +393,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 'entity_table', 
                                          'civicrm_contribution_page', $pageIds, array( 'entity_id' ) );
         $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+        $pledgePages = array();
         foreach ( $pageIds as $key => $value ) {
             $pledgePages[$value['entity_id']] = $pages[$value['entity_id']];
         }
@@ -475,6 +491,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $fields = array(
                          'frequency_unit',
+                         'frequency_interval',
                          'frequency_day',
                          'installments',
                          'contribution_type_id',
@@ -546,8 +563,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params["honor_contact_id"] = 'null';
         }
         
-        $params['frequency_interval'] = 1;
-
         //format custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $formValues ) ) {
             $params['hidden_custom'] = 1;

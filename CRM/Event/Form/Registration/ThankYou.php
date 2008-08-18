@@ -100,6 +100,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         if( CRM_Utils_Array::value( 'amount', $this->_params[0] ) == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
+        $this->assign( 'defaultRole', false );
+        if( CRM_Utils_Array::value( 'defaultRole', $this->_params[0] ) == 1 ) {
+            $this->assign( 'defaultRole', true );
+        }
         $defaults = array( );
         $fields   = array( );
         if( ! empty($this->_fields) ) {

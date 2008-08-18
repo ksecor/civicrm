@@ -286,7 +286,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } else if ( ! empty( $form->_values['custom']['label'] ) ) {
             $feeBlock = $form->_values['custom'];
             if ( isset( $form->_values['discount'] ) ) {
-                if ( ! isset( $discountId ) && ( $form->_action != CRM_Core_Action::UPDATE )) {
+                if ( ! isset( $discountId ) &&
+                     ( $form->_action != CRM_Core_Action::UPDATE )) {
                     require_once 'CRM/Core/BAO/Discount.php';
                     $form->_discountId = $discountId = 
                         CRM_Core_BAO_Discount::findSet( $form->_id, 'civicrm_event' );
@@ -500,7 +501,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $params = $this->controller->exportValues( $this->_name ); 
         //set as Primary participant
         $params ['is_primary'] = 1;         
-        
+   
+        $params ['defaultRole'] = 1;
+        if ( array_key_exists('participant_role_id', $params ) ) {
+            $params['defaultRole'] = 0;
+        }
+        if ( ! CRM_Utils_Array::value( 'participant_role_id', $params ) && $this->_values['event']['default_role_id'] ) {
+            $params['participant_role_id'] = $this->_values['event']['default_role_id'];
+        }
+
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
@@ -573,10 +582,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $params['payment_action'] = 'Sale';
                 $params['invoiceID'] = $invoiceID;
             }
-
-            if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
-                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
-            }
             
             $this->_params  = array ();
             $this->_params[] = $params;
@@ -624,19 +629,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         } else {
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-            if ( $this->_values['event']['default_role_id'] ) {
-                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
-            }
-            
             $params['description'] = ts( 'Online Event Registration' ) . ' ' . $this->_values['event']['title'];
             
             $this->_params                = array();
             $this->_params[]              = $params; 
+            $this->set( 'params', $this->_params );
+
             if ( !CRM_Utils_Array::value( 'additional_participants', $params ) ) {
                 self::processRegistration(  $this->_params,  $contactID );
             }
-            
-            $this->set( 'params', $this->_params );
         }
         
         // If registering > 1 participant, give status message

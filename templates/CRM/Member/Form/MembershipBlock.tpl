@@ -18,13 +18,13 @@
     <dt>{$form.new_title.label}</dt><dd>{$form.new_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - for new member signups.{/ts}</dd>
 
-    <dt>{$form.new_text.label}</dt><dd class="editor">{$form.new_text.html}</dd>
+    <dt>{$form.new_text.label}</dt><dd>{$form.new_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section introductory text - for new member signups.{/ts}</dd>
    
     <dt>{$form.renewal_title.label}</dt><dd>{$form.renewal_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section title - displayed to renewing members.{/ts}</dd>
 
-    <dt>{$form.renewal_text.label}</dt><dd class="editor">{$form.renewal_text.html}</dd>
+    <dt>{$form.renewal_text.label}</dt><dd>{$form.renewal_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section introductory text - displayed to renewing members.{/ts}</dd>
     <dt>{$form.membership_type.label}</dt> 
     <dd>

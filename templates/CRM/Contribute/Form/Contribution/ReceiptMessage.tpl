@@ -45,12 +45,6 @@
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
 {/if}
-{if $is_pay_later}
-
-===========================================================
-{$pay_later_receipt}
-===========================================================
-{else}
 {if $receive_date}
 
 {ts}Date{/ts}: {$receive_date|crmDate}
@@ -67,7 +61,6 @@
 
 {$cancelSubscriptionUrl}
 {/if}
-{/if} {* End of ! is_pay_later condition *}
 
 {if $honor_block_is_active }
 ===========================================================

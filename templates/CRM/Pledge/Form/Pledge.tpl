@@ -31,7 +31,7 @@
             <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
         <tr><td class="font-size12pt right">{$form.amount.label}</td><td class="font-size12pt">{$form.amount.html|crmMoney}</td></tr>
-        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments of{/ts} {if $action eq 1 or $isPending}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2 and !$isPending}{$eachPaymentAmount|crmMoney}{/if} {ts}each{/ts}</td></tr>
+        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html} {ts}installments of{/ts} {if $action eq 1 or $isPending}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2 and !$isPending}{$eachPaymentAmount|crmMoney}{/if}&nbsp;{ts}every{/ts}&nbsp;{$form.frequency_interval.html}&nbsp;{$form.frequency_unit.html}</td></tr>
         <tr><td class="label nowrap">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
         {if $form.create_date}	
@@ -81,6 +81,28 @@
        {*include custom data js file*}
        {include file="CRM/common/customData.tpl"}
 
+
+{* dojo pane *}
+<div class="form-item" id="additionalInformation">
+   {* Honoree Information / Payment Reminders*}
+   <div class="tundra">
+      {foreach from=$allPanes key=paneName item=paneValue}
+        {if $paneValue.open eq 'true'}
+           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
+        {else}
+           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
+        {/if}
+      {/foreach}
+   </div>
+</div>
+{/if} {* not delete mode if*}      
+    <dl>    
+       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
+    </dl> 
+</fieldset>
+</div> 
+
+
      {literal}
      <script type="text/javascript">
 
@@ -104,25 +126,6 @@
     </script>
     {/literal}
 
-{* dojo pane *}
-<div class="form-item" id="additionalInformation">
-   {* Honoree Information / Payment Reminders*}
-   <div class="tundra">
-      {foreach from=$allPanes key=paneName item=paneValue}
-        {if $paneValue.open eq 'true'}
-           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
-        {else}
-           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
-        {/if}
-      {/foreach}
-   </div>
-</div>
-{/if} {* not delete mode if*}      
-    <dl>    
-       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
-    </dl> 
-</fieldset>
-</div> 
 
 {if $email}
 {include file="CRM/common/showHideByFieldValue.tpl" 
@@ -136,4 +139,4 @@
 {/if}
 
 {/if}
-{* closing of main custom data if}
+{* closing of main custom data if *}

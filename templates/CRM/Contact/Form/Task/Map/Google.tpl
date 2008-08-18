@@ -44,7 +44,11 @@
         bounds.extend(point);
 {/if}
       {/foreach}
-      map.setZoom(10);
+      {if count($locations) gt 1}  
+      	  map.setZoom(5);
+      {else}
+	  map.setZoom(15);
+      {/if}
       map.setCenter(bounds.getCenter());
       {literal}
 

@@ -140,7 +140,7 @@ function civicrm_source( $fileName ) {
 }
 
 function civicrm_config( $frontend = false ) {
-    global $crmPath, $compileDir, $frontend, $tplPath;
+    global $crmPath, $compileDir, $tplPath;
 
     $jConfig = new JConfig( );
 

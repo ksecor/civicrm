@@ -117,7 +117,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         
         
         $this->assign( 'profileTitle', $this->_title );
-        $this->assign( 'participantIds', $this->_participantIds );
+        $this->assign( 'componentIds', $this->_participantIds );
         $fileFieldExists = false;
         
         //fix for CRM-2752
@@ -207,7 +207,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                     } 
                 }
                 
-                $ids['participant'] = $key;
+                $value['id'] = $key;
                 if ( $value['participant_register_date'] ) {
                     $value['register_date'] = $value['participant_register_date'];
                 } 
@@ -227,7 +227,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 unset($value['participant_status_id']);
                 unset($value['participant_source']);
                 
-                CRM_Event_BAO_Participant::create( $value ,$ids );  
+                CRM_Event_BAO_Participant::create( $value );  
             }
             CRM_Core_Session::setStatus("Your updates have been saved.");  
         } else {

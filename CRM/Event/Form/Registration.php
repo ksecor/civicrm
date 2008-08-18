@@ -357,7 +357,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'billing_last_name', $params ) ) {
             $name .= " {$params['billing_last_name']}";
         }       
-        $this->assign( 'name', $name );
         $this->assign( 'billingName', $name );
         $this->set( 'name', $name );
         

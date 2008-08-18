@@ -186,8 +186,12 @@ class CRM_Core_Block {
         } else if ( $id == self::GCC ) {
             self::setTemplateGccValues( );
         } else if ( $id == self::ADD ) {
-            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&amp;ct=Individual' ), 
-                             'primaryLocationType' => 'Primary' );
+            require_once "CRM/Core/BAO/LocationType.php";
+            $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+            $defaultPrimaryLocationId = $defaultLocation->id;
+            
+            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&ct=Individual' ), 
+                             'primaryLocationType' => $defaultPrimaryLocationId );
             self::setProperty( self::ADD,
                                'templateValues',
                                $values );

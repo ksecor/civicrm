@@ -44,7 +44,8 @@ function civicrm_main( &$config ) {
 
     if ( $installType == 'drupal' ) {
         global $cmsPath;
-        civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
+        civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . 
+                       'default' . DIRECTORY_SEPARATOR . 'files' );
     } elseif ( $installType == 'standalone' ) {
         $filesDirectory = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
         civicrm_setup( $filesDirectory );
@@ -58,7 +59,11 @@ function civicrm_main( &$config ) {
          $config['loadGenerated'] ) {
         civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_generated.mysql', true );
     } else {
-        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+        if ( $installType == 'standalone' ) {
+            civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_standalone.mysql' );
+        } else {
+            civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
+        }
     }
     
     // generate backend settings file

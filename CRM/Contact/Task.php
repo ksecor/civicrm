@@ -127,7 +127,7 @@ class CRM_Contact_Task {
                                                   'result' => true ),
                                   17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
-                                                                     'CRM_Contact_Form_Task_BatchUpdateProfile' ),
+                                                                     'CRM_Contact_Form_Task_Batch' ),
                                                   'result' => true ),
                                   19    => array( 'title'  => ts( 'Record Case for Contacts'  ),
                                                   'class'  => 'CRM_Case_Form_Case',

@@ -50,7 +50,7 @@ function civicrm_invoke( ) {
         $component  =& JComponentHelper::getComponent('com_civicrm');
         $menu       =& JSite::getMenu( );
         $item       =  $menu->getItems('componentid', $component->id, true);
-        $params     =  $menu->getParams( $item->id );
+        $params     =  $menu->getParams( $_GET['Itemid'] );
         $args = array( 'task', 'id', 'gid', 'reset' ); 
         foreach ( $args as $a ) { 
             $val = $params->get( $a, null ); 
@@ -75,9 +75,9 @@ function civicrm_invoke( ) {
         return;
     }
 
-    global $my;
+    $user = JFactory::getUser( );
     require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla', 'Individual' );
+    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Joomla', 'Individual' );
 
     CRM_Core_Invoke::invoke( $args );
 }

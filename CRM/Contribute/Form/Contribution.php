@@ -292,7 +292,7 @@ WHERE  contribution_id = {$this->_id}
             //unset the honor type id:when delete the honor_contact_id
             //and edit the contribution, honoree infomation pane open
             //since honor_type_id is present
-            if ( ! $this->_values['honor_contact_id'] ) {
+            if ( ! CRM_Utils_Array::value( 'honor_contact_id', $this->_values ) ) {
                 unset( $this->_values['honor_type_id'] );
             }
             //to get note id 
@@ -428,8 +428,8 @@ WHERE  contribution_id = {$this->_id}
         if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
-        $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
-        $this->assign( "receive_date" ,$defaults['receive_date'] );
+        $this->assign( 'contribution_status_id', CRM_Utils_Array::value( 'contribution_status_id',$defaults ) );
+        $this->assign( "receive_date" , CRM_Utils_Array::value( 'receive_date', $defaults ) );
         return $defaults;
     }
     
@@ -486,9 +486,17 @@ WHERE  contribution_id = {$this->_id}
         }
         
         $paneNames =  array ( 'Additional Details'  => 'AdditionalDetail',
-                              'Honoree Information' => 'Honoree', 
-                              'Premium Information' => 'Premium'
+                              'Honoree Information' => 'Honoree' 
                               );
+        
+        //Add Premium pane only if Premium is exists.
+        require_once 'CRM/Contribute/DAO/Product.php';
+        $dao = & new CRM_Contribute_DAO_Product();
+        $dao->is_active = 1;
+        
+        if ( $dao->find( true ) ) {
+            $paneNames['Premium Information'] = 'Premium';
+        }
         $ccPane = null;
         
         if ( $this->_mode ) { 
@@ -499,7 +507,7 @@ WHERE  contribution_id = {$this->_id}
         }
         
         foreach ( $paneNames as $name => $type ) {
-            $urlParams = "snippet=1&formType={$type}";
+            $urlParams = "snippet=4&formType={$type}";
             if ( $this->_mode ) {
                 $urlParams .= "&mode={$this->_mode}";
             }

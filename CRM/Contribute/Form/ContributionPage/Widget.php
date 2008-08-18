@@ -64,7 +64,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         
         $this->_fields = array( 'title'               => array( ts( 'Title' ),
                                                                 'text',
-                                                                true,
+                                                                false,
                                                                 $title ),
                                 'url_logo'            => array( ts( 'URL to Logo Image' ),
                                                                 'text',
@@ -76,49 +76,49 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                                                 ts( 'Contribute!' ) ),
                                 'about'               => array( ts( 'About' ),
                                                                 'textarea',
-                                                                true,
+                                                                false,
                                                                 $intro ),
                                 'url_homepage'        => array( ts( 'URL to Home Page' ),
                                                                 'text',
-                                                                true,
+                                                                false,
                                                                 $config->userFrameworkBaseURL ),
                                 );
         
         $this->_colorFields = array( 'color_title'   => array( ts( 'Title Text Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x000000' ),
                                      'color_button'  => array( ts( 'Button Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0xCC9900' ),
                                      'color_bar'     => array( ts( 'Progress Bar Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0xCC9900' ),
                                      'color_main_text' => array( ts( 'Additional Text Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x000000' ),
                                      'color_main'     => array( ts( 'Inner Background Gradient from Bottom' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x96E0E0' ),
                                      'color_main_bg'  => array( ts( 'Inner Background Top Area' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0xFFFFFF' ),
                                      'color_bg'       => array( ts( 'Border Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x66CCCC' ),
                                      'color_about_link' => array( ts( 'About Link Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x336699' ),
                                      'color_homepage_link' => array( ts( 'Homepage Link Color' ),
                                                               'text',
-                                                              true,
+                                                              false,
                                                               '0x336699' ),
                                );
         
@@ -177,6 +177,38 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                           $this->_refreshButtonName,
                           ts('Save and Preview') );
         parent::buildQuickForm( );
+        $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_Widget', 'formRule') , $this );
+    }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public static function formRule( &$params, &$files, $self ) 
+    { 
+        $errors = array( );
+        if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
+            if ( !CRM_Utils_Array::value( 'title', $params ) ) {
+                $errors['title'] = ts( 'Title is a required field.' );
+            }
+            if ( !CRM_Utils_Array::value( 'about', $params ) ) {
+                $errors['about'] = ts( 'About is a required field.' );
+            }
+            if ( !CRM_Utils_Array::value( 'url_homepage', $params ) ) {
+                $errors['url_homepage'] = ts( 'URL to Home Page is a required field.' );
+            }
+            foreach( $params as $key => $val ) {
+                if ( substr( $key, 0, 6 ) == 'color_' && !CRM_Utils_Array::value( $key, $params ) ) {
+                    $errors[$key] = ts( '%1 is a required field.',  array( 1 => $self->_colorFields[$key][0] ) );
+                }
+            }
+        }
+        return empty($errors) ? true : $errors;
     }
 
     function postProcess( ) {

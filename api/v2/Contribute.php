@@ -35,6 +35,7 @@
  */
 
 require_once 'api/v2/utils.php';
+require_once 'CRM/Utils/Rule.php';
 
 /**
  * Add or update a contribution
@@ -136,6 +137,7 @@ function civicrm_contribution_delete( &$params ) {
         return civicrm_create_error( ts( 'Could not find contribution_id in input parameters' ) );
     }
 
+    require_once 'CRM/Contribute/BAO/Contribution.php';
     if ( CRM_Contribute_BAO_Contribution::deleteContribution( $contributionID ) ) {
         return civicrm_create_success( );
     } else {

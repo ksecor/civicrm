@@ -37,9 +37,25 @@ function run() {
         $sreg      = $sreg_resp->contents();
 
         if ( $session->get('new_install') == true ) {
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            require_once 'CRM/Core/Action.php';
-            
+            // update group clause
+            require_once 'CRM/Core/Transaction.php';
+            require_once 'CRM/Contact/BAO/Group.php';
+            $groupDAO =& new CRM_Contact_DAO_Group();
+            $groupDAO->find( );
+            while ( $groupDAO->fetch() ) {
+                if ( !$transaction ) {
+                    $transaction = new CRM_Core_Transaction( );
+                }
+                $group =& new CRM_Contact_BAO_Group();
+                $group->id = $groupDAO->id;
+                $group->find( true );
+                $group->buildClause( );
+                $group->save( );
+            }
+            if ( $transaction ) {
+                $transaction->commit( );
+            }
+
             // Redirect to new user registration form
             $urlVar = $config->userFrameworkURLVar;
             $config->reset();

@@ -169,8 +169,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     }
                     $locLabel[$moniker]['im'] = preg_replace('/\n+/', "\n", $locLabel[$moniker]['im']);
                     $locLabel[$moniker]['im'] = nl2br(trim($locLabel[$moniker]['im']));
-                    
-                    $locLabel[$moniker]['address'] = $location['address']['display'];
+                    if( isset($location['address']) ){
+                        $locLabel[$moniker]['address'] = $location['address']['display'];
+                    }
                 }
             }
             if ($locValue['other'] != 0) {

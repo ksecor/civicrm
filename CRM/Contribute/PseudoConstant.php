@@ -144,8 +144,9 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all payment instruments if any 
      * @static 
      */                  
-    public static function &creditCard( ) {
-        
+    public static function &creditCard( ) 
+    {
+        $acceptCreditCard = array( );    
         require_once 'CRM/Core/OptionGroup.php';
         $creditCard = CRM_Core_OptionGroup::values('accept_creditcard');
         

@@ -119,7 +119,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         
         
         $this->assign( 'profileTitle', $this->_title );
-        $this->assign( 'contributionIds', $this->_contributionIds );
+        $this->assign( 'componentIds', $this->_contributionIds );
         $fileFieldExists = false;
         
         //fix for CRM-2752

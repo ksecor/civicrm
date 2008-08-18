@@ -361,7 +361,7 @@ class CRM_Contribute_Form_AdditionalInfo
             }
             $name .= ' ' . CRM_Utils_Array::value( 'billing_last_name', $params );
             $name = trim( $name );
-            $this->assign( 'name', $name );
+            $this->assign( 'billingName', $name );
             
             //assign the address formatted up for display
             $addressParts  = array( "street_address-{$form->_bltID}",

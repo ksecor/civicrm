@@ -67,7 +67,7 @@
 {ts}Billing Name and Address{/ts}
 
 ===========================================================
-{$name}
+{$billingName}
 {$address}
 {/if}
 
@@ -87,7 +87,7 @@
 {$module} {ts}Options{/ts}
 
 ===========================================================
-{foreach from=$customValues item=value key=name}
- {$name} : {$value}
+{foreach from=$customValues item=value key=customName}
+ {$customName} : {$value}
 {/foreach}
 {/if}

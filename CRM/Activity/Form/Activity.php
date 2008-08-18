@@ -152,7 +152,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_activityTypeId || $this->_context == 'standalone' || $this->_currentlyViewedContactId) { 
             $this->_single = true;
             $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
-            $this->assign( 'urlPathVar', 'snippet=4' );
         } else {
             //set the appropriate action
             $advanced = null;
@@ -177,7 +176,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->_single    = false;
 
             $this->assign( 'urlPath'   , "civicrm/contact/search/$searchType" );
-            $this->assign( 'urlPathVar', "snippet=4&_qf_Activity_display=true&qfKey={$this->controller->_key}" ); 
+            $this->assign( 'urlPathVar', "_qf_Activity_display=true&qfKey={$this->controller->_key}" ); 
         }
         
         $this->assign( 'single', $this->_single );
@@ -271,6 +270,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $defaults = array( );
         $params   = array( );
+        $config =& CRM_Core_Config::singleton( );
+
         // if we're editing...
         if ( isset( $this->_activityId ) ) {
             $params = array( 'id' => $this->_activityId );
@@ -301,6 +302,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
                 $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
+        } elseif ( $this->_caseId && $config->civiHRD ) {
+            require_once 'CRM/Case/BAO/Case.php';
+            $defaults['target_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_caseId, $this->_contactID );
+            $this->assign( 'targetContactCount', count( $defaults['target_contact'] ) );
+            $this->_sourceContactId = $this->_currentUserId;
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
@@ -322,7 +328,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'delName', $defaults['subject'] );
         }
         
-        $config =& CRM_Core_Config::singleton( );
         if ( $config->civiHRD ) {
             $defaults['activity_tag3_id'] = explode( CRM_Core_DAO::VALUE_SEPARATOR, 
                                                      $defaults['activity_tag3_id'] );

@@ -41,8 +41,9 @@
 class CRM_Pledge_Task
 {
     const
-        DELETE_PLEDGES  = 1,
-        PRINT_PLEDGES   = 2;
+        DELETE_PLEDGES   = 1,
+        PRINT_PLEDGES    = 2,
+        EXPORT_PLEDGES   = 3;
 
     /**
      * the task array
@@ -72,7 +73,8 @@ class CRM_Pledge_Task
     {
         if ( !self::$_tasks ) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Pledges' )
+                                  1     => ts( 'Delete Pledges' ),
+                                  3     => ts( 'Export Pledges' ),
                                   );
         }
 
@@ -93,5 +95,27 @@ class CRM_Pledge_Task
         return $tasks;
     }
 
+    /**
+     * show tasks selectively based on the permission level
+     * of the user
+     *
+     * @param int $permission
+     *
+     * @return array set of tasks that are valid for the user
+     * @access public
+     */
+    static function &permissionedTaskTitles( $permission ) 
+    {
+        $allTasks = self::tasks( );
+        if ( ( $permission == CRM_Core_Permission::EDIT ) 
+             || CRM_Core_Permission::check( 'edit pledges' ) ) {
+            return $allTasks; 
+        } else {
+            $tasks = array( 
+                           3  => self::$_tasks[3]
+                           );
+            return $tasks;
+        }
+    }
 }
 

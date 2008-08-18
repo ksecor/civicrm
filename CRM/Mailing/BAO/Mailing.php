@@ -424,7 +424,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
         
         $protos = '(https?|ftp)';
         $letters = '\w';
-        $gunk = '\{\}/#~:.?+=&;%@!\-';
+        $gunk = '\{\}/#~:.?+=&;%@!\,\-';
         $punc = '.:?\-';
         $any = "{$letters}{$gunk}{$punc}";
         if ( $onlyHrefs ) {

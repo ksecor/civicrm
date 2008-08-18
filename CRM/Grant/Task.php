@@ -72,13 +72,33 @@ class CRM_Grant_Task
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Grants'   ),                );
-                                 
+                                  1 => ts( 'Delete Grants'   )
+                                  );
         }
 
         asort(self::$_tasks);        
         return self::$_tasks;
     }
 
+    /**
+     * show tasks selectively based on the permission level
+     * of the user
+     *
+     * @param int $permission
+     *
+     * @return array set of tasks that are valid for the user
+     * @access public
+     */
+    static function &permissionedTaskTitles( $permission ) 
+    {
+        $allTasks = self::tasks( );
+        if ( ( $permission == CRM_Core_Permission::EDIT ) 
+             || CRM_Core_Permission::check( 'edit grants' ) ) {
+            return $allTasks; 
+        } else {
+            $tasks = array( );
+            return $tasks;
+        }
+    }
 }
 

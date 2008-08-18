@@ -26,9 +26,11 @@
     
     <div id="widgetFields">
         <table class="form-layout-compressed">
-        {foreach from=$fields item=field key=fieldName}
-          <tr><td class="label">{$form.$fieldName.label}</td><td>{$form.$fieldName.html}</td></tr>   
-        {/foreach}
+         <tr><td class="label">{$form.title.label}<span class="marker"> *</span></td><td>{$form.title.html}</td></tr>
+   	 <tr><td class="label">{$form.url_logo.label}</span></td><td>{$form.url_logo.html}</td></tr>  
+ 	 <tr><td class="label">{$form.button_title.label}</td><td>{$form.button_title.html}</td></tr>  
+	 <tr><td class="label">{$form.about.label}<span class="marker"> *</span></td><td>{$form.about.html}</td></tr>  
+	 <tr><td class="label">{$form.url_homepage.label}<span class="marker"> *</span></td><td>{$form.url_homepage.html}</td></tr>  
         </table>
         
         <div id="id-get_code">
@@ -77,7 +79,7 @@
         </div>
         <table class="form-layout-compressed">
         {foreach from=$colorFields item=field key=fieldName}
-          <tr><td class="label">{$form.$fieldName.label}</td><td>{$form.$fieldName.html}</td></tr>   
+          <tr><td class="label">{$form.$fieldName.label}<span class="marker"> *</span></td><td>{$form.$fieldName.html}</td></tr>   
         {/foreach}
         </table>
         </fieldset>

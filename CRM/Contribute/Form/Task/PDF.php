@@ -158,7 +158,7 @@ AND    {$this->_componentClause}";
             $input['fee_amount'] = $contribution->fee_amount;
             $input['net_amount'] = $contribution->net_amount;
             $input['trxn_id']    = $contribution->trxn_id;
-            $input['trxn_date']  = $contribution->trxn_date;
+            $input['trxn_date']  = isset( $contribution->trxn_date ) ? $contribution->trxn_date : null;
 
             // CRM_Core_Error::debug('input',$input);
             

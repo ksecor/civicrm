@@ -80,20 +80,22 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             $group->extends_entity_column_value = $params['extends'][1];
         }
         
-        $group->style            = $params['style'];
+        $group->style            = CRM_Utils_Array::value('style', $params, false);
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 
 
         if ( isset( $params['id'] ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'weight', 'id' );
+        } else {
+            $oldWeight = 0;
         }
         require_once 'CRM/Utils/Weight.php';
         $group->weight =
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
+            CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomGroup', $oldWeight, CRM_Utils_Array::value('weight', $params, false) );
 
-        $group->help_pre         = $params['help_pre'];
-        $group->help_post        = $params['help_post'];
-        $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
+        $group->help_pre         = CRM_Utils_Array::value('help_pre', $params, false);
+        $group->help_post        = CRM_Utils_Array::value('help_post', $params, false);
+        $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
 
         $tableName = null;
         if ( isset( $params['id'] ) ) {

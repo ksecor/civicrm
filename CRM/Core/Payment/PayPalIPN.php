@@ -146,7 +146,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         if ( ! $first ) {
             // create a contribution and then get it processed
             $contribution =& new CRM_Contribute_DAO_Contribution( );
-            $contribution->contact_id = $contactID;
+            $contribution->contact_id = $ids['contact'];
             $contribution->contribution_type_id  = $contributionType->id;
             $contribution->contribution_page_id  = $ids['contributionPage'];
             $contribution->contribution_recur_id = $ids['contributionRecur'];

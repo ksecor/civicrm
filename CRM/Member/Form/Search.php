@@ -242,10 +242,12 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             }
 
             $total = $cancel = 0;
+
+            require_once "CRM/Core/Permission.php";
+            $permission = CRM_Core_Permission::getPermission( );
             
-            // also add the action and radio boxes
             require_once 'CRM/Member/Task.php';
-            $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::tasks( );
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::permissionedTaskTitles( $permission );
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class'   => 'form-submit',

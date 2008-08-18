@@ -193,7 +193,7 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
                 $errorMessage[] = $value['message'];
             }
             
-            $errorFile = $fileName . '.error.log';
+            $errorFile = $fileName['name'] . '.error.log';
             
             if ( $fd = fopen( $errorFile, 'w' ) ) {
                 fwrite($fd, implode('\n', $errorMessage));

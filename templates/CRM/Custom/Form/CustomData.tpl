@@ -8,7 +8,7 @@
     <a href="#" onclick="hide('{$cd_edit.name}_show'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
 
-{if ! $mainEditForm}
+{if $form.buttons.html }
 <dl>
   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>  
@@ -96,7 +96,7 @@
 {/foreach}
 {/strip}
 
-{if ! $mainEditForm}
+{if $form.buttons.html }
 <dl>
   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>  

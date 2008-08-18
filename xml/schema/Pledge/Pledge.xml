@@ -6,9 +6,12 @@
   <add>2.1</add>
   <field>
       <name>id</name>
+      <uniqueName>pledge_id</uniqueName> 
+      <title>Pledge ID</title>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Pledge ID</comment>
+      <import>true</import>
       <add>2.1</add>
   </field>
   <primaryKey>
@@ -17,6 +20,9 @@
   </primaryKey>
   <field>
       <name>contact_id</name>
+      <uniqueName>pledge_contact_id</uniqueName> 
+      <title>Contact ID</title>
+      <import>true</import>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Foreign key to civicrm_contact.id .</comment>
@@ -56,8 +62,11 @@
   </foreignKey>
   <field>
        <name>amount</name>
+       <uniqueName>pledge_amount</uniqueName> 
+       <title>Total Pledged</title>
        <type>decimal</type>
        <required>true</required>
+       <import>true</import>
        <comment>Total pledged amount.</comment>
        <add>2.1</add>
   </field>
@@ -102,7 +111,10 @@
   <field>
        <name>create_date</name>
        <type>datetime</type>
+       <uniqueName>pledge_create_date</uniqueName>
+       <title>Pledge Made</title>
        <required>true</required>
+       <import>true</import>
        <comment>When this pledge record was created.</comment>
        <add>2.1</add>
   </field>
@@ -178,6 +190,8 @@
   <field>
       <name>status_id</name>
       <title>Pledge Status</title>
+      <uniqueName>pledge_status_id</uniqueName>
+      <import>true</import>
       <type>int unsigned</type>
       <comment>Implicit foreign key to civicrm_option_values in the contribution_status option group.</comment>
       <add>2.1</add>
@@ -189,6 +203,8 @@
   </index>
   <field>     
       <name>is_test</name>  
+      <uniqueName>pledge_is_test</uniqueName> 
+      <import>true</import>
       <title>Test</title>
       <type>boolean</type>
       <default>0</default>

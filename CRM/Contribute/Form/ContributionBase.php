@@ -409,7 +409,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
         $name .= ' ' . CRM_Utils_Array::value( 'billing_last_name', $this->_params );
         $name = trim( $name );
-        $this->assign( 'name', $name );
         $this->assign( 'billingName', $name );
         $this->set( 'name', $name );
 
