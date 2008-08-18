@@ -17,9 +17,9 @@
 	<table class="form-layout">
     <tr>
 		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}</td>
-		<td>{$form.middle_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}</td>
-		<td>{$form.last_name.label} {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}</td>
+		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}</td>
+		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
+		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
 		<td>{$form.suffix_id.label}</td>
 	</tr>
 	<tr>
