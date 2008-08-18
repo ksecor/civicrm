@@ -7,15 +7,15 @@
   </dl>
   {if $context == 'dialog'}
     <button type="button" onClick="
-      // update the proper field in the form 'below' and submit with Ajax
-      dojo.byId('{$field}').value = dojo.byId('{$field}_{$config->lcMessages}').value;
+      // submit with Ajax
       dojo.xhrPost ({ldelim}
         // post the contents of the Form to the Form's URL
         url: dojo.byId('Form').action,
         form: 'Form',
-        // on success hide popup
+        // on success update the proper field in the form 'below' and hide popup
         load: function (data) {ldelim}
-          dijit.byId('i18n-{$field}').hide();
+          dojo.byId('{$field}').value = dojo.byId('{$field}_{$config->lcMessages}').value;
+          dijit.byId('i18n-{$field}-dialog').hide();
         {rdelim},
         // on error alert the user
         error: function (error) {ldelim}
