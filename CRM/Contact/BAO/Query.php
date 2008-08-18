@@ -990,7 +990,9 @@ class CRM_Contact_BAO_Query
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ||
              ( substr( $values[0], 0, 8  ) == 'kabissa_' ) ||
              ( substr( $values[0], 0, 4  ) == 'tmf_' ) ||
-             ( substr( $values[0], 0, 6  ) == 'grant_' )) {
+             ( substr( $values[0], 0, 6  ) == 'grant_' ) ||
+             ( substr( $values[0], 0, 7  ) == 'pledge_' )
+             ) {
             return;
             
         }
