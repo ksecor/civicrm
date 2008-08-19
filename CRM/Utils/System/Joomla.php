@@ -234,7 +234,7 @@ class CRM_Utils_System_Joomla {
 
         $name      = $dbJoomla->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.username) = '$name'";
+            " u WHERE LOWER(u.username) = '$name' AND u.block = 0";
         $query = $dbJoomla->query( $sql );
 
         $user = null;

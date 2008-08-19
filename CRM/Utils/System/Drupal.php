@@ -217,7 +217,7 @@ class CRM_Utils_System_Drupal {
         $password  = md5( $password );
         $name      = $dbDrupal->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password'";
+            " u WHERE LOWER(u.name) = '$name' AND u.pass = '$password' AND u.status = 1";
         $query = $dbDrupal->query( $sql );
 
         $user = null;
