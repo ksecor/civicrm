@@ -149,9 +149,11 @@ class CRM_Core_Permission {
         return CRM_ACL_API::group( $type, null, 'civicrm_uf_group', $ufGroups );
     }
 
-    static function ufGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null ) {
+    static function ufGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null, $returnUFGroupIds = false ) {
         $groups = self::ufGroup( $type );
-        if ( empty( $groups ) ) {
+        if ( $returnUFGroupIds ) {
+            return $groups;
+        } else if ( empty( $groups ) ) {
             return ' ( 0 ) ';
         } else {
             return "{$prefix}id IN ( " . implode( ',', $groups ) . ' ) ';

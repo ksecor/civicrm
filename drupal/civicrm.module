@@ -543,8 +543,18 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
 
     $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
-    // get all the data for this specific category
-    $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset, null, $doNotProcess, $ctype );
+    //to allow Edit any profile if user have permission
+    $profileID = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_UFGroup", $category, 'id', 'title' );
+    require_once 'CRM/Core/Permission.php';
+    $ufGroupIDs = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::EDIT, null, true );
+    
+    if ( in_array($profileID, $ufGroupIDs) ) {
+        // get all the data for this specific category
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset, null, $doNotProcess, $ctype );
+    } else {
+        CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled OR it is not configured to be used for \'Profile\' listings in its Settings OR there is no Profile with that ID OR you do not have permission to access this profile. Please contact the site administrator if you need assistance.',
+                                   array( 1 => $profileID )));
+    }
     
     if ( $html ) {
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
