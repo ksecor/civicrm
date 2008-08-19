@@ -85,15 +85,16 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
     static function addressSequence( $format ) {
         // also compute and store the address sequence
-        $addressSequence = array( 'street_address',
-                                  'supplemental_address_1',
-                                  'supplemental_address_2',
-                                  'city',
-                                  'county',
-                                  'state_province',
-                                  'postal_code',
-                                  'country');
-
+        $addressSequence = array('address_name',
+                                 'street_address',
+                                 'supplemental_address_1',
+                                 'supplemental_address_2',
+                                 'city',
+                                 'county',
+                                 'state_province',
+                                 'postal_code',
+                                 'country');
+        
         // get the field sequence from the format
         $newSequence = array();
         foreach($addressSequence as $field) {
