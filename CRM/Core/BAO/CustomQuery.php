@@ -349,7 +349,9 @@ SELECT label, value
                                 $val = "%$val%";
                                 $op  = 'LIKE';
                             }
-                            $this->_where[$grouping][] = "{$sql} {$op} '{$val}'";
+			    
+			    //FIX for custom data query fired against no value(NULL/NOT NULL)
+			    $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $sql, $op, $val, true );
                             $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }
                     } 
