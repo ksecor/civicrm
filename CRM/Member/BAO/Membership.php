@@ -954,7 +954,7 @@ AND civicrm_membership.is_test = %2";
         $form->_params['membershipID'] = $membership->id;
 
         if ( $form->_contributeMode == 'notify' ) {
-            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
+            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 && !$form->_params['is_pay_later'] ) {
                 // this does not return
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
