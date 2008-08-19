@@ -281,8 +281,9 @@ class CRM_Core_BAO_CustomValueTable
 
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                if ( ( ! CRM_Utils_Array::value( $k, $customData ) ) &&
+                     in_array ( CRM_Utils_Array::value( 3, $val ),
+                                array ('CheckBox','Multi-Select') ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k,
                                                                  $customData,
                                                                  '',
