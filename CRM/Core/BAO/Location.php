@@ -264,10 +264,6 @@ WHERE e.id = %1";
                         $formattedBlocks['entity_id']          = $params['entity_id'   ];
                     }
                 }
-                if ( $block == 'address' ) {
-                    $formattedBlocks[$block][$key]['name'            ] = $formattedBlocks[$block][$key]['address_name'    ];
-                    $formattedBlocks[$block][$key]['address_name'    ] = NULL;
-                } 
             }
         }
     }

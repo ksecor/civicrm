@@ -122,7 +122,11 @@ class CRM_Contact_Form_Address
                     unset( $attributes['onChange'] );
                     unset( $attributes['_onBlur'] );
                 }
-
+                
+                if ( $name == 'address_name' ) {
+                    $name = "name";
+                }
+                
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'text',
                                        "location[$locationId][address][$name]",

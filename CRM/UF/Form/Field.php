@@ -187,7 +187,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                     'city', 'postal_code', 'postal_code_suffix',
                                     'geo_code_1', 'geo_code_2',
                                     'state_province', 'country','county',
-                                    'phone', 'email', 'im', 'location_name' );
+                                    'phone', 'email', 'im', 'address_name' );
             
             if ( ! $defaults['location_type_id'] &&
                  in_array($defaults['field_name'], $specialFields)  ) {

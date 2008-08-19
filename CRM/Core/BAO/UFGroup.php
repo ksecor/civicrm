@@ -312,7 +312,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                      'phone',
                                      'email',
                                      'im',
-                                     'location_name' );
+                                     'address_name' );
             
             //get location type
             $locationType = array( );

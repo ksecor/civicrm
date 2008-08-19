@@ -291,7 +291,8 @@ class CRM_Contact_BAO_Query
                                               'county',
                                               'phone',
                                               'email',
-                                              'im');
+                                              'im',
+                                              'address_name' );
     
     /**
      * class constructor which also does all the work

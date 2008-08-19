@@ -1111,7 +1111,7 @@ WHERE  civicrm_contact.id = %1 ";
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
             list($fieldName, $locTypeId, $typeId) = CRM_Utils_System::explode('-', $key, 3);
-            
+
             //store original location type id
             $actualLocTypeId = $locTypeId;
 
@@ -1150,9 +1150,7 @@ WHERE  civicrm_contact.id = %1 ";
                     }
                 }
                 
-                if ($fieldName == 'location_name') {
-                    $data['location'][$loc]['location_name'] = $value;
-                } else if ($fieldName == 'phone') {
+                if ($fieldName == 'phone') {
                     if ( !in_array($loc, $phoneReset) ) {
                         $phoneReset[] = $loc;
                         $phoneLoc = 1;
@@ -1374,7 +1372,7 @@ WHERE  civicrm_contact.id = %1 ";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );
