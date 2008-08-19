@@ -52,7 +52,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
     <span class="labels">
     {$form.location.$index.address.country_id.label}
     </span>
-    <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="country_idStore" url="{$countryUrl}">
+    <div class="tundra" dojoType="dojox.data.QueryReadStore" jsId="country_idStore" url="{$countryUrl}">
     <span class="fields">
         {$form.location.$index.address.country_id.html}
         <br class="spacer"/>
@@ -60,6 +60,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
             {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
         </span>
     </span>
+    </div>
 </div>
 
 {/if}

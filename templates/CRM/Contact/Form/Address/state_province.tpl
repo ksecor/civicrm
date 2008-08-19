@@ -3,14 +3,15 @@
 </script>
 
 {if $form.location.$index.address.state_province_id }
-  <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="state_province_idStore" url="{$stateUrl}">
   <div class="form-item">
     <span class="labels">
     {$form.location.$index.address.state_province_id.label}
     </span>
-    <span class="fields">
-    {$form.location.$index.address.state_province_id.html}
-    </span>
+    <div class="tundra" dojoType="dojox.data.QueryReadStore" jsId="state_province_idStore" url="{$stateUrl}">
+        <span class="fields">
+        {$form.location.$index.address.state_province_id.html}
+        </span>
+    </div>
   </div>
 
  <script type="text/javascript">
