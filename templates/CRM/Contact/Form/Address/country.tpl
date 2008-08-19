@@ -60,6 +60,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
             {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
         </span>
     </span>
+    </div>
 </div>
 
 {/if}
