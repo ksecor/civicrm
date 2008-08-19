@@ -219,7 +219,7 @@ class CRM_Core_I18n_Schema
         }
         global $dbLocale;
         foreach ($tables as $table) {
-            $query = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $query);
+            $query = preg_replace("/([^'\"])({$table})([^_'\"])/", "\\1\\2{$dbLocale}\\3", $query);
         }
         // uncomment the below to rewrite the civicrm_value_* queries
         // $query = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $query);
