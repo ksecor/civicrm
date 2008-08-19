@@ -118,9 +118,10 @@ class CRM_Contact_Form_Search_Criteria {
                           'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
                           'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
                           'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
-                          'county'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
-                          'state_province'      => array( ts('State / Province')  ,  $attributes['state_province_id'],'stateProvince' ),
-                          'country'             => array( ts('Country')           ,  $attributes['country_id'], 'country' ), 
+                          'county'                 => array( ts('County')            ,  $attributes['county_id'], 'county' ),
+                          'state_province'         => array( ts('State / Province')  ,  $attributes['state_province_id'],'stateProvince' ),
+                          'country'                => array( ts('Country')           ,  $attributes['country_id'], 'country' ), 
+                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ), 
                            );
  
         foreach ( $elements as $name => $v ) {

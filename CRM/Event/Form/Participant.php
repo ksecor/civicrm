@@ -695,14 +695,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             // also add location name to the array
-            $params["location_name-{$this->_bltID}"] =
+            $params["address_name-{$this->_bltID}"] =
                 CRM_Utils_Array::value( 'billing_first_name' , $params ) . ' ' .
                 CRM_Utils_Array::value( 'billing_middle_name', $params ) . ' ' .
                 CRM_Utils_Array::value( 'billing_last_name'  , $params );
             
-            $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
+            $params["address_name-{$this->_bltID}"] = trim( $params["address_name-{$this->_bltID}"] );
         
-            $fields["location_name-{$this->_bltID}"] = 1;
+            $fields["address_name-{$this->_bltID}"] = 1;
             
             $fields["email-{$this->_bltID}"] = 1;
             

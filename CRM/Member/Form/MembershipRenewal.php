@@ -340,14 +340,14 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
             
             // also add location name to the array
-            $formValues["location_name-{$this->_bltID}"] =
+            $formValues["address_name-{$this->_bltID}"] =
                 CRM_Utils_Array::value( 'billing_first_name' , $formValues ) . ' ' .
                 CRM_Utils_Array::value( 'billing_middle_name', $formValues ) . ' ' .
                 CRM_Utils_Array::value( 'billing_last_name'  , $formValues );
             
-            $formValues["location_name-{$this->_bltID}"] = trim( $formValues["location_name-{$this->_bltID}"] );
+            $formValues["address_name-{$this->_bltID}"] = trim( $formValues["address_name-{$this->_bltID}"] );
         
-            $fields["location_name-{$this->_bltID}"] = 1;
+            $fields["address_name-{$this->_bltID}"] = 1;
             
             $fields["email-{$this->_bltID}"] = 1;
             

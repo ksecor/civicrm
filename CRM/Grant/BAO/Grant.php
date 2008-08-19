@@ -60,7 +60,6 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         parent::__construct( );
     }
 
-
     /**
      * Function to get events Summary
      *
@@ -69,7 +68,6 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      */
     static function getGrantSummary( $admin = false )
     {
-
         $query = 
 " SELECT status_id, count(id) as status_total 
   FROM civicrm_grant  GROUP BY status_id";
@@ -104,7 +102,8 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      * @static
      * @return array Array of event summary values
      */
-    static function getGrantStatusOptGroup( ) {
+    static function getGrantStatusOptGroup( ) 
+    {
         require_once 'CRM/Core/BAO/OptionGroup.php';
         
         $params = array( );
@@ -123,8 +122,8 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
     }
 
 
-    static function getGrantStatuses( ) {
-
+    static function getGrantStatuses( ) 
+    {
         $og = CRM_Grant_BAO_Grant::getGrantStatusOptGroup();
 
         require_once 'CRM/Core/BAO/OptionValue.php';
@@ -160,14 +159,10 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      * @static
      * @return array Array of grant summary statistics
      */
-     static function getGrantStatistics( $admin = false ) {
-         
+    static function getGrantStatistics( $admin = false ) 
+    {
          $grantStatuses = array(); 
-         
-         
-         
      }
- 
     
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -329,158 +324,6 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         }
         return false;
     }
-    
-    /**
-     * Function to get current/future Grants 
-     *
-     * @param $all boolean true if events all are required else returns current and future events
-     *
-     * @static
-     */
-    static function getGrants( $all = false, $id = false) 
-    {
-        $query = "SELECT `id`, `title`, `start_date` FROM `civicrm_event`";
-        
-        if ( !$all ) {
-            //$endDate = CRM_Utils_Date::isoToMysql(date('Y-m-d',mktime(00,00,00, date('n') + 1, date('d'), date('Y') )) );
-            
-            $endDate = date( 'YmdHis' );
-                        
-            $query .= " WHERE `end_date` >= {$endDate};";
-        }
-        if ( $id ) {
-            $query .= " WHERE `id` = {$id};";
-        }
-
-        $events = array( );
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch( ) ) {
-            $events[$dao->id] = $dao->title . ' - '.CRM_Utils_Date::customFormat($dao->start_date);
-        }
-        
-        return $events;
-    }
-    
-
-   
-    /**
-     * function to get the complete information of an event
-     *
-     * @param  date    $start    the start date for the event
-     * @param  integer $type     the type id for the event 
-     *
-     * @return  array  $all      array of all the events that are searched
-     * @static
-     * @access public
-     */      
-    static function &getCompleteInfo( $start = null, $type = null ) 
-    {
-        
-        if ( $start ) {
-            // get events with start_date >= requested start
-            $condition =  CRM_Utils_Type::escape( $start, 'Date' );
-        } else {
-            // get events with start date >= today
-            $condition =  date("Ymd");
-        }
-        if ( $type ) {
-            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' );
-        }
-
-        // Get the Id of Option Group for Grant Types
-        require_once 'CRM/Core/DAO/OptionGroup.php';
-        $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
-        $optionGroupDAO->name = 'event_type';
-        $optionGroupId = null;
-        if ($optionGroupDAO->find(true) ) {
-            $optionGroupId = $optionGroupDAO->id;
-        }
-        
-        $params = array( 1 => array( $optionGroupId, 'Integer' ) );
-        $query = "
-SELECT
-  civicrm_event.id as event_id,
-  civicrm_email.email as email,
-  civicrm_event.title as summary,
-  civicrm_event.start_date as start,
-  civicrm_event.end_date as end,
-  civicrm_event.description as description,
-  civicrm_event.is_show_location as is_show_location,
-  civicrm_option_value.label as event_type,
-  civicrm_location.name as location_name,
-  civicrm_address.street_address as street_address,
-  civicrm_address.supplemental_address_1 as supplemental_address_1,
-  civicrm_address.supplemental_address_2 as supplemental_address_2,
-  civicrm_address.city as city,
-  civicrm_address.postal_code as postal_code,
-  civicrm_address.postal_code_suffix as postal_code_suffix,
-  civicrm_state_province.abbreviation as state,
-  civicrm_country.name as country,
-  civicrm_location_type.name as location_type
-FROM civicrm_event
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_event' AND
-                               civicrm_event.id = civicrm_location.entity_id )
-LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
-LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
-LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
-LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
-LEFT JOIN civicrm_email ON civicrm_location.id = civicrm_email.location_id
-LEFT JOIN  civicrm_option_value ON (
-                                    civicrm_event.event_type_id = civicrm_option_value.value AND
-                                    civicrm_option_value.option_group_id = %1 )
-WHERE civicrm_event.is_active = 1 
-      AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= ". $condition .
-" ORDER BY   civicrm_event.start_date ASC";
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
-        $all = array( );
-        $config =& CRM_Core_Config::singleton( );
-
-        while ( $dao->fetch( ) ) {
-        
-            $info                     = array( );
-            $info['event_id'     ]    = $dao->event_id;
-            $info['uid'          ]    = "CiviCRM_GrantID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
-            $info['summary'      ]    = $dao->summary;
-            $info['description'  ]    = $dao->description;
-            $info['start_date'   ]    = $dao->start;
-            $info['end_date'     ]    = $dao->end;
-            $info['contact_email']    = $dao->email;
-            $info['event_type'   ]    = $dao->event_type;
-            $info['is_show_location'] = $dao->is_show_location;
-  
-  
-            $address = '';
-            require_once 'CRM/Utils/String.php';
-            CRM_Utils_String::append( $address, ', ',
-                                      array( $dao->location_name) );
-            $addrFields = array(
-                            'street_address'         => $dao->street_address,
-                            'supplemental_address_1' => $dao->supplemental_address_1,
-                            'supplemental_address_2' => $dao->supplemental_address_2,
-                            'city'                   => $dao->city,
-                            'state_province'         => $dao->state,
-                            'postal_code'            => $dao->postal_code,
-                            'postal_code_suffix'     => $dao->postal_code_suffix,
-                            'country'                => $dao->country,
-                            'county'                 => null
-                            );           
-            
-            require_once 'CRM/Utils/Address.php';
-            CRM_Utils_String::append( $address, ', ',
-                                      CRM_Utils_Address::format($addrFields) );
-            $info['location'     ] = $address;
-            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );
-           
-            $all[] = $info;
-        }
-        
-        return $all;
-    }
-
 }
 
 

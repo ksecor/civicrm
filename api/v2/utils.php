@@ -231,14 +231,6 @@ function _civicrm_add_formatted_param(&$values, &$params)
                 $params['location'][$locBlock] = array('location_type_id' => $values['location_type_id']);
             }
         }
-        //add location name (keep backward compatibility)
-        if (isset($values['name'])) { 
-            $params['location'][$locBlock]['name'] = $values['name'];
-        }
-
-        if ( isset($values['location_name']) ) { 
-            $params['location'][$locBlock]['location_name'] = $values['location_name'];
-        }
 
         /* if this is a phone value, find or create the correct block */
         if (isset($values['phone'])) {

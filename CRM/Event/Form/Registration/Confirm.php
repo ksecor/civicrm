@@ -665,9 +665,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
 
         // also add location name to the array
-        $params["location_name-{$this->_bltID}"] = 
+        $params["address_name-{$this->_bltID}"] = 
            $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
-        $fields["location_name-{$this->_bltID}"] = 1;
+        $fields["address_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
         $params["email-Primary"] = $params["email-{$this->_bltID}"];

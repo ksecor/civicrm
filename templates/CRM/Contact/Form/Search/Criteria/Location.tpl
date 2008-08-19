@@ -34,13 +34,14 @@
                     {ts}Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
                 </div> 
             </td>
-            <td class="label">{$form.location_name.label}</td><td>{$form.location_name.html|crmReplace:class:medium}</td>
+            <td class="label">{$form.address_name.label}</td><td>{$form.address_name.html|crmReplace:class:medium}</td>
         </tr>
     	<tr>
             <td class="label">{$form.world_region.label}</td>
             <td>{$form.world_region.html}</td>
             <td class="label">{$form.county.label}
-                            {$form.county.html|crmReplace:class:big}</td>
+               {$form.county.html|crmReplace:class:big}
+            </td>
         </tr>
     </table>
 </fieldset>
