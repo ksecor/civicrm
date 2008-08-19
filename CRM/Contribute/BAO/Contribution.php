@@ -454,7 +454,7 @@ WHERE  $whereCond AND is_test=0
      */ 
     static function deleteContribution( $id ) 
     {
-
+        require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::pre( 'delete', 'Contribution', $id, CRM_Core_DAO::$_nullArray );
 
         require_once 'CRM/Core/Transaction.php';

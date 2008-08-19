@@ -42,7 +42,7 @@
  * Files required for this package
  */
 require_once 'api/v2/utils.php';
-
+require_once 'CRM/Utils/Rule.php';
 /**
  * Create a Membership Type
  *  

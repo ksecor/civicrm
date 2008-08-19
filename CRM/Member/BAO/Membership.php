@@ -180,7 +180,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
-    {  
+    { 
         if ( ! isset( $params['is_override'] ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
@@ -300,7 +300,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
-        
+        require_once 'CRM/Contact/BAO/Relationship.php';
         $relationships = array( );
         if ( isset( $membershipType['relationship_type_id'] ) ) {
             $relationships =
