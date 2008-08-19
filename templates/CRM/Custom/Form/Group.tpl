@@ -8,7 +8,7 @@
         </p>
     </div>
     <dl>
-    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.title.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='title' id=$gid}{/if}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}For 'inline' display custom groups, this name will appear as the fieldset legend. If this group uses the 'tab' display style, this name will be used for the navigation tab.{/ts}</dd>
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Select the type of record that this group of custom fields is applicable for. You can configure custom data for a specific type of contact (e.g. Individuals but NOT Organizations), ANY type of contact, or other record types such as activities and contributions.{/ts}</dd>
@@ -23,9 +23,9 @@
     <dt>&nbsp;</dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
-    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>
+    <dt>{$form.help_pre.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='help_pre' id=$gid}{/if}</dt><dd>{$form.help_pre.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of this group of fields.{/ts}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
+    <dt>{$form.help_post.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_custom_group' field='help_post' id=$gid}{/if}</dt><dd>{$form.help_post.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
     {if $action ne 4}
         <dt>&nbsp;</dt>

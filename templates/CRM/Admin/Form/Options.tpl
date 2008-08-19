@@ -16,7 +16,7 @@
             <dt>{ts}Custom Search Path{/ts}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Enter the "class path" for this custom search here.{/ts} (<a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Custom+Search+Components">{ts}more info{/ts}....</a>)</dd>
         {else}
-            <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
+            <dt>{$form.label.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_option_group' field='label' id=$id}{/if}</dt><dd>{$form.label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}The option Label is displayed to users.{/ts}</dd>
         {/if}
         {if $gName eq 'custom_search'}

@@ -17,9 +17,9 @@
 	<table class="form-layout">
     <tr>
 		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label}</td>
-		<td>{$form.middle_name.label}</td>
-		<td>{$form.last_name.label}</td>
+		<td>{$form.first_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='first_name' id=$contactId}{/if}</td>
+		<td>{$form.middle_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='middle_name' id=$contactId}{/if}</td>
+		<td>{$form.last_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='last_name' id=$contactId}{/if}</td>
 		<td>{$form.suffix_id.label}</td>
 	</tr>
 	<tr>
@@ -83,7 +83,7 @@
  <fieldset><legend>{ts}Household{/ts}</legend>
    	<table class="form-layout">
     <tr>
-	<td>{$form.household_name.label}</td>
+	<td>{$form.household_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='household_name' id=$contactId}{/if}</td>
         <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
@@ -116,7 +116,7 @@
  <fieldset><legend>{ts}Organization{/ts}</legend>
 	<table class="form-layout">
     <tr>
-		<td>{$form.organization_name.label}</td>
+		<td>{$form.organization_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='organization_name' id=$contactId}{/if}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
                 <td>{$form.contact_source.label}</td>
