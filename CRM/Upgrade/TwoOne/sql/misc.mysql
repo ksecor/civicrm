@@ -89,14 +89,6 @@ ALTER TABLE `civicrm_custom_group`
   DROP INDEX `UI_name_domain_id` ,
   ADD UNIQUE `UI_name_extends` ( `name` , `extends` );
 
-
--- CRM-3052, dropping location_id from group_contact
-
-ALTER TABLE `civicrm_group_contact` 
-    DROP FOREIGN KEY `FK_civicrm_group_contact_location_id`,
-    DROP location_id;
-
-
 -- change the default value of is_email_confirm to 0 from 1 in civicrm_event_page table, CRM-3109
 
 ALTER TABLE `civicrm_event_page`

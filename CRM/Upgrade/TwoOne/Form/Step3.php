@@ -49,6 +49,14 @@ class CRM_Upgrade_TwoOne_Form_Step3 extends CRM_Upgrade_Form {
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'misc.mysql' ) );
         $this->source( $sqlFile );
+
+        // CRM-3052, dropping location_id from group_contact
+        if ( CRM_Core_DAO::checkFieldExists( 'civicrm_group_contact', 'location_id' ) ) {
+            $query = "ALTER TABLE `civicrm_group_contact` 
+                      DROP FOREIGN KEY `FK_civicrm_group_contact_location_id`,
+                      DROP location_id";
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
         
         $this->setVersion( '2.03' );
     }
