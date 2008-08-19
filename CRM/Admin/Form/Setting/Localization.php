@@ -156,11 +156,13 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $values['languageLimit'][$values['addLanguage']] = 1;
         }
 
+        // if we manipulated the language list, return to the localization admin screen
+        $return = (bool) ($values['makeMultilingual'] or $values['addLanguage']);
+
         // save all the settings
         parent::commonProcess($values);
 
-        // if we manipulated the language list, return to the localization admin screen
-        if ($values['makeMultilingual'] or $values['addLanguage']) {
+        if ($return) {
             CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm/admin/setting/localization', 'reset=1'));
         }
     }
