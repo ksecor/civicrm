@@ -288,17 +288,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     /**
      * Store and return an array of all active custom fields.
      *
-     * @param string      $contactType   Contact type
-     * @param boolean     $showAll       If true returns all fields (includes disabled fields)
+     * @param string      $customDataType      type of Custom Data
+     * @param boolean     $showAll             If true returns all fields (includes disabled fields)
+     * @param boolean     $inline              If true returns all inline fields (includes disabled fields)
+     * @param int         $customDataSubType   Custom Data sub type value
      *
      * @return array      $fields - an array of active custom fields.
      *
      * @access public
      * @static
      */
-    public static function &getFields($contactType = 'Individual', $showAll = false, $inline = false ) 
+    public static function &getFields( $customDataType = 'Individual', $showAll = false, $inline = false, $customDataSubType = null ) 
     {
-        $cacheKey = $inline ? "{$contactType}_1" : "{$contactType}_0";
+        $cacheKey = $inline ? "{$customDataType}_{$customDataSubType}_1" : "{$customDataType}_{$customDataSubType}_0";
         if ( ! self::$_importFields ||
              CRM_Utils_Array::value( $cacheKey, self::$_importFields ) === null ) { 
             if ( ! self::$_importFields ) {
@@ -314,15 +316,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
                 $extends = '';
-                if ( $contactType ) {
-                    if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
+                if ( $customDataType ) {
+                    if ( in_array( $customDataType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                        $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "', 'Contact' ";
                     } else {
-                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+                        $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "'";
                     }
                     $extends = "AND   $cgTable.extends IN ( $value ) ";
                 }
-
+                
                 $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
@@ -341,6 +343,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
                 if ( $inline ) {
                     $query .= " AND $cgTable.style = 'Inline' ";
+                }
+
+                if ( $customDataSubType ) {
+                    $query .= " AND $cgTable.extends_entity_column_value = $customDataSubType ";
                 }
             
                 // also get the permission stuff here
