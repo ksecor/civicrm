@@ -44,8 +44,10 @@ function civicrm_main( &$config ) {
 
     if ( $installType == 'drupal' ) {
         global $cmsPath;
+        $siteDir = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
+
         civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR . 
-                       'default' . DIRECTORY_SEPARATOR . 'files' );
+                       $siteDir . DIRECTORY_SEPARATOR . 'files' );
     } elseif ( $installType == 'standalone' ) {
         $filesDirectory = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
         civicrm_setup( $filesDirectory );
@@ -68,10 +70,11 @@ function civicrm_main( &$config ) {
     
     // generate backend settings file
     if ( $installType == 'drupal' ) {
+        $siteDir    = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
         $configFile =
             $cmsPath  . DIRECTORY_SEPARATOR .
             'sites'   . DIRECTORY_SEPARATOR .
-            'default' . DIRECTORY_SEPARATOR .
+            $siteDir  . DIRECTORY_SEPARATOR .
             'civicrm.settings.php';
     } elseif ( $installType == 'standalone' ) {
         $configFile =

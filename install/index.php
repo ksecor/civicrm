@@ -40,8 +40,11 @@ if ( ! in_array($installType, array('drupal', 'standalone')) ) {
 }
 
 
+
 if ( $installType == 'drupal' ) {
-    if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
+    // do not check 'sites/all/modules' only since it could be a multi-site
+    // install. Rather check for existance of sites & modules in the url
+    if ( ! preg_match('/sites\/[a-zA-Z0-9_.]+\/modules/', $_SERVER['SCRIPT_FILENAME']) ) {
         $errorTitle = "Oops! Please Correct Your Install Location";
         $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
         errorDisplayPage( $errorTitle, $errorMsg );
@@ -85,9 +88,10 @@ $crmPath = dirname ( dirname( $_SERVER['SCRIPT_FILENAME'] ) );
 if ( $installType == 'drupal' ) {
     global $cmsPath;
     $cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
+    $siteDir = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
     $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
                                      'sites'   . DIRECTORY_SEPARATOR .
-                                     'default' . DIRECTORY_SEPARATOR .
+                                     $siteDir  . DIRECTORY_SEPARATOR .
                                      'civicrm.settings.php' );
 } elseif ( $installType == 'standalone' ) {
     $alreadyInstalled = file_exists( $crmPath     . DIRECTORY_SEPARATOR .
@@ -223,7 +227,7 @@ class InstallRequirements {
 
 		// Check that we can identify the root folder successfully
 		$this->requireFile($crmPath . DIRECTORY_SEPARATOR . 'README.txt',
-                           array("File permissions", 
+                           array("File permissions",
                                  "Does the webserver know where files are stored?", 
                                  "The webserver isn't letting me identify where files are stored.",
                                  $this->getBaseDir()
@@ -247,9 +251,11 @@ class InstallRequirements {
 
         if ( $installType == 'drupal' ) {
             global $cmsPath;
+            $siteDir = getSiteDir( $_SERVER['SCRIPT_FILENAME'] );
+
             // make sure that we can write to sites/default and files/
-            $writableDirectories = array( 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'files', 
-                                          'sites' . DIRECTORY_SEPARATOR . 'default' );
+            $writableDirectories = array( 'sites' . DIRECTORY_SEPARATOR . $siteDir . DIRECTORY_SEPARATOR . 'files', 
+                                          'sites' . DIRECTORY_SEPARATOR . $siteDir );
             foreach ( $writableDirectories as $dir ) {
                 $this->requireWriteable( $cmsPath . DIRECTORY_SEPARATOR . $dir,
                                          array("File permissions", "Is the $dir folder writeable?", null ),
@@ -650,6 +656,16 @@ class Installer extends InstallRequirements {
 		return $this->errors;
 	}
 	
+}
+
+function getSiteDir( $str ) {
+    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7;
+    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], '/modules/');
+    $siteDir = substr($_SERVER['SCRIPT_FILENAME'], strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7, ($pos2 - $pos1));
+    if ( preg_match('/^[a-zA-Z0-9_.]+$/', $siteDir) && ($siteDir != 'all') ) {
+        return $siteDir;
+    }
+    return 'default';
 }
 
 function errorDisplayPage( $errorTitle, $errorMsg ) {

@@ -366,6 +366,10 @@ class CRM_Core_Menu
         }
 
         if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+            // problem could be due to menu table empty. Just do a
+            // menu store before displaying fatal so that a
+            // subsequesnt refresh solves the problem.
+            self::store( );            
             CRM_Core_Error::fatal( );
         }
         $nav =& self::$_menuCache['navigation'];
