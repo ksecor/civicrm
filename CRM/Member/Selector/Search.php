@@ -186,7 +186,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @access public
      *
      */
-    static function &links( $status = 'all', $isPaymentProcessor = null  )
+    static function &links( $status = 'all', $isPaymentProcessor = null, $accessContribution = null )
     {
         
         if ( !self::$_links['view'] ) {
@@ -227,9 +227,9 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                    'title' => ts('Renew Membership Using Credit Card')
                                                                    ),
                                 );
-            if( ! $isPaymentProcessor ) {
+            if( ! $isPaymentProcessor || ! $accessContribution ) {
                 //unset the renew with credit card when payment
-                //processor is not available
+                //processor is not available or user not permitted to make contributions
                 unset( $extraLinks[CRM_Core_Action::FOLLOWUP] );
             }
             
@@ -300,6 +300,13 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              $this->_isPaymentProcessor = false;
          }
 
+         // Only show credit card membership signup and renewal if user has CiviContribute permission
+         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+             $this->_accessContribution = true;
+         } else {
+             $this->_accessContribution = false;
+         }
+         
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
@@ -337,7 +344,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
             
              if ( ! isset( $result->owner_membership_id ) ) {
-                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all', $this->_isPaymentProcessor ), $mask,
+                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all', $this->_isPaymentProcessor, $this->_accessContribution ), $mask,
                                                                array( 'id'  => $result->membership_id,
                                                                       'cid' => $result->contact_id,
                                                                       'cxt' => $this->_context ) );

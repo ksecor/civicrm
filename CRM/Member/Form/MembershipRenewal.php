@@ -127,6 +127,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::setCreditCardFields( $this );
+        } else {
+            $this->assign( 'membershipMode', false );
         }
         parent::preProcess( );
     }

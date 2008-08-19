@@ -55,7 +55,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      */
     function browse( ) 
     { 
-        $links =& self::links( 'all', $this->_isPaymentProcessor );
+        $links =& self::links( 'all', $this->_isPaymentProcessor, $this->_accessContribution );
         $idList = array('membership_type' => 'MembershipType',
                         'status'          => 'MembershipStatus',
                       );
@@ -191,7 +191,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit membership rights
             $this->assign( 'permission', 'view' );
         }
-        // check if we can process credit card registration
+        // check if we can process credit card membership
         $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
                                                                  "billing_mode IN ( 1, 3 )" );
         if ( count( $processors ) > 0 ) {
@@ -200,6 +200,15 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
         } else {
             $this->assign( 'newCredit', false );
             $this->_isPaymentProcessor = false;
+        }
+        
+        // Only show credit card membership signup if user has CiviContribute permission
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $this->_accessContribution = true;
+            $this->assign( 'accessContribution', true );
+        } else {
+            $this->_accessContribution = false;
+            $this->assign( 'accessContribution', false );
         }
                
         $this->setContext( );
@@ -264,7 +273,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      * @return array (reference) of action links
      * @static
      */
-    static function &links( $status = 'all', $isPaymentProcessor = null )
+    static function &links( $status = 'all', $isPaymentProcessor = null, $accessContribution = null )
     {
         if ( ! CRM_Utils_Array::value( 'view', self::$_links ) ) {
             self::$_links['view'] = array(
@@ -304,9 +313,9 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
                                                                  'title' => ts('Delete Membership')
                                                                  ),
                                 );
-            if( ! $isPaymentProcessor ) {
+            if( ! $isPaymentProcessor || ! $accessContribution ) {
                 //unset the renew with credit card when payment
-                //processor is not available
+                //processor is not available or user is not permitted to create contributions
                 unset( $extraLinks[CRM_Core_Action::FOLLOWUP] );
             }
             self::$_links['all'] = self::$_links['view'] + $extraLinks;

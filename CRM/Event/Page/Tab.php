@@ -126,6 +126,13 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         } else {
             $this->assign( 'newCredit', false );
         }
+
+        // Only show credit card registration button if user has CiviContribute permission
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $this->assign( 'accessContribution', true );
+        } else {
+            $this->assign( 'accessContribution', false );
+        }
         
         $this->setContext( );
 

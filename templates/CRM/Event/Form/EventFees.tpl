@@ -72,7 +72,7 @@
      </tr>
     {/if}
 
-     {if ! $participantMode}
+    {if $accessContribution and ! $participantMode and ! ($action eq 2 and $rows.0.contribution_id) }
         <tr>
         <td class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.record_contribution.label}</td>
         <td>{$form.record_contribution.html}<br />
@@ -98,15 +98,15 @@
            </td>
         </tr>
 
-    {* Record contribution field only present if this is a paid event. *}
-    {include file="CRM/common/showHideByFieldValue.tpl" 
-        trigger_field_id    ="record_contribution"
-        trigger_value       =""
-        target_element_id   ="payment_information" 
-        target_element_type ="table-row"
-        field_type          ="radio"
-        invert              = 0
-    }
+        {* Record contribution field only present if we are NOT in submit credit card mode (! participantMode). *}
+        {include file="CRM/common/showHideByFieldValue.tpl" 
+            trigger_field_id    ="record_contribution"
+            trigger_value       =""
+            target_element_id   ="payment_information" 
+            target_element_type ="table-row"
+            field_type          ="radio"
+            invert              = 0
+        }
     {/if}
     </table>
     </div>
