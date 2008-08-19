@@ -223,17 +223,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }      
 
         $session->pushUserContext( $url );
+        
+        // hack to retrieve activity type id from post variables
+        if ( ! $this->_activityTypeId ) {
+            $this->_activityTypeId = $_POST['activity_type_id'];
+        }
 
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
             // we need to set it in the session for the below code to work
             // CRM-3014
+            //need to assign custom data subtype to the template
             $this->set( 'type'    , 'Activity' );
             $this->set( 'subType' , $this->_activityTypeId );
             $this->set( 'entityId', $this->_activityId );
             CRM_Custom_Form_CustomData::preProcess( $this );
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
-            CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            CRM_Custom_Form_CustomData::setDefaultValues( $this );           
         }
 
         // build assignee contact combo
@@ -251,7 +257,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
             $this->assign( 'targetContactCount', count( $_POST['target_contact'] ) );
         }
-        
+
         // add attachments part
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
@@ -337,13 +343,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['activity_tag3_id'] = explode( CRM_Core_DAO::VALUE_SEPARATOR, 
                                                      $defaults['activity_tag3_id'] );
         }
-
+        
         return $defaults;
     }
 
     public function buildQuickForm( ) 
     {
-
         if ( ! $this->_single && !empty($this->_contactIds) ) {
             $withArray          = array();
             require_once 'CRM/Contact/BAO/Contact.php';
