@@ -1133,9 +1133,11 @@ SELECT id
             }          
         }
                
-        if ( ($customFields[$customFieldId][2] == 'StateProvince' || 
-              $customFields[$customFieldId][2] == 'Country') && empty($value) ) {
-            return;
+        if ( ( $customFields[$customFieldId][2] == 'StateProvince' || 
+               $customFields[$customFieldId][2] == 'Country') &&
+             empty( $value ) ) {
+            // CRM-3415
+            $value = 0;
         }
 
         $fileId = null;

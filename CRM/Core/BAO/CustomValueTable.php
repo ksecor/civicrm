@@ -73,45 +73,53 @@ class CRM_Core_BAO_CustomValueTable
                 switch( $type ) {
 
                 case 'StateProvince':
+                    $type = 'Integer';
                     if ( is_array( $value ) ) {
                         $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
                         $type  = 'String';
-                    } else {
-                        if ( ! is_numeric( $value ) ) {
-                            $states = array( );
-                            $states['state_province'] = $value;
-
-                            CRM_Utils_Array::lookupValue( $states, 'state_province', 
-                                                                  CRM_Core_PseudoConstant::stateProvince(), true );
-                            if ( !$states['state_province_id'] ) {
-                                CRM_Utils_Array::lookupValue( $states, 'state_province',
-                                                                      CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
-                            }
-                            $value = $states['state_province_id'];
+                    } else if ( ! is_numeric( $value ) ) {
+                        $states = array( );
+                        $states['state_province'] = $value;
+                        
+                        CRM_Utils_Array::lookupValue( $states, 'state_province', 
+                                                      CRM_Core_PseudoConstant::stateProvince(), true );
+                        if ( !$states['state_province_id'] ) {
+                            CRM_Utils_Array::lookupValue( $states, 'state_province',
+                                                          CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
                         }
-                        $type = 'Integer';
+                        $value = $states['state_province_id'];
+                        $type = 'Integer'; 
+                    } else if ( ! $value ) {
+                        // CRM-3415
+                        // using type of timestamp allows us to sneak in a null into db
+                        // gross but effective hack
+                        $value = null;
+                        $type  = 'Timestamp';
                     }
                     break;
                     
                 case 'Country':
-                    
+                    $type = 'Integer';
                     if ( is_array( $value ) ) {
                         $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
                         $type  = 'String';
-                    } else {
-                        if ( !is_numeric( $value ) ) {
-                            $countries = array( );
-                            $countries['country'] = $value;
-                            
-                            CRM_Utils_Array::lookupValue( $countries, 'country', 
-                                                                  CRM_Core_PseudoConstant::country(), true );
-                            if ( ! $countries['country_id'] ) {
-                                CRM_Utils_Array::lookupValue( $countries, 'country',
-                                                                      CRM_Core_PseudoConstant::countryIsoCode(), true );
-                            }
-                            $value = $countries['country_id'];
+                    } else if ( ! is_numeric( $value ) ) {
+                        $countries = array( );
+                        $countries['country'] = $value;
+                        
+                        CRM_Utils_Array::lookupValue( $countries, 'country', 
+                                                      CRM_Core_PseudoConstant::country(), true );
+                        if ( ! $countries['country_id'] ) {
+                            CRM_Utils_Array::lookupValue( $countries, 'country',
+                                                          CRM_Core_PseudoConstant::countryIsoCode(), true );
                         }
-                        $type = 'Integer';
+                        $value = $countries['country_id'];
+                    } else if ( ! $value ) {
+                        // CRM-3415
+                        // using type of timestamp allows us to sneak in a null into db
+                        // gross but effective hack
+                        $value = null;
+                        $type  = 'Timestamp';
                     }
                     break;
 
