@@ -41,7 +41,7 @@
               <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please <a href="%1">refer to the documentation</a> for details.{/ts}</dd>
             {else}
               <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language. Then return to this form and assign Available Languages. In order to use this functionality, you are going to privileges to use triggers in your database.{/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language, then return to this form and add further languages. In order to use this functionality, the installation's database user must have privileges to create triggers (in MySQL 5.0 this means the SUPER privilege).{/ts}</dd>
               <dt>&nbsp;</dt><dd class="description"><span style="color:red">{$warning}</span>
               </dd>
             {/if}

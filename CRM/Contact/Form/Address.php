@@ -56,8 +56,9 @@ class CRM_Contact_Form_Address
 
         $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-        
+              
         $elements = array( 
+                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ),
                           'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
                           'supplemental_address_1' => array( ts('Addt\'l Address 1') ,  $attributes['supplemental_address_1'], null ),
                           'supplemental_address_2' => array( ts('Addt\'l Address 2') ,  $attributes['supplemental_address_2'], null ),
@@ -69,8 +70,8 @@ class CRM_Contact_Form_Address
                           'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
                           'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
                           'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
-                          ); 
-
+                          );
+       
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
 

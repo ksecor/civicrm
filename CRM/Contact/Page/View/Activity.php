@@ -84,13 +84,13 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
     function edit( )
     {
         // used for dojo tabs
-        $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $this->assign('context', $context );
 
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        
+          
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Integer', $this );
-        
+      
         $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
         
         if ( $activityTypeId != 3 ) {

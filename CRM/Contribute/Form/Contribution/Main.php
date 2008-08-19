@@ -260,12 +260,19 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         
         //build pledge block.
-        $config =& CRM_Core_Config::singleton( );
-        if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
-            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
-            CRM_Pledge_BAO_PledgeBlock::buildPledgeBlock( $this );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $session->get('userID') ) {
+            $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
         }
-        
+        //don't build pledge block when mid is passed
+        if ( !$mid ) {  
+            $config =& CRM_Core_Config::singleton( );
+            if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
+                require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+                CRM_Pledge_BAO_PledgeBlock::buildPledgeBlock( $this );
+            }
+        }
+
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 

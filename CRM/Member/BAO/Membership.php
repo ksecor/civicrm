@@ -180,7 +180,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
-    {  
+    { 
         if ( ! isset( $params['is_override'] ) ) {
             require_once 'CRM/Utils/Date.php';
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
@@ -300,7 +300,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipType   = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membership->membership_type_id ); 
-        
+        require_once 'CRM/Contact/BAO/Relationship.php';
         $relationships = array( );
         if ( isset( $membershipType['relationship_type_id'] ) ) {
             $relationships =
@@ -493,6 +493,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $membershipTypeIds = explode( ',' , $membershipBlock['membership_types'] );
             }
             if (! empty( $membershipTypeIds ) ) {
+                //set status message if wrong membershipType is included in membershipBlock
+                $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
+                if ( $mid ) {
+                    $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $mid, 'membership_type_id' );
+                    if ( !in_array( $membershipTypeID, $membershipTypeIds ) ){
+                        CRM_Core_Session::setStatus( ts("Oops. The membership you're trying to renew appears to be invalid. Contact your site administrator if you need assistance. If you continue, you will be issued a new membership.") );
+                    }
+                }
+                
                 foreach ( $membershipTypeIds as $value ) {
                     $memType = & new CRM_Member_DAO_MembershipType(); 
                     $memType->id = $value;

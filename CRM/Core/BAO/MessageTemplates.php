@@ -173,7 +173,8 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $messageTemplates->id = $messageTemplateID;
 
         $domain = CRM_Core_BAO_Domain::getDomain( );
-        
+        $result = null;
+
         if ( $messageTemplates->find(true) ) {
             $body_text = $messageTemplates->msg_text;
             $body_html = $messageTemplates->msg_html;
@@ -272,9 +273,12 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
             $body = $message->get();
             $headers = $message->headers();
             
+            CRM_Core_Error::ignoreException( );
             $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
         }
         
+        return $result;
     }
 }
 
