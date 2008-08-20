@@ -79,30 +79,38 @@ class CRM_Core_Block {
 
         if (!(self::$_properties)) {
             self::$_properties = array(
-                                       self::SHORTCUTS   => array( 'template' => 'Shortcuts.tpl',
-                                                                   'info'     => ts('CiviCRM Shortcuts'),
-                                                                   'subject'  => ts('CiviCRM Shortcuts'),
-                                                                   'active'   => true,
-                                                                   'cache'    => BLOCK_CACHE_GLOBAL,
-                                                                   'region'   => 'left' ),
-                                       self::ADD         => array( 'template' => 'Add.tpl',
-                                                                   'info'     => ts('CiviCRM Quick Add'),
-                                                                   'subject'  => ts('New Individual'),
-                                                                   'active'   => true,
-                                                                   'cache'    => BLOCK_CACHE_GLOBAL,
-                                                                   'region'   => 'left' ),
-                                       self::SEARCH      => array( 'template' => 'Search.tpl',
-                                                                   'info'     => ts('CiviCRM Search'),
-                                                                   'subject'  => ts('Contact Search'),
-                                                                   'active'   => true,
-                                                                   'cache'    => BLOCK_CACHE_GLOBAL,
-                                                                   'region'   => 'left' ),
-                                       self::MENU        => array( 'template' => 'Menu.tpl',
-                                                                   'info'     => ts('CiviCRM Menu'),
-                                                                   'subject'  => ts('CiviCRM'),
-                                                                   'active'   => true,
-                                                                   'cache'    => BLOCK_CACHE_GLOBAL,
-                                                                   'region'   => 'left' ),
+                                       self::SHORTCUTS   => array( 'template'   => 'Shortcuts.tpl',
+                                                                   'info'       => ts('CiviCRM Shortcuts'),
+                                                                   'subject'    => ts('CiviCRM Shortcuts'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm/*',
+                                                                   'region'     => 'left' ),
+                                       self::ADD         => array( 'template'   => 'Add.tpl',
+                                                                   'info'       => ts('CiviCRM Quick Add'),
+                                                                   'subject'    => ts('New Individual'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm/*',
+                                                                   'region'     => 'left' ),
+                                       self::SEARCH      => array( 'template'   => 'Search.tpl',
+                                                                   'info'       => ts('CiviCRM Search'),
+                                                                   'subject'    => ts('Contact Search'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm/*',
+                                                                   'region'     => 'left' ),
+                                       self::MENU        => array( 'template'   => 'Menu.tpl',
+                                                                   'info'       => ts('CiviCRM Menu'),
+                                                                   'subject'    => ts('CiviCRM'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm/*',
+                                                                   'region'     => 'left' ),
                                        );
             // seems like this is needed for drupal 4.7, have not tested
             require_once 'CRM/Core/Permission.php';
@@ -177,12 +185,14 @@ class CRM_Core_Block {
                       ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
-                 $block[$id]['info'] = array(
-                                             'info'   => $value['info']  ,
-                                             'cache'  => $value['cache'] ,
-                                             'status' => $value['active'],
-                                             'region' => $value['region'],
-                                             );
+                 $block[$id] = array(
+                                     'info'       => $value['info']      ,
+                                     'cache'      => $value['cache']     ,
+                                     'status'     => $value['active']    ,
+                                     'region'     => $value['region']    ,
+                                     'visibility' => $value['visibility'],
+                                     'pages'      => $value['pages']     ,
+                                     );
             }
         }
         return $block;

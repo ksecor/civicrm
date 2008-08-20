@@ -143,8 +143,7 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) ||
-         ( $op == 'configure' ) ) {
+    if ( $op == 'configure' ) {
         return;
     }
 
