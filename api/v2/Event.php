@@ -110,6 +110,7 @@ function civicrm_event_get( &$params )
     _civicrm_initialize();
     
     if ( ! is_array( $params ) || empty( $params ) ) {
+
         return civicrm_create_error('Params is not an array');
     }
     
@@ -139,19 +140,25 @@ function civicrm_event_get( &$params )
 
 function civicrm_event_search( &$params ) 
 {
+    $inputParams      = array( );
+    $returnProperties = array( );
+    $otherVars = array( 'sort', 'offset', 'rowCount' );
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = 1;
+        }elseif ( array_key_exists( $n, $otherVars ) ) {
+            $n = $v;
+        } else {
+            $inputParams[$n] = $v;
         }
     }
     require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Event/BAO/Event.php';
     $eventDAO = new CRM_Event_BAO_Event( );
-    $eventDAO->copyValues( $params );
-    
+    $eventDAO->copyValues( $inputParams );
+    $event = array();
+    $returnEvent = array();
     $eventDAO->find( );
-    
-    $event = array( );
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
@@ -163,12 +170,23 @@ function civicrm_event_search( &$params )
                 $event[$eventDAO->id][$key] = $val;
             }
         }
-    } //end of the loop
+        if ( $returnProperties ){
+            foreach( $returnProperties as $key =>$value){
+                $returnEvent[$eventDAO->id][$key]=$event[$eventDAO->id][$key];
+            }
+        }
+                   
+    }//end of the loop
+    
     $eventDAO->free( );
-    return $event;
+    
+    if( empty( $returnEvent ) ) {
+        return $event;
+    } else {
+        return $returnEvent;
+    }
 }
-
-
+    
 /**
  * Deletes an existing event
  * 
