@@ -76,7 +76,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     protected $_sourceContactId;
     protected $_targetContactId;
     protected $_asigneeContactId;
-
+    
+    /**
+     * The default variable defined
+     *
+     * @var int
+     */
+    protected $_caseId;
+    protected $_single;
+    
     /**
      * The id of the logged in user, used when add / edit 
      *
