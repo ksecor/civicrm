@@ -87,7 +87,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
                 || array_key_exists(strtolower($value),
                             array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
         case 'Link':
-            return CRM_Utils_Rule::string($value);
+            return CRM_Utils_Rule::url($value);
         }
         return false;
     }
