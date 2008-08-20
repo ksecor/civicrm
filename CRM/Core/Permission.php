@@ -277,6 +277,7 @@ class CRM_Core_Permission {
                       'view all activities'        => ts( 'view all activities' ),
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
+                      'translate CiviCRM'          => ts( 'translate CiviCRM' ),
                       );
 
             $config = CRM_Core_Config::singleton( );
