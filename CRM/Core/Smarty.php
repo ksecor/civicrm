@@ -101,6 +101,8 @@ class CRM_Core_Smarty extends Smarty {
         $this->assign_by_ref( 'recentlyViewed', $recent  );
         $this->assign       ( 'displayRecent' , true );
 
+        $this->assign('langSwitch', CRM_Core_I18n::languages(true));
+
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
 
         $printerFriendly = CRM_Utils_System::makeURL( 'snippet', false, false ) . '2';

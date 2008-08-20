@@ -830,6 +830,11 @@ div.crm-pager a {
   font-size: .95em
 }
 
+#crm-container div#lang-switch {
+ float: right;
+ margin: -24px 30px 0px 0px;
+}
+
 #crm-container div#printer-friendly {
  float: right;
  position:relative;

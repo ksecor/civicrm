@@ -20,6 +20,8 @@
 </div>
 {/if}
 
+{include file="CRM/common/langSwitch.tpl"}
+
 <div class="spacer"></div>
 
 {if isset($localTasks) and $localTasks}
