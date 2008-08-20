@@ -41,6 +41,19 @@ require_once 'CRM/Event/Import/Parser.php';
  */
 class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
 {
+   
+   /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    { 
+      $session =& CRM_Core_Session::singleton( );
+      $session->pushUserContext( CRM_Utils_System::url('civicrm/event/import', 'reset=1') );
+    }
+
     /**
      * Function to actually build the form
      *

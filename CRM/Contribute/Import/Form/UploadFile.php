@@ -39,7 +39,20 @@ require_once 'CRM/Contribute/Import/Parser/Contribution.php';
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
+class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form 
+{
+
+   /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    { 
+      $session =& CRM_Core_Session::singleton( );
+      $session->pushUserContext( CRM_Utils_System::url('civicrm/contribute/import', 'reset=1') );
+    }
    
     /**
      * Function to actually build the form
