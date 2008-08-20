@@ -339,6 +339,16 @@
      <weight>390</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/safe_file_extension</path>
+     <title>Safe File Extension Options</title>
+     <desc>File Extensions that can be considered safe.</desc>
+     <path_arguments>group=safe_file_extension</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>395</weight>
+  </item>
+  <item>
      <path>civicrm/admin/access</path>
      <title>Access Control</title>
      <desc>Grant or deny access to actions (view, edit...), features and components.</desc>
