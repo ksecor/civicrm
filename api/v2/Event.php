@@ -145,12 +145,16 @@ function civicrm_event_search( &$params )
     $otherVars = array( 'sort', 'offset', 'rowCount' );
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
-            $returnProperties[ substr( $n, 7 ) ] = 1;
+            $returnProperties[]=substr( $n, 7 );
         }elseif ( array_key_exists( $n, $otherVars ) ) {
             $n = $v;
         } else {
             $inputParams[$n] = $v;
         }
+    }
+    if( !empty($returnProperties ) ) {
+        $returnProperties[]='id';
+        $returnProperties[]='event_type_id';
     }
     require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Event/BAO/Event.php';
@@ -158,6 +162,10 @@ function civicrm_event_search( &$params )
     $eventDAO->copyValues( $inputParams );
     $event = array();
     $returnEvent = array();
+    if ( !empty( $returnProperties ) ) {
+            $eventDAO->selectAdd( );
+            $eventDAO->selectAdd( implode( ',' , $returnProperties ) );
+        }
     $eventDAO->find( );
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
@@ -170,21 +178,9 @@ function civicrm_event_search( &$params )
                 $event[$eventDAO->id][$key] = $val;
             }
         }
-        if ( $returnProperties ){
-            foreach( $returnProperties as $key =>$value){
-                $returnEvent[$eventDAO->id][$key]=$event[$eventDAO->id][$key];
-            }
-        }
-                   
     }//end of the loop
-    
     $eventDAO->free( );
-    
-    if( empty( $returnEvent ) ) {
-        return $event;
-    } else {
-        return $returnEvent;
-    }
+    return $event; 
 }
     
 /**
