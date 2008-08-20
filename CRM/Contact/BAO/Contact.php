@@ -1212,7 +1212,11 @@ WHERE  civicrm_contact.id = %1 ";
                     } else if ($fieldName === 'county') {
                         $data['location'][$loc]['address']['county_id'] = $value;
                     } else {
-                        $data['location'][$loc]['address'][$fieldName] = $value;
+                        if ($fieldName == 'address_name') {
+                            $data['location'][$loc]['address']['name'] = $value;
+                        } else {
+                            $data['location'][$loc]['address'][$fieldName] = $value;
+                        }
                     }
                 }
             } else {
@@ -1229,11 +1233,21 @@ WHERE  civicrm_contact.id = %1 ";
                 } else if ($key == 'edit') {
                     continue;
                 } else {
+                    if ( $key == 'location' ){ 
+                        foreach ( $value as $locationTypeId => $field ) { 
+                            foreach ( $field as $block => $val ) { 
+                                if ( $block == 'address' && array_key_exists('address_name', $val ) ) {
+                                    $value[$locationTypeId][$block]['name']= $value[$locationTypeId][$block]['address_name'];
+                                }
+                            }
+                        }
+                    }
                     $data[$key] = $value;
+                  
                 }
             }
         }
-
+       
         //make sure primary location is at first position in location array
         if ( isset( $data['location'] ) && count( $data['location'] ) > 1 ) {
             // if first location is primary skip manipulation
