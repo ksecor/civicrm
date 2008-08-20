@@ -561,8 +561,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership' );
-
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership', false, false,
+                                                             CRM_Utils_Array::value( 'membership_type_id', $params ) );
+        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&

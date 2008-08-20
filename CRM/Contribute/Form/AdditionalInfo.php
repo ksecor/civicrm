@@ -283,7 +283,8 @@ class CRM_Contribute_Form_AdditionalInfo
         }
         
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, 
+                                                             CRM_Utils_Array::value('contribution_type_id', $params ) );
         
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {

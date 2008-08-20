@@ -389,10 +389,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
-
+        
+        //get the relationship type id.
+        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId );
+        
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship' );
-
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $relationshipTypeId );
+        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
