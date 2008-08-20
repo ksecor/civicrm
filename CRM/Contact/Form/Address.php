@@ -76,7 +76,7 @@ class CRM_Contact_Form_Address
             list( $title, $attributes, $select ) = $v;
 
             $nameWithoutID = strpos( $name, '_id' ) !== false ? substr( $name, 0, -3 ) : $name;
-            if ( !isset( $addressOptions[$nameWithoutID] ) ) {
+            if ( ! CRM_Utils_Array::value( $nameWithoutID, $addressOptions ) ) {
                 continue;
             }
             
