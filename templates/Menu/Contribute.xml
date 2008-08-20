@@ -110,13 +110,6 @@
      <weight>530</weight>
   </item>
   <item>
-     <path>civicrm/contribute/offline</path>
-     <title>Contribution Payment Form</title>
-     <page_callback>CRM_Contribute_Form_Offline</page_callback>
-     <access_arguments>access CiviContribute</access_arguments>
-     <weight>0</weight>
-  </item>
-  <item>
      <path>civicrm/contribute/additionalinfo</path>
      <title>AdditionalInfo Form</title>
      <page_callback>CRM_Contribute_Form_AdditionalInfo</page_callback>
