@@ -562,3 +562,8 @@ VALUES
 
 UPDATE `civicrm_payment_processor_type`
 SET is_recur = NULL WHERE title = 'Authorize.Net - AIM';
+
+--address name field in civicrm_address table
+
+ALTER TABLE `civicrm_address`
+ ADD `name` varchar(255) collate utf8_unicode_ci DEFAULT NULL ;

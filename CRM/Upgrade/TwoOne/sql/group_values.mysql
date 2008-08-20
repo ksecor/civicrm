@@ -238,3 +238,18 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`,`name` ,
 VALUES
   (@option_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL);
+
+-- Insert new option value address_name for option_group = 'address_options'
+
+SELECT   @option_act := civicrm_option_group.id,
+	 @max_val    := max(ROUND(civicrm_option_value.value)), 
+         @max_wt     := max(civicrm_option_value.weight) 
+FROM     civicrm_option_value, civicrm_option_group
+WHERE    civicrm_option_group.name = 'address_options'
+AND      civicrm_option_value.option_group_id = civicrm_option_group.id
+GROUP BY civicrm_option_group.id;
+
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name` , `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
+VALUES
+  (@option_act, 'Address Name', (SELECT @max_val := @max_val+1), 'address_name', NULL, 0, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1, NULL);
