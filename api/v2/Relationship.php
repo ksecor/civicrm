@@ -116,6 +116,7 @@ function civicrm_relationship_delete( &$params ) {
     if( ! CRM_Utils_Array::value( 'id',$params )  ) {
         return civicrm_create_error( 'Missing required parameter' );
     }
+    require_once 'CRM/Utils/Rule.php';
     if( $params['id'] != null && ! CRM_Utils_Rule::integer( $params['id'] ) ) {
         return civicrm_create_error( 'Invalid value for relationship ID' );
     }
@@ -183,6 +184,7 @@ function civicrm_relationship_type_delete( &$params ) {
     if( ! CRM_Utils_Array::value( 'id',$params )  ) {
         return civicrm_create_error( 'Missing required parameter' );
     }
+    require_once 'CRM/Utils/Rule.php';
     if( $params['id'] != null && ! CRM_Utils_Rule::integer( $params['id'] ) ) {
         return civicrm_create_error( 'Invalid value for relationship type ID' );
     }
