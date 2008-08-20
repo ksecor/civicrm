@@ -171,6 +171,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
             $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
+            $defaults['current_employer_id'] = $currentEmployer[ $this->_contactId ]['org_id'];
         }
 
         $this->assign( $defaults );
