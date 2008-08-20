@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-12 06:08-0700\n"
+"PO-Revision-Date: 2008-08-19 22:41-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3415,7 +3415,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr ""
+msgstr "आपके अंशदान पृष्ठ का परिक्षण"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -3430,6 +3430,16 @@ msgid ""
 "processor's documentation for information on values to use for test credit "
 "card number, security code, postal code, etc."
 msgstr ""
+"वर्तमान में चल रहा यह पृष्ठ परीक्षण मोड में है। ट्रांजेक्शन करने के लिए भेजा "
+"जाएगा आपके भुगतान संसाधक सर्वर के परीक्षण है।. वित्तीय लेनदेन नहीं रहते "
+"प्रस्तुत किया जाएगा। हालांकि, कोई संपर्क रिकॉर्ड बनाया जाएगा और एक या अद्यतन "
+"की जाँच के योगदान के रिकॉर्ड को डाटाबेस को सहेज लिया जाएगा। स्पष्ट परीक्षण "
+"से संपर्क नाम का उपयोग करें ताकि आप नष्ट कर सकते हैं और इन अभिलेखों की "
+"समीक्षा के रूप में जाने की आवश्यकता है। </strong>यह परीक्षण योगदान हैं, "
+"योगदान टैब पर दिखाई नहीं देगा, लेकिन आप द्वारा याेगदान खोज से ' टेस्ट योगदान "
+"' के लिए खाेजे।</strong> भुगतान प्रोसेसर के लिये संदर्भ लिजिये, प्रोसेसर के "
+"प्रलेखन का मूल्यों के बारे में जानकारी, परीक्षण के लिए क्रेडिट कार्ड संख्या "
+", सुरक्षा कोड , पोस्टल कोड आदि के लिये उपयाेग करे।"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
