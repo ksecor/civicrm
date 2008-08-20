@@ -118,6 +118,8 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
                                   $this->_defaults );
 
         parent::commonProcess( $newValues );
+
+        parent::rebuildMenu( );
     }
 
 }

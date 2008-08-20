@@ -112,6 +112,16 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         CRM_Core_Session::setStatus( ts('Your changes have been saved.') );
     }
+
+    public function rebuildMenu( ) {
+        // ensure config is set with new values
+        $config =& CRM_Core_Config::singleton( null, true, true );
+
+        // rebuild menu items
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::store( );
+    }
+
 }
 
 
