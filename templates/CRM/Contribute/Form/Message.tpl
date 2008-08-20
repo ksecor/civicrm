@@ -39,14 +39,14 @@
 {$credit_card_number}
 {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
 {/if}
-
-{if $showCustom}
+{if $customGroup}
+{foreach from=$customGroup item=value key=customName} 
 ===========================================================
-{ts}Additional Information{/ts}
-
+{$customName}
 ===========================================================
-{foreach from=$customField item=value key=customName}
- {$custoName}: {$value}
+{foreach from=$value item=v key=n}
+{$n} : {$v}
+{/foreach}
 {/foreach}
 {/if}
 {if $formValues.honor_first_name}

@@ -281,11 +281,10 @@ class CRM_Contribute_Form_AdditionalInfo
         if ( ! empty($customData) ) {
             $formatted['custom'] = $customData;
         }
-        
+                
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, 
                                                              CRM_Utils_Array::value('contribution_type_id', $params ) );
-        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
@@ -295,6 +294,7 @@ class CRM_Contribute_Form_AdditionalInfo
                 }
             }
         }
+        
     }
     
     /** 
@@ -394,24 +394,36 @@ class CRM_Contribute_Form_AdditionalInfo
             $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
             $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
             $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+        }
+        
+        //handle custom data
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            
+            $contribParams = array( array( 'contribution_id', '=', $params['contribution_id'], 0, 0 ) );
+            if ( $form->_mode == 'test' ) {
+                $contribParams[] = array( 'contribution_test', '=', 1, 0, 0 );
+            }
             
             //retrieve custom data
-            if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-                $showCustom = 0;
-                $customData = array( );
-                foreach ( $params as $key => $value ) {
-                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                        $fieldID['id'] = $customFieldId;
-                        CRM_Core_BAO_CustomField::retrieve( $fieldID, $customData);
-                        $customField[$customData['label']] = $value;
-                        if ($value) {
-                            $showCustom = 1;
-                        }
-                    }
+            require_once "CRM/Core/BAO/UFGroup.php";
+            $customGroup = array( ); 
+            
+            foreach ( $form->_groupTree as $groupID => $group ) {
+                $customFields = $customValues = array( );
+                if ( $groupID == 'info' ) {
+                    continue;
+                } 
+                foreach ( $group['fields'] as $k => $field ) {
+                    $field['title'] = $field['label'];
+                    $customFields["custom_{$k}"] = $field;
                 }
-                $form->assign('showCustom',$showCustom);
-                $form->assign_by_ref('customField',$customField);
+                
+                //build the array of customgroup contain customfields.
+                CRM_Core_BAO_UFGroup::getValues( $params['contact_id'], $customFields, $customValues , false, $contribParams );
+                $customGroup[$group['title']] = $customValues;
             }
+            //assign all custom group and corresponding fields to template.
+            $form->assign( 'customGroup', $customGroup );
         }
         
         $form->assign_by_ref( 'formValues', $params );

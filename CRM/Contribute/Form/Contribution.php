@@ -866,7 +866,7 @@ WHERE  contribution_id = {$this->_id}
                                                                             'sort_name' );
                 $this->_params['source'] = ts( 'Submit Credit Card Payment by: %1', array( 1 => $userSortName ) );
             }
-            
+                        
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
             $contribution 
                 =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, 
@@ -875,10 +875,12 @@ WHERE  contribution_id = {$this->_id}
                                                                                   $this->_contactID, 
                                                                                   $contributionType,  
                                                                                   false, false, false );
+            //send receipt mail.
             if ( $contribution->id &&
                  CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
-                $this->_params['trxn_id']    =  CRM_Utils_Array::value( 'trxn_id', $result );
-                $this->_params['contact_id'] =  $this->_contactID;
+                $this->_params['trxn_id']         = CRM_Utils_Array::value( 'trxn_id', $result );
+                $this->_params['contact_id']      = $this->_contactID;
+                $this->_params['contribution_id'] = $contribution->id;
                 CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $this->_params, true );
             }
             
@@ -1075,10 +1077,10 @@ WHERE  contribution_id = {$this->_id}
                                                                     $this->_premiumID, $this->_options ); 
             }
             
-            // Code Added to Send ReceiptMail, Assigned variables to
-            // Message generating templates
-            if ( $formValues['is_email_receipt'] ) {
-                $formValues['contact_id'] =  $this->_contactID;
+            //send receipt mail.
+            if ( $contribution->id && $formValues['is_email_receipt'] ) {
+                $formValues['contact_id']      = $this->_contactID;
+                $formValues['contribution_id'] = $contribution->id;
                 CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $formValues );
             }
             
