@@ -325,11 +325,21 @@ class CRM_Core_DAO extends DB_DataObject
         foreach ( $fields as $name => $value ) {
             $dbName = $value['name'];
             if ( array_key_exists( $dbName, $params ) ) {
-                // if there is no value then make the variable NULL
-                if ( $params[$dbName] === '' ) {
+                $pValue = $params[$dbName];
+                $exists = true;
+            } else if ( array_key_exists( $name, $params ) ) {
+                $pValue = $params[$name];
+                $exists = true;
+            } else {
+                $exists = false;
+            }
+
+            // if there is no value then make the variable NULL
+            if ( $exists ) {
+                if ( $pValue === '' ) {
                     $this->$dbName = 'null';
                 } else {
-                    $this->$dbName = $params[$dbName];
+                    $this->$dbName = $pValue;
                     $allNull = false;
                 }
             }
