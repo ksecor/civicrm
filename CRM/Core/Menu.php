@@ -288,7 +288,7 @@ class CRM_Core_Menu
                     ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
                 
                 $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $path, $query, false );
+                $value['url'  ]  = CRM_Utils_System::url( $path, $query );
                 $value['title']  = $item['title'];
                 $value['path']   = $path;
                 $value['access_callback' ] = $item['access_callback' ];
@@ -340,7 +340,7 @@ class CRM_Core_Menu
                                                                    ','=>'_', '/'=>'_' 
                                                                    )
                                              ),
-                            'url'   => CRM_Utils_System::url( $path, $query, false ), 
+                            'url'   => CRM_Utils_System::url( $path, $query ), 
                             'icon'  => $item['icon'],
                             'extra' => CRM_Utils_Array::value( 'extra', $item ) );
             if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
@@ -484,13 +484,10 @@ class CRM_Core_Menu
                     '&' . $menu[$currentPath]['path_arguments'] : '';
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath, 
-                                                                    'reset=1' . $urlVar, false ));
+                                                                    'reset=1' . $urlVar ));
             }
         }
         $menu[$path]['breadcrumb'] = $crumbs;
-
-
-
 
         return $crumbs;
     }
