@@ -169,12 +169,34 @@ class CRM_Core_I18n_Schema
             }
         }
 
+        // take care of civicrm_contact.{display,sort}_name...
+        $namesTrigger = array();
+        foreach (array_merge($locales, array($locale)) as $loc) {
+            $namesTrigger[] = "IF NEW.contact_type = 'Household' THEN";
+            $namesTrigger[] = "SET NEW.display_name_{$loc} = NEW.household_name_{$loc};";
+            $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.household_name_{$loc};";
+
+            $namesTrigger[] = "ELSEIF NEW.contact_type = 'Organization' THEN";
+            $namesTrigger[] = "SET NEW.display_name_{$loc} = NEW.organization_name_{$loc};";
+            $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.organization_name_{$loc};";
+
+            $namesTrigger[] = "ELSEIF NEW.contact_type = 'Individual' THEN";
+            $namesTrigger[] = "SET NEW.display_name_{$loc} = TRIM(REPLACE(CONCAT_WS(' ', NEW.first_name_{$loc}, NEW.middle_name_{$loc}, NEW.last_name_{$loc}), '  ', ' '));";
+            $namesTrigger[] = "SET NEW.sort_name_{$loc} = TRIM(', ' FROM CONCAT_WS(', ', NEW.last_name_{$loc}, NEW.first_name_{$loc}));";
+
+            $namesTrigger[] = 'END IF;';
+        }
+
+        // ...for UPDATE it's a separate trigger, for INSERT it has to be merged into the below, general one
+        $queries[] = "DROP TRIGGER IF EXISTS civicrm_contact_before_update";
+        $queries[] = "CREATE TRIGGER civicrm_contact_before_update BEFORE UPDATE ON civicrm_contact FOR EACH ROW BEGIN " . implode(' ', $namesTrigger) . ' END';
+
         // take care of the ON INSERT triggers
         foreach ($columns as $table => $hash) {
-            $queries[] = "DROP TRIGGER IF EXISTS {$table}_i18n";
+            $queries[] = "DROP TRIGGER IF EXISTS {$table}_before_insert";
 
             $trigger = array();
-            $trigger[] = "CREATE TRIGGER {$table}_i18n BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
+            $trigger[] = "CREATE TRIGGER {$table}_before_insert BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
             foreach ($hash as $column => $_) {
                 $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
                 foreach ($locales as $old) {
@@ -188,6 +210,9 @@ class CRM_Core_I18n_Schema
                     }
                 }
                 $trigger[] = 'END IF;';
+            }
+            if ($table == 'civicrm_contact') {
+                $trigger = array_merge($trigger, $namesTrigger);
             }
             $trigger[] = 'END';
 
