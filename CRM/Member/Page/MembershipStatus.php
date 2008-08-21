@@ -169,9 +169,11 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
                                                                                   array('id' => $dao->id));                                                                                  
             }
             
-            $membershipStatus[$dao->id]['start_event'] = str_replace("_", " ", $membershipStatus[$dao->id]['start_event']);
+            $membershipStatus[$dao->id]['start_event'] 
+                = str_replace("_", " ", CRM_Utils_Array::value( 'start_event', $membershipStatus[$dao->id] ) );
             if (isset ($membershipStatus[$dao->id]['end_event'] ) )
-                $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
+                $membershipStatus[$dao->id]['end_event']   
+                    = str_replace("_", " ", CRM_Utils_Array::value( 'end_event', $membershipStatus[$dao->id] ) );
         }
         // Add order changing widget to selector
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1&action=browse" );
