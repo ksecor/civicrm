@@ -17,7 +17,6 @@ class Widget {
 
 	function __construct( ) {
 		$this->methodTable =& CRM_Widget_Widget::methodTable( );
-        CRM_Core_Error::debug_var( 'mt', $this->methodTable );
 
     }
 
@@ -44,7 +43,6 @@ class Widget {
 	 */
 	public function getContributionPageData( $contributionPageID, $widgetID ) {
         $data = CRM_Widget_Widget::getContributionPageData( $contributionPageID, $widgetID );
-        CRM_Core_Error::debug_var( $contributionPageID, $data );
         return $data;
     }
 

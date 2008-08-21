@@ -1,6 +1,6 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {if $widget_id} {* If we have a widget for this page, construct the embed code.*}
-    {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php?contributionPageID={$id}&amp;widgetID=1{/capture}
+    {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetID=1{/capture}
     {capture assign=widget_code}
 <div style="text-align: center; width:260px">
 	<object type="application/x-shockwave-flash" data="{$config->resourceBase}extern/Widget/widget.swf" width="220" height="220" id="civicontribute-widget" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer">
