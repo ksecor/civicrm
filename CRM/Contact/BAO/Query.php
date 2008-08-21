@@ -350,6 +350,8 @@ class CRM_Contact_BAO_Query
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
+
+        // CRM_Core_Error::debug( $this );
     }
 
     /**
@@ -1134,7 +1136,12 @@ class CRM_Contact_BAO_Query
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
                 if ( $this->_params[$id][0] == 'id' || $this->_params[$id][0] == 'contact_id' ) {
-                    $this->_where[0][] = "contact_a.id = {$this->_params[$id][2]}";
+                    if ( $this->_params[$id][1] == 'IS NULL' ||
+                         $this->_params[$id][1] == 'IS NOT NULL' ) {
+                        $this->_where[0][] = "contact_a.id {$this->_params[$id][1]}";
+                    } else {
+                        $this->_where[0][] = "contact_a.id {$this->_params[$id][1]} {$this->_params[$id][2]}";
+                    }
                 } else {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
