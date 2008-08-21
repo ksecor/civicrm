@@ -55,7 +55,7 @@
 {if $limit and $pager->_totalItems GT $limit }
   {if $context eq 'dashboard' } 
       <tr class="even-row">
-      <td colspan="10"><a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}List more contributions{/ts}... </a></td>
+      <td colspan="10"><a href="{crmURL p='civicrm/contribute/search' q='reset=1'}">&raquo; {ts}Find more contributions{/ts}... </a></td>
       </tr>
   {elseif $context eq 'contribution' } 
       <tr class="even-row">

@@ -79,6 +79,14 @@
      hide('minus{$row.pledge_id}_hide');
  </script>
   {/foreach}
+
+    {* Dashboard only lists 10 most recent pledges. *}
+    {if $context EQ 'dashboard' and $limit and $pager->_totalItems GT $limit }
+      <tr class="even-row">
+        <td colspan="10"><a href="{crmURL p='civicrm/pledge/search' q='reset=1'}">&raquo; {ts}Find more pledges{/ts}... </a></td>
+      </tr>
+    {/if}
+
 </table>
 {/strip}
 

@@ -32,7 +32,9 @@
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}View contact record{/ts}">{$row.sort_name}</a></td>
     {/if}
 
-    <td><a href="{crmURL p='civicrm/event/search' q="reset=1&force=1&event=`$row.event_id`"}" title="{ts}List participants for this event{/ts}">{$row.event_title}</a></td>
+    <td><a href="{crmURL p='civicrm/event/info' q="id=`$row.event_id`&reset=1"}" title="{ts}View event info page{/ts}">{$row.event_title}</a>
+        {if $contactId}<br /><a href="{crmURL p='civicrm/event/search' q="reset=1&force=1&event=`$row.event_id`"}" title="{ts}List participants for this event (all statuses){/ts}">({ts}participants{/ts})</a>{/if}
+    </td> 
     {assign var="participant_id" value=$row.participant_id}
     {if $lineItems.$participant_id}
     <td>
@@ -56,11 +58,11 @@
     <td>{$row.action}</td>
    </tr>
   {/foreach}
-{* Link to "View all participations" for Contact Summary selector display *}
+{* Link to "View all participants" for Dashboard and Contact Summary *}
 {if $limit and $pager->_totalItems GT $limit }
-  {if $context EQ 'dashboard' }
+  {if $context EQ 'event_dashboard' }
     <tr class="even-row">
-    <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Event Participants{/ts}...</a></td></tr>
+    <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1'}">&raquo; {ts}Find more event participants{/ts}...</a></td></tr>
     </tr>
   {elseif $context eq 'participant' }  
     <tr class="even-row">
