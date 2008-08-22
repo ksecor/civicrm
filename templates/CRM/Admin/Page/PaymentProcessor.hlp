@@ -363,3 +363,14 @@
 <br />Use <strong>'https://www.eway.com.au/gateway_cvn/xmlpayment.asp'</strong> unless otherwise advised by eWAY.{/ts}
 {/htxt}
 
+{htxt id='Payment_Express-test-user-name'} {ts}Payment Express UserID (Development account):{/ts} 
+{ts}This is the development user name provided to you by DPS/Payment Express. 
+The test Credit Card number is 4111111111111111 - this is the only credit card number that will work on the test gateway. The test Total Amount can be any amount except one that ends in a value of .76 (e.g. $10.76) - all amounts ending in .76 will return a failed response.{/ts}
+{/htxt}
+
+{htxt id='Payment_Express-test-url-site'} {ts}This is the URL which is used to access the DPS/Payment Express service.  Generally, you will use https://www.paymentexpress.com/pxpay/pxpay.aspx.{/ts} {/htxt}
+
+{htxt id='Payment_Express-live-user-name'} {ts}Payment Express UserID (LIVE account):{/ts} 
+{ts}This is the live user name provided to you by DPS/Payment Express.{/ts}{/htxt}
+
+{htxt id='Payment_Express-live-url-site'} {ts}This is the URL for accessing the DPS/Payment Express live payment site.  Generally, you will use https://www.paymentexpress.com/pxpay/pxpay.aspx.{/ts} {/htxt} 
