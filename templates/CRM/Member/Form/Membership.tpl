@@ -139,7 +139,7 @@
 	{/if}
     {if $emailExists }
         <dl>
-        <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
+        <dt class="label">{$form.send_receipt.label}</dt><dd class="html-adjust">{$form.send_receipt.html}<br />
             <span class="description">{ts}Automatically email a membership confirmation and receipt to {$emailExists}?{/ts}</span></dd>
         </dl>
         <div id='notice'>

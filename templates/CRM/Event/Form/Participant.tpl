@@ -73,7 +73,7 @@
     <div class="form-item">
         <fieldset>
             <dl>
-            <dt style="vertical-align: top">{$form.note.label}</dt><dd>{$form.note.html}</dd>
+            <dt style="vertical-align: top">{$form.note.label}</dt><dd class="html-adjust">{$form.note.html}</dd>
             </dl>
         </fieldset>
     </div>

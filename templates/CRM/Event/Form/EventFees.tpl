@@ -75,7 +75,7 @@
     {if $accessContribution and ! $participantMode and ! ($action eq 2 and $rows.0.contribution_id) }
         <tr>
         <td class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.record_contribution.label}</td>
-        <td>{$form.record_contribution.html}<br />
+        <td class="html-adjust">{$form.record_contribution.html}<br />
             <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
         </td>
         </tr>
