@@ -162,25 +162,28 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
         
             $this->_gid = $defaults['custom_group_id'];
-	   
-            if ( $defaults['data_type'] == 'StateProvince' ) {
+            
+            //fix for default value as first value taken from both dao.
+            //when we are not setting default value for state and country. 
+            
+            if ( $defaults['data_type'] == 'StateProvince' && 
+                 $stateId = CRM_Utils_Array::value( 'default_value', $defaults ) ) {
                 require_once 'CRM/Core/DAO/StateProvince.php';
                 $daoState =& new CRM_Core_DAO_StateProvince();
-                $stateId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoState->id = $stateId;
                 if ( $daoState->find( true ) ) {
                     $defaults['default_value'] = $daoState->name;
                 }
-            } else if ( $defaults['data_type'] == 'Country' ) {
+            } else if ( $defaults['data_type'] == 'Country' && 
+                        $countryId = CRM_Utils_Array::value( 'default_value', $defaults ) ) {
                 require_once 'CRM/Core/DAO/Country.php';
                 $daoCountry =& new CRM_Core_DAO_Country();
-                $countryId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoCountry->id = $countryId;
                 if ( $daoCountry->find( true ) ) {
                     $defaults['default_value'] = $daoCountry->name;
                 }
             }
-
+            
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
                 $defaultDataType = array_search( $defaults['data_type'],
                                                  self::$_dataTypeKeys );
@@ -805,7 +808,8 @@ AND    option_group_id = %2";
 
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {
-            switch (self::$_dataTypeKeys[$params['option_type']]) {
+            switch ( $params['data_type'] ) {
+                
             case 'StateProvince':
                 $fieldStateProvince = strtolower($params['default_value']);
                 $query = "
