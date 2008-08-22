@@ -190,7 +190,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             require_once 'CRM/Core/OptionGroup.php';
             $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
             if ( isset( $this->_id ) &&
-                 $this->_groupValues['saved_search_id'] ) {
+                 CRM_Utils_Array::value( 'saved_search_id', $this->_groupValues ) ) {
                 unset( $groupTypes['Access Control'] );
             }
             
@@ -220,7 +220,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             $parentGroups = array( );
             if ( isset( $this->_id ) &&
-                 $this->_groupValues['parents'] ) {
+                 CRM_Utils_Array::value( 'parents', $this->_groupValues ) ) {
                 $parentGroupIds = explode( ',', $this->_groupValues['parents'] );
                 foreach ( $parentGroupIds as $parentGroupId ) {
                     $parentGroups[$parentGroupId] = $groupNames[$parentGroupId];
