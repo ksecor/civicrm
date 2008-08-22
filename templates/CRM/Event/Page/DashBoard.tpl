@@ -39,9 +39,9 @@
     <td>{$values.isPublic}</td>
     <td class="nowrap">{$values.startDate}&nbsp;{if $values.endDate}to{/if}&nbsp;{$values.endDate}</td>
     <td class="right">
-       {if $values.participants_url and $values.participants}<a href="{$values.participants_url}" title="{ts 1=$eventSummary.statusDisplay}List %1 participants{/ts}">{$eventSummary.statusDisplay}:&nbsp;{$values.participants}</a>{else}{$eventSummary.statusDisplay}:&nbsp;{$values.participants}{/if}<br />
-       {if $values.pending_url and $values.pending}<a href="{$values.pending_url}" title="{ts 1=$eventSummary.statusDisplayPending}List %1 participants{/ts}">{$eventSummary.statusDisplayPending}:&nbsp;{$values.pending}</a>{else}{$eventSummary.statusDisplayPending}:&nbsp;{$values.pending}{/if}
-       {if $values.maxParticipants}<br />{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
+       {if $values.participants_url and $values.participants}<a href="{$values.participants_url}" title="{ts 1=$eventSummary.statusDisplay}List %1 participants{/ts}">{$eventSummary.statusDisplay}:&nbsp;{$values.participants}</a><hr />{else}{$eventSummary.statusDisplay}:&nbsp;{$values.participants}<hr />{/if}
+       {if $values.pending_url and $values.pending}<a href="{$values.pending_url}" title="{ts 1=$eventSummary.statusDisplayPending}List %1 participants{/ts}">{$eventSummary.statusDisplayPending}:&nbsp;{$values.pending}</a><hr />{else}{$eventSummary.statusDisplayPending}:&nbsp;{$values.pending}<hr />{/if}
+       {if $values.maxParticipants}{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
     </td>
 {if $eventAdmin or $eventMap}
     <td>
