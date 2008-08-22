@@ -25,7 +25,7 @@
                 <div>{ts 1=$email}An email confirmation with these payment instructions has been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}.</div>
             {/if}
         {elseif $contributeMode EQ 'notify'}
-            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
+            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express}DPS Payment Express{else}}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
                 <div>{ts 1=$email}An email receipt will be sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if} {ts}once the transaction is processed successfully.{/ts}</div>
             {/if}

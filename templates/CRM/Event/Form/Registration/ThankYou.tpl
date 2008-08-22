@@ -25,7 +25,7 @@
                 <p>{ts 1=$email}An email with event details has been sent to %1.{/ts}</p>
             {/if}
         {elseif $contributeMode EQ 'notify' and $paidEvent}
-            <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
+            <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{elseif $paymentProcessor.payment_processor_type EQ 'Payment_Express}DPS Payment Express{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
             {if $is_email_confirm}
                 <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}
