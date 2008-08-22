@@ -3825,6 +3825,25 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 -- (5198, 1016, "15", "Al Muḩarraq"), -- conflicts with id 1872, Al Muharraq
 (5199, 1016, "16", "Al Wusţá"),
 (5200, 1016, "17", "Ash Shamālīyah"),
+
+-- Palestinian governorates from http://en.wikipedia.org/wiki/Governorates_of_the_Palestinian_National_Authority (no ISO 3166-2 entries yet, hence temporary codes)
+(5201, 1165, "_A", "Jenin"),
+(5202, 1165, "_B", "Tubas"),
+(5203, 1165, "_C", "Tulkarm"),
+(5204, 1165, "_D", "Nablus"),
+(5205, 1165, "_E", "Qalqilya"),
+(5206, 1165, "_F", "Salfit"),
+(5207, 1165, "_G", "Ramallah and Al-Bireh"),
+(5208, 1165, "_H", "Jericho"),
+(5209, 1165, "_I", "Jerusalem"),
+(5210, 1165, "_J", "Bethlehem"),
+(5211, 1165, "_K", "Hebron"),
+(5212, 1165, "_L", "North Gaza"),
+(5213, 1165, "_M", "Gaza"),
+(5214, 1165, "_N", "Deir el-Balah"),
+(5215, 1165, "_O", "Khan Yunis"),
+(5216, 1165, "_P", "Rafah"),
+
 (9000, 1196, "NW", "North West"), 
 (9986, 1226, "xTYW", "Tyne and Wear"),
 (9987, 1226, "xIOM", "Isle of Man"),

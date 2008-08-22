@@ -208,6 +208,27 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5200, 1016, "17", "Ash Shamālīyah");
 
 
+-- CRM-3435
+
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES 
+(5201, 1165, "_A", "Jenin"),
+(5202, 1165, "_B", "Tubas"),
+(5203, 1165, "_C", "Tulkarm"),
+(5204, 1165, "_D", "Nablus"),
+(5205, 1165, "_E", "Qalqilya"),
+(5206, 1165, "_F", "Salfit"),
+(5207, 1165, "_G", "Ramallah and Al-Bireh"),
+(5208, 1165, "_H", "Jericho"),
+(5209, 1165, "_I", "Jerusalem"),
+(5210, 1165, "_J", "Bethlehem"),
+(5211, 1165, "_K", "Hebron"),
+(5212, 1165, "_L", "North Gaza"),
+(5213, 1165, "_M", "Gaza"),
+(5214, 1165, "_N", "Deir el-Balah"),
+(5215, 1165, "_O", "Khan Yunis"),
+(5216, 1165, "_P", "Rafah");
+
+
 -- Following wasn't done by 2.0 upgrade script, so adding here (also added to 2.0 script)
 
 ALTER TABLE `civicrm_loc_block`
