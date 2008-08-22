@@ -1,23 +1,9 @@
-<?php
+<?php 
 
-if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+defined('_JEXEC') or die('Restricted access'); 
 
-// this is the convention for toolbars:
-#require_once( $mainframe->getPath( 'toolbar_html' ) );
-#require_once( $mainframe->getPath( 'toolbar_default' ) );
-// it includes the "toolbar.html.php" file and the default toolbar set
+require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-// but we can condense it into a single file to save time:
+TOOLBAR_civicrm::_DEFAULT( );   
 
-// look familiar? Joomla components are little else but switches
-switch ($task) {
-	// again, the same task as before...
-	case 'view_contacts':
-		mosMenuBar::startTable();
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
-    break;
-}
-
+?>

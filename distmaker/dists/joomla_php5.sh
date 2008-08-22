@@ -70,7 +70,6 @@ cp $SRC/civicrm.config.php $TRG
 # final touch
 echo "$DM_VERSION Joomla PHP5" > $TRG/civicrm-version.txt
 
-
 # gen zip file
 cd $DM_TMPDIR;
 
@@ -83,11 +82,12 @@ cp -r -p civicrm/* com_civicrm/admin/civicrm
 $DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
 # copying back end code to admin folder
-cp com_civicrm/admin/civicrm/joomla/admin.civicrm.php     com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/configure.php         com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/install.civicrm.php   com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.php   com_civicrm/admin
-cp com_civicrm/admin/civicrm/joomla/uninstall.civicrm.php com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/admin.civicrm.php        com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/configure.php            com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/install.civicrm.php      com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.php      com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.html.php com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/uninstall.civicrm.php    com_civicrm/admin
 
 # copying front end code
 cp com_civicrm/admin/civicrm/joomla/civicrm.html.php      com_civicrm
