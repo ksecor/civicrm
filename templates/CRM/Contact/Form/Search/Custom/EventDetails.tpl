@@ -81,7 +81,7 @@
             {if $fName eq 'sort_name'}
                 <td>{$row.sort_name}</a></td>
             {elseif $fName eq 'payment_amount' || $fName eq 'fee' || $fName eq 'net_payment'}
-                <td style="text-align: right;">{$row.$fName|crmMoney}</td>
+                <td >{$row.$fName|crmMoney}</td>
             {else}
                 <td>{$row.$fName}</td>
             {/if}
@@ -90,12 +90,12 @@
      {/foreach}
 
     {if $summary}
-        <tr class="columnheader" style="text-align: right;">
+        <tr class="columnheader">
             <td colspan="2"></td>
-            <td>Totals &nbsp; &nbsp;</td>
-            <td>{$summary.payment_amount|crmMoney}</td>
-            <td>{$summary.fee|crmMoney}</td>
-            <td>{$summary.net_payment|crmMoney}</td>
+            <td >Totals &nbsp; &nbsp;</td>
+            <td >{$summary.payment_amount|crmMoney}</td>
+            <td >{$summary.fee|crmMoney}</td>
+            <td >{$summary.net_payment|crmMoney}</td>
         </tr>
     {/if}
 </table>
