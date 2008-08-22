@@ -181,7 +181,9 @@ class CRM_Core_I18n_Schema
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.organization_name_{$loc};";
 
             $namesTrigger[] = "ELSEIF NEW.contact_type = 'Individual' THEN";
-            $namesTrigger[] = "SET NEW.display_name_{$loc} = TRIM(REPLACE(CONCAT_WS(' ', NEW.first_name_{$loc}, NEW.middle_name_{$loc}, NEW.last_name_{$loc}), '  ', ' '));";
+            $namesTrigger[] = "SELECT v.label_{$loc} INTO @prefix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_prefix' AND v.value = NEW.prefix_id;";
+            $namesTrigger[] = "SELECT v.label_{$loc} INTO @suffix FROM civicrm_option_value v JOIN civicrm_option_group g ON (v.option_group_id = g.id) WHERE g.name = 'individual_suffix' AND v.value = NEW.suffix_id;";
+            $namesTrigger[] = "SET NEW.display_name_{$loc} = TRIM(REPLACE(CONCAT_WS(' ', @prefix, NEW.first_name_{$loc}, NEW.middle_name_{$loc}, NEW.last_name_{$loc}, @suffix), '  ', ' '));";
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = TRIM(', ' FROM CONCAT_WS(', ', NEW.last_name_{$loc}, NEW.first_name_{$loc}));";
 
             $namesTrigger[] = 'END IF;';
