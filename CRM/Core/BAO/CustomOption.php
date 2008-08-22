@@ -130,8 +130,10 @@ AND    v.value = %2
 AND    g.id    = f.option_group_id
 AND    g.id    = v.option_group_id";
             $params = array( 1 => array( $fieldId, 'Integer' ),
-                             2 => array( $value  , 'String'  ) );
-            $dao   = CRM_Core_DAO::executeQuery( $query, $params );
+                             2 => array( trim($value), 'String' ) );
+	    
+	    $dao   = CRM_Core_DAO::executeQuery( $query, $params );
+	    
             $label = $dao->fetch( ) ? $dao->label : $value;
             $dao->free();
             break;
