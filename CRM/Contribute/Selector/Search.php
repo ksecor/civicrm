@@ -190,27 +190,31 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @access public
      *
      */
-    static function &links()
+    static function &links( $componentId = null, $componentAction = null )
     {
-
+        $compId = null;
+        if ( $componentId ) {
+            $compId = "&compId={$componentId}&compAction={$componentAction}";
+        }
+        
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=contribute',
+                                                                   'qs'       => "reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=contribute{$compId}",
                                                                    'title'    => ts('View Contribution'),
                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'qs'       => "reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%{$compId}",
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'qs'       => "reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%{$compId}",
                                                                    'title'    => ts('Delete Contribution'),
                                                                   ),
                                   );
@@ -282,6 +286,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             $permission = CRM_Core_Permission::EDIT;
         }
         
+        $componentId = null;
+        
         $mask = CRM_Core_Action::mask( $permission );
         While ($result->fetch()) {
             $row = array();
@@ -304,11 +310,19 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             }
             
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
-            $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'               => $result->contribution_id,
-                                                                 'cid'              => $result->contact_id,
-                                                                 'cxt'              => $this->_context
-                                                                 ) );
+            
+            if ( $this->_context != 'contribute' ) {
+                $componentId     =  CRM_Utils_Request::retrieve( 'id', 'Positive', CRM_Core_DAO::$_nullArray );
+                $componentAction =  CRM_Utils_Request::retrieve( 'action', 'String', CRM_Core_DAO::$_nullArray );
+            }
+
+            $actions =  array( 'id'               => $result->contribution_id,
+                               'cid'              => $result->contact_id,
+                               'cxt'              => $this->_context
+                               );
+            
+            $row['action']   = CRM_Core_Action::formLink( self::links( $componentId, $componentAction ), $mask, $actions );
+
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {

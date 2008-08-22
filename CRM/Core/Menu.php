@@ -420,6 +420,7 @@ class CRM_Core_Menu
         }
 
         // check permissions for the rest
+        require_once 'CRM/Core/Permission.php';
         $activeChildren = array( );
         foreach ( $values as $weight => $v ) {
             if ( CRM_Core_Permission::checkMenuItem( $v ) ) {
