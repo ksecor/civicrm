@@ -172,6 +172,7 @@ class CRM_Core_I18n_Schema
         // take care of civicrm_contact.{display,sort}_name...
         $namesTrigger = array();
         foreach (array_merge($locales, array($locale)) as $loc) {
+
             $namesTrigger[] = "IF NEW.contact_type = 'Household' THEN";
             $namesTrigger[] = "SET NEW.display_name_{$loc} = NEW.household_name_{$loc};";
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = NEW.household_name_{$loc};";
@@ -187,6 +188,10 @@ class CRM_Core_I18n_Schema
             $namesTrigger[] = "SET NEW.sort_name_{$loc} = TRIM(', ' FROM CONCAT_WS(', ', NEW.last_name_{$loc}, NEW.first_name_{$loc}));";
 
             $namesTrigger[] = 'END IF;';
+
+            $namesTrigger[] = "SELECT email INTO @email FROM civicrm_email WHERE is_primary = 1 AND contact_id = NEW.id LIMIT 1;";
+            $namesTrigger[] = "IF NEW.display_name_{$loc} = '' THEN SET NEW.display_name_{$loc} = @email; END IF;";
+            $namesTrigger[] = "IF NEW.sort_name_{$loc}    = '' THEN SET NEW.sort_name_{$loc}    = @email; END IF;";
         }
 
         // ...for UPDATE it's a separate trigger, for INSERT it has to be merged into the below, general one
