@@ -110,7 +110,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 if ( in_array($defaults['value'], $defaultCheckValues ) ) 
                     $defaults['default_value'] = 1;
             } else {
-                if( $fieldDefaults['default_value'] == $defaults['value'] ) {
+                if( CRM_Utils_Array::value( 'default_value', $fieldDefaults ) == CRM_Utils_Array::value( 'value', $defaults ) ) {
                     $defaults['default_value'] = 1;
                 }               
             }
