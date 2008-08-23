@@ -147,7 +147,9 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             // create a contribution and then get it processed
             $contribution =& new CRM_Contribute_DAO_Contribution( );
             $contribution->contact_id = $ids['contact'];
-            $contribution->contribution_type_id  = $contributionType->id;
+            $contribution->contribution_type_id  = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                                                $ids['contributionPage'],
+                                                                                'contribution_type_id' );
             $contribution->contribution_page_id  = $ids['contributionPage'];
             $contribution->contribution_recur_id = $ids['contributionRecur'];
             $contribution->receive_date          = $now;
@@ -229,7 +231,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         $objects = $ids = $input = array( );
         $input['component'] = $component;
 
-        // get the contribution, contact and contributionType ids from the GET params
+        // get the contribution and contact ids from the GET params
         $ids['contact']           = self::retrieve( 'contactID'         , 'Integer', 'GET' , true  );
         $ids['contribution']      = self::retrieve( 'contributionID'    , 'Integer', 'GET' , true  );
         
