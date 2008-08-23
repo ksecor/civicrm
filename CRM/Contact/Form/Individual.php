@@ -183,28 +183,20 @@ setDefaultAddress();
         $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                         'mode'         => 'remote',
                                         'store'        => 'organizationStore',
-                                        'style'        => 'width:450px; border: 1px solid #cfcfcf;',
+                                        'style'        => 'width:400px; border: 1px solid #cfcfcf;',
                                         'class'        => 'tundra',
                                         'pageSize'     => 10,
-                                        'onchange'     => 'showSelectedAddress("shared_employer")',
+                                        'onchange'     => 'showSelectedAddress("current_employer")',
                                         
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "org=1",
-                                           true, null, false );
-
-        $this->assign('employerDataURL',$employerDataURL );
-
-        $employerOptionsExtra = array( 'onclick' => "showHideEmployerOptions();" );
-        $employerOption = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
-        $form->addRadio('employer_option', ts('Current Employer'),  $employerOption, $employerOptionsExtra);
-
-        $form->addElement('text', 'create_employer', ts('Organization Name'), array( 'maxlength' => 128, 'class'=>'huge' ) );
+                                                   "org=1",
+                                                   true, null, false );
         
-        $form->addRule('create_employer', ts('This organization name already exists in database.'), 
-                       'objectExists', array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'organization_name' ) );
-        $form->addElement('text', 'shared_employer', ts('Existing Organization'),$employerAttributes );
+        $this->assign('employerDataURL',$employerDataURL );
+        
+        $form->addElement('text', 'current_employer', ts('Current Employer'), $employerAttributes );
 
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);

@@ -55,22 +55,20 @@
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
     </tr>
+    <tr>
+        <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
+        <td colspan=3>{$form.current_employer.label}</td>
+    </tr>
+    <tr>
+        <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
+        <td colspan=2 class="tundra">{$form.current_employer.html}</td>
+        <td><span id="current_employer_address" class="description"></span></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan=4><span class="description">{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}</span></td>
+    </tr>  
     </table>
-<div id="employer_option_block" class="form-item">
-   {$form.employer_option.label}&nbsp;&nbsp;{$form.employer_option.html}
-   &nbsp; <a href="#prefix_id" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
-</div>
-<div id="create_employer_block" class="form-item">
-    &nbsp;&nbsp;{$form.create_employer.label}&nbsp;&nbsp;{$form.create_employer.html}
-</div>
-<div id="shared_employer_block" class="form-item">
-	<div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
-            {$form.shared_employer.html}
-       	{* Conditionally display the address currently selected in the comboBox *}
-           <span id="shared_employer_address" class="description"></span>
-	 </div>
-	<span id="shared_employer_help" class="description">{ts}Enter the first letters of the name of the organization to see available organizations.{/ts}</span> 
-</div>
 
     {$form._qf_Edit_refresh_dedupe.html}
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
@@ -210,53 +208,22 @@
 
 {literal}
 <script type="text/javascript">
-    if (document.getElementsByName("is_deceased")[0].checked) {
-      	    show('showDeceasedDate');
-    } else {
-           	hide('showDeceasedDate');
-    }
-        
-    function showDeceasedDate()
+    showDeceasedDate( );    
+    function showDeceasedDate( )
     {
         if (document.getElementsByName("is_deceased")[0].checked) {
       	    show('showDeceasedDate');
         } else {
-           	hide('showDeceasedDate');
+	    hide('showDeceasedDate');
         }
     }
 
-    if (!document.getElementsByName("employer_option")[1].checked ) {
-        hide("shared_employer_block");
-    }else { 
-        dojo.addOnLoad( function( ) 
- 	{
-         	var sharedEmployer   = "{/literal}{$sharedEmployer}{literal}";
-	        dijit.byId( 'shared_employer' ).setValue(sharedEmployer);
-        }); 
-	
-    }
-    if (!document.getElementsByName("employer_option")[0].checked ) {
-        hide("create_employer_block");
-    }
-    function showHideEmployerOptions()
+    dojo.addOnLoad( function( ) 
     {
-        var opt = document.getElementsByName("employer_option");
-        if ( opt[0].checked ) {
-            dijit.byId("shared_employer").domNode.style.display = "none";
-            show("create_employer_block");
-            hide("shared_employer_block");   
-        } else if ( opt[1].checked ) {
-            document.getElementsByName("create_employer")[0].value = "";
-            hide("create_employer_block");
-            show("shared_employer_block");
-            dijit.byId("shared_employer").domNode.style.display = "block";
-        }else {
-            hide("create_employer_block");
-            hide("shared_employer_block");
-        }
-    }
-
-
+	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
+	dijit.byId( 'current_employer' ).setValue(currentEmployer);
+    }); 
+    
 </script>
 {/literal}
 
