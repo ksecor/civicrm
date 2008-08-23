@@ -99,8 +99,10 @@ class CRM_Core_BAO_SchemaHandler
             foreach ( $params['fields'] as $field ) {
                 $sql       .= self::buildSearchIndexSQL( $field, $separator, $prefix );
             }
-            foreach ( $params['indexes'] as $index ) {
-                $sql       .= self::buildIndexSQL      ( $index, $separator, $prefix );
+            if ( isset( $params['indexes'] ) ) {
+                foreach ( $params['indexes'] as $index ) {
+                    $sql       .= self::buildIndexSQL      ( $index, $separator, $prefix );
+                }
             }
             foreach ( $params['fields'] as $field ) {
                 $sql       .= self::buildForeignKeySQL ( $field, $separator, $prefix, $params['name'] );

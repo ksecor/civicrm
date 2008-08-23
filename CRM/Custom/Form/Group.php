@@ -214,6 +214,16 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
+        // does this group have multiple record?
+        $this->addElement('checkbox', 'is_multiple', ts('Does this Custom Data Group allow multiple records?') );
+
+        $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
+        $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
+
+        $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
+        $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
+
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -246,6 +256,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomGroup');
+
+            $defaults['is_multiple'] = $defaults['min_multiple'] = $defaults['max_multiple'] = 0;
         }
 
         if (isset($this->_id)) {

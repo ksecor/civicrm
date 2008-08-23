@@ -74,17 +74,25 @@
     	if ( data_type_id == 5) {
     	     document.getElementById("startDateRange").style.display="block";
     	     document.getElementById("startDateRangeDef").style.display="block";
-	         document.getElementById("endDateRange").style.display="block";
+	     document.getElementById("endDateRange").style.display="block";
     	     document.getElementById("endDateRangeDef").style.display="block";
     	     document.getElementById("incudedDatePart").style.display="block";
     	     document.getElementById("incudedDatePartDef").style.display="block";	
- 	    } else {
+         } else {
     	     document.getElementById("startDateRange").style.display="none";
-   	         document.getElementById("startDateRangeDef").style.display="none";
+   	     document.getElementById("startDateRangeDef").style.display="none";
     	     document.getElementById("endDateRange").style.display="none";
     	     document.getElementById("endDateRangeDef").style.display="none";
-	         document.getElementById("incudedDatePart").style.display="none";
+	     document.getElementById("incudedDatePart").style.display="none";
     	     document.getElementById("incudedDatePartDef").style.display="none";	 	
+    	}
+
+    	if ( data_type_id == 0 ) {
+    	     document.getElementById("textLength").style.display="block";
+    	     document.getElementById("textLengthDef").style.display="block";
+        } else {
+    	     document.getElementById("textLength").style.display="none";
+   	     document.getElementById("textLengthDef").style.display="none";
     	}
 
     	if ( data_type_id == 4 ) {
@@ -92,12 +100,11 @@
     	     document.getElementById("noteColumnsDef").style.display="block";
     	     document.getElementById("noteRows").style.display="block";
     	     document.getElementById("noteRowsDef").style.display="block";
-    
-	    } else {
+        } else {
     	     document.getElementById("noteColumns").style.display="none";
-   	         document.getElementById("noteColumnsDef").style.display="none";
-	         document.getElementById("noteRows").style.display="none";
-	         document.getElementById("noteRowsDef").style.display="none";
+   	     document.getElementById("noteColumnsDef").style.display="none";
+	     document.getElementById("noteRows").style.display="none";
+	     document.getElementById("noteRowsDef").style.display="none";
     	}
 			 
         if ( data_type_id > 3) {
@@ -120,6 +127,8 @@
         {/if}
         </dl>
         <div class="spacer"></div>
+
+	<dt id="textLength" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block" {/if}>{$form.text_length.label}</dt><dd id="textLengthDef" {if ( $action eq 1 || $action eq 2 ) && ($form.data_type.value.0.0 == 0)}class="show-block"{else} class="hide-block"{/if}>{$form.text_length.html}</dd> 
 
     {if $action eq 1 or $action eq 2 }
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}

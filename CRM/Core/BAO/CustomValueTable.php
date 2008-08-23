@@ -199,12 +199,13 @@ class CRM_Core_BAO_CustomValueTable
      * @access public
      * @static
      */
-    public static function fieldToSQLType($type) 
+    public static function fieldToSQLType( $type,
+                                           $maxLength = 255 ) 
     {
         switch ($type) {
         case 'String':
         case 'Link':
-            return 'varchar(255)';
+            return "varchar($maxLength)";
         case 'Boolean':
             return 'tinyint';
         case 'Int':

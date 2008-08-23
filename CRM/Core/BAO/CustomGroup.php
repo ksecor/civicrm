@@ -97,6 +97,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         $group->help_post        = CRM_Utils_Array::value('help_post', $params, false);
         $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
 
+        $group->is_multiple      = CRM_Utils_Array::value('is_multiple'    , $params, false );
+        $group->min_multiple     = CRM_Utils_Array::value('min_multiple'   , $params, 0 );
+        $group->max_multiple     = CRM_Utils_Array::value('max_multiple'   , $params, 0 );
+
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
@@ -104,9 +108,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             // lets create the table associated with the group and save it
             $tableName = $group->table_name = "civicrm_value_" .
                 strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
-            $group->is_multiple = 0;
         }
-        
+
         // enclose the below in a transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -1466,6 +1469,7 @@ ORDER BY weight ASC, label ASC";
     static function createTable( $group ) {
         $params = array(
                         'name'           => $group->table_name,
+                        'is_multiple'    => $group->is_multiple ? 1 : 0,
                         'extends_name'   => self::mapTableName( $group->extends ),
                         );
 

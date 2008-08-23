@@ -226,6 +226,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $fieldValues              = array('custom_group_id' => $this->_gid);
             $defaults['weight']       = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomField', $fieldValues);
 
+            $defaults['text_length']  = 255;
             $defaults['date_parts']   = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
@@ -249,11 +250,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
+        $attributes =& CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField' );
+
         // label
         $this->add( 'text',
                     'label',
                     ts('Field Label'),
-                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'),
+                    $attributes['label'],
                     true );
         
         $dt =& self::$_dataTypeValues;
@@ -314,16 +317,21 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             } else {
                 $_showHide->addShow($showBlocks);
             }
+            
+            $optionAttributes =& CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue' );
             // label
-            $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'));
+            $this->add('text','option_label['.$i.']', ts('Label'),
+                       $optionAttributes['label']);
 
             // value
-            $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value'));
+            $this->add('text', 'option_value['.$i.']', ts('Value'),
+                       $optionAttributes['value'] );
 
             // Below rule is uncommented for CRM-1313
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
             // weight
-            $this->add('text', "option_weight[$i]", ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'));
+            $this->add('text', "option_weight[$i]", ts('Order'),
+                       $optionAttributes['weight']);
 
             // is active ?
             $this->add('checkbox', "option_status[$i]", ts('Active?'));
@@ -339,15 +347,23 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         
         $_showHide->addToTemplate();                
 
+        // text length for alpha numeric data types
+        $this->add('text',
+                   'text_length',
+                   ts('Database field length'),
+                   $attributes['text_length'],
+                   false );
+        $this->addRule('text_length', ts('Value should be a positive number') , 'integer');
+                   
         $this->add('text', 
                    'start_date_years',
                    ts('Dates may be up to'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'start_date_years'),
+                   $attributes['start_date_years'],
                    false);
         $this->add('text',
                    'end_date_years',
                    ts('Dates may be up to'),
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'end_date_years'),
+                   $attributes['end_date_years'],
                    false);
         
         $this->addRule('start_date_years', ts('Value should be a positive number') , 'integer');
@@ -366,19 +382,21 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->add('text',
                    'note_columns',
                    ts('Width (columns)') . ' ',
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_columns'),
+                   $attributes['note_columns'],
                    false);
         $this->add('text',
                    'note_rows',
                    ts('Height (rows)') . ' ',
-                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'note_rows'),
+                   $attributes['note_rows'],
                    false);
         
         $this->addRule('note_columns', ts('Value should be a positive number') , 'positiveInteger');
         $this->addRule('note_rows', ts('Value should be a positive number') , 'positiveInteger');
 
         // weight
-        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'),
+                   $attributes['weight'],
+                   true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         // is required ?
@@ -389,9 +407,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->addRule('options_per_line', ts('must be a numeric value') , 'numeric');
 
         // default value, help pre, help post, mask, attributes, javascript ?
-        $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
-        $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
-        $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
+        $this->add('text', 'default_value', ts('Default Value'),
+                    $attributes['default_value']);
+        $this->add('textarea', 'help_post', ts('Field Help'), 
+                   $attributes['help_post']);        
+        $this->add('text', 'mask', ts('Mask'),
+                   $attributes['mask']);        
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));

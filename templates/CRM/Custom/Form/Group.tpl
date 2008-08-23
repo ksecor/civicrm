@@ -14,6 +14,9 @@
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Select the type of record that this group of custom fields is applicable for. You can configure custom data for a specific type of contact (e.g. Individuals but NOT Organizations), ANY type of contact, or other record types such as activities and contributions.{/ts}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which custom data groups are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
+    <dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label}</dd>
+    <dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>
+    <dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html}</dd>
     </dl>
     <dl id="style">
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>

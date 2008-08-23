@@ -1199,29 +1199,32 @@ SELECT $columnName
 
     static function &defaultCustomTableSchema( &$params ) {
         // add the id and extends_id
-        $table = array( 'name'       => $params['name'],
-                        'attributes' => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
-                        'fields'     => array(
-                                              array( 'name'          => 'id',
-                                                     'type'          => 'int unsigned',
-                                                     'primary'       => true,
-                                                     'required'      => true,
-                                                     'attributes'    => 'AUTO_INCREMENT',
-                                                     'comment'       => 'Default MySQL primary key' ),
-                                              array( 'name'          => 'entity_id',
-                                                     'type'          => 'int unsigned',
-                                                     'required'      => true,
-                                                     'comment'       => 'Table that this extends',
-                                                     'fk_table_name' => $params['extends_name'],
-                                                     'fk_field_name' => 'id',
-                                                     'fk_attributes' => 'ON DELETE CASCADE' )
-                                              ),
-                        'indexes'    => array(
-                                              array( 'unique'        => true,
-                                                     'field_name_1'  => 'entity_id' )
-                                              ),
-                                                    
+        $table = array( 'name'        => $params['name'],
+                        'is_multiple' => $params['is_multiple'],
+                        'attributes'  => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
+                        'fields'      => array(
+                                               array( 'name'          => 'id',
+                                                      'type'          => 'int unsigned',
+                                                      'primary'       => true,
+                                                      'required'      => true,
+                                                      'attributes'    => 'AUTO_INCREMENT',
+                                                      'comment'       => 'Default MySQL primary key' ),
+                                               array( 'name'          => 'entity_id',
+                                                      'type'          => 'int unsigned',
+                                                      'required'      => true,
+                                                      'comment'       => 'Table that this extends',
+                                                      'fk_table_name' => $params['extends_name'],
+                                                      'fk_field_name' => 'id',
+                                                      'fk_attributes' => 'ON DELETE CASCADE' )
+                                               )
                         );
+        
+        if ( ! $params['is_multiple'] ) {
+            $table['indexes'] = array(
+                                      array( 'unique'        => true,
+                                             'field_name_1'  => 'entity_id' )
+                                      );
+        }
         return $table;
     }
 
@@ -1232,7 +1235,8 @@ SELECT $columnName
                                                                       'table_name' ),
                          'operation'  => $operation,
                          'name'       => $field->column_name,
-                         'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type ),
+                         'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type,
+                                                                                        $field->text_length ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
                         );
