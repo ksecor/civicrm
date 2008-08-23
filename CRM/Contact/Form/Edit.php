@@ -718,21 +718,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
 
-        if ( $this->_contactType == 'Individual' ) {
-            // create current employer
-            if ( $params['current_employer'] ) {
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
-                                                                                  $params['current_employer'] );
-            } else {
-                //unset if employer id exits
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
-                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
-                }
-            }
-        }
-
         // now invoke the post hook
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
