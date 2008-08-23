@@ -440,7 +440,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                         } else if ( $self->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
                                     ! ( in_array( 'invoice_id', $importKeys ) || in_array( 'trxn_id', $importKeys ) || 
                                         in_array( 'contribution_id', $importKeys ) ) ) {
-                            $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are the required field in update mode.'). '<br />';
+                            $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are required to match to the existing contribution records in Update mode.'). '<br />';
                         }
                     } else {
                         $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
