@@ -4,7 +4,11 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+{if $config->customCSSURL}
+<link rel="stylesheet" href="{$config->customCSSURL}" type="text/css" />
+{else}
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
+{/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/standalone.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>

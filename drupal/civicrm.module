@@ -43,10 +43,13 @@ function civicrm_html_head()
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
 
-    $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
+    if ( isset( $config->customCSSURL ) ) {
+        $head  = "<style type=\"text/css\">@import url({$config->customCSSURL});</style>\n";
+    } else {
+        $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
+    }
 
     // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
-    
     $includeCommon = false;
     if ( arg(0) == 'civicrm' ) {
         $includeCommon = true;
