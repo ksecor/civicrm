@@ -1,10 +1,8 @@
 <div class="form-item">
     <fieldset><legend>{ts}Language and Currency{/ts}</legend>    
         <dl>
-            <!--
             <dt>{$form.lcMessages.label}</dt><dd>{$form.lcMessages.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts 1="http://civicrm.org/download"}Language used for this installation. Installed 'translations' are listed in langageCode_countryCode format. Check the <a href='%1' target='_blank'>CiviCRM downloads page</a> for additional translations if the one you need is not listed.{/ts}</dd>
-            -->
             <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Default currency assigned to contributions and other monetary transactions.{/ts}</dd>
             <dt>{$form.lcMonetary.label}</dt><dd>{$form.lcMonetary.html}</dd>
