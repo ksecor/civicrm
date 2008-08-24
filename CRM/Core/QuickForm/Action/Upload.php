@@ -79,7 +79,7 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
      */
     function upload( &$page, &$data, $pageName, $uploadName ) {
         // make sure uploadName exists in the QF array
-        // else we skip
+        // else we skip, CRM-3427
         if ( empty( $uploadName ) ||
              ! isset( $page->_elementIndex[$uploadName] ) ) {
             return;
