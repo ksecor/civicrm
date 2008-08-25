@@ -155,20 +155,20 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             return CRM_Contribute_Import_Parser::ERROR;
         }*/
         $errorRequired = false;
-        if ($this->_totalAmountIndex      < 0 or
-            $this->_contributionTypeIndex < 0) {
-            $errorRequired = true;
-        } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_totalAmountIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_contributionTypeIndex, $values);
+        if(! in_array('contribution_id',$this->_mapperKeys)){
+            if ($this->_totalAmountIndex      < 0 or
+                $this->_contributionTypeIndex < 0) {
+                $errorRequired = true;
+            } else {
+                $errorRequired = ! CRM_Utils_Array::value($this->_totalAmountIndex, $values) ||
+                    ! CRM_Utils_Array::value($this->_contributionTypeIndex, $values);
+            }
+            
+            if ( $errorRequired ) {
+                array_unshift($values, ts('Missing required fields'));
+                return CRM_Contribute_Import_Parser::ERROR;
+            }
         }
-        
-        
-        if ($errorRequired) {
-            array_unshift($values, ts('Missing required fields'));
-            return CRM_Contribute_Import_Parser::ERROR;
-        }
-
         $params =& $this->getActiveFieldParams( );
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
