@@ -43,7 +43,7 @@ class CRM_Utils_VersionCheck
         CHECK_TIMEOUT     = 5,                          // timeout for when the connection or the server is slow
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
-        CACHEFILE_EXPIRE  = 86400;                      // cachefile expiry time (in seconds)
+        CACHEFILE_EXPIRE  = 60 * 60 * 24 * 7;           // cachefile expiry time (in seconds) - a week
 
     /**
      * We only need one instance of this object, so we use the
