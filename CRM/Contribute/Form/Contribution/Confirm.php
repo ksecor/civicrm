@@ -330,6 +330,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // add a description field at the very beginning
         $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . $this->_values['title'];
 
+        // also add accounting code
+        $this->_params['accountingCode'] = CRM_Utils_Array::value( 'accountingCode',
+                                                                   $this->_values );
+
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
         $fields = array( );

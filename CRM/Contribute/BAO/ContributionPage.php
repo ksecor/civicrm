@@ -73,7 +73,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                'entity_id'    => $id );   
         list( $values['custom_pre_id'],
               $values['custom_post_id'] ) = CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
+
+        // add an accounting code also
+        if ( $values['contribution_type_id'] ) {
+            $values['accountingCode'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                     $values['contribution_type_id'],
+                                                                     'accounting_code' );
+        }
     }
+
 
     /**
      * Function to send the emails

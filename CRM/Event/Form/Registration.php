@@ -171,7 +171,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-            
+
+            // also get the accounting code
+            if ( isset( $this->_values['event']['contribution_type_id'] ) ) {
+                $this->_values['event']['accountingCode'] =
+                    CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                 $this->_values['event']['contribution_type_id'],
+                                                 'accounting_code' );
+            }
+
             if( isset( $this->_values['event']['default_role_id'] ) ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $participant_role = CRM_Core_OptionGroup::values('participant_role');

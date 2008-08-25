@@ -211,6 +211,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $args['state']          = $params['state_province'];
         $args['countryCode']    = $params['country'];
         $args['zip']            = $params['postal_code'];
+        $args['custom']         = CRM_Utils_Array::value( 'accountingCode',
+                                                          $params );
 
         $result = $this->invokeAPI( $args );
 
@@ -322,7 +324,9 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                    'return'             => $returnURL,
                    'rm'                 => 2,
                    'currency_code'      => $params['currencyID'],
-                   'invoice'            => $params['invoiceID'] );
+                   'invoice'            => $params['invoiceID'] ,
+                   'custom'             => CRM_Utils_Array::value( 'accountingCode',
+                                                                   $params ) );
 
         // add name and address if available, CRM-3130
         $otherVars = array( 'first_name'     => 'first_name',
