@@ -94,7 +94,7 @@ cp com_civicrm/admin/civicrm/joomla/civicrm.html.php      com_civicrm
 cp com_civicrm/admin/civicrm/joomla/civicrm.php           com_civicrm
 cp com_civicrm/admin/civicrm/joomla/civicrm.xml           com_civicrm
 
-$DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*'
+$DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*' -x '*/sql/civicrm_data.??_??.mysql' -x '*/sql/civicrm_standalone.??_??.mysql'
 
 # clean up
 rm -rf com_civicrm
