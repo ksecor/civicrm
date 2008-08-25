@@ -75,17 +75,38 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
             return CRM_Utils_Rule::boolean($value);
             
         case 'StateProvince':
-            return
-                array_key_exists(strtolower($value),
-                                 array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvinceAbbreviation() ), CASE_LOWER ) )
-                || array_key_exists(strtolower($value),
-                                    array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvince() ), CASE_LOWER ) );
+            
+            //fix for multi select state, CRM-3437
+            $valid = false;
+            $mulValues = explode( ',', $value );
+            foreach ( $mulValues as $key => $state ) {
+                $valid =
+                    array_key_exists(strtolower(trim($state)),
+                                     array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvinceAbbreviation() ), CASE_LOWER ) )
+                    || array_key_exists(strtolower(trim($state)),
+                                        array_change_key_case( array_flip( CRM_Core_PseudoConstant::stateProvince() ), CASE_LOWER ) ); 
+                if ( !$valid ) {
+                    break;
+                }
+            }
+            return $valid;
+            
         case 'Country':
-            return
-                array_key_exists(strtolower($value),
-                         array_change_key_case( array_flip( CRM_Core_PseudoConstant::countryIsoCode() ), CASE_LOWER ) )
-                || array_key_exists(strtolower($value),
-                            array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
+            
+            //fix multi select country, CRM-3437
+            $valid = false;
+            $mulValues = explode( ',', $value );
+            foreach ( $mulValues as $key => $country ) {
+                $valid = array_key_exists(strtolower(trim($country)),
+                                          array_change_key_case( array_flip( CRM_Core_PseudoConstant::countryIsoCode() ), CASE_LOWER ) )
+                    || array_key_exists(strtolower(trim($country)),
+                                        array_change_key_case( array_flip( CRM_Core_PseudoConstant::country() ), CASE_LOWER ) );
+                if ( !$valid ) {
+                    break;
+                }
+            }
+            return $valid;
+            
         case 'Link':
             return CRM_Utils_Rule::url($value);
         }

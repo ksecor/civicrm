@@ -78,17 +78,23 @@ class CRM_Core_BAO_CustomValueTable
                         $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
                         $type  = 'String';
                     } else if ( ! is_numeric( $value ) ) {
-                        $states = array( );
-                        $states['state_province'] = $value;
-                        
-                        CRM_Utils_Array::lookupValue( $states, 'state_province', 
-                                                      CRM_Core_PseudoConstant::stateProvince(), true );
-                        if ( !$states['state_province_id'] ) {
-                            CRM_Utils_Array::lookupValue( $states, 'state_province',
-                                                          CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
+                        //fix for multi select state, CRM-3437
+                        $mulValues = explode( ',', $value );
+                        $validStates = array( );
+                        foreach ( $mulValues as $key => $stateVal ) {
+                            $states = array( );
+                            $states['state_province'] = trim($stateVal);
+                            
+                            CRM_Utils_Array::lookupValue( $states, 'state_province', 
+                                                          CRM_Core_PseudoConstant::stateProvince(), true );
+                            if ( !$states['state_province_id'] ) {
+                                CRM_Utils_Array::lookupValue( $states, 'state_province',
+                                                              CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
+                            }
+                            $validStates[] = $states['state_province_id'];
                         }
-                        $value = $states['state_province_id'];
-                        $type = 'Integer'; 
+                        $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $validStates );
+                        $type = 'String'; 
                     } else if ( ! $value ) {
                         // CRM-3415
                         // using type of timestamp allows us to sneak in a null into db
@@ -104,16 +110,22 @@ class CRM_Core_BAO_CustomValueTable
                         $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
                         $type  = 'String';
                     } else if ( ! is_numeric( $value ) ) {
-                        $countries = array( );
-                        $countries['country'] = $value;
-                        
-                        CRM_Utils_Array::lookupValue( $countries, 'country', 
-                                                      CRM_Core_PseudoConstant::country(), true );
-                        if ( ! $countries['country_id'] ) {
-                            CRM_Utils_Array::lookupValue( $countries, 'country',
-                                                          CRM_Core_PseudoConstant::countryIsoCode(), true );
+                        //fix for multi select country, CRM-3437
+                        $mulValues = explode( ',', $value );
+                        $validCountries = array( );
+                        foreach ( $mulValues as $key => $countryVal ) {
+                            $countries = array( );
+                            $countries['country'] = trim($countryVal);
+                            CRM_Utils_Array::lookupValue( $countries, 'country', 
+                                                          CRM_Core_PseudoConstant::country(), true );
+                            if ( ! $countries['country_id'] ) {
+                                CRM_Utils_Array::lookupValue( $countries, 'country',
+                                                              CRM_Core_PseudoConstant::countryIsoCode(), true );
+                            }
+                            $validCountries[] = $countries['country_id'];
                         }
-                        $value = $countries['country_id'];
+                        $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $validCountries ); 
+                        $type = 'String';
                     } else if ( ! $value ) {
                         // CRM-3415
                         // using type of timestamp allows us to sneak in a null into db
