@@ -1830,7 +1830,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3203, 1107, "FE", "Ferrara"),
 (3204, 1107, "FI", "Firenze"),
 (3205, 1107, "FG", "Foggia"),
-(3206, 1107, "FO", "Forli"),
+(3206, 1107, "FC", "Forlì-Cesena"),
 (3207, 1107, "FR", "Frosinone"),
 (3208, 1107, "GE", "Genova"),
 (3209, 1107, "GO", "Gorizia"),
@@ -1845,7 +1845,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3218, 1107, "LI", "Livorno"),
 (3219, 1107, "LO", "Lodi"),
 (3220, 1107, "LU", "Lucca"),
-(3221, 1107, "SC", "Macerata"),
+(3221, 1107, "MC", "Macerata"),
 (3222, 1107, "MN", "Mantova"),
 (3223, 1107, "MS", "Massa-Carrara"),
 (3224, 1107, "MT", "Matera"),
@@ -1861,7 +1861,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3234, 1107, "PR", "Parma"),
 (3235, 1107, "PV", "Pavia"),
 (3236, 1107, "PG", "Perugia"),
-(3237, 1107, "PS", "Pesaro e Urbino"),
+(3237, 1107, "PU", "Pesaro e Urbino"),
 (3238, 1107, "PE", "Pescara"),
 (3239, 1107, "PC", "Piacenza"),
 (3240, 1107, "PI", "Pisa"),
@@ -3858,4 +3858,9 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (9996, 1226, "xAVN", "Avon"),
 (9997, 1226, "xMDX", "Middlesex"),
 (9998, 1226, "xWGM", "West Glamorgan"),
-(9999, 1226, "xLON", "London");
+(9999, 1226, "xLON", "London"),
+
+(10000, 1107, "CI", "Carbonia-Iglesias"),
+(10001, 1107, "OL", "Olbia-Tempio"),
+(10002, 1107, "MA", "Medio Campidano"),
+(10003, 1107, "OG", "Ogliastra");

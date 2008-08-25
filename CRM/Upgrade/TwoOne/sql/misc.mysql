@@ -229,6 +229,21 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5216, 1165, "_P", "Rafah");
 
 
+-- CRM-3441
+
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES 
+(10000, 1107, "CI", "Carbonia-Iglesias"),
+(10001, 1107, "OL", "Olbia-Tempio"),
+(10002, 1107, "MA", "Medio Campidano"),
+(10003, 1107, "OG", "Ogliastra");
+
+UPDATE civicrm_state_province SET name = "Forlì-Cesena" WHERE id = 3206;
+UPDATE civicrm_state_province SET abbreviation = "FC"   WHERE id = 3206;
+UPDATE civicrm_state_province SET abbreviation = "MC"   WHERE id = 3221;
+UPDATE civicrm_state_province SET abbreviation = "PU"   WHERE id = 3237;
+
+
+
 -- Following wasn't done by 2.0 upgrade script, so adding here (also added to 2.0 script)
 
 ALTER TABLE `civicrm_loc_block`
