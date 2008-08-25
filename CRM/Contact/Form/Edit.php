@@ -340,11 +340,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
-            
-            if ( CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) ) {
-                $defaults['employer_option'] = 1;
-            }
-            $this->assign( 'sharedEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
+            $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
         
         //set defaults for country-state dojo widget
@@ -720,29 +716,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
-        }
-
-        if ( $this->_contactType == 'Individual' ) {
-            if ( isset( $params['employer_option'] ) ) {
-                // create current employer
-                if ( $params['employer_option'] ) {
-                    //selected existing organization
-                    $orgParam = $params['shared_employer'];
-                } else {
-                    // create new org
-                    $orgParam = $params['create_employer'];
-                }
-
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
-                                                                                  $orgParam );
-            } else {
-                //unset if employer id exits
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
-                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
-                }
-            }
         }
 
         // now invoke the post hook

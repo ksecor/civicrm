@@ -41,7 +41,7 @@
       <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
        <dd> <span>{$form.savedMapping.html}</span> </dd>
       <dt>&nbsp;</dt>
-       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+       <dd class="description">{ts}Select a saved field mapping if this file format matches a previous import.{/ts}</dd>
 {/if}
     </dl>
     <div class="spacer"></div>

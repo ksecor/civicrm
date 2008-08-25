@@ -146,42 +146,41 @@
 
     var contactId = dijit.byId(val).getValue();
     if ( isNaN( contactId ) ) {
-	document.getElementById(help).style.display='none';
-	document.getElementById(address).innerHTML = '';	
+	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};	
 	return; 
     }
 
-    if(val == 'shared_household'){		
-	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + contactId;
+    if ( val == 'shared_household' ) {		
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + contactId;
     } else {
-	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=2&id='}"{literal} + contactId;
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=2&id='}"{literal} + contactId;
     }
 
     dojo.xhrGet( { 
-		url: dataUrl, 
+	        url: dataUrl, 
 		handleAs: "text",
 		timeout: 5000, // Time in milliseconds
-		    
-	         // The LOAD function will be called on a successful response.
+		
+		// The LOAD function will be called on a successful response.
 		load: function(response, ioArgs) {
-		    var selectedAddr = response;
-	
-		    if ( selectedAddr != "" ) {
-			var ind = selectedAddr.indexOf(':::');
-			if ( ind < 0){
-				var formattedAddr = '';	
-			} else {
-				selectedAddr = selectedAddr.substr(ind+3);
-				var formattedAddr = selectedAddr.replace(/:::/g, ", ");
-			}
-			document.getElementById(help).style.display='none';
-			document.getElementById(address).innerHTML = formattedAddr;	
+		var selectedAddr = response;
+		
+		if ( selectedAddr != "" ) {
+		    var ind = selectedAddr.indexOf(':::');
+		    if ( ind < 0){
+			var formattedAddr = '';	
 		    } else {
-			document.getElementById(address).innerHTML = '';	
+			selectedAddr = selectedAddr.substr(ind+3);
+			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
 		    }
-		    return response; 
-		},
 
+		    document.getElementById(address).innerHTML = formattedAddr;	
+		} else {
+		    document.getElementById(address).innerHTML = '';	
+		}
+		return response; 
+	    },
+		
 		// The ERROR function will be called in an error case.
 		error: function(response, ioArgs) { 
 		    console.error("HTTP status code: ", ioArgs.xhr.status); 

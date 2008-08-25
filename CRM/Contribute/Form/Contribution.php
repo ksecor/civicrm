@@ -314,17 +314,6 @@ WHERE  contribution_id = {$this->_id}
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
-        
-        //also set the post url
-        if ( $this->_ppID ) {
-            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
-        } else {
-            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" ); 
-        }
-        $session =& CRM_Core_Session::singleton( ); 
-        $session->pushUserContext( $postURL );
     }
 
     function setDefaultValues( ) 

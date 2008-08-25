@@ -186,6 +186,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                         $contact->id );
         }
 
+        if ( $contact->contact_type == 'Individual' &&
+             array_key_exists( 'current_employer', $params ) ) {
+            // create current employer
+            if ( $params['current_employer'] ) {
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
+                                                                                  $params['current_employer'] );
+            } else {
+                //unset if employer id exits
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
+                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
+                }
+            }
+        }
+
         //update cached employee name
         if ( $contact->contact_type == 'Organization' ) {
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
@@ -193,8 +209,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         return $contact;
     }
-
-
     
     /**
      * Function to create contact
@@ -1401,15 +1415,6 @@ WHERE  civicrm_contact.id = %1 ";
         
         if ( ! $contactID ) {
           CRM_Core_Error::fatal( 'Cannot proceed without a valid contact id' );
-        }
-
-        if ( $data['contact_type'] == 'Individual' && 
-             array_key_exists( 'current_employer', $params ) ) {
-            if ( $params['current_employer'] )  {
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactID,
-                                                                                  $params['current_employer'] );
-            }
         }
 
         // Process group and tag  

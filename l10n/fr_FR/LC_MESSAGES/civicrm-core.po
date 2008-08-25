@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-04 09:10-0700\n"
-"Last-Translator: Aurialie <ajublin@gmail.com>\n"
+"PO-Revision-Date: 2008-08-24 09:38-0700\n"
+"Last-Translator: Loic Dachary <loic@dachary.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1243,7 +1243,7 @@ msgstr "et"
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "...through"
-msgstr ""
+msgstr "...travers"
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
@@ -1771,7 +1771,7 @@ msgstr "Subvention (Status)"
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Application Received"
-msgstr "Application reçue"
+msgstr "Candidature reçue"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 msgid "Money Transferred"
@@ -1913,7 +1913,6 @@ msgid "access Contact Dashboard"
 msgstr "Tableau de bord des contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "ACL Type"
 msgstr "Type d'ACL"
 
@@ -1996,14 +1995,13 @@ msgid "Assign Users to Roles"
 msgstr "Assigner les utilisateurs à des Rôles"
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "- Activity Fields -"
 msgstr "- Champs d'activité -"
 
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
 msgid "Case Activity %2 %1"
-msgstr "Type d'Activité %2 '%1'"
+msgstr "Type d'Activité %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
@@ -2015,14 +2013,12 @@ msgid "Violation Type %2 %1"
 msgstr "Violation de type %2 %1"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Case Activity Subject %2 %1"
-msgstr "Type d'Activité %2 '%1'"
+msgstr "Sujet du Type d'Activité %2 %1"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Activity Medium"
-msgstr "Type d'activité"
+msgstr "Moyen d'activité"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Violation Type"
@@ -2038,7 +2034,6 @@ msgid "Other Activities"
 msgstr "Autres activités"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "- select activity -"
 msgstr "- sélectionner le type d'activité -"
 
@@ -2047,9 +2042,8 @@ msgid "With Contact"
 msgstr "Avec le contact"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Source Contact non-existant!"
-msgstr "Source des données du Contact inexistante"
+msgstr "Source des données du Contact inexistante!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Target Contact non-existant!"
@@ -2068,9 +2062,8 @@ msgid "Selected Activity is deleted sucessfully."
 msgstr "L'activité sélectionnée a été supprimée avec succès."
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr "L'activité sélectionnée a été séparée avec succès du dossier"
+msgstr "L'activité sélectionnée a été séparée avec succès d'un dossier."
 
 #: CRM/Activity/Form/Activity.php
 msgid "Activity '%1' has been saved."
@@ -2098,7 +2091,6 @@ msgid "Missing required field: %1"
 msgstr "Champ manquant : %1"
 
 #: CRM/Activity/Import/Form/UploadFile.php
-#, fuzzy
 msgid "On duplicate entries"
 msgstr "Sur les entrées dupliquées"
 
@@ -2112,7 +2104,6 @@ msgid "View Activity History URL"
 msgstr "Voir l'historique des URL"
 
 #: CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "Update Activity"
 msgstr "Mettre à jour l'activité"
 
@@ -2121,12 +2112,10 @@ msgid "Delete Activity"
 msgstr "Supprimer l'activité"
 
 #: CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "Detach Activity"
 msgstr "Supprimer l'activité"
 
 #: CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "Activities %%StatusMessage%%"
 msgstr "Activités %%StatusMessage%%"
 
@@ -2148,9 +2137,8 @@ msgstr "SMS"
 
 # Le nom du module de change pas!
 #: CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "CiviCRM Activity"
-msgstr "CiviCRM Activity"
+msgstr "Activité CiviCRM"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl

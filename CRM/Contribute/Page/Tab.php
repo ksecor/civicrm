@@ -261,23 +261,29 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'membership':
-            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+            $componentId     =  CRM_Utils_Request::retrieve( 'compId', 'Positive', $this);
+            $componentAction =  CRM_Utils_Request::retrieve( 'compAction', 'Integer', $this );
+
+            if ( $componentAction & CRM_Core_Action::VIEW ) {
                 $action = 'view';
             } else {
                 $action = 'update';
             } 
             $url = CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                          "reset=1&action={$action}&cid={$this->_contactId}&id={$session->get( 'memberId' )}&context=membership&selectedChild=member" );
+                                          "reset=1&action={$action}&cid={$this->_contactId}&id={$componentId}&context=membership&selectedChild=member" );
             break; 
             
         case 'participant':
-            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+            $componentId     =  CRM_Utils_Request::retrieve( 'compId', 'Positive', $this );
+            $componentAction =  CRM_Utils_Request::retrieve( 'compAction', 'Integer', $this );
+            
+            if ( $componentAction == CRM_Core_Action::VIEW ) {
                 $action = 'view';
             } else {
                 $action = 'update';
             } 
             $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                          "reset=1&action={$action}&id={$session->get( 'participantId' )}&cid={$this->_contactId}&context=participant&selectedChild=event" );
+                                          "reset=1&action={$action}&id={$componentId}&cid={$this->_contactId}&context=participant&selectedChild=event" );
             break;
             
         case 'pledge':
@@ -294,7 +300,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
                                           'reset=1&force=1' . $cid );
             break;
         }
-        
+
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }

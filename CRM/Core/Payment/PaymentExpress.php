@@ -133,7 +133,7 @@ class CRM_Core_Payment_PaymentExpress extends CRM_Core_Payment {
             $generateRequest = _valueXml(array(
                                                'PxPayUserId' => $this->_paymentProcessor['user_name'],
                                                'PxPayKey' => $this->_paymentProcessor['password'],
-                                               'AmountInput' => number_format($params['amount'],2),
+                                               'AmountInput' => str_replace(",","", number_format($params['amount'],2)),
                                                'CurrencyInput' => $params['currencyID'],
                                                'MerchantReference' => $merchantRef,
                                                'TxnData1' => $params['qfKey'],

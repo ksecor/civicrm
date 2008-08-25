@@ -202,9 +202,6 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
     {
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
-            $session =& CRM_Core_Session::singleton( );
-            $session->set( 'action', $this->_action );
-            $session->set( 'participantId'  , $this->_id );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), null );  
             $controller->setEmbedded( true );                           
             $controller->reset( );  

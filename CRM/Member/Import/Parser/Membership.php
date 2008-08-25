@@ -394,12 +394,12 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                 }
             }
         }
-      
+
         //Format dates
         $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
         $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
         $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');          
-        
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -456,8 +456,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     require_once 'CRM/Member/BAO/MembershipStatus.php';
                     require_once 'CRM/Member/BAO/MembershipType.php';
                     require_once 'CRM/Member/PseudoConstant.php';
-                    $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($formatted['membership_type_id'], 
-                                                                                          $joinDate);
+                    $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType( $formatted['membership_type_id'], 
+                                                                                           $joinDate, 
+                                                                                           $startDate, 
+                                                                                           $endDate);
                     self::formattedDates( $calcDates, $formatted );
                     
                     $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
@@ -473,7 +475,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                             return CRM_Member_Import_Parser::ERROR;
                         }
                     }
-                    
+
                     $newMembership = civicrm_contact_membership_create($formatted, $cid);
                     if ( civicrm_error( $newMembership ) ) {
                         array_unshift($values, $newMembership['error_message']);

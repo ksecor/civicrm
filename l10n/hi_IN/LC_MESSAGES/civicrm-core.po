@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-12 05:58-0700\n"
+"PO-Revision-Date: 2008-08-20 00:07-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -10989,9 +10989,8 @@ msgid "Send to these Friend(s)"
 msgstr ""
 
 #: templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "पता"
+msgstr "ईमेल पता"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status of this grant."

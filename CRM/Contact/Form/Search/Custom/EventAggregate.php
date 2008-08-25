@@ -46,14 +46,14 @@ implements CRM_Contact_Form_Search_Interface {
         /**
          * Define the columns for search result rows
          */
-        $this->_columns = array( ts('Event')                    => 'event_name',
-                                ts('Type')                     => 'event_type',
-                                ts('Number of<br />Students')  => 'participant_count',
-                                ts('Total Payment')            => 'payment_amount' ,
-                                ts('Fee')                      => 'fee' ,
-                                ts('Net Payment')              => 'net_payment' ,
-                                //						  ts('Paid Online') => 'payment_instrument_id',
-                                );
+        $this->_columns = array( ts('Event')                      => 'event_name',
+                                 ts('Type')                       => 'event_type',
+                                 ts('Number of<br />Participant') => 'participant_count',
+                                 ts('Total Payment')              => 'payment_amount' ,
+                                 ts('Fee')                        => 'fee' ,
+                                 ts('Net Payment')                => 'net_payment' ,
+                                 //ts('Paid Online')              => 'payment_instrument_id',
+                                 );
     }
     
     function buildForm( &$form ) {
@@ -72,24 +72,27 @@ implements CRM_Contact_Form_Search_Interface {
         foreach($event_type as $eventId => $eventName) {
             $form->addElement('checkbox', "event_type_id[$eventId]", 'Event Type', $eventName);
         }
+        require_once "CRM/Event/BAO/Event.php";
+        $events = CRM_Event_BAO_Event::getEvents( );
+        $form->add('select', 'event_id',  ts( 'Event Name' ), array( '' => ts( '- select -' ) ) + $events ) ;
         
         $form->add( 'date',
-                   'start_date',
-                   ts('Payments Date From'),
-                   CRM_Core_SelectValues::date('custom', 10, 3 ) );
+                    'start_date',
+                    ts('Payments Date From'),
+                    CRM_Core_SelectValues::date('custom', 10, 3 ) );
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
         
         $form->add( 'date',
-                   'end_date',
-                   ts('...through'),
-                   CRM_Core_SelectValues::date('custom', 10, 0 ) );
+                    'end_date',
+                    ts('...through'),
+                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
         $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         
         /**
          * If you are using the sample template, this array tells the template fields to render
          * for the search form.
          */
-        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'event_type_id' ) );
+        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'event_type_id', 'event_id' ) );
     }
     
     /**
@@ -103,7 +106,7 @@ implements CRM_Contact_Form_Search_Interface {
      * Construct the search query
      */       
     function all( $offset = 0, $rowcount = 0, $sort = null,
-                 $includeContactIDs = false ) {
+                  $includeContactIDs = false ) {
         // SELECT clause must include contact_id as an alias for civicrm_contact.id if you are going to use "tasks" like export etc.
         $select  = "civicrm_participant.event_id as event_id,
         COUNT(civicrm_participant.id) as participant_count,
@@ -172,7 +175,7 @@ implements CRM_Contact_Form_Search_Interface {
         $clauses[] = "civicrm_participant.status_id in ( 1 )";
         $clauses[] = "civicrm_contribution.is_test = 0";
         $onLine = CRM_Utils_Array::value( 'paid_online',
-                                         $this->_formValues );
+                                          $this->_formValues );
         if ( $onLine ) {
             $clauses[] = "civicrm_contribution.payment_instrument_id <> 0";
         }
@@ -187,11 +190,15 @@ implements CRM_Contact_Form_Search_Interface {
             $clauses[] = "civicrm_contribution.receive_date <= $endDate";
         }
         
+        if ( !empty( $this->_formValues['event_id'] ) ) { 
+            $clauses[] = "civicrm_event.id = {$this->_formValues['event_id']}";
+        }
+        
         if ( $includeContactIDs ) {
             $contactIDs = array( );
             foreach ( $this->_formValues as $id => $value ) {
                 if ( $value &&
-                    substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                     substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
                     $contactIDs[] = substr( $id, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
@@ -229,15 +236,13 @@ implements CRM_Contact_Form_Search_Interface {
         
         // CRM_Core_Error::debug('sql',$sql);
         $dao = CRM_Core_DAO::executeQuery( $sql,
-                                          CRM_Core_DAO::$_nullArray );
+                                           CRM_Core_DAO::$_nullArray );
         $totals = array();
         while ( $dao->fetch( ) ) {
             $totals['payment_amount'] = $dao->payment_amount;
             $totals['fee'] = $dao->fee;
             $totals['net_payment'] = $dao->net_payment;
         }
-        
-        // CRM_Core_Error::debug('T',$totals); exit();
         return $totals;
     }
     
@@ -248,7 +253,7 @@ implements CRM_Contact_Form_Search_Interface {
         $sql = $this->all( );
         
         $dao = CRM_Core_DAO::executeQuery( $sql,
-                                          CRM_Core_DAO::$_nullArray );
+                                           CRM_Core_DAO::$_nullArray );
         return $dao->N;
     }
     
