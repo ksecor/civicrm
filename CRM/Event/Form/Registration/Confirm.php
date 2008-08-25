@@ -375,11 +375,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             // we dont store in userID in case the user is doing multiple
             // transactions etc
             // for things like tell a friend
-            if ( ! $session->get( 'userID' ) ) {
+            if ( ! $session->get( 'userID' ) && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 $session->set( 'transaction.userID', $contactID );
-            } else {
-                $session->set( 'transaction.userID', null );
-            }
+            } 
             
             $value['description'] = ts( 'Online Event Registration' ) . ': ' . $this->_values['event']['title'];
             

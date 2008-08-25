@@ -661,6 +661,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function processRegistration( $params, $contactID = null ) 
     {
+        $session =& CRM_Core_Session::singleton( );
         $this->_participantInfo   = array();
         foreach ( $params as $key => $value ) {
             if ( $value != 'skip') {
@@ -680,6 +681,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
                 
                 $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
+               
+                // lets store the contactID in the session
+                // we dont store in userID in case the user is doing multiple
+                // transactions etc
+                // for things like tell a friend
+                if ( ! $session->get( 'userID' ) && CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                    $session->set( 'transaction.userID', $contactID );
+                } 
                 $this->set( 'value', $value );
                 $this->confirmPostProcess( $contactID, null, null );
             }
