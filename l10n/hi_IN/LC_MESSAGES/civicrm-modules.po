@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-19 22:41-0700\n"
+"PO-Revision-Date: 2008-08-19 23:59-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "No thank you"
-msgstr ""
+msgstr "नहीं धन्यवाद"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
@@ -2886,6 +2886,9 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
+"यदि आपके पास एक पेपैल खाता है, तो आप जारी रखने के लिए पेपैल बटन को क्लिक "
+"करें। अन्यथा, क्रेडिट कार्ड और बिलिंग जानकारी भरे और इस फ़ॉर्म पर जारी रहने "
+"के लिये पृष्ठ के तल के आगे बढे बटन पर क्लिक करे।"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
@@ -3445,7 +3448,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Please print this receipt for your records."
-msgstr ""
+msgstr "कृपया इस रसीद काे अपने रिकॉर्ड के लिए छापिये।"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
