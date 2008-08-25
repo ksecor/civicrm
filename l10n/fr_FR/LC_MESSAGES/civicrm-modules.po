@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-13 08:30-0700\n"
+"PO-Revision-Date: 2008-08-21 07:54-0700\n"
 "Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3670,28 +3670,40 @@ msgid ""
 "you page. You can use this content area to encourage contributors to visit a "
 "tell-a-friend page or take some other action."
 msgstr ""
+"Entrez le(s) lien(s) et/ou texte que vous vouloir voir apparaître en haut de "
+"la page de remerciement. Vous pouvez utiliser cette zone de contenu pour "
+"encourager les contributeurs à visiter une page Dites-le à vos amis ou pour "
+"autre chose."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Check this box if you want an electronic receipt to be sent automatically."
 msgstr ""
+"Cochez cette case si vous voulez envoyer un accusé de réception automatique."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM name to be used when receipts are emailed to contributors."
 msgstr ""
+"Entrez le nom d'expéditeur utilisé pour les accusés de réception envoyés par "
+"e-mail."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM email address to be used when receipts are emailed to "
 "contributors."
 msgstr ""
+"Entrez l'adresse e-mail de l'expéditeur utilisé pour les accusés de "
+"réception envoyés par e-mail."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter a message you want included at the beginning of emailed receipts. "
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
 msgstr ""
+"Entrez le message que vous souhaitez inclure au début de l'accusé de "
+"réception envoyé par e-mail. NOTE : Les accusés de réception sont en TEXT "
+"seulement, aucun tag en HTML n'est inclus ici."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -3700,6 +3712,9 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"Si des membres de votre organisation souhaitent recevoir une copie des "
+"accusés de réception envoyés par e-mail, entrez les adresses e-mail ici, en "
+"les séparant par une virgule (ex : jane@example.org, paula@example.org)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -3708,10 +3723,13 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"Si des membres de votre organisation souhaitent recevoir en copie cachée les "
+"accusés de réception envoyés par e-mail, entrez les adresses e-mail ici, en "
+"les séparant par une virgule (ex : jane@example.org, paula@example.org)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Configure Widget"
-msgstr ""
+msgstr "Configuration Widget"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
@@ -3720,40 +3738,52 @@ msgid ""
 "provide a real-time display of current contribution results, and a direct "
 "link to this contribution page."
 msgstr ""
+"Les Widgets CiviContribute permettent, à vos et à vos soutiens, de "
+"promouvoir facilement les campagnes de levée de fonds. Le code du Widget "
+"peut être ajouté à toute page web, montrera en temps réel le résultats des "
+"contributions et fournira un lien direct à cette page de contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Preview Widget and Get Code"
-msgstr ""
+msgstr "Visualiser le Widget et obtenir le code"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
 "Click <strong>Save & Preview</strong> to save any changes to your settings, "
 "and preview the widget again on this page."
 msgstr ""
+"Cliquez <strong>Sauvegarder & Prévisualiser</strong> pour sauvegarder tout "
+"changement dans la configuration, et prévisualiser de nouveau le widget dans "
+"cette page."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
 "Click <strong>Save & Preview</strong> to save your settings and preview the "
 "widget on this page."
 msgstr ""
+"Cliquez <strong>Sauvegarder & Prévisualiser</strong> pour sauvegarder votre "
+"configuration et prévisualiser le widget sur cette page."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Add this widget to any web page by copying and pasting the code below."
 msgstr ""
+"Ajoutez ce widget à toute page web en copiant et collant le code ci-dessous."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
 "The code for adding this widget to web pages will be displayed here after "
 "you click <strong>Save and Preview</strong>."
 msgstr ""
+"Le code pour ajouter le widget à des pages web sera affiché ici une fois que "
+"vous aurez cliqué sur <strong>Sauvegarder & Prévisualiser</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Edit Widget Colors"
-msgstr ""
+msgstr "Editer les couleurs du widget"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Widget Colors"
-msgstr ""
+msgstr "Couleurs du Widget"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
@@ -3761,14 +3791,17 @@ msgid ""
 "<em>0xFF0000</em> = Red. You can do a web search on 'hexadecimal colors' to "
 "find a chart of color codes."
 msgstr ""
+"Entrez les couleurs dans un format hexadécimal avec le préfixe <em>0x</em>. "
+"EXEMPLE: <em>0xFF0000</em> = Rouge. Vous pouvez faire une recherche web sur "
+"'couleurs hexadécimales' pour trouver un tableau des codes couleur."
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid "Your Premium Selection"
-msgstr ""
+msgstr "Votre sélection cadeau"
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid "(Contribute at least %1 to be eligible for this gift.)"
-msgstr ""
+msgstr "(Contribue au moins %1 pour être elligible à ce cadeau.)"
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -3776,10 +3809,13 @@ msgid ""
 "The value of this premium is %1. This may affect the amount of the tax "
 "deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
+"La valeur de ce cadeau est de %1. Cela pourrait affecter le montant des "
+"déduction d'impôt auquel vous pouvez prétendre. Consultez votre conseiller "
+"financier pour plus d'informations."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr ""
+msgstr "Testez votre page de contribution"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -3799,121 +3835,129 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Please print this receipt for your records."
-msgstr ""
+msgstr "Veuillez imprimer cet accusé de réception pour vos archives."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
 msgid "Membership Information"
-msgstr "Page de donation"
+msgstr "Information d'adhésion"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
 msgid "Membership Start Date"
-msgstr "Date de debut"
+msgstr "Date de debut de l'adhésion"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
-#, fuzzy
 msgid "Membership End Date"
-msgstr "Date de debut"
+msgstr "Date de fin de l'adhésion"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Contribution Information"
-msgstr ""
+msgstr "Information de contribution"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "%1 Membership"
-msgstr ""
+msgstr "Adhésion %1"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Transaction #"
-msgstr "Organisation"
+msgstr "Transaction #"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Membership Transaction #"
-msgstr "Organisation"
+msgstr "Transaction d'adhésion #"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
 "This is a recurring contribution. You can modify or cancel future "
 "contributions by logging in to your account at:"
 msgstr ""
+"Ceci est une contribution périodique. Vous pouvez modifier ou annuler les "
+"futures contributions en vous identifiant sur votre compte à :"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Honoree Email"
-msgstr "Type de contact"
+msgstr "Email"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Premium Information"
-msgstr ""
+msgstr "Information Cadeau"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "For information about this premium, contact:"
-msgstr ""
+msgstr "Pour plus d'informations sur ce cadeau, veuillez contacter :"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
-msgstr ""
+msgstr "Accusé de réception de trasaction test"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid ""
 "This is a test-drive transaction receipt. No live financial transaction has "
 "occurred."
 msgstr ""
+"Ceci est un accusé de réception test. Aucune transaction financière directe "
+"n'aura lieu."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
-#, fuzzy
 msgid "Receipt"
-msgstr "Message"
+msgstr "Accusé de réception"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "An email receipt will be sent to %1 once the transaction is processed "
 "successfully."
 msgstr ""
+"Un accusé de réception par e-mail va être envoyé à %1 dès que la transaction "
+"se sera déroulée avec succès."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "Your transaction has been processed successfully. Please print this page for "
 "your records."
 msgstr ""
+"Votre transaction s'est déroulée avec succès. Veuillez imprimer cette page "
+"pour vos archives."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt has also been sent to %1"
-msgstr ""
+msgstr "Un accusé de réception a également été envoyé par e-mail à %1."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "This recurring contribution will be automatically processed every %1 %2(s) "
 "for a total %3 installments (including this initial contribution)."
 msgstr ""
+"Cette contribution périodique sera traitée automatiquement tous les %1 %2(s) "
+"pour un total de %3 versements (incluant cette contribution initiale)."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "This recurring contribution will be automatically processed every %1 %2(s)."
 msgstr ""
+"Cette contribution périodique sera traitée automatiquement tous les %1 "
+"%2(s)."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
 "You can modify or cancel future contributions at any time by <a href='%"
 "1'>logging in to your account</a>."
 msgstr ""
+"Vous pouvez modifier ou annuler les futures contributions à tout moment en "
+"<a href='%1'>identifiant sur votre compte</a>."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -3921,104 +3965,116 @@ msgid ""
 "receipts will also include a link you can use if you decide to modify or "
 "cancel your future contributions."
 msgstr ""
+"Vous recevrez un accusé de réception par e-mail à chaque contribution "
+"périodique. Les accusés inclueront également un lien que vous pourrez "
+"utiliser si vous décidez de modifier ou supprimer les contributions futures."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "WARNING: Deleting this contribution will result in the loss of the "
 "associated financial transactions (if any)."
 msgstr ""
+"ATTENTION : Supprimer cette contribution aura pour conséquence la perte des "
+"transactions financières associées (s'il y en a)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "(test)"
-msgstr "Text"
+msgstr "(test)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
-msgstr ""
+msgstr "Sélectionnez le type de contribution approprié pour cette transaction."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
-msgstr ""
+msgstr "Montant actuel donné par le contributeur."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
-msgstr ""
+msgstr "Date de réception de la contribution."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Leave blank for non-monetary contributions."
-msgstr ""
+msgstr "Laissez vide pour les contributions non monétaires."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Optional identifier for the contribution source (campaign name, event, "
 "mailer, etc.)."
 msgstr ""
+"Identifiant optionnel pour la source de contribution (nom de la campagne, "
+"évènement, expéditeur, ect.)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
-msgstr ""
+msgstr "Date à laquelle un accusé de réception a été envoyé au contributeur."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Cancellation Information"
-msgstr "Page de donation"
+msgstr "Information d'annulation"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Enter the cancellation date, or you can skip this field and the cancellation "
 "date will be automatically set to TODAY."
 msgstr ""
+"Entrez la date d'annulation, ou bien vous pouvez laisser le champ et la date "
+"d'annulation indiquée automatiquement sera AUJOURD'HUI."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Additional Details"
-msgstr ""
+msgstr "Détails additionnels"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Non-deductible portion of this contribution."
-msgstr ""
+msgstr "Part non-déductible de cette contribution."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Processing fee for this transaction (if applicable)."
-msgstr ""
+msgstr "Frais de gestion pour cette transaction (si il y en a)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Net value of the contribution (Total Amount minus Fee)."
-msgstr ""
+msgstr "Montant net de la contribution (Montant total moins les frais)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Unique internal reference ID for this contribution."
-msgstr ""
+msgstr "Numéro de référence interne unique de cette contribution."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "Unique payment ID for this transaction. The Payment Processor's transaction "
 "ID will be automatically stored here on online contributions."
 msgstr ""
+"Numéro unique de règlement. Le numéro de transaction du règlement sera "
+"automatiquement conservé ici, sur les contributions en ligne."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "For offline contributions, you can enter an account+check number, bank "
 "transfer identifier, etc."
 msgstr ""
+"Pour les contributions hors ligne, vous pouvez entrer un numéro de compte, "
+"identifiant de transfert bancaire, ect."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a thank-you message was sent to the contributor."
 msgstr ""
+"Date à laquelle un message de remerciement a été envoyé au contributeur."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
+#, fuzzy
 msgid "Honoree Information"
-msgstr ""
+msgstr "Information sur la personne bénéficiaire du cadeau"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
-#, fuzzy
 msgid "New Contribution Type"
-msgstr "Type de contact"
+msgstr "Nouveau type de contribution"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
@@ -4026,11 +4082,13 @@ msgid ""
 "any Contributions, Contribution Pages or Membership Types. Consider "
 "disabling this option instead."
 msgstr ""
+"ATTENTION : Vous ne pouvez pas supprimer un type de contribution s'il est "
+"actuellement utilisé pour des contributions, des pages de contributions ou "
+"des types d'adhésion. Envisagez plutôt d'annuler cette option."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Deleting a contribution type cannot be undone."
-msgstr "Effacer contacts"
+msgstr "Effacer un type de contribution ne peut être annulé."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
@@ -4038,33 +4096,34 @@ msgid ""
 "code used in your accounting system. This code will be included when you "
 "export contribution data to your accounting package."
 msgstr ""
+"Utilisez ce champ pour signaler les contributions de ce type avec le code "
+"utilisé dans votre système comptable. Ce code sera inclus dans l'exportation "
+"des données de contribution dans votre comptabilité."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
-msgstr ""
+msgstr "Les contributions de ce type sont-ils déductibles?"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "pending"
-msgstr "En attente"
+msgstr "en attente"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Option"
-msgstr ""
+msgstr "Option"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid "New Premium"
-msgstr ""
+msgstr "Nouveau cadeau"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Preview a Premium"
-msgstr ""
+msgstr "Visualiser un cadeau"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Delete Premium Product"
-msgstr "Effacer contacts"
+msgstr "Effacer le cadeau"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4072,18 +4131,25 @@ msgid ""
 "This will also remove the premium from any contribution pages that currently "
 "include it."
 msgstr ""
+"Etes-vous sûr de vouloir supprimer ce cadeau? Cette action ne pourra pas "
+"être annulée. Cela enlevera également le cadeau de toutes pages de "
+"contribution qui l'intègrent actuellement."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Name of the premium (product, service, subscription, etc.) as it will be "
 "displayed to contributors."
 msgstr ""
+"Nom du cadeau (produit, service, souscription, ect.) tel qu'il sera affiché "
+"aux contributeurs."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Optional product SKU or code. If used, this value will be included in "
 "contributor receipts."
 msgstr ""
+"Code du produit optionnel. S'il est utilisé, cette valeur sera incluse dans "
+"l'accusé de réception du contributeur."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4093,6 +4159,12 @@ msgid ""
 "PNG format, and the full-size image may be no larger than 500 pixels wide x "
 "500 pixels high. Thumbnails should be approximately 100 x 100 pixels."
 msgstr ""
+"Une vignette de ce cadeau sera affichée sur la page de contribution, si vous "
+"en fournissez une. Quand un contributeur cliquera sur la vignette, une "
+"image de grande taille s'affichera dans une fenête pop-up. Les images "
+"devront être au format GIF, JPEG ou PNG et l'image de grande taille ne "
+"pourra pas faire plus de 500 pixels de haut sur 500 pixels de large. Les "
+"vignettes devront faire approximativement 100x100 pixels."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
