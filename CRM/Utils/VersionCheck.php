@@ -106,7 +106,12 @@ class CRM_Utils_VersionCheck
                     $url .= "&ufv=" . VERSION;
                     break;
                 case 'Joomla':
-                    $jv = new JVersion;
+                    // different Joomla versions sport differnt version classes (I'm not making this up...)
+                    switch (true) {
+                    case class_exists('joomlaVersion'): $jv = new joomlaVersion; break;
+                    case class_exists('JVersion'):      $jv = new JVersion;      break;
+                    default: break 2; // no known version class - break out of both switches
+                    }
                     $url .= "&ufv=" . $jv->getShortVersion();
                     break;
                 }
