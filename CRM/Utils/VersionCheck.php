@@ -82,14 +82,13 @@ class CRM_Utils_VersionCheck
         $cachefile = $config->uploadDir . self::CACHEFILE_NAME;
 
         if ($config->versionCheck and file_exists($localfile)) {
-
             $localParts         = explode(' ', trim(file_get_contents($localfile)));
             $this->localVersion = $localParts[0];
             $expiryTime         = time() - self::CACHEFILE_EXPIRE;
 
             // if there's a cachefile and it's not stale use it to
             // read the latestVersion, else read it from the Internet
-            if (file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
+            if (0 and file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
                 $this->latestVersion = file_get_contents($cachefile);
             } else {
                 // we have to set the error handling to a dummy function, otherwise
@@ -143,7 +142,7 @@ class CRM_Utils_VersionCheck
 
                 // add the .-separated list of the processor types (urlencoded just in case)
                 $url .= '&PPTypes=' . urlencode(implode('.', array_unique($ppTypes)));
-                
+
                 // get the latest version using the stats-carrying $url
                 $this->latestVersion = file_get_contents($url);
                 ini_restore('default_socket_timeout');

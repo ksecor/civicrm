@@ -146,7 +146,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                   $this );
         if ( ! $this->_id ) {
-            $pastContributionID = $session->get( 'pastContributionId' );
+            $pastContributionID = $session->get( 'pastContributionID' );
             if ( ! $pastContributionID ) {
                 CRM_Core_Error::fatal( ts( 'We could not find contribution details for your request. Please try your request again.' ) );
             } else {
