@@ -848,7 +848,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false )
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -859,7 +859,7 @@ FROM   civicrm_domain
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
 
-        $dao->query( $queryStr );
+        $dao->query( $queryStr, $i18nRewrite );
 
         if ( $freeDAO ) {
             // we typically do this for insert/update/delete stataments
@@ -877,12 +877,12 @@ FROM   civicrm_domain
      * @static 
      * @access public 
      */ 
-    static function singleValueQuery( $query, $params = array( ), $abort = true ) 
+    static function singleValueQuery( $query, $params = array( ), $abort = true, $i18nRewrite = true ) 
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
 
-        $dao->query( $queryStr ); 
+        $dao->query( $queryStr, $i18nRewrite ); 
         
         $result = $dao->getDatabaseResult();
         $ret    = null;
