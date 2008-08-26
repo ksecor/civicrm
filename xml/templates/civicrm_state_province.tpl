@@ -3861,6 +3861,6 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (9999, 1226, "xLON", "London"),
 
 (10000, 1107, "CI", "Carbonia-Iglesias"),
-(10001, 1107, "OL", "Olbia-Tempio"),
-(10002, 1107, "MA", "Medio Campidano"),
+(10001, 1107, "OT", "Olbia-Tempio"),
+(10002, 1107, "VS", "Medio Campidano"),
 (10003, 1107, "OG", "Ogliastra");
