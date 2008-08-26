@@ -404,6 +404,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->applyFilter('__ALL__', 'trim');
        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            if (  $this->_single ) {
+                require_once 'CRM/Event/BAO/EventPage.php';
+                $additionalParticipant = count (CRM_Event_BAO_EventPage::buildCustomProfile( $this->_id, null, $this->_contactID, false, true )) - 1;
+                if ( $additionalParticipant ) {
+                    $this->assign( "additionalParticipant", $additionalParticipant );
+                }   
+            }
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Delete'), 

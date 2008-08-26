@@ -30,7 +30,12 @@
         	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           	<dd> 
           	 {ts}WARNING: Deleting this registration will result in the loss of related payment records (if any).{/ts} {ts}Do you want to continue?{/ts} 
+          	</dd>
+             {if $additionalParticipant}  
+            <dd> 
+          	 {ts 1=$additionalParticipant} There are %1 more Participant(s) registered by this participant. Deleting this registration will also result in deletion of these additional participant(s).{/ts}  
           	</dd> 
+             {/if}
        	    </dl>
       	    </div> 
         </td></tr>
