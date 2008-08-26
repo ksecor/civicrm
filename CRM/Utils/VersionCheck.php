@@ -106,7 +106,7 @@ class CRM_Utils_VersionCheck
                     $url .= "&ufv=" . VERSION;
                     break;
                 case 'Joomla':
-                    $jv = new joomlaVersion;
+                    $jv = new JVersion;
                     $url .= "&ufv=" . $jv->getShortVersion();
                     break;
                 }
