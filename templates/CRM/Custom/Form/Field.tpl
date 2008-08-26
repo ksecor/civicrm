@@ -195,6 +195,11 @@
 
 {literal}
 <script type="text/javascript">
+
+      //when page is reload, build show hide boxes
+      //as per data type and html type selected.
+      custom_option_html_type( );
+
       function showSearchRange(chkbox) {
             var html_type = document.getElementsByName("data_type[1]")[0].value;
 	        var data_type = document.getElementsByName("data_type[0]")[0].value;
