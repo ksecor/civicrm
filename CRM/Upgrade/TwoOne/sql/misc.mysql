@@ -274,8 +274,8 @@ ALTER TABLE civicrm_domain ADD locales text COMMENT 'list of locales supported b
 
 CREATE TABLE `civicrm_cache` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `group_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'group name for cache element, useful in cleaning cache elements',
-  `path` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Unique path name for cache element',
+  `group_name` varchar(32) collate utf8_unicode_ci NOT NULL COMMENT 'group name for cache element, useful in cleaning cache elements',
+  `path` varchar(64) collate utf8_unicode_ci default NULL COMMENT 'Unique path name for cache element',
   `data` text collate utf8_unicode_ci COMMENT 'data associated with this path',
   `component_id` int(10) unsigned default NULL COMMENT 'Component that this menu item belongs to',
   `created_date` datetime default NULL COMMENT 'When was the cache item created',
