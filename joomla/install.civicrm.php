@@ -1,5 +1,7 @@
 <?php
 
+defined('_JEXEC') or die('No direct access allowed'); 
+
 function com_install() {
     if ( ! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
         // this require actually runs the function needed

@@ -1,8 +1,7 @@
 <?php
 
-if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die('No direct access allowed'); 
 
 // check for php version and ensure its greater than 5.
 // do a fatal exit if

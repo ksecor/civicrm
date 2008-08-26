@@ -1,9 +1,7 @@
 <?php
 
 // escape early if called directly
-if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
-	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
-}
+defined('_JEXEC') or die('No direct access allowed'); 
 
 require_once JPATH_SITE . DIRECTORY_SEPARATOR . 'configuration.php';
 
