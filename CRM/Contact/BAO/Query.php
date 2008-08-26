@@ -1340,17 +1340,23 @@ class CRM_Contact_BAO_Query
             $this->_qill[$grouping][] = ts('Gender') . " $op '$value'";
         } else if ( $name === 'birth_date' ) {
             $date = CRM_Utils_Date::format( $value );
+            $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
+            
             if ( $date ) {
-                $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
+            } else {
+                $this->_qill[$grouping][]  = "$field[title] $op";
             }
+
         } else if ( $name === 'deceased_date' ) {
             $date = CRM_Utils_Date::format( $value );
+            $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
             if ( $date ) {
-                $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
+            } else {
+                $this->_qill[$grouping][]  = "$field[title] $op";
             }
         } else if ( $name === 'is_deceased' ) {
             $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $value );
