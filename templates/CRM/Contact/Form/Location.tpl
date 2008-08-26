@@ -106,7 +106,10 @@
     }
     var contactId = dijit.byId(val).getValue();
     if ( isNaN( contactId ) ) {
-	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};	
+	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};
+	if ( val == 'shared_household' ) {
+	    setAddressFields();
+	}
 	return; 
     }
 
@@ -133,9 +136,9 @@
 			selectedAddr = selectedAddr.substr(ind+3);
 			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
 		    }
-		    setHouseholdAddress(selectedAddr)	
-		    document.getElementById(address).innerHTML = formattedAddr;
-	          
+		    if ( val == 'shared_household' ) {
+			setHouseholdAddress(selectedAddr);	
+		    }
 		} else {
 		    document.getElementById(address).innerHTML = '';	
 		}
@@ -177,7 +180,7 @@ function setDefaultAddress()
     
     if ( document.getElementsByName("use_household_address")[0].checked == false ) { 
 	
-	{/literal}{if $action eq 2}{literal}
+	{/literal}{if $action eq 2}{literal} 
 	var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};
 	var suppl1    = {/literal}"{$form.location.1.address.supplemental_address_1.value}"{literal};
 	var suppl2    = {/literal}"{$form.location.1.address.supplemental_address_2.value}"{literal};
@@ -208,6 +211,8 @@ function setDefaultAddress()
 	document.getElementById('location_1_address_postal_code_suffix').value     = '';
 	document.getElementById('location_1_address_geo_code_1').value             = '';
 	document.getElementById('location_1_address_geo_code_2').value             = '';
+	dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
+	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 
     }  
 }
 
