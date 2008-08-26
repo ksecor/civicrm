@@ -28,14 +28,11 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
 
        var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
        widget.store   = queryStore;
-        
-       var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal};
-       widget.setDisplayedValue( sel );
    } else {
        widget.setDisabled( true );
-       var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
-       widget.setDisplayedValue( sel );
    }
+   var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal};
+   widget.setDisplayedValue( sel );
 }
 
 </script>
