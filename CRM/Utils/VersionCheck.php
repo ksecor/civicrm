@@ -43,7 +43,7 @@ class CRM_Utils_VersionCheck
         CHECK_TIMEOUT     = 5,                          // timeout for when the connection or the server is slow
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
-        CACHEFILE_EXPIRE  = 604800;           // cachefile expiry time (in seconds) - a week
+        CACHEFILE_EXPIRE  = 604800;                     // cachefile expiry time (in seconds) - a week
 
     /**
      * We only need one instance of this object, so we use the
@@ -88,7 +88,7 @@ class CRM_Utils_VersionCheck
 
             // if there's a cachefile and it's not stale use it to
             // read the latestVersion, else read it from the Internet
-            if (0 and file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
+            if (file_exists($cachefile) and (filemtime($cachefile) > $expiryTime)) {
                 $this->latestVersion = file_get_contents($cachefile);
             } else {
                 // we have to set the error handling to a dummy function, otherwise
@@ -99,6 +99,23 @@ class CRM_Utils_VersionCheck
                 $hash = md5($config->userFrameworkBaseURL);
 
                 $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&uf={$config->userFramework}&hash=$hash&lang={$config->lcMessages}";
+
+                // add Drupal/Joomla version
+                switch ($config->userFramework) {
+                case 'Drupal':
+                    $url .= "&ufv=" . VERSION;
+                    break;
+                case 'Joomla':
+                    $jv = new joomlaVersion;
+                    $url .= "&ufv=" . $jv->getShortVersion();
+                    break;
+                }
+
+                // add PHP and MySQL versions
+                $dao = new CRM_Core_DAO;
+                $dao->query('SELECT VERSION() AS version');
+                $dao->fetch();
+                $url .= '&MySQL=' . $dao->version . '&PHP=' . phpversion();
 
                 $tables = array(
                     'CRM_Activity_DAO_Activity'              => 'is_test = 0',
