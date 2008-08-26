@@ -153,6 +153,8 @@ function civicrm_block($op='list', $delta='0')
 
     // The $op parameter determines what piece of information is being requested.
     require_once 'CRM/Core/Block.php';
+    
+    // CRM_Core_Error::backtrace( "$op, $delta" );
 
     if ($op == 'list') {
         $block = CRM_Core_Block::getInfo();

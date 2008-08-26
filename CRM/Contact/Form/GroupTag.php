@@ -89,8 +89,8 @@ class CRM_Contact_Form_GroupTag
 		        if ( $visibility ) {
 		            // make sure that this group has public visibility. not very efficient
                     $visibilityValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
-                                                               $id,
-                                                               'visibility' );
+                                                                    $id,
+                                                                    'visibility' );
                     if ( $visibilityValue == 'User and User Admin Only' ) {
 			                continue;
                     }
