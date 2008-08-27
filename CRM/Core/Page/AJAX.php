@@ -215,7 +215,7 @@ ORDER BY organization_name ";
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , sort_name, COALESCE(street_address,''),COALESCE(supplemental_address_1,''),COALESCE(supplemental_address_2,''),COALESCE(city,''), sp.name, postal_code, cc.name ,COALESCE(postal_code_suffix,''),COALESCE(geo_code_1,''),COALESCE(geo_code_2,''))'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name%' {$whereIdClause} ORDER BY {$cName} COLLATE utf8_unicode_ci ";
+SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name%' {$whereIdClause} ORDER BY {$cName} ";
 
             } else if ( $hh ) {
                 

@@ -128,10 +128,9 @@ class CRM_Contact_Form_Individual {
         }
         
         if ( isset( $mailToHouseholdID ) ) {
-            $useHouseholdExtra = array( 'onclick' => "showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);resetByValue('use_household_address','', $extraOnAddFlds,'text', 'radio', false);
-" );
+            $useHouseholdExtra = array( 'onclick' => "showHideHouseAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);resetByValue('use_household_address','', $extraOnAddFlds,'text', 'radio', false);setDefaultAddress();" );
         } else {
-            $useHouseholdExtra = array( 'onclick' => "showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" );
+            $useHouseholdExtra = array( 'onclick' => "showHideHouseAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" );
         }
               
         // shared address element block
@@ -207,7 +206,7 @@ class CRM_Contact_Form_Individual {
     static function formRule( &$fields, &$files, $options ) 
     {
         $errors = array( );
-             
+                    
         if ( isset( $fields['employer_option'] ) &&
              $fields['employer_option'] == 1     && 
              ! $fields['shared_employer'] ) {
@@ -280,6 +279,11 @@ class CRM_Contact_Form_Individual {
                     $template->assign( 'isSharedHouseholdDuplicate', 1 );
                 }
             }
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign( 'isshareHouseholdNew', true );
+            if ( is_numeric( $fields['shared_household'] ) ) {
+                $template->assign( 'isshareHouseholdNew', false );
+            } 
         }
         
         return empty($errors) ? true : $errors;
@@ -312,7 +316,7 @@ class CRM_Contact_Form_Individual {
         $addressFields = CRM_Core_DAO_Address::fields();
         foreach($addressFields as  $key =>$val ){
             if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
-                $values[1]['address'][$key]="null";
+                $values[1]['address'][$key]="";
             }
         }
         if( $values[1]['address']['country_id']=="null"){

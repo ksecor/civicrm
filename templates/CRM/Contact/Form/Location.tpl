@@ -57,10 +57,10 @@
                 {ts}Check this option if you want to use a shared household address for this individual. You can either select an existing household, or create a new one.{/ts}
             </span>
         </div>
-        <div class="form-item">
-            {$form.shared_household.label}
-        </div>
-        <div id="shared_household" class="form-item">
+	<div id="shared_household" class="form-item">
+	    <div class="form-item">
+                {$form.shared_household.label}
+            </div>
             <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false">
                 {$form.shared_household.html}
                 {* Conditionally display the address currently selected in the comboBox *}
@@ -79,7 +79,7 @@
     </div>
 
     {* Display existing shared household address *}
-    {if $contact_type eq 'Individual' and $index eq 1 and $action eq 2 and $form.use_household_address.value}
+    {if $contact_type eq 'Individual' and $index eq 1 and $action eq 2 and $form.use_household_address.value and $location_1_address_display}
         <div id="id_location_1_address_shared_view">
         <fieldset><legend>{ts}Shared Household Address{/ts}</legend>
             {$HouseholdName}
@@ -101,15 +101,18 @@
  {
     var help = val+'_help';
     var address = val+'_address';
-    if ( document.getElementsByName("use_household_address")[0].checked == true ) {	
-	show("shared_household");	
+    if ( document.getElementsByName("use_household_address")[0].checked == true ) {
+	show('shared_household', 'block');
+	hide('id_location_1_address');
     }
     var contactId = dijit.byId(val).getValue();
     if ( isNaN( contactId ) ) {
 	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};
 	if ( val == 'shared_household' ) {
+	    show('shared_household', 'block');
+	    show('id_location_1_address', 'block');
 	    setAddressFields();
-	}
+	}	
 	return; 
     }
 
@@ -136,9 +139,8 @@
 			selectedAddr = selectedAddr.substr(ind+3);
 			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
 		    }
-		    if ( val == 'shared_household' ) {
-			setHouseholdAddress(selectedAddr);	
-		    }
+		    document.getElementById(address).innerHTML = formattedAddr;		
+
 		} else {
 		    document.getElementById(address).innerHTML = '';	
 		}
@@ -152,26 +154,6 @@
 		}
 	});
  }
-function setHouseholdAddress(text)
-{
-    var formatted_addr = text.split( ":::", 10 );	
-    for (var i = 0; i < 9; i++){      
-	formatted_addr[i];
-    }
-    
-    document.getElementById('location_1_address_street_address').value         = formatted_addr[0];
-    document.getElementById('location_1_address_supplemental_address_1').value = formatted_addr[1];
-    document.getElementById('location_1_address_supplemental_address_2').value = formatted_addr[2];
-    document.getElementById('location_1_address_city').value                   = formatted_addr[3];
-    document.getElementById('location_1_address_postal_code').value            = formatted_addr[5];
-    document.getElementById('location_1_address_postal_code_suffix').value     = formatted_addr[7];
-    document.getElementById('location_1_address_geo_code_1').value             = formatted_addr[8];
-    document.getElementById('location_1_address_geo_code_2').value             = formatted_addr[9];
-  
-    dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( formatted_addr[4] );
-    dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( formatted_addr[6] );
-    
-}
 
 function setDefaultAddress()
 {
@@ -212,7 +194,7 @@ function setDefaultAddress()
 	document.getElementById('location_1_address_geo_code_1').value             = '';
 	document.getElementById('location_1_address_geo_code_2').value             = '';
 	dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
-	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 
+	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( state ); 
     }  
 }
 
@@ -230,10 +212,39 @@ function setAddressFields ()
 	document.getElementById('location_1_address_geo_code_1').value             = '';
 	document.getElementById('location_1_address_geo_code_2').value             = '';
 	dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
-	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 
+	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( state ); 
     }
 }
-
+function showHideHouseAddress( )
+{
+    if ( document.getElementsByName("use_household_address")[0].checked == true ) { 
+	show('shared_household', 'block');
+	{/literal}{if !$form.errors}{literal}
+	hide('id_location_1_address');
+	{/literal}{/if}
+	{if $location_1_address_display}{literal}
+	show('id_location_1_address_shared_view', 'block');
+	{/literal}{/if}{literal}
+    } else {
+	show('id_location_1_address', 'block');
+	hide('shared_household');
+	{/literal}{if $location_1_address_display}{literal}
+	hide('id_location_1_address_shared_view');
+	{/literal}{/if}{literal}
+    }
+}
+function showHideAddress( )
+{
+    if ( document.getElementsByName("use_household_address")[0].checked == true ) { 
+	show('shared_household', 'block');
+	{/literal}{if !$form.errors}{literal}
+	hide('id_location_1_address');
+	{/literal}{/if}{literal}
+    } else {
+	show('id_location_1_address', 'block');
+	hide('shared_household');
+    }
+}
 {/literal}
 {if $contact_type eq 'Individual' and $defaultSharedHousehold}
 {literal}
@@ -265,7 +276,7 @@ dojo.addOnLoad( function( )
      target_element_id   ="id_location_1_address" 
      target_element_type ="block"
      field_type          ="radio"
-     invert              = "0"
+     invert              = "1"
      }
 
 {else}
@@ -279,6 +290,7 @@ dojo.addOnLoad( function( )
      }
 {/if} 
 {if $form.errors and $form.use_household_address.value}
+{if $isshareHouseholdNew}
 {include file="CRM/common/showHideByFieldValue.tpl" 
      trigger_field_id    ="use_household_address"
      trigger_value       =""
@@ -287,14 +299,15 @@ dojo.addOnLoad( function( )
      field_type          ="radio"
      invert              = "0"
      }
-{if $action eq 2} 
+{/if}
+{if $action eq 2 and $location_1_address_display}
 {include file="CRM/common/showHideByFieldValue.tpl" 
      trigger_field_id    ="use_household_address"
      trigger_value       =""
      target_element_id   ="id_location_1_address_shared_view" 
      target_element_type ="block"
      field_type          ="radio"
-     invert              = "1"
+     invert              = "0"
      }
 {/if} 
 {include file="CRM/common/showHideByFieldValue.tpl" 
