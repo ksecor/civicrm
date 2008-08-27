@@ -110,7 +110,7 @@ implements CRM_Contact_Form_Search_Interface {
         // SELECT clause must include contact_id as an alias for civicrm_contact.id if you are going to use "tasks" like export etc.
         $select  = "civicrm_participant.event_id as event_id,
         COUNT(civicrm_participant.id) as participant_count,
-        civicrm_event.title as event_name,
+        GROUP_CONCAT(DISTINCT(civicrm_event.title)) as event_name,
         civicrm_event.event_type_id as event_type_id,
         civicrm_option_value.label as event_type,
         IF(civicrm_contribution.payment_instrument_id <>0 , 'Yes', 'No') as payment_instrument_id,
@@ -122,11 +122,16 @@ implements CRM_Contact_Form_Search_Interface {
         
         $where = $this->where();
         
+        $groupBy = "event_id";
+        if ( ! empty($this->_formValues['event_type_id'] ) ) {
+            $groupBy = "event_type_id";
+        }
+
         $sql = "
         SELECT $select
         FROM   $from
         WHERE  $where
-        GROUP BY event_id
+        GROUP BY $groupBy
         ";
         // Define ORDER BY for query in $sort, with default value
         if ( ! empty( $sort ) ) {
@@ -144,7 +149,7 @@ implements CRM_Contact_Form_Search_Interface {
         }
         
         // Uncomment the next line to see the actual SQL generated:
-        // CRM_Core_Error::debug('sql',$sql); exit();
+        //CRM_Core_Error::debug('sql',$sql); exit();
         return $sql;
     }
     
