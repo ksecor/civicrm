@@ -235,6 +235,19 @@ function showHideHouseAddress( )
     }
 }
 
+function showHideAddress( )
+{
+    if ( document.getElementsByName("use_household_address")[0].checked == true ) { 
+	show('shared_household', 'block');
+	{/literal}{if !$form.errors}{literal}
+	hide('id_location_1_address');
+	{/literal}{/if}{literal}
+    } else {
+	show('id_location_1_address', 'block');
+	hide('shared_household');
+    }
+}
+
 {/literal}
 {if $contact_type eq 'Individual' and $defaultSharedHousehold}
 {literal}
