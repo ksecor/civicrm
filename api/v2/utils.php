@@ -853,7 +853,10 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             require_once 'CRM/Contribute/PseudoConstant.php';
             $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
                                                                     CRM_Contribute_PseudoConstant::contributionType( )
-                                                                    );          
+                                                                    );
+            if ( !CRM_Utils_Array::value( 'contribution_type_id', $values ) ) {
+                return civicrm_create_error("Contribution Type is not valid: $value");
+            }
             break;
         case 'payment_instrument': 
             require_once 'CRM/Core/OptionGroup.php';
