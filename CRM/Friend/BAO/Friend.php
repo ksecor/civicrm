@@ -175,8 +175,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                                                      'id' );
             $urlPath = 'civicrm/contribute/transact';
             $mailParams['module'] = 'contribute';
-        } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
-            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+        } elseif ( $params['entity_table'] == 'civicrm_event' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                      $params['entity_id'],
                                                                      'confirm_from_email' );
             $urlPath = 'civicrm/event/info';

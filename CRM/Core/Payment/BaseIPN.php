@@ -338,11 +338,11 @@ class CRM_Core_Payment_BaseIPN {
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
         
-            $eventParams = array( 'event_id' => $objects['event']->id );
-            $values['event_page'] = array( );
+            $eventParams = array( 'id' => $objects['event']->id );
+            $values['event'] = array( );
 
-            require_once 'CRM/Event/BAO/EventPage.php';
-            CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+            require_once 'CRM/Event/BAO/Event.php';
+            CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
 
             //get location details
             $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
@@ -362,7 +362,7 @@ class CRM_Core_Payment_BaseIPN {
 
             $contribution->source                  = ts( 'Online Event Registration' ) . ': ' . $values['event']['title'];
 
-            if ( $values['event_page']['is_email_confirm'] ) {
+            if ( $values['event']['is_email_confirm'] ) {
                 $contribution->receipt_date = self::$_now;
             }
 
@@ -471,11 +471,11 @@ class CRM_Core_Payment_BaseIPN {
                 require_once 'CRM/Event/BAO/Event.php';
                 CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
                 
-                $eventParams = array( 'event_id' => $objects['event']->id );
-                $values['event_page'] = array( );
+                $eventParams = array( 'id' => $objects['event']->id );
+                $values['event'] = array( );
                 
-                require_once 'CRM/Event/BAO/EventPage.php';
-                CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+                require_once 'CRM/Event/BAO/Event.php';
+                CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
                 
                 //get location details
                 $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
@@ -575,7 +575,6 @@ class CRM_Core_Payment_BaseIPN {
             $values['event']['participant_role'] = $participant_role[$participant->role_id];
 
             $template->assign( 'event', $values['event'] );
-            $template->assign( 'eventPage', $values['event_page'] );
             $template->assign( 'location', $values['location'] );
             $template->assign( 'customPre', $values['custom_pre_id'] );
             $template->assign( 'customPost', $values['custom_post_id'] );
@@ -585,12 +584,12 @@ class CRM_Core_Payment_BaseIPN {
                 $isTest = true;
             }
           
-            require_once "CRM/Event/BAO/EventPage.php";
+            require_once "CRM/Event/BAO/Event.php";
             //to get email of primary participant.
             $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
             $primaryAmount[$participant->fee_level.' - '.$primaryEmail] = $participant->fee_amount;
             //build an array of cId/pId of participants
-            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
+            $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
             unset( $additionalIDs[$participant->id] ); 
             //send receipt to additional participant if exists
             if ( count($additionalIDs) ) {
@@ -611,19 +610,19 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->save( );
                     $additional->free( );
                     $template->assign( 'amount', $amount );
-                    CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest, $returnMessageText );
+                    CRM_Event_BAO_Event::sendMail( $cId, $values, $pId, $isTest, $returnMessageText );
                 } 
             }
             
             //build an array of custom profile and assigning it to template
-            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
+            $customProfile = CRM_Event_BAO_Event::buildCustomProfile( $participant->id, $values, null, $isTest );
             
             if ( count($customProfile) ) {
                 $template->assign( 'customProfile', $customProfile );
             }
             $template->assign( 'isPrimary', 1 );
             $template->assign( 'amount', $primaryAmount );
-            return CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
+            return CRM_Event_BAO_Event::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
             
         } else {
             if ( $membership ) {
