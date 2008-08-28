@@ -119,9 +119,6 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
             {                
                 return ((float) substr($agent, $msie + 5, 3) >= 5.5);
             } elseif (($gecko = strpos($agent, 'gecko/')) !== false) {
-                CRM_Core_Error::Debug( $_SERVER['HTTP_USER_AGENT']);
-                echo substr($agent, $gecko + 6, 8 ) . "<p>";
-                exit( );
                 return ((int) substr($agent, $gecko + 6, 8 ) >= 20030210);
             }             
             return true;
