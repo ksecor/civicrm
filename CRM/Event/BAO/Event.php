@@ -661,62 +661,69 @@ WHERE civicrm_event.is_active = 1
      */
     static function copy( $id )
     {
-        $loc_blk        = $defaults = array();
-        $loc_blk['id']  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'loc_block_id' );
+        $loc_blk = $defaults = $eventValues = array( );
         
-        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $loc_blk, $defaults);
-        // copy all location blocks (email, phone, address, etc)
-        foreach ( $defaults as $key => $value ) {
-            if ( $key != 'id') {
-                $tbl  = explode("_", $key);
-                $name = ucfirst( $tbl[0] );
-                $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), null, null );
-                $copyLocationParams[$key] = $copy->id;                            
+        //get the require event values.
+        $eventParams = array( 'id' => $id );
+        $returnProperties = array( 'loc_block_id', 'is_show_location', 'default_fee_id', 'default_discount_id' );
+        
+        CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Event', $eventParams, $eventValues, $returnProperties );
+        
+        //handle the location info.
+        if ( $loc_blk['id'] = CRM_Utils_Array::value( 'loc_block_id', $eventValues ) ) {
+            
+            //get the location info.
+            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $loc_blk, $defaults);
+            
+            //copy all location blocks (email, phone, address, etc)
+            foreach ( $defaults as $key => $value ) {
+                if ( $key != 'id') {
+                    $tbl  = explode("_", $key);
+                    $name = ucfirst( $tbl[0] );
+                    $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), null, null );
+                    $copyLocationParams[$key] = $copy->id;                            
+                }
             }
+            
+            $copyLocation =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
+                                                        array( 'id' => $loc_blk['id'] ), 
+                                                        $copyLocationParams ) ;
         }
-        
-        $copyLocation   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
-                                                      array( 'id' => $loc_blk['id'] ), 
-                                                      $copyLocationParams ) ;
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-
-        // 
-        $isShowLocation  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'is_show_location' );
-        if ( ! $isShowLocation ) {
+        
+        if ( !CRM_Utils_Array::value( 'is_show_location', $eventValues ) ) {
             $fieldsToPrefix['is_show_location'] = 0;
         }
-
+        
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
-                                                      array( 'loc_block_id' => $copyLocation->id ), 
+                                                      array( 'loc_block_id' => 
+                                                             ( CRM_Utils_Array::value('id', $loc_blk) ) ? $copyLocation->id : null ), 
                                                       $fieldsToPrefix );
         
-          
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
         
-        
         $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
-
-          
+        
         $copyTellFriend =& CRM_Core_DAO::copyGeneric( 'CRM_Friend_DAO_Friend', 
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
-
+        
         require_once "CRM/Core/BAO/OptionGroup.php";
         //copy option Group and values
         $copyEvent->default_fee_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                                             $id, 
-                                                                             $copyEvent->id, 
-                                                                             CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                                                                          $id, 'default_fee_id' ) );
+                                                                         $id, 
+                                                                         $copyEvent->id,
+                                                                         CRM_Utils_Array::value( 'default_fee_id', $eventValues )
+                                                                         );
         
         //copy discounted fee levels
         require_once 'CRM/Core/BAO/Discount.php';
@@ -728,11 +735,13 @@ WHERE civicrm_event.is_active = 1
                                                      $discountOptionGroup );
                 $length         = substr_compare($name, "civicrm_event.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
-                $copyEvent->default_discount_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                                                          $id, 
-                                                                                          $copyEvent->id, 
-                                                                                          CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'default_discount_id' ),
-                                                                                          $discountSuffix );
+                
+                $copyEventPage->default_discount_id = 
+                    CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                        $Id, 
+                                                        $copyEvent->id, 
+                                                        CRM_Utils_Array::value( 'default_discount_id', $eventValues ),
+                                                        $discountSuffix );
             }
         }
         
@@ -747,7 +756,7 @@ WHERE civicrm_event.is_active = 1
                     $table[$groupTree[$groupID]['table_name']][] = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                 }
             }
- 
+            
             foreach ( $table as $tableName => $tableColumns ) {
                 $insert = 'INSERT INTO ' . $tableName. ' (' .implode(', ',$tableColumns). ') '; 
                 $tableColumns[0] = $copyEvent->id;
@@ -761,7 +770,7 @@ WHERE civicrm_event.is_active = 1
         $copyEvent->save( );
         return $copyEvent;
     }
-
+    
     /**
      * This is sometimes called in a loop (during event search)
      * hence we cache the values to prevent repeated calls to the db
