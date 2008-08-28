@@ -167,8 +167,17 @@ function setDefaultAddress()
 	document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"{$v.value}";
 	{/foreach}
         {literal}
-	dijit.byId( 'location_1_address_country_id' ).setValue( country );
-	dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
+	document.getElementById('location_1_address_county_id').value = {/literal}"{$form.location.1.address.county_id.value.0}"{literal};
+	if ( country ) {
+	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
+	}
+	if ( state && country) {
+	    dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
+	} else if ( state ) {
+	    document.getElementById('location_1_address_state_province_id').value = 
+		{/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
+	}
+	
 	{/literal}{/if}{literal}
     } else {
 	{/literal}	
@@ -177,7 +186,7 @@ function setDefaultAddress()
 	document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"";
 	{/foreach}
         {literal}
-	if( country ) {
+	if ( country && state ) {
 	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
 	    dijit.byId( 'location_1_address_state_province_id' ).setValue( '- type first letter(s) -' );
 	} 	

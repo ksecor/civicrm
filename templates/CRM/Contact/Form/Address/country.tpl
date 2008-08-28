@@ -18,19 +18,22 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
 
     if ( !isNaN(value) ) {
 
-      //enable state province only if country value exists
-       widget.setDisabled( false );
-
-       //data url for state
-       var res = {/literal}"{$stateUrl}"{literal};
-
-       var queryUrl = res + '&node=' + value;
-
-       var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
-       widget.store   = queryStore;
-   } else {
-       widget.setDisabled( true );
-   }
+	//enable state province only if country value exists
+	if ( ! widget ) {
+	    return;
+	}
+	
+	widget.setDisabled( false );
+	//data url for state
+	var res = {/literal}"{$stateUrl}"{literal};
+	
+	var queryUrl = res + '&node=' + value;
+	
+	var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
+	widget.store   = queryStore;
+    } else {
+	widget.setDisabled( true );
+    }
    
     if ( !value ) {
 	var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal};
