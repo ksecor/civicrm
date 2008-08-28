@@ -11,9 +11,9 @@
     {/if}
     </div>
 
-    {if $eventPage.confirm_text}
+    {if $event.confirm_text}
         <div id="intro_text">
-        <p>{$eventPage.confirm_text}</p>
+        <p>{$event.confirm_text}</p>
         </div>
     {/if}
     {if $is_pay_later}
@@ -163,9 +163,9 @@
      {$form.buttons.html}
     </div>
 
-    {if $eventPage.confirm_footer_text}
+    {if $event.confirm_footer_text}
         <div id="footer_text">
-            <p>{$eventPage.confirm_footer_text}</p>
+            <p>{$event.confirm_footer_text}</p>
         </div>
     {/if}
 </div>

@@ -2,10 +2,10 @@
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}
 <div class="form-item">
-    {if $eventPage.thankyou_text} 
+    {if $event.thankyou_text} 
         <div id="intro_text">
             <p>
-            {$eventPage.thankyou_text}
+            {$event.thankyou_text}
             </p>
         </div>
     {/if}
@@ -167,9 +167,9 @@
       {/foreach}
     {/if}
 
-    {if $eventPage.thankyou_footer_text}
+    {if $event.thankyou_footer_text}
         <div id="footer_text">
-            <p>{$eventPage.thankyou_footer_text}</p>
+            <p>{$event.thankyou_footer_text}</p>
         </div>
     {/if}
     {if $event.is_public }

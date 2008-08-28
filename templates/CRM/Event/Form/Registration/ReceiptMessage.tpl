@@ -1,8 +1,8 @@
 {if $action eq 1024}
 {include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
-{if $eventPage.confirm_email_text}
-{$eventPage.confirm_email_text}
+{if $event.confirm_email_text}
+{$event.confirm_email_text}
 {/if}
 {if $is_pay_later}
 

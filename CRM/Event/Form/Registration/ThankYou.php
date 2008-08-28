@@ -61,7 +61,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->assign( 'participantInfo', $participantInfo ); 
         $customGroup = $this->get('customProfile');
         $this->assign( 'customProfile',$customGroup );
-        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
+        CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event']));
     }
 
     /**
@@ -122,7 +122,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         require_once 'CRM/Friend/BAO/Friend.php';
         
         $params['entity_id']    = $this->_id;
-        $params['entity_table'] = 'civicrm_event_page';
+        $params['entity_table'] = 'civicrm_event';
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
         if ( $data['is_active'] ) {               

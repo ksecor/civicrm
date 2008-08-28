@@ -405,8 +405,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             if (  $this->_single ) {
-                require_once 'CRM/Event/BAO/EventPage.php';
-                $additionalParticipant = count (CRM_Event_BAO_EventPage::buildCustomProfile( $this->_id, null, $this->_contactID, false, true )) - 1;
+                require_once 'CRM/Event/BAO/Event.php';
+                $additionalParticipant = count (CRM_Event_BAO_Event::buildCustomProfile( $this->_id, null, $this->_contactID, false, true )) - 1;
                 if ( $additionalParticipant ) {
                     $this->assign( "additionalParticipant", $additionalParticipant );
                 }   
@@ -962,9 +962,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'isAmountzero', 1 );
             $this->assign( 'event' , $event );
             if ( $params['receipt_text'] ) {
-                $eventPage = array();
-                $eventPage['confirm_email_text'] =  $params['receipt_text'];
-                $this->assign( 'eventPage' , $eventPage );
+                $emailText = array();
+                $emailText['confirm_email_text'] =  $params['receipt_text'];
+                $this->assign( 'emailText' , $emailText );
             }
             $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                            $params['event_id'],

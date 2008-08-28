@@ -217,9 +217,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
             
             //retrieve custom information
-            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
+            $eventID =  $this->_id;
             
-            $isPayLater  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageID, 'is_pay_later' );
+            $isPayLater  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventID, 'is_pay_later' );
             //check for variour combination for paylater, payment
             //process with paid event.
             if ( $isMonetary && 
@@ -252,11 +252,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }
             
-            self::initPriceSet( $this, $eventPageID );
+            self::initPriceSet( $this, $eventID );
             
             // get price info
             require_once 'CRM/Core/BAO/PriceSet.php';
-            $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
+            $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID );
             if ( $priceSetId ) {
                 $this->_priceSetId = $priceSetId;
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
@@ -270,7 +270,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     $this->_values['custom'] = array( );
                 }
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $this->_values['custom'] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['custom'] );
             }
             
             // get the profile ids
@@ -281,9 +281,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                   $this->_values['custom_post_id'] ) =
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     
-            $params = array( 'event_id' => $this->_id );
-            require_once 'CRM/Event/BAO/EventPage.php';
-            CRM_Event_BAO_EventPage::retrieve($params, $this->_values['event_page']);
+            $params = array( 'id' => $this->_id );
             
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -333,7 +331,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // assign all event properties so wizard templates can display event info.
         $this->assign('event', $this->_values['event']);
-        $this->assign('eventPage', $this->_values['event_page']);
         $this->assign('location',$this->_values['location']);
         $this->assign( 'bltID', $this->_bltID );
         $isShowLocation = CRM_Utils_Array::value('is_show_location',$this->_values['event'])  ;
@@ -411,16 +408,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign( 'email', $this->controller->exportValue( 'Register', "email-{$this->_bltID}" ) );
         
         // assign is_email_confirm to templates
-        if ( isset ($this->_values['event_page']['is_email_confirm'] ) ) {
-            $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
+        if ( isset ($this->_values['event']['is_email_confirm'] ) ) {
+            $this->assign( 'is_email_confirm', $this->_values['event']['is_email_confirm'] );
         }
         
         // assign pay later stuff
         $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, false );
         $this->assign( 'is_pay_later', $params['is_pay_later'] );
         if ( $params['is_pay_later'] ) {
-            $this->assign( 'pay_later_text'   , $this->_values['event_page']['pay_later_text']    );
-            $this->assign( 'pay_later_receipt', $this->_values['event_page']['pay_later_receipt'] );
+            $this->assign( 'pay_later_text'   , $this->_values['event']['pay_later_text']    );
+            $this->assign( 'pay_later_receipt', $this->_values['event']['pay_later_receipt'] );
         }
         
     }
@@ -489,11 +486,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
     }
     
-    static function initPriceSet( &$form, $eventPageID ) {
+    static function initPriceSet( &$form, $eventID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';
         
-        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID ) ) {
+        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $eventID ) ) {
             $form->_priceSetId = $priceSetId;
             $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
@@ -502,9 +499,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $form->set('priceSet', $form->_priceSet);
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
-            CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $form->_values['custom'] );
+            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['custom'] );
             require_once 'CRM/Core/BAO/Discount.php';
-            $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventPageID, "civicrm_event");
+            $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventID, "civicrm_event");
             if ( is_array( $discountedEvent ) ) {
                 foreach ( $discountedEvent as $key => $optionGroupId ) {
                     $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId );

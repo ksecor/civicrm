@@ -128,7 +128,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //if event is monetary and pay later is enabled and payment
         //processor is not available then freeze the pay later checkbox with
         //default check
-        if ( CRM_Utils_Array::value( 'is_pay_later' , $this->_values['event_page'] ) &&
+        if ( CRM_Utils_Array::value( 'is_pay_later' , $this->_values['event'] ) &&
              ! is_array( $this->_paymentProcessor ) ) {
             $this->_defaults['is_pay_later'] = 1;
         }
@@ -151,7 +151,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
             
-            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
                                                         , 'weight', 'id' );
             
             $this->_defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
@@ -175,7 +175,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
-        if ( $this->_values['event_page']['is_multiple_registrations'] ) {
+        if ( $this->_values['event']['is_multiple_registrations'] ) {
             $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'size' => 10, 'maxlength' => 10) );
             $this->addRule( 'additional_participants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
         }
@@ -186,7 +186,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
 
-            if ( $this->_values['event_page']['is_pay_later'] ) {
+            if ( $this->_values['event']['is_pay_later'] ) {
                 $attributes = null;
                 $this->assign( 'hidePaymentInformation', false );
                 if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
@@ -199,7 +199,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
                 
                 $element = $this->addElement( 'checkbox', 'is_pay_later', 
-                                              $this->_values['event_page']['pay_later_text'], null, $attributes );
+                                              $this->_values['event']['pay_later_text'], null, $attributes );
                 //if payment processor is not available then freeze
                 //the paylater checkbox with default checked.
                 if ( ! is_array( $this->_paymentProcessor ) ) {
@@ -306,7 +306,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                     $feeBlock['amount_id'][$index] );
             }
 
-            $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
+            $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
             $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
             if ( $form->_online ) {
                 $element->freeze();
@@ -690,7 +690,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
        
         //send mail Confirmation/Receipt
-        require_once "CRM/Event/BAO/EventPage.php";
+        require_once "CRM/Event/BAO/Event.php";
         if ( $this->_contributeMode != 'checkout' ||
              $this->_contributeMode != 'notify'   ) {
             $isTest = false;
@@ -705,14 +705,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $primaryContactId = $this->get('primaryContactId');
 
             //build an array of custom profile and assigning it to template.
-            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
+            $additionalIDs = CRM_Event_BAO_Event::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
 
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
                     
-                    $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participantID, $this->_values, null, $isTest );
+                    $customProfile = CRM_Event_BAO_Event::buildCustomProfile( $participantID, $this->_values, null, $isTest );
                                        
                     if ( count($customProfile) ) {
                         $this->assign( 'customProfile', $customProfile );
@@ -725,7 +725,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
                 
                 //send Confirmation mail to Primary & additional Participants if exists
-                CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
+                CRM_Event_BAO_Event::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }
         }
     }

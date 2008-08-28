@@ -3,9 +3,9 @@
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
-{if $eventPage.intro_text}
+{if $event.intro_text}
     <div id="intro_text">
-        <p>{$eventPage.intro_text}</p>
+        <p>{$event.intro_text}</p>
     </div>
 {/if}
 
@@ -180,9 +180,9 @@
      {$form.buttons.html}
    </div>
 
-    {if $eventPage.footer_text}
+    {if $event.footer_text}
         <div id="footer_text">
-            <p>{$eventPage.footer_text}</p>
+            <p>{$event.footer_text}</p>
         </div>
     {/if}
 </div>
