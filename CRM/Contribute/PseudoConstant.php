@@ -222,6 +222,9 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         if ( ! self::$contributionStatus ) {
             require_once "CRM/Core/OptionGroup.php";
             self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status");
+            // Remove status values that are only used for recurring contributions or pledges (In Progress, Overdue).
+            unset( self::$contributionStatus['5']);
+            unset( self::$contributionStatus['6']);
         }
         return self::$contributionStatus;
     }
