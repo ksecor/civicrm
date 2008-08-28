@@ -282,10 +282,10 @@ ORDER BY j.scheduled_date,
             }
             $mailsProcessed++;
             
-            $fields[$eq->contact_id] = array( 'id'         => $eq->id,
-                                              'hash'       => $eq->hash,
-                                              'contact_id' => $eq->contact_id,
-                                              'email'      => $eq->email );
+            $fields[] = array( 'id'         => $eq->id,
+                               'hash'       => $eq->hash,
+                               'contact_id' => $eq->contact_id,
+                               'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
                 $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
                 $fields = array( );
@@ -300,14 +300,14 @@ ORDER BY j.scheduled_date,
         // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
         $params = array( );
-        foreach ( array_keys( $fields ) as $contactID ) {
-            $params[] = $contactID;
+        foreach ( $fields as $key => $field ) {
+            $params[] = $field['contact_id'];
         }
 
         $details = $mailing->getDetails($params, $returnProperties);
 
-        foreach ( $fields as $contactID => $field ) {
-            
+        foreach ( $fields as $key => $field ) {
+            $contactID = $field['contact_id'];
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],

@@ -687,51 +687,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
      */
     public function getTestRecipients($testParams) 
     {
-        $session    =& CRM_Core_Session::singleton();
-        
-        if ($testParams['test_email']) {
-            /* First, find out if the contact already exists */  
-            $query = "
-                  SELECT DISTINCT contact_a.id as contact_id 
-                  FROM civicrm_contact contact_a 
-                  LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
-                      WHERE civicrm_email.email = %1";
-            
-            $params = array( 1 => array( strtolower( $testParams['test_email'] ),
-                                         'String' ) );
-            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-            $id = array( );
-            // lets just use the first contact id we got
-            if ( $dao->fetch( ) ) {
-                $contact_id = $dao->contact_id;
-            }
-            $dao->free( );
-            
-            $userID = $session->get('userID');
-            $params = array( 1 => array($testParams['test_email'], 'String' ) );
-            
-            if ( ! $contact_id ) {
-                $query = "INSERT INTO   civicrm_email (contact_id, email) values ($userID,%1)"; 
-                CRM_Core_DAO::executeQuery( $query, $params );
-                $contact_id = $userID;
-            } 
-            $query = "SELECT        civicrm_email.id 
-                      FROM civicrm_email
-                      WHERE         civicrm_email.email = %1";
-            
-            $dao =& CRM_Core_DAO::executeQuery( $query, $params);
-            if ($dao->fetch( ) ) {
-                $email_id = $dao->id;
-            }
-            $dao->free( );
-            $params = array(
-                            'job_id'        => $testParams['job_id'],
-                            'email_id'      => $email_id,
-                            'contact_id'    => $contact_id
-                            );
-            CRM_Mailing_Event_BAO_Queue::create($params);  
-        }
-        
         if (array_key_exists($testParams['test_group'], CRM_Core_PseudoConstant::group())) {
             $group =& new CRM_Contact_DAO_Group();
             $group->id = $testParams['test_group'];

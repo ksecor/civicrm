@@ -117,14 +117,20 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             if (!($testParams['test_group'] || $testParams['test_email'] )) {
                 CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
                 $error = true;
-            } elseif (substr_count($testParams['test_email'], '@') > 1) {
-                CRM_Core_Session::setStatus( ts('You cannot provide more than one email address.') );
-                $error = true;
-            } elseif ($testParams['test_email'] && !CRM_Utils_Rule::email($testParams['test_email'])) {
-                CRM_Core_Session::setStatus( ts("Please enter a valid email address") );
-                $error = true;
             }
-
+            if ( $testParams['test_email'] ) {
+                $emailAdd = explode( ',', $testParams['test_email'] );
+                foreach ( $emailAdd as $key => $value ) {
+                    $email = trim($value);
+                    $testParams['emails'][] = $email;
+                    $emails .= $emails?",'$email'":"'$email'";
+                    if ( !CRM_Utils_Rule::email($email) ) {
+                        CRM_Core_Session::setStatus( ts("Please enter valid email addresses only") );
+                        $error = true;
+                    }
+                }
+            }
+            
             if ($error) {
                 $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
                                               "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
@@ -150,10 +156,69 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $job->is_test    = true;
         $job->save( );
         
+        $session    =& CRM_Core_Session::singleton();
+        if ( !empty($testParams['emails']) ) {
+            $query = "
+                      SELECT id, contact_id, email  
+                      FROM civicrm_email  
+                      WHERE civicrm_email.email IN ($emails)";
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query );
+            // fetch contact_id and email id for all existing emails
+            while ( $dao->fetch( ) ) {
+                $emailDetail[$dao->email] = array(
+                                                  'contact_id' => $dao->contact_id,
+                                                  'email_id'   => $dao->id
+                                                  );
+            }
+            
+            $dao->free( );
+            
+            $newEmails = null;
+            foreach ( $testParams['emails'] as $key => $email ) {
+                $email = trim($email);
+                $contact_id = null;
+                $email_id = null;
+                if ( array_key_exists( $email, $emailDetail) ) {
+                    $contact_id = $emailDetail[$email]['contact_id'];
+                    $email_id   = $emailDetail[$email]['email_id'];
+                }
+                $userID = $session->get('userID');
+                $params = array( 1 => array( $email, 'String' ) );
+                
+                if ( ! $contact_id ) {
+                    $query = "INSERT INTO   civicrm_email (contact_id, email) values ($userID,%1)"; 
+                    CRM_Core_DAO::executeQuery( $query, $params );
+                    $query = "SELECT        civicrm_email.id 
+                              FROM civicrm_email
+                              WHERE         civicrm_email.email = %1";
+            
+                    $daoEmail =& CRM_Core_DAO::executeQuery( $query, $params);
+                    if ($daoEmail->fetch( ) ) {
+                        $email_id = $daoEmail->id;
+                        $newEmails .= $newEmails?",$daoEmail->id":"$daoEmail->id";
+                    }
+                    $daoEmail->free( );
+                    $contact_id = $userID;
+                }
+                $params = array(
+                                'job_id'        => $job->id,
+                                'email_id'      => $email_id,
+                                'contact_id'    => $contact_id
+                                );
+                require_once 'CRM/Mailing/Event/BAO/Queue.php';
+                CRM_Mailing_Event_BAO_Queue::create($params);
+            }
+        }
+      
         $testParams['job_id'] = $job->id;
         $isComplete = false;
         while (!$isComplete) {
             $isComplete = CRM_Mailing_BAO_Job::runJobs($testParams);
+        }
+        if ( $newEmails ) {
+            $query = "DELETE FROM civicrm_email WHERE id IN ($newEmails)";
+            CRM_Core_DAO::executeQuery( $query, $params);
         }
         if ($testParams['sendtest']) {
             CRM_Core_Session::setStatus( ts("Your test message has been sent. Click 'Next' when you are ready to Schedule or Send your live mailing (you will still have a chance to confirm or cancel sending this mailing on the next page).") );
