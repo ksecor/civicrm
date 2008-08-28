@@ -128,8 +128,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->assign('message_html', $htmlMessage );        
 
         $defaults['upload_type'] = 1; 
-
-        return $defaults;
+	if ( isset($defaults['body_html']) ) {
+	  $defaults['html_message'] = $defaults['body_html'];
+	}
+	return $defaults;
     }
 
  
@@ -145,7 +147,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
         
-        $this->add('text', 'subject', ts('Mailing Subject'), 
+	$this->add('text', 'subject', ts('Mailing Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
