@@ -519,7 +519,7 @@ WHERE {$whereClause}
         $countryName  = $stateName = null;
         $elements = array( );
         $countryClause = " 1 ";
-        if ( isset( $_GET['node'] ) ) {
+        if ( CRM_Utils_Array::value( 'node', $_GET ) ) {
             $countryId     = CRM_Utils_Type::escape( $_GET['node'], 'String');
             $countryClause = " civicrm_state_province.country_id = {$countryId}";
         } 

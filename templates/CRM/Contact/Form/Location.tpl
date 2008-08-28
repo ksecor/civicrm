@@ -200,7 +200,7 @@ function setDefaultAddress()
 
 function setAddressFields () 
 {
-    var country   = {/literal}"{$country}"{literal};
+    var country   = {/literal}"{$form.location.1.address.country_id.value}"{literal};
     if ( document.getElementsByName("use_household_address")[0].checked == true ) {
 	
 	document.getElementById('location_1_address_street_address').value         = '';
@@ -211,9 +211,11 @@ function setAddressFields ()
 	document.getElementById('location_1_address_postal_code_suffix').value     = '';
 	document.getElementById('location_1_address_geo_code_1').value             = '';
 	document.getElementById('location_1_address_geo_code_2').value             = '';
-	dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
-	dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 	
-
+	if ( country ) {
+	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
+	}
+	
+	dijit.byId( 'location_1_address_state_province_id' ).setValue( '- type first letter(s) -' ); 	
     }
 }
 function showHideHouseAddress( )
