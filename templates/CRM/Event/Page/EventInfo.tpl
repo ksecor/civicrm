@@ -65,22 +65,22 @@
             </tr>
         {/if}
     
-	{if $event.is_monetary eq 1 && $custom.value} 
+	{if $event.is_monetary eq 1 && $feeBlock.value} 
       	<tr><td style="vertical-align:top;"><label>{$event.fee_label}</label></td>
             <td>
             <table class="form-layout-compressed">
 	         {section name=loop start=1 loop=11}
         	    {assign var=idx value=$smarty.section.loop.index}
-                {if $custom.value.$idx}
-                	<tr><td>{$custom.label.$idx}</td>
-                        <td>{$custom.value.$idx|crmMoney}</td>
+                {if $feeBlock.value.$idx}
+                	<tr><td>{$feeBlock.label.$idx}</td>
+                        <td>{$feeBlock.value.$idx|crmMoney}</td>
                     </tr>
                 {/if}
          	 {/section}
          	</table>
             </td>
         </tr>
-    {/if}
+        {/if}
 	</table>
 
     {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 

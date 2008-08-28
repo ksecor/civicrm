@@ -54,8 +54,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
      */
     function run()
     {
-        $this->_id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
-
+        //get the event id.
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
+        
         // ensure that the user has permission to see this page
         if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
                                            $this->_id ) ) {
@@ -71,39 +72,27 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
        
         //retrieve event information
-        $params = array( 'id' => $this->_id );
-        $ids = array();
-
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::retrieve($params, $values['event']);
-
+        $params = array( 'id' => $this->_id );
+        CRM_Event_BAO_Event::retrieve( $params, $values['event'] );
+        
         if (! $values['event']['is_active']){
             // form is inactive, die a fatal death
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
         }          
-
-        // get the eventPageID
-        $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
-                                                    $this->_id,
-                                                    'id',
-                                                    'event_id' );
-       $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                     $this->_id,
-                                                     'is_show_location',
-                                                     'id' );
-     
-        $this->assign( 'isShowLocation',$isShowLocation );
+        
+        $this->assign( 'isShowLocation', CRM_Utils_Array::value( 'is_show_location', $values['event'] ) );
         
         // do not bother with price information if price fields are used
         require_once 'CRM/Core/BAO/PriceSet.php';
-        if ( isset ($eventPageId ) ) {
-            if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
-                //retrieve custom information
+        if ( $this->_id ) {
+            if ( !CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $this->_id ) ) {
+                //retrieve event fee block.
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( 'civicrm_event_page', $values['custom'] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
             }
         }
-
+        
         $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::getValues( $params, $values, true );
@@ -135,7 +124,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( $endDate && $endDate < $now ) {
                 $validDate = false;
             }
-
+            
             // also check that the user has permission to register for this event
             $hasPermission = CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
                                                          $this->_id );
@@ -149,7 +138,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     $this->assign( 'registerText', $registerText );
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
                 }
-
+                
                 // we always generate urls for the front end in joomla
                 if ( $action ==  CRM_Core_Action::PREVIEW ) {
                     $url    = CRM_Utils_System::url( 'civicrm/event/register',
@@ -166,7 +155,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     $this->assign( 'registerURL', $url    );
                 }
             }
-
+            
             if ( $action ==  CRM_Core_Action::PREVIEW ) {
                 $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
                                                  "eid={$this->_id}&reset=1&action=preview",
@@ -180,13 +169,13 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             }
             $this->assign( 'mapURL'     , $mapURL );
         }
-
+        
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
         
         $this->assign('event',   $values['event']);
-        if ( isset ($values['custom']) ) {
-            $this->assign('custom',  $values['custom']);
+        if ( isset( $values['feeBlock'] ) ) {
+            $this->assign( 'feeBlock', $values['feeBlock'] );
         }
         $this->assign('location',$values['location']);
         
@@ -199,7 +188,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         if ( $this->_id ) {
             $templateFile = "CRM/Event/Page/{$this->_id}/EventInfo.tpl";
             $template     =& CRM_Core_Page::getTemplate( );
-
+            
             if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;
             }
