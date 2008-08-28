@@ -285,11 +285,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {   
-        $params = $ids = array();
+        $params = array();
         $params = $this->exportValues();
-               
-        $eventId = $this->_id;
-        $params['event_id'] = $ids['event_id'] = $eventId;
+        
+        $params['id'] = $this->_id;
 
         //format params
         $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
@@ -299,25 +298,25 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         if ( ! $params['is_online_registration'] ) {
             $params['is_email_confirm'] = false;
         }
-
+        
         $params['registration_start_date'] = CRM_Utils_Date::format( $params['registration_start_date'] );
         $params['registration_end_date'] = CRM_Utils_Date::format( $params['registration_end_date'] );
-
+        
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params ,$ids);
-       
-            
+        CRM_Event_BAO_Event::add( $params );
+        
+        
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviEvent',
                                'entity_table' => 'civicrm_event', 
-                               'entity_id'    => $eventId, 
+                               'entity_id'    => $this->_id, 
                                'weight'       => 1, 
                                'uf_group_id'  => $params['custom_pre_id'] ); 
         
         require_once 'CRM/Core/BAO/UFJoin.php';
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
-
+        
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams );         

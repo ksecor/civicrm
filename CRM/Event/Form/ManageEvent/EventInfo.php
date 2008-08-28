@@ -226,7 +226,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */
     public function postProcess() 
     {
-        $params = $ids = array();
+        $params = array( );
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
@@ -236,7 +236,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
-        $ids['event_id']           = $this->_id;
+        $params['id']              = $this->_id;
 
         $customData = array( );
         foreach ( $params as $key => $value ) {
@@ -265,7 +265,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         
         require_once 'CRM/Event/BAO/Event.php';
-        $event =  CRM_Event_BAO_Event::create($params ,$ids);
+        $event =  CRM_Event_BAO_Event::create( $params );
         
         $this->set( 'id', $event->id );
 

@@ -238,14 +238,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     public function postProcess( ) 
     {
-        $params = $ids = array( );
+        $params = array( );
         $params = $this->exportValues( );
-
-        $params['entity_table'] = 'civicrm_event';
-        $ids = $this->_locationIds;
-        $eventId = $this->_id;
         
-        $params['entity_id'] = $eventId; 
+        $params['entity_table'] = 'civicrm_event';
+        
+        $params['entity_id'] = $this->_id; 
         //set the location type to default location type
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
@@ -256,9 +254,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $location = CRM_Core_BAO_Location::create($params, true, 'event');
         $params['loc_block_id'] = $location['id'];
         
-        $ids['event_id']  = $eventId;
+        $params['id'] = $this->_id;
         require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params, $ids);
+        CRM_Event_BAO_Event::add( $params );
         
     }//end of function
 

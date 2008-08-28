@@ -89,29 +89,27 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * function to add the event
      *
      * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
      * 
      * @access public
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids)
+    static function add( &$params )
     {
         require_once 'CRM/Utils/Hook.php';
         
-        if ( CRM_Utils_Array::value( 'event', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Event', $ids['id'], $params );
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Event', $params['id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Event', null, $params ); 
         }
         
         $event =& new CRM_Event_DAO_Event( );
-        $event->id = CRM_Utils_Array::value( 'id', $ids );
         
         $event->copyValues( $params );
         $result = $event->save( );
         
-        if ( CRM_Utils_Array::value( 'event', $ids ) ) {
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Event', $event->id, $event );
         } else {
             CRM_Utils_Hook::post( 'create', 'Event', $event->id, $event );
@@ -124,38 +122,37 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      * function to create the event
      *
      * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
      * 
      * @access public
      * @static 
      * 
      */
-    public static function create( &$params, &$ids) 
+    public static function create( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        $event = self::add($params, $ids);
+        $event = self::add( $params );
         
         if ( is_a( $event, 'CRM_Core_Error') ) {
             CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $event;
         }
         
-        $session = & CRM_Core_Session::singleton();
-        $id = $session->get('userID');
-        if ( !$id ) {
-            $id = $params['contact_id'];
-        } 
-                
+        $session   = & CRM_Core_Session::singleton();
+        $contactId = $session->get('userID');
+        if ( !$contactId ) {
+            $contactId = $params['contact_id'];
+        }
+        
         // Log the information on successful add/edit of Event
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(
-                        'entity_table'  => 'civicrm_event',
-                        'entity_id'     => $event->id,
-                        'modified_id'   => $id,
-                        'modified_date' => date('Ymd')
-                        );
+                           'entity_table'  => 'civicrm_event',
+                           'entity_id'     => $event->id,
+                           'modified_id'   => $contactId,
+                           'modified_date' => date('Ymd')
+                           );
         
         CRM_Core_BAO_Log::add( $logParams );
         
@@ -169,7 +166,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         return $event;
     }
-     
+    
     /**
      * Function to delete the event
      *
