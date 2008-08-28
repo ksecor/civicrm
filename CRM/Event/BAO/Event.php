@@ -692,14 +692,10 @@ WHERE civicrm_event.is_active = 1
                                                       array( 'loc_block_id' => $copyLocation->id ), 
                                                       $fieldsToPrefix );
         
-        $copyEventPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_EventPage', 
-                                                      array( 'event_id'    => $id),
-                                                      array( 'event_id'    => $copyEvent->id ) );
-        
-        
+          
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
                                                       array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event_page'),
+                                                             'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
         
         
@@ -708,20 +704,19 @@ WHERE civicrm_event.is_active = 1
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ) );
 
-        $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $id, 'id', 'event_id' );       
-        
+          
         $copyTellFriend =& CRM_Core_DAO::copyGeneric( 'CRM_Friend_DAO_Friend', 
                                                       array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event_page'),
-                                                      array( 'entity_id'    => $copyEventPage->id ) );
+                                                             'entity_table' => 'civicrm_event'),
+                                                      array( 'entity_id'    => $copyEvent->id ) );
 
         require_once "CRM/Core/BAO/OptionGroup.php";
         //copy option Group and values
-        $copyEventPage->default_fee_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                                             $eventPageId, 
-                                                                             $copyEventPage->id, 
-                                                                             CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
-                                                                                                          $eventPageId, 'default_fee_id' ) );
+        $copyEvent->default_fee_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                                             $id, 
+                                                                             $copyEvent->id, 
+                                                                             CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
+                                                                                                          $id, 'default_fee_id' ) );
         
         //copy discounted fee levels
         require_once 'CRM/Core/BAO/Discount.php';
@@ -731,12 +726,12 @@ WHERE civicrm_event.is_active = 1
             foreach ( $discount as $discountOptionGroup ) {
                 $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
                                                      $discountOptionGroup );
-                $length         = substr_compare($name, "civicrm_event_page.amount.". $id, 0);
+                $length         = substr_compare($name, "civicrm_event.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
-                $copyEventPage->default_discount_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                                                          $eventPageId, 
-                                                                                          $copyEventPage->id, 
-                                                                                          CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageId, 'default_discount_id' ),
+                $copyEvent->default_discount_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                                                          $id, 
+                                                                                          $copyEvent->id, 
+                                                                                          CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'default_discount_id' ),
                                                                                           $discountSuffix );
             }
         }
@@ -763,7 +758,7 @@ WHERE civicrm_event.is_active = 1
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
             }
         }   
-        $copyEventPage->save( );
+        $copyEvent->save( );
         return $copyEvent;
     }
 
@@ -789,7 +784,7 @@ WHERE civicrm_event.is_active = 1
         require_once 'CRM/Core/BAO/PriceSet.php';
         static $usesPriceSet = array( );
         if ( ! array_key_exists( $id, $usesPriceSet ) ) {
-            $usesPriceSet[$id] = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $id );
+            $usesPriceSet[$id] = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $id );
         }
         return $usesPriceSet[$id];
     }
