@@ -166,13 +166,18 @@ function setDefaultAddress()
 	{literal}      
 	document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"{$v.value}";
 	{/foreach}
-        {literal}
-	document.getElementById('location_1_address_county_id').value = {/literal}"{$form.location.1.address.county_id.value.0}"{literal};
+        {if $form.location.1.address.county_id}
+ 	{literal}
+	document.getElementById('location_1_address_county_id').value = 
+	  {/literal}"{$form.location.1.address.county_id.value.0}"{literal};
+	{/literal}
+	{/if}
+	{literal} 
 	if ( country ) {
-	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
+	  dijit.byId( 'location_1_address_country_id' ).setValue( country );
 	}
 	if ( state && country) {
-	    dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
+	  dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
 	} else if ( state ) {
 	    document.getElementById('location_1_address_state_province_id').value = 
 		{/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
