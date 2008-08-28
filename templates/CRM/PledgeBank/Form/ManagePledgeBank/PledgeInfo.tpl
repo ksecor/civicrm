@@ -26,7 +26,7 @@
          {include file="CRM/common/calendar/body.tpl" dateVar=deadline offset=3 doTime=1 trigger=trigger_pledge ampm=1}</td></tr>
  	 <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
 	 <tr><td class="label">{$form.creator_description.label}</td><td>{$form.creator_description.html}</td></tr>
-	 <tr><td>&nbsp</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
+	 <tr><td>&nbsp;</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
 	 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
     </table>
     <dl>    
