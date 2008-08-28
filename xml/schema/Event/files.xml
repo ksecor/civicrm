@@ -3,7 +3,6 @@
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <xi:include href="Event.xml"               parse="xml" />
-<xi:include href="EventPage.xml"           parse="xml" />
 <xi:include href="Participant.xml"    parse="xml" />
 <xi:include href="ParticipantPayment.xml"  parse="xml" />
 </tables>
