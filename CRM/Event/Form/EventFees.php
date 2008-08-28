@@ -216,7 +216,7 @@ class CRM_Event_Form_EventFees
                     if ( $form->_eventId ) {
                         $defaults[$form->_participantId]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", 
                                                                                                   $form->_eventId, 
-                                                                                                  'default_fee_id', 
+                                                                                                  'default_fee_id' 
                                                                                                   );
                     }
                 }
