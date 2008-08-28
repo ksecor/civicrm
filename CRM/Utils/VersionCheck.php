@@ -39,7 +39,7 @@ class CRM_Utils_VersionCheck
 {
 
     const
-        LATEST_VERSION_AT = 'http://latest.civicrm.org/stable.txt',
+        LATEST_VERSION_AT = 'http://latest.civicrm.org/stable.php',
         CHECK_TIMEOUT     = 5,                          // timeout for when the connection or the server is slow
         LOCALFILE_NAME    = 'civicrm-version.txt',      // relative to $civicrm_root
         CACHEFILE_NAME    = 'latest-version-cache.txt', // relative to $config->uploadDir
