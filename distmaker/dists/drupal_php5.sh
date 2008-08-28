@@ -75,7 +75,7 @@ echo "$DM_VERSION Drupal PHP5" > $TRG/civicrm-version.txt
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal.tar.gz --exclude l10n --exclude 'civicrm_data.??_??.mysql' --exlcude 'civicrm_standalone.??_??.mysql' civicrm
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal.tar.gz --exclude l10n --exclude 'civicrm_data.??_??.mysql' --exclude 'civicrm_standalone.??_??.mysql' civicrm
 tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --exclude '*.po' --exclude pot civicrm/l10n civicrm/sql/civicrm_data.??_??.mysql civicrm/sql/civicrm_standalone.??_??.mysql
 
 # clean up
