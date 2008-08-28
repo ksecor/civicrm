@@ -127,7 +127,6 @@ implements CRM_Contact_Form_Search_Interface {
         inner join civicrm_financial_trxn
         on civicrm_financial_trxn.contribution_id = civicrm_participant_payment.contribution_id";
         }
-
         
         $where = $this->where();
         
@@ -239,6 +238,15 @@ implements CRM_Contact_Form_Search_Interface {
         format(sum(civicrm_contribution.total_amount - (if(civicrm_contribution.payment_instrument_id <>0,(civicrm_contribution.total_amount *.034) +.45,0))),2) as net_payment";
         
         $from  = $this->from();
+
+        $onLine = CRM_Utils_Array::value( 'paid_online',
+                                          $this->_formValues );
+        if ( $onLine ) {
+            $from .= "         
+        inner join civicrm_financial_trxn
+        on civicrm_financial_trxn.contribution_id = civicrm_participant_payment.contribution_id";
+        }
+
         
         $where = $this->where();
         
