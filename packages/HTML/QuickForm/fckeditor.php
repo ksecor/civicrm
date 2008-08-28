@@ -44,7 +44,7 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $BasePath = '/packages/fckeditor/';
+    var $BasePath = 'packages/fckeditor/';
     
     /**
      * Check for browser compatibility
@@ -118,9 +118,13 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
                 strpos($agent, 'mac') === false)
             {                
                 return ((float) substr($agent, $msie + 5, 3) >= 5.5);
-            } elseif (($gecko = strpos($agent, 'gecko')) !== false) {
+            } elseif (($gecko = strpos($agent, 'gecko/')) !== false) {
+                CRM_Core_Error::Debug( $_SERVER['HTTP_USER_AGENT']);
+                echo substr($agent, $gecko + 6, 8 ) . "<p>";
+                exit( );
                 return ((int) substr($agent, $gecko + 6, 8 ) >= 20030210);
             }             
+            return true;
         }   
         return false;
     }
@@ -185,9 +189,10 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
             $html = '';
             if (!defined('HTML_QUICKFORM_FCKEDITOR_LOADED')) {                
                 // load FCKeditor
+                $config = CRM_Core_Config::singleton( );
                 $html  = sprintf(
                     '<script type="text/javascript" src="%s"></script>',
-                    $this->BasePath . 'fckeditor.js'
+                    $config->resourceBase . $this->BasePath . 'fckeditor.js'
                 );                
                 define('HTML_QUICKFORM_FCKEDITOR_LOADED', true);
             }
