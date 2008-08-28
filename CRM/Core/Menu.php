@@ -69,12 +69,14 @@ class CRM_Core_Menu
         if ( ! self::$_items ) {
             $config =& CRM_Core_Config::singleton( );
             $coreMenuFiles = array( 'Activity', 'Contact', 'Import', 
+                                    'NewImport',
                                     'Profile', 'Admin', 'Group', 'Misc', );
 
             $files = array( $config->templateDir . 'Menu/Activity.xml',
                             $config->templateDir . 'Menu/Contact.xml',
                             $config->templateDir . 'Menu/Custom.xml',
                             $config->templateDir . 'Menu/Import.xml',
+                            $config->templateDir . 'Menu/NewImport.xml',
                             $config->templateDir . 'Menu/Profile.xml',
                             $config->templateDir . 'Menu/Admin.xml',
                             $config->templateDir . 'Menu/Group.xml',
