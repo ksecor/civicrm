@@ -50,15 +50,15 @@ class CRM_Admin_Form_Setting_Miscellaneous extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
         CRM_Utils_System::setTitle(ts('Settings - Miscellaneous'));
 
-        $this->addYesNo( 'versionCheck'           , ts( 'CiviCRM Version Check' ));
-        $this->addYesNo( 'includeWildCardInName'  , ts( 'Include Wild Card in Name' ));
-        $this->addYesNo( 'includeEmailInName'     , ts( 'Include Email in Name' ));
-        $this->addYesNo( 'includeNickNameInName'  , ts( 'Include NickName in Name' ));
-        $this->addElement('text', 'maxAttachments' , ts('Max number of attachments'),
-                          array( 'size' => 8, 'maxlength' => 8 ) );
-        $this->addElement('text','recaptchaPublicKey' , ts('ReCaptcha Public Key'),
+        $this->addYesNo( 'versionCheck'           , ts( 'Version Check & Statistics Reporting' ));
+        $this->addYesNo( 'includeWildCardInName'  , ts( 'Automatic Wildcard' ));
+        $this->addYesNo( 'includeEmailInName'     , ts( 'Include Email' ));
+        $this->addYesNo( 'includeNickNameInName'  , ts( 'Include Nickname' ));
+        $this->addElement('text', 'maxAttachments' , ts('Maximum Attachments'),
+                          array( 'size' => 2, 'maxlength' => 8 ) );
+        $this->addElement('text','recaptchaPublicKey' , ts('Public Key'),
                           array( 'size' => 64, 'maxlength' => 64 ) );
-        $this->addElement('text','recaptchaPrivateKey', ts('ReCaptcha Private Key'),
+        $this->addElement('text','recaptchaPrivateKey', ts('Private Key'),
                           array( 'size' => 64, 'maxlength' => 64 ) );
        
         parent::buildQuickForm();    
