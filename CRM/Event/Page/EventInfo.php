@@ -98,9 +98,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( isset ($eventPageId ) ) {
             if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
-                //retrieve custom information
-                require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( 'civicrm_event_page', $values['custom'] );
+                //retrieve event fees.
+                require_once 'CRM/Core/OptionGroup.php';
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}", $values['feeBlock'] );
             }
         }
 
@@ -185,8 +185,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $this->assign('displayRecent' , false );
         
         $this->assign('event',   $values['event']);
-        if ( isset ($values['custom']) ) {
-            $this->assign('custom',  $values['custom']);
+        if ( isset( $values['feeBlock'] ) ) {
+            $this->assign( 'feeBlock', $values['feeBlock'] );
         }
         $this->assign('location',$values['location']);
         
