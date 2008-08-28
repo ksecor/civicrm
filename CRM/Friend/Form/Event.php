@@ -65,7 +65,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         $defaults = array( );         
         
         if ( isset($this->_id)  ) {
-            $defaults['entity_table'] = 'civicrm_event_page';            
+            $defaults['entity_table'] = 'civicrm_event';            
             $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
             $this->_friendId = $defaults['id'];
@@ -105,7 +105,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );     
         
-        $formValues['entity_table'     ] = 'civicrm_event_page';
+        $formValues['entity_table'     ] = 'civicrm_event';
         $formValues['entity_id'        ] = $this->_id;
 
         if ( ($this->_action & CRM_Core_Action::UPDATE) && $this->_friendId ) {

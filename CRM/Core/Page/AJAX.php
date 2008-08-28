@@ -415,7 +415,7 @@ ORDER by v.weight";
             $query = "
 SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
-WHERE cg.name LIKE 'civicrm_event_page.amount%'
+WHERE cg.name LIKE 'civicrm_event.amount%'
    AND cg.id = cv.option_group_id AND {$whereClause}
    GROUP BY cv.label
 ";

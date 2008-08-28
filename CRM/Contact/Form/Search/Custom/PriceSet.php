@@ -169,12 +169,10 @@ SELECT e.id    as id,
        e.title as title,
        p.price_set_id as price_set_id
 FROM   civicrm_event      e,
-       civicrm_event_page ep,
        civicrm_price_set_entity  p
 
-WHERE  p.entity_table = 'civicrm_event_page'
-AND    p.entity_id    = ep.id
-AND    ep.event_id     = e.id
+WHERE  p.entity_table = 'civicrm_event'
+AND    p.entity_id    = e.id
 ";
 
         $params = array( );

@@ -81,7 +81,7 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->_entityTable = 'civicrm_contribution_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
         } elseif ( $page == 'event' ) {
-            $this->_entityTable = 'civicrm_event_page';
+            $this->_entityTable = 'civicrm_event';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
         } elseif ( $page == 'pledge' ) {
             $this->_entityTable = 'civicrm_pb_pledge';
