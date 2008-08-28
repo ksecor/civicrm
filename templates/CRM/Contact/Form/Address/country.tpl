@@ -31,8 +31,11 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
    } else {
        widget.setDisabled( true );
    }
-   var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal};
-   widget.setDisplayedValue( sel );
+   
+    if ( !value ) {
+	var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal};
+	widget.setDisplayedValue( sel );
+    }
 }
 
 </script>

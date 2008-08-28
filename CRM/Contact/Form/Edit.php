@@ -366,7 +366,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                                     $countryValue, 
                                                                     'name', 
                                                                     'id' );
-                            $this->assign( "country" , $country );
                             $this->assign( "country_{$key}_value" ,  $countryValue );
                         }
                     }
@@ -385,7 +384,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                                   $stateValue, 
                                                                   'name', 
                                                                   'id' );
-                            $this->assign( "state" , $state );
                             $this->assign( "state_province_{$key}_value", $stateValue );
                         }
                     }
