@@ -209,10 +209,11 @@ UNION
             $organizationId = $organization;
             $exists = true;
         } else {
+            $orgName = explode('::', $organization );
+            trim($ornName[0]);
             require_once "CRM/Contact/DAO/Contact.php";
             $contact =& new CRM_Contact_DAO_Contact( );
-            $contact->organization_name = $organization;
-        
+            $contact->organization_name = trim( $orgName[0] );
             $contact->find( );
             $dupeIds = array( );
             while ( $contact->fetch( ) ) {
@@ -223,7 +224,7 @@ UNION
             if ( empty($dupeIds) ) {
                 //create new organization
                 $newOrg = array ( 'contact_type'      => 'Organization',
-                                  'organization_name' => $organization );
+                                  'organization_name' => trim( $orgName[0] ) );
                 
                 $org = CRM_Contact_BAO_Contact::add( $newOrg );
                 $organizationId = $org->id;
