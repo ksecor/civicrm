@@ -189,10 +189,10 @@ class CRM_Core_BAO_Setting
             // set the current language
             $lcMessages = null;
 
+            $session =& CRM_Core_Session::singleton();
+
             // on multi-lang sites based on request and civicrm_uf_match
             if ($multiLang) {
-                $session =& CRM_Core_Session::singleton();
-
                 require_once 'CRM/Utils/Request.php';
                 $lcMessagesRequest = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
                 if (in_array($lcMessagesRequest, array_keys($defaults['languageLimit']))) {
