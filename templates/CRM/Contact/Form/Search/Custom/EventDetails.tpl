@@ -91,7 +91,7 @@
 
     {if $summary}
         <tr class="columnheader">
-            <td colspan="2"></td>
+            <td colspan="3"></td>
             <td >Totals &nbsp; &nbsp;</td>
             <td >{$summary.payment_amount|crmMoney}</td>
             <td >{$summary.fee|crmMoney}</td>

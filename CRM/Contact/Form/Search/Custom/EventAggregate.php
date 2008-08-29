@@ -52,7 +52,7 @@ implements CRM_Contact_Form_Search_Interface {
                                  ts('Total Payment')              => 'payment_amount' ,
                                  ts('Fee')                        => 'fee' ,
                                  ts('Net Payment')                => 'net_payment' ,
-                                 //ts('Paid Online')              => 'payment_instrument_id',
+                                 ts('Participant')                => 'participant',
                                  );
     }
     
@@ -66,7 +66,9 @@ implements CRM_Contact_Form_Search_Interface {
          * Define the search form fields here
          */
         
-        $form->addElement('checkbox', 'paid_online', ts( 'Only show Credit Card Payments' ), null, null,'','payLaterOptions','block','radio',false); 
+        $form->addElement('checkbox', 'paid_online', ts( 'Only show Credit Card Payments' ) );
+        
+        $form->addElement('checkbox', 'show_payees', ts( 'Show payees' ) );
         
         $event_type = CRM_Core_OptionGroup::values( 'event_type', false );        
         foreach($event_type as $eventId => $eventName) {
@@ -92,7 +94,7 @@ implements CRM_Contact_Form_Search_Interface {
          * If you are using the sample template, this array tells the template fields to render
          * for the search form.
          */
-        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'event_type_id', 'event_id' ) );
+        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'show_payees', 'event_type_id', 'event_id' ) );
     }
     
     /**
@@ -126,6 +128,14 @@ implements CRM_Contact_Form_Search_Interface {
             $from .= "         
         inner join civicrm_financial_trxn
         on civicrm_financial_trxn.contribution_id = civicrm_participant_payment.contribution_id";
+        }
+
+        $showPayees = CRM_Utils_Array::value( 'show_payees',
+                                              $this->_formValues );
+        if ( $showPayees ) {
+            $select .= ",  GROUP_CONCAT(DISTINCT(civicrm_contact.display_name)) as participant ";
+            $from   .= " inner join civicrm_contact
+                         on civicrm_contact.id = civicrm_participant.contact_id";   
         }
         
         $where = $this->where();
