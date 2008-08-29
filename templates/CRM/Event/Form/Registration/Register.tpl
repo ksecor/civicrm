@@ -51,7 +51,7 @@
         {/if}
     {/foreach}
 <div id="pricelabel" style="display:none">
-<dt>Total Fees </dt>
+<dt>Total Fee(s) </dt>
 <dd id="pricevalue"></dd>
 </div>
 {if $priceSet.help_post}
@@ -209,8 +209,9 @@ function addPrice(priceVal, priceId) {
 var op = document.getElementById(priceId).type;
 var addprice = 0;
 var priceset = 0;
+var symbol = '{/literal}{$currencySymbol}{literal}';
 if(op != 'select-one') {
-	priceset = priceVal.split('$');
+	priceset = priceVal.split(symbol);
 }
 
 if (priceset != 0) {
@@ -248,7 +249,7 @@ if (priceset != 0) {
 			var index = parseInt(document.getElementById(priceId).selectedIndex);
 			var myarray = ['','{/literal}{$selectarray}{literal}'];
 			if(index>0) {
-				var selectvalue = myarray[index].split('$');
+				var selectvalue = myarray[index].split(symbol);
 				totalfee = parseFloat(totalfee) + parseFloat(selectvalue[1]) - parseFloat(reduceselect);
 				reduceselect = parseFloat(selectvalue[1]);
 			}else {
@@ -261,7 +262,7 @@ if (priceset != 0) {
 
 	if( totalfee>0 ){
 		document.getElementById('pricelabel').style.display = "block";
-		document.getElementById('pricevalue').innerHTML = "<b>$</b> "+totalfee;
+		document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalfee;
 	} else{
 		document.getElementById('pricelabel').style.display = "none";
 	}
