@@ -1,0 +1,73 @@
+-- /************************************************************************
+-- *
+-- * MySQL Script for civicrm database/tables - upgradation from 2.1 -> 2.2
+-- *
+-- *************************************************************************/
+
+-- Please add script for all the schema / fixed-data related modifications to 
+-- this sql script as you resolve 2.1 issues. Include the issue number which 
+-- is the source of the change, as part of the comment.
+
+
+-- make the register_by_id cascade in civicrm_participant	
+
+ALTER TABLE `civicrm_participant`
+   DROP FOREIGN KEY `FK_civicrm_participant_registered_by_id`;
+ALTER TABLE `civicrm_participant`
+    ADD CONSTRAINT `FK_civicrm_participant_registered_by_id` FOREIGN KEY (`registered_by_id`) REFERENCES `civicrm_participant` (`id`) ON DELETE CASCADE;
+
+
+-- merge civicrm_event_page to civicrm_event
+
+ALTER TABLE `civicrm_event`
+   ADD `intro_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+   ADD `footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+   ADD `confirm_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for Confirmation page.',
+   ADD `confirm_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+   ADD `confirm_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+   ADD `is_email_confirm` tinyint(4) default '0' COMMENT 'If true, confirmation is automatically emailed to contact on successful registration.',
+   ADD `confirm_email_text` text collate utf8_unicode_ci COMMENT 'text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now',
+   ADD `confirm_from_name` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email name used for confirmation emails.',
+   ADD `confirm_from_email` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email address used for confirmation emails.',
+   ADD `cc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
+   ADD `bcc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
+   ADD `default_fee_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
+   ADD `default_discount_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
+   ADD `thankyou_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for ThankYou page.',
+   ADD `thankyou_text` text collate utf8_unicode_ci COMMENT 'ThankYou Text.',
+   ADD `thankyou_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message.',
+   ADD `is_pay_later` tinyint(4) default '0' COMMENT 'if true - allows the user to send payment directly to the org later',
+   ADD `pay_later_text` text collate utf8_unicode_ci COMMENT 'The text displayed to the user in the main form',
+   ADD `pay_later_receipt` text collate utf8_unicode_ci COMMENT 'The receipt sent to the user instead of the normal receipt text',
+   ADD `is_multiple_registrations` tinyint(4) default '0' COMMENT 'if true - allows the user to register multiple participants for event';
+
+UPDATE civicrm_event ce
+LEFT JOIN civicrm_event_page cp ON ce.id=cp.event_id
+SET ce.intro_text = cp.intro_text,
+    ce.footer_text = cp.footer_text,
+    ce.confirm_title = cp.confirm_title,	
+    ce.confirm_text = cp.confirm_text,
+    ce.confirm_footer_text = cp.confirm_footer_text,
+    ce.is_email_confirm = cp.is_email_confirm,
+    ce.confirm_email_text = cp.confirm_email_text,
+    ce.confirm_from_name = cp.confirm_from_name,
+    ce.confirm_from_email = cp.confirm_from_email,
+    ce.cc_confirm = cp.cc_confirm,
+    ce.bcc_confirm = cp.bcc_confirm,
+    ce.default_fee_id = cp.default_fee_id,
+    ce.default_discount_id = cp.default_discount_id,
+    ce.thankyou_title = cp.thankyou_title,
+    ce.thankyou_text = cp.thankyou_text,
+    ce.thankyou_footer_text = cp.thankyou_footer_text,
+    ce.is_pay_later = cp.is_pay_later,
+    ce.pay_later_text = cp.pay_later_text,
+    ce.pay_later_receipt = cp.pay_later_receipt,
+    ce.is_multiple_registrations = cp.is_multiple_registrations;
+
+-- /*******************************************************
+-- *
+-- * Drop civicrm_event_page table
+-- *
+-- *******************************************************/
+
+DROP TABLE civicrm_event_page;
