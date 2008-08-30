@@ -603,3 +603,10 @@ SET is_recur = NULL WHERE title = 'Authorize.Net - AIM';
 
 ALTER TABLE `civicrm_address`
  ADD `name` varchar(255) collate utf8_unicode_ci DEFAULT NULL ;
+
+-- fix for CRM-3469
+ALTER TABLE `civicrm_line_item`
+  DROP FOREIGN KEY FK_civicrm_line_item_price_field_id;
+
+ALTER TABLE `civicrm_line_item`
+  ADD CONSTRAINT `FK_civicrm_line_item_price_field_id` FOREIGN KEY (`price_field_id`) REFERENCES `civicrm_price_field` (`id`) ON DELETE CASCADE

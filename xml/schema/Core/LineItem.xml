@@ -42,6 +42,7 @@
       <name>price_field_id</name>
       <table>civicrm_price_field</table>
       <key>id</key>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>option_group_id</name>
