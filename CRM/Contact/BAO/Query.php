@@ -1406,10 +1406,10 @@ class CRM_Contact_BAO_Query
                     
                     //get the location name 
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    list($tName, $fldName ) = self::getLocationTableName( $$field['where'], $locType );
+                    list($tName, $fldName ) = self::getLocationTableName( $field['where'], $locType );
 
                     $where = "`$tName`.$fldName"; 
-                   if ( $op != 'IN' ) {
+                    if ( $op != 'IN' ) {
                         $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
                                                                         $op,
                                                                         "'$value'" );
@@ -1461,7 +1461,7 @@ class CRM_Contact_BAO_Query
     static function getLocationTableName( &$where, &$locType ) {
         if (isset( $locType[1] ) && is_numeric( $locType[1] ) ) {
             list($tbName, $fldName) = explode("." , $where);
-                    
+
             //get the location name 
             $locationType =& CRM_Core_PseudoConstant::locationType();
             if ( $locType[0] == 'email' ||
