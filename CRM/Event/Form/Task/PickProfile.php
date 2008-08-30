@@ -147,7 +147,11 @@ class CRM_Event_Form_Task_PickProfile extends CRM_Event_Form_Task
     public function postProcess() 
     {
         $params = $this->exportValues( );
+
         $this->set( 'ufGroupId', $params['uf_group_id'] );
+
+	// also reset the batch page so it gets new values from the db
+	$this->controller->resetPage( 'Batch' );
     }//end of function
 }
 
