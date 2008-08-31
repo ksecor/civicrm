@@ -1324,11 +1324,15 @@ class DB_DataObject extends DB_DataObject_Overload
         if ($dataObject !== false) {
             return true;
         }
-        
-        $this->raiseError(
-            "update: No Data specifed for query $settings , {$this->_query['condition']}", 
-            DB_DATAOBJECT_ERROR_NODATA);
-        return false;
+	
+	/**
+	 * $this->raiseError(
+	 * "update: No Data specifed for query $settings , {$this->_query['condition']}", 
+	 * DB_DATAOBJECT_ERROR_NODATA);
+	 * return false;
+	 **/
+	// we allow empty updates always 
+	return true;
     }
 
     /**
