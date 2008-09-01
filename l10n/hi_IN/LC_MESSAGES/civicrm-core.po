@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-20 00:07-0700\n"
+"PO-Revision-Date: 2008-08-28 03:01-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3018,14 +3018,12 @@ msgid "Could not find location type id"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix"
-msgstr "व्यक्तिगत"
+msgstr "व्यक्तिगत उपसर्ग"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "व्यक्तिगत"
+msgstr "व्यक्तिगत प्रत्यय"
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
@@ -3061,7 +3059,6 @@ msgid "Restricted to Contacts starting with: '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Postal code"
 msgstr "पिन कोड"
 
@@ -6101,9 +6098,8 @@ msgid "Find"
 msgstr ""
 
 #: CRM/Group/Form/Search.php
-#, fuzzy
 msgid "- any visibility -"
-msgstr "दृश्यता"
+msgstr "- दर्शनीयता -"
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
@@ -6127,9 +6123,8 @@ msgid "Smart Group"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Search Groups"
-msgstr "खोजे"
+msgstr "समुह खोजे"
 
 #: CRM/Group/Page/Group.php
 msgid "Group %%StatusMessage%%"
@@ -6153,12 +6148,11 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php
 msgid "Group '%1' already exists."
-msgstr ""
+msgstr "'%1' समुह पहले से मौजूद है।"
 
 #: CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Tag '%1' already exists."
-msgstr "नाम पहले से आंकड़ासंचय में मौजूद है."
+msgstr "लेबल '%1' पहले से मौजूद है।"
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
@@ -6413,9 +6407,8 @@ msgid "Price Field Option"
 msgstr ""
 
 #: CRM/Price/Page/Option.php
-#, fuzzy
 msgid "Price Option"
-msgstr "व्याख्या"
+msgstr "मूल्य विकल्प"
 
 #: CRM/Price/Page/Option.php
 msgid "%1 - Price Options"
@@ -11597,11 +11590,11 @@ msgstr ""
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid "Edit Price Options"
-msgstr ""
+msgstr "मूल्य विकल्प संपादन"
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid "New Price Field"
-msgstr ""
+msgstr "नई मूल्य फील्ड"
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid "There are no fields for price set '%1', <a href='%2'>add one</a>."
@@ -11941,15 +11934,15 @@ msgstr ""
 
 #: templates/CRM/UF/Form/NotifySubject.tpl
 msgid "Submitted by"
-msgstr ""
+msgstr "द्वारा प्रस्तुत"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Field Preview"
-msgstr ""
+msgstr "प्रोफाइल फील्ड पूर्वावलोकन"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Preview"
-msgstr ""
+msgstr "प्रोफाइल पूर्वावलोकन"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "This CiviCRM profile field is view only."
@@ -11986,7 +11979,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
-msgstr ""
+msgstr "वापस प्रोफाइल सूची की आेर"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -11998,7 +11991,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "प्रोफाइल शीर्षक"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"

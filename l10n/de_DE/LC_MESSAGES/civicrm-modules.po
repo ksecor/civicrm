@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-25 08:26-0700\n"
-"Last-Translator: Knut Habicht <habicht@cadvertising.de>\n"
+"PO-Revision-Date: 2008-08-28 11:22-0700\n"
+"Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,6 @@ msgstr "(Seitenende)"
 
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
-#, fuzzy
 msgid "Configure Contribution Page"
 msgstr "Einstellungen der Seiten für Spenden und Beiträge"
 
@@ -149,7 +148,6 @@ msgid "Fee Amount"
 msgstr "Gebühr"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#, fuzzy
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
@@ -183,9 +181,8 @@ msgid "Delete Contributions"
 msgstr "Lösche Zuwendungen"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Zuwendungen drucken"
+msgstr "Exportiere Zuwendungen"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -196,9 +193,8 @@ msgid "Manage Premiums"
 msgstr "Premium-Spender verwalten"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Import Contributions"
-msgstr "Zuwendungen drucken"
+msgstr "Importiere Zuwendungen"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -264,24 +260,21 @@ msgstr "Online-Anmeldung"
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Payment Status"
-msgstr "Bezahl-Status"
+msgstr "Zahlungsstatus"
 
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Participant"
-msgstr "Teilnehmer-Nummer"
+msgstr "Teilnehmer"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
 msgstr "Teilnehmer exportieren"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Darstellung"
+msgstr "Namen anzeigen"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
-#, fuzzy
 msgid "Import Participants"
 msgstr "Teilnehmer exportieren"
 
@@ -354,9 +347,8 @@ msgid "Import Members"
 msgstr "Mitglieder importieren"
 
 #: CRM/Contribute/BAO/Contribution.php
-#, fuzzy
 msgid "- Contribution Fields -"
-msgstr "- Spenden Felder -"
+msgstr "- Zuwendungsfelder -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -371,12 +363,11 @@ msgstr ""
 "wenn sie ihn nicht mehr verwenden wollen."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
-#, fuzzy
 msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
-"Diese Prämieist verknüpft mit <a href=\"%1\">Onlinespendenseite</a>. Bitte "
+"Diese Prämie ist verknüpft mit <a href=\"%1\">Onlinespendenseite</a>. Bitte "
 "entferne die Verknüpfung, um diesen Premium zu löschen."
 
 #: CRM/Contribute/BAO/Premium.php
@@ -441,7 +432,6 @@ msgid "Find Test Contributions?"
 msgstr "Testzuwendungen finden?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Recurring Contributions?"
 msgstr "Wiederkehrende Zuwendungen finden?"
 
@@ -628,7 +618,6 @@ msgstr ""
 "(z. B. alle 3 Monate)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid ""
 "You can not set up a recurring contribution if you are not paying online by "
 "credit card."
@@ -693,19 +682,16 @@ msgid "Enable recurring payments"
 msgstr "Aktiviere regelmäßige Zahlungen"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Enable pay later option?"
-msgstr "Aktivieren der Option \"Später bezahlen\"?"
+msgstr "Aktivieren der Option \"Später zahlen\"?"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Pay later label"
-msgstr "\"Später bezahlen\"-Kennzeichnung"
+msgstr "\"Später zahlen\"-Kennzeichnung"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Pay later instructions"
-msgstr "Erläuterungen zu \"Später bezahlen\""
+msgstr "Erläuterungen zu \"Später zahlen\""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Contribution Amounts (%1)"
@@ -716,21 +702,18 @@ msgid "Minimum Amount should be less than Maximum Amount"
 msgstr "Der Minimalbetrag sollte geringer sein als der Maximalbetrag"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid ""
 "Please enter the text for the 'pay later' checkbox displayed on the "
 "contribution form."
 msgstr ""
-"Bitte fügen Sie den Text für die \"Später bezahlen\"-Checkbox ein, der auf "
-"der Zuwendungsseite angezeigt wird."
+"Bitte fügen Sie den Text für die \"Später zahlen\"-Checkbox ein, der auf der "
+"Zuwendungsseite angezeigt wird."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid ""
 "Please enter the instructions to be sent to the contributor when they choose "
 "to 'pay later'."
-msgstr ""
-"Bitte Erläuterung für die Spender einfügen, die \"Später bezahlen\" wählen."
+msgstr "Bitte Erläuterung für die Spender einfügen, die \"Später zahlen\" wählen."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Amounts"
@@ -747,20 +730,18 @@ msgid "Include Profiles"
 msgstr "Profile inkludieren"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-#, fuzzy
 msgid ""
 "You must enable the Membership Block for this Contribution Page if you want "
 "to include a Profile with Membership fields."
 msgstr ""
 "Sie müssen den Mitgliedschaftsblock für diese Zuwendungsseite aktivieren, "
-"wnn sie ein Profil mit Mitgliedschaftsfeldern einbeziehen wollen."
+"wenn sie ein Profil mit Mitgliedschaftsfeldern einbeziehen wollen."
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
 msgstr "Spendenseite löschen"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
-#, fuzzy
 msgid "The contribution page '%1' has been deleted."
 msgstr "Die Spendenseite \"%1\" wurde gelöscht."
 
@@ -781,7 +762,6 @@ msgid "Premiums (%1)"
 msgstr "Prämien (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Premiums Section Enabled?"
 msgstr "Abschnitt \"Dankeschön\"-Prämien aktivieren?"
 
@@ -2228,9 +2208,8 @@ msgid "Subscribe to Mailing List - %1"
 msgstr "In die Mailing-Liste %1 eintragen."
 
 #: CRM/Mailing/Form/Subscribe.php
-#, fuzzy
 msgid "Mailing List Subscription"
-msgstr "Betreff des Mailings"
+msgstr "Eintragung in die Mailing-Liste"
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "Please enter a valid email address (e.g. 'yourname@example.com')."
@@ -5040,12 +5019,13 @@ msgid "This label is displayed with the list of event fees."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#, fuzzy
 msgid ""
 "Select a pre-configured Price Set to offer multiple individually priced "
 "options for event registrants. Otherwise, select &quot;-none-&quot, and "
 "enter one or more fee levels in the table below. Create or edit Price Sets "
 "<a href='%1'>here</a>."
-msgstr ""
+msgstr "Wähle ein vorkonfiguriertes Preisgerüst"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 #, fuzzy
@@ -5789,6 +5769,9 @@ msgid ""
 "To send a mailing, you must have a valid group of recipients - either at "
 "least one group that's a Mailing List or at least one previous mailing."
 msgstr ""
+"Um ein Mailing zu senden, musst Du eine gültige Empfängergruppe haben oder "
+"mindestens eine Gruppe, die eine Mailing-Liste ist oder ein bereits "
+"gesendetes Mailing."
 
 #: templates/CRM/Mailing/Form/Group.tpl
 #, fuzzy
@@ -5894,6 +5877,11 @@ msgid ""
 "your subscription to each list by responding to the corresponding "
 "confirmation email."
 msgstr ""
+"Gib deine E-Mail-Adresse ein und kreuze die Mailing-Listen an, denen Du "
+"beitreten möchtest. Klicke dann auf <strong>Hinzufügen</strong>. Du erhälst "
+"eine Bestätigung per E-Mail für jede ausgewählte Liste. Aktiviere deinen "
+"Beitritt zu jeder Liste, indem Du auf die betreffende Bestätigungsmail "
+"antwortest."
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
 #, fuzzy
@@ -6489,6 +6477,11 @@ msgid ""
 "Then return to this screen to assign the renewal reminder message, and set "
 "reminder date."
 msgstr ""
+"Es wurde bis jetzt kein Nachrichten-Template erstellt. Wenn Du Erneute "
+"Erinnerungen senden willst, <a href='%1'>klicke hier</a> um ein E-Mail "
+"Template für Erneute Erinnerung zu erstellen. Kehre anschließend zu diesem "
+"Fenster zurück, um eine Erneute Erinnerung-Nachricht zuzuordnen und ein "
+"Erinnerungsdatum einzugeben."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6545,6 +6538,13 @@ msgid ""
 "criteria (e.g. selecting Status is 'Expired' AND Source is 'Phone-banking' "
 "returns only those contacts who meet both criteria)."
 msgstr ""
+"Benutze dieses Formular um Mitglieder über ihren Mitgliedsnamen oder ihre E"
+"-Mail-Adresse, Mitgliedsart, ihren Status, die Quelle und/oder ihre "
+"Mitgliedsdauer zu finden. Mehrfachauswahl für Mitgliedschaftsarten werden "
+"als ODER-Kriterien kombiniert (z.B. Auswahl von \"Art A\" und \"Art B\" findet "
+"Kontakt, die eines von beiden aufweisen). Alle anderen Felder werden als "
+"UND-Kriterien kombiniert (z.B. Auswahl des Status \"Abgelaufen\" und Quelle "
+"\"Telefonbanking\" ergibt nur Kontakte die beide Kriterien aufweisen)."
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "View all memberships for this contact"
@@ -6586,15 +6586,16 @@ msgstr "Anzahl der ausgewählten Mitglieder: %1"
 
 #: templates/CRM/Member/Import/Form/Preview.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total rows (membership records) in uploaded file."
-msgstr "Anzahl der Zeilen (Kontaktdatensätze) in der hochgeladenen Datei."
+msgstr "Anzahl der Zeilen (Mitgliedschaftseinträge) in der hochgeladenen Datei."
 
 #: templates/CRM/Member/Import/Form/Preview.tpl
 msgid ""
 "Rows with conflicting transaction ids within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
+"Zeilen mit konfligierenden Transaktionskennungen innerhalb der Datei. Diese "
+"Zeielen werden übersprungen (nicht importiert)."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 #, fuzzy
@@ -6657,18 +6658,18 @@ msgstr[1] ""
 "sind."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with mismatched membership IDs... (NOT updated)."
-msgstr "Zeilen mit widersprüchlichen Emailadressen (nicht importiert)"
+msgstr ""
+"Zeilen mit widersprüchlichen Mitgliedschaftskennungen... (nicht "
+"aktualisisert)."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Download Mismatched Memberships"
 msgstr "Download nicht übereinstimmende Mitgliedschaften"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM membership records."
-msgstr "Zeilen die doppelt schon als CiviCRM Kontakt gespeichert sind."
+msgstr "Zeilen die doppelt als CiviCRM Kontakt gespeichert sind."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
@@ -6684,6 +6685,9 @@ msgid ""
 "and must contain data needed to match the membership data to an existing "
 "contact in your CiviCRM database."
 msgstr ""
+"Dateien die importiert werden sollen, müssen im CSV-Format ('comma-"
+"separated-values') vorliegen und Daten enthalten, die zu den Mitgliedsdaten "
+"eines bestehenden Kontakts in der CiviCRM-Datenbank passen."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
@@ -6756,7 +6760,7 @@ msgstr "Mitglieder nach Typ"
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
 msgid "Current #"
-msgstr "Währung"
+msgstr "aktuelle Nr"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
@@ -6816,11 +6820,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
+"Es sind keine Mitgliedschaftsarten vorhanden. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
 
 #~ msgid "Pay Later Text"
