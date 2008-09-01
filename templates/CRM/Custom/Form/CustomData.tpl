@@ -55,6 +55,9 @@
           {assign var="element_name" value="custom_"|cat:$field_id}			
           <dt>{$form.$element_name.label}</dt>
           <dd class="html-adjust">{$form.$element_name.html}
+          {if $element.html_type eq 'Radio'}
+          &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
+          {/if}
           {if $element.data_type eq 'File'}
             {if $element.customValue.data}
             <span class="html-adjust"><br />
