@@ -582,12 +582,12 @@ class CRM_Utils_Date
                 return true;
             }
         case 2 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d$/', $value) ) {
                 return false;
             }
             break;
         case 4 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d$/', $value ) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d$/', $value ) ) {
                 return false;
             }
             break;
@@ -602,16 +602,24 @@ class CRM_Utils_Date
             }
             break;
         case 32 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d/', $value) ) {
+            if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d\d\d/', $value) ) {
                 return false;
             }
             break;
         }
 
         if ( $dateType == 2 || $dateType == 4) {
-            $year   = (int) substr($value,  6, $dateType);
-            $month  = (int) substr($value,  0, 2);
-            $day    = (int) substr($value,  3, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) != 3 ) {
+                $formattedDate = explode( "-" , $value ); 
+            } 
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[0];
+                $day    = (int) $formattedDate[1];
+            }else {
+                return false;
+            }    
         }
         if ( $dateType == 8 ) {
             $dateArray = explode(' ',$value);
@@ -663,9 +671,14 @@ class CRM_Utils_Date
             $month  = (int) $monthInt;
         }
         if ( $dateType == 32 ) {
-            $year   = (int) substr($value,  6, 4);
-            $month  = (int) substr($value,  3, 2);
-            $day    = (int) substr($value,  0, 2);
+            $formattedDate = explode( "/", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[2];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[0];
+            }else {
+                return false;
+            }
         }
         
         $month = ($month < 10)? "0" . "$month" : $month;
@@ -684,7 +697,7 @@ class CRM_Utils_Date
             $params[$dateParam] = "$year$month$day";
         }
         //if month is invalid return as error
-        if ( $month !== '00' ) {
+        if ( $month !== '00' && $month <= 12 ) {
             return true;
         }
         return false;
