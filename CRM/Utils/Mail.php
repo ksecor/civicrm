@@ -257,6 +257,31 @@ This is probably related to a problem in your Outbound Email Settings (Administe
         preg_match('/<([^<]*)>$/', $header, $matches);
         return $matches[1];
     }
+
+    /**
+     * Get the Active outBound email 
+     * @return boolean true if valid outBound email configuration found, false otherwise
+     * @access public
+     * @static
+     */
+    static function validOutBoundMail() {
+        $config =& CRM_Core_Config::singleton( );
+       
+        if ( $config->outBound_option == 0 ) {
+            if ( !isset( $config->smtpServer ) || $config->smtpServer == '' || $config->smtpServer == 'YOUR SMTP SERVER'|| 
+                 ( $config->smtpAuth && ( $config->smtpUsername == '' || $config->smtpPassword == '' ) ) ) {
+                return false;
+            }
+            return true;
+        } else if ( $config->outBound_option == 1 ) {
+            if ( ! $config->sendmail_path || ! $config->sendmail_args ) {
+                return false;
+            }
+            return true;
+        }
+        return false;        
+    }
+
 }
 
 
