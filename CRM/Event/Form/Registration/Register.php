@@ -190,7 +190,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $attributes = null;
                 $this->assign( 'hidePaymentInformation', false );
                 if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) && 
+                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express', 'Payment_Express', 'ClickAndPledge' ) ) && 
                      is_array( $this->_paymentProcessor ) ) {
                     $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
