@@ -109,7 +109,8 @@
 	      return;
         } else {
 	      hide('widgetFields');
-          return;
+	      hide('preview');
+              return;
 	   }
     }
 </script>
