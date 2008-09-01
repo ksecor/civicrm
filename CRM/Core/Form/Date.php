@@ -62,9 +62,9 @@ Class CRM_Core_Form_Date
         
         require_once "CRM/Utils/System.php";
         if ( CRM_Utils_System::getClassName( $form ) == 'CRM_Activity_Import_Form_UploadFile' ) {
-            $dateText = ts('yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 10:30)');
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 10:30) OR (2008-9-1 OR 20080901 10:30)');
         } else {
-            $dateText = ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)');
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225) OR (2008-9-1 OR 20080901)');
         }
 
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, $dateText, self::DATE_yyyy_mm_dd);
