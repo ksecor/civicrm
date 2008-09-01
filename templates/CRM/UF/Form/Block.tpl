@@ -76,6 +76,11 @@
                 <br /><span class="description">{$field.help_post}</span> 
              {/if} 
            </td>
+           {if $field.html_type eq 'Radio'}
+           <td style="line-height: .75em; margin-top: 1px;">
+               &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
+           </td>
+           {/if}
         </tr> 
     {/if}     
     {/foreach} 

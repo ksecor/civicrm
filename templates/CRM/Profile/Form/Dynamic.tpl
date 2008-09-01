@@ -98,6 +98,11 @@
            {/if}
            {$form.$n.html}
            </td>
+           {if $field.html_type eq 'Radio' and $form.formName eq 'Edit'}
+                <td style="line-height: .75em; margin-top: 1px;">
+                &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>&nbsp;)
+                </td>
+           {/if}
         </tr>
 	  {if $form.$n.type eq 'file'}
 	      <tr><td class="label"></td><td>{$customFiles.$n.displayURL}</td></tr>
