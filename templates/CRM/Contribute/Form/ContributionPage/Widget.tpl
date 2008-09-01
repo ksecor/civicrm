@@ -88,7 +88,7 @@
     </div>
 
     <div id="crm-submit-buttons">
-        <dl><dt></dt><dd>{$form._qf_Widget_refresh.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.buttons.html}</dd></dl>  
+        <dl><dt id="preview">{$form._qf_Widget_refresh.html}</dt><dd>&nbsp;&nbsp;&nbsp;&nbsp;{$form.buttons.html}</dd></dl>  
     </div>
     </fieldset>
 
@@ -100,10 +100,12 @@
 	var is_act = document.getElementsByName('is_active');
   	if ( ! is_act[0].checked) {
            hide('widgetFields');
-	}
+	   hide('preview');
+	} 
     function widgetBlock(chkbox) {
         if (chkbox.checked) {
 	      show('widgetFields');
+	      show('preview');
 	      return;
         } else {
 	      hide('widgetFields');
