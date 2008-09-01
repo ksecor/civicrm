@@ -110,6 +110,11 @@ ORDER BY title";
             $this->addFormRule( array( 'CRM_Mailing_Form_Subscribe', 'formRule' ) );
         }
 
+        // add captcha
+        require_once 'CRM/Utils/ReCAPTCHA.php';
+        $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+        $captcha->add( $this );
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Subscribe'),
