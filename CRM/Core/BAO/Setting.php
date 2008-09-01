@@ -189,31 +189,53 @@ class CRM_Core_BAO_Setting
             // set the current language
             $lcMessages = null;
 
+            $session =& CRM_Core_Session::singleton();
+
             // on multi-lang sites based on request and civicrm_uf_match
             if ($multiLang) {
-
-                require_once 'CRM/Core/DAO/UFMatch.php';
-                $session =& CRM_Core_Session::singleton();
-                $ufm =& new CRM_Core_DAO_UFMatch();
-                $ufm->contact_id = $session->get('userID');
-
                 require_once 'CRM/Utils/Request.php';
-                $lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
-                if (isset($defaults['languageLimit']) and in_array($lcMessages, array_keys($defaults['languageLimit']))) {
+                $lcMessagesRequest = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
+                if (in_array($lcMessagesRequest, array_keys($defaults['languageLimit']))) {
+                    $lcMessages = $lcMessagesRequest;
+                } else {
+                    $lcMessagesRequest = null;
+                }
+
+                if (!$lcMessagesRequest) {
+                    $lcMessagesSession = $session->get('lcMessages');
+                    if (in_array($lcMessagesSession, array_keys($defaults['languageLimit']))) {
+                        $lcMessages = $lcMessagesSession;
+                    } else {
+                        $lcMessagesSession = null;
+                    }
+                }
+
+                if ($lcMessagesRequest) {
+                    require_once 'CRM/Core/DAO/UFMatch.php';
+                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm->contact_id = $session->get('userID');
                     if ($ufm->find(true)) {
                         $ufm->language = $lcMessages;
                         $ufm->save();
                     }
-                } else {
-                    if ($ufm->find(true) and isset($defaults['languageLimit']) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
+                    $session->set('lcMessages', $lcMessages);
+                }
+                
+                if (!$lcMessages) {
+                    require_once 'CRM/Core/DAO/UFMatch.php';
+                    $ufm =& new CRM_Core_DAO_UFMatch();
+                    $ufm->contact_id = $session->get('userID');
+                    if ($ufm->find(true) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
                         $lcMessages = $ufm->language;
                     }
+                    $session->set('lcMessages', $lcMessages);
                 }
             }
 
             // if a single-lang site or the above didn't yield a result, use default
             if ($lcMessages === null) {
                 $lcMessages = $defaults['lcMessages'];
+                $session->set('lcMessages', $lcMessages);
             }
 
             // set suffix for table names - use views if more than one language

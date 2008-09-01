@@ -179,6 +179,9 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
         $params = $this->exportValues( );
 
         $this->set( 'ufGroupId', $params['uf_group_id'] );
+
+	// also reset the batch page so it gets new values from the db
+	$this->controller->resetPage( 'Batch' );
     }//end of function
 }
 

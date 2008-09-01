@@ -53,7 +53,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID =  CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null );
+        $mailingID = CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null ) ?
+	  CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null ) : $this->_mailingID;
+	
         $count = $this->get('count');
         $this->assign('count',$count);
         
@@ -128,8 +130,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->assign('message_html', $htmlMessage );        
 
         $defaults['upload_type'] = 1; 
-
-        return $defaults;
+	if ( isset($defaults['body_html']) ) {
+	  $defaults['html_message'] = $defaults['body_html'];
+	}
+	return $defaults;
     }
 
  
@@ -145,7 +149,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
         
-        $this->add('text', 'subject', ts('Mailing Subject'), 
+	$this->add('text', 'subject', ts('Mailing Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
@@ -192,7 +196,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
-                                 array ( 'type'      => 'submit',
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Save & Continue Later') )
                                  )
                            );
@@ -205,8 +209,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $fileType      = array( 'textFile', 'htmlFile' );
 
         $formValues    = $this->controller->exportValues( $this->_name );
-        $qf_Upload_submit = $this->controller->exportValue( $this->_name, '_qf_Upload_submit' );
-        
+
         foreach ( $uploadParams as $key ) {
             $params[$key] = $formValues[$key];
             $this->set($key, $formValues[$key]);
@@ -293,7 +296,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
      
-        if ($qf_Upload_submit) {
+        if ($this->_submitValues['_qf_Upload_upload'] == 'Save & Continue Later') {
             CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
             $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
             CRM_Utils_System::redirect($url);

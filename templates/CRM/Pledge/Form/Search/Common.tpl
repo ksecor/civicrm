@@ -9,7 +9,7 @@
     <td>
      {$form.pledge_payment_date_high.label}
     <br />
-     {$form.pledge_payment_date_high.html}&nbsp
+     {$form.pledge_payment_date_high.html}&nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_6}
      {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_6}
     </td> 
@@ -42,7 +42,7 @@
     <td>
      {$form.pledge_create_date_high.label}
     <br />
-     {$form.pledge_create_date_high.html}&nbsp
+     {$form.pledge_create_date_high.html}&nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_8}
      {include file="CRM/common/calendar/body.tpl" dateVar=pledge_create_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_8}
     </td> 
@@ -58,7 +58,7 @@
     <td>
      {$form.pledge_start_date_high.label}
     <br />
-     {$form.pledge_start_date_high.html}&nbsp
+     {$form.pledge_start_date_high.html}&nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_2}
      {include file="CRM/common/calendar/body.tpl" dateVar=pledge_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_2}
     </td> 

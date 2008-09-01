@@ -46,7 +46,8 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 							</td>
 							<td id="tdBrowse" style="display: none" nowrap="nowrap" rowspan="2">
 								&nbsp;
-								
+								<input id="btnBrowse" onclick="BrowseServer();" type="button" value="Browse Server"
+									fcklang="DlgBtnBrowseServer" />
 							</td>
 						</tr>
 						<tr>
@@ -156,7 +157,18 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 			</tr>
 		</table>
 	</div>
-
+	<div id="divUpload" style="display: none">
+		<form id="frmUpload" method="post" target="UploadWindow" enctype="multipart/form-data"
+			action="" onsubmit="return CheckUpload();">
+			<span fcklang="DlgLnkUpload">Upload</span><br />
+			<input id="txtUploadFile" style="width: 100%" type="file" size="40" name="NewFile" /><br />
+			<br />
+			<input id="btnUpload" type="submit" value="Send it to the Server" fcklang="DlgLnkBtnUpload" />
+			<script type="text/javascript">
+				document.write( '<iframe name="UploadWindow" style="display: none" src="' + FCKTools.GetVoidUrl() + '"><\/iframe>' ) ;
+			</script>
+		</form>
+	</div>
 	<div id="divLink" style="display: none">
 		<table cellspacing="1" cellpadding="1" border="0" width="100%">
 			<tr>
@@ -166,7 +178,7 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 						<input id="txtLnkUrl" style="width: 100%" type="text" onblur="UpdatePreview();" />
 					</div>
 					<div id="divLnkBrowseServer" align="right">
-					
+						<input type="button" value="Browse Server" fcklang="DlgBtnBrowseServer" onclick="LnkBrowseServer();" />
 					</div>
 					<div>
 						<span fcklang="DlgLnkTarget">Target</span><br />

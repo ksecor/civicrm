@@ -5,7 +5,7 @@
   <div class="form-item">
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}</dd>
             <dt>&nbsp;</dt><dd class="description">
             <table class="form-layout-compressed">
             <tr><td>
@@ -24,11 +24,11 @@
             </table>
             </dd>
             <dt>{$form.imageUploadURL.label}</dt><dd>{$form.imageUploadURL.html|crmReplace:class:'huge'}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}URL of the location for uploaded image files.{/ts}</dd>
             <dt>{$form.customCSSURL.label}</dt><dd>{$form.customCSSURL.html|crmReplace:class:'huge'}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}URL of the location for your custom civicrm.css File.{/ts}</dd>
             <dt>{$form.enableSSL.label}</dt><dd>{$form.enableSSL.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}Redirect online contribution / member / event page requests to a secure (https) URL?{/ts} {help id='enable-ssl'}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Redirect online contribution / member / event page requests to a secure (https) URL?{/ts} {help id='enable-ssl'}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

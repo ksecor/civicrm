@@ -103,11 +103,6 @@
        input.value = labelValue;
 
        /* Code to hide searchable attribute for no searchable fields */
-       show("is_search_label");
-       show("is_search_html");
-       show("is_search_desDt");
-       show("is_search_desDd");
-       
        if (document.getElementsByName("field_name[1]")[0].selectedIndex == -1) {
         return;
        }

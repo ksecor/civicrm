@@ -220,7 +220,7 @@ SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, pos
             } else if ( $hh ) {
                 
                 $query = "
-SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
+SELECT CONCAT_WS(' :: ' , sort_name) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
 WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName%' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
@@ -519,7 +519,7 @@ WHERE {$whereClause}
         $countryName  = $stateName = null;
         $elements = array( );
         $countryClause = " 1 ";
-        if ( isset( $_GET['node'] ) ) {
+        if ( CRM_Utils_Array::value( 'node', $_GET ) ) {
             $countryId     = CRM_Utils_Type::escape( $_GET['node'], 'String');
             $countryClause = " civicrm_state_province.country_id = {$countryId}";
         } 

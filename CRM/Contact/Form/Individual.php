@@ -116,40 +116,23 @@ class CRM_Contact_Form_Individual {
         }
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
 
-        $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );   
+        //   $sharedOptionsExtra = array( 'onclick' => "setAddressFields();" );   
         if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
             if ( isset($mailToHouseholdID) ) {
-                $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );setAddressFields();
-" );
+                $sharedOptionsExtra = array( 'onclick' => "resetByValue('use_household_address','', $extraOnAddFlds, 'text', 'radio', true );" );
             }
         }
         
         if ( isset( $mailToHouseholdID ) ) {
-            $useHouseholdExtra = array( 'onclick' => "
-showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
-resetByValue('use_household_address',        '', $extraOnAddFlds,          'text', 'radio', false);
-showHideSharedOptions();
-setDefaultAddress();
-" );
+            $useHouseholdExtra = array( 'onclick' => "showHideHouseAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);resetByValue('use_household_address','', $extraOnAddFlds,'text', 'radio', false);setDefaultAddress();" );
         } else {
-            $useHouseholdExtra = array( 'onclick' => "
-showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
-showHideSharedOptions();
-setDefaultAddress();
-" );
+            $useHouseholdExtra = array( 'onclick' => "showHideAddress();showHideByValue('use_household_address', 'true', 'shared_household', 'block', 'radio', false);setDefaultAddress();" );
         }
-        
-        $sharedOptions = array( '0' => ts('Create new household'), '1' => ts('Select existing household') );
-        $form->addRadio('shared_option', ts('shared options'),  $sharedOptions, $sharedOptionsExtra);
-        
-        $form->add( 'text', 'create_household', ts( 'Household Name' ), 
-                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' ) );
-        
+              
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
@@ -223,17 +206,10 @@ setDefaultAddress();
     static function formRule( &$fields, &$files, $options ) 
     {
         $errors = array( );
-             
-        if ( isset( $fields['employer_option'] ) &&
-             $fields['employer_option'] == 1     && 
-             ! $fields['shared_employer'] ) {
-            $errors['shared_employer'] =  ts('Please select an organization from the list ');
-        } elseif ( isset($fields['employer_option']) && 
-                   $fields['employer_option'] == 0   &&
-                   !$fields['create_employer'] ) {
-            $errors['create_employer'] =  ts('Please provide an organization name.');
-        }
-        
+        //FIXME 
+        if ($fields['location'][1]['address']['state_province_id'] == 'undefined' ) {
+            $fields['location'][1]['address']['state_province_id'] ='';
+        }    
         $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // check for state/country mapping
@@ -273,38 +249,15 @@ setDefaultAddress();
         
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
         if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
-            if ( ! $fields['create_household'] ) {
-                if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
-                    if ( !is_numeric( $fields['shared_household'] ) ) {
-                        $errors["shared_household"] = 
-                            ts("Please select a household from the 'Select Household' list");
-                    }
-                } else {
-                    $errors["create_household"] = 
-                        ts("Please specify a new household");
-                }
-            } else {
-                if ( ! CRM_Utils_Array::value( '_qf_Edit_next_sharedHouseholdDuplicate', $fields ) ) {
-                    $dupeIDs = array();
-                    require_once 'CRM/Dedupe/Finder.php';
-                    $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
-                    $newDedupeParams['civicrm_address'] = $dedupeParams['civicrm_address']; 
-                    $newDedupeParams['civicrm_contact']['household_name'] = $fields['create_household']; 
-                    $dupeIDs = CRM_Dedupe_Finder::dupesByParams($newDedupeParams, 'Household', 'Fuzzy', array($options));
-                    unset($urls);
-                    foreach( $dupeIDs as $id ) {
-                        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                        $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
-                            '">' . $displayName . '</a>';
-                    }
-                    if (!empty($dupeIDs)) {
-                        $url = implode( ', ',  $urls );
-                        $errors['_qf_default'] = ts( 'One matching household: %1, was found. You can specify it through \'Select existing household\' option or click \'Save With Duplicate Household\' button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching households: %1, were found. You can specify them through \'Select existing household\' option or click \'Save With Duplicate Household\' button below.' ) );
-                        $template =& CRM_Core_Smarty::singleton( );
-                        $template->assign( 'isSharedHouseholdDuplicate', 1 );
-                    }
-                }
+            if ( ! CRM_Utils_Array::value( 'shared_household', $fields ) ) {
+                $errors["shared_household"] = ts("Please select a household from the 'Select Household' list");
             }
+     
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign( 'isshareHouseholdNew', true );
+            if ( is_numeric( $fields['shared_household'] ) ) {
+                $template->assign( 'isshareHouseholdNew', false );
+            } 
         }
         
         return empty($errors) ? true : $errors;
@@ -337,7 +290,7 @@ setDefaultAddress();
         $addressFields = CRM_Core_DAO_Address::fields();
         foreach($addressFields as  $key =>$val ){
             if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
-                $values[1]['address'][$key]="null";
+                $values[1]['address'][$key]="";
             }
         }
         if( $values[1]['address']['country_id']=="null"){
@@ -367,22 +320,39 @@ setDefaultAddress();
      */
     static function createSharedHousehold( &$params ) 
     {
-        $householdParams = array( );
-        
-        $householdParams['contact_type']   = 'Household';
-        $householdParams['household_name'] = $params['create_household'];
-        $householdParams['location']       = $params['location'];
+        $houseHoldId = null;
+        // if household id is passed.
+        if ( is_numeric( $params['shared_household'] ) ) {
+            $houseHoldId = $params['shared_household'];
+        } else {
+            require_once "CRM/Contact/DAO/Contact.php";
+            $contact =& new CRM_Contact_DAO_Contact( );
+            $contact->household_name = $params['shared_household'];
+            
+            $contact->find( );
+            $dupeIds = array( );
+            while ( $contact->fetch( ) ) {
+                $dupeIds[$contact->id] = $contact->id;
+            }
 
-        unset( $householdParams['location']['2'], 
-               $householdParams['location']['1']['phone'], 
-               $householdParams['location']['1']['email'], 
-               $householdParams['location']['1']['im']
-               );
-        
-        $contact = CRM_Contact_BAO_Contact::create( $householdParams );
-        
-        if ( $contact->id ) {
-            $params['mail_to_household_id'] = $contact->id;
+            // if duplicates are not found create new household
+            if ( empty($dupeIds) ) {
+                $householdParams = array();
+                $householdParams['location'] = $params['location'];
+                unset( $householdParams['location']['2'], 
+                       $householdParams['location']['1']['phone'], 
+                       $householdParams['location']['1']['email'], 
+                       $householdParams['location']['1']['im'] );
+                //create new Household
+                $newHousehold = array ( 'contact_type'   => 'Household',
+                                        'household_name' => $params['shared_household'], 
+                                        'location'       => $householdParams['location'] );
+                $houseHold   = CRM_Contact_BAO_Contact::create( $newHousehold );
+                $houseHoldId = $houseHold->id;
+            }
+        }
+        if ( $houseHoldId ) {
+            $params['mail_to_household_id'] = $houseHoldId;
             return true;
         }
         return false;

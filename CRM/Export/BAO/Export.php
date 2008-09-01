@@ -234,6 +234,7 @@ class CRM_Export_BAO_Export
                                      ts('Payment Instrument'), ts('Transaction ID'));
             
             // get payment related in for event and members
+            require_once 'CRM/Contribute/BAO/Contribution.php';
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
         }
         

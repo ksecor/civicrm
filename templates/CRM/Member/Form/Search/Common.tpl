@@ -54,7 +54,7 @@
     <td>
      {$form.member_start_date_high.label}
     <br />
-     {$form.member_start_date_high.html}&nbsp
+     {$form.member_start_date_high.html}&nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
      {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
     </td> 

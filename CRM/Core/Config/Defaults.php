@@ -165,6 +165,9 @@ class CRM_Core_Config_Defaults
                                             $startPos + 7,
                                             $endPos - $startPos - 7 );
                         $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/civicrm/";
+                        if ( ! isset( $defaults['imageUploadURL'] ) ) {
+                            $defaults['imageUploadURL'] = $baseURL . "sites/$siteName/files/civicrm/persist/contribute/";
+                        }
                     }
                 }
             }
@@ -177,7 +180,7 @@ class CRM_Core_Config_Defaults
                 $tempURL = str_replace( "/administrator/", "/", $baseURL );
                 $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
             } else {
-                $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+                $defaults['imageUploadURL'] = $baseURL . "sites/default/files/civicrm/persist/contribute/";
             }
         }
 
@@ -210,7 +213,7 @@ class CRM_Core_Config_Defaults
         if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
             $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
         }
-        
+    
         foreach( $defaults['enableComponents'] as $key => $name ) {
             $comp = $config->componentRegistry->get( $name );
             if ( $comp ) {

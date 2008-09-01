@@ -34,7 +34,7 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $BasePath = '/packages/tinymce/jscripts/tiny_mce/';
+    var $BasePath = 'packages/tinymce/jscripts/tiny_mce/';
     
     /**
      * Check for browser compatibility
@@ -108,9 +108,10 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
                 strpos($agent, 'mac') === false)
             {                
                 return ((float) substr($agent, $msie + 5, 3) >= 5.5);
-            } elseif (($gecko = strpos($agent, 'gecko')) !== false) {
+            } elseif (($gecko = strpos($agent, 'gecko/')) !== false) {
                 return ((int) substr($agent, $gecko + 6, 8 ) >= 20030210);
             }             
+            return true;
         }   
         return false;
     }
@@ -133,7 +134,6 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
         // return textarea
         } else {
             $config =& CRM_Core_Config::singleton();    
-
             $html  .= sprintf( '<script type="text/javascript" src="%s"></script>',
                                 $config->resourceBase . $this->BasePath . 'tiny_mce.js'
                              );                

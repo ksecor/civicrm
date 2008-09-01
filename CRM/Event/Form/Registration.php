@@ -441,16 +441,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
-                    
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
             }
-            
-            // unset any email-* fields since we already collect it, CRM-2888
-            foreach ( array_keys( $fields ) as $fieldName ) {
-                if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
-                    unset( $fields[$fieldName] );
+
+            if ( is_array( $fields ) ) {
+                // unset any email-* fields since we already collect it, CRM-2888
+                foreach ( array_keys( $fields ) as $fieldName ) {
+                    if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
+                        unset( $fields[$fieldName] );
+                    }
                 }
             }
             

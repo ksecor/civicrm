@@ -197,6 +197,11 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
+            
+            //modify field title only for update mode. CRM-3245
+            foreach ( array( 'contribution_id', 'invoice_id', 'trxn_id' ) as $key ) {
+                $this->_mapperFields[$key] .= " (match to contribution record)";
+            }
         } else if ( $this->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP ) {
             unset( $this->_mapperFields['contribution_id'] );
         }
@@ -443,13 +448,29 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                             $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are required to match to the existing contribution records in Update mode.'). '<br />';
                         }
                     } else {
-                        $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                        if($self->_onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ){
+                            $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                        }
                     }
                 }
             }
+            
+            //at least one field should be mapped during update.
+            if ( $self->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+                $atleastOne = false;
+                foreach ( $self->_mapperFields as $key => $field ) {
+                    if ( in_array( $key, $importKeys ) && 
+                         !in_array( $key, array( 'doNotImport', 'contribution_id', 'invoice_id', 'trxn_id' ) ) ) {
+                        $atleastOne = true;
+                        break;
+                    }
+                }
+                if ( !$atleastOne ) {
+                    $errors['_qf_default'] .= ts('At least one contribution field needs to be mapped for update during update mode.').'<br />';
+                }
+            }
         }
-
-
+        
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {

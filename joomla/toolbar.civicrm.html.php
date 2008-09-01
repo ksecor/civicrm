@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('No direct access allowed'); 
 
 /**
 * @package		Joomla

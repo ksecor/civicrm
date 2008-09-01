@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-21 07:54-0700\n"
+"PO-Revision-Date: 2008-08-26 05:28-0700\n"
 "Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4174,6 +4174,11 @@ msgid ""
 "available at this time, you may also choose to display a 'No Image "
 "Available' icon - by selecting the 'default image'."
 msgstr ""
+"Vous pouvez télécharger une image de votre ordinateur OU entrer l'URL d'une "
+"image déjà sur le Web. Si vous choisissez de télécharger une image, une "
+"version \"vignette\" sera automatiquement créée pour vous. Si vous n'avez pas "
+"d'image disponible à ce moment, vous pourrez choisir d'afficher une icône "
+"\"Pas d'image disponible\", en sélection l'\"image par défaut\"."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4182,10 +4187,14 @@ msgid ""
 "contribution amount, enter '0'. If display of minimum contribution amounts "
 "is enabled then this text is displayed:"
 msgstr ""
+"Montant minimum de la contribution exigé pour pouvoir choisir un cadeau. Si "
+"vous voulez l'offrir à tous les contributeurs, quelque soit le montant de la "
+"contribution, indiquez \"0\". Si l'affichage des montants minimums de la "
+"contribution est activé, alors le texte suivant sera affiché :"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "(Contribute at least X to be eligible for this gift.)"
-msgstr ""
+msgstr "(Contribuez au moins à X pour être éligible à ce cadeau.)"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4193,6 +4202,10 @@ msgid ""
 "contributions, this amount will be used to set the non-deductible amount in "
 "the contribution record and receipt."
 msgstr ""
+"Valeur marchande de ce cadeau (c'est à dire son prix d'achat). Pour les "
+"contribution déductibles, ce montant sera utilisé pour indiquer le montant "
+"non déductible dans l'historique de la contribution et l'accusé de "
+"réception."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4200,6 +4213,9 @@ msgid ""
 "organization. This may be useful when evaluating net return for this "
 "incentive."
 msgstr ""
+"En option, vous pouvez enregistrer le cout actuel de ce cadeau pour votre "
+"organisation. Cela pourra être utile quand vous évaluerez le retour net de "
+"cette action."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4207,10 +4223,13 @@ msgid ""
 "applicable. Contributors will be presented a drop-down menu of these options "
 "when they select this product."
 msgstr ""
+"Entrez, en les séparant par une virgule, les options de couleur, taille, "
+"ect. pour ce produit, si besoin. Les contributeurs se verront présenter une "
+"liste de ces options quand ils choisiront ce produit."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Subscription or Service Settings"
-msgstr ""
+msgstr "Paramètres d'inscription ou de service."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4218,6 +4237,9 @@ msgid ""
 "Select 'Fixed' if the start date is a fixed month and day within the current "
 "year (set this value in the next field)."
 msgstr ""
+"Sélectionnez ''variable'' si l'inscription ou le service commence au jour "
+"actuel. Sélectionnez ''Fixe'' si la date de début est un jour ou mois fixe "
+"dans le courant de l'année (indiquez cette date dans le champs suivant)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4226,16 +4248,22 @@ msgid ""
 "that the subscription period would be 1/1/06 - 12/31/06 for anyone signing "
 "up during 2006."
 msgstr ""
+"Mois et jour (MMJJ) auxquels la période fixe d'inscription ou service "
+"commencera. Exemple : une période fixe d'inscription avec une date de début "
+"0101 signifie que l'inscription durera du 01/01/06 au 12/31/2006 pour toute "
+"personne s'enregistrant en 2006."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Duration of subscription or service (e.g. 12-month subscription)."
-msgstr ""
+msgstr "Durée de l'inscription ou du service (ex. 12 mois)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Frequency of subscription or service (e.g. journal delivered every two "
 "months)."
 msgstr ""
+"Fréquence de l'inscription ou du service (ex. journal envoyé tous les deux "
+"mois)."
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
@@ -4261,8 +4289,8 @@ msgid ""
 "transaction will be submitted</strong> using the selected payment processor."
 msgstr ""
 "Utilisez ce formulaire pour soumettre une nouvelle contribution au nom de "
-"%1. <strong> La transaction A %2 sera soumise</strong>  en utilisant le "
-"moyen de paiement choisi. "
+"%1. <strong> La transaction A %2 sera soumise</strong> en utilisant le moyen "
+"de paiement choisi."
 
 #: templates/CRM/Contribute/Form/Offline.tpl
 msgid "Automatically email a receipt for this contribution?"
@@ -4685,6 +4713,11 @@ msgid ""
 "title='%2'>CiviContribute Administration Documentation</a> for more "
 "information."
 msgstr ""
+"Utilisez les liens ci-dessous pour mettre à jour les caractéristiques et le "
+"contenu de cette page de contribution en ligne, ainsi que pour passer le "
+"processus de contribution en <strong>mode test</strong>. Référez vous au <a "
+"href='%1' target='_blank' titre='%2'>Documentation Administration "
+"CiviContribute</a> pour plus d'informations."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4692,6 +4725,10 @@ msgid ""
 "payment processor, goal amount, introduction, honoree features, and page "
 "status (active or disabled)."
 msgstr ""
+"Indiquez le titre de la page, le type de contribution (donation, campagne "
+"d'adhésion, ect.), le processus de paiement, l'objectif (montant total "
+"désiré), l'introduction, les caractéristiques de la personne gratifiée et le "
+"statut de la page (active ou désactivée)."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4719,42 +4756,51 @@ msgstr "Paramètres d'adhésion"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Configure membership sign-up and renewal options."
-msgstr ""
+msgstr "Configurez le processus d'adhésion et les options de renouvellement."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Collect additional information from contributors by selecting CiviCRM Profile"
 "(s) to include in this contribution page."
 msgstr ""
+"Collectez des informations additionnelles des contributeurs en sélectionnant "
+"le(s) profil(s) CiviCRM à inclure à cette page de contribution."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
-msgstr ""
+msgstr "Remerciement et accusé de réception"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Edit thank-you page contents and receipting features."
 msgstr ""
+"Editez les contenus de la page de remerciement et les caractéristiques de "
+"l'accusé de réception."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Make it easy for contributors to spread the word to friends and colleagues."
 msgstr ""
+"Faire connaître de manière simple aux amis et collègues des contributeurs."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Create a Widget"
-msgstr ""
+msgstr "Créer un widget"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Create a contribution widget which you and your supporters can embed in "
 "websites and blogs."
 msgstr ""
+"Créer un widget Contribution que vous et vos soutiens pourront intégrer à "
+"leurs sites et blogs."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Enable a Premiums section (incentives / thank-you gifts) for this page, and "
 "configure premiums offered to contributors."
 msgstr ""
+"Activer une section Cadeaux (primes, cadeaux de remerciement) pour cette "
+"page, et configurer les cadeaux offerts aux contributeurs."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4768,58 +4814,75 @@ msgid ""
 "be viewed by searching for 'Test Contributions' in the CiviContribute search "
 "form.</strong>"
 msgstr ""
+"Testez l'ensemble du processus de contributions, incluant les champs "
+"personnalisés, la confirmation, la page de remerciement et l'accusé de "
+"réception. Les transactions seront dirigées vers votre serveur test des "
+"processus de paiement. <strong>Aucune transaction financière directe ne sera "
+"traitée. Cependant un historique du contact sera créé ou mis à jour et un "
+"historique de contribution test sera sauvé sur la base de données. Utilisez "
+"des contacts tests que vous pourrez modifier ou supprimer si besoin. Les "
+"contributions tests ne seront pas visibles sur le tableau des contributions, "
+"mais vous pourrez les voir en cherchant ''Contributions tests'' dans le "
+"formulaire de recherche CiviContribute</strong>"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Live Contribution Page"
-msgstr "Page de donation"
+msgstr "Page de Contribution Live"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Review your customized <strong>LIVE</strong> online contribution page here."
 msgstr ""
+"Modifiez votre page personnalisée de contribution en ligne "
+"<strong>LIVE</strong> ici."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Use the following URL in links and buttons on any website to send visitors "
 "to this live page"
 msgstr ""
+"Utilisez l'URL suivant dans les liens et boutons de tout site web afin "
+"d'envoyer les visiteurs vers cette page live."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
-#, fuzzy
 msgid "New Contribution Page"
-msgstr "Page de donation"
+msgstr "Nouvelle Page de Contribution"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
 "No available Contribution Pages match your search criteria. Suggestions:"
 msgstr ""
+"Aucune page de contribution disponible avec vos critiques de recherche. "
+"Suggestions:"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid "Or you can <a href='%1'>browse all available Contribution Pages</a>."
 msgstr ""
+"Ou vous pouvez <a href='%1'>voir toutes les pages de Contribution "
+"disponibles</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
-#, fuzzy
 msgid ""
 "No contribution pages have been created yet. Click <a href='%1'>here</a> to "
 "create a new contribution page using the step-by-step wizard."
 msgstr ""
-"Cette contribution nous a déjà été soumise. Cliquer <a href=\"%1\">ici</a> "
-"pour proposer une autre contribution."
+"Aucune page de contribution n'a encore été créée. Cliquez <a "
+"href='%1'>ici</a> pour créer une nouvelle page de contribution utilisant "
+"l'assistant pas-à-pas."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 #, fuzzy
 msgid "Current Year-to-Date"
-msgstr "Date de debut"
+msgstr "Cumul actuel"
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
+#, fuzzy
 msgid "Avg Amount"
-msgstr ""
+msgstr "Montant moyen"
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "Total Cancelled Amount"
-msgstr ""
+msgstr "Montant total anulé"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""
@@ -4833,11 +4896,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Acctg Code"
-msgstr ""
+msgstr "Code comptable"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Deductible?"
-msgstr ""
+msgstr "Déductible?"
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid ""

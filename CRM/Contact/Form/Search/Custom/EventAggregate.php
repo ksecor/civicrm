@@ -52,7 +52,7 @@ implements CRM_Contact_Form_Search_Interface {
                                  ts('Total Payment')              => 'payment_amount' ,
                                  ts('Fee')                        => 'fee' ,
                                  ts('Net Payment')                => 'net_payment' ,
-                                 //ts('Paid Online')              => 'payment_instrument_id',
+                                 ts('Participant')                => 'participant',
                                  );
     }
     
@@ -66,7 +66,9 @@ implements CRM_Contact_Form_Search_Interface {
          * Define the search form fields here
          */
         
-        $form->addElement('checkbox', 'paid_online', ts( 'Only show Payments Made on-line' ), null, null,'','payLaterOptions','block','radio',false); 
+        $form->addElement('checkbox', 'paid_online', ts( 'Only show Credit Card Payments' ) );
+        
+        $form->addElement('checkbox', 'show_payees', ts( 'Show payees' ) );
         
         $event_type = CRM_Core_OptionGroup::values( 'event_type', false );        
         foreach($event_type as $eventId => $eventName) {
@@ -92,7 +94,7 @@ implements CRM_Contact_Form_Search_Interface {
          * If you are using the sample template, this array tells the template fields to render
          * for the search form.
          */
-        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'event_type_id', 'event_id' ) );
+        $form->assign( 'elements', array('paid_online', 'start_date', 'end_date', 'show_payees', 'event_type_id', 'event_id' ) );
     }
     
     /**
@@ -110,7 +112,7 @@ implements CRM_Contact_Form_Search_Interface {
         // SELECT clause must include contact_id as an alias for civicrm_contact.id if you are going to use "tasks" like export etc.
         $select  = "civicrm_participant.event_id as event_id,
         COUNT(civicrm_participant.id) as participant_count,
-        civicrm_event.title as event_name,
+        GROUP_CONCAT(DISTINCT(civicrm_event.title)) as event_name,
         civicrm_event.event_type_id as event_type_id,
         civicrm_option_value.label as event_type,
         IF(civicrm_contribution.payment_instrument_id <>0 , 'Yes', 'No') as payment_instrument_id,
@@ -119,14 +121,35 @@ implements CRM_Contact_Form_Search_Interface {
         format(sum(civicrm_contribution.total_amount - (if(civicrm_contribution.payment_instrument_id <>0,(civicrm_contribution.total_amount *.034) +.45,0))),2) as net_payment";
         
         $from  = $this->from();
+
+        $onLine = CRM_Utils_Array::value( 'paid_online',
+                                          $this->_formValues );
+        if ( $onLine ) {
+            $from .= "         
+        inner join civicrm_financial_trxn
+        on civicrm_financial_trxn.contribution_id = civicrm_participant_payment.contribution_id";
+        }
+
+        $showPayees = CRM_Utils_Array::value( 'show_payees',
+                                              $this->_formValues );
+        if ( $showPayees ) {
+            $select .= ",  GROUP_CONCAT(DISTINCT(civicrm_contact.display_name)) as participant ";
+            $from   .= " inner join civicrm_contact
+                         on civicrm_contact.id = civicrm_participant.contact_id";   
+        }
         
         $where = $this->where();
         
+        $groupBy = "event_id";
+        if ( ! empty($this->_formValues['event_type_id'] ) ) {
+            $groupBy = "event_type_id";
+        }
+
         $sql = "
         SELECT $select
         FROM   $from
         WHERE  $where
-        GROUP BY event_id
+        GROUP BY $groupBy
         ";
         // Define ORDER BY for query in $sort, with default value
         if ( ! empty( $sort ) ) {
@@ -144,7 +167,7 @@ implements CRM_Contact_Form_Search_Interface {
         }
         
         // Uncomment the next line to see the actual SQL generated:
-        // CRM_Core_Error::debug('sql',$sql); exit();
+        //CRM_Core_Error::debug('sql',$sql); exit();
         return $sql;
     }
     
@@ -225,6 +248,15 @@ implements CRM_Contact_Form_Search_Interface {
         format(sum(civicrm_contribution.total_amount - (if(civicrm_contribution.payment_instrument_id <>0,(civicrm_contribution.total_amount *.034) +.45,0))),2) as net_payment";
         
         $from  = $this->from();
+
+        $onLine = CRM_Utils_Array::value( 'paid_online',
+                                          $this->_formValues );
+        if ( $onLine ) {
+            $from .= "         
+        inner join civicrm_financial_trxn
+        on civicrm_financial_trxn.contribution_id = civicrm_participant_payment.contribution_id";
+        }
+
         
         $where = $this->where();
         

@@ -43,6 +43,8 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 							<tr>
 								<td width="100%"><span fckLang="DlgImgURL">URL</span>
 								</td>
+								<td id="tdBrowse" style="DISPLAY: none" noWrap rowSpan="2">&nbsp; <input id="btnBrowse" onclick="BrowseServer();" type="button" value="Browse Server" fckLang="DlgBtnBrowseServer">
+								</td>
 							</tr>
 							<tr>
 								<td vAlign="top"><input id="txtUrl" onblur="UpdatePreview();" style="WIDTH: 100%" type="text">
@@ -95,7 +97,7 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 				<br />
 				<input id="btnUpload" type="submit" value="Send it to the Server" fckLang="DlgLnkBtnUpload" />
 				<script type="text/javascript">
-					document.write( '<iframe name="UploadWindow" style="DISPLAY: none" src="' + FCKTools.GetVoidUrl() + '"></iframe>' ) ;
+					document.write( '<iframe name="UploadWindow" style="DISPLAY: none" src="' + FCKTools.GetVoidUrl() + '"><\/iframe>' ) ;
 				</script>
 			</form>
 		</div>

@@ -209,6 +209,15 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             CRM_Utils_Hook::pre( 'create', 'Grant', null, $params ); 
         }
         
+	// first clean up all the money fields
+        $moneyFields = array( 'amount_total',
+                              'amount_granted',
+                              'amount_requested' );
+        foreach ( $moneyFields as $field ) {
+	  if ( isset( $params[$field] ) ) {
+                $params[$field] = CRM_Utils_Rule::cleanMoney( $params[$field] );
+            }
+        }
         $grant =& new CRM_Grant_DAO_Grant( );
         $grant->id = CRM_Utils_Array::value( 'grant', $ids );
         

@@ -77,7 +77,7 @@ class CRM_Core_BAO_SchemaHandler
     static function createTable( &$params )
     {
         $sql =  self::buildTableSQL( $params );
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, array(), true, null, false, false ); // do not i18n-rewrite
         $dao->free();
 
         return true;

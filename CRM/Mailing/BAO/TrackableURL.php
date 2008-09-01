@@ -77,7 +77,7 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             
             $tracker =& new CRM_Mailing_BAO_TrackableURL();
             if (preg_match('/^href/i',$url)) {
-                $url = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$url);
+                $url = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/i','$1',$url);
                 $hrefExists = true;
             }
             

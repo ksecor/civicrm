@@ -1106,10 +1106,18 @@ SELECT id
                 $value = '';
             }
         }
-        
+
         // fix the date field 
         if ( $customFields[$customFieldId][2] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
+                if ( is_string( $value ) ) {
+                    // it might be a string, so lets do an unformat
+                    $unformat = CRM_Utils_Date::unformat( $value );
+                    if ( $unformat ) {
+                        $value = $unformat;
+                    }
+                }
+
                 //convert date to timestamp
                 $time = array( 'H', 'i', 's' );
                 foreach ( $time as $v ) {
