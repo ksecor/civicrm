@@ -576,11 +576,10 @@ class CRM_Utils_Date
         switch( $dateType ) {
             
         case 1 :
-            if ( ! preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value) ) {
+            if ( ! preg_match('/^\d\d\d\d-?(\d|\d\d)-?(\d|\d\d)$/', $value) ) {
                 return false;
-            } else {
-                return true;
-            }
+            } 
+            break;
         case 2 :
             if ( ! preg_match('/^(\d|\d\d)[-\/](\d|\d\d)[-\/]\d\d$/', $value) ) {
                 return false;
@@ -608,6 +607,21 @@ class CRM_Utils_Date
             break;
         }
 
+        if ( $dateType == 1 ) {
+            $formattedDate = explode( "-", $value );
+            if ( count($formattedDate) == 3 ) {
+                $year   = (int) $formattedDate[0];
+                $month  = (int) $formattedDate[1];
+                $day    = (int) $formattedDate[2];
+                
+            } else if ( count($formattedDate) == 1 && ( strlen($value) == 8 ) ){
+                return true;
+            } else { 
+                return false;
+            }
+        }
+
+
         if ( $dateType == 2 || $dateType == 4) {
             $formattedDate = explode( "/", $value );
             if ( count($formattedDate) != 3 ) {
@@ -617,7 +631,7 @@ class CRM_Utils_Date
                 $year   = (int) $formattedDate[2];
                 $month  = (int) $formattedDate[0];
                 $day    = (int) $formattedDate[1];
-            }else {
+            } else {
                 return false;
             }    
         }
@@ -676,7 +690,7 @@ class CRM_Utils_Date
                 $year   = (int) $formattedDate[2];
                 $month  = (int) $formattedDate[1];
                 $day    = (int) $formattedDate[0];
-            }else {
+            } else {
                 return false;
             }
         }
