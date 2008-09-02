@@ -109,7 +109,7 @@ require_once '$configFile';
     $groupDAO =& new CRM_Contact_DAO_Group();
     $groupDAO->find( );
     while ( $groupDAO->fetch() ) {
-        if ( !$transaction ) {
+        if ( !isset($transaction) ) {
             $transaction = new CRM_Core_Transaction( );
         }
         $group =& new CRM_Contact_BAO_Group();
