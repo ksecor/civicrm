@@ -356,30 +356,15 @@ AND    $cond
         $dao = CRM_Core_DAO::executeQuery( $query );
 
         $select = array( );
-        $where  = array( );
-        $tables = array( );
-        $seen   = array( );
         $fields = array( );
         while ( $dao->fetch( ) ) {
-            if ( ! array_key_exists( $dao->groupID, $seen ) ) {
-                $where[]               = "{$dao->table_name}.entity_id = $entityID";
-                $tables[]              = $dao->table_name;
-                $seen[$dao->groupID]   = 1;
-            }
             $fields[]                = $dao->fieldID;
-            $select[] = "{$dao->table_name}.{$dao->column_name} as custom_{$dao->fieldID}";
+            $select[] = "(SELECT {$dao->column_name} FROM {$dao->table_name} WHERE entity_id = $entityID) AS custom_{$dao->fieldID}";
         }
 
         $result = array( );
-        if ( ! empty( $tables ) ) {
-            $select = implode( ', ', $select );
-            $from   = implode( ', ', $tables );
-            $where  = implode( ' AND ', $where  );
-            $query = "
-SELECT $select
-FROM   $from
-WHERE  $where
-";
+        if ($select) {
+            $query = 'SELECT ' . implode(', ', $select);
             $dao = CRM_Core_DAO::executeQuery( $query );
             if ( $dao->fetch( ) ) {
                 foreach ( $fields as $fieldID ) {
