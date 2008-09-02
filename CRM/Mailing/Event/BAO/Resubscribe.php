@@ -260,8 +260,10 @@ class CRM_Mailing_Event_BAO_Resubscribe {
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
-        $mailer->send($eq->email, $h, $b);
-        CRM_Core_Error::setCallback();
+        if ( is_object( $mailer ) ) {
+            $mailer->send($eq->email, $h, $b);
+            CRM_Core_Error::setCallback();
+        }
     }
 
 }

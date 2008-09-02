@@ -58,7 +58,7 @@
         {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
        
-        {if $email}
+        {if $email and $config->outBound_option != 2}
         {if $form.is_acknowledge }
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
             <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
@@ -127,7 +127,7 @@
     {/literal}
 
 
-{if $email}
+{if $email and $config->outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_acknowledge"
     trigger_value       =""

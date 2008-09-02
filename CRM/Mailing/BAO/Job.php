@@ -317,13 +317,14 @@ ORDER BY j.scheduled_date,
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();
-
+            $result = null;
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
             CRM_Core_Error::ignoreException( );
-            $result = $mailer->send($recipient, $headers, $body, $this->id);
-            CRM_Core_Error::setCallback();
-            
+            if ( is_object( $mailer ) ) {
+                $result = $mailer->send($recipient, $headers, $body, $this->id);
+                CRM_Core_Error::setCallback();
+            }
             $params = array( 'event_queue_id' => $field['id'],
                              'job_id'         => $this->id,
                              'hash'           => $field['hash'] );

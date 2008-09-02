@@ -162,8 +162,11 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
-        $result = $mailer->send($recipient, $headers, $body);
-        CRM_Core_Error::setCallback();
+        $result = null;
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($recipient, $headers, $body);
+            CRM_Core_Error::setCallback();
+        }
 
         $params = array('event_queue_id' => $queue->id,
                         'job_id'        => $job_id,
