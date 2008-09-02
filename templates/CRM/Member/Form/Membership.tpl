@@ -1,4 +1,5 @@
 {* this template is used for adding/editing/deleting memberships for a contact  *}
+<div class="spacer"></div>
 {if $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
