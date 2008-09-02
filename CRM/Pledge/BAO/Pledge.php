@@ -267,7 +267,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $select = $from = $queryDate = null;
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( true );
         $statusId = array_search( $status, $allStatus);
         
         switch ( $status ) {
