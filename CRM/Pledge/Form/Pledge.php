@@ -585,7 +585,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             
             if ( !empty($customFields) ) {
                 foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
                          ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
                         CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
                                                                      '', 'Pledge', null, $this->_id );

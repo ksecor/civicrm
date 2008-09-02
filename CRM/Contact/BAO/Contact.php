@@ -1302,9 +1302,11 @@ WHERE  civicrm_contact.id = %1 ";
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
             if ( $cfID &&
-                 ($customFields[$cfID][3] == 'CheckBox' || $customFields[$cfID][3] == 'Multi-Select')&&
-                 ! CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
-
+                 ( $customFields[$cfID][3] == 'CheckBox' || 
+                   $customFields[$cfID][3] == 'Multi-Select' || 
+                   $customFields[$cfID][3] == 'Radio' ) &&
+                 !CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
+                
                 $str = "custom_value_{$cfID}_id";
                 $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
                 CRM_Core_BAO_CustomField::formatCustomField( $cfID, $data['custom'], 

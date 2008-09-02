@@ -744,9 +744,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
                                                              CRM_Utils_Array::value( 'role_id', $params ) );
+        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
                      ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
                                                                  '', 'Participant', null, $this->_id);

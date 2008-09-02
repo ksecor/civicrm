@@ -677,14 +677,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
                      ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
                                                                  '', 'Activity', null, $this->_activityId);
                 }
             }
         }
-       
+        
         // store the date with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
 
