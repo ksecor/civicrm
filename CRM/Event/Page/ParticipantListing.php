@@ -58,8 +58,8 @@ class CRM_Event_Page_ParticipantListing extends CRM_Core_Page {
 
         // retrieve Event Title and include it in page title
         $this->_eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                   $this->_id,
-                                                                   'title' );
+                                                          $this->_id,
+                                                          'title' );
         CRM_Utils_System::setTitle(ts('%1 - Participants', array(1 => $this->_eventTitle)));        
 
         // we do not want to display recently viewed contacts since this is potentially a public page
@@ -69,103 +69,31 @@ class CRM_Event_Page_ParticipantListing extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
-        $this->assign( 'participantListingType', $this->_participantListingID );
-//        $this->assign( 'eventTitle', $this->_eventTitle );
+        // get the class name from the participantListingID
+        require_once 'CRM/Core/OptionGroup.php';
+        $className = CRM_Core_OptionGroup::getValue( 'participant_listing',
+                                                     $this->_participantListingID,
+                                                     'value',
+                                                     'Integer',
+                                                     'description' );
 
-        $fromClause  = "
-FROM       civicrm_contact
-INNER JOIN civicrm_participant ON civicrm_contact.id = civicrm_participant.contact_id 
-INNER JOIN civicrm_event       ON civicrm_participant.event_id = civicrm_event.id
-LEFT JOIN  civicrm_email       ON ( civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 )
-";
+        if ( $className == 'CRM_Event_Page_ParticipantListing' ) {
+            CRM_Core_Error::fatal( ts( "Participant listing code file cannot be '%1'",
+                                      array( 1 => $className ) ) );
+        }
 
-        $whereClause = "
-WHERE    civicrm_event.id = %1
-AND      civicrm_participant.status_id IN ( 1, 2 )";
-        $params = array( 1 => array( $this->_id, 'Integer' ) );
-        $this->pager( $fromClause, $whereClause, $params );
-        $orderBy = $this->orderBy( $this->_participantListingID );
+        $classFile = str_replace( '_',
+                                  DIRECTORY_SEPARATOR,
+                                  $className ) . '.php';
+        $error = include_once( $classFile );
+        if ( $error == false ) {
+            CRM_Core_Error::fatal( 'Participant listing code file: ' . $classFile . ' does not exist. Please verify your custom particpant listing settings in CiviCRM administrative panel.' );
+        }
 
-        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
+        eval( "\$participantListingClass = new $className( );" );
         
-        $query = "
-SELECT   civicrm_contact.id           as contact_id,
-         civicrm_contact.display_name as name      ,
-         civicrm_contact.sort_name    as sort_name ,
-         civicrm_email.email          as email
-         $fromClause
-         $whereClause
-ORDER BY $orderBy
-LIMIT    $offset, $rowCount";
-
-        $rows = array( );
-        $object = CRM_Core_DAO::executeQuery( $query, $params );
-        while ( $object->fetch( ) ) {
-            $row = array( 'id'    => $object->contact_id,
-                          'name'  => $object->name      ,
-                          'email' => $object->email );
-            $rows[] = $row;
-        }
-        $this->assign_by_ref( 'rows', $rows );
-
-        return parent::run( );
+        $participantListingClass->preProcess( );
+        $participantListingClass->run( );
     }
-
-    function pager( $fromClause, $whereClause, $whereParams ) {
-        require_once 'CRM/Utils/Pager.php';
-
-        $params = array( );
-
-        $params['status']       = ts('Group %%StatusMessage%%');
-        $params['csvString']    = null;
-        $params['buttonTop']    = 'PagerTopButton';
-        $params['buttonBottom'] = 'PagerBottomButton';
-        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
-        if ( ! $params['rowCount'] ) {
-            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
-        }
-
-        $query = "
-SELECT count( civicrm_contact.id )
-       $fromClause
-       $whereClause";
-
-        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
-        $this->_pager = new CRM_Utils_Pager( $params );
-        $this->assign_by_ref( 'pager', $this->_pager );
-    }
-
-    function orderBy( $participantListingID ) {
-        static $headers = null;
-        require_once 'CRM/Utils/Sort.php';
-        if ( ! $headers ) {
-            $headers = array( );
-            $headers[1] = array( 'name'      => ts( 'Name' ),
-                                 'sort'      => 'civicrm_contact.sort_name',
-                                 'direction' => CRM_Utils_Sort::ASCENDING );
-            if ( $participantListingID == 2 ) {
-                $headers[2] = array( 'name'      => ts( 'Email' ),
-                                     'sort'      => 'civicrm_email.email',
-                                     'direction' => CRM_Utils_Sort::DONTCARE );
-            }
-        }
-        $sortID = null;
-        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
-            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
-        }
-        $sort =& new CRM_Utils_Sort( $headers, $sortID );
-        $this->assign_by_ref( 'headers', $headers );
-        $this->assign_by_ref( 'sort'   , $sort    );
-        $this->set( CRM_Utils_Sort::SORT_ID,
-                    $sort->getCurrentSortID( ) );
-        $this->set( CRM_Utils_Sort::SORT_DIRECTION,
-                    $sort->getCurrentSortDirection( ) );
-
-        return $sort->orderBy( );
-    }
-
 
 }
-
-

@@ -199,14 +199,18 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function getValue( $groupName, $label, $labelField = 'label' ) 
+    static function getValue( $groupName,
+                              $label,
+                              $labelField = 'label',
+                              $labelType  = 'String',
+                              $valueField = 'value' ) 
     {
         if ( empty( $label ) ) {
             return null;
         }
 
         $query = "
-SELECT  v.label as label ,v.value as value
+SELECT  v.label as label ,v.{$valueField} as value
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
@@ -217,7 +221,7 @@ WHERE  v.option_group_id = g.id
 ";
 
         $p = array( 1 => array( $groupName , 'String' ),
-                    2 => array( $label     , 'String' ) );
+                    2 => array( $label     , $labelType ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         if ( $dao->fetch( ) ) {
             return $dao->value;

@@ -17,9 +17,9 @@
       {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"}">
             <td>{$row.name}</td>	
-            {if $participantListingType eq 2}
             <td>{$row.email}</td>
-            {/if}
+            <td>{$row.status}</td>
+            <td>{$row.date}</td>
          </tr>
       {/foreach}
       </table>

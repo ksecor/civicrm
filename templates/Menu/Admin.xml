@@ -349,6 +349,16 @@
      <weight>395</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/participant_listing</path>
+     <title>Participant Listing Templates</title>
+     <desc>Template to control participant listing display.</desc>
+     <path_arguments>group=participant_listing</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>398</weight>
+  </item>
+  <item>
      <path>civicrm/admin/access</path>
      <title>Access Control</title>
      <desc>Grant or deny access to actions (view, edit...), features and components.</desc>
