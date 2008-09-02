@@ -75,40 +75,43 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         // text for sort_name or email criteria
         $this->add('text', 'sort_name', ts('Name or Email'));
 
-        $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
+        
+        if ( $searchOptions['contact_type'] ) {
+            $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
+        }
 
-        $config =& CRM_Core_Config::singleton( );
-        //crm_core_error::debug('$config->groupTree', $config->groupTree);
-        if ( $config->groupTree ) {
-            $this->add('hidden', 'group', null, array('id' => 'group' ));
-            
-            $group = CRM_Utils_Array::value( 'group', $this->_formValues );
-            $selectedGroups = explode( ',', $group );
-            
-            if ( is_array( $selectedGroups ) ) {
-                $groupNames = null;
-                foreach( $selectedGroups as $groupId ) {
-                    if ( $groupNames ) {
-                        $groupNames .= '<br/>';
+        if ( $searchOptions['groups'] ) {
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->groupTree ) {
+                $this->add('hidden', 'group', null, array('id' => 'group' ));
+                
+                $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+                $selectedGroups = explode( ',', $group );
+                
+                if ( is_array( $selectedGroups ) ) {
+                    $groupNames = null;
+                    foreach( $selectedGroups as $groupId ) {
+                        if ( $groupNames ) {
+                            $groupNames .= '<br/>';
+                        }
+                        $groupNames .= $this->_group[$groupId];
                     }
-                    $groupNames .= $this->_group[$groupId];
                 }
+                $this->assign('groupNames', $groupNames );
+            } else {
+                // add select for groups
+                $group               = array('' => ts('- any group -')) + $this->_group;
+                $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
             }
-            $this->assign('groupNames', $groupNames );
-        } else {
-            // add select for groups
-            $group               = array('' => ts('- any group -')) + $this->_group;
-            $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
         }
         
-        //FIXME : uncomment following code once we will be complete with the subgroup functionality
-        // add checkbox for searching subgroups
-	    // $subgroups = $this->addElement( 'checkbox', "subgroups", null, ts( 'Search Subgroups' ) );
-        // $subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
-
-        // tag criteria
-        $tag = array('' => ts('- any tag -')) + $this->_tag;
-        $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);
+        if ( $searchOptions['tags'] ) {
+            // tag criteria
+            $tag = array('' => ts('- any tag -')) + $this->_tag;
+            $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);
+        }
 
         parent::buildQuickForm( );
     }

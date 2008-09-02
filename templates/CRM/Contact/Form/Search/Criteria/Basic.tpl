@@ -26,9 +26,14 @@
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 		<tr>
+{if $form.contact_type}
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.contact_type.html}
             </td>
+{else}
+            <td>&nbsp;</td>
+{/if}
+{if $form.group}
             {* Choose regular or 'tall' listing-box class for Group select box based on # of groups. *}
             {if $form.group|@count GT 8}
                 {assign var="boxClass" value="listing-box-tall"}
@@ -44,6 +49,11 @@
                     {/foreach}
                 </div>
             </td>
+{else}
+            <td>&nbsp;</td>
+{/if}
+
+{if $form.tag}
             {* Choose regular or 'tall' listing-box class for Tag select box based on # of groups. *}
             {if $form.tag|@count GT 8}
                 {assign var="boxClass" value="listing-box-tall"}
@@ -59,6 +69,9 @@
                     {/foreach}
                 </div>
             </td>
+{else}
+            <td colspan="2">&nbsp;</td>
+{/if}
 	    </tr>
         <tr>
             <td>{$form.privacy.label}</td>

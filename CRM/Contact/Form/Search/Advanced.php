@@ -60,6 +60,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         $this->_searchPane = CRM_Utils_Array::value( 'searchPane', $_GET );
         
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
+
         if ( ! $this->_searchPane || $this->_searchPane == 'basic' ) {
             CRM_Contact_Form_Search_Criteria::basic( $this );
         }
@@ -84,8 +87,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
             unset( $paneNames[ts('Custom Fields')] );
         }
 
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
                 unset( $paneNames[$name] );

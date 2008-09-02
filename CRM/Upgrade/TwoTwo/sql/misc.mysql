@@ -5,7 +5,7 @@
 -- *************************************************************************/
 
 -- Please add script for all the schema / fixed-data related modifications to 
--- this sql script as you resolve 2.1 issues. Include the issue number which 
+-- this sql script as you resolve 2.2 issues. Include the issue number which 
 -- is the source of the change, as part of the comment.
 
 
@@ -71,3 +71,8 @@ SET ce.intro_text = cp.intro_text,
 -- *******************************************************/
 
 DROP TABLE civicrm_event_page;
+
+
+-- need to add update statement for site preference options to enable 
+-- preferences for contact_type / groups / tags, CRM-2794
+UPDATE civicrm_preferences SET advanced_search_options = CONCAT(advanced_search_options, '161718');

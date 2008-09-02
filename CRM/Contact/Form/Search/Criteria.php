@@ -38,23 +38,29 @@ class CRM_Contact_Form_Search_Criteria {
     static function basic( &$form ) {
         $form->addElement( 'hidden', 'hidden_basic', 1 );
 
-        // add checkboxes for contact type
-        $contact_type = array( );
-        foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
-            if ( ! empty( $k ) ) {
-                $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
+        if ( $form->_searchOptions['contactType'] ) {
+            // add checkboxes for contact type
+            $contact_type = array( );
+            foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
+                if ( ! empty( $k ) ) {
+                    $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
+                }
+            }
+            $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
+        }
+
+        if ( $form->_searchOptions['groups'] ) {
+            // checkboxes for groups
+            foreach ($form->_group as $groupID => $group) {
+                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
             }
         }
-        $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
 
-        // checkboxes for groups
-        foreach ($form->_group as $groupID => $group) {
-            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
-        }
-
-        // checkboxes for categories
-        foreach ($form->_tag as $tagID => $tagName) {
-            $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
+        if ( $form->_searchOptions['tags'] ) {
+            // checkboxes for categories
+            foreach ($form->_tag as $tagID => $tagName) {
+                $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
+            }
         }
 
         // add text box for last name, first name, street name, city

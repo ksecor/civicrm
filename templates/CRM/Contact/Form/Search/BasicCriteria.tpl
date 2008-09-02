@@ -78,7 +78,10 @@ dojo.addOnLoad( function( ) {
 	<table class="no-border">
         <tr>
             <td class="label">{$form.sort_name.label} {$form.sort_name.html}</td>
+{if $form.contact_type}
             <td class="label">{$form.contact_type.label} {$form.contact_type.html}</td>
+{/if}
+{if $form.group}
             <td class="label">
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.label}<br />
@@ -97,7 +100,11 @@ dojo.addOnLoad( function( ) {
                         {$form.group.html}
                     {/if}
                 {/if}
+            </td>
+{/if}
+{if $form.tag}
             <td class="label">{$form.tag.label} {$form.tag.html}</td>
+{/if}
             <td style="vertical-align: bottom;">
                 {$form.buttons.html}
             </td>
