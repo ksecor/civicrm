@@ -143,9 +143,18 @@ foreach ($locales as $locale) {
 
     // write the standalone base-data sql script
     $data .= $smarty->fetch('civicrm_uf.tpl');
-    $data .= $smarty->fetch('civicrm_acl.tpl');
 
     $filename = 'civicrm_standalone';
+    if ($locale != 'en_US') $filename .= ".$locale";
+    $filename .= '.mysql';
+    $fd = fopen( $sqlCodePath . $filename, "w" );
+    fputs( $fd, $data );
+    fclose( $fd );
+
+    // write the acl sql script
+    $data = $smarty->fetch('civicrm_acl.tpl');
+
+    $filename = 'civicrm_acl';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
     $fd = fopen( $sqlCodePath . $filename, "w" );

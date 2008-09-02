@@ -66,6 +66,7 @@ function civicrm_main( ) {
 
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_acl.mysql' );
     
     // generate backend settings file
     $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
@@ -99,6 +100,27 @@ require_once '$configFile';
     // now also build the menu
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
+
+    // FIXME: For ACL - update/rebuild group clause. Since we could not add
+    // the sample clause in civicrm_acl.mysql file due to presence of
+    // some special characters.
+    require_once 'CRM/Core/Transaction.php';
+    require_once 'CRM/Contact/BAO/Group.php';
+    $groupDAO =& new CRM_Contact_DAO_Group();
+    $groupDAO->find( );
+    while ( $groupDAO->fetch() ) {
+        if ( !$transaction ) {
+            $transaction = new CRM_Core_Transaction( );
+        }
+        $group =& new CRM_Contact_BAO_Group();
+        $group->id = $groupDAO->id;
+        $group->find( true );
+        $group->buildClause( );
+        $group->save( );
+    }
+    if ( isset($transaction) ) {
+        $transaction->commit( );
+    }
 
     // now also build the menu
     require_once 'CRM/Core/Menu.php';
