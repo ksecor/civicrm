@@ -84,18 +84,27 @@ class CRM_Contact_Form_GroupTag
             } else {
                 $group  =& CRM_Core_PseudoConstant::group( );
             }
-            require_once 'CRM/Contact/DAO/Group.php';
-            foreach ($group as $id => $name) {
-		        if ( $visibility ) {
-		            // make sure that this group has public visibility. not very efficient
-                    $visibilityValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
-                                                                    $id,
-                                                                    'visibility' );
-                    if ( $visibilityValue == 'User and User Admin Only' ) {
-			                continue;
-                    }
+            
+            $ids = implode( ',', array_keys( $group ) );
+            $sql = "
+SELECT id, title, description, visibility
+FROM   civicrm_group
+WHERE  id IN ( $ids )
+";
+            $dao = CRM_Core_DAO::executeQuery( $sql );
+            while ( $dao->fetch( ) ) {
+                // make sure that this group has public visibility
+		        if ( $visibility &&
+                     $dao->visibility == 'User and User Admin Only' ) {
+                    continue;
 		        }
-		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );
+                $title = $dao->title;
+                if ( ! empty( $dao->description ) ) {
+                    // CRM-3448
+                    $title .= "&nbsp;-&nbsp;<span class=\"description font-italic\">{$dao->description}</span>";
+                }
+
+		        $elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, null, $title );
 		    }
 
 	        if ( ! empty( $elements ) ) {
