@@ -80,11 +80,11 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         if ( $this->_id ) {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
                                                  "reset=1&action=update&id={$this->_id}",
-                                                 true, null, false );
+                                                 false, null, false );
         } else {
             $refreshURL = CRM_Utils_System::url( 'civicrm/admin/paymentProcessor',
                                                  "reset=1&action=add",
-                                                 true, null, false );
+                                                 false, null, false );
         }
         $this->assign( 'refreshURL', $refreshURL );
 

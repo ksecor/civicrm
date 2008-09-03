@@ -165,7 +165,7 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true, $frontend = false ) {
         // we have a valid query and it has not yet been transformed
         if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
@@ -225,7 +225,7 @@ class CRM_Utils_System {
 
         return self::url( $p,
                           CRM_Utils_Array::value( 'q' , $params        ),
-                          CRM_Utils_Array::value( 'a' , $params, true  ),
+                          CRM_Utils_Array::value( 'a' , $params, false  ),
                           CRM_Utils_Array::value( 'f' , $params        ),
                           CRM_Utils_Array::value( 'h' , $params, true  ),
                           CRM_Utils_Array::value( 'fe', $params, false ) );

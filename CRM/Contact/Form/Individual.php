@@ -148,7 +148,7 @@ class CRM_Contact_Form_Individual {
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                            "hh=1",
-                                           true, null, false );
+                                           false, null, false );
 
         $this->assign('dataURL',$dataURL );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
@@ -175,7 +175,7 @@ class CRM_Contact_Form_Individual {
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                                    "org=1",
-                                                   true, null, false );
+                                                   false, null, false );
         
         $this->assign('employerDataURL',$employerDataURL );
         

@@ -362,12 +362,12 @@ WHERE id={$contactId}; ";
                                            'onChange'     => 'loadLocationData(this.getValue())'
                                            );
                 $locDataURL = CRM_Utils_System::url( 'civicrm/ajax/permlocation', "cid=", 
-                                                     true, null, false );
+                                                     false, null, false );
                 $form->assign( 'locDataURL', $locDataURL );
                 
                 $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
                                                   "cid=" . $contactID, 
-                                                  true, null, false );
+                                                  false, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
                 
                 $form->add('text', 'organization_id', 

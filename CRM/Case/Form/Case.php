@@ -228,7 +228,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "reset=1",
-                                          true, null, false );
+                                          false, null, false );
         $this->assign('dataUrl',$dataUrl );
 
         if ( $this->_addCaseContact ) {

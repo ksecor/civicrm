@@ -377,7 +377,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                  strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
                 CRM_Utils_System::mapConfigToSSL( );
             }
-            $this->resourceBase = $this->userFrameworkResourceURL;
+            $rrb = parse_url( $this->userFrameworkResourceURL );
+            $this->resourceBase = $rrb['path'];
         } 
             
         if ( !$this->customFileUploadDir ) {

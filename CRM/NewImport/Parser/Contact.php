@@ -720,7 +720,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                 
                 foreach ($cids as $cid) {
                     $urls[] = CRM_Utils_System::url('civicrm/contact/view',
-                                                    'reset=1&cid=' . $cid, true);
+                                                    'reset=1&cid=' . $cid, false);
                 }
                 
                 $url_string = implode("\n", $urls);

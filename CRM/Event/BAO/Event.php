@@ -639,7 +639,7 @@ WHERE civicrm_event.is_active = 1
             CRM_Utils_String::append( $address, ', ',
                                       CRM_Utils_Address::format($addrFields) );
             $info['location'     ] = $address;
-            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, true, null, false );
+            $info['url'          ] = CRM_Utils_System::url( 'civicrm/event/info', 'reset=1&id=' . $dao->event_id, false, null, false );
            
             $all[] = $info;
         }

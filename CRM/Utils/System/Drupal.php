@@ -149,7 +149,7 @@ class CRM_Utils_System_Drupal {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true,
+    function url($path = null, $query = null, $absolute = false,
                  $fragment = null, $htmlize = true,
                  $frontend = false ) {
         $config        =& CRM_Core_Config::singleton( );
@@ -159,7 +159,8 @@ class CRM_Utils_System_Drupal {
             $fragment = '#'. $fragment;
         }
 
-        $base = $absolute ? $config->userFrameworkBaseURL : '';        
+        $relBase = parse_url( $config->userFrameworkBaseURL );
+        $base = $absolute ? $config->userFrameworkBaseURL : $relBase['path'] ;
         $separator = $htmlize ? '&amp;' : '&';
 
         if (! $config->cleanURL ) {

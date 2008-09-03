@@ -440,12 +440,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             
             $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                          $urlParams, true, null, false ); 
+                                          $urlParams, false, null, false ); 
         } else {
             $currentPath = CRM_Utils_System::currentPath( );
 
             $url = CRM_Utils_System::url( $currentPath, '_qf_Participant_display=true',
-                                          true, null, false  );
+                                          false, null, false  );
         }
 
         $this->assign("refreshURL",$url);

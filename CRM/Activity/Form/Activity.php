@@ -450,7 +450,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "reset=1",
-                                          true, null, false );
+                                          false, null, false );
         $this->assign('dataUrl',$dataUrl );
 
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
@@ -482,7 +482,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $urlParams .= "action=add&reset=1&context={$this->_context}&atype=";
 
             $url = CRM_Utils_System::url( 'civicrm/activity', 
-                                          $urlParams, true, null, false ); 
+                                          $urlParams, false, null, false ); 
             
             $activityType = CRM_Core_PseudoConstant::activityType( false );
 
@@ -518,7 +518,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 
                 $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
                                                   "c={$this->_currentlyViewedContactId}",
-                                                  true, null, false );
+                                                  false, null, false );
                 $this->assign('caseUrl',$caseUrl );
                 
                 $subject = $this->add( 'text','case_id',ts('Case'), $caseAttributes );

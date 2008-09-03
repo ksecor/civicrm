@@ -219,7 +219,7 @@ class CRM_PledgeBank_BAO_Query
         
         $dataURLPledgeName = CRM_Utils_System::url( 'civicrm/ajax/pledgeName',
                                                     "reset=1",
-                                                    true, null, false);
+                                                    false, null, false);
 
         $form->assign( 'dataURLPledgeName', $dataURLPledgeName );
         $form->addElement( 'text', 'pb_pledge_name', ts('Pledge'), $dojoAttributesPledgeName );

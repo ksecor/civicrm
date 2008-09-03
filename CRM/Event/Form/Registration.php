@@ -147,7 +147,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( ! $this->_values ) {
             // create redirect URL to send folks back to event info page is registration not available
             $infoUrl = CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
-                                             true, null, false, true );
+                                             false, null, false, true );
             
             // this is the first time we are hitting this, so check for permissions here
             if ( ! CRM_Core_Permission::event( CRM_Core_Permission::EDIT,

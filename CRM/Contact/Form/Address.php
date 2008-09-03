@@ -95,14 +95,14 @@ class CRM_Contact_Form_Address
                     $countryUrl     = null;
                     
                     if ( $name == 'country_id') {
-                        $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, true, null, false );
+                        $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, false, null, false );
 
                         //when only country is enable, don't call function to build state province
                         if ( $addressOptions['state_province'] ) {
                             $onValueChanged = "getStateProvince{$locationId}( dijit.byId( 'location_{$locationId}_address_country_id' ), {$locationId}, null, true )";
                         }
                     } else {
-                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state", null, true, null, false );
+                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state", null, false, null, false );
                         $form->assign( 'stateUrl', $stateUrl );
                     }
                     

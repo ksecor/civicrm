@@ -87,12 +87,12 @@ class CRM_Core_Payment_PaymentExpress extends CRM_Core_Payment {
 		if ( $component == 'event') {
             $cancelURL = CRM_Utils_System::url( 'civicrm/event/register',
                                                 "_qf_Confirm_display=true&qfKey={$params['qfKey']}", 
-                                                true, null, false );
+                                                false, null, false );
 		}
 		else if ( $component == 'contribute' ) {
             $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                 "_qf_Confirm_display=true&qfKey={$params['qfKey']}", 
-                                                true, null, false );
+                                                false, null, false );
 		}		
 	
 	

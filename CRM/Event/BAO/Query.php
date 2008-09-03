@@ -488,10 +488,10 @@ class CRM_Event_BAO_Query
     {
         $dataURLEvent     = CRM_Utils_System::url( 'civicrm/ajax/event',
                                                    "reset=1",
-                                                   true, null, false);
+                                                   false, null, false);
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
                                                    "reset=1",
-                                                   true, null, false);
+                                                   false, null, false);
               
         $form->assign( 'dataURLEvent',     $dataURLEvent );
         $form->assign( 'dataURLEventType', $dataURLEventType );
@@ -521,7 +521,7 @@ class CRM_Event_BAO_Query
         
         $dataURLEventFee = CRM_Utils_System::url( 'civicrm/ajax/eventFee',
                                                   "reset=1",
-                                                  true, null, false);
+                                                  false, null, false);
         $form->assign( 'dataURLEventFee', $dataURLEventFee );
         $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level'), $dojoAttributesEventFee );
 

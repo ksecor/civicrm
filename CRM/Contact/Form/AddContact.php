@@ -53,7 +53,7 @@ class CRM_Contact_Form_AddContact
         
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                            "reset=1",
-                                           true, null, false );
+                                           false, null, false );
         
         $form->assign('dataURL',$dataURL );
         $form->addElement('text', "{$fieldName}", ts('Select Contact'), $attributes );

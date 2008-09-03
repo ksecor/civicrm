@@ -79,7 +79,7 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
                              'style'          => 'width: 300px;',
                              'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/country",
                                                                         "s=%{searchString}&node=root",
-                                                                       true, null, false ),
+                                                                       false, null, false ),
 //                              'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/country',
 //                                                                         's=a&node=root',
 //                                                                         true, null, false ),

@@ -61,7 +61,7 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
         
         $orgDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
                                               "org=1",
-                                              true, null, false );
+                                              false, null, false );
         
         $this->assign('orgDataURL',$orgDataURL );
         $this->addElement('text', 'select_contact', ts('Select Existing Organization'),$orgAttributes );

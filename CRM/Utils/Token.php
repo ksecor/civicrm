@@ -595,7 +595,7 @@ class CRM_Utils_Token
         if (preg_match('/\{action\.subscribeUrl\}/', $str )) {
             $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe',
                                             'reset=1',
-                                            true, null, true, true );
+                                            false, null, true, true );
             $str = preg_replace('/\{action\.subscribeUrl\}/', $url, $str );
         }
 
@@ -604,7 +604,7 @@ class CRM_Utils_Token
                 $gid = substr($value, 21, -1);
                 $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe',
                                               "reset=1&gid={$gid}",
-                                              true, null, true, true );
+                                              false, null, true, true );
                 $url = str_replace('&amp;', '&', $url);
                 $str = preg_replace('/'.preg_quote($value).'/', $url, $str );
             }

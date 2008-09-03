@@ -143,12 +143,12 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                 if ( $action ==  CRM_Core_Action::PREVIEW ) {
                     $url    = CRM_Utils_System::url( 'civicrm/event/register',
                                                      "id={$this->_id}&reset=1&action=preview",
-                                                     true, null, true,
+                                                     false, null, true,
                                                      true );
                 } else {
                     $url = CRM_Utils_System::url( 'civicrm/event/register',
                                                   "id={$this->_id}&reset=1",
-                                                  true, null, true,
+                                                  false, null, true,
                                                   true );
                 }
                 if ( ! $eventFullMessage ) {
@@ -159,12 +159,12 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( $action ==  CRM_Core_Action::PREVIEW ) {
                 $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
                                                  "eid={$this->_id}&reset=1&action=preview",
-                                                 true, null, true,
+                                                 false, null, true,
                                                  true );
             } else {
                 $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
                                                  "eid={$this->_id}&reset=1",
-                                                 true, null, true,
+                                                 false, null, true,
                                                  true );
             }
             $this->assign( 'mapURL'     , $mapURL );

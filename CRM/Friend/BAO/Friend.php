@@ -183,7 +183,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             $mailParams['module'] = 'event';
         } 
 
-        $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
+        $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", false, null, false);
         list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
        
         //send mail

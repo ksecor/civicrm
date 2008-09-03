@@ -139,11 +139,11 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         if ( $component == "event" ) {
             $returnURL = CRM_Utils_System::url( 'civicrm/event/register',
                                                 "_qf_ThankYou_display=1&qfKey={$params['qfKey']}", 
-                                                true, null, false );
+                                                false, null, false );
         } elseif ( $component == "contribute" ) {
             $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                 "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
-                                                true, null, false );
+                                                false, null, false );
         }
 
         $cart->SetContinueShoppingUrl( $returnURL );
