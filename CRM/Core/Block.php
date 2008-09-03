@@ -308,7 +308,7 @@ class CRM_Core_Block {
             if ( isset( $short['url'] ) ) {
                 $value['url'] = $short['url'];
             } else {
-                $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'] );
+                $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'], false );
             }
             $value['title'] = $short['title'];
             $value['key'] = CRM_Utils_Array::value( 'key', $short );
