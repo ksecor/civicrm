@@ -1091,13 +1091,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             $statusMsg = ts('Event registration information for %1 has been updated.', array(1 => $this->_contributorDisplayName));
-            if ( $params['send_receipt'] ) {
+            if ( $params['send_receipt']  && count($sent) ) {
                 $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             if ( $this->_single ) {
                 $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
-                if ( $params['send_receipt'] ) {
+                if ( $params['send_receipt'] && count($sent) ) {
                     $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
                 }
             } else {

@@ -215,6 +215,7 @@ This is probably related to a problem in your Outbound Email Settings (Administe
                 $message .= $result->getMessage( );
                 $message .= '</b><p>';
                 CRM_Core_Session::setStatus( $message );
+                return false;
             }
         }
         return true;
