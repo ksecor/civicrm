@@ -54,6 +54,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $this->_lineItem = $this->get( 'lineItem' );
         $participantNo = substr( $this->_name, 12 );
         $participantCnt = $participantNo + 1;
+        $this->assign( 'formId', $participantNo );
         $this->_params = array( );
         $this->_params = $this->get( 'params' );
         $participantTot = $this->_params[0]['additional_participants'] + 1; 
@@ -98,6 +99,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
         $required = ( $button == 'skip' ) ? false : true;
+        $this->add('hidden','scriptFee',null);
+        $this->add('hidden','scriptArray',null);
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
@@ -288,7 +291,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         $details = array( );
         for ( $i = 1; $i <= $additionalParticipant; $i++ ) {
-            $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
+            $details["Participant_{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
                                                   'title'     => "Register Additional Participant {$i}"
                                                   );
         }

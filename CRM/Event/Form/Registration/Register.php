@@ -170,7 +170,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     public function buildQuickForm( ) 
     {  
         $config =& CRM_Core_Config::singleton( );
-
+        $this->add('hidden','scriptFee',null);
+        $this->add('hidden','scriptArray',null);
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),

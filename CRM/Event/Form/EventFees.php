@@ -250,6 +250,8 @@ class CRM_Event_Form_EventFees
      */ 
     static function buildQuickForm( &$form )  
     {
+        $form->add('hidden','scriptFee',null);
+        $form->add('hidden','scriptArray',null);
         if ( $form->_eventId ) {
             $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
         }
