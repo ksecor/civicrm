@@ -163,6 +163,12 @@ class CRM_Core_BAO_CustomValueTable
                     $type  = 'String';
                     break;
                     
+                case 'Boolean':
+                    //fix for CRM-3290
+                    if ( $value == null ) {
+                        $type  = 'Timestamp';  
+                    }
+                    
                 default:
                     break;
 
