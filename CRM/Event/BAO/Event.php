@@ -658,7 +658,7 @@ WHERE civicrm_event.is_active = 1
      */
     static function copy( $id )
     {
-        $loc_blk = $defaults = $eventValues = array( );
+        $defaults = $eventValues = array( );
         
         //get the require event values.
         $eventParams = array( 'id' => $id );
@@ -667,24 +667,9 @@ WHERE civicrm_event.is_active = 1
         CRM_Core_DAO::commonRetrieve( 'CRM_Event_DAO_Event', $eventParams, $eventValues, $returnProperties );
         
         //handle the location info.
-        if ( $loc_blk['id'] = CRM_Utils_Array::value( 'loc_block_id', $eventValues ) ) {
-            
-            //get the location info.
-            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $loc_blk, $defaults);
-            
-            //copy all location blocks (email, phone, address, etc)
-            foreach ( $defaults as $key => $value ) {
-                if ( $key != 'id') {
-                    $tbl  = explode("_", $key);
-                    $name = ucfirst( $tbl[0] );
-                    $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), null, null );
-                    $copyLocationParams[$key] = $copy->id;                            
-                }
-            }
-            
-            $copyLocation =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
-                                                        array( 'id' => $loc_blk['id'] ), 
-                                                        $copyLocationParams ) ;
+        if ( $locBlockId = CRM_Utils_Array::value( 'loc_block_id', $eventValues ) ) {
+            require_once 'CRM/Core/BAO/Location.php';
+            $copyLocBlockId = CRM_Core_BAO_Location::copyLocBlock( $locBlockId );
         }
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
@@ -696,7 +681,7 @@ WHERE civicrm_event.is_active = 1
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => 
-                                                             ( CRM_Utils_Array::value('id', $loc_blk) ) ? $copyLocation->id : null ), 
+                                                             ( $locBlockId ) ? $copyLocBlockId : null ), 
                                                       $fieldsToPrefix );
         
         $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
@@ -1220,6 +1205,29 @@ WHERE  id = $cfID
 
         return $customProfile;
     }
-
+    
+    /* Function to retrieve all events those having location block set.
+     * 
+     * @return array $events array of all events.
+     */
+    static function getLocationEvents( ) 
+    {
+        $events = array( );
+        
+        $query = "
+SELECT id, title, loc_block_id 
+FROM   civicrm_event
+WHERE  loc_block_id IS NOT NULL
+";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        
+        while( $dao->fetch() ) {
+            $events[$dao->id] = array( 'title'      => $dao->title,
+                                       'locBlockId' => $dao->loc_block_id );
+        }
+        
+        return $events;
+    }
+    
 }
 

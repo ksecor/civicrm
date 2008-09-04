@@ -59,6 +59,13 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      */
     protected $_locationIds = array();
 
+    /**
+     * the variable, for storing location block id with event
+     *
+     * @var array
+     */
+    protected $_locationEvents = array( );
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -114,7 +121,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             
             foreach ( $defaults['location'] as $key => $value ) {
                 if ( isset( $value['address'] ) ) {
-
+                    
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
@@ -138,9 +145,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-       
+        
         return $defaults;
-    }       
+    }    
 
 
     /**
@@ -226,7 +233,37 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
         $this->assign( 'index' , 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1);
-    
+        
+        //fix for CRM-1971
+        $this->assign( 'action', $this->_action );
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            require_once 'CRM/Event/BAO/Event.php';
+            //get all events those having location block.
+            $this->_locationEvents = CRM_Event_BAO_Event::getLocationEvents( );
+            
+            if ( !empty( $this->_locationEvents ) ) {
+                $this->assign( 'locEvents', true );
+                foreach ( $this->_locationEvents as $eventId => $value ) {
+                    if ( $eventId != $this->_id ) {
+                        $events[$eventId] = $value['title'];
+                    }
+                }
+                $optionTypes = array( '1' => ts( 'Create new location' ),
+                                      '2' => ts( 'Reuse existing location' ) );
+                $extra = array( 'onclick' => "showLocFields();");
+                $this->addRadio( 'option_type',
+                                 ts("Location Option's"),
+                                 $optionTypes,
+                                 $extra,
+                                 '<br/>', false
+                                 );
+                $this->add( 'select',
+                            'loc_event_id',
+                            ts( 'Event Locations' ),
+                            array( '' => ts( '- select -' ) ) + $events );
+            }
+        }
+        
         parent::buildQuickForm();
     }
     
@@ -241,18 +278,38 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params = array( );
         $params = $this->exportValues( );
         
-        $params['entity_table'] = 'civicrm_event';
-        
-        $params['entity_id'] = $this->_id; 
-        //set the location type to default location type
-        require_once 'CRM/Core/BAO/LocationType.php';
-        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-        $params['location'][1]['is_primary'] = 1;
-        
-        require_once 'CRM/Core/BAO/Location.php';
-        $location = CRM_Core_BAO_Location::create($params, true, 'event');
-        $params['loc_block_id'] = $location['id'];
+        //if we are copying location from other event.
+        if ( $this->_action & CRM_Core_Action::ADD &&
+             CRM_Utils_Array::value( 'option_type' , $params ) == 2 &&
+             CRM_Utils_Array::value( 'loc_event_id', $params ) ) { 
+            
+            //submitted location block id.
+            $locBlockId = $this->_locationEvents[$params['loc_event_id']]['locBlockId'];
+            
+            if ( $this->_id ) {
+                $updateLocBlockId = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $this->_id, 'loc_block_id' );
+            }
+            
+            //copy event location block.
+            require_once 'CRM/Core/BAO/Location.php';
+            $copyLocBlockId = CRM_Core_BAO_Location::copyLocBlock( $locBlockId, $updateLocBlockId );
+            $params['loc_block_id'] = $copyLocBlockId;
+            
+        } else {
+            $params['entity_table'] = 'civicrm_event';
+            $params['entity_id'] = $this->_id;
+            
+            //set the location type to default location type
+            require_once 'CRM/Core/BAO/LocationType.php';
+            
+            $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+            $params['location'][1]['location_type_id'] = $defaultLocationType->id;
+            $params['location'][1]['is_primary'] = 1;
+            
+            require_once 'CRM/Core/BAO/Location.php';
+            $location = CRM_Core_BAO_Location::create($params, true, 'event');
+            $params['loc_block_id'] = $location['id'];
+        }
         
         $params['id'] = $this->_id;
         require_once 'CRM/Event/BAO/Event.php';

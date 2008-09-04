@@ -406,6 +406,50 @@ WHERE e.id = %1";
         }
     }
     
+    /* Function to copy or update location block. 
+     *
+     * @param  int  $locBlockId  location block id.
+     * @param  int  $updateLocBlockId update location block id
+     * @return int  newly created/updated location block id.
+     */
+    static function copyLocBlock( $locBlockId, $updateLocBlockId = null ) 
+    {
+        //get the location info.
+        $defaults = $updateValues = array( );
+        $locBlock = array( 'id' => $locBlockId );
+        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $locBlock, $defaults );
+        
+        if ( $updateLocBlockId ) {
+            //get the location info for update.
+            $copyLocationParams = array( 'id' => $updateLocBlockId );
+            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $copyLocationParams, $updateValues );
+            foreach ( $updateValues as $key => $value) {
+                if ( $key != 'id' ) {
+                    $copyLocationParams[$key] = 'null';
+                }
+            }
+        }
+        
+        //copy all location blocks (email, phone, address, etc)
+        foreach ( $defaults as $key => $value ) {
+            if ( $key != 'id') {
+                $tbl  = explode("_", $key);
+                $name = ucfirst( $tbl[0] );
+                $updateParams = null;
+                if ( $updateId = CRM_Utils_Array::value( $key, $updateValues ) ) {
+                    $updateParams = array( 'id' => $updateId );
+                }
+                
+                $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), $updateParams );
+                $copyLocationParams[$key] = $copy->id;
+            }
+        }
+        
+        $copyLocation =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
+                                                    array( 'id' => $locBlock['id'] ), 
+                                                    $copyLocationParams );
+        return $copyLocation->id;
+    }
 }
 
 
