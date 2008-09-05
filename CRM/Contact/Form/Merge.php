@@ -139,7 +139,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // handle locations
         require_once 'api/v2/Location.php';
         $locations['main']  =& civicrm_location_get($mainParams);
-        $locations['other'] =& civicrm_location_get($otherParams);
+        $locations['other'] =& civicrm_location_get($otherParams); 
         foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
             foreach (array('main', 'other') as $moniker) {
                 $location = array();
@@ -173,15 +173,22 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $locLabel[$moniker]['address'] = $location['address']['display'];
                     }
                 }
-            }
+            } 
             if ($locValue['other'] != 0) {
                 foreach (array('email','phone','im','openid','address') as $fieldType) {
-                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
-                    $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
-                    $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
-                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+                    //  if ( $fieldType == 'email' ) {
+                        $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+                        $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
+                        $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+                        $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  array( '6' => ts( 'Overrite' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                        // } // else {
+//                         $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
+//                         $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+//                         $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
+//                         $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+//                     }
                 }
-            }
+            } 
         }
         
         // handle custom fields
@@ -253,7 +260,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     public function postProcess()
     {
         $formValues = $this->exportValues();
-
+                             
         $relTables =& CRM_Dedupe_Merger::relTables();
         $moveTables = array();
         foreach ($formValues as $key => $value) {
@@ -281,7 +288,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $cFields[$fid]['attributes'] = $field;
             }
         }
-
+     
         if (!isset($submitted)) $submitted = array();
         foreach ($submitted as $key => $value) {
             if (substr($key, 0, 7) == 'custom_') {
@@ -318,21 +325,34 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                   'openid'  => 'OpenID',
                                   'address' => 'Address',
                                   ); 
-            //delete the existing location component first(if exists).
+            //delete the existing location component if overrite.
             eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id = $this->_cid;
-            $dao->location_type_id = $locTypeId;
-            $dao->find();
-            $dao->delete();
-            $dao->free();
-            //move duplicate contact's location component.
-            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            $dao->contact_id = $this->_oid;
-            $dao->location_type_id = $locTypeId;
-            $dao->find();
-            while ($dao->fetch()) {
+            if ( CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]) == 6 ) { 
                 $dao->contact_id = $this->_cid;
-                $dao->update();
+                $dao->find();
+                $dao->location_type_id = $locTypeId;
+                $dao->delete();
+                $dao->free();
+                //move duplicate contact's location component.
+                eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+                $dao->contact_id = $this->_oid;
+                $dao->location_type_id = $locTypeId;
+                $dao->find();
+                while ($dao->fetch()) {
+                    $dao->contact_id = $this->_cid;
+                    $dao->update();
+                }
+            } else {
+                //else add as additional location to selected location type. 
+                $dao->contact_id = $this->_oid;
+                $dao->location_type_id = $locTypeId;
+                $dao->find();
+                               
+                while ($dao->fetch()) {  
+                    $dao->contact_id = $this->_cid;
+                    $dao->location_type_id = CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]);
+                    $dao->update();
+                }
             }
             $dao->free();
         }
