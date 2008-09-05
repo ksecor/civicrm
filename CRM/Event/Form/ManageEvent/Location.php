@@ -252,14 +252,14 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                                       '2' => ts( 'Reuse existing location' ) );
                 $extra = array( 'onclick' => "showLocFields();");
                 $this->addRadio( 'option_type',
-                                 ts("Location Option's"),
+                                 ts("Choose Location"),
                                  $optionTypes,
                                  $extra,
                                  '<br/>', false
                                  );
                 $this->add( 'select',
                             'loc_event_id',
-                            ts( 'Event Locations' ),
+                            ts( 'Use Location' ),
                             array( '' => ts( '- select -' ) ) + $events );
             }
         }
