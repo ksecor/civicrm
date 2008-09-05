@@ -34,14 +34,14 @@
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
         <td>{$form.greeting_type.label} &nbsp; </td>
-        <td>{$form.custom_greeting.label}</td>	
+        <td id="greetingLabel">{$form.custom_greeting.label}</td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.greeting_type.html}</td>
-        <td>{$form.custom_greeting.html|crmReplace:class:big}</td>	
+        <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -92,13 +92,13 @@
        	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
         <td>{$form.greeting_type.label}</td>
-        <td>{$form.custom_greeting.label}</td>	
+        <td id="greetingLabel">{$form.custom_greeting.label}</td>	
 	</tr>
     <tr>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
         <td>{$form.greeting_type.html}</td>
-        <td>{$form.custom_greeting.html|crmReplace:class:big}</td>	
+        <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
@@ -228,6 +228,24 @@
 {/literal}
 
 {/if}  
+{/if}
+
+{if $contact_type eq 'Individual' or $contact_type eq 'Household'}
+{literal}
+<script type="text/javascript">
+    showGreeting( );
+    function showGreeting( )
+    {
+        if (document.getElementById("greeting_type").value == "Custom") {
+	    show('greetingLabel');
+	    show('greetingHtml');	
+        } else {
+	    hide('greetingLabel');
+	    hide('greetingHtml');
+        }
+    }
+</script>
+{/literal}
 {/if}
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
