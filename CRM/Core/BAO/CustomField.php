@@ -351,7 +351,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $query .= " AND ( $cgTable.extends_entity_column_value = $customDataSubType 
                                       OR $cgTable.extends_entity_column_value IS NULL )";
                 }
-            
+                
                 // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
                 $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,

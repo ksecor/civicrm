@@ -177,16 +177,17 @@ class CRM_Utils_Mail {
         $msg->headers($headers);
         $message   =& $msg->get();
         $headers =& $msg->headers();
-
+        $result = null;
         $mailer =& CRM_Core_Config::getMailer( );
         CRM_Core_Error::ignoreException( );
-        $result = $mailer->send($to, $headers, $message);
-        CRM_Core_Error::setCallback();
-
-        if ( is_a( $result, 'PEAR_Error' ) ) {
-            if ( is_a( $mailer , 'Mail_smtp' ) ) {
-                $message = 
-                    'A fatal error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+        if ( is_object( $mailer ) ) {
+            $result = $mailer->send($to, $headers, $message);
+            CRM_Core_Error::setCallback()
+;
+            if ( is_a( $result, 'PEAR_Error' ) ) {
+                if ( is_a( $mailer , 'Mail_smtp' ) ) {
+                    $message = 
+                    'A error occurred when CiviCRM attempted to send an email (via SMTP). If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
 <p>
 This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
 <ul>
@@ -199,9 +200,9 @@ This is probably related to a problem in your Outbound Email Settings (Administe
 Check <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Outbound+Email+%28SMTP%29">this page for more information.</a>
 <p>
  The mail library returned the following error message: <b>';
-            } else {
-                $message = 
-                    'A fatal error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
+                } else {
+                    $message = 
+                        'A error occurred when CiviCRM attempted to send an email (via SendMail. If you received this error after submitted on online contribution or event registration - the transaction was completed, but we were unable to send the email receipt.
 <p>
 This is probably related to a problem in your Outbound Email Settings (Administer CiviCRM &raquo; Global Settings &raquo; Outbound Email). Possible causes are:
 <ul>
@@ -209,11 +210,13 @@ This is probably related to a problem in your Outbound Email Settings (Administe
 <li>Your SendMail agrument is incorrect.</li>
 </ul>
  The mail library returned the following error message: <b>';
+                }
+                
+                $message .= $result->getMessage( );
+                $message .= '</b><p>';
+                CRM_Core_Session::setStatus( $message );
+                return false;
             }
-
-            $message .= $result->getMessage( );
-            $message .= '</b><p>';
-            CRM_Core_Error::fatal( $message );
         }
         return true;
     }
@@ -257,6 +260,31 @@ This is probably related to a problem in your Outbound Email Settings (Administe
         preg_match('/<([^<]*)>$/', $header, $matches);
         return $matches[1];
     }
+
+    /**
+     * Get the Active outBound email 
+     * @return boolean true if valid outBound email configuration found, false otherwise
+     * @access public
+     * @static
+     */
+    static function validOutBoundMail() {
+        $config =& CRM_Core_Config::singleton( );
+       
+        if ( $config->outBound_option == 0 ) {
+            if ( !isset( $config->smtpServer ) || $config->smtpServer == '' || $config->smtpServer == 'YOUR SMTP SERVER'|| 
+                 ( $config->smtpAuth && ( $config->smtpUsername == '' || $config->smtpPassword == '' ) ) ) {
+                return false;
+            }
+            return true;
+        } else if ( $config->outBound_option == 1 ) {
+            if ( ! $config->sendmail_path || ! $config->sendmail_args ) {
+                return false;
+            }
+            return true;
+        }
+        return false;        
+    }
+
 }
 
 

@@ -357,6 +357,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
        
         //fix for CRM-2219 Update Membership
         if ( $onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
+            if ( $formatted['is_override'] && ! $formatted['status_id']) {
+                array_unshift($values, "Required parameter missing: Status");
+                return CRM_Member_Import_Parser::ERROR;
+            }
+
             if ( $values['membership_id'] ) {
                 require_once 'CRM/Member/BAO/Membership.php';
                 $dao =  new CRM_Member_BAO_Membership();

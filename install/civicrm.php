@@ -66,6 +66,7 @@ function civicrm_main( &$config ) {
         } else {
             civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql' );
         }
+        civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_acl.mysql' );
     }
     
     // generate backend settings file

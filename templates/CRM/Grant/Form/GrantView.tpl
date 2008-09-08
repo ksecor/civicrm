@@ -17,7 +17,8 @@
           <dt>{ts}Grant Report Received?{/ts}</dt> <dd>{if $grant_report_received}{ts}Yes{/ts} {else}{ts}No{/ts}{/if} </dd>  
           <dt>{ts}Rationale{/ts}             </dt> <dd>{$rationale}</dd>
           <dt>{ts}Notes{/ts}                 </dt> <dd>{$note}</dd>
-          {include file="CRM/Contact/Page/View/InlineCustomData.tpl" } 
+	  <div class="spacer"></div>
+           {include file="CRM/Contact/Page/View/InlineCustomData.tpl" } 
      </dl>
     <div class="spacer"></div>  
     <dl class="html-adjust">

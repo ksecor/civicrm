@@ -286,5 +286,16 @@ function addPrice(priceVal, priceId) {
     document.getElementById('pricelabel').style.display = "none";
   }
 }
+    function allowParticipant( ) {
+	var additionalParticipant = document.getElementById('additional_participants').value; 
+	var validNumber = "";
+	for( i = 0; i< additionalParticipant.length; i++ ) {
+	    if ( additionalParticipant.charAt(i) >=1 || additionalParticipant.charAt(i) <=9 ) {
+		validNumber += additionalParticipant.charAt(i);
+	    } else {
+		document.getElementById('additional_participants').value = validNumber;
+	    }
+	}
+    }
 </script>
 {/literal} 

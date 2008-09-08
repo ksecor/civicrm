@@ -178,9 +178,8 @@ class CRM_Contact_Task {
 
         $config =& CRM_Core_Config::singleton( );
 
-        if ( ! isset( $config->smtpServer ) ||
-             $config->smtpServer == '' ||
-             $config->smtpServer == 'YOUR SMTP SERVER' ) {
+        require_once 'CRM/Utils/Mail.php';
+        if ( !CRM_Utils_Mail::validOutBoundMail() ) { 
             unset( $titles[6] );
         }
         

@@ -150,7 +150,9 @@ class CRM_Core_Config_Defaults
                 // the system for a loop on lobo's macosx box
                 // or in modules
                 global $civicrm_root;
-                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
+                $civicrmDirName = trim(basename($civicrm_root));
+                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/$civicrmDirName/";
+
                 if ( strpos( $civicrm_root,
                              DIRECTORY_SEPARATOR . 'sites' .
                              DIRECTORY_SEPARATOR . 'all'   .
@@ -164,7 +166,7 @@ class CRM_Core_Config_Defaults
                         $siteName = substr( $civicrm_root,
                                             $startPos + 7,
                                             $endPos - $startPos - 7 );
-                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/civicrm/";
+                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/$civicrmDirName/";
                         if ( ! isset( $defaults['imageUploadURL'] ) ) {
                             $defaults['imageUploadURL'] = $baseURL . "sites/$siteName/files/civicrm/persist/contribute/";
                         }

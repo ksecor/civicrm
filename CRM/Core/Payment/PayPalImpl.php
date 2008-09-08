@@ -348,7 +348,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                     $value     = $stateName;
                 }
                 if ( $value ) {
-                    $paypalParams[$otherVars[$name]] = $value;
+                    $paypalParams[$otherVars[$name]] = urlencode( $value );
                 }
             }
         }

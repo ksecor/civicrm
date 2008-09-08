@@ -579,11 +579,11 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
             
             require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $this->_contributorDisplayName,
-                                  $this->_contributorEmail,
-                                  $subject,
-                                  $message);
+            $mailSend = CRM_Utils_Mail::send( $receiptFrom,
+                                              $this->_contributorDisplayName,
+                                              $this->_contributorEmail,
+                                              $subject,
+                                              $message);
         }
         
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $renewMembership->membership_type_id, 'name');
@@ -596,7 +596,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $statusMsg .= ' ' . ts('The new membership End Date is %1.', array(1 => $endDate));
         }
         
-        if ( $receiptSend ) {
+        if ( $receiptSend && $mailSend ) {
             $statusMsg .= ' ' . ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
         }
         
