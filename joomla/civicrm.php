@@ -60,13 +60,6 @@ function civicrm_invoke( ) {
     $task = CRM_Utils_Array::value( 'task', $_GET, '' );
     $args = explode( '/', trim( $task ) );
 
-    if ( ! empty( $_POST ) ) {
-        if ( ! array_key_exists( 'CiviCRM', $_SESSION ) ) {
-            $message = 'CiviCRM requires session support for Joomla front-end pages. Please modify index.php in the root folder of your front-end Joomla site <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Configuring+Front-end+Profile+Listings+and+Forms+in+Joomla%21+Sites">as described in the step 3 of this CiviCRM documentation page</a>.';
-            CRM_Core_Error::fatal( $message );
-        }
-    }
-
     // check permission
     if ( ! civicrm_check_permission( $args ) ) {
         echo "You do not have permission to execute this url.";
