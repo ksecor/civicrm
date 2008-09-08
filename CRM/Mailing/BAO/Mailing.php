@@ -832,7 +832,7 @@ FROM   civicrm_mailing, civicrm_mailing_job
 WHERE  civicrm_mailing_job.id = {$job_id} 
 AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
-        if( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) ) {
+        if( $job_id && CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) ) {
             unset( $verp['reply'] );
             $verp['reply'] = "\"{$this->from_name}\" <{$this->from_email}>"; 
             $skipEncode = true;
