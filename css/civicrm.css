@@ -565,7 +565,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #F6F6F6;
 }
 
-// double line right border for last cell in a horizontal grouping
+/* double line right border for last cell in a horizontal grouping */
 #crm-container table.report td.splitter {
     border-right: 5px double #92B6EC;
 }
@@ -603,7 +603,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   color: #FF0105;
 }
 
-// this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text
+/* this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text */
 #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none {
    white-space: nowrap;
 }

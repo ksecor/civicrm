@@ -57,16 +57,16 @@
                 {ts}Check this option if you want to use a shared household address for this individual. You can either select an existing household, or create a new one.{/ts}
             </span>
         </div>
-	<div id="shared_household" class="form-item">
-	    <div class="form-item">
+        <div id="shared_household" class="form-item">
+            <div>
                 {$form.shared_household.label}
             </div>
-            <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false">
+            <div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false">
                 {$form.shared_household.html}
                 {* Conditionally display the address currently selected in the comboBox *}
-		<span id="shared_household_address" class="description"></span>
+                <span id="shared_household_address" class="description"></span>
             </div>
-            <span id="shared_household_help" class="description">{ts}Enter the first letters of the name of the household to see available households.{/ts}</span> 
+            <span id="shared_household_help" class="description">{ts}Enter the first letters of the name of the household to see available households. If the household doesn't exist yet, type in the new household name.{/ts}</span> 
         </div>
       
         {* -- Spacer div contains floated elements -- *}
