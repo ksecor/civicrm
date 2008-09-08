@@ -29,7 +29,9 @@
          <tr><td class="label">{$form.title.label}<span class="marker"> *</span></td><td>{$form.title.html}</td></tr>
    	 <tr><td class="label">{$form.url_logo.label}</span></td><td>{$form.url_logo.html}</td></tr>  
  	 <tr><td class="label">{$form.button_title.label}</td><td>{$form.button_title.html}</td></tr>  
-	 <tr><td class="label">{$form.about.label}<span class="marker"> *</span></td><td>{$form.about.html}</td></tr>  
+	 <tr><td class="label">{$form.about.label}<span class="marker"> *</span></td><td>{$form.about.html}
+<br /><span class="description">{ts}Enter content for the about message. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</span>
+</td></tr>  
 	 <tr><td class="label">{$form.url_homepage.label}<span class="marker"> *</span></td><td>{$form.url_homepage.html}</td></tr>  
         </table>
         

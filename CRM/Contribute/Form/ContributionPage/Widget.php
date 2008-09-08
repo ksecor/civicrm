@@ -35,13 +35,14 @@
 
 require_once 'CRM/Contribute/Form/ContributionPage.php';
 
-class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_ContributionPage {
-    
+class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_ContributionPage 
+{
     protected $_colors;
 
     protected $_widget;
 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         parent::preProcess( );
 
         require_once 'CRM/Contribute/DAO/Widget.php';
@@ -58,11 +59,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                               $this->_id,
                                               'title' );
-        $intro = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                             $this->_id,
-                                             'intro_text' );
-        
-        $this->_fields = array( 'title'               => array( ts( 'Title' ),
+	
+	$this->_fields = array( 'title'               => array( ts( 'Title' ),
                                                                 'text',
                                                                 false,
                                                                 $title ),
@@ -74,10 +72,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                                                 'text',
                                                                 false,
                                                                 ts( 'Contribute!' ) ),
-                                'about'               => array( ts( 'About' ),
-                                                                'textarea',
-                                                                false,
-                                                                $intro ),
+                               
                                 'url_homepage'        => array( ts( 'URL to Home Page' ),
                                                                 'text',
                                                                 false,
@@ -124,7 +119,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         
     }
 
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
         // check if there is a widget already created
         if ( $this->_widget ) {
@@ -145,14 +141,17 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         return $defaults;
     }
 
-    function buildQuickForm( ) {
+    function buildQuickForm( ) 
+    {
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Widget' );
-        
+
         $this->addElement( 'checkbox',
                            'is_active',
                            ts( 'Enable Widget?' ),
                            null,
                            array( 'onclick' => "widgetBlock(this)" ) );
+	
+	$this->addWysiwyg( 'about', ts('About'), $attributes['about'] );
 
         foreach ( $this->_fields as $name => $val ) {
             $this->add( $val[1],
@@ -211,7 +210,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         return empty($errors) ? true : $errors;
     }
 
-    function postProcess( ) {
+    function postProcess( ) 
+    {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
         
@@ -238,7 +238,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
      * @return string 
      * @access public 
      */ 
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Widget Settings' );
     }
 
