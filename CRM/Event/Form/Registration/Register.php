@@ -177,7 +177,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['event_page']['is_multiple_registrations'] ) {
             $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'onKeyup' => "allowParticipant()", 'size' => 10, 'maxlength' => 10) );
-            $this->addRule( 'additional_participants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
         }
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
@@ -339,7 +338,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.',
                                                    array( 1 => $email ) );
         }
-
+        if ( $fields['additional_participants'] && ! is_int( $fields['additional_participants'] ) )  {
+            $errors['additional_participants'] =  ts('Please enter a valid No Of People (whole number).'); 
+        } 
         //check for atleast one pricefields should be selected
         if ( $fields['priceSetId'] ) {
             $priceField = new CRM_Core_DAO_PriceField( );
