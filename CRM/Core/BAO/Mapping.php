@@ -392,11 +392,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 //CRM-2676, replacing the conflict for same custom field name from different custom group.
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
                     $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
-                    $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
-                    if ( strlen( $customGroupName ) > 13 ) {
-                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                    if ( isset( $customGroupId ) ) {
+                        $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                        if ( strlen( $customGroupName ) > 13 ) {
+                            $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                        }
+                        $mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title'];
                     }
-                    $mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title'];
                 } else {
                     $mapperFields[$key][$key1] = $value1['title'];
                 }
