@@ -12,6 +12,7 @@
         <tr><td class="label">{$form.subject.label}</td>
             <td colspan="2">{$form.subject.html|crmReplace:class:huge}</td>
         </tr>
+        <tr><td></td><td colspan="2">{$form.override_verp.label}{$form.override_verp.html}<br /><span class="description">{ts}If checked default VERP address in Reply-To will be override by From address{/ts}</span></td></tr>  
         <tr><td></td><td colspan="2">{$form.upload_type.label} {$form.upload_type.html} {help id="upload-compose"}</td></tr>
     </table>
   </fieldset>

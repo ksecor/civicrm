@@ -823,7 +823,21 @@ AND civicrm_contact.is_opt_out =0";
                                         )
                                   ) . '@' . $this->_domain->email_domain;
         }
-
+        
+        //handle should override VERP address.    
+        $skipEncode = false;
+        $query = "
+SELECT override_verp 
+FROM   civicrm_mailing, civicrm_mailing_job 
+WHERE  civicrm_mailing_job.id = {$job_id} 
+AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
+        
+        if( CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) ) {
+            unset( $verp['reply'] );
+            $verp['reply'] = "\"{$this->from_name}\" <{$this->from_email}>"; 
+            $skipEncode = true;
+        }
+        
         $urls = array(
                       'forward'        => CRM_Utils_System::url('civicrm/mailing/forward', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
@@ -839,13 +853,20 @@ AND civicrm_contact.is_opt_out =0";
                                                                 false, null, true, true),
                       );
 
-        $headers = array(
-                         'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
-                         'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
-                         'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
-                         'Subject'   => $this->subject,
-                         );
-      
+        if ( $skipEncode ) {
+            $headers = array( 'Reply-To'  => $verp['reply'] );
+        } else {
+            $headers = array( 'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email) );
+        }
+
+        $headerPart = array(
+                            'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
+                            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
+                            'Subject'   => $this->subject,
+                            );
+
+        $headers = array_merge( $headers, $headerPart ); 
+ 
         return array( &$verp, &$urls, &$headers );
     }
 
@@ -878,7 +899,7 @@ AND civicrm_contact.is_opt_out =0";
         }
 
         list( $verp, $urls, $headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
-
+       
         if ( $contactDetails ) {
             $contact = $contactDetails;
         } else {

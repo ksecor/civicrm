@@ -155,4 +155,11 @@
        <key>id</key>
        <onDelete>SET NULL</onDelete>
   </foreignKey>
+  <field>
+      <name>override_verp</name>
+      <type>boolean</type>
+      <default>0</default>
+      <add>2.2</add>    
+      <comment>Should we overrite VERP address in Reply-To</comment>
+  </field>
 </table>

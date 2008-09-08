@@ -149,14 +149,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
         
-	$this->add('text', 'subject', ts('Mailing Subject'), 
+        $this->add('text', 'subject', ts('Mailing Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
-
+        
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
-
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::commonCompose( $this );
               
@@ -164,6 +164,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'textFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
+        $this->addElement('checkbox', 'override_verp', ts('Override VERP address?'));
         
         $this->addElement( 'file', 'htmlFile', ts('Upload HTML Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
@@ -205,7 +206,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     public function postProcess() 
     {
         $params = $ids = array( );
-        $uploadParams  = array( 'header_id', 'footer_id', 'subject', 'from_name', 'from_email' );
+        $uploadParams  = array( 'header_id', 'footer_id', 'subject', 'from_name', 'from_email', 'override_verp' );
         $fileType      = array( 'textFile', 'htmlFile' );
 
         $formValues    = $this->controller->exportValues( $this->_name );
