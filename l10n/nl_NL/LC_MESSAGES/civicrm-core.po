@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-25 21:11-0700\n"
+"PO-Revision-Date: 2008-09-04 03:53-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -10183,7 +10183,7 @@ msgstr "probeer een andere spelling of gebruik minder karakters"
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
-msgstr "overtuig u dat u de goede toegangsrechten heeft"
+msgstr "zorg dat u voldoende toegangsrechten heeft"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
@@ -11868,7 +11868,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "if you are searching within a date range, try a wider range of values"
-msgstr "als u in een periode zoekt, probeer een langer periode"
+msgstr "als u op periode zoekt, probeer een langer periode"
 
 #: templates/CRM/Grant/Form/Search/ResultTasks.tpl
 msgid "Found %count Grant."
@@ -13611,11 +13611,11 @@ msgstr "Verholpen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name Only"
-msgstr ""
+msgstr "Alleen namen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name and Email"
-msgstr "Naam en e-mail"
+msgstr "Namen met e-mail"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Current"

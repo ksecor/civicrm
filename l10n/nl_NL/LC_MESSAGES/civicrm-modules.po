@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-25 22:00-0700\n"
+"PO-Revision-Date: 2008-09-04 03:52-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4874,8 +4874,8 @@ msgid ""
 "To allow users to see a listing of participants, set this field to "
 "'Name' (list names only), or 'Name and Email' (list names and emails)."
 msgstr ""
-"Als gebruikers de deelnemerslijst mogen zien, kies dan voor 'Name' (alleen "
-"namen), of 'Name and Email' (namen en e-mailadres)."
+"Als gebruikers de deelnemerslijst mogen zien, kies dan voor 'Alleen namen', "
+"of Namen met e-mail'."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -5380,8 +5380,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
 msgid "if you are searching by participant name, check your spelling"
-msgstr ""
-"als u aan het zoeken bent op naam deelnemer, controleer dan de spelling"
+msgstr "als u zoekt op deelnemer, controleer dan de spelling"
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Find Events"
