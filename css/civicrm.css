@@ -107,7 +107,7 @@ div.spacer, .spacer {
 #crm-container div.form-item {
   border-top-style: none;
   margin: 0px;
-  padding: 3px 0px 3px 0px;
+  padding: 3px 0px 5px 0px;
   clear: none;
   overflow: auto; 
 }
