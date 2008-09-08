@@ -338,7 +338,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.',
                                                    array( 1 => $email ) );
         }
-        if ( $fields['additional_participants'] && ! is_int( $fields['additional_participants'] ) )  {
+        if ( CRM_Utils_Array::value( 'additional_participants', $fields ) && ! is_int( $fields['additional_participants'] ) )  {
             $errors['additional_participants'] =  ts('Please enter a valid No Of People (whole number).'); 
         } 
         //check for atleast one pricefields should be selected
