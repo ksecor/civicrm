@@ -1471,6 +1471,11 @@ class CRM_Contact_BAO_Query
                 } else {
                     $tName = "{$locationType[$locType[1]]}-{$locType[0]}-1";
                 }
+            } else if ( in_array( $locType[0], 
+                                  array( 'address_name', 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                                         'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2' ) ) ) {
+                //fix for search by profile with address fields.
+                $tName = "{$locationType[$locType[1]]}-address";
             } else {
                 $tName = "{$locationType[$locType[1]]}-{$locType[0]}";
             }
