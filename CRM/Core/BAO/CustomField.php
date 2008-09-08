@@ -711,6 +711,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     public static function deleteField( $field )
     { 
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+
         // first delete the custom option group and values associated with this field
         if ( $field->option_group_id ) {
             //check if option group is related to any other field, if
