@@ -1119,7 +1119,12 @@ SELECT id
             if ( ! CRM_Utils_System::isNull( $value ) ) {
                 if ( is_string( $value ) ) {
                     // it might be a string, so lets do an unformat
-                    $unformat = CRM_Utils_Date::unformat( $value );
+                    // check if the seperator exists in string
+                    $separator = '-';
+                    if ( strpos( $value, $separator ) === false ) {
+                        $separator = '';
+                    }
+                    $unformat = CRM_Utils_Date::unformat( $value, $separator );
                     if ( $unformat ) {
                         $value = $unformat;
                     }
@@ -1128,7 +1133,7 @@ SELECT id
                 //convert date to timestamp
                 $time = array( 'H', 'i', 's' );
                 foreach ( $time as $v ) {
-                    if ( ! $value[$v] ) {
+                    if ( ! isset( $value[$v] ) ) {
                         $value[$v] = '00';
                     }                    
                     $date = CRM_Utils_Date::format( $value );                    
@@ -1209,6 +1214,7 @@ SELECT $columnName
                                                  'column_name'     => $columnName,
                                                  'file_id'         => $fileId
                                                  );
+
         return $customFormatted;
     }
 
