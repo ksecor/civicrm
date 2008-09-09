@@ -121,6 +121,10 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
             $bao->params = $this->params;
             $queries[] = $bao->sql();
         }
+
+        // if there are no rules in this rule group, add an empty query fulfilling the pattern
+        if (!$queries) $queries = array('SELECT NULL id1, NULL id2, NULL weight LIMIT 0');
+
         return 'CREATE TEMPORARY TABLE dedupe ' . implode(' UNION ALL ', $queries);
     }
 
