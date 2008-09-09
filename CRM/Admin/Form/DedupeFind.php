@@ -41,6 +41,12 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
 {
+    /**
+     * defined defaults
+     * 
+     */
+
+    public $_defaults;
 
     /**
      * Function to pre processing

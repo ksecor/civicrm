@@ -78,11 +78,11 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         require_once 'CRM/Core/BAO/Preferences.php';
         $searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         
-        if ( $searchOptions['contact_type'] ) {
+        if ( CRM_Utils_Array::value( 'contact_type', $searchOptions ) ) {
             $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
         }
 
-        if ( $searchOptions['groups'] ) {
+        if ( CRM_Utils_Array::value( 'groups', $searchOptions ) ) {
             $config =& CRM_Core_Config::singleton( );
             if ( $config->groupTree ) {
                 $this->add('hidden', 'group', null, array('id' => 'group' ));
@@ -107,7 +107,7 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
             }
         }
         
-        if ( $searchOptions['tags'] ) {
+        if ( CRM_Utils_Array::value( 'tags', $searchOptions ) ) {
             // tag criteria
             $tag = array('' => ts('- any tag -')) + $this->_tag;
             $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);

@@ -117,7 +117,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($diffs['contact'] as $field) {
             foreach (array('main', 'other') as $moniker) {
                 $contact =& $$moniker;
-                $value = $contact[$field];
+                $value = CRM_Utils_Array::value( $field, $contact );
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
                     $value = str_replace('-', '', $value);
