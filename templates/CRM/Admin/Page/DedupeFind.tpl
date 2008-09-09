@@ -1,3 +1,6 @@
+{if $action neq 2}
+{include file="CRM/Admin/Form/DedupeFind.tpl"}
+{else}
 <div class="form-item">
   <table>
     <tr class="columnheader"><th>{ts}Contact{/ts} 1</th><th>{ts}Contact{/ts} 2 ({ts}Duplicate{/ts})</th><th>{ts}Threshold{/ts}</th><th>&nbsp;</th></tr>
@@ -28,3 +31,4 @@
 </div>
 <div style="clear: both;"></div>
 
+{/if}

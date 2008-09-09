@@ -72,8 +72,14 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
      */
     function run()
     {
-        $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
         $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
+        $action = CRM_Utils_Request::retrieve('action',  'Positive', $this, false, 0);
+        if (!$gid && $action != CRM_Core_Action::UPDATE ) {
+            $this->action = CRM_Core_Action::UPDATE;
+            $this->edit($this->action);
+            $this->assign('action', $this->action);
+        }
+        $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
         $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
 
         if ($gid) {
@@ -171,7 +177,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
      */
     function editForm()
     {
-
+        return 'CRM_Admin_Form_DedupeFind';
     }
 
     /**
