@@ -670,11 +670,11 @@ class CRM_Contact_BAO_Query
                     $addAddress = true;
                 }
 
-                $elementType = '';
+                $cond = $elementType = '';
                 if ( strpos( $elementName, '-' ) !== false ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
-
+                    
                     $cond = self::getPrimaryCondition( $elementType );
                     if ( ! $cond ) {
                         $cond = "phone_type = '$elementType'";
@@ -2764,6 +2764,12 @@ WHERE  id IN ( $groupIDs )
         if ( ! empty( $sort ) ) {
             $sql .= " ORDER BY $sort ";
         }
+     
+        // add group by
+        if ( $query->_useGroupBy ) {
+            $sql .= ' GROUP BY contact_a.id';
+        }
+
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
