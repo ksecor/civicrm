@@ -57,7 +57,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
     {
         //p3 = Three dimensional pie chart.
         //bvg = Vertical bar chart
-        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => 'Bar','p3'=> 'Pi' ) );
+        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => ts('Bar'), 'p3'=> ts('Pie') ) );
 
         //take available years from database to show in drop down
         if ( !empty( $this->_years ) ) {

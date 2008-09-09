@@ -1,4 +1,4 @@
-{* Display monthly and yearly contributions using Google charts ( Bar and Pi ) *} 
+{* Display monthly and yearly contributions using Google charts (Bar and Pie) *} 
 {if $hasContributions}
 <table class="chart">
 <tr>
