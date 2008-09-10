@@ -2,7 +2,7 @@
 {htxt id="id-dedupe-intro"}
 <p>{ts}Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed. Click <strong>Edit Rule</strong> to review or modify the rules for each type of contact. You will generally want to maintain both 'fuzzy' and 'strict' rules for each contact type.{/ts}</p>
 
-<p>{ts}'Strict' rules should be configured with a relatively tight definition of what constitutes a match (for example... email address + first and last name for Individuals). The default 'Strict' rule is automatically used when new contacts are created (including contacts created by constituents during onlien contributions, etc.). They are also used when you Import contacts. You can only have one default 'Strict' rule for each contact type.{/ts}</p>
+<p>{ts}'Strict' rules should be configured with a relatively tight definition of what constitutes a match (for example... email address + first and last name for Individuals). The default 'Strict' rule is automatically used when new contacts are created (including contacts created by constituents during online contributions, etc.). They are also used when you Import contacts. You can only have one default 'Strict' rule for each contact type.{/ts}</p>
     
 <p>{ts 1="http://wiki.civicrm.org/confluence//x/xis" 2=$docURLTitle}'Fuzzy' rules should be configured with a looser definition of what constitutes a 'match'. They are most appropriate for use when you are scanning the database (from this page). Click <strong>Use Rule</strong> to scan for duplicate contacts (of that contact type) using the selected rule (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</p>
 {/htxt}
