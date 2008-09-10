@@ -89,7 +89,14 @@
   </item>
   <item>
      <path>civicrm/contact/map</path>
-     <title>Map Contact</title>
+     <title>Map Location(s)</title>
+     <is_public>true</is_public>
+     <page_callback>CRM_Contact_Form_Task_Map</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/map/event</path>
+     <title>Map Event Location</title>
+     <is_public>true</is_public>
      <page_callback>CRM_Contact_Form_Task_Map</page_callback>
   </item>
   <item>
