@@ -55,6 +55,12 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             CRM_Core_Error::statusBounce(ts('Invalid form parameters.'));
         }
         $mailing =& $q->getMailing();
+
+        if ( $hash ) {
+            $emailId   = CRM_Core_DAO::getfieldValue('CRM_Mailing_Event_DAO_Queue', $hash, 'email_id', 'hash' );
+            $this->_fromEmail = $fromEmail = CRM_Core_DAO::getfieldValue('CRM_Core_DAO_Email', $emailId, 'email' );
+            $this->assign('fromEmail', $fromEmail);
+        }
         
         /* Show the subject instead of the name here, since it's being
          * displayed to external contacts/users */
@@ -88,15 +94,15 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             $this->add('text', "email_$i", ts('Email %1', array(1 => $i + 1)));
             $this->addRule("email_$i", ts('Email is not valid.'), 'email');
         }
-
+        
         $this->addButtons( array(
-                            array( 'type' => 'next',
-                                    'name'  => ts('Forward'),
-                                    'isDefault' => true),
-                            array( 'type' => 'cancel',
-                                    'name' => ts('Cancel'))));
+                                 array( 'type' => 'next',
+                                        'name'  => ts('Forward'),
+                                        'isDefault' => true),
+                                 array( 'type' => 'cancel',
+                                        'name' => ts('Cancel'))));
     }
-
+    
        
     /**
      * Form submission of new/edit contact is processed.
@@ -120,7 +126,7 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
     
         foreach ($emails as $email) {
             $result = crm_mailer_event_forward( $job_id, $queue_id, 
-                                                $hash, $email);
+                                                $hash, $email, $this->_fromEmail );
         }
     }
 }

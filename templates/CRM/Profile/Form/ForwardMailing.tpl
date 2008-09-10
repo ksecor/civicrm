@@ -1,7 +1,8 @@
 <div class="form-item">
 <fieldset>
 <legend>{ts}Forward Mailing{/ts}</legend>
-{ts}Please enter up to 5 email addresses to receive the mailing.{/ts}
+<dt class="label">From</dt><dd>{$fromEmail}</dd>      
+<br />{ts}Please enter up to 5 email addresses to receive the mailing.{/ts}
 <dl>
 <dt class="label">{$form.email_0.label}</dt><dd>{$form.email_0.html}</dd>
 <dt class="label">{$form.email_1.label}</dt><dd>{$form.email_1.html}</dd>

@@ -795,7 +795,7 @@ AND civicrm_contact.is_opt_out =0";
      * @return (reference) array    array ref that hold array refs to the verp info, urls, and headers
      * @access private
      */
-    private function getVerpAndUrlsAndHeaders( $job_id, $event_queue_id, $hash, $email )
+    private function getVerpAndUrlsAndHeaders( $job_id, $event_queue_id, $hash, $email, $isForward = false )
     {
         $config =& CRM_Core_Config::singleton( );
         /**
@@ -866,7 +866,10 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                             );
 
         $headers = array_merge( $headers, $headerPart ); 
- 
+        if( $isForward ) {
+            unset( $headers['Subject'] );
+            $headers['Subject'] = "[Fwd:{$this->subject}]";
+        } 
         return array( &$verp, &$urls, &$headers );
     }
 
@@ -880,12 +883,14 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
      * @param string $email         Destination address
      * @param string $recipient     To: of the recipient
      * @param boolean $test         Is this mailing a test?
+     * @param boolean $isForward    Is this mailing compose for forward?
+     * @param string  $fromEmail    email address of who is forwardinf it.
      * @return object               The mail object
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
                              $email, &$recipient, $test, 
-                             $contactDetails, &$attachments ) 
+                             $contactDetails, &$attachments, $isForward = false, $fromEmail = null ) 
     {
         
         require_once 'api/v2/Contact.php';
@@ -898,8 +903,13 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             $this->_domain =& CRM_Core_BAO_Domain::getDomain( );
         }
 
-        list( $verp, $urls, $headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
-       
+        list( $verp, $urls, $headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email, $isForward );
+        //set from email who is forwarding it and not original one.      
+        if ( $fromEmail ) {
+            unset( $headers['From'] );
+            $headers['From'] = "<{$fromEmail}>";
+        } 
+
         if ( $contactDetails ) {
             $contact = $contactDetails;
         } else {

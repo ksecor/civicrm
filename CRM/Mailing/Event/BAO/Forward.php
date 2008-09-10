@@ -48,7 +48,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
     /**
      * Create a new forward event, create a new contact if necessary
      */
-    static function &forward($job_id, $queue_id, $hash, $forward_email) {
+    static function &forward($job_id, $queue_id, $hash, $forward_email, $fromEmail = null ) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
             return null;
@@ -155,7 +155,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $recipient = null;
         $attachments = null;
         $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
-            $queue->contact_id, $forward_email, $recipient, false, null, $attachments);
+                                          $queue->contact_id, $forward_email, $recipient, false, null, $attachments, true, $fromEmail );
 
         $body = $message->get();
         $headers = $message->headers();
