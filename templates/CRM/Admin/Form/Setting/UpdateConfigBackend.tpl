@@ -12,8 +12,10 @@
         <dl>
             <dt>{ts}Old Base Directory{/ts}</dt><dd>{$oldBaseDir}</dd>
             <dt>{$form.newBaseDir.label}</dt><dd>{$form.newBaseDir.html|crmReplace:class:'huge'}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}For Drupal installs, this is the absolute path to the location of the 'files' directory. For Joomla installs this is the absolute path to the location of the 'media' directory.{/ts}</dd>
             <dt>{ts}Old Base URL{/ts}</dt><dd>{$oldBaseURL}</dd>
             <dt>{$form.newBaseURL.label}</dt><dd>{$form.newBaseURL.html|crmReplace:class:'huge'}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}This is the URL for your Drupal or Joomla site URL (e.g. http://www.mysite.com/drupal/).{/ts}</dt>
             <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
    
