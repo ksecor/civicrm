@@ -1,5 +1,5 @@
 <div class ="form-item">
-  <dl class="spacer">
+  <dl>
     <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for search and listings, AND you want to limit the listings to members of a specific group.{/ts}</dd>
     <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>
@@ -29,6 +29,6 @@
     <dt></dt><dd>{$form.is_edit_link.html} {$form.is_edit_link.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to include a link in the listings to Edit profile fields. Only users with permission to edit the contact will see this link.{/ts}</dd>
     <dt></dt><dd>{$form.is_uf_link.html} {$form.is_uf_link.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts 1=$config->userFramework}Check this box if you want to include a links in the listings to view contacts' %1 user account information (e.g. their 'My Account' page). This link will only be included for contacts who have a user account on your website.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts 1=$config->userFramework}Check this box if you want to include a link in the listings to view contacts' %1 user account information (e.g. their 'My Account' page). This link will only be included for contacts who have a user account on your website.{/ts}</dd>
   </dl>
 </div>

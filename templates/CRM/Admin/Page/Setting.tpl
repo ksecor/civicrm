@@ -62,7 +62,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
-    <td>{ts}Enable version checking and configure optional ReCaptcha feature for Profile forms.{/ts}</td>
+    <td>{ts}Enable Version Checking, configure Contact Search behavior, and configure optional reCAPTCHA feature to prevent automated abuse of public forms.{/ts}</td>
 </tr>
 
 <tr>

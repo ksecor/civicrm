@@ -32,9 +32,9 @@
         </tr>
     </table>
 </fieldset>
-<fieldset><legend>{ts}ReCAPTCHA Keys{/ts}</legend>
+<fieldset><legend>{ts}reCAPTCHA Keys{/ts}</legend>
     <div class="description">
-        {ts}ReCAPTCHA is a free service that helps prevent automated abuse of your site. To use ReCAPTCHA on public-facing CiviCRM forms: sign up at <a href="http://recaptcha.net">recaptcha.net</a>; enter the provided public and private ReCAPTCHA keys here; then enable ReCAPTCHA under Advanced Settings in any Profile.{/ts}
+        {ts}reCAPTCHA is a free service that helps prevent automated abuse of your site. To use reCAPTCHA on public-facing CiviCRM forms: sign up at <a href="http://recaptcha.net">recaptcha.net</a>; enter the provided public and private reCAPTCHA keys here; then enable reCAPTCHA under Advanced Settings in any Profile.{/ts}
     </div>
     <table class="form-layout">
         <tr>

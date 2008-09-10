@@ -263,7 +263,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label, #crm-container .form-layout-compressed th.label {
   text-align: right;
-  padding: 0em 0.50em 0em 0.75em;
+  padding: 0.5em 0.50em 0em 0.75em;
   border: 0px none;
   vertical-align: top;
 }
@@ -274,7 +274,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout td.view-value, #crm-container .form-layout-compressed td.view-value {
   text-align: left;
-  padding: 0em 0em 0em 0.5em;
+  padding: 0.5em 0em 0em 0.5em;
   border: 0px none;
   vertical-align: top;
 }
