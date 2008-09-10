@@ -520,7 +520,7 @@ WHERE
             CRM_Utils_String::append( $address, '<br /> ',
                                       array( $dao->country ) );
             $location['address'      ] = addslashes( $address );
-            $location['url'          ] = CRM_Utils_System::url( 'civicrm/event/register', 'reset=1&action=preview&id=' . $dao->event_id );
+            $location['url'          ] = CRM_Utils_System::url( 'civicrm/event/register', 'reset=1&id=' . $dao->event_id );
             $location['location_type'] = $dao->location_type;
             $eventImage = '<img src="' . $config->resourceBase . 'i/contact_org.gif" alt="Organization " height="20" width="15" />';
             $location['image'] = $eventImage;
