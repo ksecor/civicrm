@@ -23,7 +23,7 @@
 {if $row.title|substr:-2 == "im"}
 {assign var=locType value="im"}
 {/if}
-{if $row.title|substr:-5 == "openid"}
+{if $row.title|substr:-6 == "openid"}
 {assign var=locType value="openid"}
 {/if}
 {if $row.title|substr:-7 == "address"}
