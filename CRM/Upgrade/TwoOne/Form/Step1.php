@@ -38,6 +38,26 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
+        // Let's first update the config defaults
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults   = unserialize($domain->config_backend);
+            // reset components
+            $defaults['enableComponents']   = 
+                array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
+            $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
+            $defaults['moneyvalueformat']   = '%!i';
+            $defaults['fieldSeparator']     = ',';
+            $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
+            // serialise settings 
+            require_once "CRM/Core/BAO/Setting.php";
+            CRM_Core_BAO_Setting::add($defaults);            
+        }
+        
         // check if log file is writable
         $config =& CRM_Core_Config::singleton( );
         if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {

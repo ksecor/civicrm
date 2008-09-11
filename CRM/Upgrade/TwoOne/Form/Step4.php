@@ -80,25 +80,6 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
             return false;
         } 
 
-        // update config defaults
-        require_once "CRM/Core/DAO/Domain.php";
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->selectAdd( );
-        $domain->selectAdd( 'config_backend' );
-        $domain->find(true);
-        if ($domain->config_backend) {
-            $defaults   = unserialize($domain->config_backend);
-            // reset components
-            $defaults['enableComponents']   = 
-                array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
-            $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
-            $defaults['moneyvalueformat']   = '%!i';
-            $defaults['fieldSeparator']     = ',';
-            $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
-            // serialise settings 
-            CRM_Core_BAO_Setting::add($defaults);            
-        }
-        
         return $this->checkVersion( '2.1' );
     }
     
