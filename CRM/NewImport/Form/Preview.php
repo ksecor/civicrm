@@ -289,7 +289,6 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
         
         $tableName = $this->get( 'importTableName' );
         print "Running parser on table: $tableName<br/>";
-        exit;
         $parser->run( $tableName, $mapperFields,
                       CRM_NewImport_Parser::MODE_IMPORT,
                       $this->get('contactType'),

@@ -1,4 +1,4 @@
-{if $config->userFramework ne 'Joomla'}
+{if $config->userFramework ne 'Joomla' and 0}
 {literal}
 <script type="text/javascript">
 dojo.require("dijit.ProgressBar");
@@ -163,7 +163,7 @@ function verify( )
     <p>{ts}Click 'Import Now' if you are ready to proceed.{/ts}</p>
  </div>
 
-{if $config->userFramework ne 'Joomla'}
+{if $config->userFramework ne 'Joomla' and 0}
 {* Import Progress Bar and Info *}
 <div id="id-processing">
 <h3>Importing records...</h3>
@@ -288,7 +288,7 @@ function verify( )
 </div>
 
 <script type="text/javascript">
-{if $config->userFramework ne 'Joomla'}
+{if $config->userFramework ne 'Joomla' and 0}
 hide('id-processing');
 {/if}
 hide('newGroup');

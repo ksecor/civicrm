@@ -254,7 +254,7 @@ abstract class CRM_NewImport_Parser {
                   $totalRowCount = null,
                   $doGeocodeAddress = false ) {
                       
-        //print "Running parser in mode: $mode<br/>";
+        print "Running parser in mode: $mode<br/>";
 
         switch ($contactType) {
         case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
