@@ -19,26 +19,27 @@
 dojo.require("dojo.parser");
 dojo.require("dijit.Dialog");
 dojo.require("dojo.data.ItemFileWriteStore");
-dojo.require("civicrm.CheckableTree");
+dojo.require("civicrm.CheckboxTree");
+dojo.require("dijit.form.CheckBox"); 
 
 function displayGroupTree( ) {
     // do not recreate if tree is already created
-    if ( dijit.byId('civicrm_CheckableTree') ) {
+    if ( dijit.byId('checkboxtree') ) {
 	return;
     }
 
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
-    var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
-    var myModel = new dijit.tree.ForestStoreModel({
-	    store: myStore,
-	    query: {type:'rootGroup'},
-	    rootId: 'allGroups',
-	    rootLabel: null,
+    var treeStore = new dojo.data.ItemFileWriteStore({url:dataUrl});
+    
+    var treeModel = new civicrm.tree.CheckboxTreeStoreModel({
+	    store: treeStore,
+	    query: {id:'root'},
 	    childrenAttrs: ["children"]
 	});
-    var tree = new civicrm.CheckableTree({
-	    model: myModel,
-	    id: 'civicrm_CheckableTree'
+    var tree = new civicrm.CheckboxTree({
+	    id : "checkboxtree",
+	    model: treeModel,
+	    showRoot: false
 	});
     
     var dd = dijit.byId('id-groupPicker');
@@ -52,9 +53,16 @@ function displayGroupTree( ) {
     dd.containerNode.appendChild(button2.domNode);      
 
     tree.startup();
-    
 };
 
+function getCheckedNodes( ) 
+{
+    var treeStore = dijit.byId("checkboxtree").model.store ;
+    treeStore.fetch({query: {checked:true},queryOptions: {deep:true}, onComplete: setCheckBoxValues});
+};         
+
+
+/*
 function setCheckBoxValues( reload ) {
     var grp  = document.getElementById('id-group-names');
     if ( !reload ) {
@@ -66,10 +74,34 @@ function setCheckBoxValues( reload ) {
 	grp.innerHTML = {/literal}"{$groupNames}"{literal};
     }
 };
+*/
 
-dojo.addOnLoad( function( ) {
-    setCheckBoxValues( true );
-});
+function setCheckBoxValues(items,request) 
+{
+    var groupLabel = "" ;
+    var groupIds   = "";
+
+    var myTreeStore = dijit.byId("checkboxtree").model.store;
+    for (var i = 0; i < items.length; i++){
+	var item = items[i];
+	groupLabel = groupLabel + myTreeStore.getLabel(item) + "<BR/>" ;
+	if ( groupIds != '' ) {
+	    groupIds = groupIds + ',';
+	}
+	groupIds = groupIds + item['id'];
+    }
+
+    var grp  = document.getElementById('id-group-names');    
+    grp.innerHTML = groupLabel;
+    
+    var groupId   = document.getElementById('group');
+    groupId.value = groupIds;
+};                     
+
+
+// dojo.addOnLoad( function( ) {
+//     setCheckBoxValues( true );
+// });
 </script>
 {/literal}
 {/if}
@@ -90,7 +122,7 @@ dojo.addOnLoad( function( ) {
                 {else}
                     { if $config->groupTree }
                         <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
-                        <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
+			    <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="getCheckedNodes();">
                         </div><br />
                         <span id="id-group-names"></span>
                     {else}
