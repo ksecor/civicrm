@@ -44,11 +44,14 @@
     {include file="CRM/Contact/Form/Email.tpl"}
 
     {* Display the instant messenger block(s) *}
+    {if $showIM}
     {include file="CRM/Contact/Form/IM.tpl"}
+    {/if}
 
     {* Display the openid block(s) *}
+    {if $showOpenID}
     {include file="CRM/Contact/Form/OpenID.tpl"}
-
+    {/if}
     {* Display the elements for shared address ( for individual ) *}
     {if $contact_type eq 'Individual' and $index eq 1}
         <div class="form-item">
