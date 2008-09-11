@@ -409,6 +409,11 @@ SELECT label, value
                     $fromValue = CRM_Utils_Array::value( 'from', $value );
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
                     if ( ! $fromValue && ! $toValue ) {
+		      if ( $op == 'IS NULL' ||
+			   $op == 'IS NOT NULL' ) {
+			$this->_where[$grouping][] = "$fieldName {$op}";
+                        $this->_qill[$grouping][]  = "{$field['label']} {$op}";
+		      } else {
                         $date = CRM_Utils_Date::format( $value );
                         if ( ! $date ) { 
                             continue; 
@@ -418,6 +423,7 @@ SELECT label, value
                         $date = CRM_Utils_Date::format( $value, '-' ); 
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} " . 
                             CRM_Utils_Date::customFormat( $date ); 
+		      }
                     } else {
                         $fromDate = CRM_Utils_Date::format( $fromValue );
                         $toDate   = CRM_Utils_Date::format( $toValue   );

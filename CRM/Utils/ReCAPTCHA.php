@@ -75,6 +75,7 @@ class CRM_Utils_ReCAPTCHA {
      *
      */
     function add( &$form ) {
+        $error  = null;
         $config =& CRM_Core_Config::singleton( );
 
         require_once 'packages/recaptcha/recaptchalib.php';

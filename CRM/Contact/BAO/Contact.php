@@ -924,7 +924,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     if ( $type ) {
                         $returnProperties['location'][$locationTypeName][$fieldName . '-' . $type] = 1;
                     } else {
-                        $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;
+                        $returnProperties['location'][$locationTypeName][$fieldName] = 1;
                     }
                 } else {
                     $returnProperties['location'][$locationTypeName][$fieldName] = 1;

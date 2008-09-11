@@ -9,7 +9,7 @@
  * Copyright (c) 2006-7, SilverStripe Limited - www.silverstripe.com
  * All rights reserved.
  *
- * Changes and modifications (c) 2007 by CiviCRM LLC
+ * Changes and modifications (c) 2007-8 by CiviCRM LLC
  *
  */
 
@@ -210,6 +210,13 @@ class InstallRequirements {
                                           array("MySQL $dbName Configuration",
                                                 "Can I access/create InnoDB tables in the database",
                                                 "Unable to create InnoDB tables. MySQL InnoDB support is required for CiviCRM but is either not available or not enabled in this MySQL database server." ) );
+                $this->requireMySQLTempTables($databaseConfig['server'],
+                                              $databaseConfig['username'],
+                                              $databaseConfig['password'],
+                                              $databaseConfig['database'], 
+                                              array("MySQL $dbName Configuration",
+                                                    'Can I create temporary tables in the database',
+                                                    'Unable to create temporary tables. This MySQL user is missing the CREATE TEMPORARY TABLES privilege.'));
             }
         }
 	}
@@ -501,6 +508,21 @@ class InstallRequirements {
             $testDetails[2] .= ' Could not determine if mysql has innodb support. Assuming no';
         }
     }
+
+  function requireMySQLTempTables($server, $username, $password, $database, $testDetails) {
+    $this->testing($testDetails);
+    $conn = @mysql_connect($server, $username, $password);
+    if (!$conn) {
+      $testDetails[2] = 'Could not login to the database.';
+      $this->error($testDetails);
+      return;
+    }
+
+    $result = mysql_query('CREATE TEMPORARY TABLE civicrm_install_temp_table_test (test text)', $conn);
+    if (!$result) {
+      $this->error($testDetails);
+    }
+  }
 
 	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails, $onlyRequire = false) {
 		$this->testing($testDetails);

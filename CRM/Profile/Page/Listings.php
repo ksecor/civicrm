@@ -184,9 +184,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             }
             
             if ( isset( $value ) && $value != null ) {
-                $this->_fields[$name]['value'] = $value;
-                $this->_params[$name] = $value;
-                
+                $this->_params[$name] = $this->_fields[$name]['value'] = trim($value);
             }
         }
 

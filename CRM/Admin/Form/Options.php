@@ -86,6 +86,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $url = "civicrm/admin/options/{$this->_gName}";
         $params = "group={$this->_gName}&reset=1";
         $session->pushUserContext( CRM_Utils_System::url( $url, $params ) );
+        $this->assign('id', $this->_id);
     }
     
     /**

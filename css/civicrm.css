@@ -107,7 +107,7 @@ div.spacer, .spacer {
 #crm-container div.form-item {
   border-top-style: none;
   margin: 0px;
-  padding: 3px 0px 3px 0px;
+  padding: 3px 0px 5px 0px;
   clear: none;
   overflow: auto; 
 }
@@ -263,7 +263,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label, #crm-container .form-layout-compressed th.label {
   text-align: right;
-  padding: 0em 0.50em 0em 0.75em;
+  padding: 0.5em 0.50em 0em 0.75em;
   border: 0px none;
   vertical-align: top;
 }
@@ -274,7 +274,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout td.view-value, #crm-container .form-layout-compressed td.view-value {
   text-align: left;
-  padding: 0em 0em 0em 0.5em;
+  padding: 0.5em 0em 0em 0.5em;
   border: 0px none;
   vertical-align: top;
 }
@@ -565,7 +565,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #F6F6F6;
 }
 
-// double line right border for last cell in a horizontal grouping
+/* double line right border for last cell in a horizontal grouping */
 #crm-container table.report td.splitter {
     border-right: 5px double #92B6EC;
 }
@@ -603,7 +603,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   color: #FF0105;
 }
 
-// this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text
+/* this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text */
 #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none {
    white-space: nowrap;
 }

@@ -670,11 +670,11 @@ class CRM_Contact_BAO_Query
                     $addAddress = true;
                 }
 
-                $elementType = '';
+                $cond = $elementType = '';
                 if ( strpos( $elementName, '-' ) !== false ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
-
+                    
                     $cond = self::getPrimaryCondition( $elementType );
                     if ( ! $cond ) {
                         $cond = "phone_type = '$elementType'";
@@ -1471,6 +1471,11 @@ class CRM_Contact_BAO_Query
                 } else {
                     $tName = "{$locationType[$locType[1]]}-{$locType[0]}-1";
                 }
+            } else if ( in_array( $locType[0], 
+                                  array( 'address_name', 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                                         'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2' ) ) ) {
+                //fix for search by profile with address fields.
+                $tName = "{$locationType[$locType[1]]}-address";
             } else {
                 $tName = "{$locationType[$locType[1]]}-{$locType[0]}";
             }
@@ -2759,6 +2764,12 @@ WHERE  id IN ( $groupIDs )
         if ( ! empty( $sort ) ) {
             $sql .= " ORDER BY $sort ";
         }
+     
+        // add group by
+        if ( $query->_useGroupBy ) {
+            $sql .= ' GROUP BY contact_a.id';
+        }
+
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }

@@ -96,7 +96,9 @@ function getTrustRoot() {
 }
 
 function getUrlPort() {
-    $server_port = $_SERVER['SERVER_PORT'];
+    $matches = array();
+    preg_match('/:(\d{1,5})$/',$_SERVER['HTTP_HOST'],$matches);
+    $server_port = $matches[1];
     $scheme      = getScheme();
     
     if ($scheme == 'http' && $server_port == 80) {

@@ -104,7 +104,7 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
             $recurRow[] = $values;
             //reset $paymentObject for checking other paymenet processor
             //recurring url 
-            $paymentObject = reset( );
+            $paymentObject = null;
         }
         $this->assign('recurRows',$recurRow);
 

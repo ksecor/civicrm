@@ -19,6 +19,7 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
+      {if $element.is_view eq 0}{* fix for CRM-3510 *}
 	{if $element.options_per_line != 0 }
         {assign var="element_name" value="custom_"|cat:$field_id}			
         <dt>{$form.$element_name.label}</dt>
@@ -89,6 +90,7 @@
             <dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
         {/if}
 	{/if}
+      {/if}
     {/foreach}
     </dl>
     <div class="spacer"></div>
