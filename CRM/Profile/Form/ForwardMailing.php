@@ -140,6 +140,9 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             $result = crm_mailer_event_forward( $job_id, $queue_id, 
                                                 $hash, $email, $this->_fromEmail, $params );
         }
+        
+        $session =& CRM_Core_Session::singleton(); 
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
     }
 }
 
