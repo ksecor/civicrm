@@ -33,7 +33,7 @@
                 <td class="label">{ts}Add More {/ts}</td>
                 <td>                  
                    <span id="case_contact_1"></span>
-                   <br />{edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
+                   {edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
             {else}
                 <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$caseContacts}</td>
