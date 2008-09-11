@@ -185,9 +185,11 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
-                if ( is_array( $name ) ) {
-                    list( $contactName, $street, $city) = explode( ' :: ', $name );
-                }else {
+                if ( $splitName = explode( ' :: ', $name ) ) {
+                    $contactName = trim( $splitName[0] );
+                    $street      = trim( $splitName[1] );
+                    $city        = trim( $splitName[2] );
+                } else {
                     $contactName = $name;
                 }
                 
@@ -220,7 +222,7 @@ SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, pos
             } else if ( $hh ) {
                 
                 $query = "
-SELECT CONCAT_WS(' :: ' , sort_name) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
+SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address,25),city) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
 WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName%' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
