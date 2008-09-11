@@ -254,7 +254,7 @@ abstract class CRM_NewImport_Parser {
                   $totalRowCount = null,
                   $doGeocodeAddress = false ) {
                       
-        print "Running parser in mode: $mode<br/>";
+        //print "Running parser in mode: $mode<br/>";
 
         switch ($contactType) {
         case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
@@ -342,7 +342,7 @@ abstract class CRM_NewImport_Parser {
             } else if ( $mode == self::MODE_SUMMARY ) {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
-                print "Running parser in import mode<br/>\n";
+                //print "Running parser in import mode<br/>\n";
                 $returnCode = $this->import( $onDuplicate, $values, $doGeocodeAddress );
                 if ( $statusID && ( ( $this->_rowCount % $skip ) == 0 ) ) {
                     $currTimestamp = time( );

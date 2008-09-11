@@ -1106,9 +1106,11 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
      */
     function createContact( &$formatted, &$contactFields, $onDuplicate, $contactId = null, $requiredCheck = true )
     {
+        /*
         print "Creating contact: <pre>";
         print_r($formatted);
         print "</pre>";
+        */
         
         $dupeCheck = false;
         
