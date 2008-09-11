@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-28 03:01-0700\n"
+"PO-Revision-Date: 2008-09-09 01:33-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1477,7 +1477,7 @@ msgstr "कस्टम file कस्टम अपलोड निर्दे�
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr "हम प्रवेश उपयोगकर्ता ID खोजें  ना सके"
+msgstr "हम प्रवेश उपयोगकर्ता ID खोजें ना सके"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
