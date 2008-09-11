@@ -98,7 +98,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function run($newArgs) {
 
         $this->preProcess();
-        if ( isset( $_GET['runJobs'] ) || $newArgs[2] == 'queue' ) {
+        if ( isset( $_GET['runJobs'] ) || CRM_Utils_Array::value( '2', $newArgs ) == 'queue' ) {
             require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
         }
@@ -166,6 +166,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         $scheduled = null;
         // hack to display results as per search
         $rows = $controller->getRows($controller);
+        $notScheduled = array();
         foreach ($rows as $key => $val) {
             if ($val['status'] == 'Not scheduled') {
                 $notScheduled[] = $val;
