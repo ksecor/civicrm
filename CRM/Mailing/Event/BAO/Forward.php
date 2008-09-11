@@ -48,7 +48,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
     /**
      * Create a new forward event, create a new contact if necessary
      */
-    static function &forward($job_id, $queue_id, $hash, $forward_email, $fromEmail = null ) {
+    static function &forward($job_id, $queue_id, $hash, $forward_email, $fromEmail = null, $comment = null ) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
             return null;
@@ -156,10 +156,15 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $attachments = null;
         $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
                                           $queue->contact_id, $forward_email, $recipient, false, null, $attachments, true, $fromEmail );
-
+        //append comment if added while forwarding.
+        if ( count($comment) ) {
+            $message->_txtbody   = $comment['body_text'].$message->_txtbody;
+            $message->_htmlbody  = $comment['body_html'].'<br />---------------Original message---------------------<br />'.$message->_htmlbody;
+        }
+        
         $body = $message->get();
         $headers = $message->headers();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
         $result = null;

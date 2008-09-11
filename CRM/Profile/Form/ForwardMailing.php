@@ -94,6 +94,12 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             $this->add('text', "email_$i", ts('Email %1', array(1 => $i + 1)));
             $this->addRule("email_$i", ts('Email is not valid.'), 'email');
         }
+      
+        //insert message Text by selecting "Select Template option"
+        $this->add( 'textarea', 'forward_comment', ts('Comment'), array( 'cols' => '80', 'rows' => '8') );
+        $this->addWysiwyg( 'html_comment',
+                           ts('HTML Message'),
+                           array('cols' => '80', 'rows' => '8') );
         
         $this->addButtons( array(
                                  array( 'type' => 'next',
@@ -116,6 +122,12 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
         $job_id     = $this->get('job_id');
         $hash       = $this->get('hash');
 
+        $formValues    = $this->controller->exportValues( $this->_name );
+        $params= array();
+        $params['body_text'] = $formValues['forward_comment'];
+        $html_comment        = $formValues['html_comment'];
+        $params['body_html'] = str_replace( '%7B', '{', str_replace( '%7D', '}', $html_comment) );
+        
         $emails = array();
         for ($i = 0; $i < 5; $i++) {
             $email = $this->controller->exportValue($this->_name, "email_$i");
@@ -126,7 +138,7 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
     
         foreach ($emails as $email) {
             $result = crm_mailer_event_forward( $job_id, $queue_id, 
-                                                $hash, $email, $this->_fromEmail );
+                                                $hash, $email, $this->_fromEmail, $params );
         }
     }
 }
