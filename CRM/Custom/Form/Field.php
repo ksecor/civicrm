@@ -479,11 +479,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $customField->label           = $fields['label'];
         
         $dupeLabel = false;
-        if ( $customField->find( true ) ) {
+        if ( $customField->find( true ) &&
+             $self->_id != $customField->id ) {
             $dupeLabel = true;
-            if ( $self->_id == $customField->id ) {
-                $dupeLabel = false;
-            }
         }
         
         if ( $dupeLabel ) {
@@ -810,12 +808,12 @@ AND    option_group_id = %2";
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $fieldValues = array( 'custom_group_id' => $this->_gid );
             if ( $this->_id ) {
-                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $this->_id, 'weight', 'id' );
+                $oldWeight = $this->_values['weight'];
             }
             $params['weight'] = 
                 CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues );
         }
-
+        
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {
             switch ( $params['data_type'] ) {
