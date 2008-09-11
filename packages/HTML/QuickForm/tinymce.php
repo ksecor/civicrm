@@ -133,10 +133,10 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             return parent::toHtml();
         // return textarea
         } else {
-            $config =& CRM_Core_Config::singleton();    
-            $html  .= sprintf( '<script type="text/javascript" src="%s"></script>',
+            $config =& CRM_Core_Config::singleton();
+            $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
                                 $config->resourceBase . $this->BasePath . 'tiny_mce.js'
-                             );                
+                               );                
 
             //FIXME: We might want to pass some parameters to TinyMCE
             $html .= sprintf( '<script type="text/javascript">tinyMCE.init({ mode : "textareas",' .

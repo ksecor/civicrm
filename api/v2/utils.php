@@ -365,9 +365,6 @@ function _civicrm_add_formatted_param(&$values, &$params)
             if (!array_key_exists($customFieldID, $fields['custom'])) {
                 return civicrm_create_error('Invalid custom field ID');
             } else {
-                //$customData = array( );
-                //CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $customData,
-                //                                             $value, 'Individual', null, null );
                 $params[$key] = $value;
             }
         }
