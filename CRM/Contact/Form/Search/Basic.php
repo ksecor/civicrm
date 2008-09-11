@@ -87,13 +87,17 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
             
             if ( is_array( $selectedGroups ) ) {
                 $groupNames = null;
+                $groupIds = array( );
                 foreach( $selectedGroups as $groupId ) {
                     if ( $groupNames ) {
                         $groupNames .= '<br/>';
                     }
                     $groupNames .= $this->_group[$groupId];
+                    $groupIds[] = $groupId;
                 }
             }
+            
+            $this->assign('groupIds', implode( ',', $groupIds ) );
             $this->assign('groupNames', $groupNames );
         } else {
             // add select for groups

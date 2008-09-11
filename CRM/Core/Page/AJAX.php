@@ -835,8 +835,9 @@ WHERE sort_name LIKE '%$name%'";
 
     function groupTree( $config ) 
     {
+        $gids  = CRM_Utils_Type::escape( $_GET['gids'], 'String' ); 
         require_once 'CRM/Contact/BAO/GroupNestingCache.php';
-        echo CRM_Contact_BAO_GroupNestingCache::json( );
+        echo CRM_Contact_BAO_GroupNestingCache::json( $gids );
     }
 
     /**

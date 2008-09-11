@@ -29,6 +29,13 @@ function displayGroupTree( ) {
     }
 
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
+    
+    {/literal}
+    {if $groupIds}
+        dataUrl = dataUrl + '?gids=' + '{$groupIds}'
+    {/if}
+    {literal}
+
     var treeStore = new dojo.data.ItemFileWriteStore({url:dataUrl});
     
     var treeModel = new civicrm.tree.CheckboxTreeStoreModel({
@@ -61,20 +68,14 @@ function getCheckedNodes( )
     treeStore.fetch({query: {checked:true},queryOptions: {deep:true}, onComplete: setCheckBoxValues});
 };         
 
-
-/*
-function setCheckBoxValues( reload ) {
-    var grp  = document.getElementById('id-group-names');
-    if ( !reload ) {
-	var tt        = dijit.byId('civicrm_CheckableTree');
-	var groupId   = document.getElementById('group');
-	groupId.value = tt.getCheckedIds( );
-	grp.innerHTML = tt.getCheckedNames( );
-    } else {
-	grp.innerHTML = {/literal}"{$groupNames}"{literal};
+function setCheckBox( ) 
+{
+    var groupNames = {/literal}"{$groupNames}"{literal};
+    if ( groupNames ) {
+	var grp  = document.getElementById('id-group-names');
+	grp.innerHTML = groupNames;
     }
 };
-*/
 
 function setCheckBoxValues(items,request) 
 {
@@ -82,6 +83,7 @@ function setCheckBoxValues(items,request)
     var groupIds   = "";
 
     var myTreeStore = dijit.byId("checkboxtree").model.store;
+
     for (var i = 0; i < items.length; i++){
 	var item = items[i];
 	groupLabel = groupLabel + myTreeStore.getLabel(item) + "<BR/>" ;
@@ -99,9 +101,9 @@ function setCheckBoxValues(items,request)
 };                     
 
 
-// dojo.addOnLoad( function( ) {
-//     setCheckBoxValues( true );
-// });
+dojo.addOnLoad( function( ) {
+     setCheckBox( );
+});
 </script>
 {/literal}
 {/if}
