@@ -47,10 +47,14 @@ function civicrm_drupal_create_user ( $email, $rid = null ) {
     }
 
     // If user already exists, return Drupal id
-    $uid = db_result(db_query('SELECT uid FROM {users} WHERE mail = "' . $email . '"'));
+    $uid = db_result(db_query("SELECT uid FROM {users} WHERE mail = '%s'", $email));
     if ( $uid ) {
         return $uid;
     }
+
+    // escape email to prevent sql injection
+    $dao = new CRM_Core_DAO( );
+    $email             = $dao->escape( $email );
 
     // Default values for new user
     $params            = array();
