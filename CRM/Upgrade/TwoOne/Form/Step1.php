@@ -38,6 +38,8 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
+        $config =& CRM_Core_Config::singleton( );
+
         // Let's first update the config defaults
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
@@ -53,13 +55,26 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
             $defaults['moneyvalueformat']   = '%!i';
             $defaults['fieldSeparator']     = ',';
             $defaults['fatalErrorTemplate'] = 'CRM/common/fatal.tpl';
+
+            // update cms-version
+            if ( $config->userFramework == 'Joomla' ) {
+                $defaults['userFrameworkVersion'] = '1.5';
+                if ( class_exists('JVersion') ) {
+                    $version =& new JVersion;
+                    $defaults['userFrameworkVersion'] = $version->getShortVersion();
+                }
+            } else if ( $config->userFramework == 'Drupal' ) {
+                $defaults['userFrameworkVersion'] = '6.3';
+                if ( defined('VERSION') ) {
+                    $defaults['userFrameworkVersion'] = VERSION;
+                }
+            }
             // serialise settings 
             require_once "CRM/Core/BAO/Setting.php";
             CRM_Core_BAO_Setting::add($defaults);            
         }
         
         // check if log file is writable
-        $config =& CRM_Core_Config::singleton( );
         if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {
             $errorMessage = ts('Log file CiviCRM.log is not writable. Make sure files directory is writable.', 
                                array( 1 => $config->uploadDir ));
