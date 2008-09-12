@@ -222,11 +222,19 @@
         	   }
             }
       }
-
-      function clearSearchBoxes( ) {
-            document.getElementsByName("is_searchable")[0].checked   = false; 
-            document.getElementsByName("is_search_range")[1].checked = true;
-      	    document.getElementById("searchByRange").style.display = "none";
+      
+      //should not clear search boxes for update mode. 
+      function clearSearchBoxes( ) 
+      {
+        {/literal}
+        action = {$action}
+        {literal}
+                         
+        if ( action != 2 ) {
+	    document.getElementsByName("is_searchable")[0].checked   = false; 
+	    document.getElementsByName("is_search_range")[1].checked = true;
+	    document.getElementById("searchByRange").style.display = "none";
+         } 	
       }
 </script>
 {/literal}

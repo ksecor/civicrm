@@ -545,7 +545,8 @@ SELECT $select
                         'date_parts',
                         'note_columns',
                         'note_rows',
-                        'column_name' ),
+                        'column_name',
+                        'is_view' ),
                   'civicrm_custom_group' =>
                   array('id',
                         'name',
@@ -1095,7 +1096,7 @@ SELECT $select
                 if ( CRM_Utils_Array::value( 'is_view', $field ) ) {
                     continue;
                 }
-
+                
                 $required = $field['is_required'];
                 //fix for CRM-1620
                 if ( $field['data_type']  == 'File') {
