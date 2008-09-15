@@ -766,7 +766,13 @@ AND    option_group_id = %2";
                 $errors['label'] = ts("Field's Name should not start with digit");
             } 
         }
-
+        
+        // we can not set require and view at the same time.
+        if ( CRM_Utils_Array::value( 'is_required', $fields ) &&
+             CRM_Utils_Array::value( 'is_view', $fields ) ) {
+            $errors['is_view'] = ts( 'Can not set this field Required and View Only at the same time.' );
+        }
+        
         return empty($errors) ? true : $errors;
     }
     
