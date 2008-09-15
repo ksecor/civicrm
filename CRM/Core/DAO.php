@@ -552,7 +552,7 @@ LIKE %1
         return $engines;
     }
 
-    static function isDBMyISAM( $maxTablesToCheck = 0 ) 
+    static function isDBMyISAM( $maxTablesToCheck = 10 ) 
     {
         // show error if any of the tables, use 'MyISAM' storage engine. 
         $engines = self::getStorageEngines( null, $maxTablesToCheck );

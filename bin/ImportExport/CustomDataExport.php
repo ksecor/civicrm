@@ -33,7 +33,7 @@
  *
  */
 
-class bin_ImportExport_CustomData {
+class bin_ImportExport_CustomDataExport {
 
     function __construct( ) {
     }
@@ -69,8 +69,8 @@ class bin_ImportExport_CustomData {
         $group    = new CRM_Core_DAO_CustomGroup( );
         $group->find( );
         while ( $group->fetch( ) ) {
-            $xml['group']['data'] .= $this->export( $group,
-                                                    $xml['group']['name'] );
+            $xml['group']['data'] .= $this->exportDAO( $group,
+                                                       $xml['group']['name'] );
             $xml['group']['map'][$group->id] = $group->title;
         }
 
@@ -84,8 +84,8 @@ WHERE  f.option_group_id = g.id
         $optionGroup = new CRM_Core_DAO_OptionGroup( );
         $optionGroup->query( $sql );
         while ( $optionGroup->fetch( ) ) {
-            $xml['optionGroup']['data'] .= $this->export( $optionGroup,
-                                                          $xml['optionGroup']['name'] );
+            $xml['optionGroup']['data'] .= $this->exportDAO( $optionGroup,
+                                                             $xml['optionGroup']['name'] );
             $xml['optionGroup']['map'][$optionGroup->id] = $optionGroup->label;
         }
 
@@ -102,43 +102,45 @@ WHERE  v.option_group_id = g.id
         $optionValue->query( $sql );
         while ( $optionValue->fetch( ) ) {
             $optionGroupLabel = $xml['optionGroup']['map'][$optionValue->option_group_id];
-            $additional = "\n    <option_group_label>$optionGroupLabel<option_group_label>";
-            $xml['optionValue']['data'] .= $this->export( $optionValue,
-                                                          $xml['optionValue']['name'],
-                                                          $additional );
+            $additional = "\n      <option_group_label>$optionGroupLabel</option_group_label>";
+            $xml['optionValue']['data'] .= $this->exportDAO( $optionValue,
+                                                             $xml['optionValue']['name'],
+                                                             $additional );
         }
 
         $field    = new CRM_Core_DAO_CustomField( );
         $field->find( );
         while ( $field->fetch( ) ) {
             $customGroupTitle = $xml['group']['map'][$field->custom_group_id];
-            $additional = "\n    <custom_group_title>$customGroupTitle</custom_group_title>";
+            $additional = "\n      <custom_group_title>$customGroupTitle</custom_group_title>";
             if ( $field->option_group_id ) {
                 $optionGroupLabel = $xml['optionGroup']['map'][$field->option_group_id];
-                $additional .= "\n    <option_group_label>$optionGroupLabel<option_group_label>";
+                $additional .= "\n      <option_group_label>$optionGroupLabel</option_group_label>";
             }
-            $xml['field']['data'] .= $this->export( $field, 'CustomField', $additional );
+            $xml['field']['data'] .= $this->exportDAO( $field,
+                                                       $xml['field']['name'],
+                                                       $additional );
         }
 
-        $buffer = null;
+        $buffer  = '<?xml version="1.0" encoding="iso-8859-1" ?>';
+        $buffer .= "\n\n<CustomData>\n";
         foreach ( array_keys( $xml ) as $key ) {
             if ( ! empty( $xml[$key]['data'] ) ) {
-                $buffer .= "<{$xml[$key]['scope']}>\n{$xml[$key]['data']}</{$xml[$key]['scope']}>\n";
+                $buffer .= "  <{$xml[$key]['scope']}>\n{$xml[$key]['data']}  </{$xml[$key]['scope']}>\n";
             } else if ( $xml[$key]['required'] ) {
                 CRM_Core_Error::fatal( 'No records in DB for $key' );
             }
         }
+        $buffer .= "</CustomData>\n";
 
-        CRM_Core_Error::debug( $buffer );
-        exit( );
         CRM_Utils_System::download( 'CustomGroupData.xml', 'text/plain', $buffer );
     }
 
-    function export( $object, $objectName, $additional = null ) {
+    function exportDAO( $object, $objectName, $additional = null ) {
         $dbFields =& $object->fields( );
 
-        $xml = "  <$objectName>";
-        foreach ( $dbFields as $name => $value ) {
+        $xml = "    <$objectName>";
+        foreach ( $dbFields as $name => $dontCare ) {
             // ignore all ids
             if ( $name == 'id' ||
                  substr( $name, -3, 3 ) == '_id' ) {
@@ -146,15 +148,16 @@ WHERE  v.option_group_id = g.id
             }
             if ( isset( $object->$name ) &&
                  $object->$name !== null ) {
-                $xml .= "\n    <$name>{$object->$name}</$name>";
-            } else {
-                $xml   .= "\n    <$name></$name>";
+                $value = str_replace( CRM_Core_DAO::VALUE_SEPARATOR,
+                                      ":;:;:;",
+                                      $object->$name );
+                $xml .= "\n      <$name>$value</$name>";
             }
         }
         if ( $additional ) {
             $xml .= $additional;
         }
-        $xml .= "\n  </$objectName>\n";
+        $xml .= "\n    </$objectName>\n";
         return $xml;
     }
 
@@ -171,9 +174,9 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $object = new bin_ImportExport_CustomData( );
+    $export = new bin_ImportExport_CustomDataExport( );
 
-    $object->run( );
+    $export->run( );
 }
 
 run( );

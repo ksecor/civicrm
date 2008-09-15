@@ -220,6 +220,12 @@ class CRM_Core_BAO_CustomValueTable
     public static function fieldToSQLType( $type,
                                            $maxLength = 255 ) 
     {
+        if ( ! isset( $maxLength ) ||
+             ! is_numeric( $maxLength ) ||
+             $maxLength <= 0 ) {
+            $maxLength = 255;
+        }
+
         switch ($type) {
         case 'String':
         case 'Link':
