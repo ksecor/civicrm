@@ -58,6 +58,10 @@ class bin_ImportExport_CustomDataImport {
         // now create custom groups
         $this->customGroups( $xml, $idMap );
         $this->customFields( $xml, $idMap );
+
+        // now create profile groups
+        $this->profileGroups( $xml, $idMap );
+        $this->profileFields( $xml, $idMap );
     }
 
     function copyData( &$dao, &$xml, $save = false ) {
@@ -142,6 +146,29 @@ class bin_ImportExport_CustomDataImport {
                 $customField->save( );
 
                 CRM_Core_BAO_CustomField::createField( $customField, 'add' );
+            }
+        }
+    }
+
+    function profileGroups( &$xml, &$idMap ) {
+        require_once 'CRM/Core/DAO/UFGroup.php';
+        foreach ( $xml->ProfileGroups as $profileGroupsXML ) {
+            foreach ( $profileGroupsXML->ProfileGroup as $profileGroupXML ) {
+                $profileGroup = new CRM_Core_DAO_UFGroup( );
+                $this->copyData( $profileGroup, $profileGroupXML, true );
+                $idMap['profile_group'][$profileGroup->title] = $profileGroup->id;
+            }
+        }
+    }
+
+    function profileFields( &$xml, &$idMap ) {
+        require_once 'CRM/Core/DAO/UFField.php';
+        foreach ( $xml->ProfileFields as $profileFieldsXML ) {
+            foreach ( $profileFieldsXML->ProfileField as $profileFieldXML ) {
+                $profileField = new CRM_Core_DAO_UFField( );
+                $this->copyData( $profileField, $profileFieldXML, false );
+                $profileField->uf_group_id = $idMap['profile_group'][(string ) $profileFieldXML->profile_group_title];
+                $profileField->save( );
             }
         }
     }
