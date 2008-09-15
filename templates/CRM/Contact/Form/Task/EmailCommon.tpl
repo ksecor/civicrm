@@ -1,10 +1,14 @@
 {*common template for compose mail*}
 <dl>
-<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
-  <dt>{$form.token1.label}</dt><dd>{$form.token1.html}</dd>
-  <dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd></dl>
-  <dt>{$form.token2.label}</dt><dd>{$form.token2.html}</dd>
-  <dt>{$form.html_message.label}</dt><dd>{$form.html_message.html}</dd>
+  <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
+  <dt>{$form.token1.label}<br />{help id="id-token-text"}</dt>
+    <dd>{$form.token1.html}</dd>
+  <dt>{$form.text_message.label}<br />{help id="id-message-text"}</dt>
+    <dd>{$form.text_message.html}</dd></dl>
+  <dt>{$form.token2.label}<br />{help id="id-token-html"}</dt>
+    <dd>{$form.token2.html}</dd>
+  <dt>{$form.html_message.label}</dt>
+    <dd>{$form.html_message.html}</dd>
 
 {if ! $noAttach}
 <div class="spacer"></div>
