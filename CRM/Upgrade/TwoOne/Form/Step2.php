@@ -57,7 +57,7 @@ class CRM_Upgrade_TwoOne_Form_Step2 extends CRM_Upgrade_Form {
 SELECT id FROM civicrm_option_group WHERE name = 'safe_file_extension'";
         $sfeGroup = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $sfeGroup->fetch();
-        if ( ! $sfeGroup->id ) {
+        if ( ! isset($sfeGroup->id) ) {
             $query = "
 INSERT INTO civicrm_option_group (name, description, is_reserved, is_active)
 VALUES ('safe_file_extension', 'Safe File Extension', 0, 1)";

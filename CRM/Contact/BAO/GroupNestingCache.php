@@ -181,48 +181,73 @@ WHERE  id = $id
         }
     }
 
-    static function json( ) {
+    static function json( $checkedGroupIds = null ) 
+    {
         require_once 'CRM/Core/BAO/Cache.php';
         $tree =& CRM_Core_BAO_Cache::getItem( 'contact groups', 'nestable tree hierarchy' );
-
+        
         if ( $tree === null ) {
             self::update( );
             $tree =& CRM_Core_BAO_Cache::getItem( 'contact groups', 'nestable tree hierarchy' );
         }
 
+        // get the groups ids that need to be set checked
+        $checkedGroups = array( );
+        $checkedGroups = explode( ',', $checkedGroupIds ) ;
+        
         // get all the groups
         $groups =& CRM_Core_PseudoConstant::group( );
-
+        
         foreach ( $groups as $id => $name ) {
-            $string = "id:'$id', name:'$name'";
+            $checked = false;
+            if ( in_array( $id, $checkedGroups ) ) {
+                $checked = true;
+            }  
+            // check if there are any children or if they are parent
             if ( isset( $tree[$id] ) ) {
-                $children = array( );
+                // add parent with their children
                 if ( ! empty( $tree[$id]['children'] ) ) {
+                    
+                    $parentString = "id: {$id}, name: \"{$name}\", checked: \"{$checked}\"";
+
+                    $children = array( );
                     foreach ( $tree[$id]['children'] as $child ) {
-                        $children[] = "{_reference:'$child'}";
+                        $childChecked = false;
+                        if ( in_array( $child, $checkedGroups ) ) {
+                            $childChecked = true;
+                        }  
+
+                        $childString = "id: {$child}, name: \"{$groups[$child]}\", children:[], checked: \"$childChecked\"";
+                        $children[] = "{ $childString }";
                     }
-                    $children  = implode( ',', $children );
-                    $string   .= ", children:[$children]";
-                    if ( empty( $tree[$id]['parents'] ) ) {
-                        $string .= ", type:'rootGroup'";
-                    } else {
-                        $string .= ", type:'middleGroup'";
-                    }
-                } else {
-                    $string   .= ", type:'leafGroup'";
+                    
+                    $childString = implode( ',', $children );
+
+                    // add children to parent
+                    $parentString .= ", children:[{$childString}]";
+
+                    $values[] = "{ $parentString }";
                 }
             } else {
-                $string .= ", children:[], type:'rootGroup'";
+                // this groups are not parent nor children
+                $string = "id: {$id}, name: \"{$name}\", children:[], checked: \"{$checked}\"";
+                $values[] = "{ $string }";
             }
-            $values[] = "{ $string }";
         }
-
+        
         $items = implode( ",\n", $values );
-        $json = "{
-  identifier:'id',
-  label:'name',
-  items:[ $items ]
-}";
+
+        $json = '{
+  "identifier": "id",
+  "label":"name",
+  "items":[{
+             "checked":false,
+             "id":"root",
+             "name":"All Groups",
+             "children":['.$items.']
+  }]
+}';
+
         return $json;
     }
 

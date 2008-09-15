@@ -486,21 +486,15 @@ function crm_update_contact_membership($params)
         
     }
     
-    require_once 'CRM/Member/DAO/MembershipStatus.php';
-    $activityType = "Membership - " . CRM_Core_DAO::getFieldValue(
-                                                                  'CRM_Member_DAO_MembershipStatus',
-                                                                  $membershipBAO->status_id
-                                                                  );
-
     // create activity record only if there is change in the statusID (CRM-2521).
     if ( $oldStatusID != $membershipBAO->status_id ) {
         $activityParams = array( 'source_contact_id'  => $membershipBAO->contact_id,
                                  'source_record_id'   => $membershipBAO->id,
-                                 'activity_type_id'   => $membershipBAO->status_id,
+                                 'activity_type_id'   => array_search('Membership Signup', CRM_Core_PseudoConstant::activityType()),
                                  'subject'            => $activitySummary,
                                  'activity_date_time' => $params['join_date'],
                                  'is_test'            => $membershipBAO->is_test,
-                                 'status_id'          => 1
+                                 'status_id'          => 2
                                  );
         
         require_once 'api/v2/Activity.php';

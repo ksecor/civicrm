@@ -43,6 +43,12 @@ class CRM_Contact_Form_AddContact
     {
         $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');");
         
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "reset=1",
+                                          true, null, false );
+        $this->assign('dataUrl',$dataUrl );
+
+
         $attributes = array( 'dojoType'     => 'civicrm.FilteringSelect',
                              'store'        => "contactStore",
                              'style'        => 'border: 1px solid #cfcfcf;',

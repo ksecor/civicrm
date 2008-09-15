@@ -1,4 +1,5 @@
 {* added onload javascript for contact*}
+<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div>
 <span class="form-item">
    <span class="tundra">	
         {$form.$contactFieldName.$contactCount.html}

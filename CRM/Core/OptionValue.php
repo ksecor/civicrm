@@ -121,6 +121,7 @@ class CRM_Core_OptionValue
                     $action -= CRM_Core_Action::DISABLE;
                 }
             }
+            $optionValue[$dao->id]['label']  = htmlspecialchars( $optionValue[$dao->id]['label'] );
             $optionValue[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, 
                                                                          array('id'    => $dao->id,
                                                                                'gid'   => $optionGroupID,

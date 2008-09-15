@@ -268,11 +268,19 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         }
 
         if ( $this->userFramework == 'Joomla' ) {
+            $this->userFrameworkVersion = '1.5';
+            if ( class_exists('JVersion') ) {
+                $version =& new JVersion;
+                $this->userFrameworkVersion = $version->getShortVersion();
+            }
+
             global $mainframe;
-            $this->userFrameworkVersion        = '1.5';
-            
             $dbprefix = $mainframe ? $mainframe->getCfg( 'dbprefix' ) : 'jos_';
             $this->userFrameworkUsersTableName = $dbprefix . 'users';
+        }
+
+        if ( $this->userFramework == 'Drupal' && defined('VERSION') ) {
+            $this->userFrameworkVersion = VERSION;
         }
 
         $this->_initDAO( );

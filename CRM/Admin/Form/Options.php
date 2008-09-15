@@ -133,10 +133,6 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                         'optionExists',
                         array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid, 'label' ) );
         
-        if ( $this->_gName == 'from_email_address' ) {
-            $this->addRule( 'label', ts('Email is not valid.'), 'email' );
-        }
-        
         $required = false;
         if ( $this->_gName == 'custom_search' ) {
             $required = true;

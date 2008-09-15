@@ -305,12 +305,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->id = $id;
         
         $relationship->find(true);
-
+       
         //to delete relationship between household and individual
-        if ( $relationship->relationship_type_id == 7 ) {
-            self::deleteSharedAddress( $relationship->contact_id_a );
-        } 
-        
+        //or between individual and orgnization
+        if ( $relationship->relationship_type_id == 4 || $relationship->relationship_type_id == 7 ) {
+            $sharedContact = new CRM_Contact_DAO_Contact();
+            $sharedContact->id = $relationship->contact_id_a;
+            $sharedContact->find(true);
+            if ( $relationship->relationship_type_id == 4 &&
+                 $relationship->contact_id_b == $sharedContact->employer_id ) {
+                $sharedContact->organization_name = 'NULL';
+                $sharedContact->employer_id       = 'NULL';
+                $sharedContact->save();
+            } else if ( $sharedContact->mail_to_household_id == $relationship->contact_id_b ) {
+                self::deleteSharedAddress( $relationship->contact_id_a );
+            }
+        }
+
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             // create $params array which isrequired to delete memberships
             // of the related contacts.

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-09-09 01:33-0700\n"
+"PO-Revision-Date: 2008-09-14 23:07-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -8185,7 +8185,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Language and Currency"
-msgstr ""
+msgstr "भाषा आैर मुद्रा"
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -8198,7 +8198,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
 "Default currency assigned to contributions and other monetary transactions."
-msgstr ""
+msgstr "डिफ़ॉल्ट मुद्रा योगदान काे नियत किया और अन्य मौद्रिक लेनदेन"
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Locale for monetary display (affects formatting specifiers below)."

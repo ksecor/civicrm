@@ -168,7 +168,12 @@ class CRM_Contact_Form_Task_EmailCommon
         require_once 'CRM/Utils/Mail.php';
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
        
-        $form->_fromEmails = array('0' => $from) +CRM_Core_PseudoConstant::fromEmailAddress();
+        $form->_fromEmails =
+            array('0' => $from ) +
+            CRM_Core_PseudoConstant::fromEmailAddress( );
+        foreach ( array_keys( $form->_fromEmails ) as $k ) {
+            $form->_fromEmails[$k] = htmlspecialchars( $form->_fromEmails[$k] );
+        }
         $form->addElement('select', 'fromEmailAddress', 'From', $form->_fromEmails );
         $form->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
 

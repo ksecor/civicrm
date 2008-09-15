@@ -75,7 +75,7 @@ implements CRM_Contact_Form_Search_Interface {
             $form->addElement('checkbox', "event_type_id[$eventId]", 'Event Type', $eventName);
         }
         require_once "CRM/Event/BAO/Event.php";
-        $events = CRM_Event_BAO_Event::getEvents( );
+        $events = CRM_Event_BAO_Event::getEvents( true );
         $form->add('select', 'event_id',  ts( 'Event Name' ), array( '' => ts( '- select -' ) ) + $events ) ;
         
         $form->add( 'date',

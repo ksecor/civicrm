@@ -98,7 +98,6 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
      */
     public function buildQuickForm()
     {
-        CRM_Utils_System::resetBreadCrumb();
         $this->addButtons( array( 
                                  array ( 'type'      => 'done', 
                                          'name'      => ts('Done'), 

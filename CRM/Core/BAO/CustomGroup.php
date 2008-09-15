@@ -801,6 +801,7 @@ SELECT $select
 
     static function setDefaults( &$groupTree, &$defaults, $viewMode = false, $inactiveNeeded = false ) 
     {
+        require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $groupTree as $id => $group ) {
             if ( $id === 'info' ) {
                 continue;

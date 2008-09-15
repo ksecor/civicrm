@@ -74,7 +74,7 @@
              </tr>
              {elseif $action neq 4}
              <tr>
-                <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="label">{ts}With Contact{/ts}</td>
                 <td class="tundra">
 		          <span id="target_contact_1"></span>
                 </td>
@@ -87,7 +87,7 @@
              {/if}
              <tr>
              {if $action neq 4}
-                <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
                    <span id="assignee_contact_1"></span>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}

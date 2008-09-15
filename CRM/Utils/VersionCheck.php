@@ -98,23 +98,7 @@ class CRM_Utils_VersionCheck
                 set_error_handler(array('CRM_Utils_VersionCheck', 'downloadError'));
                 $hash = md5($config->userFrameworkBaseURL);
 
-                $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&uf={$config->userFramework}&hash=$hash&lang={$config->lcMessages}";
-
-                // add Drupal/Joomla version
-                switch ($config->userFramework) {
-                case 'Drupal':
-                    $url .= "&ufv=" . VERSION;
-                    break;
-                case 'Joomla':
-                    // different Joomla versions sport differnt version classes (I'm not making this up...)
-                    switch (true) {
-                    case class_exists('joomlaVersion'): $jv = new joomlaVersion; break;
-                    case class_exists('JVersion'):      $jv = new JVersion;      break;
-                    default: break 2; // no known version class - break out of both switches
-                    }
-                    $url .= "&ufv=" . $jv->getShortVersion();
-                    break;
-                }
+                $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&uf={$config->userFramework}&hash=$hash&lang={$config->lcMessages}&ufv={$config->userFrameworkVersion}";
 
                 // add PHP and MySQL versions
                 $dao = new CRM_Core_DAO;
