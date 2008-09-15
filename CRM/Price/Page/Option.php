@@ -221,7 +221,14 @@ class CRM_Price_Page_Option extends CRM_Core_Page
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this, false, 0);
-
+        //get the price set id
+        $sid = CRM_Utils_Request::retrieve('sid', 'Positive', $this );
+        
+        //as url contain $sid so append breadcrumb dynamically.
+        $breadcrumb = array( array( 'title' => ts( 'Price Fields' ),
+                                    'url'   => CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1&sid=' . $sid ) ) );
+        CRM_Utils_System::appendBreadCrumb( $breadcrumb );
+        
         if ( $this->_fid ) {
             $fieldTitle = CRM_Core_BAO_PriceField::getTitle( $this->_fid );
             $this->assign( 'fid', $this->_fid );

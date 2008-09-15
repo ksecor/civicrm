@@ -170,6 +170,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $defaults = $this->_values;
         
         if ( $this->_id ) {
+            $this->assign('id', $this->_id );
             $this->_gid = $defaults['custom_group_id'];
             
             //get the value for state or country

@@ -98,6 +98,7 @@
      <path>civicrm/admin/price/field</path>
      <title>Price Fields</title>
      <page_callback>CRM_Price_Page_Field</page_callback>
+     <skipBreadcrumb>true</skipBreadcrumb>
   </item>
   <item>
      <path>civicrm/admin/price/field/option</path>

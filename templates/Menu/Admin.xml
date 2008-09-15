@@ -14,6 +14,7 @@
      <path>civicrm/admin/custom/group/field</path>
      <title>Custom Data Fields</title>
      <page_callback>CRM_Custom_Page_Field</page_callback>
+     <skipBreadcrumb>true</skipBreadcrumb> 
      <weight>11</weight>
   </item>
   <item>

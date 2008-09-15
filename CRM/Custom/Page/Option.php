@@ -275,14 +275,19 @@ ORDER BY weight, label
                                                   $this, false, 0);
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
-
+        
+        //as url contain $gid so append breadcrumb dynamically.
+        $breadcrumb = array( array( 'title' => ts( 'Custom Data Fields' ),
+                                    'url'   => CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&gid=' .$this->_gid)));
+        CRM_Utils_System::appendBreadCrumb( $breadcrumb );
+        
         if ($this->_fid) {
             $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
             $this->assign('fieldTitle', $fieldTitle);
             CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));
         }
-
+        
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
