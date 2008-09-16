@@ -712,7 +712,7 @@ function civicrm_enable( ) {
     
     $options = array(
                      'link_title' => 'CiviCRM',
-                     'link_path'  => 'civicrm',
+                     'link_path'  => 'civicrm/dashboard',
                      'module'     => 'civicrm',
                      'options'    => array( 'alter' => true )
                      );
