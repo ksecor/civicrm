@@ -611,7 +611,6 @@ class CRM_Contact_BAO_Query
      * @access public 
      */
     function addHierarchicalElements( ) {
-        CRM_Core_Error::debug( $this->_returnProperties );
         if ( ! CRM_Utils_Array::value( 'location', $this->_returnProperties ) ) {
             return;
         }
