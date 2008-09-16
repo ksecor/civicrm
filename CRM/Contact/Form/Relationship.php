@@ -74,7 +74,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      *
      */
     protected $_rtypeId;
-
+    
     /**
      * Display name of contact a
      *
@@ -86,6 +86,20 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      *
      */
     protected $_display_name_b;
+    
+    /**
+     * The relationship type id
+     *
+     * @var int
+     */
+    protected $_relationshipTypeId;
+    
+    /**
+     * an array of all relationships
+     *
+     * @var array
+     */
+    protected $_allRelationships;
     
     function preProcess( ) 
     {
@@ -100,14 +114,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_contactId      = $this->get('contactId');
         $this->_relationshipId = $this->get('id');
        
-        $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String',
-                                                              $this );
+        $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String', $this );
         
-        $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
-                                                              $this );
-        $this->_display_name_a       = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                    $this->_contactId,
-                                                                    'display_name' );
+        $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String', $this );
+        
+        $this->_display_name_a = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactId, 'display_name' );
+        
         $this->assign('sort_name_a', $this->_display_name_a);  
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );
@@ -121,7 +133,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         }
-
+        
+        //get the relationship type id 
+        $this->_relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId );
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $this->_allRelationships = CRM_Core_PseudoConstant::relationshipType( );
+        
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
             CRM_Custom_Form_Customdata::preProcess( $this );
@@ -167,9 +185,15 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
                 if ($contact->find(true)) {
                     $this->_display_name_b = $contact->sort_name;
-                    $this->assign('sort_name_b', $this->_display_name_b);                
+                    $this->assign('sort_name_b', $this->_display_name_b);
+                    
+                    //is current employer.
+                    if ( $this->_allRelationships[$this->_relationshipTypeId]['name_a_b'] == 'Employee of' && 
+                         $contact->id == CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $this->_contactId, 'employer_id' ) ) {
+                        $defaults['is_currentEmployer'] = 1;
+                    }
                 }
-
+                
                 $relationshipID = $relationship->id;
                 $query = "SELECT id, note FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
                 $dao = new CRM_Core_DAO();
@@ -277,7 +301,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
-      
+        
         $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
         $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
        
@@ -288,15 +312,34 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $searchCount           = $this->get( 'searchCount'   );
         $duplicateRelationship = $this->get( 'duplicateRelationship' );
         $searchDone            = $this->get( 'searchDone' );
-
+        
+        $isEmployeeOf = false;
+        if ( $this->_allRelationships[$this->_relationshipTypeId]['name_a_b'] == 'Employee of' ) {
+            $isEmployeeOf = true;
+        }
+        
         if ( $searchRows ) {
-            $checkBoxes = array( );
+            $employers = $checkBoxes = array( );
             foreach ( $searchRows as $id => $row ) {
                 $checkBoxes[$id] = $this->createElement('checkbox', $id, null, '' );
+                if ( $isEmployeeOf ) {
+                    $employers[$id] = $this->createElement('radio', null, $id, null, $id);
+                }
             }
             $this->addGroup($checkBoxes, 'contact_check');
             $this->assign('searchRows', $searchRows );
-        } 
+            
+            if ( $isEmployeeOf ) {
+                $this->assign('isEmployeeOf', true );
+                $this->addGroup($employers, 'employee_of');
+            }
+        }
+        
+        if ( $isEmployeeOf && 
+             $this->_action & CRM_Core_Action::UPDATE ) {
+            $this->assign('isEmployeeOf', true );
+            $this->addElement('checkbox', 'is_currentEmployer', ts('Is current employer?') );
+        }
         
         $this->assign('duplicateRelationship', $duplicateRelationship);
         $this->assign('searchCount'          , $searchCount);
@@ -316,8 +359,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Relationship');
-        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId);
-        $this->assign('customDataSubType',  $relationshipTypeId );
+        $this->assign('customDataSubType',  $this->_relationshipTypeId );
         $this->assign('entityId',  $this->_relationshipId );
        
         $session = & CRM_Core_Session::singleton( );
@@ -390,11 +432,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $params['custom'] = $customData;
         }
         
-        //get the relationship type id.
-        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId );
-        
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $relationshipTypeId );
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $this->_relationshipTypeId );
         
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
@@ -408,7 +447,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
             CRM_Contact_BAO_Relationship::create( $params, $ids );
-
+        
         $status = '';
         if ( $valid ) {
             $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
@@ -446,6 +485,32 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             CRM_Contact_BAO_Relationship::relatedMemberships( $this->_contactId, 
                                                               $params, $ids, 
                                                               $this->_action );
+        }
+        
+        //handle current employer relationship, CRM-3532
+        if ( $this->_allRelationships[$this->_relationshipTypeId]['name_a_b'] == 'Employee of' ) {
+            $orgId = null;
+            
+            if ( CRM_Utils_Array::value( 'employee_of', $params ) ) {
+                $orgId = $params['employee_of'];
+            } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                if ( CRM_Utils_Array::value( 'is_currentEmployer', $params ) ) {
+                    $orgId = CRM_Utils_Array::value( 'contactTarget', $ids );
+                } else if ( CRM_Utils_Array::value( 'contactTarget', $ids ) == 
+                            CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $this->_contactId, 'employer_id' ) ) { 
+                    
+                    //clear current employer.
+                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $this->_contactId );
+                }
+            }
+            
+            //set current employer
+            if ( $orgId ) {
+                $currentEmpParams[$this->_contactId] = $orgId;
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams );
+            }
         }
         
         CRM_Core_Session::setStatus( $status );    
@@ -580,7 +645,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'     ] = $form->get( 'contactId'     );
         $ids['relationship'] = $form->get( 'relationshipId');
 
-        $errors        = array( );
+        $errors = array( );
+        $employerId = null;
         if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {
             foreach ( $params['contact_check'] as $cid => $dontCare ) {
                 $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $cid);
@@ -588,11 +654,20 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $errors['relationship_type_id'] = $message;
                     break;
                 }
+                
+                if ( $cid == CRM_Utils_Array::value('employee_of', $params )  ) {
+                    $employerId = $cid;
+                }
             }
         } else {
             $errors['contact_check'] = ts( 'Please select at least one contact.' );
         }
-
+        
+        if ( CRM_Utils_Array::value('employee_of', $params ) &&
+             !$employerId ) {
+            $errors['employee_of'] = ts( 'Current employer should be one of the selected contact.' );
+        }
+        
         return empty($errors) ? true : $errors;
     }
 

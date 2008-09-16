@@ -111,6 +111,7 @@
                         <th>{ts}State{/ts}</th>
                         <th>{ts}Email{/ts}</th>
                         <th>{ts}Phone{/ts}</th>
+                        {if $isEmployeeOf}<th>{ts}Is current employer{/ts}</th>{/if}
                         </tr>
                         {foreach from=$searchRows item=row}
                         <tr class="{cycle values="odd-row,even-row"}">
@@ -120,6 +121,7 @@
                             <td>{$row.state}</td>
                             <td>{$row.email}</td>
                             <td>{$row.phone}</td>
+                            {if $isEmployeeOf}<td>{$form.employee_of[$row.id].html}</td>{/if}
                         </tr>
                         {/foreach}
                         </table>
@@ -166,7 +168,8 @@
         {*revert permission is used to save correct permissions for relationship type b_a *}
         <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_b_a.html}{else}{$form.is_permission_a_b.html}{/if}&nbsp;<b>'{$sort_name_a}'</b> can view and update information for <b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b></dd>
         <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_a_b.html}{else}{$form.is_permission_b_a.html}{/if}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
-		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+        {if $action eq 2 and $isEmployeeOf}<dt>{$form.is_currentEmployer.label}</dt><dd>{$form.is_currentEmployer.html}</dd>{/if}
         </dl>
         <dl><dt></dt><dd id="customData"></dd></dl>
         <div class="spacer"></div>
