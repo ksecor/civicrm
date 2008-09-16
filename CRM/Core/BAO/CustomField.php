@@ -298,9 +298,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFields( $customDataType = 'Individual', $showAll = false, $inline = false, $customDataSubType = null ) 
+    public static function &getFields( $customDataType = 'Individual',
+                                       $showAll = false,
+                                       $inline = false,
+                                       $customDataSubType = null ) 
     {
-        $cacheKey = $inline ? "{$customDataType}_{$customDataSubType}_1" : "{$customDataType}_{$customDataSubType}_0";
+        $cacheKey  = $customDataType;
+        $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
+        $cacheKey .= $showAll ? "_1" : "_0";
+        $cacheKey .= $inline  ? "_1_" : "_0_";
+
+        $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+
+        // also get the permission stuff here
+        require_once 'CRM/Core/Permission.php';
+        $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
+                                                                    "{$cgTable}." );
+
+        // lets md5 permission clause and take first 8 characters
+        $cacheKey .= substr( md5( $permissionClause ), 0, 8 );
+
         if ( ! self::$_importFields ||
              CRM_Utils_Array::value( $cacheKey, self::$_importFields ) === null ) { 
             if ( ! self::$_importFields ) {
@@ -313,7 +330,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
             if ( $fields === null ) {
                 $cfTable = self::getTableName();
-                $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
                 $extends = '';
                 if ( $customDataType ) {
