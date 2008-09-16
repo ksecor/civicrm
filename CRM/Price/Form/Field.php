@@ -489,8 +489,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // fix option_value
             $value = 1;
             $params['option_value'] = array( );
-            foreach ( $params['option_name'] as $key => $dontCare ) {
-                $params['option_value'][$key] = $value++;
+            if ( isset( $params['option_name'] ) ) {
+                foreach ( $params['option_name'] as $key => $dontCare ) {
+                    $params['option_value'][$key] = $value++;
+                }
             }
         }
         
