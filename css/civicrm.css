@@ -832,6 +832,7 @@ div.crm-pager a {
 
 #crm-container div#lang-switch {
  float: right;
+ z-index: 2;
  margin: -24px 30px 0px 0px;
 }
 
