@@ -53,7 +53,8 @@ class CRM_Core_Block {
         SEARCH     =  4,
         ADD        =  8,
         CONTRIBUTE = 16,
-        GCC        = 32;
+        GCC        = 32,
+        LANGSWITCH = 64;
     
     /**
      * template file names for the above blocks
@@ -106,6 +107,13 @@ class CRM_Core_Block {
                                        self::MENU        => array( 'template'   => 'Menu.tpl',
                                                                    'info'       => ts('CiviCRM Menu'),
                                                                    'subject'    => ts('CiviCRM'),
+                                                                   'active'     => true,
+                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'visibility' => 1,
+                                                                   'pages'      => 'civicrm*',
+                                                                   'region'     => 'left' ),
+                                       self::LANGSWITCH  => array( 'template'   => 'LangSwitch.tpl',
+                                                                   'info'       => ts('CiviCRM Language Switcher'),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,
