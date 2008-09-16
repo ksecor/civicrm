@@ -417,11 +417,22 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         }
         break;
 
-
-
     case 'form':
+        $inCategory = true;
+        if ( $category ) {
+            $inCategory = false;
+            $categories = civicrm_categories( $account );
+            foreach ( $categories as $cat ) {
+                if ( $category == $cat['name'] ) {
+                    $inCategory = true;
+                    break;
+                }
+            }
+        }
+        
         // only return a form to drupal my account page
-        if ( arg(0) == 'user' &&
+        if ( $inCategory      &&
+             arg(0) == 'user' &&
              arg(2) == 'edit' &&
              arg(3) ) {
             if ( empty( $_POST ) ) {
