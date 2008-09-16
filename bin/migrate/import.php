@@ -33,7 +33,7 @@
  *
  */
 
-class bin_ImportExport_CustomDataImport {
+class bin_migrate_import {
 
     function __construct( ) {
     }
@@ -186,7 +186,7 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $import = new bin_ImportExport_CustomDataImport( );
+    $import = new bin_migrate_import( );
 
     $import->run( $_GET['file'] );
 }

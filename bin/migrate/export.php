@@ -33,7 +33,7 @@
  *
  */
 
-class bin_ImportExport_CustomDataExport {
+class bin_migrate_export {
 
     protected $_xml;
 
@@ -204,7 +204,7 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $export = new bin_ImportExport_CustomDataExport( );
+    $export = new bin_migrate_export( );
 
     $export->run( );
 }
