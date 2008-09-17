@@ -12627,18 +12627,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fejl i SMTP transaktion"
-
-#~ msgid "Modified Date"
-#~ msgstr "Ændret dato"
-
-#~ msgid "Where Clause"
-#~ msgstr "Where Clause"
-
-#~ msgid "Html Type"
-#~ msgstr "Html Type"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
-
-#~ msgid "-select-"
-#~ msgstr "-vælg-"

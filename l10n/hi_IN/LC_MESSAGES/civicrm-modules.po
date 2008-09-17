@@ -149,8 +149,7 @@ msgstr "राशि शुल्क"
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
-msgstr ""
-"यह लेन देन क्रंमाक पहले से डेटाबेस में है। खाता संख्या जाँच के लिए शामिल है।"
+msgstr "यह लेन देन क्रंमाक पहले से डेटाबेस में है। खाता संख्या जाँच के लिए शामिल है।"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Receipt"
@@ -2887,9 +2886,9 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
-"यदि आपके पास एक पेपैल खाता है, तो आप जारी रखने के लिए पेपैल बटन को क्लिक "
-"करें। अन्यथा, क्रेडिट कार्ड और बिलिंग जानकारी भरे और इस फ़ॉर्म पर जारी रहने "
-"के लिये पृष्ठ के तल के आगे बढे बटन पर क्लिक करे।"
+"यदि आपके पास एक पेपैल खाता है, तो आप जारी रखने के लिए पेपैल बटन को क्लिक करें। अन्यथा, "
+"क्रेडिट कार्ड और बिलिंग जानकारी भरे और इस फ़ॉर्म पर जारी रहने के लिये पृष्ठ के तल के आगे बढे "
+"बटन पर क्लिक करे।"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
@@ -3434,16 +3433,15 @@ msgid ""
 "processor's documentation for information on values to use for test credit "
 "card number, security code, postal code, etc."
 msgstr ""
-"वर्तमान में चल रहा यह पृष्ठ परीक्षण मोड में है। ट्रांजेक्शन करने के लिए भेजा "
-"जाएगा आपके भुगतान संसाधक सर्वर के परीक्षण है।. वित्तीय लेनदेन नहीं रहते "
-"प्रस्तुत किया जाएगा। हालांकि, कोई संपर्क रिकॉर्ड बनाया जाएगा और एक या अद्यतन "
-"की जाँच के योगदान के रिकॉर्ड को डाटाबेस को सहेज लिया जाएगा। स्पष्ट परीक्षण "
-"से संपर्क नाम का उपयोग करें ताकि आप नष्ट कर सकते हैं और इन अभिलेखों की "
-"समीक्षा के रूप में जाने की आवश्यकता है। </strong>यह परीक्षण योगदान हैं, "
-"योगदान टैब पर दिखाई नहीं देगा, लेकिन आप द्वारा याेगदान खोज से ' टेस्ट योगदान "
-"' के लिए खाेजे।</strong> भुगतान प्रोसेसर के लिये संदर्भ लिजिये, प्रोसेसर के "
-"प्रलेखन का मूल्यों के बारे में जानकारी, परीक्षण के लिए क्रेडिट कार्ड संख्या "
-", सुरक्षा कोड , पोस्टल कोड आदि के लिये उपयाेग करे।"
+"वर्तमान में चल रहा यह पृष्ठ परीक्षण मोड में है। ट्रांजेक्शन करने के लिए भेजा जाएगा आपके भुगतान "
+"संसाधक सर्वर के परीक्षण है।. वित्तीय लेनदेन नहीं रहते प्रस्तुत किया जाएगा। हालांकि, कोई "
+"संपर्क रिकॉर्ड बनाया जाएगा और एक या अद्यतन की जाँच के योगदान के रिकॉर्ड को डाटाबेस को "
+"सहेज लिया जाएगा। स्पष्ट परीक्षण से संपर्क नाम का उपयोग करें ताकि आप नष्ट कर सकते हैं और "
+"इन अभिलेखों की समीक्षा के रूप में जाने की आवश्यकता है। </strong>यह परीक्षण योगदान हैं, "
+"योगदान टैब पर दिखाई नहीं देगा, लेकिन आप द्वारा याेगदान खोज से ' टेस्ट योगदान ' के लिए "
+"खाेजे।</strong> भुगतान प्रोसेसर के लिये संदर्भ लिजिये, प्रोसेसर के प्रलेखन का मूल्यों के बारे में "
+"जानकारी, परीक्षण के लिए क्रेडिट कार्ड संख्या , सुरक्षा कोड , पोस्टल कोड आदि के लिये "
+"उपयाेग करे।"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
@@ -3536,8 +3534,8 @@ msgid ""
 "Your transaction has been processed successfully. Please print this page for "
 "your records."
 msgstr ""
-"आपका सौदा सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने "
-"रिकॉर्ड के लिए छापे।"
+"आपका सौदा सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने रिकॉर्ड के लिए "
+"छापे।"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt has also been sent to %1"
@@ -6059,126 +6057,3 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-
-#~ msgid "Pay Later Text"
-#~ msgstr "वेतन बाद पाठ"
-
-#~ msgid "Pay Later Receipt"
-#~ msgstr "वेतन रसीद बाद"
-
-#~ msgid "Receipt Text"
-#~ msgstr "रसीद पाठ"
-
-#~ msgid "Cancel Date"
-#~ msgstr "रद्द दिनांक"
-
-#~ msgid "Frequency Interval"
-#~ msgstr "फ़्रिक्वेंसी अंतराल"
-
-#~ msgid "week"
-#~ msgstr "हफ्ते"
-
-#~ msgid "Thank-you Text"
-#~ msgstr "धन्यवाद पाठ"
-
-#~ msgid "Thank-you Footer"
-#~ msgstr "फूटर - धन्यवाद"
-
-#~ msgid "Contribution Page Start Date"
-#~ msgstr "योगदान पृष्ठ आरंभ तिथि"
-
-#~ msgid "Contribution Page End Date"
-#~ msgstr "योगदान पृष्ठ समाप्ति तिथि"
-
-#~ msgid "Receive Date"
-#~ msgstr "प्राप्त तिथि"
-
-#~ msgid "Cancel Reason"
-#~ msgstr "रद्द का कारण"
-
-#~ msgid "Amount Label"
-#~ msgstr "राशि लेबल"
-
-#~ msgid "Product Option"
-#~ msgstr "उत्पाद विकल्प"
-
-#~ msgid "Quantity"
-#~ msgstr "मात्रा"
-
-#~ msgid "Fulfilled Date"
-#~ msgstr "पूरी तिथि"
-
-#~ msgid "Comment"
-#~ msgstr "टिप्पणी"
-
-#~ msgid "Installments"
-#~ msgstr "किश्तों"
-
-#~ msgid "Recurring Contribution Status"
-#~ msgstr "पुनरावृत्ति योगदान स्थिति"
-
-#~ msgid "Failure Count"
-#~ msgstr "विफलता गिनती"
-
-#~ msgid "Failure Retry Date"
-#~ msgstr "पुनः प्रयास विफलता तिथि"
-
-#~ msgid "Auto Renew"
-#~ msgstr "ऑटो नवीनीकृत"
-
-#~ msgid "Debit"
-#~ msgstr "डेबिट"
-
-#~ msgid "Credit"
-#~ msgstr "क्रेडिट"
-
-#~ msgid "Title for Premiums section"
-#~ msgstr "प्रीमियम की धारा के लिए शीर्षक"
-
-#~ msgid "Premiums Contact Email"
-#~ msgstr "प्रीमियम संपर्क ईमेल"
-
-#~ msgid "Premiums Contact Phone"
-#~ msgstr "प्रीमियम संपर्क फोन"
-
-#~ msgid "Product Name"
-#~ msgstr "वस्तु का नाम"
-
-#~ msgid "Thumbnail"
-#~ msgstr "लघुछवि"
-
-#~ msgid "Minimum Contribution"
-#~ msgstr "न्यूनतम योगदान"
-
-#~ msgid "Cost"
-#~ msgstr "मूल्य"
-
-#~ msgid "Url Logo"
-#~ msgstr "Url लोगो"
-
-#~ msgid "Url Homepage"
-#~ msgstr "Url मुखपृष्ठ"
-
-#~ msgid "Color Title"
-#~ msgstr "रंग शीर्षक"
-
-#~ msgid "Color Button"
-#~ msgstr "रंग बटन"
-
-#~ msgid "Color Bar"
-#~ msgstr "रंग बार"
-
-#~ msgid "Color Main Text"
-#~ msgstr "मुख्य रंग पाठ"
-
-#~ msgid "Color Main"
-#~ msgstr "मुख्य रंग"
-
-#~ msgid "Register date"
-#~ msgstr "नोंदनी दिनांक"
-
-#~ msgid "Minimum Amount"
-#~ msgstr "न्यूनतम मात्रा"
-
-#~ msgid "Maximum Amount"
-#~ msgstr "अधिकतम मात्रा"

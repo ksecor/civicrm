@@ -12609,13 +12609,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Modified Date"
-#~ msgstr "修改日期"
-
-#~ msgid " -select- "
-#~ msgstr "选择"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "联络人"
