@@ -28,7 +28,7 @@
          {$form.is_show_location.label}
        </span>
        <span class="fields">
-         {$form.is_show_location.html}
+         {$form.is_show_location.html}<br /><span class="description">{ts}Uncheck this box if you want to HIDE the event Address on Event Information and Registration pages as well as on email confirmations.{/ts}
        </span>
     </div>
 </fieldset>
