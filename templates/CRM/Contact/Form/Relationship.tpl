@@ -27,15 +27,16 @@
             {/foreach}
             {if $row.is_permission_a_b}
                 {if $row.rtype EQ 'a_b' AND $is_contact_id_a}
-                     <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+                     <dt>&nbsp;</dt><dd><b>'{$displayName}'</b> can view and update information for <b>'{$row.name}'</b></dd>
                 {else}
-                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>          {/if}
+                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for <b>'{$displayName}'</b></dd>
+                {/if}
             {/if}
             {if $row.is_permission_b_a}
                  {if $row.rtype EQ 'a_b' AND $is_contact_id_a}   
-                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>
+                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for <b>'{$displayName}'</b></dd>
                  {else}
-                     <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+                     <dt>&nbsp;</dt><dd><b>'{$displayName}'</b> can view and update information for <b>'{$row.name}'</b></dd>
                  {/if}   
             {/if}
            
@@ -165,9 +166,11 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-        {*revert permission is used to save correct permissions for relationship type b_a *}
-        <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_b_a.html}{else}{$form.is_permission_a_b.html}{/if}&nbsp;<b>'{$sort_name_a}'</b> can view and update information for <b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b></dd>
-        <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_a_b.html}{else}{$form.is_permission_b_a.html}{/if}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
+        {if $action eq 1} {* add mode *}
+            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $contact_type_display eq 'Organization'}'{$sort_name_a}'{else}selected contact(s){/if}</b> can view and update information for <b>{if $contact_type_display eq 'Organization'}selected contact(s){else}'{$sort_name_a}'{/if}</b></dd>
+        {else} {* update mode *}
+            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}'{$sort_name_b}'{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}'{$sort_name_b}'{else}'{$sort_name_a}'{/if}</b></dd>
+        {/if}
 	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         {if $action eq 2 and $isEmployeeOf}<dt>{$form.is_currentEmployer.label}</dt><dd>{$form.is_currentEmployer.html}</dd>{/if}
         </dl>

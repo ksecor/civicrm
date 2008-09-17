@@ -115,6 +115,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_relationshipId = $this->get('id');
        
         $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String', $this );
+        $this->assign( "rtype", $this->_rtype );
         
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String', $this );
         
@@ -175,13 +176,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $defaults['description'         ] = $relationship->description ;
                 $defaults['is_active'           ] = $relationship->is_active;
                 $defaults['is_permission_a_b'   ] = $relationship->is_permission_a_b;
-                $defaults['is_permission_b_a'   ] = $relationship->is_permission_b_a;
                 $contact =& new CRM_Contact_DAO_Contact( );
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
                     $contact->id = $relationship->contact_id_b;
                 } else {
                     $contact->id = $relationship->contact_id_a;
-                    $this->assign( "revertPermission", true );
                 }
                 if ($contact->find(true)) {
                     $this->_display_name_b = $contact->sort_name;
@@ -284,10 +283,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           $attributes
                           );
 
-        if ( $relTypeID[1] == 'b' ) {
-            $this->assign( "revertPermission", true );
-        }
-
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
@@ -303,7 +298,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
         
         $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
-        $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
        
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
         
