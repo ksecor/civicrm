@@ -3246,7 +3246,9 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             if ( $dataType == 'String' ) {
                 $value = "'" . strtolower( addslashes( $value ) ) . "'";
             } else {
-                $value = CRM_Utils_Type::escape( $value, $dataType );
+                if ( isset($dataType) ) {
+                    $value = CRM_Utils_Type::escape( $value, $dataType );
+                }
             }
             return "$clause $value";
         }

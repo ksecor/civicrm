@@ -141,7 +141,9 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
                                                 $hash, $email, $this->_fromEmail, $params );
         }
         
+        require_once "CRM/Core/Session.php";
         $session =& CRM_Core_Session::singleton(); 
+        CRM_Core_Session::setStatus( "Mail is Forwarded Successfully" );
         $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
     }
 }
