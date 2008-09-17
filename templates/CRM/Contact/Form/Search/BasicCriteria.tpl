@@ -40,13 +40,15 @@ function displayGroupTree( ) {
     
     var treeModel = new civicrm.tree.CheckboxTreeStoreModel({
 	    store: treeStore,
-	    query: {id:'root'},
+	    query: {type:'rootGroup'},
+	    rootId: 'allGroups',
+	    rootLabel: 'All Groups',
 	    childrenAttrs: ["children"]
 	});
     var tree = new civicrm.CheckboxTree({
 	    id : "checkboxtree",
 	    model: treeModel,
-	    showRoot: false
+        showRoot: false
 	});
     
     var dd = dijit.byId('id-groupPicker');
@@ -60,6 +62,7 @@ function displayGroupTree( ) {
     dd.containerNode.appendChild(button2.domNode);      
 
     tree.startup();
+
 };
 
 function getCheckedNodes( ) 
