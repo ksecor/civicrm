@@ -14,6 +14,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
 
+msgid "Europe and Central Asia"
+msgstr ""
+
+msgid "America South, Central, North and Carribean"
+msgstr ""
+
+msgid "Middle East and North Africa"
+msgstr ""
+
+msgid "Asia-Pacific"
+msgstr ""
+
+msgid "Africa West, East, Central and Southern"
+msgstr ""
+
+msgid "unassigned"
+msgstr ""
+
 msgid "Afghanistan"
 msgstr "अफगानिस्तान"
 
@@ -434,8 +452,8 @@ msgstr "मेक्सिकाे"
 msgid "Micronesia, Federated States of"
 msgstr "माइक्रोनेशिया"
 
-msgid "Moldova, Republic of"
-msgstr "मॉल्दोवा"
+msgid "Moldova"
+msgstr ""
 
 msgid "Monaco"
 msgstr "मोनाको"
@@ -748,3 +766,6 @@ msgstr "गुएर्न्सी"
 
 msgid "Isle of Man"
 msgstr "आइल मनुष्य"
+
+#~ msgid "Moldova, Republic of"
+#~ msgstr "मॉल्दोवा"
