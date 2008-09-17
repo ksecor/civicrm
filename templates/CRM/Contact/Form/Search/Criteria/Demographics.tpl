@@ -1,11 +1,10 @@
 <div id="demographics" class="form-item">
-  <fieldset class="collapsible">
     <table class="form-layout">
        <tr>
          <td class="label">
              {$form.gender.label}
         </td>
-        <td>
+        <td colspan=3>
             {$form.gender.html}
         </td>
       </tr>
@@ -43,6 +42,5 @@
       </tr>
     </table>            
     </div>
-  </fieldset>
 </div>
 

@@ -25,7 +25,6 @@
 
     <table class="form-layout">
     <tr>
-    <td></td>
     <td class="label">{$form.buttons.html}</td>
     </tr>
     </table>

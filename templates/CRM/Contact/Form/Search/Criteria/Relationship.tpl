@@ -1,5 +1,4 @@
 <div id="relationship" class="form-item">
-    <fieldset class="collapsible">
     <table class="form-layout">
          <tr>
             <td class="label">
@@ -22,11 +21,10 @@
             <td class="label">
              {$form.relation_status.label}
             </td>
-            <td>
+            <td colspan=3>
              {$form.relation_status.html}
             </td>
         </tr>
       </table>         
-    </fieldset>
 </div>
 
