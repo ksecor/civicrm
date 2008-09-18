@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: 2002-01-05 14:20+0000\n"
 "Last-Translator: Kim Enkovaara <kim.enkovaara@iki.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1252,60 +1252,6 @@ msgstr ""
 msgid "Limburg"
 msgstr ""
 
-msgid "Central and Western"
-msgstr ""
-
-msgid "Eastern"
-msgstr ""
-
-msgid "Southern"
-msgstr ""
-
-msgid "Wan Chai"
-msgstr ""
-
-msgid "Kowloon City"
-msgstr ""
-
-msgid "Kwun Tong"
-msgstr ""
-
-msgid "Sham Shui Po"
-msgstr ""
-
-msgid "Wong Tai Sin"
-msgstr ""
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-msgid "Islands"
-msgstr ""
-
-msgid "Kwai Tsing"
-msgstr ""
-
-msgid "North"
-msgstr ""
-
-msgid "Sai Kung"
-msgstr ""
-
-msgid "Sha Tin"
-msgstr ""
-
-msgid "Tai Po"
-msgstr ""
-
-msgid "Tsuen Wan"
-msgstr ""
-
-msgid "Tuen Mun"
-msgstr ""
-
-msgid "Yuen Long"
-msgstr ""
-
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1918,6 +1864,9 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
+msgid "Southern"
+msgstr ""
+
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2249,6 +2198,9 @@ msgid "East"
 msgstr ""
 
 msgid "Far North"
+msgstr ""
+
+msgid "North"
 msgstr ""
 
 msgid "South"
@@ -2710,10 +2662,10 @@ msgstr ""
 msgid "Tadjoura"
 msgstr ""
 
-msgid "Frederikaberg municipality"
+msgid "Frederiksberg"
 msgstr ""
 
-msgid "Copenhagen municipality"
+msgid "Copenhagen City"
 msgstr ""
 
 msgid "Copenhagen"
@@ -2725,7 +2677,7 @@ msgstr ""
 msgid "Roskilde"
 msgstr ""
 
-msgid "Western Zealand"
+msgid "Vestsjælland"
 msgstr ""
 
 msgid "Storstrøm"
@@ -2734,10 +2686,10 @@ msgstr ""
 msgid "Bornholm"
 msgstr ""
 
-msgid "Funen"
+msgid "Fyn"
 msgstr ""
 
-msgid "Southern Jutland"
+msgid "South Jutland"
 msgstr ""
 
 msgid "Ribe"
@@ -2746,16 +2698,16 @@ msgstr ""
 msgid "Vejle"
 msgstr ""
 
-msgid "Ringkøbing"
+msgid "Ringkjøbing"
 msgstr ""
 
-msgid "Aarhus"
+msgid "Århus"
 msgstr ""
 
 msgid "Viborg"
 msgstr ""
 
-msgid "Northern Jutland"
+msgid "North Jutland"
 msgstr ""
 
 msgid "Distrito Nacional (Santo Domingo)"
@@ -3377,6 +3329,9 @@ msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
 msgid "Tigrai"
+msgstr ""
+
+msgid "Eastern"
 msgstr ""
 
 msgid "Northern"
@@ -5524,7 +5479,7 @@ msgstr ""
 msgid "Foggia"
 msgstr ""
 
-msgid "Forli"
+msgid "Forlì-Cesena"
 msgstr ""
 
 msgid "Frosinone"
@@ -11431,6 +11386,109 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
+msgid "Al Manāmah (Al ‘Āşimah)"
+msgstr ""
+
+msgid "Al Janūbīyah"
+msgstr ""
+
+msgid "Al Wusţá"
+msgstr ""
+
+msgid "Ash Shamālīyah"
+msgstr ""
+
+msgid "Jenin"
+msgstr ""
+
+msgid "Tubas"
+msgstr ""
+
+msgid "Tulkarm"
+msgstr ""
+
+msgid "Nablus"
+msgstr ""
+
+msgid "Qalqilya"
+msgstr ""
+
+msgid "Salfit"
+msgstr ""
+
+msgid "Ramallah and Al-Bireh"
+msgstr ""
+
+#, fuzzy
+msgid "Jericho"
+msgstr "Meksiko"
+
+msgid "Jerusalem"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid "Hebron"
+msgstr ""
+
+msgid "North Gaza"
+msgstr ""
+
+msgid "Deir el-Balah"
+msgstr ""
+
+msgid "Khan Yunis"
+msgstr ""
+
+msgid "Rafah"
+msgstr ""
+
 msgid "North West"
 msgstr ""
 
@@ -11474,4 +11532,16 @@ msgid "West Glamorgan"
 msgstr ""
 
 msgid "London"
+msgstr ""
+
+msgid "Carbonia-Iglesias"
+msgstr ""
+
+msgid "Olbia-Tempio"
+msgstr ""
+
+msgid "Medio Campidano"
+msgstr ""
+
+msgid "Ogliastra"
 msgstr ""

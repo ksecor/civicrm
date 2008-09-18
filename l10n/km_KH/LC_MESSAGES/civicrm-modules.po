@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-07-07 18:44-0700\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -23,48 +23,288 @@ msgstr ""
 msgid "No thank you"
 msgstr ""
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Offline.php
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Contribution Type - %1"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Contribution Page - %1"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Honor name like - '%1'"
+msgstr "ភេទ"
+
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #, fuzzy
 msgid "Contribution Source"
 msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/Invoke.php
+#: CRM/Contribute/BAO/Query.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+#: CRM/Pledge/BAO/Query.php
+msgid "Please enter a valid money value (e.g. 9.99)."
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
+#: CRM/Pledge/BAO/Query.php
+msgid "Please enter a valid money value (e.g. 99.99)."
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
+#: templates/CRM/Pledge/Form/Search/Common.tpl
 #, fuzzy
 msgid "Contribution Page"
 msgstr "ឈ្មោះ​អង្គការ"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Contribution.php
-#: CRM/Contribute/Form/Task/Status.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Message.tpl
-#: templates/CRM/Contribute/Form/Task/Status.tpl
-#, fuzzy
-msgid "Transaction ID"
-msgstr "អង្គការ"
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+msgid "In Honor Of"
+msgstr ""
 
-#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
-#: CRM/Event/Page/EventInfo.php
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Pay Later Text"
+msgstr "ចំណាំ"
+
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Pay Later Receipt"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+#, fuzzy
+msgid "Goal Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Name"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Email"
+msgstr "សារ"
+
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Footer Text"
+msgstr "ចំណាំ"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/AdditionalInfo.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+#: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Form/Task/Status.php
+#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
+#: CRM/Event/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Search/Common.tpl
+#: templates/CRM/Event/Form/Task/Print.tpl
+msgid "Fee Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+#: CRM/Contribute/DAO/ContributionRecur.php
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Cancel Date"
+msgstr "បោះបង់"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Task/Status.php
+#, fuzzy
+msgid "Receipt Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
+#: CRM/Member/DAO/Membership.php
+msgid "Is Pay Later"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Frequency Unit"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Frequency Interval"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Installments"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Pledge/DAO/Pledge.php
+msgid "week"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionType.php
+#: CRM/Contribute/Form/ContributionType.php
+#, fuzzy
+msgid "Accounting Code"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#, fuzzy
+msgid "Options"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Period Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Start Day"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: CRM/Member/DAO/MembershipType.php
+#, fuzzy
+msgid "Duration Unit"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Duration Interval"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/DAO/Widget.php
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "Button Title"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "About"
+msgstr ""
+
+#: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Premium"
+msgstr ""
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Minimum Contribution Amount"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Thank-you Sent"
+msgstr ""
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#, fuzzy
+msgid "Send up to"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#, fuzzy
+msgid "Send additional reminders"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/Form/ContributionBase.php CRM/Member/BAO/Membership.php
+msgid ""
+"Oops. The membership you're trying to renew appears to be invalid. Contact "
+"your site administrator if you need assistance. If you continue, you will be "
+"issued a new membership."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Main.php
-#: CRM/Event/Form/Registration/Register.php
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "%1"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
-msgid "Please enter a valid Credit Card Number"
-msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+msgid "(s)"
+msgstr "ភេទ"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 #, fuzzy
+msgid "The email %1 already exists in the database."
+msgstr "ឈ្មោះ​មាន​រួច​ហើយ​ក្នុង​មូលដ្ឋាន​ទិន្នន័យ"
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
+#: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter a valid Credit Card Number"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
+#: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
+#, fuzzy
 msgid "Please enter a valid Credit Card Verification Number"
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+msgid "Minimum Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+msgid "Maximum Amount"
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -76,6 +316,12 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "I will send payment by check"
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: CRM/Contribute/Form/ContributionPage.php
+#, fuzzy
+msgid "civicrm_contribution_page"
+msgstr "អង្គការ​ថ្មី"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -100,8 +346,15 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
+#: CRM/Event/DAO/EventPage.php
 #, fuzzy
 msgid "Introductory Message"
+msgstr "សារ"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Footer Message"
 msgstr "សារ"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -123,68 +376,27 @@ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 msgid "Receipt Message"
 msgstr "សារ"
 
-#: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
-#: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
-msgid "You do not have permission to access this page"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-#: templates/CRM/Contribute/Page/ContributionHonor.tpl
-msgid "Received"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#, fuzzy
-msgid "Receipt Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-msgid "Thank-you Sent"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
-msgid "Send Receipt?"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Status.tpl
-msgid "Fee Amount"
-msgstr ""
-
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
-msgid "Contribution Receipt"
-msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
-
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
+#: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Premium"
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#: templates/CRM/Contribute/Page/ContributionHonor.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Received"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Minimum Contribution Amount"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+#: CRM/Contribute/Form/Contribution.php CRM/Pledge/Form/Pledge.php
+msgid "Honor First Name and Last Name OR an email should be set."
+msgstr ""
 
-#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
-#, fuzzy
-msgid "Period Type"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Start Day"
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/Form/Pledge.php
+msgid "Frequency"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
@@ -192,34 +404,22 @@ msgstr ""
 msgid "Delete Contributions"
 msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
-#: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
+#: CRM/Contribute/Form/Task/PDF.php CRM/Contribute/Task.php
 #, fuzzy
-msgid "Export Contributions"
-msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+msgid "Print Contribution Receipts"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
-#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#: CRM/Contribute/Import/Form/UploadFile.php
+#: CRM/Member/Import/Form/UploadFile.php
 #, fuzzy
-msgid "Contribution Types"
-msgstr "ប្រភេទ​ទីតាំង"
+msgid "Import mode"
+msgstr "សមាជិក​ក្រុម"
 
-#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
+#: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
-msgid "Manage Premiums"
-msgstr "រៀប​ចំ​ក្រុម"
-
-#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
-msgid "Import Contributions"
-msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
-
-#: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
-msgid "DashBoard"
-msgstr ""
-
-#: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
-msgid "Manage Contribution Pages"
-msgstr "អង្គការ​ថ្មី"
+msgid "Configure"
+msgstr "បន្ត >>"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -253,6 +453,106 @@ msgstr "មុខ​តំណែង"
 msgid "Disable Premium"
 msgstr "លុប​ក្រុម"
 
+#: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#, fuzzy
+msgid "View Contribution"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/Contribution.tpl
+#, fuzzy
+msgid "Edit Contribution"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/Contribution.tpl
+#, fuzzy
+msgid "Delete Contribution"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
+#, fuzzy
+msgid "Fee level"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
+#, fuzzy
+msgid "Participant Source"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/BAO/Query.php CRM/Event/Selector/Search.php
+#: templates/CRM/Event/Form/Task/Print.tpl
+msgid "Fee Level"
+msgstr ""
+
+#: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Event ID"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Confirm From Name"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Confirm From Email"
+msgstr "សារ"
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
+#, fuzzy
+msgid "Event Title"
+msgstr "ចំណងជើង"
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
+#: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
+msgid "Event Summary"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Registration Start Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Registration End Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#, fuzzy
+msgid "Fee Label"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
+#, fuzzy
+msgid "Payment ID"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
+msgid "Participant ID"
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
+#: CRM/Member/Form/MembershipRenewal.php
+#, fuzzy
+msgid "Transaction ID already exists in Database."
+msgstr "ឈ្មោះ​មាន​រួច​ហើយ​ក្នុង​មូលដ្ឋាន​ទិន្នន័យ"
+
+#: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
+#: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
+msgid "Payment Status"
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php CRM/Event/Form/ManageEvent/Fee.php
+#: CRM/Event/Form/Registration/Register.php
+msgid "Event Fee(s)"
+msgstr ""
+
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Delete Event"
@@ -264,60 +564,121 @@ msgstr "លុប"
 msgid "Please select a valid end date."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
-#: CRM/Event/Form/Registration/Register.php
-msgid "Event Fee(s)"
-msgstr ""
-
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Configure Event"
 msgstr "បន្ត >>"
 
-#: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
-#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
-msgid "Online Registration"
-msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
-
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
-msgid "Payment Status"
+msgid "Could not find valid payment processor for this page"
 msgstr ""
 
-#: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
-#, fuzzy
-msgid "Participant"
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+#: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Status"
+msgstr ""
 
-#: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
-#, fuzzy
-msgid "Export Participants"
-msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Requested"
+msgstr ""
 
-#: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
 #, fuzzy
-msgid "Display Name"
-msgstr "បង្ហាញ​ឈ្មោះ"
+msgid "Amount Granted"
+msgstr "ប្រទេស"
 
-#: CRM/Event/Invoke.php CRM/Event/Menu.php
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
-msgid "Import Participants"
-msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+msgid "Rationale"
+msgstr "ប្រភេទ​ទីតាំង"
 
-#: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
-msgid "Manage Events"
-msgstr "រៀប​ចំ​ក្រុម"
+msgid "Application Received"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Money Transferred"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
+msgid "Delete Grants"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Running"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Complete"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Paused"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+#, fuzzy
+msgid "Canceled"
+msgstr "បោះបង់"
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+msgid "Reply"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr ""
 
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
+#, fuzzy
+msgid "Component Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+msgid "Body Html"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Body Text"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
+#, fuzzy
+msgid "Subscribe"
+msgstr "ពិពណ៌នា"
+
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Bounce Reason"
+msgstr "ហេតុផល"
+
+#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
+#: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
+#: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
+#: CRM/Mailing/Event/DAO/Subscribe.php
+#: CRM/Mailing/Event/DAO/TrackableURLOpen.php
+#: CRM/Mailing/Event/DAO/Unsubscribe.php
+msgid "Time Stamp"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
@@ -325,13 +686,17 @@ msgstr ""
 msgid "Next >>"
 msgstr ""
 
-#: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
-#, fuzzy
-msgid "Subscribe"
-msgstr "ពិពណ៌នា"
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
+#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+msgid "Save & Continue Later"
+msgstr ""
 
-#: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
-msgid "Report"
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
+msgid ""
+"Your mailing has been saved. Click the 'Continue' action to resume working "
+"on it."
 msgstr ""
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
@@ -350,6 +715,62 @@ msgstr "លុប"
 msgid "Missing input parameters"
 msgstr ""
 
+#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Membership Types"
+msgstr ""
+
+#: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/Task/Print.tpl
+#, fuzzy
+msgid "Member Since"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/DAO/Membership.php CRM/Member/Import/Form/MapField.php
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#, fuzzy
+msgid "Membership Start Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+#, fuzzy
+msgid "Start Event"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+msgid "Start Event Adjust Interval"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "End Event"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+msgid "End Event Adjust Interval"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+#, fuzzy
+msgid "Current Membership?"
+msgstr "ឈ្មោះ​ផ្ទះ​សម្បែង"
+
+#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
+#: templates/CRM/Member/Page/MembershipType.tpl
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Minimum Fee"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Rollover Day"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
+msgid "Renewal Reminder Day"
+msgstr ""
+
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
 msgstr ""
@@ -358,27 +779,115 @@ msgstr ""
 msgid "The new membership End Date is %1."
 msgstr ""
 
-#: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
-#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
-msgid "Member"
-msgstr "សមាជិក​ក្រុម"
+#: CRM/Member/Form.php CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+msgid "Renew"
+msgstr ""
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
 #, fuzzy
 msgid "Delete Members"
 msgstr "លុប"
 
-#: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
+#: CRM/Member/Page/DashBoard.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/MembershipView.tpl
+#: templates/CRM/Member/Page/MembershipStatus.tpl
 #, fuzzy
-msgid "Export Members"
+msgid "Member"
 msgstr "សមាជិក​ក្រុម"
 
-#: CRM/Member/Invoke.php CRM/Member/Menu.php
+#: CRM/Member/Page/MembershipType.php CRM/Member/Page/Tab.php
+#: templates/CRM/Member/Form/MembershipType.tpl
+msgid "Edit Membership Type"
+msgstr ""
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid "Renew Membership"
+msgstr ""
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/MembershipView.tpl
 #, fuzzy
-msgid "Import Members"
+msgid "View Membership"
 msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/Membership.tpl
+#, fuzzy
+msgid "Edit Membership"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+#, fuzzy
+msgid "Renew-Credit Card"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+msgid "Renew Membership Using Credit Card"
+msgstr ""
+
+#: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
+#: templates/CRM/Member/Form/Membership.tpl
+#, fuzzy
+msgid "Delete Membership"
+msgstr "លុប"
+
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+#, fuzzy
+msgid "Total Paid"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+msgid "Next Payment Date"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+msgid "Next Payment Amount"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#: templates/CRM/Pledge/Form/Search/Common.tpl
+#, fuzzy
+msgid "Pledge Status"
+msgstr "ស្ថានភាព"
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Maximum Number of Reminders"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#, fuzzy
+msgid "Initial Reminder Day"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Additional Reminder Days"
+msgstr "អាសយដ្ឋាន​ផ្លូវ"
+
+#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
+#, fuzzy
+msgid "Total Pledged"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Pledge Made"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
+msgid "%1(s)"
+msgstr ""
+
+#: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
+#, fuzzy
+msgid "Delete Pledges"
+msgstr "លុប"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
@@ -386,7 +895,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
-"This contribution type can not be deleted because it is being referenced by "
+"This contribution type cannot be deleted because it is being referenced by "
 "one or more of the following types of records: Contributions, Contribution "
 "Pages, or Membership Types. Consider disabling this type instead if you no "
 "longer want it used."
@@ -419,23 +928,8 @@ msgid "Contribution Receipt date is null"
 msgstr "ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
-msgid "Contribution Type - %1"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#: CRM/Contribute/BAO/Query.php
-#, fuzzy
-msgid "Contribution Page - %1"
-msgstr "ឈ្មោះ​អង្គការ"
-
-#: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
 msgstr ""
-
-#: CRM/Contribute/BAO/Query.php
-#, fuzzy
-msgid "Honor name like - '%1'"
-msgstr "ភេទ"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -444,10 +938,6 @@ msgstr "ឈ្មោះ​អង្គការ"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr ""
-
-#: CRM/Contribute/BAO/Query.php
-msgid "Payment Instrument"
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
@@ -461,18 +951,307 @@ msgid "Receipt not sent?"
 msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "In Honor Of"
-msgstr ""
-
-#: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Test Contributions?"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
+msgid "Find Pay Later Contributions?"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/BAO/Query.php
+#, fuzzy
 msgid "Find Recurring Contributions?"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Intro Text"
+msgstr "សារ"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Recur Frequency Unit"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Thank-you Text"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Thank-you Footer"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "On Behalf Of Organization"
+msgstr "អង្គការ​ថ្មី"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Cc Receipt"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Bcc Receipt"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Receipt Text"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Honor Block Title"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Honor Block Text"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Contribution Page Start Date"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Contribution Page End Date"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Contribution ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Solicitor ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Receive Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Cancel Reason"
+msgstr "ហេតុផល"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Thank-you Date"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Amount Label"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+#, fuzzy
+msgid "Product Option"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+msgid "Quantity"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+#, fuzzy
+msgid "Fulfilled Date"
+msgstr "បោះបង់"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+#, fuzzy
+msgid "Comment"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+#, fuzzy
+msgid "Create Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Recurring Contribution Status"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Cycle Day"
+msgstr "បោះបង់"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Next Sched Contribution"
+msgstr "អង្គការ​ថ្មី"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Failure Count"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Failure Retry Date"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Auto Renew"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Trxn Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Trxn Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Trxn Result Code"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Debit"
+msgstr "ទម្ងន់"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Credit"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Active"
+msgstr "<< មុន"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Title for Premiums section"
+msgstr "ក្រុម"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Intro Text"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Contact Email"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Contact Phone"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Display Min Contribution"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Product Name"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Contribute/DAO/Product.php
+msgid "Thumbnail"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Minimum Contribution"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Cost"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Url Logo"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Url Homepage"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+#, fuzzy
+msgid "Color Title"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Button"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Bar"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+#, fuzzy
+msgid "Color Main Text"
+msgstr "ចំណាំ"
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Main"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Main Bg"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Bg"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color About Link"
+msgstr ""
+
+#: CRM/Contribute/DAO/Widget.php
+msgid "Color Homepage Link"
+msgstr ""
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Fulfilled"
+msgstr ""
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#, fuzzy
+msgid "Send Initial Reminder"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#, fuzzy
+msgid "Please enter a valid reminder day."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#, fuzzy
+msgid "Please enter a valid No. of reminders."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#, fuzzy
+msgid "Please enter a valid additional reminder day."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/AdditionalInfo.php
+#, fuzzy
+msgid "Contribution Receipt"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -520,6 +1299,40 @@ msgid ""
 "currently support multiple simultaneous payments. Please contact the site "
 "administrator and notify them of this error"
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid ""
+"Oops. It looks like you have an incorrect or incomplete link (URL). Please "
+"make sure you've copied the entire link, and try again. Contact the site "
+"administrator if this error persists."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Oops. You cannot make a payment for this pledge - pledge status is %1."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionCharts.php
+#, fuzzy
+msgid "Chart Style"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/Form/ContributionCharts.php
+msgid "Bar"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionCharts.php
+#, fuzzy
+msgid "Pie"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Contribute/Form/ContributionCharts.php
+msgid "Select Year (for monthly breakdown)"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionCharts.php
+#, fuzzy
+msgid "Reload Charts"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -589,28 +1402,6 @@ msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-msgid "-period-"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-msgid "day(s)"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-msgid "week(s)"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
-msgid "month(s)"
-msgstr "លុយ"
-
-#: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
-msgid "year(s)"
-msgstr "ភេទ"
-
-#: CRM/Contribute/Form/Contribution/Main.php
 msgid "installments"
 msgstr ""
 
@@ -642,9 +1433,24 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
-"You can not set up a recurring contribution if you are not paying online by "
+"You cannot set up a recurring contribution if you are not paying online by "
 "credit card."
 msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Please select an organization or enter a new one."
+msgstr "សូម​ជ្រើស​កាលបរិច្ឆេទ​ដែល​បាន​កំណត់​មួយ ។"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Please enter the organization name."
+msgstr "សូម​បញ្ចូល​ប្រធានបទ​ត្រឹម​ត្រូវ​មួយ ។"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Organization email is required."
+msgstr "ឈ្មោះ​អង្គការ"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The Membership you have selected requires a minimum contribution of %1"
@@ -660,7 +1466,46 @@ msgid "Contribution amount must be greater than %1"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-msgid "Contribution amount can not be greater than %1"
+#, fuzzy
+msgid "Contribution amount cannot be greater than %1."
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "At least one payment option needs to be checked."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Please enter a valid pledge installment."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Pledge Installments is required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid ""
+"Pledges consist of multiple scheduled payments. Select one-time contribution "
+"if you want to make your gift in a single payment."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Pledge Installments field must be > 1."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Please enter a valid Pledge Frequency Interval."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+#, fuzzy
+msgid "Pledge Frequency Interval. is required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
+
+#: CRM/Contribute/Form/Contribution/Main.php
+msgid "Pledge frequency interval field must be > 0"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
@@ -696,12 +1541,22 @@ msgid "Execute real-time monetary transactions"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-msgid "Enable recurring payments"
+#, fuzzy
+msgid "Recurring contributions"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Supported recurring units"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-msgid "Enable pay later option?"
+msgid "Support recurring intervals"
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#, fuzzy
+msgid "Pay later option"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Pay later label"
@@ -709,6 +1564,18 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Pay later instructions"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Supported pledge frequencies"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Allow frequency intervals"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "Send payment reminder"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -733,9 +1600,34 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "At least one recurring frequency option needs to be checked."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid "At least one pledge frequency option needs to be checked."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid ""
+"You cannot enable both Recurring Contributions AND Pledges on the same "
+"online contribution page."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid ""
+"If you want to enable the 'Contribution Amounts section', you need to either "
+"'Allow Other Amounts' and/or enter at least one row in the 'Fixed "
+"Contribution Amounts' table."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
 msgid "Amounts"
 msgstr "ប្រទេស"
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+msgid "You need to first create Profiles to include them on a page"
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #, fuzzy
@@ -779,6 +1671,10 @@ msgstr "មុខ​តំណែង"
 #, fuzzy
 msgid "Delete Page - %1"
 msgstr "លុប"
+
+#: CRM/Contribute/Form/ContributionPage.php
+msgid "I am contributing on behalf of an organization."
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #, fuzzy
@@ -828,14 +1724,14 @@ msgid "Title and Settings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
-msgid "Footer Message"
-msgstr "សារ"
+msgid ""
+"Allow individuals to contribute and / or signup for membership on behalf of "
+"an organization?"
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
-msgid "Goal Amount"
-msgstr "ប្រទេស"
+msgid "On behalf of label"
+msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
@@ -879,16 +1775,6 @@ msgid "Email Receipt to Contributor?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Receipt From Name"
-msgstr "ឈ្មោះ​ក្រុម"
-
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Receipt From Email"
-msgstr "សារ"
-
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
 msgstr ""
 
@@ -922,15 +1808,7 @@ msgid "URL to Logo Image"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "Button Title"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Contribute!"
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "About"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
@@ -982,7 +1860,32 @@ msgid "Save and Preview"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
+#, fuzzy
+msgid "Title is a required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+#, fuzzy
+msgid "About is a required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+#, fuzzy
+msgid "URL to Home Page is a required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Widget Settings"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+msgid ""
+"You will need to configure the %1 settings for your Payment Processor before "
+"you can submit credit card transactions."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+msgid "Pledge payment status should be 'Pending' or  'Overdue'."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
@@ -996,7 +1899,13 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
+#, fuzzy
+msgid "Send Receipt?"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
 msgid "Cancelled Date"
 msgstr "បោះបង់"
@@ -1008,27 +1917,19 @@ msgid "Cancellation Reason"
 msgstr "ហេតុផល"
 
 #: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr ""
+#, fuzzy
+msgid "Payment Processor is a required field."
+msgstr "%1 ជា​វាល​ចាំបាច់"
 
 #: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Net Amount"
-msgstr ""
+#, fuzzy
+msgid "Submit Credit Card Payment by: %1"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Invoice ID"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-msgid "Honor First Name and Last Name OR an email should be set."
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-msgid "The contribution record has been saved."
-msgstr ""
+#, fuzzy
+msgid "The contribution record has been processed."
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Form/Contribution.php
 #, fuzzy
@@ -1036,8 +1937,7 @@ msgid "A receipt has been emailed to the contributor."
 msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Fulfilled"
+msgid "The contribution record has been saved."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionType.php
@@ -1045,11 +1945,6 @@ msgid ""
 "A contribution type with this name already exists. Please select another "
 "name."
 msgstr ""
-
-#: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
-msgid "Accounting Code"
-msgstr "ប្រទេស"
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
@@ -1066,12 +1961,6 @@ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
-msgstr ""
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -1142,20 +2031,6 @@ msgid "Please enter a monetary value for the Minimum Contribution Amount."
 msgstr "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Duration Unit"
-msgstr "រយៈពេល"
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Frequency Unit"
-msgstr "ឈ្មោះ​ផ្លូវ"
-
-#: CRM/Contribute/Form/ManagePremiums.php
-msgid "Frequency"
-msgstr ""
-
-#: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please select the Period Type for this subscription or service."
 msgstr ""
 
@@ -1202,19 +2077,15 @@ msgstr ""
 msgid "The Premium '%1' has been saved."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Contribute/Form/Offline.php
-msgid "You do not have any payment processors that support this feature"
-msgstr ""
-
-#: CRM/Contribute/Form/Offline.php
+#: CRM/Contribute/Form/Search.php
 #, fuzzy
-msgid "Submit Contribution"
+msgid "Contributor Name or Email"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contribute/Form/Search.php
+#, fuzzy
+msgid "Find Contributions"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Contribute/Form/Offline.php
-#, fuzzy
-msgid "Online Contribution: CiviCRM Admin Interface"
-msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/Form/Task/Batch.php
 #, fuzzy
@@ -1241,13 +2112,10 @@ msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​ប
 msgid "Total Selected Contribution(s): %1"
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
 
-#: CRM/Contribute/Form/Task/Export.php
-msgid "Contribution ID"
-msgstr ""
-
-#: CRM/Contribute/Form/Task/Export.php
-msgid "CiviCRM Contributions"
-msgstr ""
+#: CRM/Contribute/Form/Task/PDF.php
+#, fuzzy
+msgid "Download Receipt(s)"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Contribute/Form/Task/PickProfile.php
 #, fuzzy
@@ -1272,15 +2140,34 @@ msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
 msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email) (OR Invoice ID or "
-"Transaction ID or Contribution ID if update mode.)"
+"Invoice ID or Transaction ID or Contribution ID are required to match to the "
+"existing contribution records in Update mode."
+msgstr ""
+
+#: CRM/Contribute/Import/Form/MapField.php
+msgid ""
+"At least one contribution field needs to be mapped for update during update "
+"mode."
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Contribution Mapping Name"
 msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contribute/Import/Form/UploadFile.php
+#, fuzzy
+msgid "Insert new contributions"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/Import/Form/UploadFile.php
+#, fuzzy
+msgid "Update existing contributions"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Contribute/Import/Form/UploadFile.php
+msgid "Load Mapping"
+msgstr ""
 
 #: CRM/Contribute/Import/Parser.php
 #, fuzzy
@@ -1291,49 +2178,10 @@ msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
 msgid "CiviCRM Contribution Engine"
 msgstr ""
 
-#: CRM/Contribute/Invoke.php
+#: CRM/Contribute/Info.php
 #, fuzzy
-msgid "Contribution Payment Form"
-msgstr "ឈ្មោះ​អង្គការ"
-
-#: CRM/Contribute/Menu.php templates/CRM/Contribute/Page/ContributionPage.tpl
-msgid ""
-"CiviContribute allows you to create and maintain any number of Online "
-"Contribution Pages. You can create different pages for different programs or "
-"campaigns - and customize text, amounts, types of information collected from "
-"contributors, etc."
-msgstr ""
-
-#: CRM/Contribute/Menu.php
-msgid ""
-"CiviContribute allows you to configure any number of Premiums which can be "
-"offered to contributors as incentives / thank-you gifts. Define the premiums "
-"you want to offer here."
-msgstr ""
-
-#: CRM/Contribute/Menu.php
-msgid ""
-"Contribution types are used to categorize contributions for reporting and "
-"accounting purposes. These are also referred to as Funds."
-msgstr ""
-
-#: CRM/Contribute/Menu.php
-msgid ""
-"You may choose to record the payment instrument used for each contribution. "
-"Common payment methods are installed by default (e.g. Check, Cash, Credit "
-"Card...). If your site requires additional payment methods, add them here."
-msgstr ""
-
-#: CRM/Contribute/Menu.php
-msgid ""
-"Credit card options that will be offered to contributors using your Online "
-"Contribution pages."
-msgstr ""
-
-#: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
-msgid "Find Contributions"
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+msgid "Your Contribution(s)"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to disable this Contribution page?"
@@ -1355,6 +2203,12 @@ msgstr "ឈ្មោះ​អង្គការ"
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Make a Copy of CiviCRM Contribution Page"
+msgstr "អង្គការ​ថ្មី"
+
+#: CRM/Contribute/Page/ContributionPage.php
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+#, fuzzy
+msgid "Manage Contribution Pages"
 msgstr "អង្គការ​ថ្មី"
 
 #: CRM/Contribute/Page/ContributionPage.php
@@ -1418,9 +2272,10 @@ msgstr "លុប​ក្រុម"
 msgid "Are you sure you want to remove this product form this page?"
 msgstr ""
 
-#: CRM/Contribute/Selector/Search.php
-msgid "CiviCRM Contribution Search"
-msgstr ""
+#: CRM/Contribute/Task.php
+#, fuzzy
+msgid "Export Contributions"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Contribute/Task.php
 msgid "Update Pending Contribution Status"
@@ -1450,6 +2305,11 @@ msgid "Find Test Participants"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Event/BAO/Query.php
+#, fuzzy
+msgid "Find Pay Later Participants"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
 msgstr ""
 
@@ -1457,16 +2317,6 @@ msgstr ""
 #, fuzzy
 msgid "Participant Role %1"
 msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
-
-#: CRM/Event/BAO/Query.php
-#, fuzzy
-msgid "Participant Source"
-msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
-
-#: CRM/Event/BAO/Query.php
-#, fuzzy
-msgid "Event Name"
-msgstr "ឈ្មោះ​ផ្លូវ"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1478,29 +2328,152 @@ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 msgid "Find Test Participants?"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
+#: CRM/Event/BAO/Query.php
+#, fuzzy
+msgid "Find Pay Later Participants?"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Confirmation Title"
+msgstr "ប្រទេស"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Confirm Text"
+msgstr "បន្ត >>"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Is confirm email"
+msgstr "សារ"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Confirmation Email Text"
+msgstr "ប្រទេស"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Cc Confirm"
+msgstr "បន្ត >>"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "Bcc Confirm"
+msgstr "បន្ត >>"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "ThankYou Title"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Event/DAO/EventPage.php
+#, fuzzy
+msgid "ThankYou Text"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Event Description"
+msgstr "ពិពណ៌នា"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Event Type ID"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Participant Listing ID"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/DAO/Event.php
+msgid "Is Event Public"
+msgstr ""
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Event Start Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Event End Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Is Online Registration"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Event Registration Link Text"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "Max Participants"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/DAO/Event.php
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Event Information"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: CRM/Event/DAO/Event.php
+#, fuzzy
+msgid "show location"
+msgstr "ទីតាំង"
+
+#: CRM/Event/DAO/Participant.php
+#, fuzzy
+msgid "Register date"
+msgstr "ចាំបាច់?"
+
+#: CRM/Event/DAO/Participant.php
+#, fuzzy
+msgid "Registered By ID"
+msgstr "ចាំបាច់?"
+
+#: CRM/Event/DAO/Participant.php
+msgid "Discount ID"
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#, fuzzy
+msgid "Discount Set"
+msgstr "ប្រទេស"
+
+#: CRM/Event/Form/EventFees.php
+msgid "Record Payment?"
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php
+msgid "Send Confirmation?"
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php
+msgid "Confirmation Message"
+msgstr ""
+
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
-"This event can not be deleted because there are participant records linked "
-"to it. If you want to delete this event, you must first find the "
-"participants linked to this event and delete them. You can use use <a href='%"
-"1'> CiviEvent >> Find Participants page </a>."
+"This event cannot be deleted because there are participant records linked to "
+"it. If you want to delete this event, you must first find the participants "
+"linked to this event and delete them. You can use use <a href='%1'> "
+"CiviEvent >> Find Participants page </a>."
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 #, fuzzy
 msgid "The event '%1' has been deleted."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
-
-#: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
-msgid "Event Title"
-msgstr "ចំណងជើង"
-
-#: CRM/Event/Form/ManageEvent/EventInfo.php
-#: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
-msgid "Event Summary"
-msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -1567,10 +2540,51 @@ msgid "Pay Later Instructions"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Discounts by Signup Date?"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
-msgid "Fee Label"
+msgid "Discount Start Date"
 msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+#, fuzzy
+msgid "Discount End Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "Add Discount Set to Fee Table"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "The discount end date cannot be prior to the start date."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+#, fuzzy
+msgid "Please specify either start date or end date."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "Select non-overlapping discount start date."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+#, fuzzy
+msgid "Select either of the dates."
+msgstr "សូម​បញ្ចូល​ប្រធានបទ​ត្រឹម​ត្រូវ​មួយ ។"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid "%1 is already used for Discount Name."
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/Fee.php
+msgid ""
+"At least one fee should be entered for your Discount Set. If you do not see "
+"the table to enter discount fees, click the \"Add Discount Set to Fee Table"
+"\" button."
+msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
@@ -1583,12 +2597,15 @@ msgid "Please enter the fee label for the paid event."
 msgstr "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-msgid "Please enter the text displayed to the user"
-msgstr ""
+#, fuzzy
+msgid ""
+"Please enter the Pay Later prompt to be displayed on the Registration form."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-msgid "Please enter the message to be sent to the user"
-msgstr ""
+#, fuzzy
+msgid "Please enter the Pay Later instructions to be displayed to your users."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -1618,23 +2635,13 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
-msgid "Registration Start Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Registration End Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+msgid "Register Multiple Participants?"
+msgstr "លុប"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Introductory Text"
 msgstr "សារ"
-
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Footer Text"
-msgstr "ចំណាំ"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -1650,16 +2657,6 @@ msgstr "ប្រទេស"
 #, fuzzy
 msgid "BCC Confirmation To"
 msgstr "ប្រទេស"
-
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Confirm From Name"
-msgstr "ឈ្មោះ​ក្រុម"
-
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Confirm From Email"
-msgstr "សារ"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -1680,6 +2677,13 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "Please enter Confirmation Email FROM Email Address."
 msgstr ""
 
+#: CRM/Event/Form/ManageEvent/Registration.php
+#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
+#: templates/CRM/Event/Page/ManageEventEdit.tpl
+#, fuzzy
+msgid "Online Registration"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
 #, fuzzy
 msgid "Registration Date and Time"
@@ -1691,16 +2695,14 @@ msgid "Event Source"
 msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Event/Form/Participant.php
-msgid "Record Payment?"
-msgstr ""
+#, fuzzy
+msgid "Selected Event is not Paid Event "
+msgstr "លុប"
 
 #: CRM/Event/Form/Participant.php
-msgid "Send Confirmation?"
-msgstr ""
-
-#: CRM/Event/Form/Participant.php
-msgid "Confirmation Message"
-msgstr ""
+#, fuzzy
+msgid "Submit Credit Card for Event Registration by: %1"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Event/Form/Participant.php
 msgid "Event Confirmation"
@@ -1724,11 +2726,60 @@ msgstr ""
 
 #: CRM/Event/Form/Participant.php
 #, fuzzy
-msgid "Total Participant(s) added to event: %1"
+msgid "Total Participant(s) added to event: %1."
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: CRM/Event/Form/Participant.php
+msgid ""
+"Email has NOT been sent to %1 contact - communication preferences specify DO "
+"NOT EMAIL OR valid Email is NOT present. "
+msgstr ""
+
+#: CRM/Event/Form/Participant.php
+msgid "A confirmation email has been sent to ALL participants"
+msgstr ""
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+#, fuzzy
+msgid "Register Participant %1 of %2"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+#, fuzzy
+msgid "Skip Participant >>|"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+msgid "A person with this email address is already registered for this event."
+msgstr ""
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+msgid "The email address must be unique for each participant."
+msgstr ""
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+msgid "Select at least one option from Event Fee(s)."
+msgstr ""
+
+#: CRM/Event/Form/Registration/AdditionalParticipant.php
+#, fuzzy
+msgid "Registration information for participant %1 has been saved."
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
 
 #: CRM/Event/Form/Registration.php
 msgid "You do not have permission to register for this event"
+msgstr ""
+
+#: CRM/Event/Form/Registration.php
+msgid ""
+"The event you requested is currently unavailable (contact the site "
+"administrator for assistance)."
+msgstr ""
+
+#: CRM/Event/Form/Registration.php
+msgid ""
+"Online registration is not currently available for this event (contact the "
+"site administrator for assistance)."
 msgstr ""
 
 #: CRM/Event/Form/Registration.php
@@ -1741,8 +2792,9 @@ msgstr ""
 
 #: CRM/Event/Form/Registration.php
 msgid ""
-"A payment processor must be selected for this event registration page "
-"(contact the site administrator for assistance)."
+"A payment processor must be selected for this event registration page, or "
+"the event must be configured to give users the option to pay later (contact "
+"the site administrator for assistance)."
 msgstr ""
 
 #: CRM/Event/Form/Registration.php
@@ -1752,24 +2804,48 @@ msgid ""
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
+msgid "How many additional people?"
+msgstr ""
+
+#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Fee Level is a required field."
 msgstr "%1 ជា​វាល​ចាំបាច់"
 
 #: CRM/Event/Form/Registration/Register.php
 #, fuzzy
-msgid "Select a valid date greater than today."
-msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
+msgid "Please enter a valid No Of People (whole number)."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
+msgid "The Zero amount facility is only for the valid members"
+msgstr ""
+
+#: CRM/Event/Form/Registration/Register.php
+msgid "The Number of Items must be greater than zero (0)"
+msgstr ""
+
+#: CRM/Event/Form/Registration/Register.php
+#, fuzzy
+msgid "Registration information for participant 1 has been saved."
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: CRM/Event/Form/Registration/Register.php
 msgid ""
 "Oops. It looks like you are already registered for this event. If you want "
 "to change your registration, or you feel that you've gotten this message in "
 "error, please contact the site administrator."
+msgstr ""
+
+#: CRM/Event/Form/Registration/Register.php
+msgid ""
+"Oops. It looks like this participant is already registered for this event.If "
+"you want to change your registration, or you feel that you've gotten this "
+"message in error, please contact the site administrator."
 msgstr ""
 
 #: CRM/Event/Form/Registration/ThankYou.php
@@ -1799,6 +2875,11 @@ msgstr ""
 
 #: CRM/Event/Form/Search.php
 #, fuzzy
+msgid "Participant Name or Email"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
 msgid "Please select valid event."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
@@ -1806,6 +2887,11 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 #, fuzzy
 msgid "Please select valid event type."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Find Participants"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
@@ -1836,19 +2922,6 @@ msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​ប
 msgid "Total Selected Participation(s): %1"
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
 
-#: CRM/Event/Form/Task/Export.php
-msgid "Participant ID"
-msgstr ""
-
-#: CRM/Event/Form/Task/Export.php
-#, fuzzy
-msgid "Event ID"
-msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Event/Form/Task/Export.php
-msgid "CiviCRM Participants"
-msgstr ""
-
 #: CRM/Event/Form/Task/PickProfile.php
 #, fuzzy
 msgid "Batch Update for Event Participants"
@@ -1860,9 +2933,8 @@ msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
 msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
-"ID if update mode.)"
+"Or Provide Contact Id or External Identifier (OR Participant ID if update "
+"mode)."
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
@@ -1884,6 +2956,11 @@ msgid "Select either EventID OR Event Title"
 msgstr ""
 
 #: CRM/Event/Import/Parser/Participant.php
+#, fuzzy
+msgid "Missing required field(s) :"
+msgstr "បាត់​វាល​ចាំបាច់"
+
+#: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
 
@@ -1896,51 +2973,9 @@ msgstr "ជ្រើស​ក្រុម"
 msgid "CiviCRM Event Engine"
 msgstr ""
 
-#: CRM/Event/Invoke.php
-#, fuzzy
-msgid "Manage Event"
-msgstr "រៀប​ចំ​ក្រុម"
-
-#: CRM/Event/Invoke.php
-msgid "CiviEvent DashBoard"
+#: CRM/Event/Info.php
+msgid "Your Event(s)"
 msgstr ""
-
-#: CRM/Event/Menu.php
-#, fuzzy
-msgid "Event Listings"
-msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
-
-#: CRM/Event/Menu.php
-msgid "Event Participants List"
-msgstr ""
-
-#: CRM/Event/Menu.php
-msgid ""
-"Create and edit event configuration including times, locations, online "
-"registration forms, and fees. Links for iCal and RSS syndication."
-msgstr ""
-
-#: CRM/Event/Menu.php
-#, fuzzy
-msgid "Event Types"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#: CRM/Event/Menu.php
-msgid ""
-"Price sets allow you to offer multiple options with associated fees (e.g. "
-"pre-conference workshops, additional meals, etc.). Configure Price Sets for "
-"events which need more than a single set of fee levels."
-msgstr ""
-
-#: CRM/Event/Menu.php templates/CRM/Event/Form/Search.tpl
-#, fuzzy
-msgid "Find Participants"
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Event/Menu.php templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
-msgid "New Event"
-msgstr "ចំណាំ"
 
 #: CRM/Event/Page/DashBoard.php
 msgid "events"
@@ -1987,6 +3022,11 @@ msgid "Copy Event"
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Event/Page/ManageEvent.php
+#, fuzzy
+msgid "Manage Events"
+msgstr "រៀប​ចំ​ក្រុម"
+
+#: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
 msgstr ""
 
@@ -2018,9 +3058,10 @@ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 msgid "Delete Participation"
 msgstr "លុប"
 
-#: CRM/Event/Selector/Search.php templates/CRM/Event/Form/Task/Print.tpl
-msgid "Fee Level"
-msgstr ""
+#: CRM/Event/Selector/Search.php templates/CRM/Event/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Event Date(s)"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Event/Selector/Search.php
 #, fuzzy
@@ -2033,6 +3074,11 @@ msgid "Delete Participants"
 msgstr "លុប"
 
 #: CRM/Event/Task.php
+#, fuzzy
+msgid "Export Participants"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Event/Task.php
 msgid "Batch Update Participants Via Profile"
 msgstr ""
 
@@ -2040,6 +3086,122 @@ msgstr ""
 #, fuzzy
 msgid "Cancel Registration"
 msgstr "ហេតុផល"
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Type %2 %1"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Status %2 %1"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+#, fuzzy
+msgid "App. Received Date - From"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/BAO/Query.php
+msgid "Money Sent Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Report Due Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Decision Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant report received?"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+#, fuzzy
+msgid "Application Received Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/DAO/Grant.php
+#, fuzzy
+msgid "Decision Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Money Transfer Date"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+#, fuzzy
+msgid "Grant Due Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/DAO/Grant.php
+#, fuzzy
+msgid "Grant Report Received"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/DAO/Grant.php
+#, fuzzy
+msgid "Amount Total"
+msgstr "ចំណងជើង"
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Decision"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+#, fuzzy
+msgid "Grant Report Due"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Report Received?"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php
+msgid "Amount Requested<br />(original currency)"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php
+msgid "Deleted Grant(s): %1"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php
+msgid "Total Selected Grant(s): %1"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Print.php
+msgid "Print Grant List"
+msgstr ""
+
+#: CRM/Grant/Page/DashBoard.php
+msgid "grants"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "View Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Grant.tpl
+msgid "Edit Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "Are you sure you want to delete this grant?"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "Delete Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+#, fuzzy
+msgid "Report Received"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Grant/Selector/Search.php
+msgid "CiviCRM Grant Search"
+msgstr ""
 
 #: CRM/Mailing/BAO/Component.php
 #, fuzzy
@@ -2060,28 +3222,7 @@ msgid "The mailing has been canceled."
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php
-msgid "Running"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php
-msgid "Complete"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php
-msgid "Paused"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php
-#, fuzzy
-msgid "Canceled"
-msgstr "បោះបង់"
-
-#: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
-msgstr ""
-
-#: CRM/Mailing/BAO/Mailing.php
-msgid "Reply"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
@@ -2093,14 +3234,183 @@ msgstr ""
 msgid "Selected mailing has been deleted."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
+#: CRM/Mailing/BAO/Mailing.php
+msgid "Insert Tokens"
 msgstr ""
 
-#: CRM/Mailing/Form/Component.php
+#: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
-msgid "Component Type"
+msgid "Select Template"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid "Update Template"
+msgstr "ជ្រើស​ក្រុម"
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid "Save As New Template"
+msgstr "លុប​ក្រុម"
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid "Template Title"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Mailing/DAO/BouncePattern.php
+msgid "Pattern"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+#, fuzzy
+msgid "Hold Threshold"
+msgstr "ផ្ទះសម្បែង"
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "AOL"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Away"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "DNS"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Invalid"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Loop"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+#, fuzzy
+msgid "Quota"
+msgstr "ព័ត៌មាន​លម្អិត"
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Relay"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Spam"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Syntax"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Component Name"
 msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Welcome"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "OptOut"
+msgstr "រយៈពេល"
+
+#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
+#, fuzzy
+msgid "Resubscribe"
+msgstr "ពិពណ៌នា"
+
+#: CRM/Mailing/DAO/Group.php
+#, fuzzy
+msgid "Include"
+msgstr "បោះបង់"
+
+#: CRM/Mailing/DAO/Group.php
+#, fuzzy
+msgid "Exclude"
+msgstr "បោះបង់"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "From Name"
+msgstr "នាមខ្លួន"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "From Email"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Replyto Email"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Url Tracking"
+msgstr "រយៈពេល"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Forward Replies"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Mailing.php
+msgid "Auto Responder"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Open Tracking"
+msgstr "រយៈពេល"
+
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Recipient Email"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Headers"
+msgstr "ភេទ"
+
+#: CRM/Mailing/DAO/Spool.php
+msgid "Body"
+msgstr ""
+
+#: CRM/Mailing/DAO/Spool.php
+msgid "Added At"
+msgstr ""
+
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Removed At"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Mailing/DAO/TrackableURL.php
+msgid "Url"
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Subscribe.php
+msgid ""
+"Your subscription request has been submitted. Check your inbox shortly for "
+"the confirmation email(s)."
+msgstr ""
+
+#: CRM/Mailing/Event/BAO/Subscribe.php
+msgid ""
+"We had a problem processing your subscription request. Please contact the "
+"site administrator"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Unsubscribe.php
+#, fuzzy
+msgid "Org Unsubscribe"
+msgstr "ពិពណ៌នា"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - TEXT Format"
@@ -2172,6 +3482,11 @@ msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
+msgid "Schedule or Send Later"
+msgstr "បាន​កំណត់​​ពេល"
+
+#: CRM/Mailing/Form/Schedule.php
+#, fuzzy
 msgid "Scheduled date is not valid."
 msgstr "អាសយដ្ឋាន​អ៊ីម៉ែលប៉ះពាល់​នឹង​កំណត់ត្រា%1"
 
@@ -2235,21 +3550,8 @@ msgid "There are no public mailing list groups to display."
 msgstr ""
 
 #: CRM/Mailing/Form/Subscribe.php
-msgid ""
-"Your subscription request has been submitted. Check your inbox shortly for "
-"the confirmation email(s)."
+msgid "You are already subscribed in %1, your subscription is %2."
 msgstr ""
-
-#: CRM/Mailing/Form/Subscribe.php
-msgid ""
-"We had a problem processing your subscription request. Please contact the "
-"site administrator"
-msgstr ""
-
-#: CRM/Mailing/Form/Test.php
-#, fuzzy
-msgid "Send a Test Mailing?"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Mailing/Form/Test.php
 #, fuzzy
@@ -2262,18 +3564,37 @@ msgid "Send to This Group"
 msgstr "កែសម្រួល​ក្រុម"
 
 #: CRM/Mailing/Form/Test.php
-msgid "Test"
+#, fuzzy
+msgid "Send a Test Mailing"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Mailing/Form/Test.php
+msgid ""
+"Your did not provided any email address or selected any group. No test mail "
+"is sent."
+msgstr ""
+
+#: CRM/Mailing/Form/Test.php
+#, fuzzy
+msgid "You cannot provide more than one email address."
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Mailing/Form/Test.php
+#, fuzzy
+msgid "Please enter a valid email address"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Mailing/Form/Test.php
+msgid ""
+"Your test message has been sent. Click 'Next' when you are ready to Schedule "
+"or Send your live mailing (you will still have a chance to confirm or cancel "
+"sending this mailing on the next page)."
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "FROM"
 msgstr "ឈ្មោះ​ក្រុម"
-
-#: CRM/Mailing/Form/Upload.php
-#, fuzzy
-msgid "Mailing Subject"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Mailing/Form/Upload.php templates/CRM/Mailing/Form/Upload.tpl
 msgid "Upload Content"
@@ -2286,11 +3607,6 @@ msgstr ""
 #: CRM/Mailing/Form/Upload.php
 msgid "I want to"
 msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-#, fuzzy
-msgid "Save As New Template"
-msgstr "លុប​ក្រុម"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2340,47 +3656,15 @@ msgstr "បាត់​វាល​ចាំបាច់"
 msgid "Mailing Content"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
-#: CRM/Mailing/Invoke.php
+#: CRM/Mailing/Page/Browse.php
 #, fuzzy
-msgid "Mailings"
+msgid "Draft and Unscheduled Mailings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#: CRM/Mailing/Invoke.php
-msgid "The mailing queue has been processed."
-msgstr ""
-
-#: CRM/Mailing/Menu.php
-#, fuzzy
-msgid "Mailer Settings"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#: CRM/Mailing/Menu.php
-msgid "Configure spool period, throttling and other mailer settings."
-msgstr ""
-
-#: CRM/Mailing/Menu.php
-msgid "Headers, Footers, and Automated Messages"
-msgstr ""
-
-#: CRM/Mailing/Menu.php
-msgid ""
-"Configure the header and footer used for mailings. Customize the content of "
-"automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
-msgstr ""
-
-#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
-msgid "Resubscribe"
-msgstr "ពិពណ៌នា"
-
-#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
-msgid "Optout"
-msgstr "រយៈពេល"
 
 #: CRM/Mailing/Page/Browse.php
-msgid "Browse Mailings (Scheduled and Sent)"
-msgstr ""
+#, fuzzy
+msgid "Scheduled and Sent Mailings"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Mailing/Page/Browse.php
 #, fuzzy
@@ -2440,6 +3724,10 @@ msgid "Are you sure you want to delete this mailing?"
 msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
+msgid "Report"
+msgstr ""
+
+#: CRM/Mailing/Selector/Browse.php
 msgid "View Mailing Report"
 msgstr ""
 
@@ -2450,6 +3738,11 @@ msgstr ""
 #: CRM/Mailing/Selector/Browse.php
 #, fuzzy
 msgid "Re-Send Mailing"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Mailing/Selector/Browse.php
+#, fuzzy
+msgid "Continue Mailing"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Mailing/Selector/Browse.php
@@ -2465,11 +3758,6 @@ msgstr "ព័ត៌មាន​ទំនាក់​ទំនង %%StatusMessag
 #, fuzzy
 msgid "Bounce Type"
 msgstr "ប្រភេទ​ទូរស័ព្ទ"
-
-#: CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Bounce Reason"
-msgstr "ហេតុផល"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
@@ -2527,8 +3815,9 @@ msgid "Tracked Opens"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-msgid "The membership can not be saved."
-msgstr ""
+#, fuzzy
+msgid "The membership cannot be saved."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Member/BAO/Membership.php
 #, fuzzy
@@ -2536,9 +3825,10 @@ msgid "No valid membership status for given dates."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Member/BAO/Membership.php
+#, fuzzy
 msgid ""
-"The membership can not be saved. No valid membership status for given dates"
-msgstr ""
+"The membership cannot be saved. No valid membership status for given dates"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Member/BAO/Membership.php
 #, fuzzy
@@ -2551,7 +3841,11 @@ msgid "- Membership Fields -"
 msgstr "សមាជិក​ក្រុម"
 
 #: CRM/Member/BAO/Membership.php
-msgid "There are no status present, You can not add membership."
+msgid "Invalid date \"%1\" (must have form yyyymmdd)."
+msgstr ""
+
+#: CRM/Member/BAO/Membership.php
+msgid "There are no status present, You cannot add membership."
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
@@ -2560,8 +3854,9 @@ msgid "Online Contribution:"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Member/BAO/MembershipStatus.php
-msgid "This membership status can not be deleted"
-msgstr ""
+#, fuzzy
+msgid "This membership status cannot be deleted"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Member/BAO/MembershipType.php
 msgid "This membership type cannot be deleted due to following reason(s):"
@@ -2602,6 +3897,11 @@ msgstr "បន្ថែម​សមាជីក ៖ %1"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
+msgid "Join Date - From"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Member/BAO/Query.php
+#, fuzzy
 msgid "End Date - From"
 msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 
@@ -2609,6 +3909,129 @@ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 #, fuzzy
 msgid "Find Test Memberships?"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Member/BAO/Query.php
+#, fuzzy
+msgid "Find Pay Later Memberships?"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "Membership Type Default"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "Display Min Fee"
+msgstr "បង្ហាញ​ឈ្មោះ"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "New Title"
+msgstr "ចំណងជើង"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "New Text"
+msgstr "ចំណាំ"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "Renewal Title"
+msgstr "ចំណងជើង"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "Renewal Text"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipBlock.php
+#, fuzzy
+msgid "Is Required"
+msgstr "ចាំបាច់?"
+
+#: CRM/Member/DAO/MembershipLog.php
+#, fuzzy
+msgid "Membership Change Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipLog.php
+#, fuzzy
+msgid "Renewal Reminder Date"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Member/DAO/Membership.php
+#, fuzzy
+msgid "Membership ID"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/DAO/Membership.php
+#, fuzzy
+msgid "Membership Expiration Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/Membership.php
+#, fuzzy
+msgid "Status Override"
+msgstr "ស្ថានភាព"
+
+#: CRM/Member/DAO/Membership.php
+#, fuzzy
+msgid "Reminder Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "Start Event Adjust Unit"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipStatus.php
+msgid "End Event Adjust Unit"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipStatus.php
+msgid "Admin Assigned Only?"
+msgstr ""
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "Default Status?"
+msgstr "តម្លៃ​លំនាំដើម"
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "Is Reserved"
+msgstr "ចាំបាច់?"
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "start_date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "end_date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Member/DAO/MembershipStatus.php
+#, fuzzy
+msgid "join_date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Member/DAO/MembershipType.php
+#, fuzzy
+msgid "Visible"
+msgstr "មិន​អាច​ប្រើ​បាន"
+
+#: CRM/Member/DAO/MembershipType.php
+#, fuzzy
+msgid "Receipt Text Signup"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Member/DAO/MembershipType.php
+#, fuzzy
+msgid "Receipt Text Renewal"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -2696,6 +4119,13 @@ msgid "Start date must be the same or later than join date."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
+msgid ""
+"The selected Membership Type has a lifetime duration. You cannot specify an "
+"End Date for lifetime memberships. Please clear the End Date OR select a "
+"different Membership Type."
+msgstr ""
+
+#: CRM/Member/Form/Membership.php
 msgid "Start date must be set if end date is set."
 msgstr ""
 
@@ -2715,8 +4145,18 @@ msgstr "សូម​បញ្ចូល​ប្រធានបទ​ត្រឹ
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
+msgid "Please enter the contribution Type."
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
 msgid "Please enter the contribution."
 msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Online Membership: Admin Interface"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Member/Form/Membership.php
 msgid "Membership Confirmation and Receipt"
@@ -2740,6 +4180,12 @@ msgstr ""
 
 #: CRM/Member/Form/Membership.php
 msgid "A membership confirmation and receipt has been sent to %1."
+msgstr ""
+
+#: CRM/Member/Form/MembershipRenewal.php
+msgid ""
+"Membership Renewal using credit card required Membership fee, since this "
+"memebrship type have no fee, you can use normal renew mode"
 msgstr ""
 
 #: CRM/Member/Form/MembershipRenewal.php
@@ -2773,36 +4219,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
-msgid "Start Event"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
-msgstr ""
-
-#: CRM/Member/Form/MembershipStatus.php
-msgid "Start Event Adjust Interval"
-msgstr ""
-
-#: CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "End Event"
 msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjustment"
 msgstr ""
-
-#: CRM/Member/Form/MembershipStatus.php
-msgid "End Event Adjust Interval"
-msgstr ""
-
-#: CRM/Member/Form/MembershipStatus.php
-#, fuzzy
-msgid "Current Membership?"
-msgstr "ឈ្មោះ​ផ្ទះ​សម្បែង"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Administrator Only?"
@@ -2830,17 +4252,8 @@ msgstr "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ �
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
-msgid "Duration Interval"
-msgstr "រយៈពេល"
-
-#: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Membership Organization"
 msgstr "អង្គការ​ថ្មី"
-
-#: CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Rollover Day"
-msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -2848,13 +4261,43 @@ msgid "Renewal Reminder Message"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Member/Form/MembershipType.php
-msgid "Renewal Reminder Day"
-msgstr ""
+#, fuzzy
+msgid "Please enter a membership type name."
+msgstr "សូម​ជ្រើស​ស្ថានភាព"
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
-msgid "Change"
-msgstr "រៀប​ចំ​ក្រុម"
+msgid "Please select the membership organization"
+msgstr "សូម​ជ្រើស​ស្ថានភាព"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter a contribution type."
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter the contribution type."
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter a duration unit."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter a duration interval."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please select a period type."
+msgstr "សូម​ជ្រើស​ស្ថានភាព"
+
+#: CRM/Member/Form/MembershipType.php
+msgid "Period type should be Rolling when duration unit is Day"
+msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -2864,6 +4307,16 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
 msgid "Please enter a valid fixed period rollover day"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter valid Fixed Period Start Day"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Please enter valid Fixed Period Rollover Day"
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Member/Form/MembershipType.php
@@ -2884,6 +4337,30 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "The membership type '%1' has been saved."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
+#: CRM/Member/Form/Search.php
+msgid "Member Name or Email"
+msgstr ""
+
+#: CRM/Member/Form/Search.php
+#, fuzzy
+msgid "Find Members"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/Form/Task/Batch.php
+#, fuzzy
+msgid "Batch Update for Members"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Member/Form/Task/Batch.php
+#, fuzzy
+msgid "Update Members(s)"
+msgstr "លុប"
+
+#: CRM/Member/Form/Task/Batch.php
+#, fuzzy
+msgid "Update Memberships"
+msgstr "សមាជិក​ក្រុម"
+
 #: CRM/Member/Form/Task/Delete.php
 #, fuzzy
 msgid "Deleted Member(s): %1"
@@ -2894,15 +4371,10 @@ msgstr "បន្ថែម​សមាជីក ៖ %1"
 msgid "Total Selected Membership(s): %1"
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
 
-#: CRM/Member/Form/Task/Export.php
+#: CRM/Member/Form/Task/PickProfile.php
 #, fuzzy
-msgid "Membership ID"
-msgstr "សមាជិក​ក្រុម"
-
-#: CRM/Member/Form/Task/Export.php
-#, fuzzy
-msgid "CiviCRM Members"
-msgstr "សមាជិក​ក្រុម"
+msgid "Batch Profile Update for Membership"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Member/Form/Task/Print.php
 #, fuzzy
@@ -2910,10 +4382,7 @@ msgid "Print Members"
 msgstr "សមាជិក​ក្រុម"
 
 #: CRM/Member/Import/Form/MapField.php
-msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
-"if update mode.)"
+msgid "(OR Membership ID if update mode.)"
 msgstr ""
 
 #: CRM/Member/Import/Form/MapField.php
@@ -2921,33 +4390,29 @@ msgstr ""
 msgid "Duplicate Import Membership Mapping Name"
 msgstr "លុប"
 
+#: CRM/Member/Import/Form/UploadFile.php
+#, fuzzy
+msgid "Insert new Membership"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/Import/Form/UploadFile.php
+#, fuzzy
+msgid "Update existing Membership"
+msgstr "សមាជិក​ក្រុម"
+
 #: CRM/Member/Import/Parser.php
 #, fuzzy
 msgid "View Membership URL"
 msgstr "សមាជិក​ក្រុម"
 
-#: CRM/Member/Menu.php
-msgid ""
-"Define the types of memberships you want to offer. For each type, you can "
-"specify a 'name' (Gold Member, Honor Society Member...), a description, "
-"duration, and a minimum fee."
-msgstr ""
-
-#: CRM/Member/Menu.php
-msgid "Membership Status Rules"
-msgstr ""
-
-#: CRM/Member/Menu.php
-msgid ""
-"Status 'rules' define the current status for a membership based on that "
-"membership's start and end dates. You can adjust the default status options "
-"and rules as needed to meet your needs."
-msgstr ""
-
-#: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
+#: CRM/Member/Info.php
 #, fuzzy
-msgid "Find Members"
+msgid "Your Membership(s)"
 msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Member/Page/DashBoard.php
+msgid "Invalid date query \"%1\" in URL (valid syntax is yyyymm)."
+msgstr ""
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Are you sure you want to disable this membership status rule?"
@@ -2993,14 +4458,346 @@ msgstr "ប្រភេទ​សកម្មភាព"
 msgid "Delete Membership Type"
 msgstr "លុប"
 
-#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
+#: CRM/Member/Page/Tab.php
+msgid "Create Membership"
+msgstr ""
+
+#: CRM/Member/Task.php
 #, fuzzy
-msgid "Member Since"
+msgid "Export Members"
 msgstr "សមាជិក​ក្រុម"
 
-#: CRM/Member/Selector/Search.php
-msgid "CiviCRM Member Search"
+#: CRM/Member/Task.php
+msgid "Batch Update Members Via Profile"
 msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "$%1 - due on %2 (overdue)"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+#, fuzzy
+msgid "$%1 - due on %2"
+msgstr "%1 - %2 នៃ %3"
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid ""
+"Oops. It looks like there is no valid payment status for online payment."
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "Make Pledge Payment(s):"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "I want to make a one-time contribution"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "I pledge to contribute this amount every"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+#, fuzzy
+msgid "Pledge Frequency Interval"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Pledge/BAO/Pledge.php
+#, fuzzy
+msgid "Balance Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
+#, fuzzy
+msgid "Paid Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
+#, fuzzy
+msgid "Paid Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Pledge Status %1"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Pledge Payment Status %1"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Payments Start Date - From"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Payments Ended Date - From"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Pledge Made - From"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Payment Scheduled - From"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+#, fuzzy
+msgid "Find Test Pledge?"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
+#, fuzzy
+msgid "Pledge Payment Status"
+msgstr "សូម​បញ្ចូល​ប្រធានបទ​ត្រឹម​ត្រូវ​មួយ ។"
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+#, fuzzy
+msgid "Scheduled Amount"
+msgstr "បាន​កំណត់​​ពេល"
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+#, fuzzy
+msgid "Last Reminder"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+#, fuzzy
+msgid "Reminders Sent"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/DAO/PledgeBlock.php
+msgid "Entity Id"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php
+#, fuzzy
+msgid "Pledge Frequency Unit"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Pledge ID"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Frequency Day"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Pledge/DAO/Pledge.php
+#, fuzzy
+msgid "Acknowledge Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Pledge/Form/Payment.php
+#, fuzzy
+msgid "Select a valid Scheduled date."
+msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Payment.php
+#, fuzzy
+msgid "Pledge Payment Schedule has been updated.<br />"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+#, fuzzy
+msgid "Total Pledge Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Please enter a valid monetary amount."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "To be paid in"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Please enter a valid number of installments."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#, fuzzy
+msgid "every"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a number for frequency (e.g. every \"3\" months)."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Payments are due on the"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Please enter a valid payment due day."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "each"
+msgstr "ស្វែងរក"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Select a valid date for the day the pledge was made."
+msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Payments Start"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Select a valid payments start date."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Send Acknowledgment?"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Acknowledgment Date"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Self-service Payments Page"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Total Pledge Amount should be greater than zero."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Installments should be greater than zero."
+msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Please enter a valid frequency day ie. 1 through 31."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Please enter a valid frequency day ie. 1 through 7."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"Pledge has been recorded and the payment schedule has been created.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+#, fuzzy
+msgid "Pledge has been updated.<br />"
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "An acknowledgment email has been sent to %1.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
+"payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
+"payment for this pledge</a>."
+msgstr ""
+
+#: CRM/Pledge/Form/Search.php
+msgid "Pledger Name or Email"
+msgstr ""
+
+#: CRM/Pledge/Form/Search.php
+#, fuzzy
+msgid "Find Pledges"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Pledge/Form/Task/Delete.php
+#, fuzzy
+msgid "Deleted Pledge(s): %1"
+msgstr "បន្ថែម​សមាជីក ៖ %1"
+
+#: CRM/Pledge/Form/Task/Delete.php
+#, fuzzy
+msgid "Total Selected Pledge(s): %1"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: CRM/Pledge/Form/Task/Print.php
+#, fuzzy
+msgid "Print Pledge List"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Pledge/Info.php
+msgid "CiviCRM Pledge Engine"
+msgstr ""
+
+#: CRM/Pledge/Info.php
+#, fuzzy
+msgid "Your Pledge(s)"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Pledge/Page/Tab.php
+msgid ""
+"Pledge has been Cancelled and all scheduled (not completed) payments have "
+"been cancelled.<br />"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php
+msgid ""
+"Cancelling this pledge will also cancel any scheduled (and not completed) "
+"pledge payments. This action cannot be undone. Do you want to continue?"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
+#, fuzzy
+msgid "View Pledge"
+msgstr "Url គេហទំព័រ"
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
+#, fuzzy
+msgid "Edit Pledge"
+msgstr "កែសម្រួល​ក្រុម"
+
+#: CRM/Pledge/Selector/Search.php
+#, fuzzy
+msgid "Cancel Pledge"
+msgstr "បោះបង់"
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
+#, fuzzy
+msgid "Delete Pledge"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Balance Due"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php
+#, fuzzy
+msgid "Pledge Search"
+msgstr "ស្វែងរក"
+
+#: CRM/Pledge/Task.php
+#, fuzzy
+msgid "Export Pledges"
+msgstr "សមាជិក​ក្រុម"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -3032,6 +4829,123 @@ msgstr ""
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
+msgid "Non-deductible portion of this contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
+msgid "Processing fee for this transaction (if applicable)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
+msgid "Net value of the contribution (Total Amount minus Fee)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
+msgid "Unique internal reference ID for this contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
+msgid "Date that a thank-you message was sent to the contributor."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/Register.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+#, fuzzy
+msgid "Credit or Debit Card Information"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/Register.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid "Enter numbers only, no spaces or dashes."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/Register.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid "Security Code Location on Credit Card"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/Register.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid ""
+"Usually the last 3-4 digits in the signature area on the back of the card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/Register.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid "Billing Name and Address"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/CreditCard.tpl
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid ""
+"Enter the name as shown on the credit or debit card, and the billing address "
+"for this card."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/PaymentReminders.tpl
+msgid "Days prior to each scheduled payment due date."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/PaymentReminders.tpl
+msgid "Reminders for each scheduled payment."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/AdditionalInfo/PaymentReminders.tpl
+msgid "Days after the last one sent, up to the maximum number of reminders."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionCharts.tpl
+msgid "There were no contributions during the selected year."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionCharts.tpl
+#, fuzzy
+msgid "Table View"
+msgstr "អាច​ប្រើ​បាន"
+
+#: templates/CRM/Contribute/Form/ContributionCharts.tpl
+msgid "There are no live contribution records to display."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -3097,33 +5011,40 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Contribute/Form/Offline.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/Register.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Billing Name and Address"
+msgid "I pledge to contribute this amount every %1 %2s for %3 installments."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Contribute/Form/Offline.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/Register.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Credit or Debit Card Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+msgid "I pledge to contribute this amount every %2 for %3 installments."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Click &quot;Make Contribution&quot; below to register your pledge. You will "
+"be able to modify or cancel future pledge payments at any time by logging in "
+"to your account or contacting us at %1."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your initial pledge payment will be processed when you click &quot;Make "
+"Contribution&quot; below. You will be able to modify or cancel future pledge "
+"payments at any time by logging in to your account or contacting us at %1."
+msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "On Behalf Of"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
@@ -3146,13 +5067,21 @@ msgstr ""
 msgid "Click the Google Checkout button to continue."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl
+msgid "CiviContribute Alert: Possible Duplicate Contact Record"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl
 #, fuzzy
-msgid "every"
-msgstr "សមាជិក​ក្រុម"
+msgid "Copy of Contribution Receipt"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "for"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+msgid "installments."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -3176,25 +5105,6 @@ msgid ""
 "If you have a PayPal account, you can click the PayPal button to continue. "
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#: templates/CRM/Contribute/Form/Offline.tpl
-#: templates/CRM/Event/Form/Registration/Register.tpl
-msgid "Enter numbers only, no spaces or dashes."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#: templates/CRM/Contribute/Form/Offline.tpl
-#: templates/CRM/Event/Form/Registration/Register.tpl
-msgid "Security Code Location on Credit Card"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution/Main.tpl
-#: templates/CRM/Contribute/Form/Offline.tpl
-#: templates/CRM/Event/Form/Registration/Register.tpl
-msgid ""
-"Usually the last 3-4 digits in the signature area on the back of the card."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -3285,8 +5195,18 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+#: templates/CRM/Contribute/Form/Search/Common.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid ""
+"No Payment Processor has been configured / enabled for your site. Unless you "
+"are only using CiviContribute to solicit non-monetary / in-kind "
+"contributions, you will need to <a href='%1'>configure a Payment Processor</"
+"a>. Then return to this screen and assign the processor to this Contribution "
+"Page. (<a href='%3' target='_blank' title='%2'>read more...</a>)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3294,6 +5214,14 @@ msgid ""
 "Uncheck this box if you are using this contribution page for free membership "
 "signup ONLY, or to solicit in-kind / non-monetary donations such as "
 "furniture, equipment.. etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid ""
+"Select the payment processor to be used for contributions submitted from "
+"this contribution page (unless you are soliciting non-monetary / in-kind "
+"contributions only). (<a href='%1' target='_blank' title='%2'>read more...</"
+"a>)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3318,11 +5246,38 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
-"Instructions added to Confirmation and Thank-you pages when the user selects "
-"the 'pay later' option (e.g. 'Mail your check to ... within 3 business "
-"days.')."
+"Instructions added to Confirmation and Thank-you pages, as well as the "
+"confirmation email, when the user selects the 'pay later' option (e.g. 'Mail "
+"your check to ... within 3 business days.')."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid ""
+"Check this box if you want to give users the option to make a Pledge (a "
+"commitment to contribute a fixed amount on a recurring basis)."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid ""
+"Which frequencies can the user pick from (e.g. every 'week', every 'month', "
+"every 'year')?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Can they also set an interval (e.g. every '3' months)?"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "days prior to each scheduled payment due date."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "reminders for each scheduled payment."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "days after the last one sent, up to the maximum number of reminders."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3330,6 +5285,14 @@ msgid ""
 "Check this box if you want to give users the option to make recurring "
 "contributions. (This feature requires that you use 'PayPal Website Standard' "
 "OR 'PayJunction' as your payment processor.)"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Select recurring units supported for recurring payments."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
+msgid "Can users also set an interval (e.g. every '3' months)?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3484,15 +5447,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
-msgid ""
-"No Payment Processor has been configured / enabled for your site. Unless you "
-"are only using CiviContribute to solicit non-monetary / in-kind "
-"contributions, you will need to <a href='%1'>configure a Payment Processor</"
-"a>. Then return to this screen and assign the processor to this Contribution "
-"Page. (<a href='%3' target='_blank' title='%2'>read more...</a>)"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
 msgstr ""
 
@@ -3506,10 +5460,14 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
-"Select the payment processor to be used for contributions submitted from "
-"this contribution page (unless you are soliciting non-monetary / in-kind "
-"contributions only). (<a href='%1' target='_blank' title='%2'>read more...</"
-"a>)"
+"If you want to allow the contribution/signup to be done by individuals on "
+"behalf of an organization."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+msgid ""
+"Text displayed next to the checkbox for the 'contribute/signup on behalf of "
+"an organization' option on the contribution form."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -3652,6 +5610,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
+msgid ""
+"Enter content for the about message. You may include HTML formatting tags. "
+"You can also include images, as long as they are already uploaded to a "
+"server - reference them using complete URLs."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Preview Widget and Get Code"
 msgstr ""
 
@@ -3739,12 +5704,6 @@ msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ ន�
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
-msgid "Membership Start Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #, fuzzy
 msgid "Membership End Date"
@@ -3784,12 +5743,20 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #, fuzzy
 msgid "Honoree Email"
 msgstr "សារ"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/Contribution.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Registered Email"
+msgstr "សារ"
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
@@ -3811,14 +5778,29 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
+msgid "Invoice"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 #, fuzzy
 msgid "Receipt"
 msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
-"An email receipt will be sent to %1 once the transaction is processed "
-"successfully."
+"An email confirmation with these payment instructions has been sent to %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid " and to %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "An email receipt will be sent to %1"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid "once the transaction is processed successfully."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -3855,6 +5837,42 @@ msgid ""
 "cancel your future contributions."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid ""
+"We will record your initial pledge payment when we receive it from you. You "
+"will be able to modify or cancel future pledge payments at any time by "
+"logging in to your account or contacting us at %1."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid ""
+"Your initial pledge payment has been processed. You will be able to modify "
+"or cancel future pledge payments at any time by logging in to your account "
+"or contacting us at %1."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+msgid ""
+"We will send you a payment reminder %1 days prior to each scheduled payment "
+"date. The reminder will include a link to a page where you can make your "
+"payment online."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid ""
+"You will not be able to send an automatic email receipt for this "
+"contribution because there is no email address recorded for this contact. If "
+"you want a receipt to be sent when this contribution is recorded, click "
+"Cancel and then click Edit from the Summary tab to add an email address "
+"before recording the contribution."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid ""
+"Use this form to submit a new contribution on behalf of %1. <strong>A %2 "
+"transaction will be submitted</strong> using the selected payment processor."
+msgstr ""
+
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
 "WARNING: Deleting this contribution will result in the loss of the "
@@ -3862,10 +5880,18 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
+#: templates/CRM/Contribute/Page/ContributionHonor.tpl
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Contributor"
+msgstr "បន្ត >>"
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #: templates/CRM/Member/Form/Membership.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "(test)"
 msgstr ""
 
@@ -3875,14 +5901,6 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "The date this contribution was received."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Leave blank for non-monetary contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -3896,34 +5914,11 @@ msgid "Date that a receipt was sent to the contributor."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
-msgid "Cancellation Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid ""
-"Enter the cancellation date, or you can skip this field and the cancellation "
-"date will be automatically set to TODAY."
+msgid "The date this contribution was received."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Additional Details"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Non-deductible portion of this contribution."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Processing fee for this transaction (if applicable)."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Net value of the contribution (Total Amount minus Fee)."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Unique internal reference ID for this contribution."
+msgid "Leave blank for non-monetary contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -3939,11 +5934,33 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Date that a thank-you message was sent to the contributor."
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+#: templates/CRM/Member/Form/MembershipView.tpl
+msgid "Pay Later"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-msgid "Honoree Information"
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+#: templates/CRM/Member/Form/MembershipView.tpl
+#, fuzzy
+msgid "Incomplete Transaction"
+msgstr "ពិពណ៌នា"
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+#, fuzzy
+msgid "Cancellation Information"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+msgid ""
+"Enter the cancellation date, or you can skip this field and the cancellation "
+"date will be automatically set to TODAY."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -3954,7 +5971,7 @@ msgstr "ប្រភេទ​សកម្មភាព"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
-"WARNING: You can not delete a contribution type if it is currently used by "
+"WARNING: You cannot delete a contribution type if it is currently used by "
 "any Contributions, Contribution Pages or Membership Types. Consider "
 "disabling this option instead."
 msgstr ""
@@ -3981,6 +5998,12 @@ msgid "pending"
 msgstr "រយៈពេល"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+msgid "Receipt Sent"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Option"
 msgstr "រយៈពេល"
@@ -4104,34 +6127,7 @@ msgid "Thanks for your support."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Message.tpl
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
-msgid "Received Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
-msgid "Additional Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
-
-#: templates/CRM/Contribute/Form/Message.tpl
 msgid "Sent"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Offline.tpl
-msgid ""
-"Use this form to submit a new contribution on behalf of %1. <strong>A %2 "
-"transaction will be submitted</strong> using the selected payment processor."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Offline.tpl
-msgid "Automatically email a receipt for this contribution?"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Offline.tpl
-msgid ""
-"Enter the name as shown on the credit or debit card, and the billing address "
-"for this card."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
@@ -4159,14 +6155,7 @@ msgid "Please print this confirmation for your records."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Event Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
-
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #, fuzzy
 msgid "Registration Date"
 msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
@@ -4198,32 +6187,19 @@ msgid ""
 "values"
 msgstr ""
 
-#: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
+#: templates/CRM/Contribute/Form/Selector.tpl
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
 #, fuzzy
-msgid "Found %count contribution."
-msgid_plural "Found %count contributions."
-msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+msgid "(Recurring Contribution)"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
-#: templates/CRM/Contribute/Form/Search.tpl
-msgid ""
-"Use this form to find contributions by contributor name, contribution date "
-"or amount ranges, type of contribution, payment method and / or status."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Search.tpl
-#: templates/CRM/Event/Form/Search.tpl templates/CRM/Member/Form/Search.tpl
-msgid ""
-"To search by first AND last name, enter 'lastname, firstname'. Example: "
-"'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins "
-"with any combination of letters')."
-msgstr ""
+#: templates/CRM/Contribute/Form/Selector.tpl
+#, fuzzy
+msgid "Find more contributions"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "View all contributions from this contact"
-msgstr ""
-
-#: templates/CRM/Contribute/Form/Selector.tpl
-msgid "List more contributions"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task/Batch.tpl
@@ -4238,20 +6214,15 @@ msgstr ""
 msgid ""
 "Are you sure you want to delete the selected contributions? This delete "
 "operation cannot be undone and will delete all transactions and activity "
-"history associated with these contributions."
+"associated with these contributions."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/Task/Export.tpl
-msgid "One contribution record selected for export."
-msgid_plural "%count contribution records selected for export."
-msgstr[0] ""
-
-#: templates/CRM/Contribute/Form/Task/Export.tpl
+#: templates/CRM/Contribute/Form/Task/PDF.tpl
 msgid ""
-"Click <strong>Export Contributions</strong> to download a comma-separated "
-"values (CSV) file of contribution data. Each row will also include "
-"contributor contact information (name, address, email, phone...) as "
-"available."
+"A PDF file containing one receipt per page will be downloaded to your local "
+"computer when you click <strong>Download Receipt(s)</strong>.\n"
+"    Your browser may display the file for you automatically, or you may need "
+"to open it for printing using any PDF reader (such as Adobe&reg; Reader)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task/PickProfile.tpl
@@ -4411,6 +6382,11 @@ msgid ""
 "by contacts of that type."
 msgstr ""
 
+#: templates/CRM/Contribute/Import/Form/UploadFile.tpl
+msgid ""
+"Select a saved field mapping if this file format matches a previous import."
+msgstr ""
+
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
@@ -4458,10 +6434,17 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
-"Set page title, contribution type (donation, campaign contribution, etc.), "
-"payment processor, goal amount, introduction, honoree features, and page "
-"status (active or disabled)."
+"Set page title and describe your cause or campaign. Select contribution type "
+"(donation, campaign contribution, etc.), and set optional fund-raising goal "
+"and campaign start and end dates. Enable honoree features and allow "
+"individuals to contribute on behalf of an organization. Enable or disable "
+"this page."
 msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
+msgid "Select the payment processor to be used for this contribution page."
+msgstr "អង្គការ​ថ្មី"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4470,9 +6453,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
-msgid "Enable recurring contributions."
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+msgid ""
+"Enable pledges OR recurring contributions (recurring contributions are not "
+"supported for all payment processors)."
+msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4509,8 +6493,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Create a Widget"
-msgstr ""
+#, fuzzy
+msgid "Contribution Widget"
+msgstr "ឈ្មោះ​អង្គការ"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -4554,6 +6539,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid ""
+"CiviContribute allows you to create and maintain any number of Online "
+"Contribution Pages. You can create different pages for different programs or "
+"campaigns - and customize text, amounts, types of information collected from "
+"contributors, etc."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+#: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
 msgid "New Contribution Page"
 msgstr "អង្គការ​ថ្មី"
@@ -4569,8 +6563,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 msgid ""
-"No contribution pages have been created yet. Click <a href='%1'>here</a> to "
-"create a new contribution page using the step-by-step wizard."
+"No contribution pages have been created yet. Click <a accesskey=\"N\" href='%"
+"1'>here</a> to create a new contribution page using the step-by-step wizard."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
@@ -4611,32 +6605,14 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid ""
-"CiviContribute allows you to create customized page(s) for collecting online "
-"contributions."
-msgstr ""
-
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid ""
-"You can also input and track offline contributions. To enter contributions "
-"manually for individual contacts, use <a href='%1'>Find Contacts</a> to "
-"locate the contact. Then click <strong>View</strong> to go to their summary "
-"page and click on the <strong>New Contribution</strong> link. You can also "
-"<a href='%2'>import batches of offline contributions</a> from other sources."
-msgstr ""
-
-#: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
 msgid "Contributions Summary"
 msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid ""
-"This table provides a summary of <strong>Contribution Totals</strong>, and "
-"includes shortcuts to view the contribution details for these commonly used "
-"search periods. To run your own customized searches - click <a href='%"
-"1'>Find Contributions</a>. You can search by Contributor Name, Amount Range, "
-"and a variety of other criteria."
+#: templates/CRM/Member/Page/MembershipType.tpl
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Period"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -4657,11 +6633,17 @@ msgid "Current Year-To-Date"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Cumulative"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "(since inception)"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "View contribution summary as bar or circle chart\""
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -4728,10 +6710,124 @@ msgid ""
 "or enable premiums here</a>."
 msgstr ""
 
+#: templates/CRM/Contribute/Page/Tab.tpl
+msgid "Contributions received from %1 since inception."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>Record Contribution (Check, Cash, EFT ...)</a> to record "
+"a new contribution received from this contact."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>Submit Credit Card Contribution</a> to process a new "
+"contribution on behalf of the contributor using their credit or debit card."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl
+msgid "Record Contribution (Check, Cash, EFT ...)"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl
+#, fuzzy
+msgid "Submit Credit / Debit Card Contribution"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: templates/CRM/Contribute/Page/Tab.tpl
+msgid "No contributions have been recorded from this contact."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl templates/CRM/Pledge/Page/Tab.tpl
+#, fuzzy
+msgid "Contributions made in honor of %1"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Received date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+msgid ""
+"Contact us for information about contributions prior to those listed above."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+msgid "There are no contributions on record for you."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Contributions made in your honor."
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Recurring Contribution(s)"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+msgid "Terms:"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Change Recurring Contribution"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Event/Form/EventFees.tpl
+msgid "Event Fee Level (if applicable)."
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid ""
+"Check this box to enter payment information. You will also be able to "
+"generate a customized receipt."
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+#, fuzzy
+msgid "Payment Information"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid "Select the appropriate contribution type for this payment."
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+msgid "Registration Confirmation and Receipt"
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
+#, fuzzy
+msgid "Registration Confirmation"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Event/Form/EventFees.tpl
+msgid "Send Confirmation and Receipt"
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+msgid "Send Confirmation"
+msgstr ""
+
+#: templates/CRM/Event/Form/EventFees.tpl
+msgid ""
+"Enter a message you want included at the beginning of the confirmation "
+"email. EXAMPLE: 'Thanks for registering for this event.'"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/Delete.tpl
 msgid ""
 "Warning: Deleting this event will also delete associated Event Registration "
-"Page and Event Fee configurations. This operation can not be undone. Do you "
+"Page and Event Fee configurations. This operation cannot be undone. Do you "
 "want to continue?"
 msgstr ""
 
@@ -4820,22 +6916,51 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
+"Instructions added to Confirmation and Thank-you pages when the user selects "
+"the 'pay later' option (e.g. 'Mail your check to ... within 3 business "
+"days.')."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
 "Select a pre-configured Price Set to offer multiple individually priced "
-"options for event registrants. Otherwise, select &quot;-none-&quot, and "
+"options for event registrants. Otherwise, select &quot;-none-&quot; and "
 "enter one or more fee levels in the table below. Create or edit Price Sets "
 "<a href='%1'>here</a>."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
-msgid "Fee Levels"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+msgid "Regular Fees"
+msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
 "Use the table below to enter descriptive labels and amounts for up to ten "
 "event fee levels. These will be presented as a list of radio button options. "
-"Both the label and dollar amount will be displayed."
+"Both the label and dollar amount will be displayed. You can also configure "
+"one or more sets of discounted fees by checking \"Discounts by Signup Date\" "
+"below."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"Check this box if you want to offer discounted fees based on registration "
+"date (e.g. 'early-registration discounts')."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "another discount set"
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Discounted Fees"
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid ""
+"Use the table below to enter descriptive labels and amounts for up to ten "
+"discounted event fees for each discount set. <strong>Don't forget to click "
+"'Save' when you are finished.</strong>"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
@@ -4849,6 +6974,12 @@ msgid ""
 "the event. This information will be displayed on the Event Information page. "
 "It will also be included in online registration pages and confirmation "
 "emails if these features are enabled."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Location.tpl
+msgid ""
+"Uncheck this box if you want to HIDE the event Address on Event Information "
+"and Registration pages as well as on email confirmations."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -4868,6 +6999,10 @@ msgstr ""
 msgid ""
 "Display text for link from Event Information to Event Registration pages (e."
 "g. 'Register Now!')."
+msgstr ""
+
+#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
+msgid "Enable or disable multiple participant registration for this event."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -4974,6 +7109,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
+msgid ""
+"Use this form to submit an event registration on behalf of %1. <strong>A %2 "
+"transaction will be submitted</strong> using the selected payment processor."
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl templates/CRM/Event/Page/Tab.tpl
+msgid "New Event Registration"
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl
 #, fuzzy
 msgid "Delete Event Registration"
 msgstr "លុប"
@@ -5008,53 +7153,6 @@ msgstr ""
 msgid "Source for this registration (if applicable)."
 msgstr ""
 
-#: templates/CRM/Event/Form/Participant.tpl
-msgid "Event Fee Level (if applicable)."
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-#: templates/CRM/Member/Form/MembershipRenewal.tpl
-#: templates/CRM/Member/Form/Membership.tpl
-msgid ""
-"Check this box to enter payment information. You will also be able to "
-"generate a customized receipt."
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
-msgid "Payment Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
-
-#: templates/CRM/Event/Form/Participant.tpl
-#: templates/CRM/Member/Form/MembershipRenewal.tpl
-#: templates/CRM/Member/Form/Membership.tpl
-msgid "Select the appropriate contribution type for this payment."
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-msgid "Registration Confirmation and Receipt"
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
-msgid "Registration Confirmation"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
-
-#: templates/CRM/Event/Form/Participant.tpl
-msgid "Send Confirmation and Receipt"
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-msgid "Send Confirmation"
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-msgid ""
-"Enter a message you want included at the beginning of the confirmation "
-"email. EXAMPLE: 'Thanks for registering for this event.'"
-msgstr ""
-
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "View Participant"
 msgstr ""
@@ -5066,34 +7164,33 @@ msgid "Item"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
-#: templates/CRM/Event/Form/Registration/LineItem.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-msgid "Qty"
-msgstr ""
-
-#: templates/CRM/Event/Form/ParticipantView.tpl
-#: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
-msgid "Unit Price"
-msgstr "ឈ្មោះ​កណ្ដាល"
-
-#: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
 "Please verify the information below. Click <strong>Go Back</strong> if you "
-"need to make changes. Otherwise, click the <strong>Continue</strong> button "
-"below to complete your registration."
+"need to make changes."
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+msgid ""
+"Click the <strong>Google Checkout</strong> button to checkout to Google, "
+"where you will select your payment method and complete the registration."
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+msgid ""
+"Otherwise, click the <strong>Continue</strong> button below to complete your "
+"registration."
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
-msgid "Registered Email"
-msgstr "សារ"
+msgid "Participant Information - Participant %1"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
@@ -5113,6 +7210,7 @@ msgid "Total Price"
 msgstr "ឈ្មោះ​កណ្ដាល"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
 msgid "Event Total"
 msgstr "ចំណងជើង"
@@ -5161,6 +7259,20 @@ msgid ""
 "occurred."
 msgstr ""
 
+#: templates/CRM/Event/Form/Registration/Register.tpl
+msgid "Register additional people for this event"
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/Register.tpl
+msgid ""
+"You will be able to enter registration information for each additional "
+"person after you complete this page and click Continue."
+msgstr ""
+
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+msgid "An email with event details has been sent to %1."
+msgstr ""
+
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid ""
 "A registration confirmation email will be sent to %1 once the transaction is "
@@ -5178,19 +7290,34 @@ msgid "A registration confirmation email has also been sent to %1"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Additional Participant Email(s)"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Download iCalendar File"
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "iCalendar Feed"
 msgstr ""
 
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#: templates/CRM/Member/Form/Search/EmptyResults.tpl
+msgid "No matching memberships found."
+msgstr ""
+
+#: templates/CRM/Event/Form/Search/EmptyResults.tpl
 msgid "if you are searching by participant name, check your spelling"
+msgstr ""
+
+#: templates/CRM/Event/Form/Search/EmptyResults.tpl
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#: templates/CRM/Member/Form/Search/EmptyResults.tpl
+msgid "if you are searching within a date range, try a wider range of values"
 msgstr ""
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
@@ -5201,28 +7328,39 @@ msgstr ""
 msgid "Complete OR partial Event name."
 msgstr ""
 
-#: templates/CRM/Event/Form/Search/ResultTasks.tpl
+#: templates/CRM/Event/Form/Selector.tpl
 #, fuzzy
-msgid "Found %count participant."
-msgid_plural "Found %count participants."
-msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+msgid "View contact record"
+msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
-#: templates/CRM/Event/Form/Search.tpl
-msgid ""
-"Use this form to find participant(s) by participant name, event name, event "
-"start and end dates."
+#: templates/CRM/Event/Form/Selector.tpl
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "View event info page"
 msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "List participants for this event (all statuses)"
+msgstr ""
+
+#: templates/CRM/Event/Form/Selector.tpl
+#: templates/CRM/Event/Page/ManageEvent.tpl
+#, fuzzy
+msgid "participants"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Event/Form/Selector.tpl
+#: templates/CRM/Event/Form/Task/Print.tpl
 msgid "(no fee)"
 msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
-msgid "View all events for this contact"
-msgstr ""
+#, fuzzy
+msgid "Find more event participants"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Event/Form/Selector.tpl
-msgid "List more Event Participants"
+msgid "View all events for this contact"
 msgstr ""
 
 #: templates/CRM/Event/Form/Task/Batch.tpl
@@ -5243,20 +7381,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to delete the selected participations? This delete "
 "operation cannot be undone and will delete all transactions and activity "
-"history associated with these participations."
-msgstr ""
-
-#: templates/CRM/Event/Form/Task/Export.tpl
-msgid "One participant record selected for export."
-msgid_plural "%count participant records selected for export."
-msgstr[0] ""
-
-#: templates/CRM/Event/Form/Task/Export.tpl
-msgid ""
-"Click <strong>Export Participants</strong> to download a comma-separated "
-"values (CSV) file of participant data. Each row will also include "
-"participant contact information (name, address, email, phone...) as "
-"available."
+"associated with these participations."
 msgstr ""
 
 #: templates/CRM/Event/Form/Task/PickProfile.tpl
@@ -5268,14 +7393,84 @@ msgstr ""
 msgid "Event Date"
 msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
-#: templates/CRM/Event/Form/Task/Print.tpl
-msgid "Participation Status"
+#: templates/CRM/Event/Form/Task.tpl
+#, fuzzy
+msgid "Number of selected participants: %1"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: templates/CRM/Event/Import/Form/Preview.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Preview.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Total rows (participant records) in uploaded file."
 msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected mismatched participant ID. This record have not been "
+"updated."
+msgid_plural ""
+"CiviCRM has detected mismatched participant IDs. These records have not been "
+"Updated."
+msgstr[0] ""
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record with conflicting transaction ID within this "
+"data file or relative to existing particpant records. This record have not "
+"been imported."
+msgid_plural ""
+"CiviCRM has detected %count records with conflicting transaction IDs within "
+"this data file or relative to existing participant records. These records "
+"have not been imported."
+msgstr[0] ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+"participant record."
+msgid_plural ""
+"CiviCRM has detected %count records which are duplicates of existing CiviCRM "
+"participant records."
+msgstr[0] ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Rows with mismatched participant IDs... (NOT updated)."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Download Mismatched participants"
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Rows which are duplicates of existing CiviCRM participant records."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"The Event Import Wizard allows you to easily upload event participation data "
+"such as event registrations from other applications into CiviCRM."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV) "
+"and must contain data needed to match the participant data to an existing "
+"contact in your CiviCRM database."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
@@ -5284,37 +7479,66 @@ msgid ""
 "(Example: \"Contact ID\", \"Participant Role\")."
 msgstr ""
 
-#: templates/CRM/Event/Page/DashBoard.tpl
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
-"CiviEvent allows you to create customized page(s) for creating and "
-"registering online events. Administrators can create <a href='%"
-"1'><strong>new events</strong></a> and <a href='%2'><strong>manage existing "
-"events</strong></a>."
+"Select 'Individual' if you are importing event participation data for "
+"individual persons."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Organization' or 'Household' if you are importing event "
+"participation data for contacts of that type."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+msgid "Select Saved Mapping, or leave blank to create a new mapping."
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-msgid ""
-"You can also input and track offline Events. To enter events manually for "
-"individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
-"contact. Then click <strong>View</strong> to go to their summary page and "
-"click on the <strong>New Event</strong> link. You can also <a href='%"
-"2'><strong>import batches of participants</strong></a> from other sources."
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "HTML listing of current and future public events."
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-msgid ""
-"This table provides a summary of up to ten scheduled and recent "
-"<strong>Events</strong>. Click the <strong>Event name</strong> to view the "
-"event as it will be displayed to site visitors. Click the "
-"<strong>Participants count</strong> to see a list of participants. To run "
-"your own customized searches - click <a href='%1'>Find Participants</a>. You "
-"can search by Participant Name, Event, Date Range and Status."
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "Get RSS 2.0 feed for current and future public events."
 msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "Download iCalendar file for current and future public events."
+msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+#: templates/CRM/Event/Page/ManageEvent.tpl
+msgid "Get iCalendar feed for current and future public events."
+msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+msgid "View event info page\""
+msgstr ""
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
+msgid "List %1 participants"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
 msgid "(max %1)"
 msgstr "សារ"
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
+msgid "Map event location"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: templates/CRM/Event/Page/DashBoard.tpl
+msgid "Configure event information, fees, discounts, online registration..."
+msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Browse more events"
@@ -5324,6 +7548,23 @@ msgstr ""
 #, fuzzy
 msgid "Recent Registrations"
 msgstr "ឈ្មោះ​អង្គការ"
+
+#: templates/CRM/Event/Page/ICalendar.tpl
+msgid "Category"
+msgstr ""
+
+#: templates/CRM/Event/Page/ICalendar.tpl
+msgid "read more"
+msgstr ""
+
+#: templates/CRM/Event/Page/ICalendar.tpl
+#, fuzzy
+msgid "details..."
+msgstr "ព័ត៌មាន​លម្អិត"
+
+#: templates/CRM/Event/Page/ICalendar.tpl
+msgid "(not available)"
+msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -5345,15 +7586,16 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
-"Determine if the event is free or paid. For paid events, set the fee level"
-"(s) and contribution type assigned to fees. Give online registrants the "
-"option to 'pay later' (e.g. mail in a check, call in a credit card, etc.)."
+"Determine if the event is free or paid. For paid events, set the payment "
+"processor, fee level(s) and discounts. Give online registrants the option to "
+"'pay later' (e.g. mail in a check, call in a credit card, etc.)."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Determine whether an online registration page is available. If so, configure "
-"registration page elements."
+"registration, confirmation and thank you page elements and confirmation "
+"email details."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -5408,8 +7650,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-msgid "RSS 2.0 Feed"
-msgstr ""
+#, fuzzy
+msgid "New Event"
+msgstr "ចំណាំ"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
@@ -5444,6 +7687,208 @@ msgstr ""
 msgid "There are currently no participants registered for this event."
 msgstr ""
 
+#: templates/CRM/Event/Page/Tab.tpl
+msgid "This page lists all event registrations for %1 since inception."
+msgstr ""
+
+#: templates/CRM/Event/Page/Tab.tpl
+msgid ""
+"Click <a accesskey=\"N\" href='%1'>New Event Registration</a> to register "
+"this contact for an event."
+msgstr ""
+
+#: templates/CRM/Event/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>Submit Credit Card Event Registration</a> to process a "
+"new New Registration on behalf of the participant using their credit or "
+"debit card."
+msgstr ""
+
+#: templates/CRM/Event/Page/Tab.tpl
+#, fuzzy
+msgid "Submit Credit / Debit Card Event Registration"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: templates/CRM/Event/Page/Tab.tpl
+msgid ""
+"There are no event registrations recorded for this contact. You can <a "
+"href='%1'>enter one now</a>."
+msgstr ""
+
+#: templates/CRM/Event/Page/Tab.tpl
+msgid "There are no event registrations recorded for this contact."
+msgstr ""
+
+#: templates/CRM/Event/Page/UserDashboard.tpl
+msgid "Click on the event name for more information."
+msgstr ""
+
+#: templates/CRM/Event/Page/UserDashboard.tpl
+msgid "You are not registered for any current or upcoming Events."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
+msgid "New Grant"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Select the status of this grant."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Select the appropriate grant type."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Amount requested for grant."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Amount requested for grant in original currency (if different)."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
+msgid "Actual amount granted."
+msgstr "ប្រទេស"
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "When was the grant application received?"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Date on which the grant decision was finalized."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Date on which the grant money was transferred."
+msgstr ""
+
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid ""
+"Amount Requested <br />\n"
+"\t          (original currency)"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search/Common.tpl
+msgid "Date is not set"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+msgid "if you are searching by Contact name, check your spelling"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid ""
+"Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
+"Total Amount , etc ."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid "Find Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid "Complete OR partial name OR email."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Selector.tpl
+msgid "List more Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Delete.tpl
+msgid ""
+"Are you sure you want to delete the selected Grants? This delete operation "
+"cannot be undone and will delete all transactions associated with these "
+"grants."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Requested(orig. currency)"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Print.tpl
+#, fuzzy
+msgid "Application Recieved"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: templates/CRM/Grant/Form/Task.tpl
+#, fuzzy
+msgid "Number of selected grants: %1"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
+"correct them, and import the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Check this box if the first row of your file consists of field names "
+"(Example: 'Contact ID', 'Participant Role')."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid ""
+"CiviGrant allows you to input and track grants to Organizations, Individuals "
+"or Households. The grantee must first be entered as a contact in CiviCRM. "
+"Use <a href='%1'>Find Contacts</a> to see if there's already a record for "
+"the grantee. Once you've located or created the contact record, click "
+"<strong>View</strong> to go to their summary page, select the "
+"<strong>Grants</strong> tab and click <strong>New Grant</strong>."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Grants Summary"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid ""
+"This table provides a summary of <strong>Grant Totals</strong>, and includes "
+"shortcuts to view the Grant details for these commonly used search periods. "
+"Click the Grant Status to see a list of Contacts for that grant status. To "
+"run your own customized searches - click <a href='%1'>Find Grants</a>. You "
+"can search by Contact Name, Amount, Grant type and a variety of other "
+"criteria."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Number of grants"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "TOTAL"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "You have no Grants registered in your database."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Recent Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid "This page lists all grant registrations for %1 since inception."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid ""
+"Click <a accesskey=\"N\" href='%1'>New Grant</a> to register this contact "
+"for a Grant."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid ""
+"There are no grant recorded for this contact. You can <a href='%1'>enter one "
+"now</a>."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid "There are no grant recorded for this contact."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "New Mailing Component"
@@ -5472,14 +7917,19 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
 
+#: templates/CRM/Mailing/Form/Schedule.tpl
+msgid "OR"
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Search.tpl
 #, fuzzy
 msgid "Find Mailings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: templates/CRM/Mailing/Form/Search.tpl
-msgid "Complete OR partial mailing name."
-msgstr ""
+#, fuzzy
+msgid "Complete OR partial name."
+msgstr "កាលបរិច្ឆេទ និង ពេលវេលា"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -5488,11 +7938,6 @@ msgid ""
 "the right. If this count doesn't match your expectations, click "
 "<strong>Previous</strong> to review your selection(s)."
 msgstr ""
-
-#: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
-msgid "Tracking"
-msgstr "រយៈពេល"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -5581,6 +8026,10 @@ msgid "Preview Mailing"
 msgstr "សារ"
 
 #: templates/CRM/Mailing/Form/Test.tpl
+msgid "Attachment(s):"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Text Version:"
 msgstr ""
 
@@ -5602,12 +8051,6 @@ msgid ""
 "computer OR <strong>compose</strong> the content on this screen. Hold your "
 "mouse over the help (?) icon for more information on formats and "
 "requirements."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Click your mouse in the upper left corner of the box below to begin editing "
-"your HTML message."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
@@ -5668,12 +8111,16 @@ msgid "Or you can <a href='%1'>browse all Sent Mailings</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
+#, fuzzy
 msgid ""
-"There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
-msgstr ""
+"There are no Unscheduled Mailings. You can <a href='%1'>create and send one</"
+"a>."
+msgstr "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Body Text"
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid ""
+"There are no Scheduled or Sent Mailings. You can <a href='%1'>create and "
+"send one</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -5699,6 +8146,11 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
 msgstr ""
+
+#: templates/CRM/Mailing/Page/Optout.tpl
+#, fuzzy
+msgid "Optout"
+msgstr "រយៈពេល"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -5757,6 +8209,10 @@ msgid "View complete message"
 msgstr "សារ"
 
 #: templates/CRM/Mailing/Page/Report.tpl
+msgid "Attachments"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
 msgid "Mailing Settings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
@@ -5802,7 +8258,17 @@ msgid "has been successfully unsubscribed."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
-msgid "Are you sure you want to unsubscribe: %1 (%2)"
+msgid " %1 (%2)"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Unsubscribe.tpl
+#, fuzzy
+msgid "Are you sure you want to be unsubscribed from mailing lists:"
+msgstr "លុប​ក្រុម"
+
+#: templates/CRM/Mailing/Page/Unsubscribe.tpl
+msgid ""
+"Sorry you are not on the mailing list. Probably you are already unsubscribed."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -5860,6 +8326,21 @@ msgstr ""
 msgid ""
 "Display the membership fee along with the membership name and description "
 "for each membership option?"
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid ""
+"You will not be able to send an automatic email receipt for this Renew "
+"Membership because there is no email address recorded for this contact. If "
+"you want a receipt to be sent when this Membership is recorded, click Cancel "
+"and then click Edit from the Summary tab to add an email address before "
+"Renewal the Membership."
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid ""
+"Use this form to Renew Membership Record on behalf of %1. <strong>A %2 "
+"transaction will be submitted</strong> using the selected payment processor."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -5972,8 +8453,23 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
+"You will not be able to send an automatic email receipt for this Membership "
+"because there is no email address recorded for this contact. If you want a "
+"receipt to be sent when this Membership is recorded, click Cancel and then "
+"click Edit from the Summary tab to add an email address before recording the "
+"Membership."
+msgstr ""
+
+#: templates/CRM/Member/Form/Membership.tpl
+msgid ""
+"Use this form to submit Membership Record on behalf of %1. <strong>A %2 "
+"transaction will be submitted</strong> using the selected payment processor."
+msgstr ""
+
+#: templates/CRM/Member/Form/Membership.tpl
+msgid ""
 "WARNING: Deleting this membership will also delete related membership log "
-"and payment records. This action can not be undone. Consider modifying the "
+"and payment records. This action cannot be undone. Consider modifying the "
 "membership status instead if you want to maintain a record of this "
 "membership."
 msgstr ""
@@ -6102,10 +8598,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-msgid "None"
-msgstr ""
-
-#: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Memberships can be automatically granted to related contacts by selecting a "
 "Relationship Type."
@@ -6180,54 +8672,34 @@ msgstr "សមាជិក​ក្រុម"
 msgid "if you are searching by member name, check your spelling"
 msgstr ""
 
-#: templates/CRM/Member/Form/Search/ResultTasks.tpl
-#, fuzzy
-msgid "Found %count member."
-msgid_plural "Found %count members."
-msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: templates/CRM/Member/Form/Search.tpl
-msgid ""
-"Use this form to find member(s) by member name or email address, membership "
-"type, status, source, and/or membership period start and end dates. Multiple "
-"selections for Membership Type and Status are combined as OR criteria (e.g. "
-"checking 'Membership Type A' and 'Membership Type B' will find contacts who "
-"have either membership). All other search fields are combined as AND "
-"criteria (e.g. selecting Status is 'Expired' AND Source is 'Phone-banking' "
-"returns only those contacts who meet both criteria)."
-msgstr ""
-
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "View all memberships for this contact"
 msgstr ""
 
 #: templates/CRM/Member/Form/Selector.tpl
-msgid "List more Memberships"
+#, fuzzy
+msgid "Find more members"
+msgstr "សមាជិក​ក្រុម"
+
+#: templates/CRM/Member/Form/Task/Batch.tpl
+msgid ""
+"Update field values for each member as needed. Click <strong>Update "
+"Memberships</strong> below to save all your changes. To set a field to the "
+"same value for ALL rows, enter that value for the first member and then "
+"click the <strong>Copy icon</strong> (next to the column title)."
 msgstr ""
 
 #: templates/CRM/Member/Form/Task/Delete.tpl
 msgid ""
 "Are you sure you want to delete the selected memberships? This delete "
 "operation cannot be undone and will delete all transactions and activity "
-"history associated with these members."
+"associated with these members."
 msgstr ""
 
-#: templates/CRM/Member/Form/Task/Export.tpl
-msgid "One membership record selected for export."
-msgid_plural "%count membership records selected for export."
-msgstr[0] ""
-
-#: templates/CRM/Member/Form/Task/Export.tpl
-msgid ""
-"Click <strong>Export Memberships</strong> to download a comma-separated "
-"values (CSV) file of membership data. Each row will also include member "
-"contact information (name, address, email, phone...) as available."
-msgstr ""
-
-#: templates/CRM/Member/Form/Task/Print.tpl
+#: templates/CRM/Member/Form/Task/PickProfile.tpl
 #, fuzzy
-msgid "Start/Renew Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+msgid "Batch Update Members via Profile"
+msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: templates/CRM/Member/Form/Task.tpl
 #, fuzzy
@@ -6317,36 +8789,13 @@ msgid ""
 "by contacts of that type."
 msgstr ""
 
-#: templates/CRM/Member/Page/DashBoard.tpl
+#: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
-"CiviMember allows you to create customized membership types as well as page"
-"(s) for online membership sign-up and renewal. Administrators can create or "
-"modify Membership Types <a href='%2'>here</a>, and configure Online "
-"Contribution Pages which include membership sign-up <a href='%1'>here</a>."
-msgstr ""
-
-#: templates/CRM/Member/Page/DashBoard.tpl
-msgid ""
-"You can also input and track membership sign-ups offline. To record "
-"memberships manually for individual contacts, use <a href='%1'>Find "
-"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
-"to their summary page and click on the <strong>New Membership</strong> link. "
-"You can also <a href='%3'>import batches of membership records</a> from "
-"other sources. Refer to the <a href='%2' target='_blank' title='%"
-"4'>CiviMember Guide</a> for more information."
+"If you want to use a previously saved import field mapping - select it here."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Membership Summary"
-msgstr ""
-
-#: templates/CRM/Member/Page/DashBoard.tpl
-msgid ""
-"This table provides a summary of <strong>Membership Signup and Renewal "
-"Activity</strong>, and includes shortcuts to view the details for these "
-"commonly used search criteria. To run your own customized searches - click "
-"<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
-"Type, Status, and Signup Date Ranges."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
@@ -6403,6 +8852,371 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Fixed Start"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
+msgstr ""
+
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Click <a href='%1'>New Membership</a> to record a new membership."
+msgstr ""
+
+#: templates/CRM/Member/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>Submit Credit Card Membership</a> to process a Membership "
+"on behalf of the member using their credit or debit card."
+msgstr ""
+
+#: templates/CRM/Member/Page/Tab.tpl
+#, fuzzy
+msgid "Submit Credit / Debit Card Membership"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: templates/CRM/Member/Page/Tab.tpl
+msgid ""
+"There are no memberships recorded for this contact. You can <a accesskey=\"N"
+"\" href='%1'>enter one now</a>."
+msgstr ""
+
+#: templates/CRM/Member/Page/Tab.tpl
+msgid "Active Memberships"
+msgstr ""
+
+#: templates/CRM/Member/Page/Tab.tpl
+#, fuzzy
+msgid "Pending and Inactive Memberships"
+msgstr "សមាជិក​ក្រុម"
+
+#: templates/CRM/Member/Page/Tab.tpl
+msgid ""
+"The following Membership Types are associated with this organization. Click "
+"<strong>Members</strong> for a listing of all contacts who have memberships "
+"of that type. Click <strong>Edit</strong> to modify the settings for that "
+"type."
+msgstr ""
+
+#: templates/CRM/Member/Page/UserDashboard.tpl
+msgid "Renew Now"
+msgstr ""
+
+#: templates/CRM/Member/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Expired / Inactive Memberships"
+msgstr "សមាជិក​ក្រុម"
+
+#: templates/CRM/Member/Page/UserDashboard.tpl
+msgid "There are no memberships on record for you."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Dear %1"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid ""
+"Thank you for your generous pledge. Please print this acknowledgment for "
+"your records."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+#, fuzzy
+msgid "Pledge Information"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Pledge Received"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#, fuzzy
+msgid "Payment Schedule"
+msgstr "បាន​កំណត់​​ពេល"
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "%1 every %2 %3 for %4 installments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "Payments are due on day %1 of the %2."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid ""
+"Please contact us at %1 or send email to %2 if you have questions\n"
+"or need to modify your payment schedule."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeSubject.tpl
+#, fuzzy
+msgid "Thank you for your Pledge"
+msgstr "មុខ​តំណែង"
+
+#: templates/CRM/Pledge/Form/Payment.tpl
+msgid "Edit Pledge Payment"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Payment.tpl
+#, fuzzy
+msgid "Scheduled Date for Pledge payment."
+msgstr "អាសយដ្ឋាន​អ៊ីម៉ែលប៉ះពាល់​នឹង​កំណត់ត្រា%1"
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"You will not be able to send an acknowledgment for this pledge because there "
+"is no email address recorded for this contact. If you want a acknowledgment "
+"to be sent when this pledge is recorded, click Cancel and then click Edit "
+"from the Summary tab to add an email address before recording the pledge."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
+#, fuzzy
+msgid "New Pledge"
+msgstr "មុខ​តំណែង"
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"WARNING: Deleting this pledge will result in the loss of the associated "
+"financial transactions (if any)."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Pledge by"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "installments of"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "day of the period"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "This applies to weekly, monthly and yearly payments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#, fuzzy
+msgid "Date when pledge was made by the contributor."
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Date of first pledge payment."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Date when an acknowledgment of the pledge was sent."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Sets the default contribution type for payments against this pledge."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"Select an Online Contribution page that the user can access to make self-"
+"service pledge payments. (Only Online Contribution pages configured to "
+"include the Pledge option are listed.)"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"Pledges are \"Pending\" until the first payment is received. Once a payment "
+"is received, status is \"In Progress\" until all scheduled payments are "
+"completed. Overdue pledges are ones with payment(s) past due."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Pledge By"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#, fuzzy
+msgid "Payment Start"
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Maximum Reminders Send"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "This is a reminder that the next payment on your pledge is due on %1."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Payment Due"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+#, fuzzy
+msgid "Amount Due"
+msgstr "ប្រទេស"
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+#, fuzzy
+msgid "Due Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Please mail your payment to"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Thank your for your generous support."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderSubject.tpl
+#, fuzzy
+msgid "Pledge Payment Reminder"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: templates/CRM/Pledge/Form/Search/Common.tpl
+#, fuzzy
+msgid "Pledge Amounts"
+msgstr "ប្រទេស"
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+#, fuzzy
+msgid "No matching pledge results found."
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+msgid ""
+"If you are searching by pledger name, check your spelling or use fewer "
+"letters."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+msgid ""
+"If you are searching within a date or amouht range, try a wider range of "
+"values."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Selector.tpl
+msgid "Click %1 to view pledge payments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Selector.tpl
+msgid "Find more pledges"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Delete.tpl
+msgid ""
+"Are you sure you want to delete the selected pledges? This delete operation "
+"cannot be undone and will delete all transactions associated with these "
+"pledges."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+msgid "To Be Paid"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+#, fuzzy
+msgid "Begining Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: templates/CRM/Pledge/Form/Task.tpl
+#, fuzzy
+msgid "Number of selected pledges: %1"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "Pledge Summary"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "(current month)"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "(current year)"
+msgstr "ប្រទេស"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "Total Pledges"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Payments Received"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "Past Due"
+msgstr "ជ្រើស​ក្រុម"
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+#, fuzzy
+msgid "Recent Pledges"
+msgstr "សារ"
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>View Payment</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Submit Credit Card Payment</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Edit Schedule</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid "Pledges received from %1 since inception."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>New Pledge</a> to record a new pledge received from this "
+"contact."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid "No pledges have been recorded from this contact."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Make Payment"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Payments"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Pledges made in your honor."
+msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Pledger"
+msgstr "ភេទ"
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+#, fuzzy
+msgid "Create date"
+msgstr "កាលបរិច្ឆេទ"
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Acknowledgment Sent"
 msgstr ""
