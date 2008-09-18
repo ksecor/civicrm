@@ -234,7 +234,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         // hack to retrieve activity type id from post variables
         if ( ! $this->_activityTypeId ) {
-            $this->_activityTypeId = $_POST['activity_type_id'];
+            $this->_activityTypeId = CRM_Utils_Array::value( 'activity_type_id', $_POST );
         }
 
         // when custom data is included in this page
