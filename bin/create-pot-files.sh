@@ -27,7 +27,7 @@ echo ' * cleanup'
 rm $potdir/civicrm-modules.*.pot $potdir/civicrm-helpfiles.*.pot $potdir/civicrm-common.pot
 
 echo ' * building countries.pot'
-echo '# Copyright CiviCRM LLC (c) 2004-2007
+echo '# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
@@ -45,7 +45,7 @@ msgstr ""
 grep ^INSERT xml/templates/civicrm_country.tpl | cut -d\" -f4 - | while read country; do echo -e "msgid \"$country\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
 
 echo ' * building provinces.pot'
-echo '# Copyright CiviCRM LLC (c) 2004-2007
+echo '# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
