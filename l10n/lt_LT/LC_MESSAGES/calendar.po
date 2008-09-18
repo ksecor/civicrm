@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
 "PO-Revision-Date: 2007-04-18 07:33+0200\n"
-"Last-Translator: Automatically generated\n"
+"Last-Translator: Martynas Majeris <martynas@solmetra.lt>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,103 +15,103 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "Apie kalendorių"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "Naujausią versiją rasite: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
-msgstr ""
+msgstr "Platinamas pagal GNU LGPL licenciją. Aplankykite %1"
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "Datos pasirinkimas:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- Metų pasirinkimas: \\xab, \\xbb"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- Mėnesio pasirinkimas: \\u2039, \\u203a"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr ""
+msgstr "- Nuspauskite ir laikykite pelės klavišą greitesniam pasirinkimui."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "Laiko pasirinkimas:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- Spustelkite ant valandų arba minučių - skaičius padidės vienetu."
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- Jei spausite kartu su Shift, skaičius sumažės."
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- Greitam pasirinkimui spustelkite ir pajudinkite pelę."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "laikykite, jei norite meniu"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "Ankstesni metai"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "Ankstesnis mėnuo"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "Pasirinkti šiandieną"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "Kitas mėnuo"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "Kiti metai"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "Pasirinkite datą"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "Tempkite"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "šiandien"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr ""
+msgstr "Pirma savaitės diena - %s"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "Uždaryti"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "Šiandien"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "Spustelkite arba tempkite jei norite pakeisti"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr ""
+msgstr "sav"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
