@@ -26,38 +26,21 @@ msgcomm -u $potdir/civicrm-helpfiles.no-core.pot $potdir/civicrm-common.pot > $p
 echo ' * cleanup'
 rm $potdir/civicrm-modules.*.pot $potdir/civicrm-helpfiles.*.pot $potdir/civicrm-common.pot
 
-echo ' * building countries.pot'
-echo '# Copyright CiviCRM LLC (c) 2004-2008
+echo ' * building countries.pot and provinces.pot'
+echo "# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
-msgid ""
-msgstr ""
-"Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-' > $potdir/countries.pot
+msgid \"\"
+msgstr \"\"
+\"Project-Id-Version: CiviCRM 2.1\n\"
+\"POT-Creation-Date: `date +'%F %R%z'`\n\"
+\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n\"
+\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n\"
+\"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n\"
+\"MIME-Version: 1.0\n\"
+\"Content-Type: text/plain; charset=UTF-8\n\"
+\"Content-Transfer-Encoding: 8bit\n\"
+" | tee $potdir/countries.pot $potdir/provinces.pot > /dev/null
 grep ^INSERT xml/templates/civicrm_country.tpl | cut -d\" -f4 - | while read country; do echo -e "msgid \"$country\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
-
-echo ' * building provinces.pot'
-echo '# Copyright CiviCRM LLC (c) 2004-2008
-# This file is distributed under the same license as the CiviCRM package.
-# If you contribute heavily to a translation and deem your work copyrightable,
-# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
-msgid ""
-msgstr ""
-"Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-' > $potdir/provinces.pot
 grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4 - | while read province; do echo -e "msgid \"$province\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
