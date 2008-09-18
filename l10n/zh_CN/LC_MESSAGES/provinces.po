@@ -1253,6 +1253,60 @@ msgstr "列日省"
 msgid "Limburg"
 msgstr ""
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Southern"
+msgstr ""
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "North"
+msgstr "北方省"
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
 msgid "Luxembourg"
 msgstr "卢森堡"
 
@@ -1865,9 +1919,6 @@ msgstr ""
 msgid "South-East"
 msgstr "东南"
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr "布列斯特州"
 
@@ -2200,9 +2251,6 @@ msgstr "东方省"
 
 msgid "Far North"
 msgstr "极北省"
-
-msgid "North"
-msgstr "北方省"
 
 msgid "South"
 msgstr "南方省"
@@ -2663,13 +2711,11 @@ msgstr "奥伯克州"
 msgid "Tadjoura"
 msgstr ""
 
-#, fuzzy
-msgid "Frederiksberg"
-msgstr "菲特烈堡"
+msgid "Frederikaberg municipality"
+msgstr "菲特烈堡郡"
 
-#, fuzzy
-msgid "Copenhagen City"
-msgstr "哥本哈根"
+msgid "Copenhagen municipality"
+msgstr "哥本哈根郡"
 
 msgid "Copenhagen"
 msgstr "哥本哈根"
@@ -2680,9 +2726,8 @@ msgstr "菲特烈堡"
 msgid "Roskilde"
 msgstr "罗斯基勒"
 
-#, fuzzy
-msgid "Vestsjælland"
-msgstr "西部"
+msgid "Western Zealand"
+msgstr "西希兰"
 
 msgid "Storstrøm"
 msgstr "斯多斯特姆"
@@ -2690,11 +2735,10 @@ msgstr "斯多斯特姆"
 msgid "Bornholm"
 msgstr "博恩霍尔姆"
 
-msgid "Fyn"
-msgstr ""
+msgid "Funen"
+msgstr "菲茵"
 
-#, fuzzy
-msgid "South Jutland"
+msgid "Southern Jutland"
 msgstr "南日德兰"
 
 msgid "Ribe"
@@ -2703,19 +2747,16 @@ msgstr "里伯"
 msgid "Vejle"
 msgstr "维厄勒"
 
-#, fuzzy
-msgid "Ringkjøbing"
+msgid "Ringkøbing"
 msgstr "灵克宾"
 
-#, fuzzy
-msgid "Århus"
+msgid "Aarhus"
 msgstr "奥胡斯"
 
 msgid "Viborg"
 msgstr "维堡"
 
-#, fuzzy
-msgid "North Jutland"
+msgid "Northern Jutland"
 msgstr "北日德兰"
 
 msgid "Distrito Nacional (Santo Domingo)"
@@ -3338,9 +3379,6 @@ msgstr "南方各族"
 
 msgid "Tigrai"
 msgstr "提格雷"
-
-msgid "Eastern"
-msgstr ""
 
 msgid "Northern"
 msgstr ""
@@ -5487,8 +5525,8 @@ msgstr "佛罗伦萨"
 msgid "Foggia"
 msgstr "福贾"
 
-msgid "Forlì-Cesena"
-msgstr ""
+msgid "Forli"
+msgstr "弗利"
 
 msgid "Frosinone"
 msgstr "弗洛西诺内"
@@ -11394,122 +11432,6 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
-msgid "Central and Western"
-msgstr ""
-
-msgid "Wan Chai"
-msgstr ""
-
-msgid "Kowloon City"
-msgstr ""
-
-msgid "Kwun Tong"
-msgstr ""
-
-msgid "Sham Shui Po"
-msgstr ""
-
-msgid "Wong Tai Sin"
-msgstr ""
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-msgid "Islands"
-msgstr ""
-
-msgid "Kwai Tsing"
-msgstr ""
-
-msgid "Sai Kung"
-msgstr ""
-
-msgid "Sha Tin"
-msgstr ""
-
-msgid "Tai Po"
-msgstr ""
-
-msgid "Tsuen Wan"
-msgstr ""
-
-msgid "Tuen Mun"
-msgstr ""
-
-msgid "Yuen Long"
-msgstr ""
-
-msgid "Al Manāmah (Al ‘Āşimah)"
-msgstr ""
-
-#, fuzzy
-msgid "Al Janūbīyah"
-msgstr "西部"
-
-#, fuzzy
-msgid "Al Wusţá"
-msgstr "中部地区"
-
-#, fuzzy
-msgid "Ash Shamālīyah"
-msgstr "北部"
-
-#, fuzzy
-msgid "Jenin"
-msgstr "胡宁区域"
-
-#, fuzzy
-msgid "Tubas"
-msgstr "通贝斯区域"
-
-#, fuzzy
-msgid "Tulkarm"
-msgstr "塔哈尔省"
-
-#, fuzzy
-msgid "Nablus"
-msgstr "加布"
-
-msgid "Qalqilya"
-msgstr ""
-
-#, fuzzy
-msgid "Salfit"
-msgstr "萨非"
-
-msgid "Ramallah and Al-Bireh"
-msgstr ""
-
-#, fuzzy
-msgid "Jericho"
-msgstr "苏黎世"
-
-#, fuzzy
-msgid "Jerusalem"
-msgstr "泽西"
-
-msgid "Bethlehem"
-msgstr ""
-
-#, fuzzy
-msgid "Hebron"
-msgstr "腾布荣"
-
-#, fuzzy
-msgid "North Gaza"
-msgstr "北达科他州"
-
-msgid "Deir el-Balah"
-msgstr ""
-
-#, fuzzy
-msgid "Khan Yunis"
-msgstr "圣路易斯省"
-
-#, fuzzy
-msgid "Rafah"
-msgstr "北马洛斯马杜卢"
-
 msgid "North West"
 msgstr ""
 
@@ -11554,31 +11476,3 @@ msgstr ""
 
 msgid "London"
 msgstr ""
-
-msgid "Carbonia-Iglesias"
-msgstr ""
-
-msgid "Olbia-Tempio"
-msgstr ""
-
-msgid "Medio Campidano"
-msgstr ""
-
-#, fuzzy
-msgid "Ogliastra"
-msgstr "锡利斯特拉"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "菲特烈堡郡"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "哥本哈根郡"
-
-#~ msgid "Western Zealand"
-#~ msgstr "西希兰"
-
-#~ msgid "Funen"
-#~ msgstr "菲茵"
-
-#~ msgid "Forli"
-#~ msgstr "弗利"

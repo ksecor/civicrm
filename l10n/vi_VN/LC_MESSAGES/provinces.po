@@ -5,6 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
+"debian.org>\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2008-03-10 18:19+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
@@ -12,7 +13,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"debian.org>\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -1375,6 +1375,73 @@ msgstr "Liège"
 msgid "Limburg"
 msgstr "Limburg"
 
+#, fuzzy
+msgid "Central and Western"
+msgstr "Miền Trung Mindanao"
+
+msgid "Eastern"
+msgstr "Miền Đông"
+
+#, fuzzy
+msgid "Southern"
+msgstr "Miền Nam"
+
+#, fuzzy
+msgid "Wan Chai"
+msgstr "Thượng Hải"
+
+#, fuzzy
+msgid "Kowloon City"
+msgstr "Thành Phố Cơ Long"
+
+#, fuzzy
+msgid "Kwun Tong"
+msgstr "Ang Thong"
+
+msgid "Sham Shui Po"
+msgstr ""
+
+#, fuzzy
+msgid "Wong Tai Sin"
+msgstr "Krong Pailin"
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+#, fuzzy
+msgid "Islands"
+msgstr "Quần Đảo Line"
+
+#, fuzzy
+msgid "Kwai Tsing"
+msgstr "Cao Hùng"
+
+msgid "North"
+msgstr "Miền Bắc"
+
+#, fuzzy
+msgid "Sai Kung"
+msgstr "Sagaing"
+
+#, fuzzy
+msgid "Sha Tin"
+msgstr "Shan"
+
+#, fuzzy
+msgid "Tai Po"
+msgstr "Maio"
+
+msgid "Tsuen Wan"
+msgstr ""
+
+#, fuzzy
+msgid "Tuen Mun"
+msgstr "Tuyên Quang"
+
+#, fuzzy
+msgid "Yuen Long"
+msgstr "Vĩnh Long"
+
 msgid "Luxembourg"
 msgstr "Lúc-xăm-buac"
 
@@ -2036,10 +2103,6 @@ msgstr "Miền Tây Bắc"
 msgid "South-East"
 msgstr "Đông Nam"
 
-#, fuzzy
-msgid "Southern"
-msgstr "Miền Nam"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Brèsckaja voblasc'"
 
@@ -2408,9 +2471,6 @@ msgstr "Miền Nam"
 
 msgid "Far North"
 msgstr "Miền Bắc Xa"
-
-msgid "North"
-msgstr "Miền Bắc"
 
 msgid "South"
 msgstr "Miền Nam"
@@ -2908,13 +2968,11 @@ msgstr "Obock"
 msgid "Tadjoura"
 msgstr "Tadjourah"
 
-#, fuzzy
-msgid "Frederiksberg"
-msgstr "Frederiksborg"
+msgid "Frederikaberg municipality"
+msgstr "Thành Phố Frederikaberg"
 
-#, fuzzy
-msgid "Copenhagen City"
-msgstr "Copenhagen"
+msgid "Copenhagen municipality"
+msgstr "Thành Phố Copenhagen"
 
 msgid "Copenhagen"
 msgstr "Copenhagen"
@@ -2925,9 +2983,8 @@ msgstr "Frederiksborg"
 msgid "Roskilde"
 msgstr "Roskilde"
 
-#, fuzzy
-msgid "Vestsjælland"
-msgstr "Vesturland"
+msgid "Western Zealand"
+msgstr "Miền Tây Zealand"
 
 msgid "Storstrøm"
 msgstr "Storstrøm"
@@ -2935,11 +2992,10 @@ msgstr "Storstrøm"
 msgid "Bornholm"
 msgstr "Bornholm"
 
-msgid "Fyn"
-msgstr ""
+msgid "Funen"
+msgstr "Funen"
 
-#, fuzzy
-msgid "South Jutland"
+msgid "Southern Jutland"
 msgstr "Miền Nam Jutland"
 
 msgid "Ribe"
@@ -2948,19 +3004,16 @@ msgstr "Ribe"
 msgid "Vejle"
 msgstr "Vejle"
 
-#, fuzzy
-msgid "Ringkjøbing"
+msgid "Ringkøbing"
 msgstr "Ringkøbing"
 
-#, fuzzy
-msgid "Århus"
+msgid "Aarhus"
 msgstr "Aarhus"
 
 msgid "Viborg"
 msgstr "Viborg"
 
-#, fuzzy
-msgid "North Jutland"
+msgid "Northern Jutland"
 msgstr "Miền Bắc Jutland"
 
 msgid "Distrito Nacional (Santo Domingo)"
@@ -3649,9 +3702,6 @@ msgstr ""
 #, fuzzy
 msgid "Tigrai"
 msgstr "Tigray"
-
-msgid "Eastern"
-msgstr "Miền Đông"
 
 msgid "Northern"
 msgstr "Miền Bắc"
@@ -5955,8 +6005,9 @@ msgstr "Firenze"
 msgid "Foggia"
 msgstr "Foggia"
 
-msgid "Forlì-Cesena"
-msgstr ""
+#, fuzzy
+msgid "Forli"
+msgstr "Forlì"
 
 msgid "Frosinone"
 msgstr "Frosinone"
@@ -12352,134 +12403,6 @@ msgstr "Miền Tây Nam"
 msgid "Åland"
 msgstr "Suðurland"
 
-#, fuzzy
-msgid "Central and Western"
-msgstr "Miền Trung Mindanao"
-
-#, fuzzy
-msgid "Wan Chai"
-msgstr "Thượng Hải"
-
-#, fuzzy
-msgid "Kowloon City"
-msgstr "Thành Phố Cơ Long"
-
-#, fuzzy
-msgid "Kwun Tong"
-msgstr "Ang Thong"
-
-msgid "Sham Shui Po"
-msgstr ""
-
-#, fuzzy
-msgid "Wong Tai Sin"
-msgstr "Krong Pailin"
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-#, fuzzy
-msgid "Islands"
-msgstr "Quần Đảo Line"
-
-#, fuzzy
-msgid "Kwai Tsing"
-msgstr "Cao Hùng"
-
-#, fuzzy
-msgid "Sai Kung"
-msgstr "Sagaing"
-
-#, fuzzy
-msgid "Sha Tin"
-msgstr "Shan"
-
-#, fuzzy
-msgid "Tai Po"
-msgstr "Maio"
-
-msgid "Tsuen Wan"
-msgstr ""
-
-#, fuzzy
-msgid "Tuen Mun"
-msgstr "Tuyên Quang"
-
-#, fuzzy
-msgid "Yuen Long"
-msgstr "Vĩnh Long"
-
-msgid "Al Manāmah (Al ‘Āşimah)"
-msgstr ""
-
-#, fuzzy
-msgid "Al Janūbīyah"
-msgstr "Al Janblyah"
-
-#, fuzzy
-msgid "Al Wusţá"
-msgstr "Al Wusta"
-
-#, fuzzy
-msgid "Ash Shamālīyah"
-msgstr "Ash Sharqlyah"
-
-#, fuzzy
-msgid "Jenin"
-msgstr "Junín"
-
-#, fuzzy
-msgid "Tubas"
-msgstr "Tumbes"
-
-#, fuzzy
-msgid "Tulkarm"
-msgstr "Takhār"
-
-#, fuzzy
-msgid "Nablus"
-msgstr "Nabeul"
-
-msgid "Qalqilya"
-msgstr ""
-
-#, fuzzy
-msgid "Salfit"
-msgstr "Safi"
-
-msgid "Ramallah and Al-Bireh"
-msgstr ""
-
-#, fuzzy
-msgid "Jericho"
-msgstr "Zürich"
-
-#, fuzzy
-msgid "Jerusalem"
-msgstr "New Jersey"
-
-msgid "Bethlehem"
-msgstr ""
-
-#, fuzzy
-msgid "Hebron"
-msgstr "Temburong"
-
-#, fuzzy
-msgid "North Gaza"
-msgstr "North Dakota"
-
-msgid "Deir el-Balah"
-msgstr ""
-
-#, fuzzy
-msgid "Khan Yunis"
-msgstr "San Luis"
-
-#, fuzzy
-msgid "Rafah"
-msgstr "Raa"
-
 msgid "North West"
 msgstr "Miền Tây Bắc"
 
@@ -12537,32 +12460,3 @@ msgstr "Westmoreland"
 #, fuzzy
 msgid "London"
 msgstr "Zondoma"
-
-msgid "Carbonia-Iglesias"
-msgstr ""
-
-msgid "Olbia-Tempio"
-msgstr ""
-
-msgid "Medio Campidano"
-msgstr ""
-
-#, fuzzy
-msgid "Ogliastra"
-msgstr "Silistra"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "Thành Phố Frederikaberg"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Thành Phố Copenhagen"
-
-#~ msgid "Western Zealand"
-#~ msgstr "Miền Tây Zealand"
-
-#~ msgid "Funen"
-#~ msgstr "Funen"
-
-#, fuzzy
-#~ msgid "Forli"
-#~ msgstr "Forlì"

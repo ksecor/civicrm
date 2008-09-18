@@ -1429,6 +1429,9 @@ msgstr ""
 msgid "Lovec"
 msgstr ""
 
+msgid "Montana"
+msgstr ""
+
 msgid "Pazardzik"
 msgstr ""
 
@@ -6350,6 +6353,9 @@ msgid "Lofa"
 msgstr ""
 
 msgid "Margibi"
+msgstr ""
+
+msgid "Maryland"
 msgstr ""
 
 msgid "Montserrado"
@@ -11386,7 +11392,16 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
+msgid "Limburg"
+msgstr ""
+
 msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Southern"
 msgstr ""
 
 msgid "Wan Chai"
@@ -11413,6 +11428,9 @@ msgstr ""
 msgid "Kwai Tsing"
 msgstr ""
 
+msgid "North"
+msgstr ""
+
 msgid "Sai Kung"
 msgstr ""
 
@@ -11429,6 +11447,9 @@ msgid "Tuen Mun"
 msgstr ""
 
 msgid "Yuen Long"
+msgstr ""
+
+msgid "Manchester"
 msgstr ""
 
 msgid "Al Manāmah (Al ‘Āşimah)"
@@ -11477,6 +11498,9 @@ msgid "Hebron"
 msgstr ""
 
 msgid "North Gaza"
+msgstr ""
+
+msgid "Gaza"
 msgstr ""
 
 msgid "Deir el-Balah"

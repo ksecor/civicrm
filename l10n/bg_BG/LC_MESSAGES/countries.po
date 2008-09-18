@@ -13,24 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Europe and Central Asia"
-msgstr ""
-
-msgid "America South, Central, North and Carribean"
-msgstr ""
-
-msgid "Middle East and North Africa"
-msgstr ""
-
-msgid "Asia-Pacific"
-msgstr ""
-
-msgid "Africa West, East, Central and Southern"
-msgstr ""
-
-msgid "unassigned"
-msgstr ""
-
 msgid "Afghanistan"
 msgstr "Афганистан"
 
@@ -451,7 +433,7 @@ msgstr "Мексико"
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-msgid "Moldova"
+msgid "Moldova, Republic of"
 msgstr ""
 
 msgid "Monaco"

@@ -1253,6 +1253,60 @@ msgstr "Liege"
 msgid "Limburg"
 msgstr "Limburg"
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Eastern"
+msgstr "Eastern"
+
+msgid "Southern"
+msgstr "Southern"
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "North"
+msgstr "North"
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
 msgid "Luxembourg"
 msgstr "Luxembourg"
 
@@ -1865,9 +1919,6 @@ msgstr "North-West"
 msgid "South-East"
 msgstr "South-East"
 
-msgid "Southern"
-msgstr "Southern"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Brèsckaja voblasc'"
 
@@ -2200,9 +2251,6 @@ msgstr "East"
 
 msgid "Far North"
 msgstr "Far North"
-
-msgid "North"
-msgstr "North"
 
 msgid "South"
 msgstr "South"
@@ -2663,13 +2711,11 @@ msgstr "Obock"
 msgid "Tadjoura"
 msgstr "Tadjoura"
 
-#, fuzzy
-msgid "Frederiksberg"
-msgstr "Frederiksborg"
+msgid "Frederikaberg municipality"
+msgstr "Frederikaberg municipality"
 
-#, fuzzy
-msgid "Copenhagen City"
-msgstr "Copenhagen"
+msgid "Copenhagen municipality"
+msgstr "Copenhagen municipality"
 
 msgid "Copenhagen"
 msgstr "Copenhagen"
@@ -2680,9 +2726,8 @@ msgstr "Frederiksborg"
 msgid "Roskilde"
 msgstr "Roskilde"
 
-#, fuzzy
-msgid "Vestsjælland"
-msgstr "Vesturland"
+msgid "Western Zealand"
+msgstr "Western Zealand"
 
 msgid "Storstrøm"
 msgstr "Storstrøm"
@@ -2690,11 +2735,10 @@ msgstr "Storstrøm"
 msgid "Bornholm"
 msgstr "Bornholm"
 
-msgid "Fyn"
-msgstr ""
+msgid "Funen"
+msgstr "Funen"
 
-#, fuzzy
-msgid "South Jutland"
+msgid "Southern Jutland"
 msgstr "Southern Jutland"
 
 msgid "Ribe"
@@ -2703,19 +2747,16 @@ msgstr "Ribe"
 msgid "Vejle"
 msgstr "Vejle"
 
-#, fuzzy
-msgid "Ringkjøbing"
+msgid "Ringkøbing"
 msgstr "Ringkøbing"
 
-#, fuzzy
-msgid "Århus"
+msgid "Aarhus"
 msgstr "Aarhus"
 
 msgid "Viborg"
 msgstr "Viborg"
 
-#, fuzzy
-msgid "North Jutland"
+msgid "Northern Jutland"
 msgstr "Northern Jutland"
 
 msgid "Distrito Nacional (Santo Domingo)"
@@ -3338,9 +3379,6 @@ msgstr "Southern Nations, Nationalities and Peoples"
 
 msgid "Tigrai"
 msgstr "Tigrai"
-
-msgid "Eastern"
-msgstr "Eastern"
 
 msgid "Northern"
 msgstr "Northern"
@@ -5487,8 +5525,8 @@ msgstr "Firenze"
 msgid "Foggia"
 msgstr "Foggia"
 
-msgid "Forlì-Cesena"
-msgstr ""
+msgid "Forli"
+msgstr "Forli"
 
 msgid "Frosinone"
 msgstr "Frosinone"
@@ -11394,122 +11432,6 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
-msgid "Central and Western"
-msgstr ""
-
-msgid "Wan Chai"
-msgstr ""
-
-msgid "Kowloon City"
-msgstr ""
-
-msgid "Kwun Tong"
-msgstr ""
-
-msgid "Sham Shui Po"
-msgstr ""
-
-msgid "Wong Tai Sin"
-msgstr ""
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-msgid "Islands"
-msgstr ""
-
-msgid "Kwai Tsing"
-msgstr ""
-
-msgid "Sai Kung"
-msgstr ""
-
-msgid "Sha Tin"
-msgstr ""
-
-msgid "Tai Po"
-msgstr ""
-
-msgid "Tsuen Wan"
-msgstr ""
-
-msgid "Tuen Mun"
-msgstr ""
-
-msgid "Yuen Long"
-msgstr ""
-
-msgid "Al Manāmah (Al ‘Āşimah)"
-msgstr ""
-
-#, fuzzy
-msgid "Al Janūbīyah"
-msgstr "Al Janblyah"
-
-#, fuzzy
-msgid "Al Wusţá"
-msgstr "Al Wusta"
-
-#, fuzzy
-msgid "Ash Shamālīyah"
-msgstr "Ash Shamallyah"
-
-#, fuzzy
-msgid "Jenin"
-msgstr "Junin"
-
-#, fuzzy
-msgid "Tubas"
-msgstr "Tumbes"
-
-#, fuzzy
-msgid "Tulkarm"
-msgstr "Takhar"
-
-#, fuzzy
-msgid "Nablus"
-msgstr "Naboul"
-
-msgid "Qalqilya"
-msgstr ""
-
-#, fuzzy
-msgid "Salfit"
-msgstr "Safi"
-
-msgid "Ramallah and Al-Bireh"
-msgstr ""
-
-#, fuzzy
-msgid "Jericho"
-msgstr "Zurich"
-
-#, fuzzy
-msgid "Jerusalem"
-msgstr "Jersey"
-
-msgid "Bethlehem"
-msgstr ""
-
-#, fuzzy
-msgid "Hebron"
-msgstr "Temburong"
-
-#, fuzzy
-msgid "North Gaza"
-msgstr "North Dakota"
-
-msgid "Deir el-Balah"
-msgstr ""
-
-#, fuzzy
-msgid "Khan Yunis"
-msgstr "San Luis"
-
-#, fuzzy
-msgid "Rafah"
-msgstr "Raa"
-
 msgid "North West"
 msgstr ""
 
@@ -11554,31 +11476,3 @@ msgstr ""
 
 msgid "London"
 msgstr "London"
-
-msgid "Carbonia-Iglesias"
-msgstr ""
-
-msgid "Olbia-Tempio"
-msgstr ""
-
-msgid "Medio Campidano"
-msgstr ""
-
-#, fuzzy
-msgid "Ogliastra"
-msgstr "Silistra"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "Frederikaberg municipality"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Copenhagen municipality"
-
-#~ msgid "Western Zealand"
-#~ msgstr "Western Zealand"
-
-#~ msgid "Funen"
-#~ msgstr "Funen"
-
-#~ msgid "Forli"
-#~ msgstr "Forli"
