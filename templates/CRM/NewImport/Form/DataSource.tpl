@@ -27,10 +27,24 @@
  <div id="data-source-form-block"></div>
 
  <div id="common-form-controls" style="display: none;">
+  <fieldset><legend>{ts}Import Options{/ts}</legend>
+   <dl>
     <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
  
     <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
- 
+
+{if $savedMapping}
+    <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
+        <dd> <span>{$form.savedMapping.html}</span> </dd>
+    <dt>&nbsp;</dt>
+        <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+{/if}
+  </dl>
+ </fieldset>
+
+ <div class="spacer"></div>
+ </div>
+
     <div id="crm-submit-buttons">
       {$form.buttons.html}
     </div>

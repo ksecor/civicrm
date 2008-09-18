@@ -96,6 +96,32 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             true,
             array('onchange' => "buildDataSourceFormBlock( this.value );") );
             
+        // duplicate handling options
+        $duplicateOptions = array();        
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Skip'), CRM_NewImport_Parser::DUPLICATE_SKIP);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Update'), CRM_NewImport_Parser::DUPLICATE_UPDATE);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Fill'), CRM_NewImport_Parser::DUPLICATE_FILL);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('No Duplicate Checking'), CRM_NewImport_Parser::DUPLICATE_NOCHECK);
+
+        $this->addGroup($duplicateOptions, 'onDuplicate', 
+                        ts('For Duplicate Contacts'));
+                          
+        require_once "CRM/Core/BAO/Mapping.php";
+        require_once "CRM/Core/OptionGroup.php";
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                                           'Import Contact',
+                                                                                                           'name' ) );
+
+        $this->assign('savedMapping',$mappingArray);
+        $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
+
+        $this->setDefaults(array('onDuplicate' =>
+                                    CRM_NewImport_Parser::DUPLICATE_SKIP));
+            
         // contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',
@@ -110,20 +136,6 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
 
         $this->setDefaults(array('contactType' =>
                                  CRM_NewImport_Parser::CONTACT_INDIVIDUAL));
-                                 
-        // duplicate handling options
-        $duplicateOptions = array();        
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Skip'), CRM_NewImport_Parser::DUPLICATE_SKIP);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_NewImport_Parser::DUPLICATE_UPDATE);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Fill'), CRM_NewImport_Parser::DUPLICATE_FILL);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('No Duplicate Checking'), CRM_NewImport_Parser::DUPLICATE_NOCHECK);
-        
-        $this->addGroup($duplicateOptions, 'onDuplicate', 
-                        ts('For Duplicate Contacts'));
         
         $this->addButtons( array( 
                                  array ( 'type'         => 'next',
@@ -175,6 +187,24 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
         if ($this->_dataSourceIsValid) {
             // Setup the params array
             $this->_params = $this->controller->exportValues( $this->_name );
+  
+            $onDuplicate      = $this->controller->exportValue( $this->_name,
+                                'onDuplicate' );
+            $contactType      = $this->controller->exportValue( $this->_name, 
+                                'contactType' );
+            $savedMapping     = $this->controller->exportValue( $this->_name, 
+                                'savedMapping' );
+            $this->set('onDuplicate', $onDuplicate);
+            $this->set('contactType', $contactType);
+            $this->set('savedMapping', $savedMapping);
+            
+            print "Params:<pre>";
+            print_r($this->_params);
+            print "</pre><br/>";
+            print "Name: ".$this->_name."<br/>";
+            print "Set duplicate handling to: $onDuplicate<br/>";
+            print "Set contact type to: $contactType<br/>";
+            print "Set saved mapping to: $savedMapping<br/>";
             
             // Get the PEAR::DB object
             $dao = new CRM_Core_DAO();
