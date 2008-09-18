@@ -208,16 +208,6 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
             $this->set('savedMapping', $savedMapping);
-            
-            print "Params:<pre>";
-            print_r($this->_params);
-            print "</pre><br/>";
-            print "Name: ".$this->_name."<br/>";
-            print "Set duplicate handling to: $onDuplicate<br/>";
-            print "Set contact type to: $contactType<br/>";
-            print "Set saved mapping to: $savedMapping<br/>";
-
-            exit( );
 
             // Get the PEAR::DB object
             $dao = new CRM_Core_DAO();
@@ -246,7 +236,6 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
     /**
      * Return a descriptive name for the page, used in wizard header
      *
-     * Must be implemented by DataSource subclasses
      *
      * @return string
      * @access public
