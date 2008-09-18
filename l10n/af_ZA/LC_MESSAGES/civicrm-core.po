@@ -12636,37 +12636,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Entity Table"
-#~ msgstr "Entiteitstabel"
-
-#~ msgid "Modified Date"
-#~ msgstr "Veranderde Datum"
-
-#~ msgid "Phone Number"
-#~ msgstr "Foon Nommer"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Naam"
-
-#~ msgid "-select-"
-#~ msgstr "-kies-"
-
-#~ msgid " -select- "
-#~ msgstr "-kies-"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Geskeduleerde Datum Tyd"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Durasie (ure)"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Durasie (minute)"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Gekiesde Vergadering is suksesvol uitgevee"
-
-#~ msgid " is a numeric field"
-#~ msgstr " is 'n numeriese veld"

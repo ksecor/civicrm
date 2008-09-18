@@ -6071,15 +6071,3 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-
-#~ msgid "Minimum Amount"
-#~ msgstr "Minimalni znesek"
-
-#~ msgid "Please enter a valid money value (e.g. 9.99)."
-#~ msgstr "Prosimo da vstavite veljavno vrednost denarja (npr. 9.99)."
-
-#~ msgid "Maximum Amount"
-#~ msgstr "Maksimalni znesek"
-
-#~ msgid "Please enter a valid money value (e.g. 99.99)."
-#~ msgstr "Prosimo da vstavite veljavno vrednost denarja (npr. 99.99)."
