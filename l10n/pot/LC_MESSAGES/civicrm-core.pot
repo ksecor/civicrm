@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-09-17 15:21+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -29,15 +29,15 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php CRM/Custom/Page/Option.php CRM/Grant/Selector/Search.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php CRM/Price/Page/Option.php CRM/Profile/Selector/Listings.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Activity/Form/ActivityView.tpl templates/CRM/Contact/Page/View/Group.tpl
+#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php CRM/Custom/Page/Option.php CRM/Price/Page/Option.php CRM/Profile/Selector/Listings.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Activity/Form/ActivityView.tpl templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
 msgstr ""
 
-#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Activity/Selector/Activity.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/PreferencesDate.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php CRM/Grant/Selector/Search.php CRM/Group/Page/Group.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php CRM/Profile/Selector/Listings.php CRM/UF/Page/Field.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
+#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Activity/Selector/Activity.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/PreferencesDate.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php CRM/Group/Page/Group.php CRM/Profile/Selector/Listings.php CRM/UF/Page/Field.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Edit"
 msgstr ""
 
-#: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/Discount.php CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php CRM/Pledge/DAO/PledgeBlock.php
+#: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/Discount.php CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
 msgid "Entity Table"
 msgstr ""
 
@@ -53,15 +53,15 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Case/Form/Case.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Form/DeleteFile.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Grant/Selector/Search.php CRM/Group/Page/Group.php CRM/Note/Form/Note.php CRM/PledgeBank/Page/ManagePledgeBank.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Form/Pledge.php CRM/Pledge/Selector/Search.php CRM/Price/Form/Option.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Contact/Form/Location.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
+#: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php CRM/Case/Form/Case.php CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Form/DeleteFile.php CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Note/Form/Note.php CRM/Price/Form/Option.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php templates/CRM/Activity/Form/Activity.tpl templates/CRM/Contact/Form/Location.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Delete"
 msgstr ""
 
-#: CRM/ACL/DAO/ACL.php CRM/Core/DAO/CustomGroup.php CRM/Grant/Selector/Search.php
+#: CRM/ACL/DAO/ACL.php CRM/Core/DAO/CustomGroup.php
 msgid "Grant"
 msgstr ""
 
-#: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php CRM/Pledge/DAO/Pledge.php
+#: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
 msgstr ""
 
@@ -85,11 +85,11 @@ msgstr ""
 msgid "Selected ACL has been deleted."
 msgstr ""
 
-#: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/Options.php CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/DAO/Relationship.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/SaveSearch.php CRM/Core/BAO/Mapping.php CRM/Core/DAO/Domain.php CRM/Core/DAO/File.php CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/PledgeBank/Import/Form/MapField.php CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Admin/Page/PreferencesDate.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Group/Page/Group.tpl
+#: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/Options.php CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/DAO/Relationship.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/SaveSearch.php CRM/Core/BAO/Mapping.php CRM/Core/DAO/Domain.php CRM/Core/DAO/File.php CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Admin/Page/PreferencesDate.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr ""
 
-#: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php CRM/Activity/BAO/Query.php CRM/Activity/Form/ActivityLinks.php CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/Preferences/Display.php CRM/Admin/Form/Setting/Localization.php CRM/Case/BAO/Query.php CRM/Contact/Form/Address.php CRM/Contact/Form/Location.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php CRM/Core/SelectValues.php CRM/Custom/Form/Field.php CRM/Custom/Form/MoveField.php CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/Pledge/BAO/Query.php CRM/Pledge/Form/Pledge.php CRM/UF/Form/AdvanceSetting.php CRM/UF/Form/Preview.php
+#: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php CRM/Activity/BAO/Query.php CRM/Activity/Form/ActivityLinks.php CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/Preferences/Display.php CRM/Admin/Form/Setting/Localization.php CRM/Case/BAO/Query.php CRM/Contact/Form/Address.php CRM/Contact/Form/Location.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php CRM/Core/SelectValues.php CRM/Custom/Form/Field.php CRM/Custom/Form/MoveField.php CRM/Import/Form/UploadFile.php CRM/UF/Form/AdvanceSetting.php CRM/UF/Form/Preview.php
 msgid "- select -"
 msgstr ""
 
@@ -149,11 +149,11 @@ msgstr ""
 msgid "Access Control"
 msgstr ""
 
-#: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Page/View/UserDashBoard.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/PledgeBank/Page/ManagePledgeBank.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Contact/Page/View/UserDashBoard.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
 msgstr ""
 
-#: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/PledgeBank/Page/ManagePledgeBank.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Relationship.php CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Custom Group"
 msgstr ""
 
-#: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php CRM/Import/Form/MapField.php CRM/Import/Parser.php CRM/PledgeBank/Import/Form/MapField.php CRM/PledgeBank/Import/Parser.php
+#: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "Membership"
 msgstr ""
 
-#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php CRM/Pledge/BAO/Query.php
+#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php
 msgid "or"
 msgstr ""
 
@@ -197,11 +197,11 @@ msgstr ""
 msgid "Start Date - From"
 msgstr ""
 
-#: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php CRM/Case/BAO/Query.php CRM/Case/Form/Case.php CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/BAO/UFGroup.php CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php CRM/Pledge/BAO/Query.php CRM/Pledge/Form/Pledge.php
+#: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php CRM/Case/BAO/Query.php CRM/Case/Form/Case.php CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/BAO/UFGroup.php
 msgid "Select a valid date."
 msgstr ""
 
-#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php CRM/Core/BAO/CustomField.php CRM/Grant/BAO/Query.php CRM/Pledge/BAO/Query.php CRM/SMS/Form/Task/SMS.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Contact/Page/View/SMS.tpl
+#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php CRM/Core/BAO/CustomField.php CRM/SMS/Form/Task/SMS.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
 msgstr ""
 
@@ -217,19 +217,15 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: CRM/Activity/DAO/Activity.php CRM/Pledge/DAO/Pledge.php
-msgid "Test"
-msgstr ""
-
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
 msgstr ""
 
-#: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php CRM/Contact/Form/Create.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/DeleteLocation.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php CRM/Contact/Form/Merge.php CRM/Contact/Form/RelatedContact.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Task/Batch.php CRM/Contact/Form/Task.php CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteFile.php CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/MoveField.php CRM/Custom/Form/Option.php CRM/Export/Form/Select.php CRM/Friend/Form.php CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/Import/Form/Mapper.php CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php CRM/Note/Form/Note.php CRM/PledgeBank/Form/ManagePledgeBank/Delete.php CRM/PledgeBank/Form/ManagePledgeBank.php CRM/PledgeBank/Form/Task.php CRM/PledgeBank/Import/Form/MapField.php CRM/PledgeBank/Import/Form/Preview.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/Pledge/Form/Payment.php CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/Task.php CRM/Pledge/Selector/Search.php CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php CRM/Standalone/Form/Register.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php CRM/Contact/Form/Create.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/DeleteLocation.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php CRM/Contact/Form/Merge.php CRM/Contact/Form/RelatedContact.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Task/Batch.php CRM/Contact/Form/Task.php CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteFile.php CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/MoveField.php CRM/Custom/Form/Option.php CRM/Export/Form/Select.php CRM/Friend/Form.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/Import/Form/Mapper.php CRM/Import/Form/Preview.php CRM/Import/Form/UploadFile.php CRM/Note/Form/Note.php CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php CRM/Standalone/Form/Register.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
 msgstr ""
 
-#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Grant/Selector/Search.php CRM/Pledge/Selector/Search.php CRM/Project/DAO/Project.php CRM/Project/DAO/TaskStatus.php templates/CRM/Contact/Form/Selector.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/Pledge/Form/Payment.tpl templates/CRM/Pledge/Form/Task/Print.tpl templates/CRM/Pledge/Page/Payment.tpl templates/CRM/Pledge/Page/UserDashboard.tpl
+#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Search/Custom/ActivitySearch.php templates/CRM/Contact/Form/Selector.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Status"
 msgstr ""
 
@@ -249,67 +245,51 @@ msgstr ""
 msgid "-select-"
 msgstr ""
 
-#: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php CRM/Case/Form/Case.php CRM/Contact/Form/Task/Map.php CRM/Contact/Form/Task/Print.php CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Export/Form/Map.php CRM/Grant/Form/GrantView.php CRM/Grant/Form/Task/Print.php CRM/Grant/Form/Task/Result.php CRM/Import/Form/Summary.php CRM/PledgeBank/Form/Task/Print.php CRM/PledgeBank/Form/Task/Result.php CRM/PledgeBank/Import/Form/Summary.php CRM/Pledge/Form/PledgeView.php CRM/Pledge/Form/Task/Print.php CRM/Pledge/Form/Task/Result.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl
+#: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php CRM/Case/Form/Case.php CRM/Contact/Form/Task/Map.php CRM/Contact/Form/Task/Print.php CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Export/Form/Map.php CRM/Import/Form/Summary.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
 msgstr ""
 
-#: CRM/Activity/Form/Activity.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php CRM/Case/Form/Case.php CRM/Contact/Form/Create.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php CRM/Contact/Form/RelatedContact.php CRM/Contact/Form/Task/Batch.php CRM/Core/I18n/Form.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Grant/Form/Grant.php CRM/Group/Form/Edit.php CRM/Note/Form/Note.php CRM/PledgeBank/Form/ManagePledgeBank.php CRM/Pledge/Form/Payment.php CRM/Pledge/Form/Pledge.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php CRM/Standalone/Form/Register.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl templates/CRM/Core/I18n/Form.tpl
+#: CRM/Activity/Form/Activity.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php CRM/Case/Form/Case.php CRM/Contact/Form/Create.php CRM/Contact/Form/CustomData.php CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php CRM/Contact/Form/RelatedContact.php CRM/Contact/Form/Task/Batch.php CRM/Core/I18n/Form.php CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Group/Form/Edit.php CRM/Note/Form/Note.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php CRM/Standalone/Form/Register.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl templates/CRM/Core/I18n/Form.tpl
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/PriceSet.php CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php CRM/Core/BAO/Mapping.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Timezone.php CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Form/Search.php CRM/Grant/Selector/Search.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php CRM/Price/Form/Field.php CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/DedupeRules.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Case/Form/CaseView.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Batch.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Contact/Page/View/Sunlight.tpl templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/Grant/Form/Task.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/PledgeBank/Form/Task.tpl templates/CRM/Pledge/Form/Task/Print.tpl templates/CRM/Pledge/Form/Task.tpl
+#: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/PriceSet.php CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php CRM/Core/BAO/Mapping.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Timezone.php CRM/Dedupe/DAO/RuleGroup.php CRM/Group/Form/Edit.php CRM/Import/Form/MapField.php CRM/Price/Form/Field.php CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/DedupeRules.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Case/Form/CaseView.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Batch.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Contact/Page/View/Sunlight.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Name"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "The data columns in this import file appear to be different from the saved mapping. Please verify that you have selected the correct saved mapping before continuing."
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php CRM/Export/Form/Map.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php CRM/PledgeBank/Form/ManagePledgeBank.php CRM/PledgeBank/Import/Form/MapField.php CRM/PledgeBank/Import/Form/Preview.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php CRM/Export/Form/Map.php CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
 msgid "<< Previous"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/UploadFile.php CRM/Contact/Form/Task/PickProfile.php CRM/Export/Form/Select.php CRM/Import/Form/MapField.php CRM/Import/Form/Mapper.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Form/ManagePledgeBank.php CRM/PledgeBank/Import/Form/MapField.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/UploadFile.php CRM/Contact/Form/Task/PickProfile.php CRM/Export/Form/Select.php CRM/Import/Form/MapField.php CRM/Import/Form/Mapper.php CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr ""
-
-#: CRM/Activity/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php CRM/Pledge/DAO/Pledge.php templates/CRM/Contact/Form/Search/Simple.tpl
-msgid "Contact ID"
 msgstr ""
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
-msgid "Missing required contact matching fields."
-msgstr ""
-
-#: CRM/Activity/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
-msgid "(Sum of all weights should be greater than or equal to threshold: %1)."
-msgstr ""
-
-#: CRM/Activity/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
-msgid "Missing required field: Provide %1 or %2"
-msgstr ""
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
 msgstr ""
 
@@ -317,59 +297,59 @@ msgstr ""
 msgid "Duplicate Import Mapping Name"
 msgstr ""
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php CRM/PledgeBank/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
 msgstr ""
 
-#: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php CRM/PledgeBank/Import/Form/Preview.php
+#: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
 msgstr ""
 
-#: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php CRM/PledgeBank/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Preview"
 msgstr ""
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php CRM/PledgeBank/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
 msgstr ""
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php CRM/PledgeBank/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
 msgstr ""
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php CRM/PledgeBank/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
 msgstr ""
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php CRM/PledgeBank/Import/Form/Summary.php templates/CRM/Contact/Page/View/Tabbed.tpl
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Summary"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
 msgstr ""
 
@@ -377,11 +357,11 @@ msgstr ""
 msgid "Fill"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Mapping Option"
 msgstr ""
 
-#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
 msgstr ""
 
@@ -389,11 +369,11 @@ msgstr ""
 msgid "Missing required fields"
 msgstr ""
 
-#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php CRM/PledgeBank/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
 msgstr ""
 
-#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php CRM/PledgeBank/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
 msgstr ""
 
@@ -409,7 +389,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/DAO/Menu.php CRM/Grant/Selector/Search.php CRM/Group/Form/Search.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Group.tpl
+#: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/DAO/Menu.php CRM/Group/Form/Search.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Type"
 msgstr ""
 
@@ -421,7 +401,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: CRM/Activity/Selector/Activity.php CRM/Contact/Selector.php CRM/Grant/Selector/Search.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php CRM/Profile/Selector/Listings.php
+#: CRM/Activity/Selector/Activity.php CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Actions"
 msgstr ""
 
@@ -453,7 +433,7 @@ msgstr ""
 msgid "is a numeric field"
 msgstr ""
 
-#: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Menu.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/UFGroup.php CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
+#: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Menu.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/UFGroup.php CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Title"
 msgstr ""
 
@@ -581,15 +561,15 @@ msgstr ""
 msgid "Violation"
 msgstr ""
 
-#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Core/DAO/Discount.php CRM/Pledge/DAO/Pledge.php CRM/Project/DAO/Project.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Case.tpl
+#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Core/DAO/Discount.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Case.tpl
 msgid "Start Date"
 msgstr ""
 
-#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Core/DAO/Discount.php CRM/Pledge/DAO/Pledge.php CRM/Project/DAO/Project.php templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Pledge/Form/PledgeView.tpl
+#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Core/DAO/Discount.php templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr ""
 
-#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php CRM/Grant/Form/Grant.php CRM/Note/Form/Note.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Grant/Form/GrantView.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
+#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php CRM/Note/Form/Note.php templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
 msgid "Notes"
 msgstr ""
 
@@ -609,15 +589,15 @@ msgstr ""
 msgid "Tag(s)"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php
+#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Selector/Search.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/BAO/Contact/Utils.php CRM/Contact/DAO/Contact.php CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr ""
 
@@ -681,7 +661,7 @@ msgstr ""
 msgid "Gender"
 msgstr ""
 
-#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php CRM/PledgeBank/Selector/Search.php templates/CRM/Admin/Page/DedupeRules.tpl
+#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
 msgstr ""
 
@@ -899,11 +879,11 @@ msgstr ""
 msgid "The contact record which is linked to the currently logged in user account - '%1' - cannot be deleted."
 msgstr ""
 
-#: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Selector.tpl templates/CRM/PledgeBank/Form/Selector.tpl templates/CRM/PledgeBank/Form/Selector.tpl templates/CRM/PledgeBank/Form/Task/Print.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr ""
 
-#: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Selector.tpl templates/CRM/PledgeBank/Form/Selector.tpl templates/CRM/PledgeBank/Form/Selector.tpl templates/CRM/PledgeBank/Form/Task/Print.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php CRM/Custom/Form/Field.php templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
 msgstr ""
 
@@ -923,7 +903,7 @@ msgstr ""
 msgid "Relationship Type"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EmployerListing.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php CRM/Grant/Form/Search.php CRM/Group/Form/Search.php CRM/Group/Page/Group.php CRM/PledgeBank/Form/Search.php CRM/Pledge/Form/Search.php CRM/Profile/Form/Search.php templates/CRM/Contact/Page/View/DashBoard.tpl
+#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EmployerListing.php CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Search.php CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php CRM/Group/Form/Search.php CRM/Group/Page/Group.php CRM/Profile/Form/Search.php templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Search"
 msgstr ""
 
@@ -967,10 +947,6 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Pledge/DAO/Payment.php CRM/Pledge/Form/Payment.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Pledge/Page/Payment.tpl
-msgid "Scheduled Date"
-msgstr ""
-
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EventAggregate.php
 msgid "...through"
 msgstr ""
@@ -983,7 +959,7 @@ msgstr ""
 msgid "Postal"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EmployerListing.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/PriceSet.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php CRM/Pledge/Selector/Search.php
+#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Contact/Form/Search/Custom/ContributionAggregate.php CRM/Contact/Form/Search/Custom/EmployerListing.php CRM/Contact/Form/Search/Custom/Group.php CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Form/Search/Custom/PriceSet.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 msgid "Contact Id"
 msgstr ""
 
@@ -1013,22 +989,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php CRM/PledgeBank/Form/Search.php CRM/Pledge/Form/Search.php
-msgid "- more actions -"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php CRM/PledgeBank/Form/Search.php CRM/Pledge/Form/Search.php
-msgid "Actions:"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php CRM/PledgeBank/Form/Search.php CRM/Pledge/Form/Search.php templates/CRM/Block/Search.tpl templates/CRM/common/pager.tpl templates/CRM/common/pager.tpl
-msgid "Go"
-msgstr ""
-
-#: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php CRM/PledgeBank/Form/Search.php CRM/Pledge/Form/Search.php templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "Print"
 msgstr ""
 
 #: CRM/Contact/Form/Task/AddToGroup.php CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -1175,7 +1135,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php CRM/Pledge/BAO/Query.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl templates/CRM/Contact/Page/View/Email.tpl templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
 msgstr ""
 
@@ -1219,16 +1179,12 @@ msgstr ""
 msgid "Paid By"
 msgstr ""
 
-#: CRM/Core/BAO/UFGroup.php CRM/Pledge/BAO/Query.php CRM/Pledge/Form/Pledge.php CRM/UF/Form/Preview.php templates/CRM/Pledge/Form/PledgeView.tpl templates/CRM/Pledge/Form/Search/Common.tpl templates/CRM/Pledge/Page/UserDashboard.tpl
+#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Contribution Type"
 msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
 msgid "Contribution Status"
-msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/Grant/Form/Grant.php
-msgid "Please enter a valid amount."
 msgstr ""
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
@@ -1303,10 +1259,6 @@ msgstr ""
 msgid "Contribution"
 msgstr ""
 
-#: CRM/Core/DAO/CustomGroup.php CRM/PledgeBank/BAO/Query.php CRM/PledgeBank/Selector/Search.php CRM/Pledge/Page/DashBoard.php CRM/Pledge/Selector/Search.php templates/CRM/PledgeBank/Form/Task/Print.tpl
-msgid "Pledge"
-msgstr ""
-
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
 msgstr ""
@@ -1355,18 +1307,6 @@ msgstr ""
 msgid "Field Name"
 msgstr ""
 
-#: CRM/Core/Menu.php CRM/Grant/Info.php
-msgid "CiviGrant"
-msgstr ""
-
-#: CRM/Core/Menu.php CRM/PledgeBank/Info.php xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
-msgid "PledgeBank"
-msgstr ""
-
-#: CRM/Core/Menu.php CRM/Pledge/Info.php CRM/Pledge/Page/DashBoard.php
-msgid "CiviPledge"
-msgstr ""
-
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 msgid "The attached file has been deleted."
 msgstr ""
@@ -1391,32 +1331,12 @@ msgstr ""
 msgid "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
-#: CRM/Core/SelectValues.php CRM/Pledge/DAO/Pledge.php
-msgid "day"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/Pledge/DAO/Pledge.php
-msgid "month"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/Pledge/DAO/Pledge.php
-msgid "year"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php CRM/PledgeBank/Page/Tab.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
+#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
 msgid "Contributions"
 msgstr ""
 
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
 msgid "Memberships"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/PledgeBank/Page/Tab.php CRM/PledgeBank/Page/UserDashboard.php CRM/Pledge/Info.php CRM/Pledge/Page/Tab.php CRM/Pledge/Page/UserDashboard.php xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
-msgid "Pledges"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/Grant/Info.php CRM/Grant/Page/Tab.php xml/templates/civicrm_data.tpl
-msgid "Grants"
 msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
@@ -1435,7 +1355,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/Price/Form/OptionFields.tpl
+#: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Price/Form/OptionFields.tpl
 msgid "Active?"
 msgstr ""
 
@@ -1507,7 +1427,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl xml/templates/civicrm_data.tpl
+#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php xml/templates/civicrm_data.tpl
 msgid "Tell a Friend"
 msgstr ""
 
@@ -1523,46 +1443,6 @@ msgstr ""
 msgid "Thanks for Spreading the Word"
 msgstr ""
 
-#: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl xml/templates/civicrm_data.tpl
-msgid "Grant Type"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Grant Status"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php CRM/Pledge/BAO/Query.php
-msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php CRM/Pledge/BAO/Query.php
-msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Amount Requested"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Amount Granted"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Rationale"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Application Received"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Money Transferred"
-msgstr ""
-
-#: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
-msgid "Delete Grants"
-msgstr ""
-
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr ""
@@ -1571,92 +1451,12 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php CRM/PledgeBank/Import/Form/UploadFile.php
-msgid "No Duplicate Checking"
-msgstr ""
-
-#: CRM/PledgeBank/BAO/Pledge.php CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "%1 will %2 but only if %3 %4 will %5"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/Delete.php CRM/PledgeBank/Page/ManagePledgeBank.php CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Delete Pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank.php CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Configure Pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Task/Delete.php CRM/PledgeBank/Task.php
-msgid "Delete Signers"
-msgstr ""
-
-#: CRM/PledgeBank/Info.php CRM/PledgeBank/Page/DashBoard.php
-msgid "PledgeBank for CiviCRM"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
-msgid "Installments"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Total Paid"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
-msgid "Next Payment Date"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
-msgid "Next Payment Amount"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Form/PledgeView.tpl templates/CRM/Pledge/Form/Search/Common.tpl
-msgid "Pledge Status"
-msgstr ""
-
-#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
-msgid "Maximum Number of Reminders"
-msgstr ""
-
-#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Initial Reminder Day"
-msgstr ""
-
-#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
-msgid "Additional Reminder Days"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
-msgid "Total Pledged"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Pledge Made"
-msgstr ""
-
-#: CRM/Pledge/Form/Payment.php CRM/Pledge/Form/Pledge.php CRM/Utils/System/Joomla.php CRM/Utils/System/Standalone.php
-msgid "You do not have permission to access this page"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
-msgid "%1(s)"
-msgstr ""
-
-#: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
-msgid "Delete Pledges"
-msgstr ""
-
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
 msgid "Delete Price Set"
 msgstr ""
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php templates/CRM/Price/Page/Field.tpl
 msgid "Price"
-msgstr ""
-
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-msgid "Owner Entity Table"
 msgstr ""
 
 #: CRM/Standalone/OpenID/DAO/Associations.php CRM/Standalone/OpenID/DAO/Nonce.php
@@ -1705,6 +1505,10 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
+msgstr ""
+
+#: CRM/Utils/System/Joomla.php CRM/Utils/System/Standalone.php
+msgid "You do not have permission to access this page"
 msgstr ""
 
 #: CRM/ACL/BAO/ACL.php
@@ -1855,6 +1659,10 @@ msgstr ""
 msgid "Activity Status Label"
 msgstr ""
 
+#: CRM/Activity/DAO/Activity.php
+msgid "Test"
+msgstr ""
+
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
 msgstr ""
@@ -1915,8 +1723,24 @@ msgstr ""
 msgid "Activity '%1' has been saved."
 msgstr ""
 
+#: CRM/Activity/Import/Form/MapField.php templates/CRM/Contact/Form/Search/Simple.tpl
+msgid "Contact ID"
+msgstr ""
+
 #: CRM/Activity/Import/Form/MapField.php
 msgid "Activity Type Id"
+msgstr ""
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required contact matching fields."
+msgstr ""
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "(Sum of all weights should be greater than or equal to threshold: %1)."
+msgstr ""
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required field: Provide %1 or %2"
 msgstr ""
 
 #: CRM/Activity/Import/Form/MapField.php
@@ -3705,6 +3529,10 @@ msgstr ""
 msgid "Scheduled By"
 msgstr ""
 
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Scheduled Date"
+msgstr ""
+
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 msgid "Activity Date From"
 msgstr ""
@@ -3870,6 +3698,10 @@ msgid "Radius for Proximity Search (in km)"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
+msgid "- more actions -"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php
 msgid "Please select at least Group Status value."
 msgstr ""
 
@@ -3883,6 +3715,18 @@ msgstr ""
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php
+msgid "Actions:"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php templates/CRM/Block/Search.tpl templates/CRM/common/pager.tpl templates/CRM/common/pager.tpl
+msgid "Go"
+msgstr ""
+
+#: CRM/Contact/Form/Search.php templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Tabbed.tpl
+msgid "Print"
 msgstr ""
 
 #: CRM/Contact/Form/Task/AddToGroup.php
@@ -4548,6 +4392,10 @@ msgid "Participant Role"
 msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
+msgid "Please enter a valid amount."
+msgstr ""
+
+#: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
 msgstr ""
 
@@ -4853,6 +4701,10 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php
+msgid "Pledge"
 msgstr ""
 
 #: CRM/Core/DAO/Discount.php
@@ -5376,6 +5228,18 @@ msgid "CiviMail"
 msgstr ""
 
 #: CRM/Core/Menu.php
+msgid "CiviGrant"
+msgstr ""
+
+#: CRM/Core/Menu.php xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
+msgid "PledgeBank"
+msgstr ""
+
+#: CRM/Core/Menu.php
+msgid "CiviPledge"
+msgstr ""
+
+#: CRM/Core/Menu.php
 msgid "Logout"
 msgstr ""
 
@@ -5624,6 +5488,18 @@ msgid "- any contact type -"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
+msgid "day"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "month"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
+msgid "year"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
 msgid "lifetime"
 msgstr ""
 
@@ -5713,6 +5589,14 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
+msgstr ""
+
+#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl xml/templates/civicrm_data.tpl
+msgid "Pledges"
+msgstr ""
+
+#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
+msgid "Grants"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -6179,7 +6063,7 @@ msgstr ""
 msgid "%1 rule for %2 does not exist"
 msgstr ""
 
-#: CRM/Export/BAO/Export.php templates/CRM/Pledge/Form/PledgeView.tpl
+#: CRM/Export/BAO/Export.php
 msgid "Total Amount"
 msgstr ""
 
@@ -6375,122 +6259,6 @@ msgstr ""
 msgid "Thanks for spreading the word about this pledge to your friends."
 msgstr ""
 
-#: CRM/Grant/BAO/Query.php
-msgid "Grant Type %2 %1"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Grant Status %2 %1"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "App. Received Date - From"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Money Sent Date - From"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Report Due Date - From"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Grant Decision Date - From"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Grant report received?"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Minimum Amount"
-msgstr ""
-
-#: CRM/Grant/BAO/Query.php
-msgid "Maximum Amount"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Application Received Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Decision Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Money Transfer Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Grant Due Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Grant Report Received"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Amount Total"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Grant Decision"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Grant Report Due"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "Grant Report Received?"
-msgstr ""
-
-#: CRM/Grant/Form/Grant.php
-msgid "Amount Requested<br />(original currency)"
-msgstr ""
-
-#: CRM/Grant/Form/Task/Delete.php
-msgid "Deleted Grant(s): %1"
-msgstr ""
-
-#: CRM/Grant/Form/Task/Delete.php
-msgid "Total Selected Grant(s): %1"
-msgstr ""
-
-#: CRM/Grant/Form/Task/Print.php
-msgid "Print Grant List"
-msgstr ""
-
-#: CRM/Grant/Page/DashBoard.php
-msgid "grants"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
-msgid "View Grant"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Grant.tpl
-msgid "Edit Grant"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-msgid "Are you sure you want to delete this grant?"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-msgid "Delete Grant"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-msgid "Report Received"
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-msgid "CiviCRM Grant Search"
-msgstr ""
-
 #: CRM/Group/Form/Edit.php
 msgid "Manage Groups"
 msgstr ""
@@ -6555,7 +6323,7 @@ msgstr ""
 msgid "Show Group Members"
 msgstr ""
 
-#: CRM/Group/Page/Group.php templates/CRM/Contact/Form/Task/SaveSearch.tpl templates/CRM/Group/Form/Edit.tpl templates/CRM/PledgeBank/Form/Task/SaveSearch.tpl templates/CRM/Pledge/Form/Task/SaveSearch.tpl
+#: CRM/Group/Page/Group.php templates/CRM/Contact/Form/Task/SaveSearch.tpl templates/CRM/Group/Form/Edit.tpl
 msgid "Smart Group"
 msgstr ""
 
@@ -6604,6 +6372,10 @@ msgid "Lookup mapping info during import?"
 msgstr ""
 
 #: CRM/Import/Form/UploadFile.php
+msgid "No Duplicate Checking"
+msgstr ""
+
+#: CRM/Import/Form/UploadFile.php
 msgid "For Duplicate Contacts"
 msgstr ""
 
@@ -6649,566 +6421,6 @@ msgstr ""
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
-msgstr ""
-
-#: CRM/PledgeBank/BAO/Query.php
-msgid "Find Active Pledges"
-msgstr ""
-
-#: CRM/PledgeBank/BAO/Query.php
-msgid "Find Done Pledges"
-msgstr ""
-
-#: CRM/PledgeBank/BAO/Query.php
-msgid "Is pledge active?"
-msgstr ""
-
-#: CRM/PledgeBank/BAO/Query.php
-msgid "Is pledge done?"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/Delete.php
-msgid "This pledge cannot be deleted because there are signer records linked to it. If you want to delete this pledge, you must first find the signers linked to this pledge and delete them. You can use use <a href='%1'> PledgeBank >> Find Signers page </a>."
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/Delete.php
-msgid "The pledge '%1' has been deleted."
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/Location.php
-msgid "Does this pledge have location?"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/Location.php templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Pledge Location"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Creators name"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Creators pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Required number of signers"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "is a positive field"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Description of signers"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Signers pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Pledge deadline"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Please select a valid deadline."
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Pledge detailed Description"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Pledge owners description"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php
-msgid "Is this Pledge Active?"
-msgstr ""
-
-#: CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.php templates/CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.tpl templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Pledge Settings"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Search.php
-msgid "Signer Name or Email"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Search.php
-msgid "Find Signer"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Task/Delete.php
-msgid "Deleted Signer(s): %1"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Task/Delete.php
-msgid "Total Selected Signer(s): %1"
-msgstr ""
-
-#: CRM/PledgeBank/Form/Task/Print.php
-msgid "Print Signer List"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Form/MapField.php
-msgid "Event ID"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Form/MapField.php
-msgid "Or Provide Contact Id or External Identifier (OR Participant ID if update mode)."
-msgstr ""
-
-#: CRM/PledgeBank/Import/Form/MapField.php
-msgid "Duplicate Import Participant Mapping Name"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Form/MapField.php
-msgid "Select saved mapping"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Form/UploadFile.php
-msgid "On Duplicate Entries"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Parser.php
-msgid "View Participant URL"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Parser/PledgeSigner.php
-msgid "Select either EventID OR Event Title"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Parser/PledgeSigner.php
-msgid "Missing required field(s) :"
-msgstr ""
-
-#: CRM/PledgeBank/Import/Parser/PledgeSigner.php
-msgid "Invalid value for Event ID"
-msgstr ""
-
-#: CRM/PledgeBank/Info.php
-msgid "PledgeBank for CiviCRM module"
-msgstr ""
-
-#: CRM/PledgeBank/Info.php
-msgid "Your PledgeBank"
-msgstr ""
-
-#: CRM/PledgeBank/Page/DashBoard.php
-msgid "Pledge Signers"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBankEdit.php
-msgid "Configure Pledge - %1"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Are you sure you want to disable this Pledge?"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Are you sure you want to delete this Pledge?"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Are you sure you want to make a copy of this Pledge?"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php templates/CRM/PledgeBank/Page/DashBoard.tpl
-msgid "Configure"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Disable Pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Enable Pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Copy Pledge"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Manage Pledges"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "Search Events"
-msgstr ""
-
-#: CRM/PledgeBank/Page/ManagePledgeBank.php
-msgid "PledgeBank %%StatusMessage%%"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "View Signer"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "Edit Signer"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "Delete Signer"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php templates/CRM/PledgeBank/Form/Task/Print.tpl
-msgid "Signer"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "...will"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "Signed on"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php templates/CRM/PledgeBank/Form/Task/Print.tpl
-msgid "Anonymous?"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "Done?"
-msgstr ""
-
-#: CRM/PledgeBank/Selector/Search.php
-msgid "PledgeBank Signer Search"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "$%1 - due on %2 (overdue)"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "$%1 - due on %2"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "Oops. It looks like there is no valid payment status for online payment."
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "Make Pledge Payment(s):"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "I want to make a one-time contribution"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "I pledge to contribute this amount every"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "Pledge Frequency Interval"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
-
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "(s)"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php
-msgid "Balance Amount"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
-msgid "Paid Amount"
-msgstr ""
-
-#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
-msgid "Paid Date"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Pledge Status %1"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Pledge Payment Status %1"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Contribution Type - %1"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Contribution Page - %1"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Honor name like - '%1'"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Payments Start Date - From"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Payments Ended Date - From"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Pledge Made - From"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Payment Scheduled - From"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "Find Test Pledge?"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
-msgid "Pledge Payment Status"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
-msgid "Contribution Page"
-msgstr ""
-
-#: CRM/Pledge/BAO/Query.php
-msgid "In Honor Of"
-msgstr ""
-
-#: CRM/Pledge/DAO/Payment.php
-msgid "Payment ID"
-msgstr ""
-
-#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
-msgid "Scheduled Amount"
-msgstr ""
-
-#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
-msgid "Last Reminder"
-msgstr ""
-
-#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
-msgid "Reminders Sent"
-msgstr ""
-
-#: CRM/Pledge/DAO/Payment.php
-msgid "Payment Status"
-msgstr ""
-
-#: CRM/Pledge/DAO/PledgeBlock.php
-msgid "Entity Id"
-msgstr ""
-
-#: CRM/Pledge/DAO/PledgeBlock.php
-msgid "Pledge Frequency Unit"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Pledge ID"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Frequency Unit"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Frequency Interval"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Frequency Day"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Acknowledge Date"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "Cancel Date"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php xml/templates/civicrm_data.tpl
-msgid "Honor Type"
-msgstr ""
-
-#: CRM/Pledge/DAO/Pledge.php
-msgid "week"
-msgstr ""
-
-#: CRM/Pledge/Form/Payment.php
-msgid "Select a valid Scheduled date."
-msgstr ""
-
-#: CRM/Pledge/Form/Payment.php
-msgid "Pledge Payment Schedule has been updated.<br />"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/AcknowledgeMessage.tpl templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Total Pledge Amount"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a valid monetary amount."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "To be paid in"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a valid number of installments."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "every"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a number for frequency (e.g. every \"3\" months)."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Frequency"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Payments are due on the"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a valid payment due day."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "each"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Select a valid date for the day the pledge was made."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Payments Start"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Select a valid payments start date."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Send Acknowledgment?"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Acknowledgment Date"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Self-service Payments Page"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Honor First Name and Last Name OR an email should be set."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Total Pledge Amount should be greater than zero."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Installments should be greater than zero."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a valid frequency day ie. 1 through 31."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Please enter a valid frequency day ie. 1 through 7."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Pledge has been recorded and the payment schedule has been created.<br />"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "Pledge has been updated.<br />"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "An acknowledgment email has been sent to %1.<br />"
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>."
-msgstr ""
-
-#: CRM/Pledge/Form/Pledge.php
-msgid "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a>."
-msgstr ""
-
-#: CRM/Pledge/Form/Search.php
-msgid "Pledger Name or Email"
-msgstr ""
-
-#: CRM/Pledge/Form/Search.php
-msgid "Find Pledges"
-msgstr ""
-
-#: CRM/Pledge/Form/Task/Delete.php
-msgid "Deleted Pledge(s): %1"
-msgstr ""
-
-#: CRM/Pledge/Form/Task/Delete.php
-msgid "Total Selected Pledge(s): %1"
-msgstr ""
-
-#: CRM/Pledge/Form/Task/Print.php
-msgid "Print Pledge List"
-msgstr ""
-
-#: CRM/Pledge/Info.php
-msgid "CiviCRM Pledge Engine"
-msgstr ""
-
-#: CRM/Pledge/Info.php
-msgid "Your Pledge(s)"
-msgstr ""
-
-#: CRM/Pledge/Page/Tab.php
-msgid "Pledge has been Cancelled and all scheduled (not completed) payments have been cancelled.<br />"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php
-msgid "Cancelling this pledge will also cancel any scheduled (and not completed) pledge payments. This action cannot be undone. Do you want to continue?"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "View Pledge"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Edit Pledge"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php
-msgid "Cancel Pledge"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Balance Due"
-msgstr ""
-
-#: CRM/Pledge/Selector/Search.php
-msgid "Pledge Search"
-msgstr ""
-
-#: CRM/Pledge/Task.php
-msgid "Export Pledges"
 msgstr ""
 
 #: CRM/Price/Form/DeleteField.php
@@ -7535,70 +6747,6 @@ msgstr ""
 msgid "CiviCRM Profile Listings"
 msgstr ""
 
-#: CRM/Project/DAO/Project.php
-msgid "Logo"
-msgstr ""
-
-#: CRM/Project/DAO/Project.php
-msgid "Project Owner ID"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Type"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Owner ID"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Parent Entity Table"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Parent"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Due Date"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Priority"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Class"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Responsible Entity Table"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Responsible"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Target Entity Table"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Target"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Status Details"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Created"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Last Modified"
-msgstr ""
-
 #: CRM/SMS/BAO/History.php
 msgid "To: %1; Message: %2"
 msgstr ""
@@ -7665,34 +6813,6 @@ msgstr ""
 
 #: CRM/Tag/Form/Tag.php
 msgid "Your update(s) have been saved."
-msgstr ""
-
-#: CRM/Touchstone/Info.php
-msgid "CiviTouchstone"
-msgstr ""
-
-#: CRM/Touchstone/Info.php
-msgid "CiviCRM Touchstone Component"
-msgstr ""
-
-#: CRM/Touchstone/Info.php
-msgid "Touchstone"
-msgstr ""
-
-#: CRM/Touchstone/Info.php
-msgid "Your Touchstone"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform First Task"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform Second Task"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform Third Task"
 msgstr ""
 
 #: CRM/UF/Form/AdvanceSetting.php
@@ -8255,7 +7375,7 @@ msgstr ""
 msgid "New ACL"
 msgstr ""
 
-#: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/CMSUser.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/MessageTemplates.tpl templates/CRM/Admin/Form/OptionGroup.tpl templates/CRM/Admin/Form/Options.tpl templates/CRM/Admin/Form/OptionValue.tpl templates/CRM/Admin/Form/PaymentProcessor.tpl templates/CRM/Admin/Form/PaymentProcessorType.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Admin/Page/Admin.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/common/info.tpl templates/CRM/common/print.tpl templates/CRM/common/snippet.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/DeleteLocation.tpl templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/CustomSearch.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Case.tpl templates/CRM/Contact/Page/View/Delete.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Log.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Sunlight.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteFile.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/Grant/Form/Task/Delete.tpl templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/Grant/Page/Tab.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/PledgeBank/Form/ManagePledgeBank/Delete.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Task/Delete.tpl templates/CRM/PledgeBank/Form/Task/Print.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Form/Search/EmptyResults.tpl templates/CRM/Pledge/Form/Task/Delete.tpl templates/CRM/Pledge/Form/Task/Print.tpl templates/CRM/Pledge/Page/Tab.tpl templates/CRM/Price/Form/DeleteField.tpl templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/Profile/Form/Search.tpl templates/CRM/Profile/Page/Listings.tpl templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/CMSUser.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/MessageTemplates.tpl templates/CRM/Admin/Form/OptionGroup.tpl templates/CRM/Admin/Form/Options.tpl templates/CRM/Admin/Form/OptionValue.tpl templates/CRM/Admin/Form/PaymentProcessor.tpl templates/CRM/Admin/Form/PaymentProcessorType.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Admin/Page/Admin.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Mapping.tpl templates/CRM/Admin/Page/MessageTemplates.tpl templates/CRM/Admin/Page/OptionGroup.tpl templates/CRM/Admin/Page/Options.tpl templates/CRM/Admin/Page/OptionValue.tpl templates/CRM/Admin/Page/PaymentProcessor.tpl templates/CRM/Admin/Page/PaymentProcessorType.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/common/info.tpl templates/CRM/common/print.tpl templates/CRM/common/snippet.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/DeleteLocation.tpl templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/CustomSearch.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Case.tpl templates/CRM/Contact/Page/View/Delete.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Log.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Sunlight.tpl templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteFile.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/Price/Form/DeleteField.tpl templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/Price/Page/Set.tpl templates/CRM/Profile/Form/Search.tpl templates/CRM/Profile/Page/Listings.tpl templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "status"
 msgstr ""
 
@@ -8263,7 +7383,7 @@ msgstr ""
 msgid "WARNING: Delete will remove this permission from the specified ACL Role."
 msgstr ""
 
-#: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/CMSUser.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/OptionGroup.tpl templates/CRM/Admin/Form/Options.tpl templates/CRM/Admin/Form/OptionValue.tpl templates/CRM/Admin/Form/PaymentProcessor.tpl templates/CRM/Admin/Form/PaymentProcessorType.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Price/Form/DeleteField.tpl templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
+#: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl templates/CRM/Admin/Form/ActivityType.tpl templates/CRM/Admin/Form/CMSUser.tpl templates/CRM/Admin/Form/DomainDump.tpl templates/CRM/Admin/Form/LocationType.tpl templates/CRM/Admin/Form/OptionGroup.tpl templates/CRM/Admin/Form/Options.tpl templates/CRM/Admin/Form/OptionValue.tpl templates/CRM/Admin/Form/PaymentProcessor.tpl templates/CRM/Admin/Form/PaymentProcessorType.tpl templates/CRM/Admin/Form/RelationshipType.tpl templates/CRM/Custom/Form/DeleteField.tpl templates/CRM/Custom/Form/DeleteGroup.tpl templates/CRM/Custom/Form/Option.tpl templates/CRM/Price/Form/DeleteField.tpl templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to continue?"
 msgstr ""
 
@@ -8423,51 +7543,51 @@ msgstr ""
 msgid "Attachment(s)"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Grant/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
 msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '- do not import -' for any columns in the import file that you want ignored."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Grant/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
 msgid "Click 'Load Saved Field Mapping' if data has been previously imported from the same source. You can then select the saved import mapping setup and load it automatically."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Grant/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
+#: templates/CRM/Activity/Import/Form/MapField.tpl templates/CRM/Import/Form/MapField.tpl
 msgid "If you think you may be importing additional data from the same data source, check 'Save this field mapping' at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is imported."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
 msgid "Saved Field Mapping: %1"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
 msgid "Column Headers"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+#: templates/CRM/Activity/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
 msgid "Matching CiviCRM Field"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href='%2'>Download Errors</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl
 msgid "CiviCRM has detected %1 records with conflicting transaction ids within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href='%2'>Download Conflicts</a>. Then correct them in the original import file, cancel this import and begin again at step 1."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "Click 'Import Now' if you are ready to proceed."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total Rows"
 msgstr ""
 
@@ -8475,39 +7595,39 @@ msgstr ""
 msgid "Total rows (activity records) in uploaded file."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "Rows with Errors"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Rows with invalid data in one or more fields. These rows will be skipped (not imported)."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Errors"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl
 msgid "Rows with conflicting transaciton ids within this file. These rows will be skipped (not imported)."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Conflicts"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "Valid Rows"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
+#: templates/CRM/Activity/Import/Form/Preview.tpl templates/CRM/Import/Form/Preview.tpl
 msgid "Total rows to be imported."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "<strong>Import has completed successfully.</strong> The information below summarizes the results."
 msgstr ""
 
@@ -8521,13 +7641,13 @@ msgstr[1] ""
 msgid "You can <a href='%1'>Download Mismatched Activity records</a>. You may then correct them, and import the new file with the corrected data."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "CiviCRM has detected invalid data and/or formatting errors in one record. This record have not been imported."
 msgid_plural "CiviCRM has detected invalid data and/or formatting errors in %count records. These records have not been imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "You can <a href='%1'>Download Errors</a>. You may then correct them, and import the new file with the corrected data."
 msgstr ""
 
@@ -8537,7 +7657,7 @@ msgid_plural "CiviCRM has detected %count records with conflicting transaction I
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "You can <a href='%1'>Download Conflicts</a>. You may then review these records to determine if they are actually conflicts, and correct the transaction IDs for those that are not."
 msgstr ""
 
@@ -8547,15 +7667,15 @@ msgid_plural "CiviCRM has detected %count records which are duplicates of existi
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "You can <a href='%1'>Download Duplicates</a>. You may then review these records to determine if they are actually duplicates, and correct the transaction IDs for those that are not."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Invalid Rows (skipped)"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Mismatched Rows (skipped)"
 msgstr ""
 
@@ -8567,15 +7687,15 @@ msgstr ""
 msgid "Download Mismatched Activity records"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Conflicting Rows (skipped)"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Rows with conflicting transaction IDs (NOT imported)."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Duplicate Rows"
 msgstr ""
 
@@ -8583,15 +7703,15 @@ msgstr ""
 msgid "Rows which are duplicates of existing CiviCRM activity records."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Duplicates"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Records Imported"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/Summary.tpl templates/CRM/Grant/Import/Form/Summary.tpl
+#: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Rows imported successfully."
 msgstr ""
 
@@ -8603,11 +7723,11 @@ msgstr ""
 msgid "Upload Data File"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Grant/Import/Form/UploadFile.tpl
+#: templates/CRM/Activity/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Grant/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
+#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
 msgid "Maximum Upload File Size: %1 MB"
 msgstr ""
 
@@ -8615,11 +7735,11 @@ msgstr ""
 msgid "Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Activity Type', 'Activity Date')."
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/UploadFile.tpl
+#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select a Different Field Mapping"
 msgstr ""
 
-#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Grant/Import/Form/MapTable.tpl templates/CRM/Import/Form/UploadFile.tpl
+#: templates/CRM/Activity/Import/Form/UploadFile.tpl templates/CRM/Import/Form/UploadFile.tpl
 msgid "Load Saved Field Mapping"
 msgstr ""
 
@@ -9835,7 +8955,7 @@ msgstr ""
 msgid "(step %1 of %2)"
 msgstr ""
 
-#: templates/CRM/Contact/Form/AddContact.tpl templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search/Builder.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Custom/Form/CustomData.tpl templates/CRM/Custom/Form/Search.tpl templates/CRM/Grant/Form/Search.tpl templates/CRM/PledgeBank/Form/Search.tpl templates/CRM/Pledge/Form/Search.tpl templates/CRM/Pledge/Form/Selector.tpl templates/CRM/Pledge/Form/Selector.tpl templates/CRM/Pledge/Form/Selector.tpl templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Profile/Form/Dynamic.tpl templates/CRM/Profile/Form/Search.tpl
+#: templates/CRM/Contact/Form/AddContact.tpl templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/InlineCustomData.tpl templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search/Builder.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/InlineCustomData.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Print.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Custom/Form/CustomData.tpl templates/CRM/Custom/Form/Search.tpl templates/CRM/Profile/Form/Dynamic.tpl templates/CRM/Profile/Form/Search.tpl
 msgid "open section"
 msgstr ""
 
@@ -10067,7 +9187,7 @@ msgstr ""
 msgid "%1 Smart Group Criteria"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl templates/CRM/PledgeBank/Form/Search.tpl templates/CRM/Pledge/Form/Search.tpl templates/CRM/Profile/Form/Search.tpl
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl templates/CRM/Profile/Form/Search.tpl
 msgid "Search Criteria"
 msgstr ""
 
@@ -10075,7 +9195,7 @@ msgstr ""
 msgid "Edit %1 Smart Group Criteria"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search/Builder.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl templates/CRM/Grant/Form/Search.tpl templates/CRM/PledgeBank/Form/Search.tpl templates/CRM/Pledge/Form/Search.tpl
+#: templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Form/Search/Builder.tpl templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl templates/CRM/Contact/Form/Search/Custom/Sample.tpl templates/CRM/Contact/Form/Search/Custom.tpl
 msgid "Edit Search Criteria"
 msgstr ""
 
@@ -10111,7 +9231,7 @@ msgstr ""
 msgid "Search results listings."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "No matches found for:"
 msgstr ""
 
@@ -10119,7 +9239,7 @@ msgstr ""
 msgid "No matches found."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "Suggestions:"
 msgstr ""
 
@@ -10127,11 +9247,11 @@ msgstr ""
 msgid "check your spelling"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "try a different spelling or use fewer letters"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl
+#: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
 msgstr ""
 
@@ -10225,7 +9345,7 @@ msgstr[1] ""
 msgid "Label Contact(s)"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/PledgeBank/Form/Task/Print.tpl templates/CRM/Pledge/Form/Task/Print.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "There are no records selected for Print."
 msgstr ""
 
@@ -10237,7 +9357,7 @@ msgstr ""
 msgid "Tag Contact(s) (Remove)"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Task.tpl templates/CRM/PledgeBank/Form/Task.tpl
+#: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
 msgstr ""
 
@@ -11095,200 +10215,6 @@ msgstr ""
 msgid "Send to these Friend(s)"
 msgstr ""
 
-#: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
-msgid "New Grant"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Select the status of this grant."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Select the appropriate grant type."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Amount requested for grant."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Amount requested for grant in original currency (if different)."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Actual amount granted."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "When was the grant application received?"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the grant decision was finalized."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the grant money was transferred."
-msgstr ""
-
-#: templates/CRM/Grant/Form/GrantView.tpl
-msgid "Amount Requested <br />\n	          (original currency)"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search/Common.tpl
-msgid "Date is not set"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl
-msgid "No matching memberships found."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
-msgid "if you are searching by Contact name, check your spelling"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl templates/CRM/PledgeBank/Search/EmptyResults.tpl
-msgid "if you are searching within a date range, try a wider range of values"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, Total Amount , etc ."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Complete OR partial name OR email."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Selector.tpl
-msgid "List more Grants"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Task/Delete.tpl
-msgid "Are you sure you want to delete the selected Grants? This delete operation cannot be undone and will delete all transactions associated with these grants."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Amount Requested(orig. currency)"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Application Recieved"
-msgstr ""
-
-#: templates/CRM/Grant/Form/Task.tpl
-msgid "Number of selected grants: %1"
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/Preview.tpl templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "Total rows (participant records) in uploaded file."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "CiviCRM has detected mismatched participant ID. This record have not been updated."
-msgid_plural "CiviCRM has detected mismatched participant IDs. These records have not been Updated."
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "You can <a href='%1'>Download Mismatched Participantss</a>. You may then correct them, and import the new file with the corrected data."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "CiviCRM has detected one record with conflicting transaction ID within this data file or relative to existing particpant records. This record have not been imported."
-msgid_plural "CiviCRM has detected %count records with conflicting transaction IDs within this data file or relative to existing participant records. These records have not been imported."
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "CiviCRM has detected one record which is a duplicate of existing CiviCRM participant record."
-msgid_plural "CiviCRM has detected %count records which are duplicates of existing CiviCRM participant records."
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "Rows with mismatched participant IDs... (NOT updated)."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "Download Mismatched participants"
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/Summary.tpl
-msgid "Rows which are duplicates of existing CiviCRM participant records."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/UploadFile.tpl
-msgid "The Event Import Wizard allows you to easily upload event participation data such as event registrations from other applications into CiviCRM."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/UploadFile.tpl
-msgid "Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the participant data to an existing contact in your CiviCRM database."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/UploadFile.tpl
-msgid "Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Participant Role')."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/UploadFile.tpl
-msgid "Select 'Individual' if you are importing event participation data for individual persons."
-msgstr ""
-
-#: templates/CRM/Grant/Import/Form/UploadFile.tpl
-msgid "Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type."
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "CiviGrant allows you to input and track grants to Organizations, Individuals or Households. The grantee must first be entered as a contact in CiviCRM. Use <a href='%1'>Find Contacts</a> to see if there's already a record for the grantee. Once you've located or created the contact record, click <strong>View</strong> to go to their summary page, select the <strong>Grants</strong> tab and click <strong>New Grant</strong>."
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "Grants Summary"
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "This table provides a summary of <strong>Grant Totals</strong>, and includes shortcuts to view the Grant details for these commonly used search periods. Click the Grant Status to see a list of Contacts for that grant status. To run your own customized searches - click <a href='%1'>Find Grants</a>. You can search by Contact Name, Amount, Grant type and a variety of other criteria."
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl xml/templates/civicrm_data.tpl
-msgid "Grant status"
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "Number of grants"
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "TOTAL"
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "You have no Grants registered in your database."
-msgstr ""
-
-#: templates/CRM/Grant/Page/DashBoard.tpl
-msgid "Recent Grants"
-msgstr ""
-
-#: templates/CRM/Grant/Page/Tab.tpl
-msgid "This page lists all grant registrations for %1 since inception."
-msgstr ""
-
-#: templates/CRM/Grant/Page/Tab.tpl
-msgid "Click <a accesskey=\"N\" href='%1'>New Grant</a> to register this contact for a Grant."
-msgstr ""
-
-#: templates/CRM/Grant/Page/Tab.tpl
-msgid "There are no grant recorded for this contact. You can <a href='%1'>enter one now</a>."
-msgstr ""
-
-#: templates/CRM/Grant/Page/Tab.tpl
-msgid "There are no grant recorded for this contact."
-msgstr ""
-
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Delete Group "
 msgstr ""
@@ -11359,7 +10285,7 @@ msgstr ""
 msgid "Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/UF/Page/Group.tpl
+#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "ID"
 msgstr ""
 
@@ -11375,7 +10301,7 @@ msgstr ""
 msgid "Try a different spelling or use fewer letters."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+#: templates/CRM/Group/Page/Group.tpl
 msgid "Make sure you have enough privileges in the access control system."
 msgstr ""
 
@@ -11535,398 +10461,6 @@ msgstr ""
 msgid "Select the format that is used for date fields in your import data."
 msgstr ""
 
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/Delete.tpl
-msgid "Warning: Deleting this pledge will also delete associated Pledge Bank settings and configurations. This operation cannot be undone. Do you want to continue?"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/Location.tpl
-msgid "Pledge Location Information"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/Location.tpl
-msgid "Use this form to define optional geographical location of the pledge."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.tpl
-msgid "Pledge text"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.tpl
-msgid "Creator for this particular pledge."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.tpl
-msgid "Pledge that the creator makes."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/ManagePledgeBank/PledgeInfo.tpl
-msgid "To make the pledge successful, the minimum no. of people that need to sign up."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/Search/EmptyResults.tpl
-msgid "if you are searching by signer name, check your spelling"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/Task/Delete.tpl
-msgid "Are you sure you want to delete the selected signers? This delete operation cannot be undone and will delete all transactions associated with these signers."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Form/Task/Print.tpl
-msgid "Signed On"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Pledge Summary"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
-msgid "Signers limit"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
-msgid "Deadline"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
-msgid "Creator"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl
-msgid "View pledge info page\""
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl
-msgid "Browse more pledges"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/DashBoard.tpl
-msgid "Recent Pledge Signers"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Use the links below to update features and content for this Pledge. ."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Set pledge title, description for creator and signer, deadline, required number of signers, and activate the pledge."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Set pledge location."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "Make it easy for pledge signers to spread the word about this pledge to friends and colleagues."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "View Pledge Info"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBankEdit.tpl
-msgid "View the Pledge Information page as it will be displayed to site visitors."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-msgid "New Pledge"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
-msgid "Id"
-msgstr ""
-
-#: templates/CRM/PledgeBank/Page/ManagePledgeBank.tpl
-msgid "There are no pledge created yet. You can <a href='%1'>add one</a>."
-msgstr ""
-
-#: templates/CRM/PledgeBank/Search/EmptyResults.tpl
-msgid "if you are searching by participant name, check your spelling"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Dear %1"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-msgid "Thank you for your generous pledge. Please print this acknowledgment for your records."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Pledge Information"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Pledge Received"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-msgid "Payment Schedule"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-msgid "%1 every %2 %3 for %4 installments."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-msgid "Payments are due on day %1 of the %2."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Please contact us at %1 or send email to %2 if you have questions\nor need to modify your payment schedule."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-msgid "Honoree Email"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/AcknowledgeSubject.tpl
-msgid "Thank you for your Pledge"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Payment.tpl
-msgid "Edit Pledge Payment"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Payment.tpl
-msgid "Scheduled Date for Pledge payment."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "You will not be able to send an acknowledgment for this pledge because there is no email address recorded for this contact. If you want a acknowledgment to be sent when this pledge is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the pledge."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "WARNING: Deleting this pledge will result in the loss of the associated financial transactions (if any)."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Pledge by"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "installments of"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "day of the period"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "This applies to weekly, monthly and yearly payments."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Date when pledge was made by the contributor."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Date of first pledge payment."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Date when an acknowledgment of the pledge was sent."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Sets the default contribution type for payments against this pledge."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Select an Online Contribution page that the user can access to make self-service pledge payments. (Only Online Contribution pages configured to include the Pledge option are listed.)"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl
-msgid "Pledges are \"Pending\" until the first payment is received. Once a payment is received, status is \"In Progress\" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Pledge By"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Payment Start"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Cancelled Date"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "(test)"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Received"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Maximum Reminders Send"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/PledgeView.tpl
-msgid "Send additional reminders"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "This is a reminder that the next payment on your pledge is due on %1."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Payment Due"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Amount Due"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Please mail your payment to"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderMessage.tpl
-msgid "Thank your for your generous support."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/ReminderSubject.tpl
-msgid "Pledge Payment Reminder"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Search/Common.tpl
-msgid "Pledge Amounts"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
-msgid "No matching pledge results found."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
-msgid "If you are searching by pledger name, check your spelling or use fewer letters."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
-msgid "If you are searching within a date or amouht range, try a wider range of values."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Selector.tpl
-msgid "Click %1 to view pledge payments."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Selector.tpl
-msgid "Find more pledges"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task/Delete.tpl
-msgid "Are you sure you want to delete the selected pledges? This delete operation cannot be undone and will delete all transactions associated with these pledges."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task/Print.tpl templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Price/Form/OptionFields.tpl
-msgid "Amount"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task/Print.tpl
-msgid "Create Date"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task/Print.tpl
-msgid "To Be Paid"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task/Print.tpl
-msgid "Begining Date"
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Task.tpl
-msgid "Number of selected pledges: %1"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "(current month)"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "(current year)"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Cumulative"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "(since inception)"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Total Pledges"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Payments Received"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Past Due"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/DashBoard.tpl
-msgid "Recent Pledges"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Payment.tpl
-msgid "<a href='%1'>View Payment</a>"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Payment.tpl
-msgid "<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Payment.tpl
-msgid "<a href='%1'>Submit Credit Card Payment</a>"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Payment.tpl
-msgid "<a href='%1'>Edit Schedule</a>"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Tab.tpl
-msgid "Pledges received from %1 since inception."
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Tab.tpl
-msgid "Click <a href='%1'>New Pledge</a> to record a new pledge received from this contact."
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Tab.tpl
-msgid "No pledges have been recorded from this contact."
-msgstr ""
-
-#: templates/CRM/Pledge/Page/Tab.tpl
-msgid "Contributions made in honor of %1"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Make Payment"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Payments"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Pledges made in your honor."
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Pledger"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Create date"
-msgstr ""
-
-#: templates/CRM/Pledge/Page/UserDashboard.tpl
-msgid "Acknowledgment Sent"
-msgstr ""
-
 #: templates/CRM/Price/Form/DeleteField.tpl
 msgid "WARNING: Deleting this price field will result in the loss of all '%1' data."
 msgstr ""
@@ -11961,6 +10495,10 @@ msgstr ""
 
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice). If you need more than ten options, you can create an unlimited number of additional choices using the Edit Multiple Choice Options link after saving this new field. The option 'label' is displayed on the form, while the option 'value' is stored in the contact record. The label and value may be the same or different. Inactive options are hidden when the field is presented."
+msgstr ""
+
+#: templates/CRM/Price/Form/OptionFields.tpl
+msgid "Amount"
 msgstr ""
 
 #: templates/CRM/Price/Form/Option.tpl
@@ -12561,6 +11099,18 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Addressing Options"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Grant status"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Grant Type"
+msgstr ""
+
+#: xml/templates/civicrm_data.tpl
+msgid "Honor Type"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl

@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-09-17 15:21+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -22,8 +22,44 @@ msgstr ""
 msgid "No thank you"
 msgstr ""
 
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+msgid "Contribution Type - %1"
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+msgid "Contribution Page - %1"
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+msgid "Honor name like - '%1'"
+msgstr ""
+
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+#: CRM/Pledge/BAO/Query.php
+msgid "Please enter a valid money value (e.g. 9.99)."
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
+#: CRM/Pledge/BAO/Query.php
+msgid "Please enter a valid money value (e.g. 99.99)."
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#: templates/CRM/Contribute/Form/Preview.tpl
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+#: templates/CRM/Pledge/Form/Search/Common.tpl
+msgid "Contribution Page"
+msgstr ""
+
+#: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+msgid "In Honor Of"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
@@ -83,6 +119,11 @@ msgstr ""
 msgid "Invoice ID"
 msgstr ""
 
+#: CRM/Contribute/DAO/Contribution.php
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
+msgid "Cancel Date"
+msgstr ""
+
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
@@ -91,6 +132,26 @@ msgstr ""
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
 msgid "Is Pay Later"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
+msgid "Frequency Unit"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Frequency Interval"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Installments"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Pledge/DAO/Pledge.php
+msgid "week"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionType.php
@@ -162,6 +223,12 @@ msgstr ""
 msgid "Send up to"
 msgstr ""
 
+#: CRM/Contribute/Form/AdditionalInfo.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Send additional reminders"
+msgstr ""
+
 #: CRM/Contribute/Form/ContributionBase.php CRM/Member/BAO/Membership.php
 msgid ""
 "Oops. The membership you're trying to renew appears to be invalid. Contact "
@@ -179,6 +246,15 @@ msgstr ""
 msgid "<< Go Back"
 msgstr ""
 
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "%1"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
+msgid "(s)"
+msgstr ""
+
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "The email %1 already exists in the database."
@@ -192,6 +268,14 @@ msgstr ""
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Verification Number"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+msgid "Minimum Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
+msgid "Maximum Amount"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -262,6 +346,23 @@ msgid ""
 "number for checks."
 msgstr ""
 
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
+#: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#: templates/CRM/Contribute/Page/ContributionHonor.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Received"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Pledge/Form/Pledge.php
+msgid "Honor First Name and Last Name OR an email should be set."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/Form/Pledge.php
+msgid "Frequency"
+msgstr ""
+
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
 msgstr ""
@@ -273,6 +374,11 @@ msgstr ""
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
 msgid "Import mode"
+msgstr ""
+
+#: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
+#: templates/CRM/Event/Page/DashBoard.tpl
+msgid "Configure"
 msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
@@ -331,6 +437,10 @@ msgstr ""
 msgid "Fee Level"
 msgstr ""
 
+#: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
+msgid "Event ID"
+msgstr ""
+
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Name"
 msgstr ""
@@ -361,6 +471,10 @@ msgstr ""
 msgid "Fee Label"
 msgstr ""
 
+#: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
+msgid "Payment ID"
+msgstr ""
+
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 msgid "Participant ID"
 msgstr ""
@@ -368,6 +482,11 @@ msgstr ""
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Transaction ID already exists in Database."
+msgstr ""
+
+#: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
+#: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
+msgid "Payment Status"
 msgstr ""
 
 #: CRM/Event/Form/EventFees.php CRM/Event/Form/ManageEvent/Fee.php
@@ -391,6 +510,43 @@ msgstr ""
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Could not find valid payment processor for this page"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Status"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Requested"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Granted"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid "Rationale"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid "Application Received"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/GrantView.tpl
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Money Transferred"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
+msgid "Delete Grants"
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
@@ -595,6 +751,56 @@ msgstr ""
 msgid "Delete Membership"
 msgstr ""
 
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Total Paid"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+msgid "Next Payment Date"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
+msgid "Next Payment Amount"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+#: templates/CRM/Pledge/Form/Search/Common.tpl
+msgid "Pledge Status"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+msgid "Maximum Number of Reminders"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Initial Reminder Day"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
+msgid "Additional Reminder Days"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
+msgid "Total Pledged"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Pledge Made"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
+msgid "%1(s)"
+msgstr ""
+
+#: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
+msgid "Delete Pledges"
+msgstr ""
+
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
 msgstr ""
@@ -747,6 +953,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Comment"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+msgid "Create Date"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
@@ -1503,6 +1714,12 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Cancelled Date"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Cancellation Reason"
 msgstr ""
 
@@ -2007,6 +2224,10 @@ msgid "Max Number of Participants"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
+msgid "is a positive field"
+msgstr ""
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Message if Event is Full"
 msgstr ""
 
@@ -2394,6 +2615,40 @@ msgstr ""
 msgid "Print Participant List"
 msgstr ""
 
+#: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Or Provide Contact Id or External Identifier (OR Participant ID if update "
+"mode)."
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
+msgid "Duplicate Import Participant Mapping Name"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
+msgid "Select saved mapping"
+msgstr ""
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Missing required field(s) :"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Invalid value for Event ID"
+msgstr ""
+
+#: CRM/Event/Import/Parser.php
+msgid "View Participant URL"
+msgstr ""
+
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
 msgstr ""
@@ -2447,6 +2702,10 @@ msgid "Manage Events"
 msgstr ""
 
 #: CRM/Event/Page/ManageEvent.php
+msgid "Search Events"
+msgstr ""
+
+#: CRM/Event/Page/ManageEvent.php
 msgid "Event %%StatusMessage%%"
 msgstr ""
 
@@ -2493,6 +2752,114 @@ msgstr ""
 
 #: CRM/Event/Task.php
 msgid "Cancel Registration"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Type %2 %1"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Status %2 %1"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "App. Received Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Money Sent Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Report Due Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant Decision Date - From"
+msgstr ""
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant report received?"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Application Received Date"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Decision Date"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Money Transfer Date"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Grant Due Date"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Grant Report Received"
+msgstr ""
+
+#: CRM/Grant/DAO/Grant.php
+msgid "Amount Total"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Decision"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Report Due"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "Grant Report Received?"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php
+msgid "Amount Requested<br />(original currency)"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php
+msgid "Deleted Grant(s): %1"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Delete.php
+msgid "Total Selected Grant(s): %1"
+msgstr ""
+
+#: CRM/Grant/Form/Task/Print.php
+msgid "Print Grant List"
+msgstr ""
+
+#: CRM/Grant/Page/DashBoard.php
+msgid "grants"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+msgid "View Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Grant.tpl
+msgid "Edit Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "Are you sure you want to delete this grant?"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "Delete Grant"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "Report Received"
+msgstr ""
+
+#: CRM/Grant/Selector/Search.php
+msgid "CiviCRM Grant Search"
 msgstr ""
 
 #: CRM/Mailing/BAO/Component.php
@@ -3619,6 +3986,292 @@ msgstr ""
 msgid "Batch Update Members Via Profile"
 msgstr ""
 
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "$%1 - due on %2 (overdue)"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "$%1 - due on %2"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid ""
+"Oops. It looks like there is no valid payment status for online payment."
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "Make Pledge Payment(s):"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "I want to make a one-time contribution"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "I pledge to contribute this amount every"
+msgstr ""
+
+#: CRM/Pledge/BAO/PledgeBlock.php
+msgid "Pledge Frequency Interval"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php
+msgid "Balance Amount"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
+msgid "Paid Amount"
+msgstr ""
+
+#: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
+msgid "Paid Date"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Pledge Status %1"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Pledge Payment Status %1"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Payments Start Date - From"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Payments Ended Date - From"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Pledge Made - From"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Payment Scheduled - From"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php
+msgid "Find Test Pledge?"
+msgstr ""
+
+#: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
+msgid "Pledge Payment Status"
+msgstr ""
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+msgid "Scheduled Amount"
+msgstr ""
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+msgid "Last Reminder"
+msgstr ""
+
+#: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
+msgid "Reminders Sent"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php
+msgid "Entity Id"
+msgstr ""
+
+#: CRM/Pledge/DAO/PledgeBlock.php
+msgid "Pledge Frequency Unit"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Pledge ID"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Frequency Day"
+msgstr ""
+
+#: CRM/Pledge/DAO/Pledge.php
+msgid "Acknowledge Date"
+msgstr ""
+
+#: CRM/Pledge/Form/Payment.php
+msgid "Select a valid Scheduled date."
+msgstr ""
+
+#: CRM/Pledge/Form/Payment.php
+msgid "Pledge Payment Schedule has been updated.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Total Pledge Amount"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a valid monetary amount."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "To be paid in"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a valid number of installments."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+#: templates/CRM/Contribute/Form/Contribution/Main.tpl
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "every"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a number for frequency (e.g. every \"3\" months)."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Payments are due on the"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a valid payment due day."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "each"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Select a valid date for the day the pledge was made."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Payments Start"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Select a valid payments start date."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Send Acknowledgment?"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Acknowledgment Date"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Self-service Payments Page"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Total Pledge Amount should be greater than zero."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Installments should be greater than zero."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a valid frequency day ie. 1 through 31."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Please enter a valid frequency day ie. 1 through 7."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"Pledge has been recorded and the payment schedule has been created.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "Pledge has been updated.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid "An acknowledgment email has been sent to %1.<br />"
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
+"payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>."
+msgstr ""
+
+#: CRM/Pledge/Form/Pledge.php
+msgid ""
+"If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
+"payment for this pledge</a>."
+msgstr ""
+
+#: CRM/Pledge/Form/Search.php
+msgid "Pledger Name or Email"
+msgstr ""
+
+#: CRM/Pledge/Form/Search.php
+msgid "Find Pledges"
+msgstr ""
+
+#: CRM/Pledge/Form/Task/Delete.php
+msgid "Deleted Pledge(s): %1"
+msgstr ""
+
+#: CRM/Pledge/Form/Task/Delete.php
+msgid "Total Selected Pledge(s): %1"
+msgstr ""
+
+#: CRM/Pledge/Form/Task/Print.php
+msgid "Print Pledge List"
+msgstr ""
+
+#: CRM/Pledge/Info.php
+msgid "CiviCRM Pledge Engine"
+msgstr ""
+
+#: CRM/Pledge/Info.php
+msgid "Your Pledge(s)"
+msgstr ""
+
+#: CRM/Pledge/Page/Tab.php
+msgid ""
+"Pledge has been Cancelled and all scheduled (not completed) payments have "
+"been cancelled.<br />"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php
+msgid ""
+"Cancelling this pledge will also cancel any scheduled (and not completed) "
+"pledge payments. This action cannot be undone. Do you want to continue?"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "View Pledge"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Edit Pledge"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php
+msgid "Cancel Pledge"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Delete Pledge"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Balance Due"
+msgstr ""
+
+#: CRM/Pledge/Selector/Search.php
+msgid "Pledge Search"
+msgstr ""
+
+#: CRM/Pledge/Task.php
+msgid "Export Pledges"
+msgstr ""
+
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
@@ -4547,6 +5200,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "Honoree Email"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
@@ -4678,6 +5337,15 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionHonor.tpl
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
 msgid "Contributor"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution.tpl
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "(test)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -5399,6 +6067,16 @@ msgid "Current Year-To-Date"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Cumulative"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "(since inception)"
+msgstr ""
+
+#: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "View contribution summary as bar or circle chart\""
 msgstr ""
 
@@ -5490,6 +6168,10 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/Tab.tpl
 msgid "No contributions have been recorded from this contact."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/Tab.tpl templates/CRM/Pledge/Page/Tab.tpl
+msgid "Contributions made in honor of %1"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
@@ -6033,6 +6715,22 @@ msgstr ""
 msgid "iCalendar Feed"
 msgstr ""
 
+#: templates/CRM/Event/Form/Search/EmptyResults.tpl
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#: templates/CRM/Member/Form/Search/EmptyResults.tpl
+msgid "No matching memberships found."
+msgstr ""
+
+#: templates/CRM/Event/Form/Search/EmptyResults.tpl
+msgid "if you are searching by participant name, check your spelling"
+msgstr ""
+
+#: templates/CRM/Event/Form/Search/EmptyResults.tpl
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#: templates/CRM/Member/Form/Search/EmptyResults.tpl
+msgid "if you are searching within a date range, try a wider range of values"
+msgstr ""
+
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Find Events"
 msgstr ""
@@ -6106,16 +6804,102 @@ msgstr ""
 msgid "Number of selected participants: %1"
 msgstr ""
 
+#: templates/CRM/Event/Import/Form/Preview.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Preview.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Total rows (participant records) in uploaded file."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected mismatched participant ID. This record have not been "
+"updated."
+msgid_plural ""
+"CiviCRM has detected mismatched participant IDs. These records have not been "
+"Updated."
+msgstr[0] ""
+msgstr[1] ""
+
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
 
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record with conflicting transaction ID within this "
+"data file or relative to existing particpant records. This record have not "
+"been imported."
+msgid_plural ""
+"CiviCRM has detected %count records with conflicting transaction IDs within "
+"this data file or relative to existing participant records. These records "
+"have not been imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+"participant record."
+msgid_plural ""
+"CiviCRM has detected %count records which are duplicates of existing CiviCRM "
+"participant records."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Rows with mismatched participant IDs... (NOT updated)."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Download Mismatched participants"
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid "Rows which are duplicates of existing CiviCRM participant records."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"The Event Import Wizard allows you to easily upload event participation data "
+"such as event registrations from other applications into CiviCRM."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV) "
+"and must contain data needed to match the participant data to an existing "
+"contact in your CiviCRM database."
+msgstr ""
+
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"Contact ID\", \"Participant Role\")."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Individual' if you are importing event participation data for "
+"individual persons."
+msgstr ""
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Select 'Organization' or 'Household' if you are importing event "
+"participation data for contacts of that type."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
@@ -6341,6 +7125,165 @@ msgstr ""
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "You are not registered for any current or upcoming Events."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
+msgid "New Grant"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Select the status of this grant."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Select the appropriate grant type."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Amount requested for grant."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Amount requested for grant in original currency (if different)."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Actual amount granted."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "When was the grant application received?"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Date on which the grant decision was finalized."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Date on which the grant money was transferred."
+msgstr ""
+
+#: templates/CRM/Grant/Form/GrantView.tpl
+msgid ""
+"Amount Requested <br />\n"
+"\t          (original currency)"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search/Common.tpl
+msgid "Date is not set"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+msgid "if you are searching by Contact name, check your spelling"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid ""
+"Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
+"Total Amount , etc ."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid "Find Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Search.tpl
+msgid "Complete OR partial name OR email."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Selector.tpl
+msgid "List more Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Delete.tpl
+msgid ""
+"Are you sure you want to delete the selected Grants? This delete operation "
+"cannot be undone and will delete all transactions associated with these "
+"grants."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Requested(orig. currency)"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Application Recieved"
+msgstr ""
+
+#: templates/CRM/Grant/Form/Task.tpl
+msgid "Number of selected grants: %1"
+msgstr ""
+
+#: templates/CRM/Grant/Import/Form/Summary.tpl
+msgid ""
+"You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
+"correct them, and import the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Grant/Import/Form/UploadFile.tpl
+msgid ""
+"Check this box if the first row of your file consists of field names "
+"(Example: 'Contact ID', 'Participant Role')."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid ""
+"CiviGrant allows you to input and track grants to Organizations, Individuals "
+"or Households. The grantee must first be entered as a contact in CiviCRM. "
+"Use <a href='%1'>Find Contacts</a> to see if there's already a record for "
+"the grantee. Once you've located or created the contact record, click "
+"<strong>View</strong> to go to their summary page, select the "
+"<strong>Grants</strong> tab and click <strong>New Grant</strong>."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Grants Summary"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid ""
+"This table provides a summary of <strong>Grant Totals</strong>, and includes "
+"shortcuts to view the Grant details for these commonly used search periods. "
+"Click the Grant Status to see a list of Contacts for that grant status. To "
+"run your own customized searches - click <a href='%1'>Find Grants</a>. You "
+"can search by Contact Name, Amount, Grant type and a variety of other "
+"criteria."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Number of grants"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "TOTAL"
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "You have no Grants registered in your database."
+msgstr ""
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "Recent Grants"
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid "This page lists all grant registrations for %1 since inception."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid ""
+"Click <a accesskey=\"N\" href='%1'>New Grant</a> to register this contact "
+"for a Grant."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid ""
+"There are no grant recorded for this contact. You can <a href='%1'>enter one "
+"now</a>."
+msgstr ""
+
+#: templates/CRM/Grant/Page/Tab.tpl
+msgid "There are no grant recorded for this contact."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl
@@ -7336,4 +8279,290 @@ msgstr ""
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "There are no memberships on record for you."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Dear %1"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid ""
+"Thank you for your generous pledge. Please print this acknowledgment for "
+"your records."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Pledge Information"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Pledge Received"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "Payment Schedule"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "%1 every %2 %3 for %4 installments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+msgid "Payments are due on day %1 of the %2."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid ""
+"Please contact us at %1 or send email to %2 if you have questions\n"
+"or need to modify your payment schedule."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/AcknowledgeSubject.tpl
+msgid "Thank you for your Pledge"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Payment.tpl
+msgid "Edit Pledge Payment"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Payment.tpl
+msgid "Scheduled Date for Pledge payment."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"You will not be able to send an acknowledgment for this pledge because there "
+"is no email address recorded for this contact. If you want a acknowledgment "
+"to be sent when this pledge is recorded, click Cancel and then click Edit "
+"from the Summary tab to add an email address before recording the pledge."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
+msgid "New Pledge"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"WARNING: Deleting this pledge will result in the loss of the associated "
+"financial transactions (if any)."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Pledge by"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "installments of"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "day of the period"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "This applies to weekly, monthly and yearly payments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Date when pledge was made by the contributor."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Date of first pledge payment."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Date when an acknowledgment of the pledge was sent."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid "Sets the default contribution type for payments against this pledge."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"Select an Online Contribution page that the user can access to make self-"
+"service pledge payments. (Only Online Contribution pages configured to "
+"include the Pledge option are listed.)"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Pledge.tpl
+msgid ""
+"Pledges are \"Pending\" until the first payment is received. Once a payment "
+"is received, status is \"In Progress\" until all scheduled payments are "
+"completed. Overdue pledges are ones with payment(s) past due."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Pledge By"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Payment Start"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/PledgeView.tpl
+msgid "Maximum Reminders Send"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "This is a reminder that the next payment on your pledge is due on %1."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Payment Due"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Amount Due"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Due Date"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Please mail your payment to"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderMessage.tpl
+msgid "Thank your for your generous support."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/ReminderSubject.tpl
+msgid "Pledge Payment Reminder"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Search/Common.tpl
+msgid "Pledge Amounts"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+msgid "No matching pledge results found."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+msgid ""
+"If you are searching by pledger name, check your spelling or use fewer "
+"letters."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
+msgid ""
+"If you are searching within a date or amouht range, try a wider range of "
+"values."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Selector.tpl
+msgid "Click %1 to view pledge payments."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Selector.tpl
+msgid "Find more pledges"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Delete.tpl
+msgid ""
+"Are you sure you want to delete the selected pledges? This delete operation "
+"cannot be undone and will delete all transactions associated with these "
+"pledges."
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+msgid "To Be Paid"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task/Print.tpl
+msgid "Begining Date"
+msgstr ""
+
+#: templates/CRM/Pledge/Form/Task.tpl
+msgid "Number of selected pledges: %1"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Pledge Summary"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "(current month)"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "(current year)"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Total Pledges"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Payments Received"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Past Due"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/DashBoard.tpl
+msgid "Recent Pledges"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>View Payment</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Submit Credit Card Payment</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Payment.tpl
+msgid "<a href='%1'>Edit Schedule</a>"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid "Pledges received from %1 since inception."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid ""
+"Click <a href='%1'>New Pledge</a> to record a new pledge received from this "
+"contact."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/Tab.tpl
+msgid "No pledges have been recorded from this contact."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Make Payment"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Payments"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Pledges made in your honor."
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Pledger"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Create date"
+msgstr ""
+
+#: templates/CRM/Pledge/Page/UserDashboard.tpl
+msgid "Acknowledgment Sent"
 msgstr ""

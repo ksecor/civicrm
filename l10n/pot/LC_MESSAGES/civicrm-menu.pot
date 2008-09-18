@@ -1,11 +1,11 @@
-# Copyright CiviCRM LLC (c) 2004-2007
+# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-05-07 11:19+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -46,25 +46,19 @@ msgstr ""
 msgid "Administer CiviCRM"
 msgstr ""
 
-msgid "admin/small/title.png"
-msgstr ""
-
 msgid "Advanced Search"
 msgstr ""
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
 
-msgid "Browse Scheduled/Sent Mailings"
-msgstr ""
-
-msgid "Browse Unscheduled Mailings"
-msgstr ""
-
 msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
+msgstr ""
+
+msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
@@ -97,6 +91,9 @@ msgstr ""
 msgid "CiviMember"
 msgstr ""
 
+msgid "CiviPledge"
+msgstr ""
+
 msgid "Components"
 msgstr ""
 
@@ -106,22 +103,19 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contacts"
+msgid "Contact Summary"
 msgstr ""
 
-msgid "Contact Summary"
+msgid "Contacts"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Payment Form"
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Contributions"
-msgstr ""
-
-msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
@@ -139,7 +133,7 @@ msgstr ""
 msgid "Custom Field - Options"
 msgstr ""
 
-msgid "Custom Search"
+msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
@@ -160,6 +154,9 @@ msgstr ""
 msgid "Download Errors"
 msgstr ""
 
+msgid "Draft and Unscheduled Mailings"
+msgstr ""
+
 msgid "Edit Related Contact"
 msgstr ""
 
@@ -167,9 +164,6 @@ msgid "Email a Contact"
 msgstr ""
 
 msgid "Event Information"
-msgstr ""
-
-msgid "Event Listings"
 msgstr ""
 
 msgid "Event Participants List"
@@ -205,6 +199,9 @@ msgstr ""
 msgid "Find Participants"
 msgstr ""
 
+msgid "Find Pledges"
+msgstr ""
+
 msgid "From Email Address"
 msgstr ""
 
@@ -212,6 +209,9 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
+msgstr ""
+
+msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
@@ -229,16 +229,13 @@ msgstr ""
 msgid "Import Contributions"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
-
-msgid "Import Grants"
-msgstr ""
-
 msgid "Import Members"
 msgstr ""
 
 msgid "Import Participants"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Individual Prefixes (Ms, Mr...)"
@@ -262,10 +259,19 @@ msgstr ""
 msgid "Mailer Settings"
 msgstr ""
 
+msgid "Mailing Event"
+msgstr ""
+
+msgid "Mailing Report"
+msgstr ""
+
 msgid "Manage ACLs"
 msgstr ""
 
 msgid "Manage Contribution Pages"
+msgstr ""
+
+msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
@@ -277,22 +283,25 @@ msgstr ""
 msgid "Manage Premiums"
 msgstr ""
 
-msgid "Map Contact"
+msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
 msgstr ""
 
-msgid "Mapping and Geocoding"
+msgid "Map Location(s)"
 msgstr ""
 
-msgid "Memberships"
+msgid "Mapping and Geocoding"
 msgstr ""
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
+msgstr ""
+
+msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -319,7 +328,7 @@ msgstr ""
 msgid "New Event"
 msgstr ""
 
-msgid "New Grant"
+msgid "New Mailing"
 msgstr ""
 
 msgid "Notes"
@@ -349,7 +358,16 @@ msgstr ""
 msgid "Payment Processor Type"
 msgstr ""
 
+msgid "Pledge Payments"
+msgstr ""
+
+msgid "Pledges"
+msgstr ""
+
 msgid "Preferred Communication Methods"
+msgstr ""
+
+msgid "Preview Mailing"
 msgstr ""
 
 msgid "Price Field Options"
@@ -361,25 +379,28 @@ msgstr ""
 msgid "Price Sets"
 msgstr ""
 
-msgid "Register Custom Searches"
-msgstr ""
-
 msgid "Registration Page"
-msgstr ""
-
-msgid "Relationships"
 msgstr ""
 
 msgid "Relationship Types"
 msgstr ""
 
+msgid "Relationships"
+msgstr ""
+
 msgid "Resubscribe"
+msgstr ""
+
+msgid "Safe File Extension Options"
+msgstr ""
+
+msgid "Scheduled and Sent Mailings"
 msgstr ""
 
 msgid "Search Builder"
 msgstr ""
 
-msgid "Send Mailing"
+msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
@@ -418,10 +439,13 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
-msgid "Update Config Backend"
+msgid "Upcoming Events"
 msgstr ""
 
-msgid "Upgrade 2.0 ="
+msgid "Update Directory Path and URL"
+msgstr ""
+
+msgid "Upgrade 2.0 => 2.1"
 msgstr ""
 
 msgid "User Framework Settings"
