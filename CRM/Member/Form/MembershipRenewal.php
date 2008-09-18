@@ -275,6 +275,10 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         list( $this->_contributorDisplayName, 
               $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $this->_contributorEmail );
+
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipRenewal', 'formRule'));
     }

@@ -405,8 +405,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
-        }      
-        
+        }
+      
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
+
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 

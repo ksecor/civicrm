@@ -153,7 +153,7 @@
     </fieldset>
 {/if}
 
-{if ($email OR $batchEmail) and $config->outBound_option != 2}
+{if ($email OR $batchEmail) and $outBound_option != 2}
     <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
       <div class="form-item">
 		 <dl> 
@@ -171,7 +171,7 @@
       </div>
     </fieldset>
 {/if}
-{if $email and $config->outBound_option != 2} {* Send receipt field only present if contact has a valid email address. *}
+{if $email and $outBound_option != 2} {* Send receipt field only present if contact has a valid email address. *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""

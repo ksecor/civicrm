@@ -43,6 +43,8 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
     static private $_userObject   = null;
 
+    static private $_mailingPref  = null;
+
     static function &systemObject( ) {
         if ( ! self::$_systemObject ) {
             self::$_systemObject =& new CRM_Core_DAO_Preferences( );
@@ -52,6 +54,20 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         }
         return self::$_systemObject;
     }
+
+    static function &mailingPreferences( ) {
+        if ( ! self::$_mailingPref ) {
+            self::$_mailingPref =& new CRM_Core_DAO_Preferences( );
+            self::$_mailingPref->is_domain  = true;
+            self::$_mailingPref->contact_id = null;
+            self::$_mailingPref->find( true );
+            if ( self::$_mailingPref->mailing_backend ) { 
+                self::$_mailingPref = unserialize( self::$_mailingPref->mailing_backend );
+            }
+        }
+        return self::$_mailingPref;
+    }
+
 
     static function &userObject( $userID = null ) {
         if ( ! self::$_userObject ) {

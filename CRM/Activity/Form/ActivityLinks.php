@@ -59,6 +59,11 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         unset( $activityType[1] );
         unset( $activityType[2] );
 
+        $this->assign( 'emailSetting', false );
+        require_once 'CRM/Utils/Mail.php';
+        if ( CRM_Utils_Mail::validOutBoundMail() ) { 
+            $this->assign( 'emailSetting', true );
+        }
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),
                    array('' => ts('- select -')) + $activityType,

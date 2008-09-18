@@ -86,7 +86,7 @@
         <dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
         </fieldset>
      {/if}
-     {if $email and $config->outBound_option != 2}	
+     {if $email and $outBound_option != 2}	
 	 <dl>
 	    <dt>{$form.send_receipt.label}</dt><dd class="html-adjust">{$form.send_receipt.html}<br />
 		<span class="description">{ts}Automatically email a membership confirmation and receipt to {$email}?{/ts}</span></dd>
@@ -116,7 +116,7 @@
     invert              = 0
 }
 {/if}
-{if $email and $config->outBound_option != 2}
+{if $email and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -131,7 +131,7 @@
 function checkPayment()
 {
     showHideByValue('record_contribution','','recordContribution','table-row','radio',false);
-    {/literal}{if $email and $config->outBound_option != 2}{literal}
+    {/literal}{if $email and $outBound_option != 2}{literal}
     var record_contribution = document.getElementsByName('record_contribution');
     if ( record_contribution[0].checked ) {
         document.getElementsByName('send_receipt')[0].checked = true;

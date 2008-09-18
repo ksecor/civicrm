@@ -1,9 +1,4 @@
 <div class="form-item">
-{if $config->outBound_option == 0 and $config->smtpAuth and ($config->smtpUsername == '' or $config->smtpPassword == '')}
-<div class="status">
-<p>{ts}Your setup enforces SMTP authentication, but does not provide SMTP username and/or password.{/ts}</p>
-</div>
-{else}
 <fieldset>
 <legend>{ts}Send an Email{/ts}</legend>
 {if $suppressedEmails > 0}
@@ -34,5 +29,4 @@
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </fieldset>
-{/if}
 </div>

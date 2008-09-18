@@ -629,6 +629,10 @@ WHERE  contribution_id = {$this->_id}
         if ( !$this->_mode && $this->userEmail ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
+
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
         
         $this->addButtons(array( 
                                 array ( 'type'      => $this->buttonType( ),

@@ -346,6 +346,11 @@ class CRM_Event_Form_EventFees
             //show email block for batch update for event
             $form->assign( 'batchEmail', true );
         }
+
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        $form->assign( 'outBound_option', $mailingInfo['outBound_option'] );
+
     }
 }
 

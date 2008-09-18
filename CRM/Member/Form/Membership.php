@@ -393,7 +393,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $this->assign( 'emailExists', $this->_contributorEmail );
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
-        
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
         parent::buildQuickForm( );
     }
     

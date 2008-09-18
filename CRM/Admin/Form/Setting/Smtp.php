@@ -35,7 +35,7 @@
 
 require_once 'CRM/Admin/Form/Setting.php';
 require_once 'CRM/Utils/Mail.php';
-
+require_once "CRM/Core/BAO/Preferences.php";
 /**
  * This class generates form components for Smtp Server
  * 
@@ -49,7 +49,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-
+        
         $outBoundOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail'), '2' => ts('Disable Outbound Email') );
         $outBoundOptionExtra = array('onclick' =>"showHideMailOptions();",'onload' =>"showHideMailOptions();");
         
@@ -137,7 +137,14 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
                 }
             }
         } 
-        parent::postProcess();
+        $mailingDomain =& new CRM_Core_DAO_Preferences();
+        $mailingDomain->find(true);
+        if ( $mailingDomain->mailing_backend ) {
+            $values = unserialize( $mailingDomain->mailing_backend );
+            CRM_Core_BAO_Setting::formatParams( $formValues, $values );
+        }
+        $mailingDomain->mailing_backend = serialize( $formValues );
+        $mailingDomain->save();
     }
     
     /**
@@ -177,6 +184,25 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
         }
 
         return empty($errors) ? true : $errors;
+    }
+
+    /**
+     * This function sets the default values for the form.
+     * default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $this->_defaults = array( );
+        require_once "CRM/Core/DAO/Preferences.php";
+        $mailingDomain =& new CRM_Core_DAO_Preferences();
+        $mailingDomain->find(true);
+        if ( $mailingDomain->mailing_backend ) {
+            $this->_defaults = unserialize( $mailingDomain->mailing_backend );     
+        }
+        return $this->_defaults;
     }
 }
 

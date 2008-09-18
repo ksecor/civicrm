@@ -146,4 +146,13 @@
        <comment>ID of the editor</comment>
        <add>2.1</add>
   </field>
+ <field>
+       <name>mailing_backend</name>
+       <type>text</type>
+       <comment>Smtp Backend configuration.</comment>
+       <htmlType>textarea</htmlType>
+       <rows>20</rows>
+       <cols>80</cols>
+       <add>2.2</add>
+  </field>
 </table>

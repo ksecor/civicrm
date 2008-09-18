@@ -138,7 +138,7 @@
     {else}
         <div class="spacer"></div>
 	{/if}
-    {if $emailExists and $config->outBound_option != 2 }
+    {if $emailExists and $outBound_option != 2 }
         <dl>
         <dt class="label">{$form.send_receipt.label}</dt><dd class="html-adjust">{$form.send_receipt.html}<br />
             <span class="description">{ts}Automatically email a membership confirmation and receipt to {$emailExists}?{/ts}</span></dd>
@@ -178,7 +178,7 @@
     invert              = 0
 }
 {/if}
-{if $emailExists and $config->outBound_option != 2}
+{if $emailExists and $outBound_option != 2}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""

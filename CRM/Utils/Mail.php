@@ -268,16 +268,17 @@ This is probably related to a problem in your Outbound Email Settings (Administe
      * @static
      */
     static function validOutBoundMail() {
-        $config =& CRM_Core_Config::singleton( );
-       
-        if ( $config->outBound_option == 0 ) {
-            if ( !isset( $config->smtpServer ) || $config->smtpServer == '' || $config->smtpServer == 'YOUR SMTP SERVER'|| 
-                 ( $config->smtpAuth && ( $config->smtpUsername == '' || $config->smtpPassword == '' ) ) ) {
+        require_once "CRM/Core/BAO/Preferences.php";
+        $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
+        if ( $mailingInfo['outBound_option'] == 0 ) {
+            if ( !isset( $mailingInfo['smtpServer'] ) || $mailingInfo['smtpServer'] == '' || 
+                 $mailingInfo['smtpServer'] == 'YOUR SMTP SERVER'|| 
+                 ( $mailingInfo['smtpAuth'] && ( $mailingInfo['smtpUsername'] == '' || $mailingInfo['smtpPassword'] == '' ) ) ) {
                 return false;
             }
             return true;
-        } else if ( $config->outBound_option == 1 ) {
-            if ( ! $config->sendmail_path || ! $config->sendmail_args ) {
+        } else if ( $mailingInfo['outBound_option'] == 1 ) {
+            if ( ! $mailingInfo['sendmail_path'] || ! $mailingInfo['sendmail_args'] ) {
                 return false;
             }
             return true;
