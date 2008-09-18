@@ -68,25 +68,23 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
     public function buildQuickForm()
     {
         $this->_first = true;
-
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage');
+     
         // name
-        $this->add('text',
-                   'title',
-                   ts('Title'),
-                   CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'),
-                   true);
+        $this->add('text', 'title', ts('Title'), $attributes['title'], true);
 
         $this->add('select', 'contribution_type_id',
                    ts( 'Contribution Type' ),
                    CRM_Contribute_PseudoConstant::contributionType( ),
                    true );
         
-        $this->addWysiwyg( 'intro_text', ts('Introductory Message'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'));
-        $this->addWysiwyg( 'footer_text', ts('Footer Message'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'));
+        $this->addWysiwyg( 'intro_text', ts('Introductory Message'), $attributes['intro_text'] );
+
+        $this->addWysiwyg( 'footer_text', ts('Footer Message'), $attributes['footer_text'] );
 
         // is on behalf of an organization ?
         $this->addElement('checkbox', 'is_for_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"return showHideByValue('is_for_organization',true,'for_org_text','table-row','radio',false);") );
-        $this->add('textarea', 'for_organization', ts('On behalf of label'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'for_organization') );
+        $this->add('textarea', 'for_organization', ts('On behalf of label'), $attributes['for_organization'] );
 
         // collect goal amount
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 12 ) ); 
@@ -98,9 +96,9 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         // should the honor be enabled
         $this->addElement('checkbox', 'honor_block_is_active', ts( 'Honoree Section Enabled' ),null,array('onclick' =>"showHonor()") );
         
-        $this->add('text', 'honor_block_title', ts('Honoree Section Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_title') );
+        $this->add('text', 'honor_block_title', ts('Honoree Section Title'), $attributes['honor_block_title'] );
 
-        $this->add('textarea', 'honor_block_text', ts('Honoree Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_text') );
+        $this->add('textarea', 'honor_block_text', ts('Honoree Introductory Message'), $attributes['honor_block_text'] );
 
         // add optional start and end dates
         $this->add('date', 'start_date',
