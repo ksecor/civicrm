@@ -73,6 +73,7 @@
          <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_discount.html}&nbsp;{$form.is_discount.label}<br /><span class="description">{ts}Check this box if you want to offer discounted fees based on registration date (e.g. 'early-registration discounts').{/ts}</span></dd>
          </dl>
     </div>
+    <div class="spacer"></div>
     <div class="form-item">
         <fieldset id="discount">
 	<table>

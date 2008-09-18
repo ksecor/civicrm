@@ -90,21 +90,26 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         $currency = $config->defaultCurrency;
 
         //default chart is Bar chart to show data
-        if ( $submittedValues['chart_type'] == 'p3' ) {
+        if ( CRM_Utils_Array::value( 'chart_type', $submittedValues ) == 'p3' ) {
             $this->assign( 'chartType', 'p3');
         } else {
             $this->assign( 'chartType', 'bvg');
         }
-
+        
+        $selectedYear = null;
+        if ( CRM_Utils_Array::value( 'select_year', $submittedValues ) ) {
+            $selectedYear = $submittedValues['select_year'];
+        }
         //take contribution information monthly
         require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
-        $chartInfoMonthly = CRM_Contribute_BAO_Contribution_Utils::contributionChartMonthly( $submittedValues['select_year'] );
+        $chartInfoMonthly = CRM_Contribute_BAO_Contribution_Utils::contributionChartMonthly( $selectedYear );
         if ( is_array( $chartInfoMonthly ) ) {
             $this->assign( 'monthlyData', true );   
             //display bar chart linearly ::showing zero (0)
             //contribution for month if contribution for that
             //month not exist
-            if ( ( $submittedValues['select_year'] == date('Y') ) || ( ! isset( $submittedValues['select_year'] ) ) ) {
+            if ( ( CRM_Utils_Array::value( 'select_year', $submittedValues ) == date('Y') ) || 
+                 ( ! isset( $submittedValues['select_year'] ) ) ) {
                 //if selected year is current, show the months up to
                 //current month
                 $j = date('m');
@@ -115,7 +120,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
             foreach( $abbrMonthNames as $monthKey => $monthName ) {
-                if ( ! $chartInfoMonthly['By Month'][$monthKey] ) {
+                if ( ! CRM_Utils_Array::value( $monthKey, $chartInfoMonthly['By Month'] ) ) {
                     //set zero value to month which is not in db
                     $chartInfoMonthly['By Month'][$monthKey] = 0;
                 }   
@@ -125,7 +130,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             $this->assign( 'totalMonths', $totalMonths );
             $chartMonthly = array();
             $chartMonthly['By Month'] = array_combine($abbrMonthNames,$chartInfoMonthly['By Month'] );
-            if ( $submittedValues['chart_type'] == 'p3' ) {
+            if ( CRM_Utils_Array::value( 'chart_type', $submittedValues ) == 'p3' ) {
                 foreach( $chartMonthly['By Month'] as $pieMonthName => $pieMonthValue ) {
                     if ( $pieMonthValue == 0 ) {
                         //unset the zero value month since not
@@ -161,7 +166,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             $this->assign( 'chartData',$data['values'] );
             $this->assign( 'chartLabel',$data['names'] );
 
-            if ( $submittedValues['select_year'] ) {
+            if ( CRM_Utils_Array::value( 'select_year', $submittedValues ) ) {
                 $legendYear = $submittedValues['select_year'];
             } else {
                 $legendYear = date('Y');
