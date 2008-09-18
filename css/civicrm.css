@@ -1032,6 +1032,13 @@ commented since it is overwiting simple td
 
 /* class for advance search address fields display */
 #crm-container  table.no-border tr {
-background: #F5F5F5;
-border:1px solid #DDDDDD;
+    background: #F5F5F5;
+    border:1px solid #DDDDDD;
+}
+
+/* class for tinymce buttons display */
+#crm-container table.mceLayout td{ 
+    padding: 0px;
+    background: #F5F5F5;
+    border: 1px solid #F5F5F5;
 }

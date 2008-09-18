@@ -125,6 +125,7 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
      */
     function toHtml()
     {
+        $html = null;
         // return frozen state
         if ($this->_flagFrozen) {
             return $this->getFrozenHtml();
