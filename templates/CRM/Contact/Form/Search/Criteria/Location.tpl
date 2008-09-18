@@ -1,6 +1,5 @@
 <div id="location" class="form-item">
-<fieldset class="collapsible">
-    <table class="form-layout">
+    <table class="no-border">
         <tr>
             <td class="label">{$form.street_address.label}</td>
             <td>{$form.street_address.html}</td>
@@ -39,11 +38,9 @@
     	<tr>
             <td class="label">{$form.world_region.label}</td>
             <td>{$form.world_region.html}</td>
-            <td class="label">{$form.county.label}
-               {$form.county.html|crmReplace:class:big}
-            </td>
+            <td class="label">{$form.county.label}</td>
+ 	    <td>{$form.county.html|crmReplace:class:big}</td>
         </tr>
     </table>
-</fieldset>
 </div>
 
