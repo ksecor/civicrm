@@ -49,6 +49,7 @@
      
      // docs inherited from parent
      public function buildQuickForm( &$form ) {
+         $form->add( 'hidden', 'hidden_dataSource', 'CRM_NewImport_DataSource_SQL' );
          $form->add( 'textarea', 'sqlQuery', ts('Specify SQL Query' ),
              'rows=10 cols=45');
      }

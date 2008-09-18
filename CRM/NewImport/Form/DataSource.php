@@ -56,15 +56,26 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
      */
     public function preProcess( ) {
         $this->_dataSourceIsValid = false;
-        $this->_dataSource = CRM_Utils_Request::retrieve( 'dataSource', 'String', $this );
+        $this->_dataSource = CRM_Utils_Request::retrieve( 'dataSource', 'String',
+                                                          CRM_Core_DAO::$_nullObject );
+
+        $this->_params = $this->controller->exportValues( $this->_name );
+        if ( ! $this->_dataSource ) {
+            $this->_dataSource = CRM_Utils_Array::value( 'hidden_dataSource',
+                                                         $_POST,
+                                                         CRM_Utils_Array::value( 'hidden_dataSource',
+                                                                                 $this->_params ) );
+            $this->assign( 'showOnlyDataSourceFormPane', false );
+        } else {
+            $this->assign( 'showOnlyDataSourceFormPane', true );
+        }
+        
         if ( strpos( $this->_dataSource, 'CRM_NewImport_DataSource_' ) === 0 ) {
             $this->_dataSourceIsValid = true;
             $this->assign( 'showDataSourceFormPane', true );
             $dataSourcePath = split( '_', $this->_dataSource );
             $templateFile = "CRM/NewImport/Form/" . $dataSourcePath[3] . ".tpl";
             $this->assign( 'dataSourceFormTemplateFile', $templateFile );
-        } else {
-            $this->assign( 'showDataSourceFormPane', false );
         }
     }
     
@@ -82,7 +93,7 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
         if ( $this->_dataSourceIsValid ) {
             $this->_dataSourceClassFile = str_replace( '_', '/', $this->_dataSource ) . ".php";
             require_once $this->_dataSourceClassFile;
-            return eval( "return $this->_dataSource::buildQuickForm( \$this );" );
+            eval( "{$this->_dataSource}::buildQuickForm( \$this );" );
         }
         
         // Get list of data sources and display them as options
@@ -185,9 +196,9 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
      */
     public function postProcess( ) {
         if ($this->_dataSourceIsValid) {
-            // Setup the params array
+            // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
-  
+ 
             $onDuplicate      = $this->controller->exportValue( $this->_name,
                                 'onDuplicate' );
             $contactType      = $this->controller->exportValue( $this->_name, 
@@ -205,7 +216,9 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             print "Set duplicate handling to: $onDuplicate<br/>";
             print "Set contact type to: $contactType<br/>";
             print "Set saved mapping to: $savedMapping<br/>";
-            
+
+            exit( );
+
             // Get the PEAR::DB object
             $dao = new CRM_Core_DAO();
             $db = $dao->getDatabaseConnection();

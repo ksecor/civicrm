@@ -1,4 +1,4 @@
-{if $showDataSourceFormPane }
+{if $showOnlyDataSourceFormPane}
   {include file=$dataSourceFormTemplateFile}
 {else}
 {* Import Wizard - Step 1 (choose data source) *}
@@ -24,7 +24,11 @@
  </div>
 
  {* Data source form pane is injected here when the data source is selected. *}
- <div id="data-source-form-block"></div>
+<div id="data-source-form-block">
+{if $dataSourceFormTemplateFile}
+{include file=$dataSourceFormTemplateFile}
+{/if}
+</div>
 
  <div id="common-form-controls" style="display: none;">
   <fieldset><legend>{ts}Import Options{/ts}</legend>
