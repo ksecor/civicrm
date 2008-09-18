@@ -186,9 +186,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
                 if ( $splitName = explode( ' :: ', $name ) ) {
-                    $contactName = trim( $splitName[0] );
-                    $street      = trim( $splitName[1] );
-                    $city        = trim( $splitName[2] );
+                    $contactName = trim( CRM_Utils_Array::value( '0', $splitName ) );
+                    $street      = trim( CRM_Utils_Array::value( '1', $splitName ) );
+                    $city        = trim( CRM_Utils_Array::value( '2', $splitName ) );
                 } else {
                     $contactName = $name;
                 }
