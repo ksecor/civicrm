@@ -41,6 +41,7 @@ require_once 'HTML/QuickForm/Page.php';
 require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Utils/Request.php';
 require_once 'CRM/Utils/Weight.php';
+require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 require_once 'CRM/Core/SelectValues.php';
