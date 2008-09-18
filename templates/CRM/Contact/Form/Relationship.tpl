@@ -112,7 +112,8 @@
                         <th>{ts}State{/ts}</th>
                         <th>{ts}Email{/ts}</th>
                         <th>{ts}Phone{/ts}</th>
-                        {if $isEmployeeOf}<th>{ts}Is current employer{/ts}</th>{/if}
+                        {if $isEmployeeOf}<th>{ts}Is current employer{/ts}</th> 
+                        {elseif $isEmployerOf}<th>{ts}Is current employee{/ts}</th>{/if}
                         </tr>
                         {foreach from=$searchRows item=row}
                         <tr class="{cycle values="odd-row,even-row"}">
@@ -122,7 +123,8 @@
                             <td>{$row.state}</td>
                             <td>{$row.email}</td>
                             <td>{$row.phone}</td>
-                            {if $isEmployeeOf}<td>{$form.employee_of[$row.id].html}</td>{/if}
+                            {if $isEmployeeOf}<td>{$form.employee_of[$row.id].html}</td>
+                            {elseif $isEmployerOf}<td>{$form.employer_of[$row.id].html}</td>{/if}
                         </tr>
                         {/foreach}
                         </table>
@@ -172,7 +174,8 @@
             <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}'{$sort_name_b}'{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}'{$sort_name_b}'{else}'{$sort_name_a}'{/if}</b></dd>
         {/if}
 	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-        {if $action eq 2 and $isEmployeeOf}<dt>{$form.is_currentEmployer.label}</dt><dd>{$form.is_currentEmployer.html}</dd>{/if}
+        {if $action eq 2 and $isEmployeeOf}<dt>{$form.is_currentEmployee.label}</dt><dd>{$form.is_currentEmployee.html}</dd>
+        {elseif $action eq 2 and $isEmployerOf}<dt>{$form.is_currentEmployer.label}</dt><dd>{$form.is_currentEmployer.html}</dd>{/if}
         </dl>
         <dl><dt></dt><dd id="customData"></dd></dl>
         <div class="spacer"></div>
