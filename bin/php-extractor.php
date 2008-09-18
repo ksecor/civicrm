@@ -333,7 +333,7 @@ function writeHeader($file)
     $output[] = '# make sure you license it to CiviCRM LLC under Academic Free License 3.0.';
     $output[] = 'msgid ""';
     $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM 2.0\n"';
+    $output[] = '"Project-Id-Version: CiviCRM 2.1\n"';
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
     $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';

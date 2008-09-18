@@ -33,7 +33,7 @@ echo '# Copyright CiviCRM LLC (c) 2004-2007
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
+"Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -51,7 +51,7 @@ echo '# Copyright CiviCRM LLC (c) 2004-2007
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
+"Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
