@@ -177,13 +177,10 @@
         {$form.birth_date.label}
         </span>
         <span class="fields">
-		{$form.birth_date.html}
-                
-        </span>
-        <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
-        </div>
+		{$form.birth_date.html} &nbsp;            
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_demographics_1 }
+        </span>
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}
@@ -194,13 +191,10 @@
         {$form.deceased_date.label}
         </span>
         <span class="fields">
-		{$form.deceased_date.html}
-        </span>
-                <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
-                </div>
-        
+		{$form.deceased_date.html} &nbsp;
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
         {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear trigger=trigger_demographics_2 }
+        </span>
     </div>
 
   </fieldset>
