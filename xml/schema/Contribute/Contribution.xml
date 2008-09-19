@@ -310,8 +310,34 @@
     <add>1.6</add>
   </index>
   <index>
-    <name>received_date</name>
-    <fieldName>receive_date</fieldName>
-    <add>1.6</add>
-  </index>
+     <name>received_date</name>
+     <fieldName>receive_date</fieldName>
+     <add>1.6</add>
+   </index>
+   <field> 
+     <name>pcp_made_through_id</name> 
+     <type>int unsigned</type> 
+     <default>NULL</default>
+     <add>2.2</add> 
+   </field> 
+   <field>  
+      <name>pcp_display_in_roll</name>  
+      <type>boolean</type>                  
+      <default>0</default>
+      <add>2.2</add>  
+  </field> 
+  <field>
+       <name>pcp_roll_nickname</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <add>2.2</add>
+  </field>
+  <field>
+       <name>pcp_personal_note</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <add>2.2</add>
+  </field>
 </table>

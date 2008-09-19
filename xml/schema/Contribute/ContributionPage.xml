@@ -307,27 +307,35 @@
       <type>boolean</type>                  
       <comment>Is Personal Campaign Page enabled?</comment>  
       <default>0</default>
-      <add>2.1</add>  
+      <add>2.2</add>  
   </field>
   <field>  
       <name>pcp_inactive</name>  
-      <type>boolean</type>                  
+      <type>int unsigned</type>                  
       <comment>Does Personal Campaign Page require manual activation by administrator? (is inactive by default after setup)?</comment>
-      <default>0</default>
+      <default>NULL</default>
       <add>2.2</add>  
   </field>
   <field>  
       <name>pcp_tellfriend_enabled</name>  
       <type>boolean</type>                  
       <comment>Does Personal Campaign Page allow using tell a friend?</comment>  
-      <default>0</default>
+      <default>NULL</default>
       <add>2.2</add>  
   </field>
   <field>    
       <name>pcp_tellfriend_limit</name> 
-      <type>decimal</type> 
-      <default>0</default>
+      <type>int unsigned</type> 
+      <default>NULL</default>
       <comment>Maximum recipient fields allowed in tell a friend</comment> 
       <add>2.2</add> 
+  </field>
+  <field>
+       <name>pcp_link_text</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <comment>Link text for PCP.</comment>
+       <add>2.2</add>
   </field>
 </table>
