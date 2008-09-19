@@ -1031,7 +1031,7 @@ commented since it is overwiting simple td
 } 
 
 /* class for advance search address fields display */
-#crm-container  table.no-border tr {
+#crm-container  table.noborder tr {
     background: #F5F5F5;
     border:1px solid #DDDDDD;
 }

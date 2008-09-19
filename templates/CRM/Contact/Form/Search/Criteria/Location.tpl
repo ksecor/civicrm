@@ -1,5 +1,5 @@
 <div id="location" class="form-item">
-    <table class="no-border">
+    <table class="noborder">
         <tr>
             <td class="label">{$form.street_address.label}</td>
             <td>{$form.street_address.html}</td>
