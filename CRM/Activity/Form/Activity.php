@@ -255,7 +255,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             foreach ( $_POST['assignee_contact'] as $key => $value ) {
                 CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
             }
-            $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
         }
 
         // build target contact combo
@@ -263,7 +262,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             foreach ( $_POST['target_contact'] as $key => $value ) {
                 CRM_Contact_Form_AddContact::buildQuickForm( $this, "target_contact[{$key}]" );
             }
-            $this->assign( 'targetContactCount', count( $_POST['target_contact'] ) );
         }
 
         // add attachments part
@@ -271,7 +269,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_activity',
                                             $this->_activityId );
-
     }
     
     /**

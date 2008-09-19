@@ -76,12 +76,12 @@
              <tr>
                 <td class="label">{ts}With Contact{/ts}</td>
                 <td class="tundra">
-		          <span id="target_contact_1"></span>
+		    <div id="target_contact_1"></div>
                 </td>
              </tr>
 		     {else}
              <tr>
-	    		<td class="label">{ts}With Contact{/ts}</td>
+    		<td class="label">{ts}With Contact{/ts}</td>
                 <td class="view-value">{$target_contact_value}</td>
              </tr>
              {/if}
@@ -89,7 +89,7 @@
              {if $action neq 4}
                 <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
-                   <span id="assignee_contact_1"></span>
+                   <div id="assignee_contact_1"></div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              {else}
