@@ -355,12 +355,12 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     $cid = $matchedIDs[0];
                     $params['target_contact_id'] = $cid;
                     $newActivity = civicrm_activity_create( $params ); 
-                    if ( isset( $newActivity['is_error'] ) ) {
+                    if ( CRM_Utils_Array::value( 'is_error', $newActivity ) ) {
                         array_unshift($values, $newActivity['error_message']);
                         return CRM_Activity_Import_Parser::ERROR;
                     }
                     
-                    $this->_newActivity[] = $newActivity->id;
+                    $this->_newActivity[] = $newActivity['id'];
                     return CRM_Activity_Import_Parser::VALID;
                 }
                 
@@ -402,14 +402,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     return CRM_Contribute_Import_Parser::ERROR;
                 }
             }
-
-            $newActivity = civicrm_activity_create( $params ); 
-            if ( is_a( $newActivity, CRM_Core_Error ) ) {
-                array_unshift($values, $newActivity->_errors[0]['message']);
+            
+            $newActivity = civicrm_activity_create( $params );
+            if ( CRM_Utils_Array::value( 'is_error', $newActivity ) ) {
+                array_unshift($values, $newActivity['error_message']);
                 return CRM_Activity_Import_Parser::ERROR;
             }
             
-            $this->_newActivity[] = $newActivity->id;
+            $this->_newActivity[] = $newActivity['id'];
             return CRM_Activity_Import_Parser::VALID;
         }
     }
