@@ -83,6 +83,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'modified_date',
                                  'participant_is_test',
                                  'participant_role_id',
+                                 'participant_register_date',
                                  'participant_fee_amount'
                                  );
 
@@ -385,6 +386,11 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                           array(
                                                 'name'      => ts('Event Date(s)'),
                                                 'sort'      => 'event_start_date',
+                                                'direction' => CRM_Utils_Sort::DESCENDING, 
+                                                ),
+                                          array(
+                                                'name'      => ts('Register Date(s)'),
+                                                'sort'      => 'participant_register_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING, 
                                                 ),
                                           array(

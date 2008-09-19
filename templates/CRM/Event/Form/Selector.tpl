@@ -53,6 +53,7 @@
             <br/>- {$row.event_end_date|truncate:10:''|crmDate}
         {/if}
    </td>
+    <td>{$row.participant_register_date|truncate:10:''|crmDate}</td>	
     <td>{$row.participant_status_id}</td>
     <td>{$row.participant_role_id}</td>
     <td>{$row.action}</td>
