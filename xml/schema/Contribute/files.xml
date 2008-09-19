@@ -12,4 +12,5 @@
 <xi:include href="Product.xml"              parse="xml" />
 <xi:include href="PremiumsProduct.xml"      parse="xml" />
 <xi:include href="Widget.xml"               parse="xml" />
+<xi:include href="PCP.xml"                  parse="xml" />
 </tables>
