@@ -115,6 +115,7 @@ VALUES
    ('accept_creditcard'             , '{ts escape="sql"}Accepted Credit Cards{/ts}'              , 0, 1),
    ('payment_instrument'            , '{ts escape="sql"}Payment Instruments{/ts}'                , 0, 1),
    ('contribution_status'           , '{ts escape="sql"}Contribution Status{/ts}'                , 0, 1),
+   ('pcp_status'                    , '{ts escape="sql"}PCP Status{/ts}'                         , 0, 1),
    ('participant_status'            , '{ts escape="sql"}Participant Status{/ts}'                 , 0, 1),
    ('participant_role'              , '{ts escape="sql"}Participant Role{/ts}'                   , 0, 1),
    ('event_type'                    , '{ts escape="sql"}Event Type{/ts}'                         , 0, 1),
@@ -149,6 +150,7 @@ SELECT @option_group_id_aclRole        := max(id) from civicrm_option_group wher
 SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
 SELECT @option_group_id_pi             := max(id) from civicrm_option_group where name = 'payment_instrument';
 SELECT @option_group_id_cs             := max(id) from civicrm_option_group where name = 'contribution_status';
+SELECT @option_group_id_pcp            := max(id) from civicrm_option_group where name = 'pcp_status';
 SELECT @option_group_id_ps             := max(id) from civicrm_option_group where name = 'participant_status';
 SELECT @option_group_id_pRole          := max(id) from civicrm_option_group where name = 'participant_role';
 SELECT @option_group_id_etype          := max(id) from civicrm_option_group where name = 'event_type';
@@ -242,6 +244,10 @@ VALUES
   (@option_group_id_cs, '{ts escape="sql"}Failed{/ts}'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
   (@option_group_id_cs, '{ts escape="sql"}In Progress{/ts}', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
   (@option_group_id_cs, '{ts escape="sql"}Overdue{/ts}'    , 6, 'Overdue'    , NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
+
+  (@option_group_id_pcp, '{ts escape="sql"}Needs Review{/ts}' , 1, 'Needs Review' , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pcp, '{ts escape="sql"}Approved{/ts}'     , 2, 'Approved'     , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pcp, '{ts escape="sql"}Rejected{/ts}'     , 3, 'Rejected'     , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ps, '{ts escape="sql"}Registered{/ts}', 1, 'Registered', NULL, 1, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_group_id_ps, '{ts escape="sql"}Attended{/ts}',   2, 'Attended',   NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL),
