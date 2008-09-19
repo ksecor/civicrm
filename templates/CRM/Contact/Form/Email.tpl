@@ -14,6 +14,7 @@
              {if $hold neq 1}
 	            <span>{$form.location.$index.email.1.on_hold.html}</span>
              {/if}
+	     <span>&nbsp;{$form.location.$index.email.1.is_bulkmail.html}</span>
             {* Link to add a field. *}
             <span id="id_location_{$index}_email_2_show" class="add-remove-link">
                 {$form.location.$index.email.2.show.html}
