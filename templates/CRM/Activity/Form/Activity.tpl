@@ -209,6 +209,8 @@
    buildContact( 1, 'target_contact' );
 {/literal}   
 {/if}
+
+{if $action eq 1 or $action eq 2}
 {literal}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
@@ -239,6 +241,12 @@ function buildContact( count, pref )
     {/if}
     {literal}
     }
+
+    // do not recreate if combo widget is already created
+    if ( dijit.byId( pref + '[' + count + ']' ) ) {
+	return;
+    }
+
     var context = {/literal}"{$context}"{literal}
     var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
 
@@ -276,5 +284,7 @@ function buildContact( count, pref )
 </script>
 
 {/literal}
+
+{/if} {* closing add contact widget condition*}
 
 {/if} {* end of snippet if*}	
