@@ -168,7 +168,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
     function run( )
     {
         $context   = CRM_Utils_Request::retrieve('context', 'String', $this );
-        $contactId = CRM_Utils_Request::retrieve('cid', 'Positive', $this );
+        $contactId = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
 
         if ( $context == 'standalone' || ! $contactId ) {
             $this->_action = CRM_Core_Action::ADD;
