@@ -136,6 +136,13 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
             $this->edit($action, $id) ;
         } 
+
+        // reset cache if enabled/disabled
+        if ($action & (CRM_Core_Action::DISABLE|CRM_Core_Action::ENABLE)) {
+            require_once 'CRM/ACL/BAO/Cache.php';
+            CRM_ACL_BAO_Cache::resetCache( );
+        }
+
         // finally browse the acl's
          $this->browse();
         
