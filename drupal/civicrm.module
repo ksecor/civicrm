@@ -622,13 +622,10 @@ function civicrm_view_data( &$user )
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null, true );
             $pageContent = $page->run( );
 
-            /**
-             * CRM-3447, uncomment the below if u want to see the edit links
-             * $pageContent =
-             *                l( 'Edit', "user/{$user->uid}/edit/{$title['title']}") .
-             *                $pageContent;
-             **/
-
+            // CRM-3537: profile edit link
+            $contactURL .= '<br/>&raquo; ' . l( 'Edit Contact Profile', 
+                                                "user/{$user->uid}/edit/{$title['title']}");
+            
             if ( $pageContent ) {
                 $user->content[$title['title']] =
                     array( '#title'  => $title['title'],
