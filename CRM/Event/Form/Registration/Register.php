@@ -308,7 +308,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
             $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
-            if ( $form->_online ) {
+            if ( isset( $form->_online ) && $form->_online ) {
                 $element->freeze();
             }
             if ( $required ) {

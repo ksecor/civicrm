@@ -76,12 +76,12 @@
              <tr>
                 <td class="label">{ts}With Contact{/ts}</td>
                 <td class="tundra">
-		          <span id="target_contact_1"></span>
+		    <div id="target_contact_1"></div>
                 </td>
              </tr>
 		     {else}
              <tr>
-	    		<td class="label">{ts}With Contact{/ts}</td>
+    		<td class="label">{ts}With Contact{/ts}</td>
                 <td class="view-value">{$target_contact_value}</td>
              </tr>
              {/if}
@@ -89,7 +89,7 @@
              {if $action neq 4}
                 <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
-                   <span id="assignee_contact_1"></span>
+                   <div id="assignee_contact_1"></div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              {else}
@@ -209,6 +209,8 @@
    buildContact( 1, 'target_contact' );
 {/literal}   
 {/if}
+
+{if $action eq 1 or $action eq 2}
 {literal}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
@@ -239,6 +241,12 @@ function buildContact( count, pref )
     {/if}
     {literal}
     }
+
+    // do not recreate if combo widget is already created
+    if ( dijit.byId( pref + '[' + count + ']' ) ) {
+	return;
+    }
+
     var context = {/literal}"{$context}"{literal}
     var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
 
@@ -276,5 +284,7 @@ function buildContact( count, pref )
 </script>
 
 {/literal}
+
+{/if} {* closing add contact widget condition*}
 
 {/if} {* end of snippet if*}	

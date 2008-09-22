@@ -64,8 +64,10 @@
                 <br />{$form.contribution_source.html}
             </td>
         </tr>
+{if $contributeGroupTree}
         <tr>
             <td colspan="2">
                 {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}
             </td>
         </tr>
+{/if}

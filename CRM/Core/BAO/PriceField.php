@@ -339,7 +339,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             break;
             
         }
-        if ( $qf->_online ) {
+        if ( isset($qf->_online) ) {
             $element->freeze();
         }
     }

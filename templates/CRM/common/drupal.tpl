@@ -20,7 +20,7 @@
 </div>
 {/if}
 
-{include file="CRM/common/langSwitch.tpl"}
+{*{include file="CRM/common/langSwitch.tpl"}*}
 
 <div class="spacer"></div>
 

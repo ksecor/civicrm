@@ -362,6 +362,7 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
+
     if ( $type == 'load' ) {
         return;
     }			
@@ -369,7 +370,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     if ( ! civicrm_initialize( ) ) {
         return;
     }
-
+	
     switch ( $type ) {
 
     case 'login':
@@ -420,11 +421,22 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         }
         break;
 
-
-
     case 'form':
+        $inCategory = true;
+        if ( $category ) {
+            $inCategory = false;
+            $categories = civicrm_categories( $account );
+            foreach ( $categories as $cat ) {
+                if ( $category == $cat['name'] ) {
+                    $inCategory = true;
+                    break;
+                }
+            }
+        }
+        
         // only return a form to drupal my account page
-        if ( arg(0) == 'user' &&
+        if ( $inCategory      &&
+             arg(0) == 'user' &&
              arg(2) == 'edit' &&
              arg(3) ) {
             if ( empty( $_POST ) ) {
@@ -654,18 +666,13 @@ function civicrm_validate_data($edit, &$user, $title)
 
     require_once 'CRM/Utils/Array.php';
 
-    // if this is an admin creator, dont validate
-    if ( ( $_GET['q'] == 'admin/user/create' ) ||
-         ! CRM_Utils_Array::value( '_qf_default', $_POST ) ) {
-        return true;
-    }
-
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
 
-    $register = ( arg(1) == 'register' ) ? true : false;
+    // check for either user/register or admin/user/user/create
+    $register = ( arg(1) == 'register' || arg(3) == 'create' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
+    $errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
     if ( is_array( $errors ) ) {
         if ( $register ) {
             foreach ( $errors as $name => $error ) {

@@ -207,9 +207,9 @@ class CRM_Contact_Form_Individual {
     {
         $errors = array( );
         //FIXME 
-        if ($fields['location'][1]['address']['state_province_id'] == 'undefined' ) {
+        if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][1]['address'] )  == 'undefined' ) {
             $fields['location'][1]['address']['state_province_id'] ='';
-        }    
+        }
         $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // check for state/country mapping

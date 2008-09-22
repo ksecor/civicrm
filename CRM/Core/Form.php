@@ -41,6 +41,7 @@ require_once 'HTML/QuickForm/Page.php';
 require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Utils/Request.php';
 require_once 'CRM/Utils/Weight.php';
+require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 require_once 'CRM/Core/SelectValues.php';
@@ -309,6 +310,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->_formBuilt = true;
 
         $this->preProcess();
+
+        $this->assign('translatePermission', CRM_Core_Permission::check('translate CiviCRM'));
 
         if ( $this->controller->_key &&
              $this->controller->_print != CRM_Core_Smarty::PRINT_NOFORM ) {

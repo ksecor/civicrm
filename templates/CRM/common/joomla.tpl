@@ -61,7 +61,7 @@
 <div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
 {/if}
 
-{include file="CRM/common/langSwitch.tpl"}
+{*{include file="CRM/common/langSwitch.tpl"}*}
 
     <div class="spacer"></div>
 

@@ -75,8 +75,10 @@
      {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_4}
     </td> 
 </tr> 
+{if $membershipGroupTree}
 <tr>
     <td colspan="4">
     {include file="CRM/Custom/Form/Search.tpl" groupTree=$membershipGroupTree showHideLinks=false}
     </td>
 </tr>
+{/if}

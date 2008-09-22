@@ -1486,6 +1486,8 @@ class CRM_Contact_BAO_Query
                                          'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2' ) ) ) {
                 //fix for search by profile with address fields.
                 $tName = "{$locationType[$locType[1]]}-address";
+            } else if ( $locType[0] == 'on_hold' ) {
+                $tName = "{$locationType[$locType[1]]}-email";
             } else {
                 $tName = "{$locationType[$locType[1]]}-{$locType[0]}";
             }

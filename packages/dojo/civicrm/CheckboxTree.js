@@ -97,11 +97,10 @@ dojo.declare(
     },
       
     setNodeCheckboxValue: function(value){
-          
+
         this.getNodeCheckbox().setAttribute('checked',value);
     },
 
-      
     postCreate: function(){
         // set label, escaping special characters
         this.setLabelNode(this.label);
@@ -118,11 +117,12 @@ dojo.declare(
 
         // preload
         // get value from the store (JSON) of the property "checked" and set the checkbox
-        this.setNodeCheckboxValue(this.tree.model.store.getValue(this.item,"checked")) ;
-
+        //this.setNodeCheckboxValue(this.tree.model.store.getValue(this.item,"checked")) ;
+	
         // connect onChange of the checkbox to alter the model of the tree
         dojo.connect(this.getNodeCheckbox(),'onChange',this,
                      function(){this.tree.model.store.setValue(this.item,"checked",(this.getNodeCheckbox().getValue() == false) ? false:true);}) ;
+	
     },
           
     getCheckedNodesList: function(nodeArray){
@@ -143,7 +143,7 @@ dojo.declare(
 {
     
     _load: function(){
-    
+
         // summary: initial load of the tree
         // load root node (possibly hidden) and it's children
         this.model.getRoot(
@@ -170,7 +170,9 @@ dojo.declare(
         }
     );
     },
+	
     _onItemChange: function(/*Item*/ item){
+
         //summary: set data event on an item in the store
         var model = this.model,
         identity = model.getIdentity(item),
@@ -186,7 +188,8 @@ dojo.declare(
             // (anche nel caso di modifiche esterne al model...)
             node.setNodeCheckboxValue(newValue);
             node._updateItemClasses(item);
-        }
+	}
+
     }
 
 });
@@ -196,7 +199,7 @@ dojo.provide("civicrm.tree.CheckboxTreeStoreModel");
 
 dojo.declare(
 "civicrm.tree.CheckboxTreeStoreModel",
-[dijit.tree.TreeStoreModel],
+[dijit.tree.ForestStoreModel],
 {
     	onChange: function(/*dojo.data.Item*/ item){
             

@@ -127,6 +127,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                              'name'      => ts('Cancel') ),
                                      )
                                );
+            return;
         } else {
             // lets trim all the whitespace
             $this->applyFilter('__ALL__', 'trim');
@@ -197,7 +198,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $errors       = array( );
         $customOption = array( );
         $groupParams  = array( 'name' => "civicrm_price_field.amount.{$form->_fid}" );
-        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $fields['fieldId'] , 'html_type' );
+        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $form->_fid, 'html_type' );
         if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
             $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
         } else if ($fields['name'] < 0 ) {
@@ -230,6 +231,17 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
 
     public function postProcess()
     {
+        if ( $this->_action == CRM_Core_Action::DELETE ) {
+            $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
+                                                  $this->_oid,
+                                                  'label', 'id' );
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            CRM_Core_BAO_OptionValue::del( $this->_oid );
+            CRM_Core_Session::setStatus( ts( '%1 option has been deleted.', 
+                                             array( 1 => $label ) ) );
+            return;
+        }
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues( 'Option' );
         
@@ -244,17 +256,6 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
         $params['value'] = $params['weight'];
-
-        if ( $this->_action == CRM_Core_Action::DELETE ) {
-            $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
-                                                  $this->_oid,
-                                                  'label', 'id' );
-            require_once 'CRM/Core/BAO/OptionValue.php';
-            CRM_Core_BAO_OptionValue::del( $this->_oid );
-            CRM_Core_Session::setStatus( ts( '%1 option has been deleted.', 
-                                             array( 1 => $label ) ) );
-            return;
-        }
         
         $ids = array( );
         if ( $this->_action & CRM_Core_Action::UPDATE ) {

@@ -832,6 +832,7 @@ div.crm-pager a {
 
 #crm-container div#lang-switch {
  float: right;
+ z-index: 2;
  margin: -24px 30px 0px 0px;
 }
 
@@ -1028,3 +1029,16 @@ commented since it is overwiting simple td
     background-position: bottom left;
     padding: 6px 0 4px 12px; /* push text down 1px */
 } 
+
+/* class for advance search address fields display */
+#crm-container  table.noborder tr {
+    background: #F5F5F5;
+    border:1px solid #DDDDDD;
+}
+
+/* class for tinymce buttons display */
+#crm-container table.mceLayout td{ 
+    padding: 0px;
+    background: #F5F5F5;
+    border: 1px solid #F5F5F5;
+}

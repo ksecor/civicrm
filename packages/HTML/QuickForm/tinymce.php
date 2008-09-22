@@ -125,6 +125,7 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
      */
     function toHtml()
     {
+        $html = null;
         // return frozen state
         if ($this->_flagFrozen) {
             return $this->getFrozenHtml();
@@ -133,17 +134,23 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             return parent::toHtml();
         // return textarea
         } else {
-            $config =& CRM_Core_Config::singleton();
-            $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
-                                $config->resourceBase . $this->BasePath . 'tiny_mce.js'
-                               );                
-
-            //FIXME: We might want to pass some parameters to TinyMCE
-            $html .= sprintf( '<script type="text/javascript">tinyMCE.init({ mode : "textareas",' .
-                                                                       'theme : "simple",' .
-                                                                       'height: "200",' .
-                                                                       'width : "700",'.
-                                                             'editor_selector : "form-TinyMCE"}); </script>'  );
+            //FIX for multiple editors in a form, initialize once (CRM-3559)
+            if ( !defined('HTML_QUICKFORM_TINYMCEEDITOR_LOADED' ) ) {                
+                // load tinyMCEeditor
+                $config = CRM_Core_Config::singleton( );
+                $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
+                                   $config->resourceBase . $this->BasePath . 'tiny_mce.js'
+                                   );
+                
+                //FIXME: We might want to pass some parameters to TinyMCE
+                $html .= sprintf( '<script type="text/javascript">tinyMCE.init({ mode : "textareas",' .
+                                  'theme : "simple",' .
+                                  'height: "200",' .
+                                  'width : "700",'.
+                                  'editor_selector : "form-TinyMCE"}); </script>'  );
+                define('HTML_QUICKFORM_TINYMCEEDITOR_LOADED', true);
+            }
+                        
             // include textarea as well (TinyMCE transforms it)
             $html .=  parent::toHTML();
             return $html;

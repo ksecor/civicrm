@@ -4,9 +4,9 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-03-25 08:39-0700\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"PO-Revision-Date: 2008-09-19 03:06-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1253,60 +1253,6 @@ msgstr "Luik"
 msgid "Limburg"
 msgstr "Limburg"
 
-msgid "Central and Western"
-msgstr "Centraal en Westelijk"
-
-msgid "Eastern"
-msgstr "Oostelijk"
-
-msgid "Southern"
-msgstr "Zuidelijk"
-
-msgid "Wan Chai"
-msgstr "Wan Chai"
-
-msgid "Kowloon City"
-msgstr "Kowloon City"
-
-msgid "Kwun Tong"
-msgstr "Kwun Tong"
-
-msgid "Sham Shui Po"
-msgstr "Sham Shui Po"
-
-msgid "Wong Tai Sin"
-msgstr "Wong Tai Sin"
-
-msgid "Yau Tsim Mong"
-msgstr "Yau Tsim Mong"
-
-msgid "Islands"
-msgstr "Islands"
-
-msgid "Kwai Tsing"
-msgstr "Kwai Tsing"
-
-msgid "North"
-msgstr "Noord"
-
-msgid "Sai Kung"
-msgstr "Sai Kung"
-
-msgid "Sha Tin"
-msgstr "Sha Tin"
-
-msgid "Tai Po"
-msgstr "Tai Po"
-
-msgid "Tsuen Wan"
-msgstr "Tsuen Wan"
-
-msgid "Tuen Mun"
-msgstr "Tuen Mun"
-
-msgid "Yuen Long"
-msgstr "Yuen Long"
-
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1919,6 +1865,9 @@ msgstr "Noord-West"
 msgid "South-East"
 msgstr "Zuid-Oost"
 
+msgid "Southern"
+msgstr "Zuidelijk"
+
 msgid "Brèsckaja voblasc'"
 msgstr "Provincie Brest"
 
@@ -2251,6 +2200,9 @@ msgstr "Oost"
 
 msgid "Far North"
 msgstr "Verre Noorden"
+
+msgid "North"
+msgstr "Noord"
 
 msgid "South"
 msgstr "Zuid"
@@ -2711,11 +2663,11 @@ msgstr "Obock"
 msgid "Tadjoura"
 msgstr "Tadjoura"
 
-msgid "Frederikaberg municipality"
-msgstr "Gemeente Frederikaberg"
+msgid "Frederiksberg"
+msgstr "Frederiksberg"
 
-msgid "Copenhagen municipality"
-msgstr "Gemeente Kopenhagen"
+msgid "Copenhagen City"
+msgstr "Kopenhagen (Stad)"
 
 msgid "Copenhagen"
 msgstr "Kopenhagen"
@@ -2726,8 +2678,8 @@ msgstr "Frederiksborg"
 msgid "Roskilde"
 msgstr "Roskilde"
 
-msgid "Western Zealand"
-msgstr "West-Zeeland"
+msgid "Vestsjælland"
+msgstr "Vestsjælland"
 
 msgid "Storstrøm"
 msgstr "Storstrøm"
@@ -2735,11 +2687,11 @@ msgstr "Storstrøm"
 msgid "Bornholm"
 msgstr "Bornholm"
 
-msgid "Funen"
-msgstr "Funen"
+msgid "Fyn"
+msgstr "Fyn"
 
-msgid "Southern Jutland"
-msgstr "Zuidelijk Jutland"
+msgid "South Jutland"
+msgstr "Zuid Jutland"
 
 msgid "Ribe"
 msgstr "Ribe"
@@ -2747,17 +2699,17 @@ msgstr "Ribe"
 msgid "Vejle"
 msgstr "Vejle"
 
-msgid "Ringkøbing"
+msgid "Ringkjøbing"
 msgstr "Ringkøbing"
 
-msgid "Aarhus"
-msgstr "Århus"
+msgid "Århus"
+msgstr "Aarhuis"
 
 msgid "Viborg"
 msgstr "Viborg"
 
-msgid "Northern Jutland"
-msgstr "Noordelijk Jutland"
+msgid "North Jutland"
+msgstr "Noord Jutland"
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr "Nationaal District (Santo Domingo)"
@@ -3379,6 +3331,9 @@ msgstr "Zuidelijke naties, nationaliteiten en volkeren"
 
 msgid "Tigrai"
 msgstr "Tigrai"
+
+msgid "Eastern"
+msgstr "Oostelijk"
 
 msgid "Northern"
 msgstr "Noordelijk"
@@ -5525,8 +5480,8 @@ msgstr "Florence"
 msgid "Foggia"
 msgstr "Foggia"
 
-msgid "Forli"
-msgstr "Forli"
+msgid "Forlì-Cesena"
+msgstr "Forlì-Cesena"
 
 msgid "Frosinone"
 msgstr "Frosinone"
@@ -11432,6 +11387,108 @@ msgstr "Zuid-West Finland"
 msgid "Åland"
 msgstr "Åland"
 
+msgid "Central and Western"
+msgstr "Centraal en Westelijk"
+
+msgid "Wan Chai"
+msgstr "Wan Chai"
+
+msgid "Kowloon City"
+msgstr "Kowloon City"
+
+msgid "Kwun Tong"
+msgstr "Kwun Tong"
+
+msgid "Sham Shui Po"
+msgstr "Sham Shui Po"
+
+msgid "Wong Tai Sin"
+msgstr "Wong Tai Sin"
+
+msgid "Yau Tsim Mong"
+msgstr "Yau Tsim Mong"
+
+msgid "Islands"
+msgstr "Islands"
+
+msgid "Kwai Tsing"
+msgstr "Kwai Tsing"
+
+msgid "Sai Kung"
+msgstr "Sai Kung"
+
+msgid "Sha Tin"
+msgstr "Sha Tin"
+
+msgid "Tai Po"
+msgstr "Tai Po"
+
+msgid "Tsuen Wan"
+msgstr "Tsuen Wan"
+
+msgid "Tuen Mun"
+msgstr "Tuen Mun"
+
+msgid "Yuen Long"
+msgstr "Yuen Long"
+
+msgid "Al Manāmah (Al ‘Āşimah)"
+msgstr "Al Manāmah"
+
+msgid "Al Janūbīyah"
+msgstr "Al Janubiyah"
+
+msgid "Al Wusţá"
+msgstr "Al Wusta"
+
+msgid "Ash Shamālīyah"
+msgstr "Ash Shamaliyah"
+
+msgid "Jenin"
+msgstr "Jenin"
+
+msgid "Tubas"
+msgstr "Tubas"
+
+msgid "Tulkarm"
+msgstr "Tulkarm"
+
+msgid "Nablus"
+msgstr "Nablus"
+
+msgid "Qalqilya"
+msgstr "Qalqilya"
+
+msgid "Salfit"
+msgstr "Salfit"
+
+msgid "Ramallah and Al-Bireh"
+msgstr "Ramallah en Al-Bireh"
+
+msgid "Jericho"
+msgstr "Jericho"
+
+msgid "Jerusalem"
+msgstr "Jerusalem"
+
+msgid "Bethlehem"
+msgstr "Bethlehem"
+
+msgid "Hebron"
+msgstr "Hebron"
+
+msgid "North Gaza"
+msgstr "Noord Gaza"
+
+msgid "Deir el-Balah"
+msgstr "Deir el-Balah"
+
+msgid "Khan Yunis"
+msgstr "Khan Yunis"
+
+msgid "Rafah"
+msgstr "Rafah"
+
 msgid "North West"
 msgstr "North West"
 
@@ -11476,3 +11533,30 @@ msgstr "West Glamorgan"
 
 msgid "London"
 msgstr "Londen"
+
+msgid "Carbonia-Iglesias"
+msgstr "Carbonia-Iglesias"
+
+msgid "Olbia-Tempio"
+msgstr "Olbia-Tempio"
+
+msgid "Medio Campidano"
+msgstr "Medio Campidano"
+
+msgid "Ogliastra"
+msgstr "Ogliastra"
+
+#~ msgid "Frederikaberg municipality"
+#~ msgstr "Gemeente Frederikaberg"
+
+#~ msgid "Copenhagen municipality"
+#~ msgstr "Gemeente Kopenhagen"
+
+#~ msgid "Western Zealand"
+#~ msgstr "West-Zeeland"
+
+#~ msgid "Funen"
+#~ msgstr "Funen"
+
+#~ msgid "Forli"
+#~ msgstr "Forli"

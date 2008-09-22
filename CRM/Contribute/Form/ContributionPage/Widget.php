@@ -59,8 +59,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                               $this->_id,
                                               'title' );
-	
-	$this->_fields = array( 'title'               => array( ts( 'Title' ),
+        
+        $this->_fields = array( 'title'               => array( ts( 'Title' ),
                                                                 'text',
                                                                 false,
                                                                 $title ),
@@ -116,9 +116,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                                               false,
                                                               '0x336699' ),
                                );
-        
     }
-
+    
     function setDefaultValues( ) 
     {
         $defaults = array( );
@@ -132,27 +131,30 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
             foreach ( $this->_colorFields as $name => $val ) {
                 $defaults[$name] = $val[3];
             }
-        }
+            $defaults['about'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
+                                                              $this->_id, 
+                                                              'intro_text' );
+        } 
+    
         require_once 'CRM/Core/ShowHideBlocks.php';
         $showHide =& new CRM_Core_ShowHideBlocks( );
         $showHide->addHide( "id-colors" );
         $showHide->addToTemplate( );
-
         return $defaults;
     }
 
     function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Widget' );
-
+        
         $this->addElement( 'checkbox',
                            'is_active',
                            ts( 'Enable Widget?' ),
                            null,
                            array( 'onclick' => "widgetBlock(this)" ) );
-	
-	$this->addWysiwyg( 'about', ts('About'), $attributes['about'] );
-
+        
+        $this->addWysiwyg( 'about', ts('About'), $attributes['about'] );
+        
         foreach ( $this->_fields as $name => $val ) {
             $this->add( $val[1],
                         $name,

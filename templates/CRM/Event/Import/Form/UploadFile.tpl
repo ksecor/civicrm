@@ -21,25 +21,24 @@
         <dd class="description">{ts}File format must be comma-separated-values (CSV).{/ts}</dd>
         <dt>&nbsp;</dt>
 	    <dd>{ts 1=$uploadSize}Maximum Upload File Size: %1 MB{/ts}</dd>
-        <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
-	 <dt>&nbsp;</dt>		
-	<dd class="description">
+        <dt>&nbsp;</dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
+        <dt>&nbsp;</dt>		
+        <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Participant Role").{/ts}
         </dd>
-	<dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
+        <dt class="extra-long-fourty">{$form.contactType.label}</dt><dd>{$form.contactType.html}<br />
+            <span class="description">
             {ts}Select 'Individual' if you are importing event participation data for individual persons.{/ts}
+            {ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}
+            </span>
         </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}</dd>
-        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd> 
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id="id-onDuplicate"}</dd> 
         {include file="CRM/Core/Date.tpl"}  
 {if $savedMapping}
       <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
-       <dd> <span>{$form.savedMapping.html}</span> </dd>
+      <dd><span>{$form.savedMapping.html}</span> </dd>
       <dt>&nbsp;</dt>
-       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+      <dd class="description">{ts}Select Saved Mapping, or leave blank to create a new mapping.{/ts}</dd>
 {/if}
     </dl>
     <div class="spacer"></div>

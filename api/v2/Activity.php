@@ -89,7 +89,13 @@ function &civicrm_activity_create( &$params )
     
     // create activity
     $activity = CRM_Activity_BAO_Activity::create( $params );
-    $activityArray = array( 'is_error' => 0 ); 
+    
+    if ( !is_a( $activity, 'CRM_Core_Error' ) && isset( $activity->id ) ) {
+        $activityArray = array( 'is_error' => 0 ); 
+    } else {
+        $activityArray = array( 'is_error' => 1 ); 
+    }
+    
     _civicrm_object_to_array( $activity, $activityArray);
     
     return $activityArray;

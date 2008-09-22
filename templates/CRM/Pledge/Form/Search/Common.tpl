@@ -98,8 +98,10 @@
      {$form.pledge_test.html}&nbsp;{$form.pledge_test.label}
     </td>
  </tr>
+{if $pledgeGroupTree}
  <tr>
     <td colspan="2">
       {include file="CRM/Custom/Form/Search.tpl" groupTree=$pledgeGroupTree showHideLinks=false}
     </td>
  </tr>
+{/if}

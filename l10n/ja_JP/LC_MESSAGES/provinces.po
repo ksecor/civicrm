@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2007-04-18 07:35+0200\n"
+"Project-Id-Version: CiviCRM 2.1\n"
+"POT-Creation-Date: 2008-09-18 15:00+0200\n"
 "PO-Revision-Date: 2007-12-30 22:39+0900\n"
 "Last-Translator: Shinji R. Yamane <s-yamane@computer.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1336,60 +1336,6 @@ msgstr "リエージュ"
 msgid "Limburg"
 msgstr "リンブルフ"
 
-msgid "Central and Western"
-msgstr ""
-
-msgid "Eastern"
-msgstr ""
-
-msgid "Southern"
-msgstr ""
-
-msgid "Wan Chai"
-msgstr ""
-
-msgid "Kowloon City"
-msgstr ""
-
-msgid "Kwun Tong"
-msgstr ""
-
-msgid "Sham Shui Po"
-msgstr ""
-
-msgid "Wong Tai Sin"
-msgstr ""
-
-msgid "Yau Tsim Mong"
-msgstr ""
-
-msgid "Islands"
-msgstr ""
-
-msgid "Kwai Tsing"
-msgstr ""
-
-msgid "North"
-msgstr ""
-
-msgid "Sai Kung"
-msgstr ""
-
-msgid "Sha Tin"
-msgstr ""
-
-msgid "Tai Po"
-msgstr ""
-
-msgid "Tsuen Wan"
-msgstr ""
-
-msgid "Tuen Mun"
-msgstr ""
-
-msgid "Yuen Long"
-msgstr ""
-
 msgid "Luxembourg"
 msgstr "ルクセンブルグ"
 
@@ -2026,6 +1972,9 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
+msgid "Southern"
+msgstr ""
+
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2365,6 +2314,9 @@ msgid "East"
 msgstr ""
 
 msgid "Far North"
+msgstr ""
+
+msgid "North"
 msgstr ""
 
 msgid "South"
@@ -2866,11 +2818,12 @@ msgstr ""
 msgid "Tadjoura"
 msgstr ""
 
-msgid "Frederikaberg municipality"
+msgid "Frederiksberg"
 msgstr ""
 
-msgid "Copenhagen municipality"
-msgstr ""
+#, fuzzy
+msgid "Copenhagen City"
+msgstr "コペンハーゲン"
 
 #, fuzzy
 msgid "Copenhagen"
@@ -2883,7 +2836,7 @@ msgstr ""
 msgid "Roskilde"
 msgstr "ロスキレ"
 
-msgid "Western Zealand"
+msgid "Vestsjælland"
 msgstr ""
 
 msgid "Storstrøm"
@@ -2893,11 +2846,12 @@ msgstr ""
 msgid "Bornholm"
 msgstr "ボーンホルム島"
 
-msgid "Funen"
+msgid "Fyn"
 msgstr ""
 
-msgid "Southern Jutland"
-msgstr ""
+#, fuzzy
+msgid "South Jutland"
+msgstr "サウスオーストラリア"
 
 msgid "Ribe"
 msgstr ""
@@ -2905,17 +2859,19 @@ msgstr ""
 msgid "Vejle"
 msgstr ""
 
-msgid "Ringkøbing"
-msgstr ""
+#, fuzzy
+msgid "Ringkjøbing"
+msgstr "新疆"
 
-msgid "Aarhus"
+msgid "Århus"
 msgstr ""
 
 msgid "Viborg"
 msgstr ""
 
-msgid "Northern Jutland"
-msgstr ""
+#, fuzzy
+msgid "North Jutland"
+msgstr "ポートランド"
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr ""
@@ -3558,6 +3514,9 @@ msgid "Southern Nations, Nationalities and Peoples"
 msgstr ""
 
 msgid "Tigrai"
+msgstr ""
+
+msgid "Eastern"
 msgstr ""
 
 msgid "Northern"
@@ -5810,7 +5769,7 @@ msgstr ""
 msgid "Foggia"
 msgstr ""
 
-msgid "Forli"
+msgid "Forlì-Cesena"
 msgstr ""
 
 msgid "Frosinone"
@@ -12091,6 +12050,118 @@ msgstr ""
 msgid "Åland"
 msgstr ""
 
+msgid "Central and Western"
+msgstr ""
+
+msgid "Wan Chai"
+msgstr ""
+
+msgid "Kowloon City"
+msgstr ""
+
+msgid "Kwun Tong"
+msgstr ""
+
+msgid "Sham Shui Po"
+msgstr ""
+
+msgid "Wong Tai Sin"
+msgstr ""
+
+msgid "Yau Tsim Mong"
+msgstr ""
+
+msgid "Islands"
+msgstr ""
+
+msgid "Kwai Tsing"
+msgstr ""
+
+msgid "Sai Kung"
+msgstr ""
+
+msgid "Sha Tin"
+msgstr ""
+
+msgid "Tai Po"
+msgstr ""
+
+msgid "Tsuen Wan"
+msgstr ""
+
+msgid "Tuen Mun"
+msgstr ""
+
+msgid "Yuen Long"
+msgstr ""
+
+msgid "Al Manāmah (Al ‘Āşimah)"
+msgstr ""
+
+msgid "Al Janūbīyah"
+msgstr ""
+
+msgid "Al Wusţá"
+msgstr ""
+
+msgid "Ash Shamālīyah"
+msgstr ""
+
+#, fuzzy
+msgid "Jenin"
+msgstr "フニン"
+
+#, fuzzy
+msgid "Tubas"
+msgstr "トゥンベス"
+
+#, fuzzy
+msgid "Tulkarm"
+msgstr "トゥルチヤ"
+
+msgid "Nablus"
+msgstr ""
+
+msgid "Qalqilya"
+msgstr ""
+
+#, fuzzy
+msgid "Salfit"
+msgstr "サルタ"
+
+msgid "Ramallah and Al-Bireh"
+msgstr ""
+
+#, fuzzy
+msgid "Jericho"
+msgstr "チューリッヒ"
+
+#, fuzzy
+msgid "Jerusalem"
+msgstr "ジャージー"
+
+msgid "Bethlehem"
+msgstr ""
+
+#, fuzzy
+msgid "Hebron"
+msgstr "バーモント"
+
+#, fuzzy
+msgid "North Gaza"
+msgstr "ノース・ダコタ"
+
+msgid "Deir el-Balah"
+msgstr ""
+
+#, fuzzy
+msgid "Khan Yunis"
+msgstr "サンルイス"
+
+#, fuzzy
+msgid "Rafah"
+msgstr "ガフサ"
+
 msgid "North West"
 msgstr ""
 
@@ -12136,3 +12207,16 @@ msgstr ""
 #, fuzzy
 msgid "London"
 msgstr "ロンドン"
+
+msgid "Carbonia-Iglesias"
+msgstr ""
+
+msgid "Olbia-Tempio"
+msgstr ""
+
+msgid "Medio Campidano"
+msgstr ""
+
+#, fuzzy
+msgid "Ogliastra"
+msgstr "大分"

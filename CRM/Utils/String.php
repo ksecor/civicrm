@@ -251,9 +251,11 @@ class CRM_Utils_String {
 
         $params = explode( '&', $query );
         foreach ( $params as $p ) {
-            list( $k, $v ) = explode( '=', $p );
-            if ( $k == $urlVar ) {
-                return $v;
+            if ( strpos( $p, '=' ) ) {
+                list( $k, $v ) = explode( '=', $p );
+                if ( $k == $urlVar ) {
+                    return $v;
+                }
             }
         }
         return null;
