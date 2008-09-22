@@ -184,6 +184,7 @@ class CRM_Contact_Form_Task_EmailCommon
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $form, null );
         $form->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
+        $buttonType = $form->buttonType( );
 
         if ( $form->_single ) {
             // also fix the user context stack
@@ -191,9 +192,9 @@ class CRM_Contact_Form_Task_EmailCommon
                                          "&show=1&action=browse&cid={$form->_contactIds[0]}&selectedChild=activity" );
              
             $session->replaceUserContext( $url );
-            $form->addDefaultButtons( ts('Send Email'), 'upload', 'cancel' );
+            $form->addDefaultButtons( ts('Send Email'), $buttonType, 'cancel' );
         } else {
-            $form->addDefaultButtons( ts('Send Email'), 'upload' );
+            $form->addDefaultButtons( ts('Send Email'), $buttonType );
         }
         
         $form->addFormRule( array( 'CRM_Contact_Form_Task_EmailCommon', 'formRule' ), $form );

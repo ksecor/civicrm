@@ -559,8 +559,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                      )
                                );
         } else {
+            $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
+            $buttonType = $this->buttonType( );
             $this->addButtons( array(
-                                     array ( 'type'      => 'upload',
+                                     array ( 'type'      => $buttonType,
                                              'name'      => ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
