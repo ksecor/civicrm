@@ -467,10 +467,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                                                                            $endDate);
                     self::formattedDates( $calcDates, $formatted );
                     
+                    //fix for CRM-3570, exclude the statuses those having is_admin = 1
                     $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
                                                                                               $endDate,
-                                                                                              $joinDate );
-
+                                                                                              $joinDate,
+                                                                                              'today',
+                                                                                              true );
+                    
                     if ( ! $formatted['status_id']) {                        
                         $formatted['status_id'] = $calcStatus['id'];
                     } elseif ( !$formatted['is_override'] || !isset($formatted['is_override']) ) { 
