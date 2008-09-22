@@ -928,6 +928,11 @@ div.crm-pager a {
   background: #F5F5F5;
 }
 
+/* Suppress fading background image in search fieldsets. Looks bad with gray tables. */
+#crm-container div#searchForm fieldset {
+ background-image: none;
+}
+
 #crm-container #main {
 	height: 95%;
 	width: 95%;
