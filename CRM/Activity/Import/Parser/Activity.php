@@ -200,8 +200,12 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         foreach ($params as $key => $val) {
             if ( $key == 'activity_date_time' ) {
                 if ( $val ) {
-                    if( $dateType == 1) { 
-                        $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d%H%i');
+                    if( $dateType == 1) {
+                        if ( CRM_Utils_Rule::date( $params[$key] ) ) {
+                            $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d%H%i');
+                        } else {
+                            CRM_Import_Parser_Contact::addToErrorMsg( 'Activity date', $errorMessage );
+                        }
                     } else{
                         if ( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                             if ( !CRM_Utils_Rule::date($params[$key])) {
