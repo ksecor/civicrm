@@ -154,7 +154,10 @@
 </table>
 {/strip}
 </fieldset>
-{ts}<a href="{$backUrl}">Back to CiviMail</a>{/ts}
+<div class="action-link">
+    <a href="{$backUrl}" >&raquo; {ts}Back to CiviMail{/ts}</a>
+</div>
+
 
 
 

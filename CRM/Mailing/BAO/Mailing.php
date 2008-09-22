@@ -1062,7 +1062,12 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
         } else if ( $type == 'action' ) {
           $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
-        } 
+        } else if ( $type == 'domain' ) {
+            require_once 'CRM/Core/BAO/Domain.php';
+            $domain =& CRM_Core_BAO_Domain::getDomain( );
+            $data = CRM_Utils_Token::getDomainTokenReplacement($token, $domain, $html);
+         } 
+ 
         return $data;
     }
 
