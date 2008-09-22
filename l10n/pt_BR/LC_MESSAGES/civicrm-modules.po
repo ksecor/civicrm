@@ -571,7 +571,7 @@ msgstr "Data em foi recebido"
 #: templates/CRM/Grant/Form/Task/Print.tpl
 #, fuzzy
 msgid "Money Transferred"
-msgstr "Fone preferencial"
+msgstr "Valor Transferido"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
