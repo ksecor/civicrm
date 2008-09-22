@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-03-25 08:39-0700\n"
+"PO-Revision-Date: 2008-09-19 03:06-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -2663,13 +2663,11 @@ msgstr "Obock"
 msgid "Tadjoura"
 msgstr "Tadjoura"
 
-#, fuzzy
 msgid "Frederiksberg"
-msgstr "Frederiksborg"
+msgstr "Frederiksberg"
 
-#, fuzzy
 msgid "Copenhagen City"
-msgstr "Kopenhagen"
+msgstr "Kopenhagen (Stad)"
 
 msgid "Copenhagen"
 msgstr "Kopenhagen"
@@ -2680,9 +2678,8 @@ msgstr "Frederiksborg"
 msgid "Roskilde"
 msgstr "Roskilde"
 
-#, fuzzy
 msgid "Vestsjælland"
-msgstr "Westelijke provincie"
+msgstr "Vestsjælland"
 
 msgid "Storstrøm"
 msgstr "Storstrøm"
@@ -2691,11 +2688,10 @@ msgid "Bornholm"
 msgstr "Bornholm"
 
 msgid "Fyn"
-msgstr ""
+msgstr "Fyn"
 
-#, fuzzy
 msgid "South Jutland"
-msgstr "Zuidelijk Jutland"
+msgstr "Zuid Jutland"
 
 msgid "Ribe"
 msgstr "Ribe"
@@ -2703,20 +2699,17 @@ msgstr "Ribe"
 msgid "Vejle"
 msgstr "Vejle"
 
-#, fuzzy
 msgid "Ringkjøbing"
 msgstr "Ringkøbing"
 
-#, fuzzy
 msgid "Århus"
-msgstr "Århus"
+msgstr "Aarhuis"
 
 msgid "Viborg"
 msgstr "Viborg"
 
-#, fuzzy
 msgid "North Jutland"
-msgstr "Noordelijk Jutland"
+msgstr "Noord Jutland"
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr "Nationaal District (Santo Domingo)"
@@ -5488,7 +5481,7 @@ msgid "Foggia"
 msgstr "Foggia"
 
 msgid "Forlì-Cesena"
-msgstr ""
+msgstr "Forlì-Cesena"
 
 msgid "Frosinone"
 msgstr "Frosinone"
@@ -11440,75 +11433,61 @@ msgid "Yuen Long"
 msgstr "Yuen Long"
 
 msgid "Al Manāmah (Al ‘Āşimah)"
-msgstr ""
+msgstr "Al Manāmah"
 
-#, fuzzy
 msgid "Al Janūbīyah"
-msgstr "Al Janblyah"
+msgstr "Al Janubiyah"
 
-#, fuzzy
 msgid "Al Wusţá"
 msgstr "Al Wusta"
 
-#, fuzzy
 msgid "Ash Shamālīyah"
-msgstr "Ash Shamallyah"
+msgstr "Ash Shamaliyah"
 
-#, fuzzy
 msgid "Jenin"
-msgstr "Junin"
+msgstr "Jenin"
 
-#, fuzzy
 msgid "Tubas"
-msgstr "Tumbes"
+msgstr "Tubas"
 
-#, fuzzy
 msgid "Tulkarm"
-msgstr "Takhar"
+msgstr "Tulkarm"
 
-#, fuzzy
 msgid "Nablus"
-msgstr "Naboul"
+msgstr "Nablus"
 
 msgid "Qalqilya"
-msgstr ""
+msgstr "Qalqilya"
 
-#, fuzzy
 msgid "Salfit"
-msgstr "Safi"
+msgstr "Salfit"
 
 msgid "Ramallah and Al-Bireh"
-msgstr ""
+msgstr "Ramallah en Al-Bireh"
 
-#, fuzzy
 msgid "Jericho"
-msgstr "Zürich"
+msgstr "Jericho"
 
-#, fuzzy
 msgid "Jerusalem"
-msgstr "Jersey"
+msgstr "Jerusalem"
 
 msgid "Bethlehem"
-msgstr ""
+msgstr "Bethlehem"
 
-#, fuzzy
 msgid "Hebron"
-msgstr "Temburong"
+msgstr "Hebron"
 
-#, fuzzy
 msgid "North Gaza"
-msgstr "Noord-Dakota"
+msgstr "Noord Gaza"
 
 msgid "Deir el-Balah"
-msgstr ""
+msgstr "Deir el-Balah"
 
-#, fuzzy
 msgid "Khan Yunis"
-msgstr "San Luis"
+msgstr "Khan Yunis"
 
-#, fuzzy
 msgid "Rafah"
-msgstr "Raa"
+msgstr "Rafah"
 
 msgid "North West"
 msgstr "North West"
@@ -11556,17 +11535,16 @@ msgid "London"
 msgstr "Londen"
 
 msgid "Carbonia-Iglesias"
-msgstr ""
+msgstr "Carbonia-Iglesias"
 
 msgid "Olbia-Tempio"
-msgstr ""
+msgstr "Olbia-Tempio"
 
 msgid "Medio Campidano"
-msgstr ""
+msgstr "Medio Campidano"
 
-#, fuzzy
 msgid "Ogliastra"
-msgstr "Silistra"
+msgstr "Ogliastra"
 
 #~ msgid "Frederikaberg municipality"
 #~ msgstr "Gemeente Frederikaberg"

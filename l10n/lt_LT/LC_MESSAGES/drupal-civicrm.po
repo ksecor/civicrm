@@ -6,30 +6,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 14:48+0200\n"
-"PO-Revision-Date: 2008-09-18 14:48+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2008-09-19 19:17-0700\n"
+"Last-Translator: Tomas D. Davainis <tomasdd@gmail.com>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: none\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "add contacts"
-msgstr ""
+msgstr "įrašyti į kontaktus"
 
 msgid "view all contacts"
-msgstr ""
+msgstr "žiūrėti visus kontaktus"
 
 msgid "edit all contacts"
-msgstr ""
+msgstr "redaguoti visus kontaktus"
 
 msgid "import contacts"
-msgstr ""
+msgstr "įkelti kontaktus"
 
 msgid "edit groups"
-msgstr ""
+msgstr "redaguoti grupes"
 
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM valdymas"
 
 msgid "access uploaded files"
 msgstr ""
@@ -79,11 +80,11 @@ msgstr ""
 
 #: drupal/civicrm.module
 msgid "You can:"
-msgstr ""
+msgstr "Prašom skaityti:"
 
 #: drupal/civicrm.module
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
-msgstr ""
+msgstr "<a href=\"!1\">CiviCRM Administratoriaus gidą</a>."
 
 #: drupal/civicrm.module
 msgid ""

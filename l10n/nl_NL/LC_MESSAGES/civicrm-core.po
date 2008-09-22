@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-09-04 03:53-0700\n"
-"Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
+"PO-Revision-Date: 2008-09-22 01:26-0700\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,7 +202,7 @@ msgstr "Beschrijving"
 #: CRM/Custom/Form/MoveField.php CRM/Import/Form/UploadFile.php
 #: CRM/UF/Form/AdvanceSetting.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr "- selecteer -"
+msgstr "- kies -"
 
 #: CRM/ACL/Form/ACL.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: xml/templates/civicrm_data.tpl
@@ -1238,7 +1238,7 @@ msgstr "Adres"
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php xml/templates/civicrm_data.tpl
 msgid "Street Address"
-msgstr "Straatadres en nummer"
+msgstr "Straat en huisnummer"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -2781,7 +2781,7 @@ msgstr "Het data type '%1' is bewaard."
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Settings - Site Preferences"
-msgstr "Instellingen - Site voorinstellingen"
+msgstr "Instellingen - Site voorkeuren"
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Viewing Contacts"
@@ -2888,19 +2888,16 @@ msgid "Settings - Localization"
 msgstr "Instellingen - Localisatie"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Language"
-msgstr "Standaardwaarde"
+msgstr "Standaard Taal"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available Languages"
-msgstr "Beschikbare landen"
+msgstr "Beschikbare talen"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Add Language"
-msgstr "Gebruikerstaal"
+msgstr "Taal toevoegen"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid ""
@@ -2909,24 +2906,26 @@ msgid ""
 "database, so make sure you know what you are doing when enabling this "
 "function; making a database backup is strongly recommended."
 msgstr ""
+"Waarschuwing: In CiviCRM 2.1 is dit een nog niet stabiele functionaliteit. "
+"Bij inschakelen van meerdere talen wordt uw databaseschema gewijzigd, dit "
+"kan niet ongedaan gemaakt worden. Het maken van een backup is dus aan te "
+"bevelen als U deze functie wilt gebruiken."
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Enable Multiple Languages"
-msgstr ""
+msgstr "Inschakelen gebruik meerdere talen"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Monetary Locale"
 msgstr "Locaal muntstelsel"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Amount Display"
-msgstr "Toon muntstelsel"
+msgstr "Wijze tonen geldbedragen"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Value Display"
-msgstr "Toon muntstelsel"
+msgstr "Wijze tonen valuta"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available Countries"
@@ -2950,11 +2949,11 @@ msgstr "Legacy Encoding"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Custom Translate Function"
-msgstr ""
+msgstr "Eigen vertaalfunctie"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Import / Export Field Separator"
-msgstr ""
+msgstr "Import / export scheidingsteken"
 
 #: CRM/Admin/Form/Setting/Localization.php
 #, fuzzy
@@ -3056,7 +3055,7 @@ msgstr "Specifieke templates"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Custom PHP Path Directory"
-msgstr ""
+msgstr "PHP bestanden"
 
 #: CRM/Admin/Form/Setting/Path.php
 #, fuzzy
@@ -3078,9 +3077,8 @@ msgid "Sendmail"
 msgstr "Stuur e-mail"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Disable Outbound Email"
-msgstr "Optie waarde uitschakelen"
+msgstr "Geen uitgaande e-mail"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 #, fuzzy
@@ -3122,9 +3120,8 @@ msgid "SMTP Password"
 msgstr "SMTP Wachtwoord"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Save & Send Test Email"
-msgstr "E-mail versturen"
+msgstr "Opslaan & verzend test e-mail"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
@@ -3132,17 +3129,18 @@ msgid ""
 msgstr ""
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid ""
 "Cannot send a test email because your user record does not have a valid "
 "email address."
-msgstr "Uw gebruikers record heeft geen geldig e-mailadres"
+msgstr ""
+"U kunt geen test e-mail versturen omdat uw gebruikers record geen geldig "
+"e-mailadres heeft."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
 "Your %1 settings are correct. A test email has been sent to your email "
 "address."
-msgstr ""
+msgstr "Uw %1 instellingen zijn correct. Een test e-mail is naar U verstuurd."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Oops. Your %1 settings are incorrect. No test mail has been sent."
@@ -3635,9 +3633,8 @@ msgid "Tagged %1"
 msgstr "Gemarkeerd %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Name or Email "
-msgstr "Namen met e-mail"
+msgstr "Naam of E-mail"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name like"
@@ -3664,14 +3661,12 @@ msgid "Changed by"
 msgstr "Gewijzigd door"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Activity with"
-msgstr "Datum activiteit"
+msgstr "Activiteit met"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Activity created by"
-msgstr "Datum activiteit"
+msgstr "Activiteit aangemaakt door"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
@@ -3684,14 +3679,12 @@ msgid "Find Test Activities"
 msgstr "Zoek testdeelnemers?"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Relationship - Active"
-msgstr "Relatie van A naar B"
+msgstr "Relatie - Actief"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Relationship - Inactive"
-msgstr "Relatie van A naar B"
+msgstr "Relatie - Inactief"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -3790,43 +3783,36 @@ msgid "Job Title"
 msgstr "Functie"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Startdatum"
+msgstr "Geboortedatum"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
+msgstr "Is overleden"
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Deceased Date"
 msgstr "Overlijdingsdatum"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Deceased Date"
-msgstr "Datum van overlijden"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "SIC code"
+msgstr "Sic Code"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Unique ID (OpenID)"
-msgstr "Unieke getrackte openingen"
+msgstr "Unieke ID (OpenID)"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Formaat"
+msgstr "Formeel"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Informeel"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
-msgstr "Voorvoegsel erelid"
+msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3834,54 +3820,44 @@ msgid "Custom"
 msgstr "Aangepast"
 
 #: CRM/Contact/DAO/Group.php
-#, fuzzy
 msgid "Cache Date"
-msgstr "Wijzigingsdatum"
+msgstr ""
 
 #: CRM/Contact/DAO/Group.php
-#, fuzzy
 msgid "Parents"
-msgstr "Ouder van"
+msgstr "Ouders"
 
 #: CRM/Contact/DAO/Group.php
-#, fuzzy
 msgid "Children"
-msgstr "Kind van"
+msgstr "Kinderen"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Naam"
+msgstr "Naam A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Naam"
+msgstr "Naam B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
-msgstr "Ingediend door"
+msgstr "Ingevulde waarden"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Tracking"
-msgstr "URL tracking"
+msgstr "Tracking"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Website"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API URL"
+msgstr "API "
 
 #: CRM/Contact/Form/AddContact.php
-#, fuzzy
 msgid "Select Contact"
-msgstr "Verwijder contact"
+msgstr "Selecteer contact"
 
 #: CRM/Contact/Form/Address.php xml/templates/civicrm_data.tpl
 msgid "Addt'l Address 1"
@@ -4254,9 +4230,8 @@ msgid "Demographics"
 msgstr "Demografie"
 
 #: CRM/Contact/Form/Search/Basic.php
-#, fuzzy
 msgid "Name or Email"
-msgstr "Namen met e-mail"
+msgstr "Naam of E-mail"
 
 #: CRM/Contact/Form/Search/Basic.php
 #, fuzzy
@@ -4327,9 +4302,8 @@ msgid "- default view -"
 msgstr "- standaard -"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Include contacts who have these privacy option(s)."
-msgstr "Contacten <strong>uitsluiten</strong> met deze privacy optie(s)."
+msgstr "Inclusief contacten met deze privacy optie(s)."
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
@@ -4353,29 +4327,24 @@ msgid "Activity Dates - From"
 msgstr "Datum activiteit - van"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Created by"
 msgstr "Aangemaakt door"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Assigned to"
-msgstr "Toewijzen aan"
+msgstr "Toegewezen aan"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Role and Name"
-msgstr "Contact telefoon"
+msgstr "Contact rol en naam"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Contact pagina"
+msgstr "Contactnaam"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Find Test Activities?"
-msgstr "Zoek testdeelnemers?"
+msgstr "Zoek testactiviteiten?"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Modified By"
@@ -4390,12 +4359,10 @@ msgid "Target Contact"
 msgstr "Doel contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Active "
 msgstr "Actief"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Inactive "
 msgstr "Inactief"
 
@@ -4405,9 +4372,8 @@ msgid "Relationship Status"
 msgstr "Relaties"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Birth Dates - From"
-msgstr "Startdatum - Vanaf"
+msgstr "Geboortedatum - Vanaf"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -5530,38 +5496,32 @@ msgid "Street Number Predirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
-msgstr "Set naam"
+msgstr "Straatnaam"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Vriend type"
+msgstr "Straattype"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Frequentie"
+msgstr "Straatdeel"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Straatadres en nummer"
+msgstr "Extra straat en huisnummer 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Straatadres en nummer"
+msgstr "Extra straat en huisnummer 2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Straatadres en nummer"
+msgstr "Extra straat en huisnummer 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
@@ -5619,9 +5579,8 @@ msgid "Ndd Prefix"
 msgstr "Voorvoegsel"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Bijdrage"
+msgstr "Land afkorting"
 
 #: CRM/Core/DAO/Currency.php
 #, fuzzy
@@ -5809,7 +5768,7 @@ msgstr ""
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
 #: CRM/Core/DAO/File.php
 #, fuzzy
@@ -6105,9 +6064,8 @@ msgid "Address Options"
 msgstr "Adres instellingen"
 
 #: CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Address Format"
-msgstr "Adres opmaak"
+msgstr "Adres formaat"
 
 #: CRM/Core/DAO/Preferences.php
 #, fuzzy
@@ -6134,9 +6092,8 @@ msgid "State Abbreviation"
 msgstr ""
 
 #: CRM/Core/DAO/Timezone.php
-#, fuzzy
 msgid "Abbreviation"
-msgstr "Duur"
+msgstr "Afkorting"
 
 #: CRM/Core/DAO/Timezone.php
 msgid "Gmt"
@@ -6259,7 +6216,7 @@ msgstr "Selecteer %1"
 
 #: CRM/Core/Form.php
 msgid "Please enter the Street Address for %1."
-msgstr "Vul het straatadres in van %1."
+msgstr "Vul de straat en het huisnummer van %1 in."
 
 #: CRM/Core/Form.php
 msgid "Additional Address 1"
@@ -6645,9 +6602,8 @@ msgid "Do not trade"
 msgstr "Communicatie stop!!"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "- any contact type -"
-msgstr "- alle contacten -"
+msgstr "- alle contacttypes -"
 
 #: CRM/Core/SelectValues.php
 msgid "day"
@@ -6757,7 +6713,7 @@ msgstr "Deelnemers"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
 msgid "Pledges"
-msgstr ""
+msgstr "Borgstellingen"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
 msgid "Grants"
@@ -7529,7 +7485,7 @@ msgstr "Groepsbeheer"
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
-msgstr "Groep verwijderen bevestigd"
+msgstr "Groep verwijderen bevestigen"
 
 #: CRM/Group/Form/Edit.php
 msgid "Group Settings: %1"
@@ -7615,9 +7571,8 @@ msgid "Description of new group"
 msgstr "Beschrijving van de nieuwe groep"
 
 #: CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Add imported records to existing group(s)"
-msgstr "Koppel nieuwe contacten aan bestaande groep(en)"
+msgstr "Voeg geïmporteerde records toe aan bestaande groep(en)"
 
 #: CRM/Import/Form/Preview.php templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
@@ -7633,7 +7588,7 @@ msgstr "Markering '%1' bestaat al."
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
-msgstr "Deze records zijn vervangen door de geimporteerde gegevens"
+msgstr "Deze records zijn vervangen door de geïmporteerde gegevens"
 
 #: CRM/Import/Form/UploadFile.php
 msgid "Lookup mapping info during import?"
@@ -8933,7 +8888,7 @@ msgid ""
 "&raquo; Settings) to be included in this list."
 msgstr ""
 "Kies de groep contacten die deze rol krijgt als ze inloggen op uw site. "
-"Groepen moeten gekoppeld zijn met het 'Access Control' type (Groepsbeheer "
+"Groepen moeten gekoppeld zijn met het 'Toegangscontrole' type (Groepsbeheer "
 "&raquo; Instellingen) om in deze lijst te staan."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -8951,7 +8906,7 @@ msgstr ""
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Group/Form/Edit.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Opens online documentation in a new window."
-msgstr "Open online dokumentatie in een nieuw venster."
+msgstr "Opent online documentatie in een nieuw venster."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -8966,8 +8921,8 @@ msgstr ""
 "<strong>Bewerking</strong> (b.v. 'Toon' of 'Wijzig'), een <strong>aantal "
 "gegevens</strong> waarmee wordt gewerkt (b.v. een contactgroep, een profiel "
 "of een set specifieke velden) en een <strong>Rol</strong> die toegang heeft "
-"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Access Control Documentation</a> voor meer informatie."
+"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Toegangscontrole documentatie</a> voor meer informatie."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -9004,8 +8959,8 @@ msgstr ""
 "<strong>Bewerking</strong> (b.v. 'Toon' of 'Wijzig'), een <strong>aantal "
 "gegevens</strong> waarmee wordt gewerkt (b.v. een contactgroep, een profiel "
 "of een set specifieke velden) en een <strong>Rol</strong> die toegang heeft "
-"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Access Control Documentation</a> voor meer informatie."
+"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Toegangscontrole documentatie</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -9166,7 +9121,7 @@ msgid ""
 "CiviCRM. Review the totals to ensure that they represent your expected "
 "results."
 msgstr ""
-"De informatie hieronder is een voorvertoning van de importslag naar CiviRM. "
+"De informatie hieronder is een voorvertoning van de importslag naar CiviCRM. "
 "Bekijk de totalen om de resultaten te controleren."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
@@ -9199,7 +9154,7 @@ msgstr ""
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Click 'Import Now' if you are ready to proceed."
-msgstr "Klik op 'Nu importeren' als u wilt importeren. "
+msgstr "Klik op 'Importeer nu' als u wilt importeren. "
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
@@ -9210,7 +9165,7 @@ msgstr "Aantal rijen"
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Total rows (activity records) in uploaded file."
-msgstr "Totaal aantal rijen (activiteiten) in de geimporteerde file."
+msgstr "Totaal aantal rijen (activiteiten) in de geïmporteerde file."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -9408,11 +9363,11 @@ msgstr "Download duplicaten"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Records Imported"
-msgstr "Geimporteerde records"
+msgstr "Geïmporteerde records"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid "Rows imported successfully."
-msgstr "Succesvol geimporteerde rijen."
+msgstr "Succesvol geïmporteerde rijen."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #, fuzzy
@@ -9800,11 +9755,11 @@ msgstr "Wijzig datum instelling"
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Site Preferences"
-msgstr "Site voorinstellingen"
+msgstr "Site voorkeuren"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid "View Site Preferences"
-msgstr "Toon site voorinstellingen"
+msgstr "Toon site voorkeur instellingen"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9858,7 +9813,7 @@ msgstr ""
 msgid ""
 "Select the HTML WYSIWYG Editor provided for fields that allow HTML "
 "formatting."
-msgstr ""
+msgstr "Kies de HTML WYSIWYG editor."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -9996,7 +9951,7 @@ msgstr "Taal en valuta"
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Default language used for this installation."
-msgstr ""
+msgstr "Standaard taal in deze installatie."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Languages available to users of this installation."
@@ -10029,6 +9984,8 @@ msgid ""
 "Function name to use for translation inplace of the default CiviCRM "
 "translate function. "
 msgstr ""
+"Functienaam voor het vertalen indien niet de standaard CiviCRM functie "
+"gebruikt wordt."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -10046,6 +10003,8 @@ msgid ""
 "global CSV-Seperator to enable import and export of different kinds of CSV-"
 "files ( For example: ',' ';' ':' '|' )."
 msgstr ""
+"CSV-scheidingsteken bij import en export van verschillende type CSV-"
+"bestanden (Vb:  ',' ';' ':' '|' )."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Contact Address Fields - Selection Values"
@@ -10078,7 +10037,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid "Multiple Languages Support"
-msgstr ""
+msgstr "Ondersteuning meerdere talen"
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -10086,12 +10045,16 @@ msgid ""
 "compared to regular installations of CiviCRM. Please <a href=\"%1\">refer to "
 "the documentation</a> for details."
 msgstr ""
+"Dit is een meertalige installatie. Het schema is daarvoor gewijzigd. <a "
+"href=\"%1\">Toelichting.</a>"
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
 "Check this box and click 'Save' to switch this installation from single- to "
 "multi-language, then add further languages."
 msgstr ""
+"Vink dit veld aan en druk op 'Save' om om te schakelen naar een meertalen-"
+"installatie, voeg daarna andere talen toe."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -10176,15 +10139,13 @@ msgid "Enter your Google API Key OR your Yahoo Application ID."
 msgstr "Voer uw Google API sleutel of Yahoo applicatie ID in."
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
-#, fuzzy
 msgid ""
 "If enabled, CiviCRM automatically checks availablity of a newer version of "
 "the software. New version alerts will be displayed on the main CiviCRM "
 "Administration page."
 msgstr ""
-"Wilt u dat CiviCRM automatisch een controle uitvoerd op de beschikbaarheid "
-"van een nieuwe softwareversie? Indien aangezet zal op de CiviCRM beheer  "
-"pagina de nieuwe versie melding worden getoond."
+"Wilt u dat CiviCRM automatisch kijkt of er een nieuwe softwareversie is? "
+"(Dit wordt gemeld op de  CiviCRM beheer  pagina.)"
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -10291,11 +10252,10 @@ msgid ""
 msgstr "Directory waar de eventueel te gebruiken templates worden bewaard."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
-#, fuzzy
 msgid ""
 "Path where site specific PHP code files are stored if any. This directory is "
 "searched first if set."
-msgstr "Directory waar de eventueel te gebruiken templates worden bewaard."
+msgstr "Pad waar specifieke PHP wordt bewaard (indien aanwezig). "
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid ""
@@ -10309,6 +10269,13 @@ msgid ""
 "using Online Contribution pages or online Event Registration - you will need "
 "to disable automated receipts and registration confirmations."
 msgstr ""
+"Als U e-mail gaat versturen naar contacten, dan dient de SMTP of Sendmail "
+"server ingesteld te worden. U kunt de instellingen controleren door te "
+"drukken op de knop \"Opslaan & verzend test e-mail\". Raadpleeg indien nodig "
+"uw systeembeheerder, ISP of provider voor de juiste instellingen.\n"
+"U kunt instellen dat de gebruikers geen e-mail mogen versturen, dan kunt U "
+"geen automatische ontvangs- en registratiebevestigingen gebruiken in "
+"Bijdragepagina's en bij de evenementregstratie."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 #, fuzzy
@@ -10348,7 +10315,7 @@ msgstr "Stuur bevestiging"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Enter the Sendmail Path. EXAMPLE: /usr/sbin/sendmail"
-msgstr ""
+msgstr "Voer het Sendmail Path in (Vb: /usr/sbin/sendmail)"
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "These settings define the CMS variables that are used with CiviCRM."
@@ -10464,12 +10431,13 @@ msgid ""
 "Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not "
 "related to the Drupal Role."
 msgstr ""
-"ACL's (Access Control Lists) beheren  de toegang tot CiviCRM gegevens. Een "
-"ACL bestaat uit een <strong>Bewerking</strong> (vb.: 'Toon' of 'Wijzig'), de "
-"<strong>gegevens</strong> die kan worden bewerkt (vb.: een contactgroep) en "
-"een <strong>Rol</strong> die de bevoegdheid vastlegd. Zie de <a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">Access Control Documentation</a> voor meer "
-"informatie. Een CiviCRM ACL Rol heeft geen relatie met een Drupal Rol."
+"ACL's (Access Control Lists, Toegangscontrolelijsten) beheren  de toegang "
+"tot CiviCRM gegevens. Een ACL bestaat uit een <strong>Bewerking</strong> "
+"(vb.: 'Toon' of 'Wijzig'), de <strong>gegevens</strong> die kan worden "
+"bewerkt (vb.: een contactgroep) en een <strong>Rol</strong> die de "
+"bevoegdheid vastlegd. Zie de <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Toegangscontrole documentatie</a> voor meer informatie. Een "
+"CiviCRM ACL Rol heeft geen relatie met een Drupal Rol."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -10506,7 +10474,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Drupal Access Control"
-msgstr "Drupal toegang tot inhoud"
+msgstr "Drupal toegangscontrole"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -10614,14 +10582,13 @@ msgid "Merge %1 with"
 msgstr "Voeg %1 samen met"
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
-#, fuzzy
 msgid ""
 "Manage the rules used to identify potentially duplicate contact records. "
 "Scan for duplicates using a selected rule and merge duplicate contact data "
 "as needed."
 msgstr ""
-"Regels die potentiële duplicaten van contacten identificeert en "
-"geimporteerde gegevens vergelijkt met de bestaande contacten."
+"Beheren van de regels die potentiële duplicaten van contacten identificeert "
+"en geïmporteerde gegevens vergelijkt met de bestaande contacten."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 #, fuzzy
@@ -11028,16 +10995,17 @@ msgstr ""
 msgid ""
 "Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant and/or "
 "CiviMail components."
-msgstr "Inschakelen CiviContribute, CiviEvent, CiviMember en/of CiviMail."
+msgstr ""
+"Inschakelen CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant "
+"en/of CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid ""
 "Configure screen and form elements for Viewing Contacts, Editing Contacts, "
 "Advanced Search, Contact Dashboard and WYSIWYG Editor."
 msgstr ""
-"Deel schermen en formulieren in voor het tonen en wijzigen van contacten, "
-"geavanceerd zoeken en het contacten overzicht."
+"Instellen schermen en formulieren voor het tonen en wijzigen van contacten, "
+"geavanceerd zoeken, contacten overzicht en de WYSIWYG editor."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Directories"
@@ -11060,19 +11028,19 @@ msgid ""
 "URLs used to access CiviCRM resources (CSS files, Javascript files, images, "
 "etc.). Enable secure URLs."
 msgstr ""
-"URL's om toegang te verkrijgen tot CiviCRM bronnen (CSS- javascript-, "
-"afbeeldingsbestanden). Schakel veilige URL's in."
+"URL's om toegang te verkrijgen tot CiviCRM bronnen (CSS,  javascript,  "
+"afbeeldingen). Schakel veilige URL's in."
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Outbound Email (SMTP/Sendmail)"
-msgstr "Uitgaande e-mail (SMTP)"
+msgstr "Uitgaande e-mail (SMTP/Sendmail)"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Settings for outbound email. SMTP server, port and authentication. Or "
 "SENDMAIL path and argument."
 msgstr ""
+"Instellingen voor uitgaande e-mail (SMTP, poort, authenticatie, SENDMAIL)."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -11137,12 +11105,12 @@ msgid "Miscellaneous Settings"
 msgstr "Overige instellingen."
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid ""
 "Enable Version Checking, configure Contact Search behavior, and configure "
 "optional reCAPTCHA feature to prevent automated abuse of public forms."
 msgstr ""
-"Versie check toestaan en het instellen van CAPTCHA voor profiel formulieren."
+"Versiecontrole toestaan, instellen zoeken contacten en het instellen van "
+"CAPTCHA."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
@@ -11813,11 +11781,11 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Criteria/Activity.tpl
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Complete OR partial Contact Name."
-msgstr "Volledig OF gedeelte van een contactnaam"
+msgstr "Volledige OF gedeeltelijke contactnaam."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Complete OR partial Email Address."
-msgstr "Volledig of gedeelte van een e-mail adres."
+msgstr "Volledige OF gedeeltelijk E-mail adres."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Does the contact have a %1 Account?"
@@ -11829,12 +11797,12 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
-"Zoeken op lokatie gebruikt de primaire lokatie van elk contact. Om per "
-"locatie type te zoeken, selecteer dan de knoppen hierboven."
+"Standaard wordt op primaire lokatie  gezocht. U kunt op type(s) zoeken met "
+"de knoppen hierboven."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
-msgstr "Volledig of gedeelte van een contactnaam."
+msgstr "Volledige OF gedeeltelijke contactnaam."
 
 #: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/EventDetails.tpl
@@ -12748,7 +12716,6 @@ msgid "Explanatory text displayed to users for this field."
 msgstr "Verklarende tekst voor dit veld die getoond wordt aan gebruikers."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Can you search on this field in the Advanced and component search forms? "
 "NOTE: This feature is available to custom fields used for <strong>Contacts</"
@@ -12758,8 +12725,9 @@ msgid ""
 msgstr ""
 "Is dit veld opgenomen in het uitgebreide en samenstellend zoekformulier? "
 "OPMERKING: deze optie is beschikbaar voor specifieke velden voor "
-"<strong>Contacten</strong>, en <strong>leden</strong> en <strong>deelnemers "
-"van evenementen</strong>."
+"<strong>Contacten</strong>, <strong>Bijdragen</strong>, "
+"<strong>Leden</strong>, <strong>Borgstellingen</strong>, en "
+"<strong>deelnemers van evenementen</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -13275,6 +13243,8 @@ msgid ""
 "Group description is displayed when groups are listed in Profiles and "
 "Mailing List Subscribe forms."
 msgstr ""
+"Groepsbeschrijving wordt getoond als de groep in profielen of in "
+"mailinglijsten voorkomt. "
 
 #: templates/CRM/Group/Form/Edit.tpl
 #, fuzzy
@@ -13365,9 +13335,8 @@ msgstr ""
 "originele bestand, stop deze importsessie, en begin weer bij stap 1."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total number of rows in the uploaded file."
-msgstr "Aantal rijen (contact records) in het ge-uploaded bestand"
+msgstr "Aantal rijen in het ge-uploaded bestand."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13387,9 +13356,8 @@ msgstr ""
 "rijen worden niet opgeslagen (niet geimporteerd)."
 
 #: templates/CRM/Import/Form/Preview.tpl
-#, fuzzy
 msgid "Add imported records to a new group"
-msgstr "Voeg contacten aan een groep toe"
+msgstr "Voeg geïmporteerde records toe  aan een nieuwe groep"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Create a new tag and assign it to imported records"

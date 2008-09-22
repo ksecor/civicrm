@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-04-08 11:34-0700\n"
+"PO-Revision-Date: 2008-09-19 07:04-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
-#, fuzzy
 msgid ""
 "Files to be imported must be in the 'comma-separated-values' format (CSV). "
 "Most applications will allow you to export records in this format. Consult "
@@ -192,7 +191,6 @@ msgstr ""
 "meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-#, fuzzy
 msgid ""
 "<strong>CiviPledge</strong> - Record and track pledges received from "
 "contributors. Send pledge acknowledgements and payment reminders. Configure "
@@ -200,10 +198,9 @@ msgid ""
 "payments. Refer to the <a href='%1' target='_blank'>CiviPledge "
 "documentation</a> for more info."
 msgstr ""
-"<strong>CiviMember</strong> -  Een flexibel lidmaatschap beheerssysteem "
-"voorzien van unieke online inschrijf- en "
-"lidmaatschapverlengingsmogelijkheden. Zie de <a href='%1'  "
-"target='_blank'>CiviMember Guide</a> voor meer informatie."
+"<strong>CiviPledge</strong> -  Vastleggen en volgen van borgstellingen van "
+"contributanten. Verstuur bevestiging en betalingsherinnering. Zie de <a "
+"href='%1'  target='_blank'>CiviPledge documentatie</a>."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -587,22 +584,20 @@ msgstr ""
 "weergegeven in uw account  <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr ""
-"URL PayPal's productie server. Gebruik als PayPal niet anders aangeeft, de "
-"defaultwaarde."
+"De URL van PayPal's productie server. Gebruik de defaultwaarde als PayPal "
+"niet anders aangeeft."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's LIVE API gateway server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr ""
-"URL PayPal's productie server. Gebruik als PayPal niet anders aangeeft, de "
-"defaultwaarde."
+"De URL van PayPal's productie gateway server. Gebruik de deaultwaarde als "
+"PayPal niet anders aangeeft."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -659,18 +654,16 @@ msgstr ""
 "Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr "De URL van de testserver van PayPal. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's TEST API gateway server. Use the default value (unless "
 "otherwise advised by PayPal):"
-msgstr "De URL van de testserver van PayPal. "
+msgstr "De URL van de test API gatewayserver van PayPal. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Merchant Account Email Address:"
@@ -973,9 +966,8 @@ msgstr ""
 "instelt. U kunt elke waarde invullen voor gebruikersnaam en Site URL."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "eWAY CustomerID (TEST account):"
-msgstr "Store ID (productie account)"
+msgstr "eWAY CustomerID (test account)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -996,9 +988,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "eWAY CustomerID (LIVE account):"
-msgstr "Store ID (productie account)"
+msgstr "eWAY CustomerID (productie account)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -1033,9 +1024,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Payment Express UserID (LIVE account):"
-msgstr "Store ID (productie account)"
+msgstr "Express UserID (productie account)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "This is the live user name provided to you by DPS/Payment Express."
@@ -1049,7 +1039,7 @@ msgstr ""
 
 #: templates/CRM/common/accesskeys.hlp
 msgid "Use the following key combinations for:"
-msgstr ""
+msgstr "De volgende toetscombinaties zijn beschikbaar:"
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -1139,16 +1129,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
-#, fuzzy
 msgid ""
 "Use <strong>&#37;</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
 "'Volunteer&#37;' as your Activity Type to match any activity whose type is "
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
-"Gebruik de <strong>%</strong> wildcard voor de u onbekende tekstgedeeltes. "
-"Voorbeeld: voer 'Vrijwilliger%' in bij activiteiten type om te zoeken naar "
-"alle activiteiten die beginnen met 'Vrijwilliger' (bijv.: Vrijwilligers voor "
-"open huis)."
+"Gebruik de <strong>%#37;</strong> wildcard(s) voor de u onbekende "
+"tekstgedeeltes. Voorbeeld: voer 'Vrijwilliger%#37;' in bij activiteiten type "
+"om te zoeken naar alle activiteiten die beginnen met 'Vrijwilliger' (bijv.: "
+"Vrijwilligers voor open huis)."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
 msgid ""
@@ -1442,16 +1431,15 @@ msgstr ""
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-#, fuzzy
 msgid ""
 "Include the data fields used for contact 'matching' based on your configured "
 "<strong>Strict Duplicate Matching</strong> rules. For the default duplicate "
 "matching rules, you would include a column in each row with the "
 "contributors' Email Address."
 msgstr ""
-"Voeg in het invoerbestand de velden van het contact toe, die gebruikt worden "
-"in de  <strong>contact overeenkomstsregel</strong>. Normaal zijn dit de "
-"voornaam, achternaam en e-mailadres."
+"Voeg de velden van het contact toe, die gebruikt worden in de  "
+"<strong>contact overeenkomstsregel</strong>. Normaal zijn dit de voornaam, "
+"achternaam en e-mailadres."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 msgid ""
