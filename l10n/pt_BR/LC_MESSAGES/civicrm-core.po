@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2007-12-06 01:26-0800\n"
-"Last-Translator: André Cymbalista <andrecymb@yahoo.com>\n"
+"PO-Revision-Date: 2008-09-21 12:58-0700\n"
+"Last-Translator: annirossi <annirossi@hotmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,7 +166,7 @@ msgstr "Todos os Perfis"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Todos os Eventos"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -298,7 +298,7 @@ msgstr "Assunto"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Data inicial"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -391,7 +391,7 @@ msgstr "Status"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Adicionado por"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -602,7 +602,7 @@ msgstr "Faltando campos obrigatórios"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Linha Número"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
@@ -683,7 +683,7 @@ msgstr "Rótulo"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "é um campo numérico"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Friend/BAO/Friend.php templates/CRM/Admin/Page/OptionValue.tpl
@@ -768,7 +768,7 @@ msgstr "Definições - URLs de Recursos"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Customizar"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -934,7 +934,7 @@ msgstr "Bairro"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "World Region"
-msgstr ""
+msgstr "Região do Mundo"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1000,7 +1000,7 @@ msgstr "Estado / UF"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "primeiro escreva  letra(s)"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
@@ -1259,7 +1259,7 @@ msgstr "Endereço"
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr ""
+msgstr "Correspondência"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1273,12 +1273,12 @@ msgstr "ID de Contato"
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Count"
-msgstr ""
+msgstr "Contador de Doações"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Amount"
-msgstr ""
+msgstr "Total da Doação"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -1499,12 +1499,12 @@ msgstr "Não encontrada sua ID de usuário logado"
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #, fuzzy
 msgid "Membership Type"
-msgstr "Afiliação"
+msgstr "Tipo de Afiliação"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #, fuzzy
 msgid "Membership Status"
-msgstr "Afiliações"
+msgstr "Status da Afiliação"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1525,11 +1525,11 @@ msgstr ""
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "Nova Atividade"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
-msgstr ""
+msgstr "Sair"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
@@ -1538,7 +1538,7 @@ msgstr ""
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Conte aos amigos"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -1546,7 +1546,7 @@ msgstr "Página de Informação de Dominio"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Map Event Location"
-msgstr ""
+msgstr "Mapa do Local do Evento"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -1580,12 +1580,12 @@ msgstr "Selecionar Template"
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Find Duplicate Contacts"
-msgstr "Para Contatos Duplicados"
+msgstr "Localizar Contatos Duplicados"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Duplicate Contact Rules"
-msgstr "Para Contatos Duplicados"
+msgstr "Regras para Contatos Duplicados"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -1600,11 +1600,11 @@ msgstr ""
 #: templates/CRM/Price/Form/Field.tpl
 #, fuzzy
 msgid "Price Field"
-msgstr "Editar Campo"
+msgstr "Campo Preço"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Fixar Preço"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -1613,7 +1613,7 @@ msgstr "Gerenciar Grupos"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Conte aos amigos"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -1681,7 +1681,7 @@ msgstr "Rótulo de Campo"
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Order"
-msgstr ""
+msgstr "Pedido"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
@@ -1700,7 +1700,7 @@ msgstr "Opções Por Linha"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "precisa ser um número"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -1792,7 +1792,7 @@ msgstr "Data em foi recebido"
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Money Transferred"
-msgstr "Fone preferencial"
+msgstr "Valor Transferido"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
@@ -1842,7 +1842,7 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Database consistency check failed for step %1."
-msgstr ""
+msgstr "Consistência do Banco de Dados falhou passo %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
@@ -1881,31 +1881,31 @@ msgstr "Administrar"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "Adicionar contatos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "ver todos os contatos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "editar todos os contatos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "importar contatos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "editar grupos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administrar CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "acesso ao envio de arquivos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
