@@ -116,4 +116,11 @@
      <access_arguments>access CiviContribute</access_arguments>
      <weight>0</weight>
   </item>
- </menu>
+  <item>
+     <path>civicrm/contribute/campaign</path>
+     <title>Account Creation Screen</title>
+     <page_callback>CRM_Contribute_Controller_PCP</page_callback>
+     <access_arguments>access CiviContribute</access_arguments>
+     <weight>0</weight>
+  </item>
+  </menu>
