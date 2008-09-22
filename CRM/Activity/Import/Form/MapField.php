@@ -216,11 +216,11 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
 
             //get loaded Mapping Fields
-            $mappingName        = $mappingName[1];
-            $mappingContactType = $mappingContactType[1];
-            $mappingLocation    = $mappingLocation[1];
-            $mappingPhoneType   = $mappingPhoneType[1];
-            $mappingRelation    = $mappingRelation[1];
+            $mappingName        = CRM_Utils_Array::value( '1', $mappingName        );
+            $mappingContactType = CRM_Utils_Array::value( '1', $mappingContactType );
+            $mappingLocation    = CRM_Utils_Array::value( '1', $mappingLocation    );
+            $mappingPhoneType   = CRM_Utils_Array::value( '1', $mappingPhoneType   );
+            $mappingRelation    = CRM_Utils_Array::value( '1', $mappingRelation    );
            
             $this->assign('loadedMapping', $savedMapping);
 
@@ -376,7 +376,8 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      */
     static function formRule( &$fields ) 
     {
-        $errors  = array( );
+        $errors       = array( );
+        $fieldMessage = null;
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
