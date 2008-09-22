@@ -1,0 +1,97 @@
+<?php
+
+function compare($query, &$pie = '', $skipCurrent = true) {
+    $compares = array();
+    $result = mysql_query($query);
+    while ($row = mysql_fetch_object($result)) {
+        if ($skipCurrent and $row->year == date('Y') and $row->month == date('m')) continue;
+        $data["{$row->month} {$row->year}"][$row->compare] = $row->data;
+        $compares[] = $row->compare;
+    }
+    $compares = array_unique($compares);
+
+    foreach ($data as $label => $values) {
+        foreach ($values as $compare => $value) {
+            $data[$label][$compare] = $value / array_sum($values) * 100;
+        }
+    }
+
+    $lines = array();
+    foreach (array_keys($data) as $label) {
+        $rolling = 0;
+        foreach ($compares as $compare) {
+            $rolling += $data[$label][$compare];
+            $lines[$compare][$label] = $rolling;
+        }
+    }
+
+    foreach ($lines as $line => $values) $lines[$line] = implode(',', $values);
+
+    $colours = array();
+    while (count($colours) < count($compares)) {
+        $colours[] = str_pad(dechex(rand(0, 16777215)), 6, '0', STR_PAD_LEFT);
+    }
+
+    $fill = array();
+    foreach ($colours as $i => $colour) {
+        $j = $i + 1;
+        $fill[] = "b,$colour,$i,$j,0";
+    }
+
+    $params = array(
+        'chs'  => '600x200',
+        'cht'  => 'lc',
+        'chd'  => 't:0,0|' . implode('|', $lines),
+        'chm'  => implode('|', $fill),
+        'chco' => '00000000',
+        'chxt' => 'x,y',
+        'chxl' => '0:|' . implode('|', array_keys($data)) . '|1:|0%|25%|50%|100%',
+    );
+
+    $url = 'http://chart.apis.google.com/chart?';
+    foreach ($params as $key => $value) $url .= "&amp;{$key}={$value}";
+
+
+    $last = array_pop($data);
+
+    $labels = array();
+    foreach ($last as $label => $value) $labels[] = "$label (" . round($value) . "%)";
+
+    $params = array(
+        'chs'  => '600x200',
+        'cht'  => 'p',
+        'chd'  => 't:' . implode(',', $last),
+        'chl'  => implode('|', $labels),
+        'chco' => implode(',', $colours),
+    );
+
+    $pie = 'http://chart.apis.google.com/chart?';
+    foreach ($params as $key => $value) $pie .= "&amp;{$key}={$value}";
+
+    return $url;
+}
+
+function trend($query, $skipCurrent = true) {
+    $data   = array();
+    $result = mysql_query($query);
+    while ($row = mysql_fetch_object($result)) {
+        if ($skipCurrent and $row->year == date('Y') and $row->month == date('m')) continue;
+        $data["{$row->month} {$row->year}"] = $row->data;
+    }
+
+    $max = max($data);
+
+    $params = array(
+        'chs'  => '600x200',
+        'cht'  => 'lc',
+        'chd'  => 't:' . implode(',', $data),
+        'chds' => '0,' . $max,
+        'chxt' => 'x,y',
+        'chxl' => '0:|' . implode('|', array_keys($data)) . '|1:|0|' . implode('|', array($max*0.25, $max*0.5, $max*0.75, $max)),
+    );
+
+    $url = 'http://chart.apis.google.com/chart?';
+    foreach ($params as $key => $value) $url .= "&amp;{$key}={$value}";
+    return $url;
+}
+
