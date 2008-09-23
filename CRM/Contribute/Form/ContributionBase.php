@@ -335,12 +335,32 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( $pcpId ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
             require_once 'CRM/Contribute/PseudoConstant.php';
+           
             $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
             $pcpBlock  = CRM_Contribute_BAO_Contribution::getPcpBlock( $pcpId );
+            
+            //start and end date of the contribution page
+            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',$this->_values ) );
+            $endDate   = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date',$this->_values ) );
+            $now       = time( );
+
             if ( $pcpBlock['contribution_page_id'] != $this->_values['id'] ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page Not Releted this contribution page.') );
             } else if ( $pcpBlock['status_id'] != 2 ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpBlock['status_id']] )) );
+            } else if ( ! CRM_Utils_Array::value( 'pcp_enabled', $this->_values ) ) {
+                CRM_Core_Error::fatal( ts('This Personal Campaign Page is disabled.') );
+            } else if ( ( $startDate > $now ) || ( $endDate < $now ) ) {
+                $customStartDate =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'start_date',$this->_values ) );
+                $customEndDate   =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'end_date',$this->_values ) );
+                if ( $startDate && $endDate ) {
+                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page in between %1 to %2.', 
+                                              array( 1 => $customStartDate  , 2 => $customEndDate ) ) );
+                }  else if ( $startDate ) {
+                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page begins on %1.', array( 1 => $customStartDate ) ) );
+                } else {
+                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', ( array( 1 => $customEndDate ) ) ) );
+                } 
             }
             $this->_pcpId    = $pcpId;
             $this->_pcpBlock = $pcpBlock;
