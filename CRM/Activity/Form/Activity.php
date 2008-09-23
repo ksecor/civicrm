@@ -416,9 +416,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::ActivityType( true );
         unset( $this->_activityType[8] );
-        $this->add('select', 'activity_type_id', ts('Activity Type'),
-                   $this->_activityType,
-                   false, array('onchange' => "buildCustomData( this.value );") );
+        $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
+                               $this->_activityType,
+                               false, array('onchange' => "buildCustomData( this.value );") );
+        //freeze for update mode.
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $element->freeze( );
+        }
         
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
