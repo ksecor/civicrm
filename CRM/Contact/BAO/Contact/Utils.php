@@ -274,12 +274,14 @@ UNION
     static function setCurrentEmployer( $currentEmployerParams )
     {
         foreach( $currentEmployerParams as $contactId => $orgId ) {
-            $query .= "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
+            $query = "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
 SET contact_a.employer_id=contact_b.id, contact_a.organization_name=contact_b.organization_name 
 WHERE contact_a.id ={$contactId} AND contact_b.id={$orgId}; ";
+            
+            //FIXME : currently civicrm mysql_query support only single statement
+            //execution, though mysql 5.0 support multiple statement execution.
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );  
         }
-
-        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
     }
 
     /**
