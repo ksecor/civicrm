@@ -8,8 +8,41 @@
 </head>
 <body>
 <h1>CiviCRM usage statistics</h1>
-<p><a href="?">till previous month</a> vs <a href="?current=1">with current month</a></p>
 <?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
 $user = $pass = false;
 require_once 'config.php';
 mysql_connect('localhost', $user, $pass);
@@ -43,6 +76,13 @@ $charts = array(
           'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, lang compare FROM stats GROUP BY year, month, lang ORDER BY year, month',
           'type'  => 'compare'),
 );
+
+switch ($_GET['current']) {
+case false:
+    print '<p><a href="?current=1">include partial data for current month</a></p>'; break;
+case true:
+    print '<p><a href="?">drop partial data for current month</a></p>'; break;
+}
 
 foreach ($charts as $chart) {
     switch ($chart['type']) {
