@@ -51,19 +51,23 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 
     function buildQuickForm( ) 
     {
-        $this->addElement( 'checkbox',
-                           'is_active',
-                           ts( 'Enable Personal Campaign Pages?' ),
-                           null,
-                           array( 'onclick' => "pcpBlock(this)" ) );
-	
-        $this->addElement('checkbox', 'approval_required', ts('Administrator approval required for new Personal Campaign Pages') );
-         
-        $this->addElement('checkbox', 'tell_a_friend', ts("Allow 'Tell a friend' functionality") );
+        CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
+        if ( !empty( $profiles ) ) {
+            foreach ( $profiles as $key => $value ) {
+                $profile[$key] = $value['title'];
+            }
+        }
         
-        $this->add('text', 'max_recipient_limit', ts("'Tell a friend' maximum recipients limit") );
+        $this->addElement( 'checkbox', 'pcp_enabled', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
+	
+        $this->addElement( 'checkbox', 'pcp_inactive', ts('Administrator approval required for new Personal Campaign Pages') );
+         
+        $this->add('select', 'supporter_profile', ts( 'Supporter profile' ), $profile );
+        $this->addElement( 'checkbox', 'pcp_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
+        
+        $this->add( 'text', 'pcp_tellfriend_limit', ts("'Tell a friend' maximum recipients limit") );
 
-        $this->add('text', 'create_pcp', ts("'Create Personal Campaign Page' link text") );
+        $this->add( 'text', 'pcp_link_text', ts("'Create Personal Campaign Page' link text") );
         
         parent::buildQuickForm( );
         $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_PCP', 'formRule') , $this );
@@ -90,8 +94,11 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-        //crm_core_error::Debug('p',$params);
-        //exit();
+
+        $params['id'] = $this->_id;
+        
+        require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
+        $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 
     }
 
     /** 
