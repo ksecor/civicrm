@@ -100,6 +100,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         case 'Settings':
         case 'ThankYou':
         case 'Widget':
+        case 'PCP':
             $form = "CRM_Contribute_Form_ContributionPage_$subPage";
             break;
 
