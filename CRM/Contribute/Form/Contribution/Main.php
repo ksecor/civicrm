@@ -303,7 +303,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
-        
+        if ( $this->_pcpId ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            if ( $pcpSupporter = CRM_Contribute_BAO_Contribution::displayName( $this->_pcpId ) ) {
+                $this->assign( 'pcpSupporterText' , ts('This Personal Campaign Page of <strong>%1</stonrg>.',array(1 => $pcpSupporter ) ) );
+            }
+            $this->assign( 'pcp', true );
+            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly Roll'), null );
+            $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 10 ) );
+            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 2, 'coloums' => 60 ) );
+        }
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['is_monetary']) {

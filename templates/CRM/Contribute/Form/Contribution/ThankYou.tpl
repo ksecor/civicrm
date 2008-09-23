@@ -113,7 +113,16 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
-
+    {if $pcpBlock}
+    <div class="header-dark">
+        {ts}Personal Campaign Page{/ts}
+    </div>
+    <div class="display-block">
+	<strong>Display Roll : </strong> {if $pcp_display_in_roll}Yes<br />{else} No{/if}
+	{if $pcp_roll_nickname}<strong>Nick Name : </strong>{$pcp_roll_nickname}<br />{/if}
+        {if $pcp_personal_note}<strong>Note :</strong> {$pcp_personal_note}<br />{/if}
+   </div>
+    {/if}
     {if $onBehalfName}
     <div class="header-dark">
         {ts}On Behalf Of{/ts}

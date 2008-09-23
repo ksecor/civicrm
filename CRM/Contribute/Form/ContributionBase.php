@@ -312,11 +312,18 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     self::authenticatePledgeUser( );
                 }
             }
-
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-
+        $pcpId = CRM_Utils_Request::retrieve( 'pcpId', 'Positive', $this );
+        if ( $pcpId ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $pcpBlock = CRM_Contribute_BAO_Contribution::getPcpBlock( $pcpId );
+            if($pcpBlock['contribution_page_id'] != $this->_values['id'] ) {
+                CRM_Core_Error::fatal( ts('This Personal Campaign Page Not Releted this contribution page.') );
+            }
+            $this->_pcpId = $pcpId;
+        }
         //set pledge block if block id is set
         if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
             $this->assign( 'pledgeBlock', true );

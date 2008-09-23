@@ -114,6 +114,13 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             $this->assign( 'honor_email', $params["honor_email"] );
         
         }
+        //pcp elements
+        foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+            if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
+                $this->assign( $val, $this->_params[$val]);
+                $this->assign( 'pcpBlock', true);
+            }
+        }
 
         if ( $membershipTypeID ) {
             $transactionID     = $this->get( 'membership_trx_id' );

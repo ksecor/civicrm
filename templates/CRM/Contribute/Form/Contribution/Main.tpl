@@ -68,6 +68,9 @@ function clearAmountOther() {
            </td>
        </tr>
     {/if}
+{if $pcpSupporterText}
+ <tr><td></td><td>{$pcpSupporterText}</td><tr>
+{/if}
     <tr>
 	{assign var=n value=email-$bltID}
         <td class="label">{$form.$n.label}</td>
@@ -98,7 +101,15 @@ function clearAmountOther() {
     {/if}
     
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
-
+{if $pcp}
+ <fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
+      <table class="form-layout-compressed">
+      <tr><td>{$form.pcp_display_in_roll.label}</td><td>{$form.pcp_display_in_roll.html}</td></tr>  
+      <tr><td>{$form.pcp_roll_nickname.label}</td>  <td>{$form.pcp_roll_nickname.html}</td></tr>
+      <tr><td>{$form.pcp_personal_note.label}</td>  <td>{$form.pcp_personal_note.html}</td></tr>
+      </table>
+    </fieldset>
+{/if}
 {if $is_monetary}
 {if $form.credit_card_number}
 <div id="payment_information">
