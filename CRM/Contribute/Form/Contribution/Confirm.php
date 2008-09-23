@@ -334,8 +334,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contactID = $session->get( 'userID' );
 
         // add a description field at the very beginning
-        $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . $this->_values['title'];
-
+        $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . 
+            ( ( $this->_pcpBlock['title'] ) ? $this->_pcpBlock['title'] : $this->_values['title'] );
+        
         // also add accounting code
         $this->_params['accountingCode'] = CRM_Utils_Array::value( 'accountingCode',
                                                                    $this->_values );

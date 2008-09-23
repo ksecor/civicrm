@@ -57,8 +57,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function preProcess()  
     {  
         parent::preProcess( );
-        
-        if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
+
+        if (  CRM_Utils_Array::value( 'id', $this->_pcpBlock )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpBlock ) ) {
+            $this->assign( 'intro_text' , $this->_pcpBlock['intro_text'] );
+        } else if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
             $this->assign( 'intro_text' , $this->_values['intro_text'] );
         }
         
