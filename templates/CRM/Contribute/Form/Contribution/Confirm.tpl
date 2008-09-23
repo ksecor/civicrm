@@ -88,9 +88,9 @@
         {ts}Personal Campaign Page{/ts}
     </div>
     <div class="display-block">
-	<strong>Display Roll : </strong> {if $pcp_display_in_roll}Yes<br />{else} No{/if}
-	{if $pcp_roll_nickname}<strong>Nick Name : </strong>{$pcp_roll_nickname}<br />{/if}
-        {if $pcp_personal_note}<strong>Note :</strong> {$pcp_personal_note}<br />{/if}
+	Display Roll : {if $pcp_display_in_roll}{ts}Yes{/ts}<br />{else}{ts}No{/ts}<br />{/if}
+	{if $pcp_roll_nickname}Nick Name : {$pcp_roll_nickname}<br />{/if}
+        {if $pcp_personal_note}Note : {$pcp_personal_note|truncate}<br />{/if}
     </div>
     {/if}
     {if $onBehalfName}

@@ -310,7 +310,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly Roll'), null );
-            $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 10 ) );
+            $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 15 ) );
             $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 2, 'coloums' => 60 ) );
         }
         // if payment is via a button only, dont display continue
