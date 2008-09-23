@@ -51,18 +51,19 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 
     function buildQuickForm( ) 
     {
+        $this->addElement( 'checkbox', 'pcp_enabled', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
+	
+        $this->addElement( 'checkbox', 'pcp_inactive', ts('Administrator approval required for new Personal Campaign Pages') );
+        
         CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
                 $profile[$key] = $value['title'];
             }
+            $this->add('select', 'supporter_profile', ts( 'Supporter profile' ), $profile );    
+            $this->assign('profile',$profile);
         }
         
-        $this->addElement( 'checkbox', 'pcp_enabled', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
-	
-        $this->addElement( 'checkbox', 'pcp_inactive', ts('Administrator approval required for new Personal Campaign Pages') );
-         
-        $this->add('select', 'supporter_profile', ts( 'Supporter profile' ), $profile );
         $this->addElement( 'checkbox', 'pcp_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
         
         $this->add( 'text', 'pcp_tellfriend_limit', ts("'Tell a friend' maximum recipients limit") );
@@ -96,7 +97,6 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         $params = $this->controller->exportValues( $this->_name );
 
         $params['id'] = $this->_id;
-        
         require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 
     }

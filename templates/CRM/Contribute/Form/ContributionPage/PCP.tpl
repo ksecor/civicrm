@@ -1,6 +1,12 @@
 {include file="CRM/common/WizardHeader.tpl"}
 <div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Personal Campaign Page{/ts}</legend>
+    {if !$profile}
+        {capture assign=pUrl}{crmURL p='civicrm/admin/uf/group' q="reset=1"}{/capture}
+        <div class="status message">
+                {ts 1=$pUrl}No Supporter Profile has been configured / enabled for your site.You need to  <a href='%1'>configure Supporter profile</a> first.{/ts}
+        </div>
+    {/if}
     <div id="help">
         {ts}HELP MESSAGE{/ts}
     </div>
