@@ -75,7 +75,15 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @var array
      * @static
      */
-    private static $contributionStatus; 
+    private static $contributionStatus;
+
+    /**
+     * pcp status 
+     *
+     * @var array
+     * @static
+     */
+    private static $pcpStatus;
 
     /**
      * Get all the contribution types
@@ -230,6 +238,24 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         }
         return self::$contributionStatus;
     }
+
+    /**
+     * Get all the pcp status
+     *
+     * @access public
+     * @return array - array reference of all pcp status
+     * @static
+     */
+    public static function &pcpStatus( )
+    {
+        self::$pcpStatus = array();
+        if ( ! self::$pcpStatus ) {
+            require_once "CRM/Core/OptionGroup.php";
+            self::$pcpStatus = CRM_Core_OptionGroup::values("pcp_status");
+        }
+        return self::$pcpStatus;
+    }
+
 }
 
 

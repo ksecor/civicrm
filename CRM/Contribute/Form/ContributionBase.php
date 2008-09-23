@@ -318,9 +318,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $pcpId = CRM_Utils_Request::retrieve( 'pcpId', 'Positive', $this );
         if ( $pcpId ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
-            $pcpBlock = CRM_Contribute_BAO_Contribution::getPcpBlock( $pcpId );
-            if($pcpBlock['contribution_page_id'] != $this->_values['id'] ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+            $pcpBlock  = CRM_Contribute_BAO_Contribution::getPcpBlock( $pcpId );
+            if ( $pcpBlock['contribution_page_id'] != $this->_values['id'] ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page Not Releted this contribution page.') );
+            } else if ( $pcpBlock['status_id'] != 2 ) {
+                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpBlock['status_id']] )) );
             }
             $this->_pcpId = $pcpId;
         }
