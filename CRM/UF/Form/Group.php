@@ -82,7 +82,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $status = CRM_Core_BAO_UFGroup::usedByModule($this->_id); 
             if ($this->_action & (CRM_Core_Action::DISABLE) ) {
                 if ( $status ) {
-                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you disable the profile - it will be removed from these forms and/or modules.Do you want to continue?';
+                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?';
                 } else {            
                     $message='Are you sure you want to disable this Profile?';
                 }
