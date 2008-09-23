@@ -11,9 +11,6 @@ $collected = array('strings'  => array('hash', 'uf', 'lang', 'version', 'ufv', '
 
 $params = array();
 
-// FIXME: this only for initial import
-$collected['strings'][] = 'time';
-
 // sanitize for SQL - quote escaped strings and cast the rest to integers
 foreach ($collected['strings'] as $param) {
     if (isset($_REQUEST[$param])) $params[$param] = "'" . mysql_real_escape_string($_REQUEST[$param]) . "'";
@@ -25,3 +22,5 @@ foreach ($collected['integers'] as $param) {
 $sql = 'INSERT INTO stats (`' . implode('`, `', array_keys($params)) . '`) VALUES (' . implode(', ', $params) . ')';
 
 mysql_query($sql);
+
+print file_get_contents('stable.txt');
