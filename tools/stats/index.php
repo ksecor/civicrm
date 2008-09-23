@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>CiviCRM usage statistics</h1>
+<p><a href="?">till previous month</a> vs <a href="?current=1">with current month</a></p>
 <?php
 $user = $pass = false;
 require_once 'config.php';
@@ -21,18 +22,38 @@ $charts = array(
           'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month FROM stats GROUP BY year, month ORDER BY year, month',
           'type'  => 'trend'),
     array('title' => 'UF usage',
-          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, uf compare FROM stats GROUP BY year, month, uf ORDER BY year, month, uf',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, uf compare FROM stats GROUP BY year, month, uf ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'CiviCRM versions',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, SUBSTR(version, 1, 3) compare FROM stats WHERE version LIKE "_.%" GROUP BY year, month, SUBSTR(version, 1, 3) ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'Drupal versions',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, SUBSTR(ufv, 1, 1) compare FROM stats WHERE uf = "Drupal" GROUP BY year, month, SUBSTR(ufv, 1, 1) ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'Joomla versions',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, SUBSTR(ufv, 1, 3) compare FROM stats WHERE uf = "Joomla" GROUP BY year, month, SUBSTR(ufv, 1, 3) ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'MySQL versions',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, SUBSTR(MySQL, 1, 3) compare FROM stats GROUP BY year, month, SUBSTR(MySQL, 1, 3) ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'PHP versions',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, SUBSTR(PHP, 1, 3) compare FROM stats GROUP BY year, month, SUBSTR(PHP, 1, 3) ORDER BY year, month',
+          'type'  => 'compare'),
+    array('title' => 'Default languages',
+          'query' => 'SELECT COUNT(DISTINCT hash) data, YEAR(time) year, MONTH(time) month, lang compare FROM stats GROUP BY year, month, lang ORDER BY year, month',
           'type'  => 'compare'),
 );
 
 foreach ($charts as $chart) {
-    print "<h2>{$chart['title']}</h2>";
     switch ($chart['type']) {
     case 'trend':
-        print '<p><img src="' . trend($chart['query']) . '" /></p>'; break;
+        $result = trend($chart['query']);
+        print "<h2>{$chart['title']} (last: {$result['last']})</h2>";
+        print "<p><img src='{$result['url']}' /></p>"; break;
     case 'compare':
-        $last = '';
-        print "<p><img src='" . compare($chart['query'], $last) . "' /> <img src='$last' /></p>"; break;
+        $result = compare($chart['query']);
+        print "<h2>{$chart['title']}</h2>";
+        print "<p><img src='{$result['url']}' /> <img src='{$result['last']}' /></p>"; break;
     }
 }
 ?>
