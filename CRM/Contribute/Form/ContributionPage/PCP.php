@@ -45,7 +45,14 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     function setDefaultValues( ) 
     {
         $defaults = array( );
-
+        if ( !CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'pcp_enabled' ) ) {
+            $defaults['pcp_inactive'] = 1;
+            $defaults['pcp_tellfriend_enabled'] = 1;
+            $defaults['pcp_tellfriend_limit'] = 5;
+            $defaults['pcp_link_text'] = ts('Become a Supporter!');
+        } else { 
+            $defaults = parent::setDefaultValues();
+        }
         return $defaults;
     }
 
