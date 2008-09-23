@@ -14,17 +14,7 @@
 			{$form.case_status_id.html}
                 </td>                    
             </tr>
-           
-            <tr>
-                <td class="label">
-                        {$form.case_type_id.label}
-                </td>
-                <td>
-                        {$form.case_type_id.html}
-                </td>
-	
-            </tr>            
-            <tr>
+             <tr>
                 <td class="label"> 
                         {$form.case_start_date_low.label} 
                 </td>
@@ -42,5 +32,14 @@
                         {include file="CRM/common/calendar/body.tpl" dateVar=case_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_case_2}
                 </td>          
             </tr>
+	    <tr>
+                <td class="label">
+                        {$form.case_type_id.label}
+                </td>
+                <td colspan="3">
+                        {$form.case_type_id.html}
+                </td>
+	
+            </tr>     
  </table>
 </div>

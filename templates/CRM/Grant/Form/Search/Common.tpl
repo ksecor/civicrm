@@ -15,11 +15,11 @@
                 <td>
                     {$form.grant_amount_low.html}
                 </td> 
-                <td colspan="">
+                <td colspan="2">
                     {$form.grant_amount_high.label} {$form.grant_amount_high.html}
                 </td>
             </tr>
-            <tr><td></td><td></td><td></td><td><b>{ts}Date is not set{/ts}</b></td></tr>
+            <tr><td colspan="4" style="padding-left:720px"><b>{ts}Date is not set{/ts}</b></td></tr>
             <tr>
                 <td class="label">
                     {$form.grant_application_received_date_low.label} 
@@ -82,8 +82,11 @@
                </td>          
            </tr>
           <tr>
-              <td></td><td>
-                    {$form.grant_report_received.label} {$form.grant_report_received.html}
+              <td class="label">
+                    {$form.grant_report_received.label}
+	      </td>
+	      <td colspan="3">
+	            {$form.grant_report_received.html}
               </td>
                 
            </tr>  
