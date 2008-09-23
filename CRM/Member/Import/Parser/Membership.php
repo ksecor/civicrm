@@ -477,8 +477,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     if ( ! $formatted['status_id']) {                        
                         $formatted['status_id'] = $calcStatus['id'];
                     } elseif ( !$formatted['is_override'] || !isset($formatted['is_override']) ) { 
-                        //Status Hold" is either NOT mapped or is FALSE
-                        if ( $formatted['status_id'] != $calcStatus['id'] ) { 
+                        if ( empty( $calcStatus ) ) {
+                            array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
+                            return CRM_Member_Import_Parser::ERROR;
+                        } else if ( $formatted['status_id'] != $calcStatus['id'] ) { 
+                            //Status Hold" is either NOT mapped or is FALSE  
                             array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
                             return CRM_Member_Import_Parser::ERROR;
                         }
