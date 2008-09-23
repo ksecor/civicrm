@@ -229,6 +229,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
                                         $mg.group_type = 'Include'
+                        AND             $mg.search_id IS NULL
                         AND             $g2contact.status = 'Added'
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
@@ -278,6 +279,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                                 AND $mg.entity_table = '$group'
                     WHERE               
                                     $mg.group_type = 'Include'
+                        AND         $mg.search_id IS NULL
                         AND         $mg.mailing_id = {$mailing_id}
                         AND         $group.saved_search_id IS NOT null");
 
@@ -309,7 +311,27 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     ORDER BY $email.is_bulkmail";
             $mailingGroup->query($ssq);
         }
-        
+
+        /**
+         * Construct the filtered search queries
+         */
+        $query = "
+SELECT search_id, search_args, entity_id
+FROM   $mg
+WHERE  $mg.search_id IS NOT NULL
+AND    $mg.mailing_id = {$mailing_id}
+";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
+        while ( $dao->fetch( ) ) {
+            $customSQL = CRM_Contact_BAO_SearchCustom::civiMailSQL( $dao->search_id,
+                                                                    $dao->search_args,
+                                                                    $dao->entity_id );
+            $query =    "REPLACE INTO       I_$job_id (email_id, contact_id)
+                         $customSQL";
+            $mailingGroup->query($query);
+        }
+
         /* Get the emails with only location override */
         $query =    "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as local_email_id,

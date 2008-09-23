@@ -65,6 +65,10 @@ class CRM_Contact_Form_Search_Custom_Base {
                                            true, $dao );
     }
 
+    function civimailSQL( ) {
+        return $this->sql( 'DISTINCT email.id as email_id, contact_a.id as contact_id' );
+    }
+
     function sql( $selectClause,
                   $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false,

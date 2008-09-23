@@ -106,6 +106,12 @@ interface CRM_Contact_Form_Search_Interface {
      */
     function &columns( );
 
+    /**
+     * Returns a sql string for civimail to send an email to.
+     * This file needs to obey the group_id constraints and restrict the search
+     * to members in the specific group
+     */
+    function civimailSQL( );
 }
 
 
