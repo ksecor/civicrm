@@ -55,6 +55,6 @@ foreach ($collected['integers'] as $param) {
 
 $sql = 'INSERT INTO stats (`' . implode('`, `', array_keys($params)) . '`) VALUES (' . implode(', ', $params) . ')';
 
-mysql_query($sql);
+if ($params['hash']) mysql_query($sql);
 
 print file_get_contents('stable.txt');
