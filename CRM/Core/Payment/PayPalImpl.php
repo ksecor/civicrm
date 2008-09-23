@@ -302,10 +302,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $cancel = ( $component == 'event' ) ? '_qf_Register_display'   : '_qf_Main_display';
         $returnURL = CRM_Utils_System::url( $url,
                                             "_qf_ThankYou_display=1&qfKey={$params['qfKey']}",
-                                            false, null, false );
+                                            true, null, false );
         $cancelURL = CRM_Utils_System::url( $url,
                                             "$cancel=1&cancel=1&qfKey={$params['qfKey']}",
-                                            false, null, false );
+                                            true, null, false );
 
         // ensure that the returnURL is absolute.
         if ( substr( $returnURL, 0, 4 ) != 'http' ) {
