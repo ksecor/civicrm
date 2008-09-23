@@ -139,7 +139,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->_activityId = $this->get('id');
             }
             
-            if ( ! $this->_activityId ) {
+            if ( ! $this->_activityId && $this->_action != CRM_Core_Action::ADD ) {
                 $this->_activityId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
             }
         }
