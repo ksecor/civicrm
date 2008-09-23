@@ -249,6 +249,18 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
             return false;
         }
 
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contact',           'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution_page', 'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution_recur','domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_membership_status', 'domain_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution',     'contact_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution', 'contribution_type_id')
+            ) {
+            $errorMessage = ts('Database consistency check failed. FK constraint names not in the required format. Please rebuild your 2.0 database to ensure schema integrity.');
+            return false;
+        }
+
         return true;
     }
 
