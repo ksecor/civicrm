@@ -148,6 +148,12 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                 }
                 $job->save();
             } 
+
+            // also set the scheduled_id 
+            $session =& CRM_Core_Session::singleton( );
+            $mailing->scheduled_id = $session->get( 'userID' );
+            $mailing->save( );
+            
         }
     }
     

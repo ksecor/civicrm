@@ -76,3 +76,20 @@ DROP TABLE civicrm_event_page;
 -- need to add update statement for site preference options to enable 
 -- preferences for contact_type / groups / tags, CRM-2794
 UPDATE civicrm_preferences SET advanced_search_options = CONCAT(advanced_search_options, '161718');
+
+-- /**
+--  * add new mailing fields
+--  * CRM-3599 (created_id, scheduled_id)
+--  * CRM-3598 (search_id, search_args)
+-- **/
+
+ALTER TABLE civicrm_mailing
+  ADD override_verp tinyint   DEFAULT 0 AFTER msg_template_id,
+  ADD created_id int unsigned NULL DEFAULT NULL AFTER override_verp,
+  ADD scheduled_id int unsigned NULL EFAULT NULL AFTER created_id,
+  ADD CONSTRAINT FK_civicrm_mailing_created_id FOREIGN KEY (created_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,
+  ADD CONSTRAINT FK_civicrm_mailing_scheduled_id FOREIGN KEY (scheduled_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE;
+
+ALTER TABLE civicrm_mailing_group
+  ADD search_id int AFTER entity_id,
+  ADD search_args text AFTER search_id;

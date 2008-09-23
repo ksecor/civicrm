@@ -1163,6 +1163,10 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         }
         
         require_once 'CRM/Contact/BAO/Group.php';
+
+        $groupTableName   = CRM_Contact_BAO_Group::getTableName( );
+        $mailingTableName = CRM_Mailing_BAO_Mailing::getTableName( ); 
+
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
         foreach( array( 'groups', 'mailings' ) as $entity ) {
@@ -1171,10 +1175,11 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                     foreach( $params[$entity][$type] as $entityId ) {
                         $mg->reset( );
                         $mg->mailing_id = $mailing->id;                        
-                        $mg->entity_table   = ( $entity == 'groups' ) 
-                                            ? CRM_Contact_BAO_Group::getTableName( )
-                                            : CRM_Mailing_BAO_Mailing::getTableName( );
-                        $mg->entity_id = $entityId;
+                        $mg->entity_table   =
+                            ( $entity == 'groups' ) 
+                            ? $groupTableName
+                            : $mailingTableName;
+                        $mg->entity_id  = $entityId;
                         $mg->group_type = $type;
                         $mg->save( );
                     }
@@ -1182,6 +1187,17 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             }
         }
 
+        if ( ! empty( $params['search_id'] ) &&
+             ! empty( $params['group_id'] ) ) {
+            $mg->reset( );
+            $mg->mailing_id   = $mailing->id;
+            $mg->entity_table = $groupTableName;
+            $mg->entity_id    = $params['group_id'];
+            $mg->search_id    = $params['search_id'];
+            $mg->search_args  = $params['search_args'];
+            $mg->group_type   = 'Include';
+            $mg->save( );
+        }
 
         // check and attach and files as needed
         require_once 'CRM/Core/BAO/File.php';

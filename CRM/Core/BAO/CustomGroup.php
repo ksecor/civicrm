@@ -70,14 +70,29 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
-        $group->extends          = $params['extends'][0];
+        if ( in_array( $params['extends'][0],
+                       array( 'ParticipantRole',
+                              'ParticipantEventName',
+                              'ParticipantEventType' ) ) ) {
+            $group->extends          = 'Participant';
+        } else {
+            $group->extends          = $params['extends'][0];
+        }
 
+        $group->extends_entity_column_name = null;
         if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
             $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
         } elseif ( empty($params['extends'][1]) ) {
             $group->extends_entity_column_value = null;
         } else {
             $group->extends_entity_column_value = $params['extends'][1];
+            if ( $params['extends'][0] == 'ParticipantRole' ) {
+                $group->extends_entity_column_name = 'civicrm_participant.role_id';
+            } else if ( $params['extends'][0] == 'ParticipantEventName' ) {
+                $group->extends_entity_column_name = 'civicrm_event.title';
+            } else if ( $params['extends'][0] == 'ParticipantEventType' ) {
+                $group->extends_entity_column_name = 'civicrm_event.event_type_id';
+            }
         }
         
         $group->style            = CRM_Utils_Array::value('style', $params, false);

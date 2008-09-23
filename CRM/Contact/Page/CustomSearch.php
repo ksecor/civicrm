@@ -49,16 +49,7 @@ class CRM_Contact_Page_CustomSearch extends CRM_Core_Page {
      */
     static $_links = null;
 
-    /**
-     * Browse all custom searches.
-     *
-     * @return content of the parents run method
-     *
-     */
-    function browse()
-    {
-        $rows = array();
-
+    public static function &info( ) {
         $sql = "
 SELECT v.value, v.label, v.description
 FROM   civicrm_option_group g,
@@ -70,16 +61,26 @@ AND    v.is_active = 1
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
 
+        $rows = array();
         while ( $dao->fetch( ) ) {
-            $row = array( );
             if ( trim( $dao->description ) ) {
-                $row['name']    = $dao->description;
+                $rows[$dao->value] = $dao->description;
             } else {
-                $row['name']    = $dao->label;
+                $rows[$dao->value] = $dao->label;
             }
-            $row['csid']        = $dao->value;
-            $rows[] = $row;
         }
+        return $rows;
+    }
+
+    /**
+     * Browse all custom searches.
+     *
+     * @return content of the parents run method
+     *
+     */
+    function browse()
+    {
+        $rows =& self::info( );
         $this->assign('rows', $rows);
         return parent::run();
     }

@@ -45,4 +45,14 @@
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
   </field>
+  <field>
+        <name>search_id</name>
+        <type>int</type>
+        <comment>The filtering search. custom search id or -1 for civicrm api search</comment>
+  </field>
+  <field>
+        <name>search_args</name>
+        <type>text</type>
+        <comment>The arguments to be sent to the search function</comment>
+  </field>
 </table>

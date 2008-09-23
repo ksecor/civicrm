@@ -35,7 +35,21 @@
   <tr><td>{$form.excludeMailings.html}</td></tr>
   {/if}
   </table>
-    
+
+  <table>
+    <tr>
+       <td>{$form.search_id.label}</td>
+       <td>{$form.search_id.html}</td>
+    </tr>
+    <tr>
+       <td>{$form.search_args.label}</td>
+       <td>{$form.search_args.html}</td>
+    </tr>
+    <tr>
+       <td>{$form.group_id.label}</td>
+       <td>{$form.group_id.html}</td>
+    </tr>
+  </table>    
   {/strip}
     <dl>
     <dt></dt><dd>{$form.buttons.html}</dd>

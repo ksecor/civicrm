@@ -162,4 +162,26 @@
       <add>2.2</add>    
       <comment>Should we overrite VERP address in Reply-To</comment>
   </field>
+  <field>
+      <name>created_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Contact ID who first created this mailing</comment>
+  </field>
+  <foreignKey>
+       <name>created_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+      <name>scheduled_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Contact ID who scheduled this mailing</comment>
+  </field>
+  <foreignKey>
+       <name>scheduled_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
 </table>

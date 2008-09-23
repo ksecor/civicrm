@@ -151,8 +151,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
         $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $sel2['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
-        $sel2['Participant']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
+        $sel2['ParticipantRole']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
         
+        require_once 'CRM/Event/PseudoConstant.php';
+        $sel2['ParticipantEventName'] = array("" => "-- Any --") + CRM_Event_PseudoConstant::event( );
+        $sel2['ParticipantEventType'] = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
+        
+        CRM_Core_Error::debug( $sel2 );
         require_once "CRM/Contact/BAO/Relationship.php";
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
@@ -183,14 +188,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             }
         }
         
-        $sel =& $this->addElement('hierselect', "extends", ts('Used For'), array('onClick' => "showHideStyle();",
-                                                                                 'name'=>"extends[0]"
-                                                                                 ));
-        $sel->setOptions(array($sel1,$sel2));
-        
-        // which entity is this custom data group for ?
-        // for update action only allowed if there are no custom values present for this group.
-        // $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
+        $sel =& $this->addElement('hierselect',
+                                  "extends",
+                                  ts('Used For'),
+                                  array( 'onClick' => "showHideStyle();",
+                                         'name'    => "extends[0]"
+                                         ) );
+        $sel->setOptions( array( $sel1, $sel2 ) );
         
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $sel->freeze();
