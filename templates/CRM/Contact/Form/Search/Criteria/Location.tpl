@@ -1,5 +1,5 @@
 <div id="location" class="form-item">
-    <table class="noborder">
+    <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>
             <td>{$form.street_address.html}</td>
@@ -20,8 +20,7 @@
             <td>{$form.postal_code_low.html|crmReplace:class:six}</td>
           </tr>
           <tr>
-            <td> &nbsp; </td>
-            <td> &nbsp; </td>
+            <td colspan="2"> &nbsp; </td>
             <td class="label">{$form.postal_code_high.label}</td>
             <td {$form.postal_code_high.html|crmReplace:class:six}</td>
           </tr>

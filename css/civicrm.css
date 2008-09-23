@@ -1035,12 +1035,6 @@ commented since it is overwiting simple td
     padding: 6px 0 4px 12px; /* push text down 1px */
 } 
 
-/* class for advance search address fields display */
-#crm-container  table.noborder tr {
-    background: #F5F5F5;
-    border:1px solid #DDDDDD;
-}
-
 /* class for tinymce buttons display */
 #crm-container table.mceLayout td{ 
     padding: 0px;
