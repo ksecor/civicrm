@@ -37,11 +37,24 @@ require_once 'CRM/Contribute/Form/ContributionPage.php';
 
 class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_ContributionPage 
 {
+    /**
+     * Function to pre process the form
+     *
+     * @access public
+     * @return None
+     */
     function preProcess( ) 
     {
         parent::preProcess( );
     }
-
+    
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return void
+     */
     function setDefaultValues( ) 
     {
         $defaults = array( );
@@ -55,7 +68,13 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         }
         return $defaults;
     }
-
+    
+    /**
+     * Function to actually build the form
+     *
+     * @return void
+     * @access public
+     */
     function buildQuickForm( ) 
     {
         $this->addElement( 'checkbox', 'pcp_enabled', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
@@ -73,9 +92,16 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         
         $this->addElement( 'checkbox', 'pcp_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
         
-        $this->add( 'text', 'pcp_tellfriend_limit', ts("'Tell a friend' maximum recipients limit") );
+        $this->add( 'text', 
+                    'pcp_tellfriend_limit', 
+                    ts("'Tell a friend' maximum recipients limit"), 
+                    CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage' , 'pcp_tellfriend_limit') );
+        $this->addRule( 'pcp_tellfriend_limit', ts( 'Please enter a valid limit.' ), 'integer' );
 
-        $this->add( 'text', 'pcp_link_text', ts("'Create Personal Campaign Page' link text") );
+        $this->add( 'text', 
+                    'pcp_link_text', 
+                    ts("'Create Personal Campaign Page' link text"), 
+                    CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage' , 'pcp_link_text') );
         
         parent::buildQuickForm( );
         $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_PCP', 'formRule') , $this );
@@ -93,11 +119,17 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     public static function formRule( &$params, &$files, $self ) 
     { 
         $errors = array( );
-        if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
+        if ( CRM_Utils_Array::value( 'pcp_enabled', $params ) ) {
         }
         return empty($errors) ? true : $errors;
     }
-
+    
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
     function postProcess( ) 
     {
         // get the submitted form values.
