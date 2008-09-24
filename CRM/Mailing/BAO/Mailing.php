@@ -873,6 +873,9 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                       'optOutUrl'      => CRM_Utils_System::url('civicrm/mailing/optout', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
                                                                 true, null, true, true),
+                      'subscribeUrl'   => CRM_Utils_System::url( 'civicrm/mailing/subscribe',
+                                                                 'reset=1',
+                                                                 true, null, true, true )
                       );
 
         if ( $skipEncode ) {
@@ -953,7 +956,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             $template =& $pTemplates[$type]['template'];
             $tokens   =& $pTemplates[$type]['tokens'];
             $idx = 0;
-            if ( !empty( $tokens ) ) { 
+            if ( !empty( $tokens ) ) {
                 foreach ($tokens as $idx => $token) {
                     $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
                     array_push($pEmail, $template[$idx]);
@@ -1059,7 +1062,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
      *
      */
     private function getTokenData(&$token_a, $html = false, &$contact, &$verp, &$urls, $event_queue_id)
-    {
+    { 
         $type = $token_a['type'];
         $token = $token_a['token'];
         $data = $token;
