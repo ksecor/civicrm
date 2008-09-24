@@ -67,7 +67,7 @@ function email_is_bulkmail_onclick(formname, emailID, maxLocs, locID) {
 
     if (document.forms[formname].elements[changedKey][1].checked) {
         if ( confirm('Do you want to use this email address for bulk mailing?') == true ) {
-	    for (var i = 2; i <= 5; i++) {
+	    for (var i = 1; i <= 5; i++) {
 		Key = 'location[' +  locID +'][email][' + i + '][is_bulkmail]';
 		if ( i != emailID ) {
 		    document.forms[formname].elements[Key][1].checked = false;
