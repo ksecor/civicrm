@@ -93,3 +93,10 @@ ALTER TABLE civicrm_mailing
 ALTER TABLE civicrm_mailing_group
   ADD search_id int AFTER entity_id,
   ADD search_args text AFTER search_id;
+
+
+-- CRM-3609 (used IGNORE as 2.1 post beta5 should have this already)
+ 
+INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5217, 1020, "BRU", "Brussels");
+
+
