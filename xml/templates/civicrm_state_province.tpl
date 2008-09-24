@@ -3844,6 +3844,8 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5215, 1165, "_O", "Khan Yunis"),
 (5216, 1165, "_P", "Rafah"),
 
+(5217, 1020, "BRU", "Brussels"), -- missing Belgian province (CRM-3609)
+
 (9000, 1196, "NW", "North West"), 
 (9986, 1226, "xTYW", "Tyne and Wear"),
 (9987, 1226, "xIOM", "Isle of Man"),
