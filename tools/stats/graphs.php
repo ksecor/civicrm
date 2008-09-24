@@ -11,8 +11,10 @@ function compare($query) {
     $compares = array_unique($compares);
     sort($compares);
 
+    $keys = array_keys($data);
+    $key = $keys[count($data)-1];
     $recent = array_pop($data);
-    array_push($data, $recent);
+    $data = array_merge($data, array($key => $recent));
 
     foreach ($data as $label => $values) {
         foreach ($values as $compare => $value) {
