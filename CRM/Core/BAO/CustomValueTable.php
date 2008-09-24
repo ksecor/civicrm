@@ -281,15 +281,20 @@ class CRM_Core_BAO_CustomValueTable
 
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( ( ! CRM_Utils_Array::value( $k, $customData ) ) &&
-                     in_array ( CRM_Utils_Array::value( 3, $val ),
-                                array ('CheckBox','Multi-Select') ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k,
-                                                                 $customData,
-                                                                 '',
-                                                                 $customFieldExtends,
-                                                                 null,
-                                                                 $entityID );
+                if ( ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    // this is buggy, since sometimes the html type is keyed well, and at other times
+                    // its legacy and numeric (3) CRM-3604
+                    $htmlType = CRM_Utils_Array::value( 'html_type', $val,
+                                                        CRM_Utils_Array::value( 3, $val ) );
+                    if ( in_array ( $htmlType,
+                                    array ('CheckBox','Multi-Select') ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                     $customData,
+                                                                     '',
+                                                                     $customFieldExtends,
+                                                                     null,
+                                                                     $entityID );
+                    }
                 }
             }
         }
