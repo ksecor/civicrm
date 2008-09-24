@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-05-15 13:58-0700\n"
-"Last-Translator: Jim Björk <jim.bjoerk@hotmail.com>\n"
+"PO-Revision-Date: 2008-09-23 11:34-0700\n"
+"Last-Translator: Anders Nilsson <anders@lectia.se>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,9 +72,8 @@ msgstr "Ändra"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Aktivera"
+msgstr "Enhetstabell"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -117,9 +116,8 @@ msgid "Grant"
 msgstr "Ge tillstånd"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Ändringsdatum"
+msgstr "Ändrad datum"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -6351,15 +6349,15 @@ msgstr "CiviBidrag"
 
 #: CRM/Core/Menu.php
 msgid "CiviEvent"
-msgstr "CiviHändelser"
+msgstr "CiviEvenemang"
 
 #: CRM/Core/Menu.php
 msgid "CiviMember"
-msgstr "CiviMedlemmar"
+msgstr "CiviMedlem"
 
 #: CRM/Core/Menu.php
 msgid "CiviMail"
-msgstr "CiviPost"
+msgstr "CiviMail"
 
 #: CRM/Core/Menu.php
 msgid "CiviGrant"
