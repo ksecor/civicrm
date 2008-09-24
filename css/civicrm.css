@@ -1041,5 +1041,17 @@ commented since it is overwiting simple td
     background: #EDEDED;
     border: 2px solid #EDEDED;
     font-size: 0em;
+}
 
+/* overwrite tree icon classes, since we don't want icons*/
+.tundra .dijitFolderOpened  { 
+   display: none;
+}
+
+.tundra .dijitFolderClosed {
+   display: none;
+}
+
+.tundra .dijitLeaf { 
+   display: none;
 }
