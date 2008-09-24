@@ -272,7 +272,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                                  );
             
             // integers will have numeric rule applied to them.
-            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'integer');
+            $qf->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $label)), 'positiveInteger');
             break;
             
         case 'Radio':

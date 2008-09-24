@@ -378,54 +378,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     return empty( $errors ) ? true : $errors;
                 }
             } 
-            //validation for the user who attemp the amount value zero
-            //is an already member
-            $session =& CRM_Core_Session::singleton( );
-            $userID  = $session->get( 'userID' );
-            $zeroAmountError = ts( "The Zero amount facility is only for the valid members" );
-            if ( $fields['priceSetId'] ) { 
-                $zeroAmount = array( );
-                //collect all option value id in array
-                foreach( $fields as $key => $val  )  {
-                    if ( substr( $key, 0, 6 ) == 'price_' ) {
-                        //for Text html type we don't have the option
-                        //value id, validate it using htmlType
-                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
-                        if( $htmlType != 'Text' ) {
-                            if ( is_array( $val) ) {
-                                foreach( $val as $keys => $vals  )  {
-                                    $zeroAmount[] = $keys;
-                                }
-                            } else {
-                                $zeroAmount[] = $val;
-                            }
-                        } else if ( $htmlType == 'Text' && $val && $val <= 0 ) {
-                            $errors[$key] =  ts( "The Number of Items must be greater than zero (0)" );
-                        } else if ( $htmlType == 'Text' && !$userID && $val == 0 && is_numeric( $val ) ) {
-                            //for text type option value id is absent
-                            //validate it here
-                            $errors[$key] = $zeroAmountError;
-                        } 
-                    } 
-                }
-                //zero amount is an array of all option value id, only
-                //text field type is not present in this array because
-                //option value id is absent. so text field type is
-                //validate in above block
-                foreach( $zeroAmount as $keyes => $values  )  {
-                    if( $values && !$userID && 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'name' ) == 0 ) {
-                        $errors['amount'] = $zeroAmountError;
-                    }
-                }
-            } else {
-                $zeroAmount = $fields['amount'];
-                //$zeroAmount is the id of the option value
-                if ( $zeroAmount && !$userID && 
-                     CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value' ) == 0 ) {
-                    $errors['amount'] = $zeroAmountError;
-                }
-            }
+            $zeroAmount = $fields['amount'];
             // also return if paylater mode or zero fees for valid members
             if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
                 if ( $fields['priceSetId'] ) { 
@@ -460,13 +413,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 //if not zero give credit card validation error else
                 //bypass it.
                 $level = count ( $check );
-                $j = null;
-                for ($i = 0; $i < $level; $i++ ) {
-                    if ( $check[$i] == 0 ) {
-                        $j++;
+                $j = 0;
+                for ( $i = 0; $i < $level; $i++ ) {
+                    if ( $check[$i] >= 0 ) {
+                        $j += $check[$i] ;
                     }   
                 }
-                if ( $j == $level && isset( $j ) ) {
+                if ( $j == 0 ) {
                     return empty( $errors ) ? true : $errors;
                 } 
             } else if ( $zeroAmount ) {
