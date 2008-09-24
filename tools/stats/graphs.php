@@ -11,6 +11,9 @@ function compare($query) {
     $compares = array_unique($compares);
     sort($compares);
 
+    $recent = array_pop($data);
+    array_push($data, $recent);
+
     foreach ($data as $label => $values) {
         foreach ($values as $compare => $value) {
             $data[$label][$compare] = round($value / array_sum($values) * 100, 1);
@@ -60,12 +63,13 @@ function compare($query) {
 
     $labels = array();
     foreach ($last as $label => $value) {
-        if (!$label) $label = 'unknown';
-        $labels[] = "$label (" . $value . "%)";
+        $lab = $label ? $label : 'unknown';
+        $num = $recent[$label] ? $recent[$label] : 0;
+        $labels[] = "$lab ($num, {$value}%)";
     }
 
     $params = array(
-        'chs'  => '400x200',
+        'chs'  => '450x200',
         'cht'  => 'p',
         'chd'  => 't:' . implode(',', $last),
         'chl'  => implode('|', $labels),
