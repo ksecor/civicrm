@@ -140,7 +140,7 @@
       <name>max_participants</name> 
       <type>int unsigned</type> 
       <title>Max Participants</title>
-      <default>0</default>
+      <default>NULL</default>
       <comment>Maximum number of registered participants to allow. After max is reached, a custom Event Full message is displayed. If NULL, allow unlimited number of participants.</comment> 
       <add>1.7</add> 
   </field>
