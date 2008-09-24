@@ -23,6 +23,11 @@ img {
   font-size: 1em;
 }
 
+/* Added in CiviCRM 2.1 to overwrite tiny font in TinyMCE editor. */
+#crm-container #content table.mceLayout td {
+  font-size: 0em;
+}
+
 th {
   text-align: left;
   padding-right: 1em;

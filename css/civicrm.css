@@ -1038,6 +1038,8 @@ commented since it is overwiting simple td
 /* class for tinymce buttons display */
 #crm-container table.mceLayout td{ 
     padding: 0px;
-    background: #F5F5F5;
-    border: 1px solid #F5F5F5;
+    background: #EDEDED;
+    border: 2px solid #EDEDED;
+    font-size: 0em;
+
 }
