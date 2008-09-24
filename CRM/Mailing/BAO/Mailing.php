@@ -1851,10 +1851,10 @@ SELECT DISTINCT( m.id ) as id
     
     public function commonCompose ( &$form )
     {
-        if( ( CRM_Utils_System::getClassName($form) ) == 'CRM_Mailing_Form_Upload' )  {
-            $tokens = CRM_Core_SelectValues::mailingTokens( );
-        } else {
-            $tokens = CRM_Core_SelectValues::contactTokens( );
+        //get the tokens.
+        $tokens = CRM_Core_SelectValues::contactTokens( );
+        if ( CRM_Utils_System::getClassName( $form )  == 'CRM_Mailing_Form_Upload' ) {
+            $tokens = array_merge( CRM_Core_SelectValues::mailingTokens( ), $tokens );
         }
         
         $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
