@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:32+0200\n"
 "PO-Revision-Date: 2008-09-22 08:54-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2373,8 +2373,7 @@ msgstr ""
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter the Pay Later instructions to be displayed to your users."
 msgstr ""
-"Voer de instructies in die aan degene die later betaald, getoond moet "
-"worden."
+"Voer de instructies in die aan degene die later betaald, getoond moet worden."
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -5583,8 +5582,8 @@ msgid ""
 "or contacting us at %1."
 msgstr ""
 "Uw eerste bijdrage is verwerkt. U kunt toekomstige bijdragen op ieder moment "
-"wijzigen of stoppen door met uw account in te loggen of door contact met "
-"ons op te nemen (%1)."
+"wijzigen of stoppen door met uw account in te loggen of door contact met ons "
+"op te nemen (%1)."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -6400,8 +6399,8 @@ msgid ""
 "No contribution pages have been created yet. Click <a accesskey=\"N\" href='%"
 "1'>here</a> to create a new contribution page using the step-by-step wizard."
 msgstr ""
-"Er zijn nog geen bijdrage pagina's. U kunt een <a accesskey=\"N\" "
-"href='%1'>Bijdrage Pagina aanmaken</a>."
+"Er zijn nog geen bijdrage pagina's. U kunt een <a accesskey=\"N\" href='%"
+"1'>Bijdrage Pagina aanmaken</a>."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "Current Year-to-Date"
@@ -6484,7 +6483,9 @@ msgid "(since inception)"
 msgstr "(sinds de start)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "View contribution summary as bar or circle chart\""
+#, fuzzy
+msgid ""
+"View contribution summary as bar or pie chart using the Google Chart API"
 msgstr "Toon alle bijdragen op kaart als staaf of cirkel"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -6820,9 +6821,9 @@ msgid ""
 "<a href='%1'>here</a>."
 msgstr ""
 "Kies een bestaande Prijs-set om meerdere persoonlijke prijs-opties te bieden "
-"aan aanmelders voor een evenement. Of kies &quot;- geen -&quot;  en geef "
-"een of meerdere kostenniveau's op in onderstaande tabel. <a href='%1'>Maak "
-"of wijzig Prijs-set</a>."
+"aan aanmelders voor een evenement. Of kies &quot;- geen -&quot;  en geef een "
+"of meerdere kostenniveau's op in onderstaande tabel. <a href='%1'>Maak of "
+"wijzig Prijs-set</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Regular Fees"
@@ -8136,8 +8137,8 @@ msgid ""
 "There are no Scheduled or Sent Mailings. You can <a href='%1'>create and "
 "send one</a>."
 msgstr ""
-"Er zijn nog geen geplande of verzonden mailings. U kunt er een <a "
-"href='%1'>aanmaken en versturen</a>."
+"Er zijn nog geen geplande of verzonden mailings. U kunt er een <a href='%"
+"1'>aanmaken en versturen</a>."
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -9022,8 +9023,8 @@ msgid ""
 "There are no memberships recorded for this contact. You can <a accesskey=\"N"
 "\" href='%1'>enter one now</a>."
 msgstr ""
-"Er zijn geen lidmaatschappen van dit contact. U kunt er een <a accesskey=\"N\" "
-"href=' %1'>aanmaken</a>."
+"Er zijn geen lidmaatschappen van dit contact. U kunt er een <a accesskey=\"N"
+"\" href=' %1'>aanmaken</a>."
 
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Active Memberships"

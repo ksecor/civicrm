@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:32+0200\n"
 "PO-Revision-Date: 2006-12-21 12:31+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6168,7 +6168,8 @@ msgid "(since inception)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "View contribution summary as bar or circle chart\""
+msgid ""
+"View contribution summary as bar or pie chart using the Google Chart API"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl

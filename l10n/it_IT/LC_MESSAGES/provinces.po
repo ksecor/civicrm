@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:23+0200\n"
 "PO-Revision-Date: 2008-03-14 11:21-0700\n"
 "Last-Translator: Valentina Franzoni <valentina.franzoni@email.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -7420,9 +7420,6 @@ msgstr ""
 msgid "Cabo Delgado"
 msgstr ""
 
-msgid "Gaza"
-msgstr ""
-
 msgid "Inhambane"
 msgstr ""
 
@@ -11487,6 +11484,9 @@ msgstr "Vermont"
 msgid "North Gaza"
 msgstr "North Dakota"
 
+msgid "Gaza"
+msgstr ""
+
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -11496,6 +11496,9 @@ msgstr ""
 #, fuzzy
 msgid "Rafah"
 msgstr "Farah"
+
+msgid "Brussels"
+msgstr ""
 
 msgid "North West"
 msgstr "Nord Ovest"

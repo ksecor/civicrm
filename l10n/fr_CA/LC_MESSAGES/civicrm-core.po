@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:32+0200\n"
 "PO-Revision-Date: 2008-07-10 05:22-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1985,8 +1985,8 @@ msgstr ""
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Le nom d'utilisateur n'est pas configuré dans la section «Administrer "
-"CiviCRM &raquo; système de traitement de paiements»."
+"Le nom d'utilisateur n'est pas configuré dans la section «Administrer CiviCRM "
+"&raquo; système de traitement de paiements»."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
@@ -6557,8 +6557,8 @@ msgstr "Traitement des paiements"
 #, fuzzy
 msgid "User ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Le nom d'utilisateur n'est pas configuré dans la section «Administrer "
-"CiviCRM &raquo; système de traitement de paiements»."
+"Le nom d'utilisateur n'est pas configuré dans la section «Administrer CiviCRM "
+"&raquo; système de traitement de paiements»."
 
 #: CRM/Core/Payment/ClickAndPledge.php
 msgid ""
@@ -6666,8 +6666,8 @@ msgstr ""
 #, fuzzy
 msgid "UserID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Le nom d'utilisateur n'est pas configuré dans la section «Administrer "
-"CiviCRM &raquo; système de traitement de paiements»."
+"Le nom d'utilisateur n'est pas configuré dans la section «Administrer CiviCRM "
+"&raquo; système de traitement de paiements»."
 
 #: CRM/Core/Payment/PaymentExpress.php
 #, fuzzy
@@ -6675,8 +6675,8 @@ msgid ""
 "pxAccess / pxPay Key is not set in the Administer CiviCRM &raquo; Payment "
 "Processor."
 msgstr ""
-"Le nom d'utilisateur n'est pas configuré dans la section «Administrer "
-"CiviCRM &raquo; système de traitement de paiements»."
+"Le nom d'utilisateur n'est pas configuré dans la section «Administrer CiviCRM "
+"&raquo; système de traitement de paiements»."
 
 #: CRM/Core/Payment/PaymentExpress.php
 msgid "Unable to establish connection to the payment gateway."
@@ -8632,6 +8632,12 @@ msgstr ""
 msgid ""
 "Table(s) found in your db which are no longer required for v2.x, though "
 "would not do any harm it's recommended to remove them"
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/Step1.php
+msgid ""
+"Database consistency check failed. FK constraint names not in the required "
+"format. Please rebuild your 2.0 database to ensure schema integrity."
 msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php
@@ -11106,6 +11112,11 @@ msgid ""
 "records (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr "ID"
+
 #: templates/CRM/Admin/Page/Tag.tpl
 #, fuzzy
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
@@ -12759,8 +12770,8 @@ msgstr ""
 "Choisir le type de fiches sur lequel ce groupe de champs personnalisé peut "
 "être utilisé. Vous pouvez configurer ce groupe pour qu'il puisse être "
 "appliqué à un type de contact spécifique (i.e. «individus» mais pas "
-"«organisations»), n'importe quel type de contact, ou sur d'autres types, "
-"tels que les activités ou les contributions."
+"«organisations»), n'importe quel type de contact, ou sur d'autres types, tels "
+"que les activités ou les contributions."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -13207,10 +13218,6 @@ msgstr ""
 "aussi créer des groupes 'intelligents' qui utilisent certains critères de la "
 "base de données pour définir les conditions d'appartenance (par ex., tel "
 "groupe peut réunir tous les gens qui vivent dans une localité donnée)."
-
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "ID"
-msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
@@ -13954,6 +13961,11 @@ msgstr "Lecture seulement"
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
 msgstr "Nouveau champ de profil CiviCRM"
+
+#: templates/CRM/UF/Page/Field.tpl
+#, fuzzy
+msgid "Edit Profile Settings"
+msgstr "Détails du groupe"
 
 #: templates/CRM/UF/Page/Field.tpl
 #, fuzzy

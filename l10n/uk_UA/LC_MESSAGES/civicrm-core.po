@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:32+0200\n"
 "PO-Revision-Date: 2008-04-28 21:53+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -7973,6 +7973,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php
+msgid ""
+"Database consistency check failed. FK constraint names not in the required "
+"format. Please rebuild your 2.0 database to ensure schema integrity."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/Step1.php
 msgid "CiviCRM 2.1 Upgrade: Step One (Domain Ids)"
 msgstr ""
 
@@ -10296,6 +10302,11 @@ msgid ""
 "records (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr ""
+
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
 msgstr ""
@@ -12203,10 +12214,6 @@ msgid ""
 "in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "ID"
-msgstr ""
-
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
 msgstr ""
@@ -12897,6 +12904,10 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
+msgstr ""
+
+#: templates/CRM/UF/Page/Field.tpl
+msgid "Edit Profile Settings"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl

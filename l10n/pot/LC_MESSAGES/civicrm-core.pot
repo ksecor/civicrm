@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-24 13:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -7092,6 +7092,10 @@ msgid "Table(s) found in your db which are no longer required for v2.x, though w
 msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php
+msgid "Database consistency check failed. FK constraint names not in the required format. Please rebuild your 2.0 database to ensure schema integrity."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/Step1.php
 msgid "CiviCRM 2.1 Upgrade: Step One (Domain Ids)"
 msgstr ""
 
@@ -8759,6 +8763,10 @@ msgstr ""
 msgid "Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr ""
+
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
 msgstr ""
@@ -10285,10 +10293,6 @@ msgstr ""
 msgid "Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "ID"
-msgstr ""
-
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
 msgstr ""
@@ -10815,6 +10819,10 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
+msgstr ""
+
+#: templates/CRM/UF/Page/Field.tpl
+msgid "Edit Profile Settings"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
