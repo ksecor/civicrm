@@ -529,7 +529,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'event_id_value', $eventId->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['event_id'] ) {
+            if ( CRM_Utils_Array::value( 'event_id', $fv ) ) {
                 $form->assign( 'event_id_value',  $fv['event_id'] );
             }
         }
@@ -538,7 +538,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'event_type_value',  $eventType->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['event_type'] ) {
+            if ( CRM_Utils_Array::value( 'event_type', $fv ) ) {
                 $form->assign( 'event_type_value',  $fv['event_type'] );
             }
         }
@@ -547,7 +547,7 @@ class CRM_Event_BAO_Query
             $form->assign( 'participant_fee_level_value',  $participantFee->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv['participant_fee_level'] ) {
+            if ( CRM_Utils_Array::value( 'participant_fee_level', $fv ) ) {
                 $form->assign( 'participant_fee_level_value',  $fv['participant_fee'] );
             }
         }
