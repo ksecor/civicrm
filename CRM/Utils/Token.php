@@ -437,7 +437,7 @@ class CRM_Utils_Token
             /* This should come from UF */
             self::$_tokens[$key] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type' ) );
+                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name' ) );
         }
 
         // here we intersect with the list of pre-configured valid tokens
@@ -456,7 +456,7 @@ class CRM_Utils_Token
             /* This should come from UF */
             self::$_tokens['contact'] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type' ) );
+                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name' ) );
         }
         
         /* Construct value from $token and $contact */
