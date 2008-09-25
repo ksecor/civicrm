@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Template component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.2
+ * @version 1.3
  * @filesource
  * @package Template
  */
@@ -41,6 +41,7 @@ return array(
     'ezcTemplateStatementAstNode'                        => 'Template/syntax_trees/ast/interfaces/statement_ast.php',
     'ezcTemplateTstNodeVisitor'                          => 'Template/syntax_trees/tst/interfaces/tst_visitor.php',
     'ezcTemplateAssignmentOperatorAstNode'               => 'Template/syntax_trees/ast/nodes/operators/assignment_operator.php',
+    'ezcTemplateAstToPhpGenerator'                       => 'Template/parsers/ast_to_php/implementations/php_generator.php',
     'ezcTemplateAstWalker'                               => 'Template/parsers/ast_to_ast/implementations/ast_walker.php',
     'ezcTemplateBlockTstNode'                            => 'Template/syntax_trees/tst/nodes/block.php',
     'ezcTemplateBodyAstNode'                             => 'Template/syntax_trees/ast/nodes/body.php',
@@ -48,6 +49,7 @@ return array(
     'ezcTemplateCustomExtension'                         => 'Template/structs/custom_extension.php',
     'ezcTemplateFunctions'                               => 'Template/functions/functions.php',
     'ezcTemplateLiteralSourceToTstParser'                => 'Template/parsers/source_to_tst/implementations/literal.php',
+    'ezcTemplateLocation'                                => 'Template/interfaces/location.php',
     'ezcTemplateModifyingOperatorTstNode'                => 'Template/syntax_trees/tst/interfaces/modifying_operator_tst.php',
     'ezcTemplateOutputContext'                           => 'Template/interfaces/output_context.php',
     'ezcTemplateTextTstNode'                             => 'Template/syntax_trees/tst/interfaces/text_tst.php',
@@ -71,7 +73,7 @@ return array(
     'ezcTemplateAstBuilder'                              => 'Template/syntax_trees/ast/ast_builder.php',
     'ezcTemplateAstToAstAssignmentOptimizer'             => 'Template/parsers/ast_to_ast/implementations/assignment_optimizer.php',
     'ezcTemplateAstToAstContextAppender'                 => 'Template/parsers/ast_to_ast/implementations/context_appender.php',
-    'ezcTemplateAstToPhpGenerator'                       => 'Template/parsers/ast_to_php/implementations/php_generator.php',
+    'ezcTemplateAstToPhpStringGenerator'                 => 'Template/parsers/ast_to_php/implementations/php_string_generator.php',
     'ezcTemplateAstTreeOutput'                           => 'Template/parsers/ast/implementations/ast_tree_output.php',
     'ezcTemplateAutoloaderDefinition'                    => 'Template/structs/autoloader_definition.php',
     'ezcTemplateBitwiseAndAssignmentOperatorAstNode'     => 'Template/syntax_trees/ast/nodes/operators/bitwise_and_assignment_operator.php',
@@ -90,9 +92,10 @@ return array(
     'ezcTemplateCacheBlockAstNode'                       => 'Template/syntax_trees/ast/nodes/cache_block.php',
     'ezcTemplateCacheBlockTstNode'                       => 'Template/syntax_trees/tst/nodes/cache_block.php',
     'ezcTemplateCacheManager'                            => 'Template/interfaces/cache_manager.php',
-    'ezcTemplateCachePreparation'                        => 'Template/parsers/tst_to_tst/implementations/cache_preparation.php',
     'ezcTemplateCacheSourceToTstParser'                  => 'Template/parsers/source_to_tst/implementations/cache.php',
     'ezcTemplateCacheTstNode'                            => 'Template/syntax_trees/tst/nodes/cache.php',
+    'ezcTemplateCaptureSourceToTstParser'                => 'Template/parsers/source_to_tst/implementations/capture.php',
+    'ezcTemplateCaptureTstNode'                          => 'Template/syntax_trees/tst/nodes/capture.php',
     'ezcTemplateCaseTstNode'                             => 'Template/syntax_trees/tst/nodes/case.php',
     'ezcTemplateCatchAstNode'                            => 'Template/syntax_trees/ast/nodes/control/catch.php',
     'ezcTemplateCharsetSourceToTstParser'                => 'Template/parsers/source_to_tst/implementations/charset.php',
@@ -191,7 +194,8 @@ return array(
     'ezcTemplateLiteralBlockSourceToTstParser'           => 'Template/parsers/source_to_tst/implementations/literal_block.php',
     'ezcTemplateLiteralBlockTstNode'                     => 'Template/syntax_trees/tst/nodes/literal_block.php',
     'ezcTemplateLiteralTstNode'                          => 'Template/syntax_trees/tst/nodes/literal.php',
-    'ezcTemplateLocationInterface'                       => 'Template/interfaces/location.php',
+    'ezcTemplateLocationInterface'                       => 'Template/interfaces/location_interface.php',
+    'ezcTemplateLocator'                                 => 'Template/interfaces/locator.php',
     'ezcTemplateLogicalAndOperatorAstNode'               => 'Template/syntax_trees/ast/nodes/operators/logical_and_operator.php',
     'ezcTemplateLogicalAndOperatorTstNode'               => 'Template/syntax_trees/tst/nodes/logical_and_operator.php',
     'ezcTemplateLogicalLiteralAndOperatorAstNode'        => 'Template/syntax_trees/ast/nodes/operators/logical_literal_and_operator.php',
@@ -268,6 +272,10 @@ return array(
     'ezcTemplateSymbolTable'                             => 'Template/symbol_table.php',
     'ezcTemplateTextBlockTstNode'                        => 'Template/syntax_trees/tst/nodes/text_block.php',
     'ezcTemplateThrowExceptionAstNode'                   => 'Template/syntax_trees/ast/nodes/throw_exception.php',
+    'ezcTemplateTranslationContextSourceToTstParser'     => 'Template/parsers/source_to_tst/implementations/translation_context.php',
+    'ezcTemplateTranslationContextTstNode'               => 'Template/syntax_trees/tst/nodes/translation_context.php',
+    'ezcTemplateTranslationSourceToTstParser'            => 'Template/parsers/source_to_tst/implementations/translation.php',
+    'ezcTemplateTranslationTstNode'                      => 'Template/syntax_trees/tst/nodes/translation.php',
     'ezcTemplateTryAstNode'                              => 'Template/syntax_trees/ast/nodes/control/try.php',
     'ezcTemplateTstToAstCachedTransformer'               => 'Template/parsers/tst_to_ast/implementations/tst_to_ast_cached_transformer.php',
     'ezcTemplateTstTreeOutput'                           => 'Template/parsers/tst/implementations/tst_tree_output.php',

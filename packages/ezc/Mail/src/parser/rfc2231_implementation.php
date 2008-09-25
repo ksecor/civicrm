@@ -3,8 +3,8 @@
  * File containing the ezcMailRfc2231Implementation class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  * @access private
  */
@@ -15,7 +15,7 @@
  * Headers conforming to this specification are Content-Type and Content-Disposition.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 class ezcMailRfc2231Implementation
@@ -46,7 +46,7 @@ class ezcMailRfc2231Implementation
         $parameterBuffer = array();
 
         // parameters
-        if ( preg_match_all( '/\s*(\S*)="?([^;"]*);?/i', $header, $matches, PREG_SET_ORDER ) )
+        if ( preg_match_all( '/\s*(\S*?)="?([^;"]*);?/i', $header, $matches, PREG_SET_ORDER ) )
         {
             foreach ( $matches as $parameter )
             {
@@ -141,10 +141,20 @@ class ezcMailRfc2231Implementation
                 {
                     case 'filename':
                         $cd->fileName = $data['value'];
+                        $cd->displayFileName = trim( $data['value'], '"' );
                         if ( isset( $data['charset'] ) )
                         {
                             $cd->fileNameCharSet = $data['charset'];
+                            $cd->displayFileName = ezcMailCharsetConverter::convertToUTF8Iconv( $cd->displayFileName, $cd->fileNameCharSet );
                         }
+                        // Work around for bogus email clients that think
+                        // it's allowed to use mime-encoding for filenames.
+                        // It isn't, see RFC 2184, and issue #13038.
+                        else if ( preg_match( '@^=\?[^?]+\?[QqBb]\?@', $cd->displayFileName ) )
+                        {
+                            $cd->displayFileName = ezcMailTools::mimeDecode( $cd->displayFileName );
+                        }
+ 
                         if ( isset( $data['language'] ) )
                         {
                             $cd->fileNameLanguage = $data['language'];

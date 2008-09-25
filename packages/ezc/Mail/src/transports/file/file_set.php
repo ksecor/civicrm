@@ -4,9 +4,9 @@ declare(encoding="latin1");
 /**
  * File containing the ezcMailFileSet class
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.5
  * @package Mail
  */
 
@@ -26,7 +26,7 @@ declare(encoding="latin1");
  * </code>
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailFileSet implements ezcMailParserSet
 {
@@ -75,7 +75,7 @@ class ezcMailFileSet implements ezcMailParserSet
      */
     public function __destruct()
     {
-        if ( $this->fp != null )
+        if ( is_resource( $this->fp ) )
         {
             fclose( $this->fp );
             $this->fp = null;

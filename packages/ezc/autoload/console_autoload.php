@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the ConsoleTools component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.4
  * @filesource
  * @package ConsoleTools
  */
@@ -37,6 +37,7 @@ return array(
     'ezcConsoleDialog'                              => 'ConsoleTools/interfaces/dialog.php',
     'ezcConsoleDialogOptions'                       => 'ConsoleTools/options/dialog.php',
     'ezcConsoleMenuDialogValidator'                 => 'ConsoleTools/interfaces/menu_dialog_validator.php',
+    'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
     'ezcConsoleArgument'                            => 'ConsoleTools/input/argument.php',
     'ezcConsoleArguments'                           => 'ConsoleTools/input/arguments.php',
     'ezcConsoleDialogViewer'                        => 'ConsoleTools/dialog_viewer.php',
@@ -55,7 +56,7 @@ return array(
     'ezcConsoleProgressbar'                         => 'ConsoleTools/progressbar.php',
     'ezcConsoleProgressbarOptions'                  => 'ConsoleTools/options/progressbar.php',
     'ezcConsoleQuestionDialog'                      => 'ConsoleTools/dialog/question_dialog.php',
-    'ezcConsoleQuestionDialogCollectionValidator'   => 'ConsoleTools/dialog/validators/question_dialog_collection.php',
+    'ezcConsoleQuestionDialogMappingValidator'      => 'ConsoleTools/dialog/validators/question_dialog_mapping.php',
     'ezcConsoleQuestionDialogOptions'               => 'ConsoleTools/options/question_dialog.php',
     'ezcConsoleQuestionDialogRegexValidator'        => 'ConsoleTools/dialog/validators/question_dialog_regex.php',
     'ezcConsoleQuestionDialogTypeValidator'         => 'ConsoleTools/dialog/validators/question_dialog_type.php',

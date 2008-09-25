@@ -1,20 +1,34 @@
 <?php
 /**
- * File containing the ezcMailImapTransportOptions class
+ * File containing the ezcMailImapTransportOptions class.
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Class containing the options for IMAP transport.
  *
- * The options from ezcMailTransportOptions are inherited.
+ * The options from {@link ezcMailTransportOptions} are inherited.
+ *
+ * Example of how to use IMAP transport options:
+ * <code>
+ * $options = new ezcMailImapTransportOptions();
+ * $options->ssl = true;
+ * $options->timeout = 3;
+ * $options->uidReferencing = true;
+ *
+ * $imap = new ezcMailImapTransport( 'imap.example.com', null, $options );
+ * </code>
+ *
+ * @property bool $uidReferencing
+ *           Specifies if the IMAP commands will operate with message unique
+ *           IDs or with message numbers (default).
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailImapTransportOptions extends ezcMailTransportOptions
 {
@@ -29,11 +43,13 @@ class ezcMailImapTransportOptions extends ezcMailTransportOptions
      */
     public function __construct( array $options = array() )
     {
+        $this->uidReferencing = false;
+
         parent::__construct( $options );
     }
 
     /**
-     * Sets the option $name to $value.
+     * Sets the value of the option $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name is not defined
@@ -47,6 +63,14 @@ class ezcMailImapTransportOptions extends ezcMailTransportOptions
     {
         switch ( $name )
         {
+            case 'uidReferencing':
+                if ( !is_bool( $value ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, 'bool' );
+                }
+                $this->properties[$name] = $value;
+                break;
+
             default:
                 parent::__set( $name, $value );
         }

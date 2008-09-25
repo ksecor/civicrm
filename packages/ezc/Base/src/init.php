@@ -3,8 +3,8 @@
  * File containing the ezcBaseInit class.
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
@@ -61,7 +61,7 @@
  * component's class ezcConfigurationManager).
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 class ezcBaseInit
 {
@@ -92,11 +92,8 @@ class ezcBaseInit
                 throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
             }
 
-            // Check if the passed classname actually implements the interface. We
-            // have to do that with reflection here unfortunately
-            $interfaceClass = new ReflectionClass( 'ezcBaseConfigurationInitializer' );
-            $handlerClass = new ReflectionClass( $callbackClassname );
-            if ( !$handlerClass->isSubclassOf( $interfaceClass ) )
+            // Check if the passed classname actually implements the interface.
+            if ( !in_array( 'ezcBaseConfigurationInitializer', class_implements( $callbackClassname ) ) )
             {
                 throw new ezcBaseInitInvalidCallbackClassException( $callbackClassname );
             }

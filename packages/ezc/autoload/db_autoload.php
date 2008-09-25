@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Database component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.4
  * @filesource
  * @package Database
  */
@@ -18,12 +18,12 @@ return array(
     'ezcDbUtilities'                 => 'Database/sqlabstraction/utilities.php',
     'ezcDbFactory'                   => 'Database/factory.php',
     'ezcDbHandlerMssql'              => 'Database/handlers/mssql.php',
-    'ezcDbMssqlOptions'              => 'Database/options/identifiers.php',
     'ezcDbHandlerMysql'              => 'Database/handlers/mysql.php',
     'ezcDbHandlerOracle'             => 'Database/handlers/oracle.php',
     'ezcDbHandlerPgsql'              => 'Database/handlers/pgsql.php',
     'ezcDbHandlerSqlite'             => 'Database/handlers/sqlite.php',
     'ezcDbInstance'                  => 'Database/instance.php',
+    'ezcDbMssqlOptions'              => 'Database/options/identifiers.php',
     'ezcDbUtilitiesMysql'            => 'Database/sqlabstraction/implementations/utilities_mysql.php',
     'ezcDbUtilitiesOracle'           => 'Database/sqlabstraction/implementations/utilities_oracle.php',
     'ezcDbUtilitiesPgsql'            => 'Database/sqlabstraction/implementations/utilities_pgsql.php',

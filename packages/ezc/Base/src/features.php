@@ -3,8 +3,8 @@
  * File containing the ezcBaseFeatures class.
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -27,7 +27,7 @@
  * </code>
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 class ezcBaseFeatures
 {
@@ -218,6 +218,11 @@ class ezcBaseFeatures
     /**
      * Returns the operating system on which PHP is running.
      *
+     * This method returns a sanitized form of the OS name, example
+     * return values are "Windows", "Mac", "Linux" and "FreeBSD". In
+     * all other cases it returns the value of the internal PHP constant
+     * PHP_OS.
+     *
      * @return string
      */
     public static function os()
@@ -250,11 +255,11 @@ class ezcBaseFeatures
     }
 
     /**
-     * Returns the path to the specified filename based on the os.
+     * Returns the path of the specified executable, if it can be found in the system's path.
      *
-     * It scans the PATH enviroment variable based on the os to find the $fileName.
-     * For Windows, the path is with \, not /.
-     * If $fileName is not found, it returns null.
+     * It scans the PATH enviroment variable based on the OS to find the
+     * $fileName. For Windows, the path is with \, not /.  If $fileName is not
+     * found, it returns null.
      *
      * @todo consider using getenv( 'PATH' ) instead of $_ENV['PATH']
      *       (but that won't work under IIS)
@@ -308,13 +313,13 @@ class ezcBaseFeatures
                     {
                         if ( file_exists( "{$dir}\\{$fileName}.exe" ) )
                         {
-                            return "{$dir}\\{$fileName}";
+                            return "{$dir}\\{$fileName}.exe";
                         }
                     }
                 }
                 elseif ( file_exists( "{$fileName}.exe" ) )
                 {
-                    return $fileName;
+                    return "{$fileName}.exe";
                 }
                 break;
         }

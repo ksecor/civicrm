@@ -3,8 +3,8 @@
  * File containing the ezcMail class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -22,7 +22,7 @@
  * $mail->addTo( new ezcMailAddress( 'receiver@example.com', 'Maureen Corley' ) );
  * $mail->subject = "Hi";
  * $mail->body = new ezcMailText( "I just mail to say I love you!" );
- * $transport = new ezcMailTransportMta();
+ * $transport = new ezcMailMtaTransport();
  * $transport->send( $mail );
  * </code>
  *
@@ -64,7 +64,7 @@
  * @apichange Remove the support for the deprecated property messageID.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @mainclass
  */
 class ezcMail extends ezcMailPart
@@ -316,52 +316,18 @@ class ezcMail extends ezcMailPart
 
         if ( $this->to !== null )
         {
-            $this->setHeader( "To", ezcMailTools::composeEmailAddresses( $this->to,
-                                                                         ezcMailHeaderFolder::getLimit()) );
+            $this->setHeader( "To", ezcMailTools::composeEmailAddresses( $this->to ) );
         }
         if ( count( $this->cc ) )
         {
-            $this->setHeader( "Cc", ezcMailTools::composeEmailAddresses( $this->cc,
-                                                                         ezcMailHeaderFolder::getLimit()) );
+            $this->setHeader( "Cc", ezcMailTools::composeEmailAddresses( $this->cc ) );
         }
         if ( count( $this->bcc ) )
         {
-            $this->setHeader( "Bcc", ezcMailTools::composeEmailAddresses( $this->bcc,
-                                                                          ezcMailHeaderFolder::getLimit()) );
+            $this->setHeader( "Bcc", ezcMailTools::composeEmailAddresses( $this->bcc ) );
         }
 
-        // build subject header
-        switch ( strtolower( $this->subjectCharset ) )
-        {
-            case 'us-ascii':
-                $this->setHeader( 'Subject', ezcMailHeaderFolder::foldAny( $this->subject ) );
-                break;
-
-            case 'iso-8859-1': case 'iso-8859-2': case 'iso-8859-3': case 'iso-8859-4':
-            case 'iso-8859-5': case 'iso-8859-6': case 'iso-8859-7': case 'iso-8859-8':
-            case 'iso-8859-9': case 'iso-8859-10': case 'iso-8859-11': case 'iso-8859-12':
-            case 'iso-8859-13': case 'iso-8859-14': case 'iso-8859-15' :case 'iso-8859-16':
-            case 'windows-1250': case 'windows-1251': case 'windows-1252':
-            case 'utf-8':
-                if ( strpbrk( $this->subject, "\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" ) === false )
-                {
-                    $this->setHeader( 'Subject', ezcMailHeaderFolder::foldAny( $this->subject ) );
-                    break;
-                }
-                // break intentionally missing
-
-            default:
-                $preferences = array(
-                    'input-charset' => $this->subjectCharset,
-                    'output-charset' => $this->subjectCharset,
-                    'line-length' => ezcMailHeaderFolder::getLimit(),
-                    'scheme' => 'Q',
-                    'line-break-chars' => ezcMailTools::lineBreak()
-                );
-                $subject = iconv_mime_encode( 'dummy', $this->subject, $preferences );
-                $this->setHeader( 'Subject', substr( $subject, 7 ) ); // "dummy: " + 1
-                break;
-        }
+        $this->setHeader( 'Subject', $this->subject, $this->subjectCharset );
 
         $this->setHeader( 'MIME-Version', '1.0' );
         $this->setHeader( 'User-Agent', 'eZ Components' );

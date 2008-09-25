@@ -3,8 +3,8 @@
  * File containing the ezcMailStorageSet class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -38,7 +38,7 @@
  * </code>
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailStorageSet implements ezcMailParserSet
 {
@@ -116,7 +116,7 @@ class ezcMailStorageSet implements ezcMailParserSet
      */
     public function __destruct()
     {
-        if ( $this->writer !== null )
+        if ( is_resource( $this->writer ) )
         {
             fclose( $this->writer );
             $this->writer = null;
@@ -147,7 +147,7 @@ class ezcMailStorageSet implements ezcMailParserSet
         {
             // Temporary value in case the Message-ID cannot be extracted from $line
             $this->id = $this->file;
-            preg_match_all( "/^([\w-_]*): (.*)/", $line, $matches, PREG_SET_ORDER );
+            preg_match_all( "/^([\w-_]*):\s?(.*)/", $line, $matches, PREG_SET_ORDER );
             if ( count( $matches ) > 0 )
             {
                 $this->id = trim( trim( $matches[0][2] ), '<>' );

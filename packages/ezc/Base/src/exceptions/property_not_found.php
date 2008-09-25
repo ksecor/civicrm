@@ -3,8 +3,8 @@
  * File containing the ezcBasePropertyNotFoundException class
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 /**
@@ -12,7 +12,7 @@
  * is accessed in the Components library.
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 class ezcBasePropertyNotFoundException extends ezcBaseException
 {

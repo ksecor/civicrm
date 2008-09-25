@@ -3,8 +3,8 @@
  * File containing the ezcBaseOptions class.
  *
  * @package Base
- * @version 1.3.1
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -12,7 +12,7 @@
  * Base options class for all eZ components.
  *
  * @package Base
- * @version 1.3.1
+ * @version 1.5
  */
 abstract class ezcBaseOptions implements ArrayAccess
 {
@@ -70,6 +70,11 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @param string $propertyName The name of the option to get.
      * @return mixed The option value.
      * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a write-only property.
      */
     public function __get( $propertyName )
     {
@@ -87,6 +92,13 @@ abstract class ezcBaseOptions implements ArrayAccess
      * @param string $propertyName  The name of the option to set.
      * @param mixed $propertyValue The option value.
      * @ignore
+     *
+     * @throws ezcBasePropertyNotFoundException
+     *         if the given property does not exist.
+     * @throws ezcBaseValueException
+     *         if the value to be assigned to a property is invalid.
+     * @throws ezcBasePropertyPermissionException
+     *         if the property to be set is a read-only property.
      */
     abstract public function __set( $propertyName, $propertyValue );
 
@@ -94,7 +106,7 @@ abstract class ezcBaseOptions implements ArrayAccess
      * Returns if a option exists.
      * 
      * @param string $propertyName Option name to check for.
-     * @return void
+     * @return bool Whether the option exists.
      * @ignore
      */
     public function __isset( $propertyName )

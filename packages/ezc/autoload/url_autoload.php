@@ -2,9 +2,9 @@
 /**
  * Autoloader definition for the Url component.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.1
+ * @version 1.2.1
  * @filesource
  * @package Url
  */
@@ -17,5 +17,6 @@ return array(
     'ezcUrl'                          => 'Url/url.php',
     'ezcUrlConfiguration'             => 'Url/url_configuration.php',
     'ezcUrlCreator'                   => 'Url/url_creator.php',
+    'ezcUrlTools'                     => 'Url/url_tools.php',
 );
 ?>

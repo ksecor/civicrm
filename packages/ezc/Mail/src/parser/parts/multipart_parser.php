@@ -3,8 +3,8 @@
  * File containing the ezcMailMultipartParser class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
@@ -12,7 +12,7 @@
  * Base class for Multipart parsers.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @access private
  */
 abstract class ezcMailMultipartParser extends ezcMailPartParser

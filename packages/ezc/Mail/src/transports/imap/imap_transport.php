@@ -1,19 +1,114 @@
 <?php
 /**
- * File containing the ezcMailImapTransport class
+ * File containing the ezcMailImapTransport class.
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
- * ezcMailImapTransport implements IMAP for mail retrieval.
+ * The class ezcMailImapTransport implements functionality for handling IMAP
+ * mail servers.
  *
- * The implementation supports most of the basic commands specified in
- * http://www.faqs.org/rfcs/rfc1730.html (IMAP4) and
- * http://www.faqs.org/rfcs/rfc2060.html (IMAP4rev1)
+ * The implementation supports most of the commands specified in:
+ *  - {@link http://www.faqs.org/rfcs/rfc1730.html} (IMAP4)
+ *  - {@link http://www.faqs.org/rfcs/rfc2060.html} (IMAP4rev1)
+ *
+ * Each user account on the IMAP server has it's own folders (mailboxes).
+ * Mailboxes can be created, renamed or deleted. All accounts have a special
+ * mailbox called Inbox which cannot be deleted or renamed.
+ *
+ * Messages are organized in mailboxes, and are identified by a message number
+ * (which can change over time) and a unique ID (which does not change under
+ * normal circumstances). The commands operating on messages can handle both
+ * modes (message numbers or unique IDs).
+ *
+ * Messages are marked by certain flags (SEEN, DRAFT, etc). Deleting a message
+ * actually sets it's DELETED flag, and a later call to {@link expunge()} will
+ * delete all the messages marked with the DELETED flag.
+ *
+ * The IMAP server can be in different states. Most IMAP commands require
+ * that a connection is established and a user is authenticated. Certain
+ * commands require in addition that a mailbox is selected.
+ *
+ * The IMAP transport class allows developers to interface with an IMAP server.
+ * The commands which support unique IDs to refer to messages are marked with
+ * [*] (see {@link ezcMailImapTransportOptions} to find out how to enable
+ * unique IDs referencing):
+ *
+ * Basic commands:
+ *  - connect to an IMAP server ({@link __construct()})
+ *  - authenticate a user with a username and password ({@link authenticate()})
+ *  - select a mailbox ({@link selectMailbox()})
+ *  - disconnect from the IMAP server ({@link disconnect()})
+ *
+ * Work with mailboxes:
+ *  - get the list of mailboxes of the user ({@link listMailboxes()})
+ *  - create a mailbox ({@link createMailbox()}
+ *  - rename a mailbox ({@link renameMailbox()}
+ *  - delete a mailbox ({@link deleteMailbox()}
+ *  - append a message to a mailbox ({@link append()}
+ *  - select a mailbox ({@link selectMailbox()})
+ *  - get the status of messages in the current mailbox ({@link status()})
+ *  - get the number of messages with a certain flag ({@link countByFlag()}
+ *
+ * Work with message numbers (on the currently selected mailbox):
+ *  - get the message numbers and sizes of all the messages ({@link listMessages()})
+ *  - get the message numbers and IDs of all the messages ({@link listUniqueIdentifiers()})
+ *  - [*] get the headers of a certain message ({@link top()})
+ *  - [*] delete a message ({@link delete()} and {@link expunge()})
+ *  - [*] copy messages to another mailbox ({@link copyMessages()})
+ *  - [*] get the sizes of the specified messages ({@link fetchSizes()})
+ *
+ * Work with flags (on the currently selected mailbox):
+ *  - [*] get the flags of the specified messages ({@link fetchFlags()})
+ *  - [*] set a flag on the specified messages ({@link setFlag()})
+ *  - [*] clear a flag from the specified messages ({@link clearFlag()})
+ *
+ * Work with {@link ezcMailImapSet} sets (parseable with {@link ezcMailParser})
+ * (on the currently selected mailbox):
+ *  - [*] create a set from all messages ({@link fetchAll()})
+ *  - [*] create a set from a certain message ({@link fetchByMessageNr()})
+ *  - [*] create a set from a range of messages ({@link fetchFromOffset()})
+ *  - [*] create a set from messages with a certain flag ({@link fetchByFlag()})
+ *  - [*] create a set from a sorted range of messages ({@link sortFromOffset()})
+ *  - [*] create a set from a sorted list of messages ({@link sortMessages()})
+ *  - [*] create a set from a free-form search ({@link searchMailbox()})
+ *
+ * Miscellaneous commands:
+ *  - get the capabilities of the IMAP server ({@link capability()})
+ *  - get the hierarchy delimiter (useful for nested mailboxes) ({@link getHierarchyDelimiter()})
+ *  - issue a NOOP command to keep the connection alive ({@link noop()})
+ *
+ * The usual operation with an IMAP server is illustrated by this example:
+ * <code>
+ * // create a new IMAP transport object by specifying the server name, optional port
+ * // and optional SSL mode
+ * $options = new ezcMailImapTransportOptions();
+ * $options->ssl = true;
+ * $imap = new ezcMailImapTransport( 'imap.example.com', null, $options );
+ *
+ * // Authenticate to the IMAP server
+ * $imap->authenticate( 'username', 'password' );
+ *
+ * // Select a mailbox (here 'Inbox')
+ * $imap->selectMailbox( 'Inbox' );
+ *
+ * // issue commands to the IMAP server
+ * // for example get the number of RECENT messages
+ * $recent = $imap->countByFlag( 'RECENT' );
+ *
+ * // see the above list of commands or consult the online documentation for
+ * // the full list of commands you can issue to an IMAP server and examples
+ *
+ * // disconnect from the IMAP server
+ * $imap->disconnect();
+ * </code>
+ *
+ * See {@link ezcMailImapTransportOptions} for other options you can specify
+ * for IMAP.
  *
  * @todo ignore messages of a certain size?
  * @todo // support for signing?
@@ -24,7 +119,7 @@
  *           Holds the options you can set to the IMAP transport.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @mainclass
  */
 class ezcMailImapTransport
@@ -113,40 +208,66 @@ class ezcMailImapTransport
     const RESPONSE_FEEDBACK = 5;
 
     /**
+     * Use UID commands (access messages by their unique ID).
+     *
+     * @access private
+     */
+    const UID = 'UID ';
+
+    /**
+     * Use message number commands (access messages by their message numbers).
+     *
+     * @access private
+     */
+    const NO_UID = '';
+
+    /**
      * Basic flags are used by {@link setFlag()} and {@link clearFlag()}
-     *     ANSWERED   Message has been answered
-     *     DELETED    Message is marked to be deleted by later EXPUNGE
-     *     DRAFT      Message has marked as a draft
-     *     FLAGGED    Message is "flagged" for urgent/special attention
-     *     SEEN       Message has been read
+     *
+     * Basic flags:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - SEEN       - message has been read
      *
      * @var array(string)
      */
-    private static $basicFlags = array( 'ANSWERED', 'DELETED', 'DRAFT', 'FLAGGED', 'SEEN' );
+    protected static $basicFlags = array( 'ANSWERED', 'DELETED', 'DRAFT', 'FLAGGED', 'SEEN' );
 
     /**
      * Extended flags are used by {@link searchByFlag()}
-     *     ANSWERED   Message has been answered
-     *     DELETED    Message is marked to be deleted by later EXPUNGE
-     *     DRAFT      Message has marked as a draft
-     *     FLAGGED    Message is "flagged" for urgent/special attention
-     *     RECENT     Message is recent (cannot be set)
-     *     SEEN       Message has been read
-     *     UNANSWERED, UNDELETED, UNDRAFT, UNFLAGGED, OLD, UNSEEN
-     *                Opposites of the above flags
-     *     NEW        Equivalent to RECENT + UNSEEN
-     *     ALL        All the messages
+     *
+     * Basic flags:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - RECENT     - message is recent
+     *  - SEEN       - message has been read
+     *
+     * Opposites of the above flags:
+     *  - UNANSWERED
+     *  - UNDELETED
+     *  - UNDRAFT
+     *  - UNFLAGGED
+     *  - OLD
+     *  - UNSEEN
+     *
+     * Composite flags:
+     *  - NEW        - equivalent to RECENT + UNSEEN
+     *  - ALL        - all the messages
      *
      * @var array(string)
      */
-    private static $extendedFlags = array( 'ALL', 'ANSWERED', 'DELETED', 'DRAFT', 'FLAGGED', 'NEW', 'OLD', 'RECENT', 'SEEN', 'UNANSWERED', 'UNDELETED', 'UNDRAFT', 'UNFLAGGED', 'UNRECENT', 'UNSEEN' );
+    protected static $extendedFlags = array( 'ALL', 'ANSWERED', 'DELETED', 'DRAFT', 'FLAGGED', 'NEW', 'OLD', 'RECENT', 'SEEN', 'UNANSWERED', 'UNDELETED', 'UNDRAFT', 'UNFLAGGED', 'UNRECENT', 'UNSEEN' );
 
     /**
      * Used to generate a tag for sending commands to the IMAP server.
      *
      * @var string
      */
-    private $currentTag = 'A0000';
+    protected $currentTag = 'A0000';
 
     /**
      * Holds the connection state.
@@ -158,25 +279,25 @@ class ezcMailImapTransport
      *          {@link STATE_SELECTED_READONLY} or
      *          {@link STATE_LOGOUT}.
      */
-    private $state = self::STATE_NOT_CONNECTED;
+    protected $state = self::STATE_NOT_CONNECTED;
 
     /**
      * Holds the currently selected mailbox.
      *
      * @var string
      */
-    private $selectedMailbox = null;
+    protected $selectedMailbox = null;
 
     /**
-     * The connection to the IMAP server.
+     * Holds the connection to the IMAP server.
      *
      * @var ezcMailTransportConnection
      */
-    private $connection = null;
+    protected $connection = null;
 
     /**
-     * Options for an IMAP transport connection.
-     * 
+     * Holds the options for an IMAP transport connection.
+     *
      * @var ezcMailImapTransportOptions
      */
     private $options;
@@ -188,11 +309,24 @@ class ezcMailImapTransport
      * 993 (for SSL connections) or 143 (for plain connections). Use the $options
      * parameter to specify an SSL connection.
      *
-     * See {@link ezcMailImapTransportOptions} for options you can specify for IMAP.
+     * See {@link ezcMailImapTransportOptions} for options you can specify for
+     * IMAP.
+     *
+     * Example of creating an IMAP transport:
+     * <code>
+     * // replace with your IMAP server address
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     *
+     * // if you want to use SSL:
+     * $options = new ezcMailImapTransportOptions();
+     * $options->ssl = true;
+     *
+     * $imap = new ezcMailImapTransport( 'imap.example.com', null, $options );
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if it was not possible to connect to the server
-     * @throws ezcBaseFeatureNotFoundException
+     * @throws ezcBaseExtensionNotFoundException
      *         if trying to use SSL and the extension openssl is not installed
      * @throws ezcBasePropertyNotFoundException
      *         if $options contains a property not defined
@@ -200,11 +334,23 @@ class ezcMailImapTransport
      *         if $options contains a property with a value not allowed
      * @param string $server
      * @param int $port
-     * @param array(string=>mixed) $options
+     * @param ezcMailImapTransportOptions|array(string=>mixed) $options
      */
-    public function __construct( $server, $port = null, array $options = array() )
+    public function __construct( $server, $port = null, $options = array() )
     {
-        $this->options = new ezcMailImapTransportOptions( $options );
+        if ( $options instanceof ezcMailImapTransportOptions )
+        {
+            $this->options = $options;
+        }
+        else if ( is_array( $options ) )
+        {
+            $this->options = new ezcMailImapTransportOptions( $options );
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "ezcMailImapTransportOptions|array" );
+        }
+
         if ( $port === null )
         {
             $port = ( $this->options->ssl === true ) ? 993 : 143;
@@ -230,7 +376,7 @@ class ezcMailImapTransport
     }
 
     /**
-     * Sets the property $name to $value.
+     * Sets the value of the property $name to $value.
      *
      * @throws ezcBasePropertyNotFoundException
      *         if the property $name does not exist
@@ -301,7 +447,8 @@ class ezcMailImapTransport
      */
     public function disconnect()
     {
-        if ( $this->state != self::STATE_NOT_CONNECTED )
+        if ( $this->state !== self::STATE_NOT_CONNECTED
+             && $this->connection->isConnected() === true )
         {
             $tag = $this->getNextTag();
             $this->connection->sendData( "{$tag} LOGOUT" );
@@ -321,14 +468,22 @@ class ezcMailImapTransport
      *
      * This method should be called directly after the construction of this
      * object.
-     * If authentication does not succeed, an ezcMailTransportException is
-     * thrown.
-     * If the server is waiting for authentication process to respond, the
+     *
+     * If the server is waiting for the authentication process to respond, the
      * connection with the IMAP server will be closed, and false is returned,
      * and it is the application's task to reconnect and reauthenticate.
      *
+     * Example of creating an IMAP transport and authenticating:
+     * <code>
+     * // replace with your IMAP server address
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     *
+     * // replace the values with your username and password for the IMAP server
+     * $imap->authenticate( 'username', 'password' );
+     * </code>
+     *
      * @throws ezcMailTransportException
-     *         if there was no connection to the server
+     *         if already authenticated
      *         or if the provided username/password combination did not work
      * @param string $user
      * @param string $password
@@ -344,7 +499,7 @@ class ezcMailImapTransport
         $tag = $this->getNextTag();
         $this->connection->sendData( "{$tag} LOGIN {$user} {$password}" );
         $response = trim( $this->connection->getLine() );
-        if ( strpos( $response, '* OK ' ) !== false )
+        if ( strpos( $response, '* OK' ) !== false )
         {
             // the server is busy waiting for authentication process to
             // respond, so it is a good idea to just close the connection,
@@ -368,26 +523,37 @@ class ezcMailImapTransport
     }
 
     /**
-     * Lists the available mailboxes on the IMAP server.
+     * Returns an array with the names of the available mailboxes for the user
+     * currently authenticated on the IMAP server.
      *
-     * Before listing the mailboxes, the connection state ($state) must
-     * be at least {@link STATE_AUTHENTICATED} or {@link STATE_SELECTED} or
-     * {@link STATE_SELECTED_READONLY}.
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
      *
      * For more information about $reference and $mailbox, consult
-     * the IMAP RFC document (http://www.faqs.org/rfcs/rfc1730.html).
+     * the IMAP RFCs documents ({@link http://www.faqs.org/rfcs/rfc1730.html}
+     * or {@link http://www.faqs.org/rfcs/rfc2060.html}, section 7.2.2.).
+     *
      * By default, $reference is "" and $mailbox is "*".
+     *
      * The array returned contains the mailboxes available for the connected
      * user on this IMAP server. Inbox is a special mailbox, and it can be
      * specified upper-case or lower-case or mixed-case. The other mailboxes
-     * should be specified as they are (to the selectMailbox() method).
+     * should be specified as they are (to the {@link selectMailbox()} method).
+     *
+     * Example of listing mailboxes:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     *
+     * $mailboxes = $imap->listMailboxes();
+     * </code>
      *
      * @throws ezcMailMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if the server sent a negative response
      * @param string $reference
      * @param string $mailbox
-     * @return array(int=>string)
+     * @return array(string)
      */
     public function listMailboxes( $reference = '', $mailbox = '*' )
     {
@@ -425,21 +591,86 @@ class ezcMailImapTransport
     }
 
     /**
-     * Selects the mailbox $mailbox.
+     * Returns the hierarchy delimiter of the IMAP server, useful for handling
+     * nested IMAP folders.
+     *
+     * For more information about the hierarchy delimiter, consult the IMAP RFCs
+     * {@link http://www.faqs.org/rfcs/rfc1730.html} or
+     * {@link http://www.faqs.org/rfcs/rfc2060.html}, section 6.3.8.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
+     *
+     * Example of returning the hierarchy delimiter:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     *
+     * $delimiter = $imap->getDelimiter();
+     * </code>
+     *
+     * After running the above code, $delimiter should be something like "/".
+     *
+     * @throws ezcMailMailTransportException
+     *         if the current server state is not accepted
+     *         or if the server sent a negative response
+     * @return string
+     */
+    public function getHierarchyDelimiter()
+    {
+        if ( $this->state != self::STATE_AUTHENTICATED &&
+             $this->state != self::STATE_SELECTED &&
+             $this->state != self::STATE_SELECTED_READONLY )
+        {
+            throw new ezcMailTransportException( "Can't call getDelimiter() when not successfully logged in." );
+        }
+
+        $tag = $this->getNextTag();
+        $this->connection->sendData( "{$tag} LIST \"\" \"\"" );
+
+        // there should be only one * LIST response line from IMAP
+        $response = trim( $this->getResponse( '* LIST' ) );
+        $parts = explode( '"', $response );
+
+        if ( count( $parts ) >= 2 )
+        {
+            $result = $parts[1];
+        }
+        else
+        {
+            throw new ezcMailTransportException( "Could not retrieve the hierarchy delimiter: {$response}." );
+        }
+
+        $response = $this->getResponse( $tag, $response );
+        if ( $this->responseType( $response ) != self::RESPONSE_OK )
+        {
+            throw new ezcMailTransportException( "Could not retrieve the hierarchy delimiter: {$response}." );
+        }
+        return $result;
+    }
+
+    /**
+     * Selects the mailbox $mailbox, which will be the active mailbox for the
+     * subsequent commands until it is changed.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
+     *
+     * Inbox is a special mailbox and can be specified with any case.
      *
      * This method should be called after authentication, and before fetching
      * any messages.
-     * Before selecting the mailbox, the connection state ($state) must
-     * be at least {@link STATE_AUTHENTICATED}, {@link STATE_SELECTED} or
-     * or {@link STATE_SELECTED_READONLY}.
-     * If the selecting of the mailbox fails (with "NO" or "BAD" response
-     * from the server), $state revert to STATE_AUTHENTICATED.
-     * After successfully selecting a mailbox, $state will be STATE_SELECTED
-     * or STATE_SELECTED_READONLY.
-     * Inbox is a special mailbox and can always be specified.
+     *
+     * Example of selecting a mailbox:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     *
+     * $imap->selectMailbox( 'Reports 2006' );
+     * </code>
      *
      * @throws ezcMailMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if the server sent a negative response
      * @param string $mailbox
      * @param bool $readOnly
@@ -454,16 +685,22 @@ class ezcMailImapTransport
         }
 
         $tag = $this->getNextTag();
+
+        // if the mailbox selection will be successful, $state will be STATE_SELECTED
+        // or STATE_SELECTED_READONLY, depending on the $readOnly parameter
         if ( $readOnly !== true ) 
         {
             $this->connection->sendData( "{$tag} SELECT \"{$mailbox}\"" );
             $state = self::STATE_SELECTED;
         }
-        else 
+        else
         {
             $this->connection->sendData( "{$tag} EXAMINE \"{$mailbox}\"" );
             $state = self::STATE_SELECTED_READONLY;
         }
+
+        // if the selecting of the mailbox fails (with "NO" or "BAD" response
+        // from the server), $state reverts to STATE_AUTHENTICATED
         $response = trim( $this->getResponse( $tag ) );
         if ( $this->responseType( $response ) == self::RESPONSE_OK )
         {
@@ -481,8 +718,13 @@ class ezcMailImapTransport
     /**
      * Creates the mailbox $mailbox.
      *
+     * Inbox cannot be created.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
+     *
      * @throws ezcMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if the server sent a negative response
      * @param string $mailbox
      * @return bool
@@ -511,15 +753,18 @@ class ezcMailImapTransport
      *
      * Inbox cannot be renamed.
      *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
+     *
      * @throws ezcMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if trying to rename the currently selected mailbox
      *         or if the server sent a negative response
      * @param string $mailbox
      * @param string $newName
      * @return bool
      */
-    function renameMailbox( $mailbox, $newName )
+    public function renameMailbox( $mailbox, $newName )
     {
         if ( $this->state != self::STATE_AUTHENTICATED &&
              $this->state != self::STATE_SELECTED &&
@@ -546,10 +791,13 @@ class ezcMailImapTransport
     /**
      * Deletes the mailbox $mailbox.
      *
-     * Inbox cannot be deleted.
+     * Inbox and the the currently selected mailbox cannot be deleted.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
      *
      * @throws ezcMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if trying to delete the currently selected mailbox
      *         or if the server sent a negative response
      * @param string $mailbox
@@ -580,15 +828,41 @@ class ezcMailImapTransport
     }
 
     /** 
-     * Copies message(s) from the selected mailbox to mailbox $destination.
+     * Copies message(s) from the currently selected mailbox to mailbox
+     * $destination.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * Warning! When using unique IDs referencing and trying to copy a message
+     * with an ID that does not exist, this method will not throw an exception.
+     *
+     * @todo Find out if it is possible to catch this IMAP bug.
      *
      * $messages can be:
-     * - a single message number (eg: 1)
-     * - a message range (eg. 1:4)
-     * - a message list (eg. 1,2,4)
+     *  - a single message number (eg: '1')
+     *  - a message range (eg. '1:4')
+     *  - a message list (eg. '1,2,4')
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected (the mailbox from which messages will be copied).
+     *
+     * Example of copying 3 messages to a mailbox:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $imap->copyMessages( '1,2,4', 'Reports 2006' );
+     * </code>
+     *
+     * The above code will copy the messages with numbers 1, 2 and 4 from Inbox
+     * to Reports 2006.
      *
      * @throws ezcMailTransportException
-     *         if $state is not accepted
+     *         if the current server state is not accepted
      *         or if the server sent a negative response
      * @param string $messages
      * @param string $destination
@@ -596,6 +870,8 @@ class ezcMailImapTransport
      */
     public function copyMessages( $messages, $destination )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED &&
              $this->state != self::STATE_SELECTED_READONLY )
         {
@@ -603,7 +879,7 @@ class ezcMailImapTransport
         }
     
         $tag = $this->getNextTag();
-        $this->connection->sendData( "{$tag} COPY {$messages} \"{$destination}\"" );
+        $this->connection->sendData( "{$tag} {$uid}COPY {$messages} \"{$destination}\"" );
         
         $response = trim( $this->getResponse( $tag ) );
         if ( $this->responseType( $response ) != self::RESPONSE_OK )
@@ -616,11 +892,25 @@ class ezcMailImapTransport
     /**
      * Returns a list of the not deleted messages in the current mailbox.
      *
-     * It returns only the messages with the flag \Deleted not set.
-     * The format of the returned array is array(message_id => size).
-     * Eg: ( 2 => 1700, 5 => 1450, 6 => 21043 )
+     * It returns only the messages with the flag DELETED not set.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * The format of the returned array is
+     * <code>
+     *   array( message_id => size );
+     * </code>
+     *
+     * Example:
+     * <code>
+     *   array( 2 => 1700, 5 => 1450, 6 => 21043 );
+     * </code>
+     *
      * If $contentType is set, it returns only the messages with
      * $contentType in the Content-Type header.
+     *
      * For example $contentType can be "multipart/mixed" to return only the
      * messages with attachments.
      *
@@ -628,7 +918,7 @@ class ezcMailImapTransport
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      * @param string $contentType
-     * @return array(int=>int)
+     * @return array(int)
      */
     public function listMessages( $contentType = null )
     {
@@ -694,13 +984,116 @@ class ezcMailImapTransport
     }
 
     /**
-     * Returns information about messages in the selected mailbox.
+     * Fetches the sizes in bytes for messages $messages.
      *
-     * The information returned through parameters is:
-     * - $numMessages = number of not deleted messages in the selected mailbox
-     * - $sizeMessages = sum of the not deleted messages sizes
-     * - $recent = number of recent and not deleted messages
-     * - $unseen = number of unseen and not deleted messages
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * $messages is an array of message numbers, for example:
+     * <code>
+     *   array( 1, 2, 4 );
+     * </code>
+     *
+     * The format of the returned array is:
+     * <code>
+     *   array( message_number => size )
+     * </code>
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * $sizes = $imap->fetchSizes( array( 1, 2, 4 ) );
+     * </code>
+     *
+     * The returned array $sizes will be something like:
+     * <code>
+     *   array( 1 => 1043,
+     *          2 => 203901,
+     *          4 => 14277
+     *        );
+     * </code>
+     *
+     * @throws ezcMailTransportException
+     *         if a mailbox is not selected
+     *         or if the server sent a negative response
+     * @param array $messages
+     * @return array(int)
+     */
+    public function fetchSizes( $messages )
+    {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
+        if ( $this->state != self::STATE_SELECTED &&
+             $this->state != self::STATE_SELECTED_READONLY )
+        {
+            throw new ezcMailTransportException( "Can't call fetchSizes() on the IMAP transport when a mailbox is not selected." );
+        }
+
+        $sizes = array();
+        $ids = implode( $messages, ',' );
+
+        $tag = $this->getNextTag();
+        $this->connection->sendData( "{$tag} {$uid}FETCH {$ids} (RFC822.SIZE)" );
+
+        $response = trim( $this->connection->getLine() );
+        while ( strpos( $response, $tag ) === false )
+        {
+            if ( strpos( $response, ' FETCH (' ) !== false )
+            {
+                if ( $this->options->uidReferencing )
+                {
+                    preg_match( '/\*\s.*\sFETCH\s\(RFC822\.SIZE\s(.*)\sUID\s(.*)\)/U', $response, $matches );
+                    $sizes[intval( $matches[2] )] = (int) $matches[1];
+                }
+                else
+                {
+                    preg_match( '/\*\s(.*)\sFETCH\s\(RFC822\.SIZE\s(.*)\)/U', $response, $matches );
+                    $sizes[intval( $matches[1] )] = (int) $matches[2];
+                }
+
+            }
+            $response = trim( $this->connection->getLine() );
+        }
+
+        if ( $this->responseType( $response ) != self::RESPONSE_OK )
+        {
+            throw new ezcMailTransportException( "The IMAP server could not fetch flags for the messages '{$messages}': {$response}." );
+        }
+        return $sizes;
+    }
+
+    /**
+     * Returns information about the messages in the current mailbox.
+     *
+     * The information returned through the parameters is:
+     *  - $numMessages = number of not deleted messages in the selected mailbox
+     *  - $sizeMessages = sum of the not deleted messages sizes
+     *  - $recent = number of recent and not deleted messages
+     *  - $unseen = number of unseen and not deleted messages
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example of returning the status of the currently selected mailbox:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $imap->status( $numMessages, $sizeMessages, $recent, $unseen );
+     * </code>
+     *
+     * After running the above code, $numMessages, $sizeMessages, $recent
+     * and $unseen will be populated with values.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -730,13 +1123,22 @@ class ezcMailImapTransport
     }
 
     /**
-     * Deletes the message with the message number $msgNum from the server.
+     * Deletes the message with the message number $msgNum from the current mailbox.
      *
-     * The message number must be a valid identifier fetched with e.g.
-     * listMessages().
-     * The message is not physically deleted, but has its \Deleted flag set,
-     * and can be later undeleted by clearing its \Deleted flag
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * The message number $msgNum must be a valid identifier fetched with e.g.
+     * {@link listMessages()}.
+     *
+     * The message is not physically deleted, but has its DELETED flag set,
+     * and can be later undeleted by clearing its DELETED flag with
      * {@link clearFlag()}.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -746,12 +1148,14 @@ class ezcMailImapTransport
      */
     public function delete( $msgNum )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED )
         {
             throw new ezcMailTransportException( "Can't call delete() when a mailbox is not selected." );
         }
         $tag = $this->getNextTag();
-        $this->connection->sendData( "{$tag} STORE {$msgNum} +FLAGS (\\Deleted)" );
+        $this->connection->sendData( "{$tag} {$uid}STORE {$msgNum} +FLAGS (\\Deleted)" );
 
         // get the response (should be "{$tag} OK Store completed.")
         $response = trim( $this->getResponse( $tag ) );
@@ -764,10 +1168,44 @@ class ezcMailImapTransport
 
     /**
      * Returns the headers and the first characters from message $msgNum,
-     * without setting the \Seen flag.
+     * without setting the SEEN flag.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
      *
      * If the command failed or if it was not supported by the server an empty
      * string is returned.
+     *
+     * This method is useful for retrieving the headers of messages from the
+     * mailbox as strings, which can be later parsed with {@link ezcMailParser}
+     * and {@link ezcMailVariableSet}. In this way the retrieval of the full
+     * messages from the server is avoided when building a list of messages.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example of listing the mail headers of all the messages in the current
+     * mailbox:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $parser = new ezcMailParser();
+     * $messages = $imap->listMessages();
+     * foreach ( $messages as $messageNr => $size )
+     * {
+     *     $set = new ezcMailVariableSet( $imap->top( $messageNr ) );
+     *     $mail = $parser->parseMail( $set );
+     *     $mail = $mail[0];
+     *     echo "From: {$mail->from}, Subject: {$mail->subject}, Size: {$size}\n";
+     * }
+     * </code>
+     *
+     * For a more advanced example see the "Mail listing example" in the online
+     * documentation.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -778,6 +1216,8 @@ class ezcMailImapTransport
      */
     public function top( $msgNum, $chars = 0 )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED &&
              $this->state != self::STATE_SELECTED_READONLY )
         {
@@ -785,16 +1225,29 @@ class ezcMailImapTransport
         }
 
         $tag = $this->getNextTag();
+
         if ( $chars === 0 )
         {
-            $command = "{$tag} FETCH {$msgNum} (BODY.PEEK[HEADER] BODY.PEEK[TEXT])";
+            $command = "{$tag} {$uid}FETCH {$msgNum} (BODY.PEEK[HEADER] BODY.PEEK[TEXT])";
         }
         else
         {
-            $command = "{$tag} FETCH {$msgNum} (BODY.PEEK[HEADER] BODY.PEEK[TEXT]<0.{$chars}>)";
+            $command = "{$tag} {$uid}FETCH {$msgNum} (BODY.PEEK[HEADER] BODY.PEEK[TEXT]<0.{$chars}>)";
         }
         $this->connection->sendData( $command );
-        $response = $this->getResponse( 'FETCH (' );
+        if ( $this->options->uidReferencing )
+        {
+            // special case (BUG?) where "UID FETCH {$msgNum}" returns nothing
+            $response = trim( $this->connection->getLine() );
+            if ( $this->responseType( $response ) === self::RESPONSE_OK )
+            {
+                throw new ezcMailTransportException( "The IMAP server could not fetch the message '{$msgNum}': {$response}." );
+            }
+        }
+        else
+        {
+            $response = $this->getResponse( 'FETCH (' );
+        }
         $message = "";
         if ( strpos( $response, 'FETCH (' ) !== false )
         {
@@ -822,24 +1275,36 @@ class ezcMailImapTransport
     }
 
     /**
-     * Returns the unique identifiers messages on the IMAP server.
+     * Returns the unique identifiers for the messages from the current mailbox.
      *
-     * You can fetch the unique identifier for a specific message only by
+     * You can fetch the unique identifier for a specific message by
      * providing the $msgNum parameter.
      *
      * The unique identifier can be used to recognize mail from servers
      * between requests. In contrast to the message numbers the unique
-     * numbers assigned to an email never changes.
+     * numbers assigned to an email usually never changes.
      *
-     * The format of the returned array is array(message_num=>unique_id)
+     * The format of the returned array is:
+     * <code>
+     *   array( message_num => unique_id );
+     * </code>
+     *
+     * Example:
+     * <code>
+     *   array( 1 => 216, 2 => 217, 3 => 218, 4 => 219 );
+     * </code>
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @todo add UIVALIDITY value to UID (like in POP3) (if necessary).
-     * 
+     *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      * @param int $msgNum
-     * @return array(int=>string)
+     * @return array(string)
      */
     public function listUniqueIdentifiers( $msgNum = null )
     {
@@ -890,10 +1355,37 @@ class ezcMailImapTransport
     }
 
     /**
-     * Returns a parserset with all the messages on the server.
+     * Returns an {@link ezcMailImapSet} with all the messages from the current mailbox.
      *
-     * If $deleteFromServer is set to true the mail will be removed from the
-     * server after retrieval. If not it will be left.
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * If $deleteFromServer is set to true the mail will be marked for deletion
+     * after retrieval. If not it will be left intact.
+     *
+     * The set returned can be parsed with {@link ezcMailParser}.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $set = $imap->fetchAll();
+     *
+     * // parse $set with ezcMailParser
+     * $parser = new ezcMailParser();
+     * $mails = $parser->parseMail( $set );
+     * foreach ( $mails as $mail )
+     * {
+     *     // process $mail which is an ezcMail object
+     * }
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -903,18 +1395,46 @@ class ezcMailImapTransport
      */
     public function fetchAll( $deleteFromServer = false )
     {
-        $messages = $this->listMessages();
-        return new ezcMailImapSet( $this->connection, array_keys( $messages ), $deleteFromServer );
+        if ( $this->options->uidReferencing )
+        {
+            $messages = array_values( $this->listUniqueIdentifiers() );
+        }
+        else
+        {
+            $messages = array_keys( $this->listMessages() );
+        }
+
+        return new ezcMailImapSet( $this->connection, $messages, $deleteFromServer, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
-     * Returns an ezcMailImapSet containing only the $number -th message in
-     * the mailbox.
+     * Returns an {@link ezcMailImapSet} containing only the $number -th message in
+     * the current mailbox.
      *
-     * If $deleteFromServer is set to true the mail will be removed from the
-     * server after retrieval. If not it will be left.
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * If $deleteFromServer is set to true the mail will be marked for deletion
+     * after retrieval. If not it will be left intact.
+     *
      * Note: for IMAP the first message is 1 (so for $number = 0 an exception
      * will be thrown).
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $set = $imap->fetchByMessageNr( 1 );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -927,29 +1447,55 @@ class ezcMailImapTransport
      */
     public function fetchByMessageNr( $number, $deleteFromServer = false )
     {
-        $messages = $this->listMessages();
+        if ( $this->options->uidReferencing )
+        {
+            $messages = array_flip( $this->listUniqueIdentifiers() );
+        }
+        else
+        {
+            $messages = $this->listMessages();
+        }
+
         if ( !isset( $messages[$number] ) )
         {
             throw new ezcMailNoSuchMessageException( $number );
         }
-        else
-        {
-            return new ezcMailImapSet( $this->connection, array( 0 => $number ), $deleteFromServer );
-        }
+
+        return new ezcMailImapSet( $this->connection, array( 0 => $number ), $deleteFromServer, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
-     * Returns an ezcMailImapSet with $count messages starting from $offset.
+     * Returns an {@link ezcMailImapSet} with $count messages starting from $offset from
+     * the current mailbox.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
      *
      * Fetches $count messages starting from the $offset and returns them as a
-     * ezcMailImapSet. If $count is not specified or if it is 0, it fetches
+     * {@link ezcMailImapSet}. If $count is not specified or if it is 0, it fetches
      * all messages starting from the $offset.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'Inbox' );
+     *
+     * $set = $imap->fetchFromOffset( 1, 10 );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      * @throws ezcMailInvalidLimitException
-     *         if $count is negative.
+     *         if $count is negative
      * @throws ezcMailOffsetOutOfRangeException
      *         if $offset is outside of the existing range of messages
      * @param int $offset
@@ -963,29 +1509,164 @@ class ezcMailImapTransport
         {
             throw new ezcMailInvalidLimitException( $offset, $count );
         }
-        $messages = array_keys( $this->listMessages() );
-        if ( $count == 0 )
+
+        if ( $this->options->uidReferencing )
         {
-            $range = array_slice( $messages, $offset - 1, count( $messages ), true );
+            $messages = array_values( $this->listUniqueIdentifiers() );
+            $ids = array_flip( $messages );
+
+            if ( $count === 0 )
+            {
+                $count = count( $messages );
+            }
+
+            if ( !isset( $ids[$offset] ) )
+            {
+                throw new ezcMailOffsetOutOfRangeException( $offset, $count );
+            }
+
+            $range = array();
+            for ( $i = $ids[$offset]; $i < min( $count, count( $messages ) ); $i++ )
+            {
+                $range[] = $messages[$i];
+            }
         }
         else
         {
+            $messages = array_keys( $this->listMessages() );
+
+            if ( $count === 0 )
+            {
+                $count = count( $messages );
+            }
+
             $range = array_slice( $messages, $offset - 1, $count, true );
+
+            if ( !isset( $range[$offset - 1] ) )
+            {
+                throw new ezcMailOffsetOutOfRangeException( $offset, $count );
+            }
         }
-        if ( !isset( $range[$offset - 1] ) )
-        {
-            throw new ezcMailOffsetOutOfRangeException( $offset, $count );
-        }
-        return new ezcMailImapSet( $this->connection, $range, $deleteFromServer );
+
+        return new ezcMailImapSet( $this->connection, $range, $deleteFromServer, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
-     * Fetches $count messages from $offset sorted by $sortCriteria.
+     * Returns an {@link ezcMailImapSet} containing the messages which match the
+     * provided $criteria from the current mailbox.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * See {@link http://www.faqs.org/rfcs/rfc1730.html} - 6.4.4. (or
+     * {@link http://www.faqs.org/rfcs/rfc1730.html} - 6.4.4.) for criterias
+     * which can be used for searching. The criterias can be combined in the
+     * same search string (separate the criterias with spaces).
+     *
+     * If $criteria is null or empty then it will default to 'ALL' (returns all
+     * messages in the mailbox).
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Examples:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * // return an ezcMailImapSet containing all messages flagged as 'SEEN'
+     * $set = $imap->searchMailbox( 'SEEN' );
+     *
+     * // return an ezcMailImapSet containing messages with 'release' in their Subject
+     * $set = $imap->searchMailbox( 'SUBJECT "release"' );
+     *
+     * // criterias can be combined:
+     * // return an ezcMailImapSet containing messages flagged as 'SEEN' and
+     * // with 'release' in their Subject
+     * $set = $imap->searchMailbox( 'SEEN SUBJECT "release"' );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
+     *
+     * @throws ezcMailTransportException
+     *         if a mailbox is not selected
+     *         or if the server sent a negative response
+     * @param string $criteria
+     * @return ezcMailImapSet
+     */
+    public function searchMailbox( $criteria = null )
+    {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
+        if ( $this->state != self::STATE_SELECTED &&
+             $this->state != self::STATE_SELECTED_READONLY )
+        {
+            throw new ezcMailTransportException( "Can't call searchMailbox() on the IMAP transport when a mailbox is not selected." );
+        }
+
+        $criteria = trim( $criteria );
+        if ( empty( $criteria ) )
+        {
+            $criteria = 'ALL';
+        }
+
+        $matchingMessages = array();
+        $tag = $this->getNextTag();
+        $this->connection->sendData( "{$tag} {$uid}SEARCH {$criteria}" );
+
+        $response = $this->getResponse( '* SEARCH' );
+        if ( strpos( $response, '* SEARCH' ) !== false )
+        {
+            $ids = substr( trim( $response ), 9 );
+            if ( trim( $ids ) !== "" )
+            {
+                $matchingMessages = explode( ' ', $ids );
+            }
+        }
+
+        $response = trim( $this->getResponse( $tag, $response ) );
+        if ( $this->responseType( $response ) != self::RESPONSE_OK )
+        {
+            throw new ezcMailTransportException( "The IMAP server could not search the messages by the specified criteria: {$response}." );
+        }
+
+        return new ezcMailImapSet( $this->connection, array_values( $matchingMessages ), false, array( 'uidReferencing' => $this->options->uidReferencing ) );
+    }
+
+    /**
+     * Returns an {@link ezcMailImapSet} containing $count messages starting
+     * from $offset sorted by $sortCriteria from the current mailbox.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
+     * It is useful for paging through a mailbox.
      *
      * Fetches $count messages starting from the $offset and returns them as a
-     * ezcMailImapSet. If $count is is 0, it fetches all messages starting from
-     * the $offset.
-     * $sortCriteria is an email header like: Subject, To, From, Date, Sender.
+     * {@link ezcMailImapSet}. If $count is is 0, it fetches all messages
+     * starting from the $offset.
+     *
+     * $sortCriteria is an email header like: Subject, To, From, Date, Sender, etc.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * // Fetch a range of messages sorted by Date
+     * $set = $imap->sortFromOffset( 1, 10, "Date" );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -1007,36 +1688,89 @@ class ezcMailImapTransport
             throw new ezcMailInvalidLimitException( $offset, $count );
         }
 
-        $messageCount = $this->countByFlag( 'ALL' );
-        $messages = array_keys( $this->sort( range( 1, $messageCount ), $sortCriteria, $reverse ) );
-
-        if ( $count == 0 )
+        if ( $this->options->uidReferencing )
         {
-            $range = array_slice( $messages, $offset - 1, count( $messages ), true );
+            $uids = array_values( $this->listUniqueIdentifiers() );
+
+            $flip = array_flip( $uids );
+            if ( !isset( $flip[$offset] ) )
+            {
+                throw new ezcMailOffsetOutOfRangeException( $offset, $count );
+            }
+
+            $start = $flip[$offset];
+
+            $messages = $this->sort( $uids, $sortCriteria, $reverse );
+
+            if ( $count === 0 )
+            {
+                $count = count( $messages );
+            }
+
+            $ids = array_keys( $messages );
+
+            for ( $i = $start; $i < $count; $i++ )
+            {
+                $range[] = $ids[$i];
+            }
         }
         else
         {
+            $messageCount = $this->countByFlag( 'ALL' );
+            $messages = array_keys( $this->sort( range( 1, $messageCount ), $sortCriteria, $reverse ) );
+
+            if ( $count === 0 )
+            {
+                $count = count( $messages );
+            }
+
             $range = array_slice( $messages, $offset - 1, $count, true );
+
+            if ( !isset( $range[$offset - 1] ) )
+            {
+                throw new ezcMailOffsetOutOfRangeException( $offset, $count );
+            }
         }
-        if ( !isset( $range[$offset - 1] ) )
-        {
-            throw new ezcMailOffsetOutOfRangeException( $offset, $count );
-        }
-        return new ezcMailImapSet( $this->connection, $range );
+
+        return new ezcMailImapSet( $this->connection, $range, false, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
-     * Fetches messages $messages sorted by $sortCriteria.
+     * Returns an {@link ezcMailImapSet} containing messages $messages sorted by
+     * $sortCriteria from the current mailbox.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
      *
      * $messages is an array of message numbers, for example:
-     *      array( 1, 2, 4 );
-     * $sortCriteria is an email header like: Subject, To, From, Date, Sender.
+     * <code>
+     *   array( 1, 2, 4 );
+     * </code>
+     *
+     * $sortCriteria is an email header like: Subject, To, From, Date, Sender, etc.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * // Fetch the list of messages sorted by Date
+     * $set = $imap->sortMessages( 1, 10, "Date" );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      *         or if array $messages is empty
-     * @param array(int=>int) $messages
+     * @param array(int) $messages
      * @param string $sortCriteria
      * @param bool $reverse
      * @return ezcMailImapSet
@@ -1044,23 +1778,54 @@ class ezcMailImapTransport
     public function sortMessages( $messages, $sortCriteria, $reverse = false )
     {
         $messages = $this->sort( $messages, $sortCriteria, $reverse );
-        return new ezcMailImapSet( $this->connection, array_keys ( $messages ) );
+        return new ezcMailImapSet( $this->connection, array_keys ( $messages ), false, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
-     * Fetches messages by a certain flag.
+     * Returns an {@link ezcMailImapSet} containing messages with a certain flag from
+     * the current mailbox.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
      *
      * $flag can be one of:
-     * - ANSWERED   Message has been answered
-     * - DELETED    Message is marked to be deleted by later EXPUNGE
-     * - DRAFT      Message is marked as a draft
-     * - FLAGGED    Message is "flagged" for urgent/special attention
-     * - RECENT     Message is recent
-     * - SEEN       Message has been read
-     * - UNANSWERED, UNDELETED, UNDRAFT, UNFLAGGED, OLD, UNSEEN
-     *               Opposites of the above flags
-     * - NEW        Equivalent to RECENT + UNSEEN
-     * - ALL        All the messages
+     *
+     * Basic flags:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - RECENT     - message is recent
+     *  - SEEN       - message has been read
+     *
+     * Opposites of the above flags:
+     *  - UNANSWERED
+     *  - UNDELETED
+     *  - UNDRAFT
+     *  - UNFLAGGED
+     *  - OLD
+     *  - UNSEEN
+     *
+     * Composite flags:
+     *  - NEW        - equivalent to RECENT + UNSEEN
+     *  - ALL        - all the messages
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * // Fetch the messages marked with the RECENT flag
+     * $set = $imap->fetchByFlag( 'RECENT' );
+     *
+     * // $set can be parsed with ezcMailParser
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -1072,23 +1837,37 @@ class ezcMailImapTransport
     public function fetchByFlag( $flag )
     {
         $messages = $this->searchByFlag( $flag );
-        return new ezcMailImapSet( $this->connection, $messages );
+        return new ezcMailImapSet( $this->connection, $messages, false, array( 'uidReferencing' => $this->options->uidReferencing ) );
     }
 
     /**
      * Wrapper function to fetch count of messages by a certain flag.
      *
      * $flag can be one of:
-     * - ANSWERED   Message has been answered
-     * - DELETED    Message is marked to be deleted by later EXPUNGE
-     * - DRAFT      Message is marked as a draft
-     * - FLAGGED    Message is "flagged" for urgent/special attention
-     * - RECENT     Message is recent
-     * - SEEN       Message has been read
-     * - UNANSWERED, UNDELETED, UNDRAFT, UNFLAGGED, OLD, UNSEEN
-     *                 Opposites of the above flags
-     * - NEW        Equivalent to RECENT + UNSEEN
-     * - ALL        All the messages
+     *
+     * Basic flags:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - RECENT     - message is recent
+     *  - SEEN       - message has been read
+     *
+     * Opposites of the above flags:
+     *  - UNANSWERED
+     *  - UNDELETED
+     *  - UNDRAFT
+     *  - UNFLAGGED
+     *  - OLD
+     *  - UNSEEN
+     *
+     * Composite flags:
+     *  - NEW        - equivalent to RECENT + UNSEEN
+     *  - ALL        - all the messages
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -1107,27 +1886,51 @@ class ezcMailImapTransport
     /**
      * Fetches IMAP flags for messages $messages.
      *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
      * $messages is an array of message numbers, for example:
-     *      array( 1, 2, 4 );
+     * <code>
+     *   array( 1, 2, 4 );
+     * </code>
+     *
      * The format of the returned array is:
-     * array( message_number => array( flags ) )
+     * <code>
+     *   array( message_number => array( flags ) )
+     * </code>
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
      * Example:
-     * - for
-     *      $messages = array( 1, 2, 4 );
-     * - the returned flags are
-     *      array( 1 => array( '\Seen' ),
-     *             2 => array( '\Seen' ),
-     *             4 => array( '\Seen', 'NonJunk' )
-     *           );
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * $flags = $imap->fetchFlags( array( 1, 2, 4 ) );
+     * </code>
+     *
+     * The returned array $flags will be something like:
+     * <code>
+     *   array( 1 => array( '\Seen' ),
+     *          2 => array( '\Seen' ),
+     *          4 => array( '\Seen', 'NonJunk' )
+     *        );
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      * @param array $messages
-     * @return array(int=>mixed)
+     * @return array(mixed)
      */
     public function fetchFlags( $messages )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED &&
              $this->state != self::STATE_SELECTED_READONLY )
         {
@@ -1138,19 +1941,28 @@ class ezcMailImapTransport
         $ids = implode( $messages, ',' );
 
         $tag = $this->getNextTag();
-        $this->connection->sendData( "{$tag} FETCH {$ids} (FLAGS)" );
+        $this->connection->sendData( "{$tag} {$uid}FETCH {$ids} (FLAGS)" );
 
         $response = trim( $this->connection->getLine() );
         while ( strpos( $response, $tag ) === false )
         {
             if ( strpos( $response, ' FETCH (' ) !== false )
             {
-                preg_match( '/\*\s(.*)\sFETCH\s\(FLAGS \((.*)\)/U', $response, $matches );
-                $parts = explode( ' ', $matches[2] );
-                $flags[intval( $matches[1] )] = $parts;
+                if ( $this->options->uidReferencing )
+                {
+                    preg_match( '/\*\s.*\sFETCH\s\(FLAGS \((.*)\)\sUID\s(.*)\)/U', $response, $matches );
+                    $parts = explode( ' ', $matches[1] );
+                    $flags[intval( $matches[2] )] = $parts;
+                }
+                else
+                {
+                    preg_match( '/\*\s(.*)\sFETCH\s\(FLAGS \((.*)\)/U', $response, $matches );
+                    $parts = explode( ' ', $matches[2] );
+                    $flags[intval( $matches[1] )] = $parts;
+                }
             }
             $response = trim( $this->connection->getLine() );
-        }         
+        }
 
         if ( $this->responseType( $response ) != self::RESPONSE_OK )
         {
@@ -1162,18 +1974,37 @@ class ezcMailImapTransport
     /**
      * Sets $flag on $messages.
      *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
      * $messages can be:
-     * - a single message number (eg. 1)
-     * - a message range (eg. 1:4)
-     * - a message list (eg. 1,2,4)
+     *  - a single message number (eg. 1)
+     *  - a message range (eg. 1:4)
+     *  - a message list (eg. 1,2,4)
+     *
      * $flag can be one of:
-     *      ANSWERED   Message has been answered
-     *      DELETED    Message is marked to be deleted by later EXPUNGE
-     *      DRAFT      Message is marked as a draft
-     *      FLAGGED    Message is "flagged" for urgent/special attention
-     *      SEEN       Message has been read
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - SEEN       - message has been read
+     *
      * This function automatically adds the '\' in front of the flag when
      * calling the server command.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * $imap->setFlag( '1:4', 'DRAFT' );
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -1185,6 +2016,8 @@ class ezcMailImapTransport
      */
     public function setFlag( $messages, $flag )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED )
         {
             throw new ezcMailTransportException( "Can't call setFlag() when a mailbox is not selected." );
@@ -1194,7 +2027,7 @@ class ezcMailImapTransport
         if ( in_array( $flag, self::$basicFlags ) )
         {
             $tag = $this->getNextTag();
-            $this->connection->sendData( "{$tag} STORE {$messages} +FLAGS (\\{$flag})" );
+            $this->connection->sendData( "{$tag} {$uid}STORE {$messages} +FLAGS (\\{$flag})" );
             $response = trim( $this->getResponse( $tag ) );
             if ( $this->responseType( $response ) != self::RESPONSE_OK )
             {
@@ -1211,18 +2044,37 @@ class ezcMailImapTransport
     /**
      * Clears $flag from $messages.
      *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
      * $messages can be:
-     * - a single message number (eg. 1)
-     * - a message range (eg. 1:4)
-     * - a message list (eg. 1,2,4)
+     *  - a single message number (eg. '1')
+     *  - a message range (eg. '1:4')
+     *  - a message list (eg. '1,2,4')
+     *
      * $flag can be one of:
-     *      ANSWERED   Message has been answered
-     *      DELETED    Message is marked to be deleted by later EXPUNGE
-     *      DRAFT      Message is marked as a draft
-     *      FLAGGED    Message is "flagged" for urgent/special attention
-     *      SEEN       Message has been read
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - SEEN       - message has been read
+     *
      * This function automatically adds the '\' in front of the flag when
      * calling the server command.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
+     *
+     * Example:
+     * <code>
+     * $imap = new ezcMailImapTransport( 'imap.example.com' );
+     * $imap->authenticate( 'username', 'password' );
+     * $imap->selectMailbox( 'mailbox' ); // Inbox or another mailbox
+     *
+     * $imap->clearFlag( '1:4', 'DRAFT' );
+     * </code>
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
@@ -1234,6 +2086,8 @@ class ezcMailImapTransport
      */
     public function clearFlag( $messages, $flag )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED )
         {
             throw new ezcMailTransportException( "Can't call clearFlag() when a mailbox is not selected." );
@@ -1243,7 +2097,7 @@ class ezcMailImapTransport
         if ( in_array( $flag, self::$basicFlags ) )
         {
             $tag = $this->getNextTag();
-            $this->connection->sendData( "{$tag} STORE {$messages} -FLAGS (\\{$flag})" );
+            $this->connection->sendData( "{$tag} {$uid}STORE {$messages} -FLAGS (\\{$flag})" );
             $response = trim( $this->getResponse( $tag ) );
             if ( $this->responseType( $response ) != self::RESPONSE_OK )
             {
@@ -1258,29 +2112,55 @@ class ezcMailImapTransport
     }
 
     /**
-     * Finds messages in the selected mailbox by a certain flag.
+     * Returns an array of message numbers from the selected mailbox which have a
+     * certain flag set.
+     *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
      *
      * $flag can be one of:
-     *      ANSWERED   Message has been answered
-     *      DELETED    Message is marked to be deleted by later EXPUNGE
-     *      DRAFT      Message is marked as a draft
-     *      FLAGGED    Message is "flagged" for urgent/special attention
-     *      RECENT     Message is recent
-     *      SEEN       Message has been read
-     *      UNANSWERED, UNDELETED, UNDRAFT, UNFLAGGED, OLD, UNSEEN
-     *                 Opposites of the above flags
-     *      NEW        Equivalent to RECENT + UNSEEN
-     *      ALL        All the messages
+     *
+     * Basic flags:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - RECENT     - message is recent
+     *  - SEEN       - message has been read
+     *
+     * Opposites of the above flags:
+     *  - UNANSWERED
+     *  - UNDELETED
+     *  - UNDRAFT
+     *  - UNFLAGGED
+     *  - OLD
+     *  - UNSEEN
+     *
+     * Composite flags:
+     *  - NEW        - equivalent to RECENT + UNSEEN
+     *  - ALL        - all the messages
+     *
+     * The returned array is something like this:
+     * <code>
+     *   array( 0 => 1, 1 => 5 );
+     * </code>
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      *         or if $flag is not valid
      * @param string $flag
-     * @return array(int=>int)
+     * @return array(int)
      */
-    private function searchByFlag( $flag )
+    protected function searchByFlag( $flag )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED &&
              $this->state != self::STATE_SELECTED_READONLY )
         {
@@ -1292,7 +2172,7 @@ class ezcMailImapTransport
         if ( in_array( $flag, self::$extendedFlags ) )
         {
             $tag = $this->getNextTag();
-            $this->connection->sendData( "{$tag} SEARCH ({$flag})" );
+            $this->connection->sendData( "{$tag} {$uid}SEARCH ({$flag})" );
             $response = $this->getResponse( '* SEARCH' );
 
             if ( strpos( $response, '* SEARCH' ) !== false )
@@ -1319,6 +2199,9 @@ class ezcMailImapTransport
     /**
      * Sends a NOOP command to the server, use it to keep the connection alive.
      *
+     * Before calling this method, a connection to the IMAP server must be
+     * established.
+     *
      * @throws ezcMailTransportException
      *         if there was no connection to the server
      *         or if the server sent a negative response
@@ -1344,6 +2227,17 @@ class ezcMailImapTransport
 
     /**
      * Returns an array with the capabilities of the IMAP server.
+     *
+     * The returned array will be something like this:
+     * <code>
+     *   array( 'IMAP4rev1', 'SASL-IR SORT', 'THREAD=REFERENCES', 'MULTIAPPEND',
+     *          'UNSELECT', 'LITERAL+', 'IDLE', 'CHILDREN', 'NAMESPACE',
+     *          'LOGIN-REFERRALS'
+     *        );
+     * </code>
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established.
      *
      * @throws ezcMailTransportException
      *         if there was no connection to the server
@@ -1384,7 +2278,11 @@ class ezcMailImapTransport
      * Sends an EXPUNGE command to the server.
      *
      * This method permanently deletes the messages marked for deletion by
-     * the method delete().
+     * the method {@link delete()}.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @throws ezcMailTransportException
      *         if a mailbox was not selected
@@ -1413,13 +2311,19 @@ class ezcMailImapTransport
      * Draft.
      *
      * $flags is an array of flags to be set to the $mail (if provided):
-     *      ANSWERED   Message has been answered
-     *      DELETED    Message is marked to be deleted by later EXPUNGE
-     *      DRAFT      Message is marked as a draft
-     *      FLAGGED    Message is "flagged" for urgent/special attention
-     *      SEEN       Message has been read
+     *
+     * $flag can be one of:
+     *  - ANSWERED   - message has been answered
+     *  - DELETED    - message is marked to be deleted by later EXPUNGE
+     *  - DRAFT      - message is marked as a draft
+     *  - FLAGGED    - message is "flagged" for urgent/special attention
+     *  - SEEN       - message has been read
+     *
      * This function automatically adds the '\' in front of each flag when
      * calling the server command.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully.
      *
      * @throws ezcMailTransportException
      *         if user is not authenticated
@@ -1483,7 +2387,7 @@ class ezcMailImapTransport
      * @param string $flag
      * @return string
      */ 
-    private function normalizeFlag( $flag )
+    protected function normalizeFlag( $flag )
     {
         $flag = strtoupper( $flag );
         $flag = str_replace( '\\', '', $flag );
@@ -1493,22 +2397,36 @@ class ezcMailImapTransport
     /**
      * Sorts message numbers array $messages by the specified $sortCriteria.
      *
+     * This method supports unique IDs instead of message numbers. See
+     * {@link ezcMailImapTransportOptions} for how to enable unique IDs
+     * referencing.
+     *
      * $messages is an array of message numbers, for example:
-     *      array( 1, 2, 4 );
+     * <code>
+     *   array( 1, 2, 4 );
+     * </code>
+     *
      * $sortCriteria is an email header like: Subject, To, From, Date, Sender.
+     *
      * The sorting is done with the php function natcasesort().
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established and a user must be authenticated successfully, and a mailbox
+     * must be selected.
      *
      * @throws ezcMailTransportException
      *         if a mailbox is not selected
      *         or if the server sent a negative response
      *         or if the array $messages is empty
-     * @param array(int=>int) $messages
+     * @param array(int) $messages
      * @param string $sortCriteria
      * @param bool $reverse
-     * @return array(int=>string)
+     * @return array(string)
      */
-    private function sort( $messages, $sortCriteria, $reverse = false )
+    protected function sort( $messages, $sortCriteria, $reverse = false )
     {
+        $uid = ( $this->options->uidReferencing ) ? self::UID : self::NO_UID;
+
         if ( $this->state != self::STATE_SELECTED &&
              $this->state != self::STATE_SELECTED_READONLY )
         {
@@ -1520,14 +2438,21 @@ class ezcMailImapTransport
         $messageNumbers = implode( ',', $messages );
 
         $tag = $this->getNextTag();
-        $this->connection->sendData( "{$tag} FETCH {$messageNumbers} (BODY.PEEK[HEADER.FIELDS ({$query})])" );
+        $this->connection->sendData( "{$tag} {$uid}FETCH {$messageNumbers} (BODY.PEEK[HEADER.FIELDS ({$query})])" );
 
         $response = trim( $this->connection->getLine() );
         while ( strpos( $response, $tag ) === false )
         {
             if ( strpos( $response, ' FETCH (' ) !== false )
             {
-                preg_match('/^\* ([0-9]+) FETCH/', $response, $matches );
+                if ( $this->options->uidReferencing )
+                {
+                    preg_match('/^\* [0-9]+ FETCH \(UID ([0-9]+)/', $response, $matches );
+                }
+                else
+                {
+                    preg_match('/^\* ([0-9]+) FETCH/', $response, $matches );
+                }
                 $messageNumber = $matches[1];
             }
 
@@ -1578,21 +2503,21 @@ class ezcMailImapTransport
     }
 
     /**
-      * Parses $line to return the response code.
-      *
-      * Returns one of the following:
-      *     {@link RESPONSE_OK}
-      *     {@link RESPONSE_NO}
-      *     {@link RESPONSE_BAD}
-      *     {@link RESPONSE_UNTAGGED}
-      *     {@link RESPONSE_FEEDBACK}
-      *
-      * @throws ezcMailTransportException
-      *         if the IMAP response ($line) is not recognized
-      * @param string $line
-      * @return int
-      */
-    private function responseType( $line )
+     * Parses $line to return the response code.
+     *
+     * Returns one of the following:
+     *  - {@link RESPONSE_OK}
+     *  - {@link RESPONSE_NO}
+     *  - {@link RESPONSE_BAD}
+     *  - {@link RESPONSE_UNTAGGED}
+     *  - {@link RESPONSE_FEEDBACK}
+     *
+     * @throws ezcMailTransportException
+     *         if the IMAP response ($line) is not recognized
+     * @param string $line
+     * @return int
+     */
+    protected function responseType( $line )
     {
         if ( strpos( $line, 'OK ' ) !== false && strpos( $line, 'OK ' ) == 6 )
         {
@@ -1618,25 +2543,31 @@ class ezcMailImapTransport
     }
 
     /**
-      * Reads the responses from the server until encountering $tag.
-      *
-      * In IMAP, each command sent by the client is prepended with a
-      * alphanumeric tag like 'A1234'. The server sends the response
-      * to the client command as lines, and the last line in the response
-      * is prepended with the same tag, and it contains the status of
-      * the command completion ('OK', 'NO' or 'BAD').
-      * Sometimes the server sends alerts and response lines from other
-      * commands before sending the tagged line, so this method just
-      * reads all the responses until it encounters $tag.
-      * It returns the tagged line to be processed by the calling method.
-      * If $response is specified, then it will not read the response
-      * from the server before searching for $tag in $response.
-      *
-      * @param string $tag
-      * @param string $response
-      * @return string
-      */
-    private function getResponse( $tag, $response = null )
+     * Reads the responses from the server until encountering $tag.
+     *
+     * In IMAP, each command sent by the client is prepended with a
+     * alphanumeric tag like 'A1234'. The server sends the response
+     * to the client command as lines, and the last line in the response
+     * is prepended with the same tag, and it contains the status of
+     * the command completion ('OK', 'NO' or 'BAD').
+     *
+     * Sometimes the server sends alerts and response lines from other
+     * commands before sending the tagged line, so this method just
+     * reads all the responses until it encounters $tag.
+     *
+     * It returns the tagged line to be processed by the calling method.
+     *
+     * If $response is specified, then it will not read the response
+     * from the server before searching for $tag in $response.
+     *
+     * Before calling this method, a connection to the IMAP server must be
+     * established.
+     *
+     * @param string $tag
+     * @param string $response
+     * @return string
+     */
+    protected function getResponse( $tag, $response = null )
     {
         if ( is_null( $response ) )
         {
@@ -1655,20 +2586,25 @@ class ezcMailImapTransport
     }
 
     /**
-      * Generates the next IMAP tag to prepend to client commands.
-      *
-      * The structure of the IMAP tag is Axxxx, where
-      *     A is a letter (uppercase for conformity)
-      *     x is a digit from 0 to 9
-      * example of generated tag: T5439
-      * It uses the class variable {@link $this->currentTag}.
-      * Everytime it is called, the tag increases by 1.
-      * If it reaches the last tag, it wraps around to the first tag.
-      * By default, the first generated tag is A0001.
-      *
-      * @return string
-      */
-    private function getNextTag()
+     * Generates the next IMAP tag to prepend to client commands.
+     *
+     * The structure of the IMAP tag is Axxxx, where:
+     *  - A is a letter (uppercase for conformity)
+     *  - x is a digit from 0 to 9
+     *
+     * example of generated tag: T5439
+     *
+     * It uses the class variable $this->currentTag.
+     *
+     * Everytime it is called, the tag increases by 1.
+     *
+     * If it reaches the last tag, it wraps around to the first tag.
+     *
+     * By default, the first generated tag is A0001.
+     *
+     * @return string
+     */
+    protected function getNextTag()
     {
         $tagLetter = substr( $this->currentTag, 0, 1 );
         $tagNumber = intval( substr( $this->currentTag, 1 ) );

@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.5
  * @filesource
  * @package Mail
  */
@@ -41,7 +41,7 @@
  *           The current level in the mail part walk (0 = first level).
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailPartWalkContext
 {

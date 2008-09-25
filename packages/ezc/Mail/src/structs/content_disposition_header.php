@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
- * @version 1.3
+ * @version 1.5
  * @filesource
  * @package Mail
  */
@@ -14,7 +14,7 @@
  * Use it for reading and setting the Content-Disposition header.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailContentDispositionHeader extends ezcBaseStruct
 {
@@ -33,6 +33,19 @@ class ezcMailContentDispositionHeader extends ezcBaseStruct
      * @var string
      */
     public $fileName;
+
+    /**
+     * The filename of the attachment, formatted for display. Used only for
+     * parsing, not used when generating a mail.
+     *
+     * The filename should never include path information.
+     *
+     * Added for issue #13038. If you use __set_state() be sure to set this
+     * property also.
+     *
+     * @var string
+     */
+    public $displayFileName;
 
     /**
      * The language of the filename.
@@ -132,12 +145,14 @@ class ezcMailContentDispositionHeader extends ezcBaseStruct
                                  $size = null,
                                  $additionalParameters = array(),
                                  $fileNameLanguage = null,
-                                 $fileNameCharSet = null )
+                                 $fileNameCharSet = null,
+                                 $displayFileName = null )
     {
         $this->disposition = $disposition;
         $this->fileName = $fileName;
         $this->fileNameLanguage = $fileNameLanguage;
         $this->fileNameCharSet = $fileNameCharSet;
+        $this->displayFileName = $displayFileName;
         $this->creationDate = $creationDate;
         $this->modificationDate = $modificationDate;
         $this->readDate = $readDate;
@@ -168,7 +183,8 @@ class ezcMailContentDispositionHeader extends ezcBaseStruct
                                                     $array['size'],
                                                     $array['additionalParameters'],
                                                     $array['fileNameLanguage'],
-                                                    $array['fileNameCharSet']
+                                                    $array['fileNameCharSet'],
+                                                    $array['displayFileName']
                                                     );
     }
 }

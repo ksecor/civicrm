@@ -3,15 +3,25 @@
  * File containing the ezcMailPop3TransportOptions class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Class containing the options for POP3 transport.
  *
- * The options from ezcMailTransportOptions are inherited.
+ * The options from {@link ezcMailTransportOptions} are inherited.
+ *
+ * Example of how to use POP3 transport options:
+ * <code>
+ * $options = new ezcMailPop3TransportOptions();
+ * $options->ssl = true;
+ * $options->timeout = 3;
+ * $options->authenticationMethod = ezcMailPop3Transport::AUTH_APOP;
+ *
+ * $pop3 = new ezcMailPop3Transport( 'pop3.example.com', null, $options );
+ * </code>
  *
  * @property int $authenticationMethod
  *           Specifies the method to connect to the POP3 transport. The methods
@@ -19,7 +29,7 @@
  *           {@link ezcMailPop3Transport::AUTH_APOP}.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailPop3TransportOptions extends ezcMailTransportOptions
 {

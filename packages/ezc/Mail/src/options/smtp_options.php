@@ -3,31 +3,52 @@
  * File containing the ezcMailSmtpTransportOptions class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Class containing the options for SMTP transport.
  *
- * The options from ezcMailTransportOptions are inherited.
+ * The options from {@link ezcMailTransportOptions} are inherited.
+ *
+ * Example of how to use SMTP transport options:
+ * <code>
+ * $options = new ezcMailSmtpTransportOptions();
+ * $options->timeout = 3;
+ * $options->connectionType = ezcMailSmtpTransport::CONNECTION_SSL;
+ * $options->preferredAuthMethod = ezcMailSmtpTransport::AUTH_NTLM;
+ *
+ * $smtp = new ezcMailSmtpTransport( 'smtp.example.com', 'user', 'password', null, $options );
+ *
+ * // the options can also be set via the options property of the SMTP transport:
+ * $smtp->options->preferredAuthMethod = ezcMailSmtpTransport::AUTH_NTLM;
+ * </code>
  *
  * @property string $connectionType
  *           Specifies the protocol used to connect to the SMTP server. See the
- *           CONNECTION_* constants in the ezcMailSmtpTransport class.
+ *           CONNECTION_* constants in the {@link ezcMailSmtpTransport} class.
  * @property array(mixed) $connectionOptions
  *           Specifies additional options for the connection. Must be in this format:
  *           array( 'wrapper_name' => array( 'option_name' => 'value' ) ).
  * @property bool $ssl
- *           This option belongs to ezcMailTransportOptions, but it is not used in SMTP.
+ *           This option belongs to {@link ezcMailTransportOptions}, but it is
+ *           not used in SMTP.
  *           When trying to set this to true the connectionType option will be set to
- *           CONNECTION_SSL value from ezcMailSmtpTransport.
+ *           {@link ezcMailSmtpTransport::CONNECTION_SSL}.
  *           When trying to set this to false the connectionType option will be set to
- *           CONNECTION_PLAIN value from ezcMailSmtpTransport.
+ *           {@link ezcMailSmtpTransport::CONNECTION_PLAIN}.
+ * @property string $preferredAuthMethod
+ *           Specifies which authentication method should be attempted. Default is
+ *           null which means that that the transport should try to
+ *           authenticate using the methods supported by the SMTP server in their
+ *           decreasing strength order. If one method fails an exception will be
+ *           thrown. See the AUTH_* constants in the {@link ezcMailSmtpTransport}
+ *           class.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  */
 class ezcMailSmtpTransportOptions extends ezcMailTransportOptions
 {
@@ -44,6 +65,7 @@ class ezcMailSmtpTransportOptions extends ezcMailTransportOptions
     {
         $this->connectionType = ezcMailSmtpTransport::CONNECTION_PLAIN; // default is plain connection
         $this->connectionOptions = array(); // default is no extra connection options
+        $this->preferredAuthMethod = null; // default is to try the AUTH methods supported by the SMTP server
 
         parent::__construct( $options );
     }
@@ -81,6 +103,16 @@ class ezcMailSmtpTransportOptions extends ezcMailTransportOptions
                     throw new ezcBaseValueException( $name, $value, 'bool' );
                 }
                 $this->properties['connectionType'] = ( $value === true ) ? ezcMailSmtpTransport::CONNECTION_SSL : ezcMailSmtpTransport::CONNECTION_PLAIN;
+                break;
+
+            case 'preferredAuthMethod':
+                $supportedAuthMethods = ezcMailSmtpTransport::getSupportedAuthMethods();
+                $supportedAuthMethods[] = ezcMailSmtpTransport::AUTH_AUTO;
+                if ( !in_array( $value, $supportedAuthMethods ) )
+                {
+                    throw new ezcBaseValueException( $name, $value, implode( ' | ', $supportedAuthMethods ) );
+                }
+                $this->properties[$name] = $value;
                 break;
 
             default:

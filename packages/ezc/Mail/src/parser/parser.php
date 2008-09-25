@@ -3,18 +3,21 @@
  * File containing the ezcMailParser class
  *
  * @package Mail
- * @version 1.3
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @version 1.5
+ * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
  * @license http://ez.no/licenses/new_bsd New BSD License
  */
 
 /**
  * Parses a mail in RFC822 format to an ezcMail structure.
  *
- * If you want to use your own mail class (extended from ezcMail), use
- * ezcMailParserOption. Example:
+ * If you want to use your own mail class (extended from {@link ezcMail}),
+ * use {@link ezcMailParserOption}. Example:
  * <code>
- * $parser = new ezcMailParser( array( 'mailClass' => 'MyMailClass' ) );
+ * $options = new ezcMailParserOptions();
+ * $options->mailClass = 'MyMailClass';
+ *
+ * $parser = new ezcMailParser( $options );
  * // if you want to use MyMailClass which extends ezcMail
  * </code>
  *
@@ -27,7 +30,7 @@
  *           Holds the options you can set to the mail parser.
  *
  * @package Mail
- * @version 1.3
+ * @version 1.5
  * @mainclass
  */
 class ezcMailParser
@@ -35,7 +38,7 @@ class ezcMailParser
     /**
      * Holds the parser of the current mail.
      *
-     * @var ezcMailPart
+     * @var ezcMailPartParser
      */
     private $partParser = null;
 
@@ -54,19 +57,30 @@ class ezcMailParser
     private $options;
 
     /**
-     * Constructs a new ezcMailParser.
+     * Constructs a new mail parser.
      *
-     * For options you can set to the mail parser see: {@link ezcMailParserOptions}
+     * For options you can set to the mail parser see {@link ezcMailParserOptions}.
      *
      * @throws ezcBasePropertyNotFoundException
      *         if $options contains a property not defined
      * @throws ezcBaseValueException
      *         if $options contains a property with a value not allowed
-     * @param array(string=>mixed) $options
+     * @param ezcMailParserOptions|array(string=>mixed) $options
      */
-    public function __construct( array $options = array() )
+    public function __construct( $options = array() )
     {
-        $this->options = new ezcMailParserOptions( $options );
+        if ( $options instanceof ezcMailParserOptions )
+        {
+            $this->options = $options;
+        }
+        else if ( is_array( $options ) )
+        {
+            $this->options = new ezcMailParserOptions( $options );
+        }
+        else
+        {
+            throw new ezcBaseValueException( "options", $options, "ezcMailParserOptions|array" );
+        }
     }
 
     /**
@@ -145,7 +159,10 @@ class ezcMailParser
      *
      * Example:
      * <code>
-     * $parser = new ezcMailParser( array( 'mailClass' => 'MyMailClass' ) );
+     * $options = new ezcMailParserOptions();
+     * $options->mailClass = 'MyMailClass';
+     *
+     * $parser = new ezcMailParser( $options );
      * // if you want to use MyMailClass which extends ezcMail
      * </code>
      *
@@ -155,7 +172,7 @@ class ezcMailParser
      *         if a neccessary temporary file could not be openened.
      * @param ezcMailParserSet $set
      * @param string $class Deprecated. Use $mailClass in ezcMailParserOptions class instead.
-     * @returns array(ezcMail)
+     * @return array(ezcMail)
      */
     public function parseMail( ezcMailParserSet $set, $class = null )
     {
@@ -202,8 +219,10 @@ class ezcMailParser
     /**
      * Returns the temporary directory.
      *
-     * If no temporary directory has been set this method defaults to
-     * /tmp/ for linux and c:\tmp\ for windows.
+     * Uses the PHP 5.2.1 function sys_get_temp_dir().
+     *
+     * Note that the directory name returned will have a "slash" at the end
+     * ("/" for Linux and "\" for Windows).
      *
      * @return string
      */
@@ -211,16 +230,11 @@ class ezcMailParser
     {
         if ( self::$tmpDir === null )
         {
-            $uname = php_uname();
-            if ( strtoupper( substr( $uname, 0, 3 ) == "WIN" ) )
+            self::$tmpDir = sys_get_temp_dir();
+            if ( substr( self::$tmpDir, strlen( self::$tmpDir ) - 1 ) !== DIRECTORY_SEPARATOR )
             {
-                self::$tmpDir = "c:\\tmp\\";
+                self::$tmpDir = self::$tmpDir . DIRECTORY_SEPARATOR;
             }
-            else
-            {
-                self::$tmpDir = "/tmp/";
-            }
-
         }
         return self::$tmpDir;
     }
