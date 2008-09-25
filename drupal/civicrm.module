@@ -623,8 +623,8 @@ function civicrm_view_data( &$user )
             $pageContent = $page->run( );
 
             // CRM-3537: profile edit link
-            $contactURL .= '<br/>&raquo; ' . l( 'Edit Contact Profile', 
-                                                "user/{$user->uid}/edit/{$title['title']}");
+            $editURL     = '&raquo; ' . l( "Edit '{$title['title']}'", 
+                                           "user/{$user->uid}/edit/{$title['title']}");
             
             if ( $pageContent ) {
                 $user->content[$title['title']] =
@@ -633,7 +633,7 @@ function civicrm_view_data( &$user )
                            '#weight' => $weight );
                 $user->content[$title['title']][$title['title']] = 
                     array(  '#type'  => 'user_profile_item',
-                            '#value' => $pageContent );
+                            '#value' => $pageContent . $editURL );
 
                 $weight += 10;
             }
