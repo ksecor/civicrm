@@ -57,15 +57,23 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
-        if ( !CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'pcp_enabled' ) ) {
-            $defaults['pcp_inactive'] = 1;
-            $defaults['pcp_tellfriend_enabled'] = 1;
-            $defaults['pcp_tellfriend_limit'] = 5;
-            $defaults['pcp_link_text'] = ts('Become a Supporter!');
-        } else { 
-            $defaults = parent::setDefaultValues();
+        $defaults = array();
+        if ( isset($this->_id ) ) {
+            require_once 'CRM/Contribute/DAO/PCPBlock.php';
+            $dao =& new CRM_Contribute_DAO_PCPBlock();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $this->_id; 
+            $dao->find(true);
+            
+            CRM_Core_DAO::storeValues( $dao, $defaults );
         }
+
+        if ( !$defaults['id'] ) { 
+            $defaults['is_approval_needed'] = 1;
+            $defaults['is_tellfriend_enabled'] = 1;
+            $defaults['tellfriend_limit'] = 5;
+            $defaults['link_text'] = ts('Become a Supporter!');
+        } 
         return $defaults;
     }
     
@@ -77,29 +85,29 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
      */
     function buildQuickForm( ) 
     {
-        $this->addElement( 'checkbox', 'pcp_enabled', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
+        $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
 	
-        $this->addElement( 'checkbox', 'pcp_inactive', ts('Administrator approval required for new Personal Campaign Pages') );
+        $this->addElement( 'checkbox', 'is_approval_needed', ts('Administrator approval required for new Personal Campaign Pages') );
         
         CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
                 $profile[$key] = $value['title'];
             }
-            $this->add('select', 'supporter_profile', ts( 'Supporter profile' ), $profile );    
+            $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), $profile );    
             $this->assign('profile',$profile);
         }
         
-        $this->addElement( 'checkbox', 'pcp_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
+        $this->addElement( 'checkbox', 'is_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
         
         $this->add( 'text', 
-                    'pcp_tellfriend_limit', 
+                    'tellfriend_limit', 
                     ts("'Tell a friend' maximum recipients limit"), 
                     CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage' , 'pcp_tellfriend_limit') );
-        $this->addRule( 'pcp_tellfriend_limit', ts( 'Please enter a valid limit.' ), 'integer' );
+        $this->addRule( 'tellfriend_limit', ts( 'Please enter a valid limit.' ), 'integer' );
 
         $this->add( 'text', 
-                    'pcp_link_text', 
+                    'link_text', 
                     ts("'Create Personal Campaign Page' link text"), 
                     CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage' , 'pcp_link_text') );
         
@@ -119,7 +127,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     public static function formRule( &$params, &$files, $self ) 
     { 
         $errors = array( );
-        if ( CRM_Utils_Array::value( 'pcp_enabled', $params ) ) {
+        if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
         }
         return empty($errors) ? true : $errors;
     }
@@ -134,10 +142,18 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
+        
+        $params['entity_id'] = $this->_id;
+        $params['entity_table'] = 'civicrm_contribution_page';
+       
+        $dao =& new CRM_Contribute_DAO_PCPBlock();
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id = $this->_id; 
+        $dao->find(true);
+        $params['id'] = $dao->id;
 
-        $params['id'] = $this->_id;
-        require_once 'CRM/Contribute/BAO/ContributionPage.php'; 
-        $dao = CRM_Contribute_BAO_ContributionPage::create( $params ); 
+        require_once 'CRM/Contribute/BAO/PCP.php'; 
+        $dao = CRM_Contribute_BAO_PCP::add( $params ); 
     }
 
     /** 

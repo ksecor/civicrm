@@ -86,6 +86,25 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
     } 
     
     /**
+     * function to add the Personal Campaign Page Block
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id     * 
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function add(&$params) 
+    {
+        // action is taken depending upon the mode
+        require_once 'CRM/Contribute/DAO/PCPBlock.php';
+        $dao              =& new CRM_Contribute_DAO_PCPBlock( );
+        $dao->copyValues( $params );
+        $dao->save( );
+        return $dao;
+    }
+    
+    /**
      * function to get the Display  name of a contact for a PCP
      *
      * @param  int    $id      id for the PCP
