@@ -6,6 +6,7 @@
     {include file="CRM/Case/Form/CaseView.tpl"}
 
 {else}
+<div class="view-content">
 <div id="help">
      {ts 1=$displayName}This page lists all case records for %1.{/ts}
      {if $permission EQ 'edit'}{ts 1=$newCaseURL}Click <a href='%1'>New Case</a> to add a case record for this contact.{/ts}{/if}
@@ -19,7 +20,7 @@
     {/if}
     <div class="form-item" id=case_page>
     {strip}
-        <table>  
+        <table class="selector">  
          <tr class="columnheader">
             <th>{ts}Case Status{/ts}</th>
             <th>{ts}Case Type{/ts}</th>
@@ -53,5 +54,5 @@
        </dl>
   </div>
 {/if}
-
+</div>
 {/if}

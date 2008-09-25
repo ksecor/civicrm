@@ -249,8 +249,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                     CRM_Core_SelectValues::date('activityDate' ),
                     false); 
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
-        
-        $this->add('textarea', 'details', ts('Notes'), $attributes['details'] );
+        $this->add('textarea', 'details', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case', 'details' ));
 
         $this->addFormRule( array( 'CRM_Case_Form_Case', 'formRule' ) );
         
