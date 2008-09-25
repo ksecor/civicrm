@@ -343,10 +343,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             require_once 'CRM/Contribute/BAO/PCP.php';
             require_once 'CRM/Contribute/PseudoConstant.php';
             
+            $prms =  array( 'entity_id' => $this->_values['id'], 
+                            'entity_table' => 'civicrm_contribution_page' );
             $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
-            $pcpBlock  = CRM_Contribute_BAO_PCP::getPcpBlock( $this->_values['id'] );
-            $pcpInfo   = CRM_Contribute_BAO_PCP::getPcp( $pcpId );
-                       
+            CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCPBlock', 
+                                          $prms,
+                                          $pcpBlock );
+            $prms = array( 'id' => $pcpId );
+            CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
+                                   
             //start and end date of the contribution page
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',$this->_values ) );
             $endDate   = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date',$this->_values ) );
@@ -370,10 +375,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', ( array( 1 => $customEndDate ) ) ) );
                 } 
             }
+            
             $this->_pcpId    = $pcpId;
             $this->_pcpBlock = $pcpBlock;
             $this->_pcpInfo  = $pcpInfo;
         }
+        
         //set pledge block if block id is set
         if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
             $this->assign( 'pledgeBlock', true );

@@ -59,13 +59,9 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     {
         $defaults = array();
         if ( isset($this->_id ) ) {
-            require_once 'CRM/Contribute/DAO/PCPBlock.php';
-            $dao =& new CRM_Contribute_DAO_PCPBlock();
-            $dao->entity_table = 'civicrm_contribution_page';
-            $dao->entity_id = $this->_id; 
-            $dao->find(true);
-            
-            CRM_Core_DAO::storeValues( $dao, $defaults );
+            $params = array( 'entity_id' => $this->_id, 'entity_table' => 'civicrm_contribution_page' );
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCPBlock', $params, $defaults );
         }
 
         if ( !$defaults['id'] ) { 

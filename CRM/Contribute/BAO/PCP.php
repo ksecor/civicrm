@@ -46,46 +46,6 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
     }
 
     /**
-     * Function to return PCP info
-     * 
-     * @param int $pcpId
-     * 
-     * @return array     array of pcp if found
-     * @access public
-     * @static
-     */
-    static function getPcp( $pcpId ) 
-    {
-        $pcp        = array( );
-        $daoPcp     = new CRM_Contribute_DAO_PCP( );
-        $daoPcp->id = $pcpId;
-        if ( $daoPcp->find(true) ) {
-            CRM_Core_DAO::storeValues($daoPcp, $pcp );
-        }
-        return  $pcp;
-    } 
-
-
-    /**
-     * Function to return PCP  Block info
-     * 
-     * @param int $pageId
-     * @return array     array of pcpBlock if found
-     * @access public
-     * @static
-     */
-    static function getPcpBlock( $pageId ) 
-    {
-        $pcpBlock    = array( );
-        $daoPcpBlock = new CRM_Contribute_DAO_PCPBlock( );
-        $daoPcpBlock->entity_id = $pageId;
-        if ( $daoPcpBlock->find(true) ) {
-            CRM_Core_DAO::storeValues($daoPcpBlock, $pcpBlock );
-        }
-        return  $pcpBlock;
-    } 
-    
-    /**
      * function to add the Personal Campaign Page Block
      *
      * @param array $params reference array contains the values submitted by the form
@@ -158,6 +118,6 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                   );
         }
         return  $pcpBlock;
-        } 
+    } 
 }
 ?>
