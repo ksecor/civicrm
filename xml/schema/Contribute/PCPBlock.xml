@@ -75,7 +75,7 @@
   <field>  
       <name>is_active</name>  
       <type>boolean</type>                  
-      <comment>Is Personal Campaign Page enabled/active?</comment>  
+      <comment>Is Personal Campaign Page Block enabled/active?</comment>  
       <default>1</default>
       <add>2.2</add>  
   </field>
