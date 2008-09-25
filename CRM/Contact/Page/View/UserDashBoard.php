@@ -161,6 +161,15 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
 
+        if ( $this->_userOptions['PCP'] ) {
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            $dashboardElements[] = array( 'templatePath' => 'CRM/Contribute/Page/PcpUserDashboard.tpl',
+                                          'sectionTitle' => 'Personal Campaign Page',
+                                          'weight'       => 40 );
+            $pcpInfo = CRM_Contribute_BAO_PCP::getPcpDashboardInfo();
+            $this->assign( 'pcpInfo',  $pcpInfo  );
+        }
+
         require_once 'CRM/Utils/Sort.php';
         usort( $dashboardElements, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
         $this->assign ( 'dashboardElements', $dashboardElements );

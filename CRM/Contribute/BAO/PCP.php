@@ -37,10 +37,14 @@ require_once 'CRM/Contribute/DAO/PCP.php';
 require_once 'CRM/Contribute/DAO/PCPBlock.php';
 require_once 'CRM/Contribute/DAO/Contribution.php';
 
-class CRM_Contribute_BAO_PCP 
+class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
 {
 
-   
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Function to return PCP info
      * 
@@ -102,5 +106,39 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
 ";
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
+
+    /**
+     * Function to return PCP  Block info for dashboard
+     * 
+     * @return array     array of Pcp if found
+     * @access public
+     * @static
+     */
+    static function getPcpDashboardInfo( ) 
+    {
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $query = "
+        SELECT pg.id as pageId, pg.title as pageTitle, pg.start_date , 
+                  pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus 
+        FROM civicrm_contribution_page pg 
+        LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
+        LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
+        WHERE pcpblock.is_active = 1";
+        $pcpInfo = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $pcpBlock = array();
+        
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        while ( $pcpInfo->fetch( ) ) {
+            $pcpBlock[] = array ( 'pageId'     => $pcpInfo->pageId,
+                                  'pageTitle'  => $pcpInfo->pageTitle,
+                                  'start_date' => $pcpInfo->start_date,
+                                  'end_date'   => $pcpInfo->end_date,
+                                  'pcpId'      => $pcpInfo->pcpId,
+                                  'pcpTitle'   => $pcpInfo->pcpTitle,
+                                  'pcpStatus'  => $pcpStatus[$pcpInfo->pcpStatus]
+                                  );
+        }
+        return  $pcpBlock;
+        } 
 }
 ?>
