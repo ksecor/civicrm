@@ -40,6 +40,14 @@ require_once 'CRM/Contribute/DAO/Contribution.php';
 class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
 {
 
+    /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_pcpLinks = null;
+
     function __construct()
     {
         parent::__construct();
@@ -105,19 +113,71 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         WHERE pcpblock.is_active = 1";
         $pcpInfo = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $pcpBlock = array();
-        
+        $links = self::pcpLinks();
+        $mask  = 0;
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         while ( $pcpInfo->fetch( ) ) {
+            if ( $links ) {
+                $replace = array( 
+                                 'pageId' => $pcpInfo->pageId, 
+                                 'pcpId'  => $pcpInfo->pcpId,
+                                 );
+            }
+            $pcpLink = $links['add'];
+            if ( $pcpInfo->pcpStatus ) {
+                $pcpLink = $links['all'];
+            } 
+            $action = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
             $pcpBlock[] = array ( 'pageId'     => $pcpInfo->pageId,
                                   'pageTitle'  => $pcpInfo->pageTitle,
                                   'start_date' => $pcpInfo->start_date,
                                   'end_date'   => $pcpInfo->end_date,
                                   'pcpId'      => $pcpInfo->pcpId,
                                   'pcpTitle'   => $pcpInfo->pcpTitle,
-                                  'pcpStatus'  => $pcpStatus[$pcpInfo->pcpStatus]
+                                  'pcpStatus'  => $pcpStatus[$pcpInfo->pcpStatus],
+                                  'status'     => $pcpInfo->pcpStatus,
+                                  'action'     => $action
                                   );
         }
         return  $pcpBlock;
     } 
+    
+    /**
+     * Get action links
+     *
+     * @return array (reference) of action links
+     * @static
+     */
+    static function &pcpLinks()
+    {
+        if (! ( self::$_pcpLinks ) ) {
+            self::$_pcpLinks['add']  = array (
+                                              CRM_Core_Action::ADD => array( 'name'  => ts('Configure'),
+                                                                             'url'   => 'civicrm/contribute/campaign',
+                                                                             'qs'    => 'action=add&reset=1&pageId=%%pageId%%',
+                                                                             'title' => ts('Configure')
+                                                                             )
+                                              );
+            
+            self::$_pcpLinks['all'] = array (
+                                             CRM_Core_Action::UPDATE => array ( 'name'  => ts('Edit'),
+                                                                                'url'   => 'civicrm/contribute/campaign',
+                                                                                'qs'    => 'action=update&reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('Configure')
+                                                                                ),
+                                             CRM_Core_Action::VIEW   => array ( 'name'  => ts('View'),
+                                                                                'url'   => 'civicrm/contribute/view/campaign',
+                                                                                'qs'    => 'reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('View')
+                                                                                ),
+                                             CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
+                                                                                'url'   => 'civicrm/contact/tellafriend',
+                                                                                'qs'    => 'reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('Tell a Friend')
+                                                                                ),
+                                             );
+        }
+        return self::$_pcpLinks;
+    }
 }
 ?>

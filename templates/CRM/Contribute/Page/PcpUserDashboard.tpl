@@ -1,4 +1,5 @@
 <div class="view-content">
+{if $pcpInfo}
 {strip}
 
   <table class="selector">
@@ -15,10 +16,20 @@
        <td>{if $row.pcpTitle}{$row.pcpTitle}{else}{$row.pageTitle} {ts}( Till not configured ){/ts}{/if}</td>
        <td>{$row.start_date}</td>
        <td>{$row.end_date|truncate:10:''|crmDate}</td>
-       <td>{$row.pcpStatus}</td>
-       <td>{$row.id}</td>	
+       <td>{if $row.pcpStatus}{$row.pcpStatus}{else}{ts}No PCP{/ts}{/if}</td>
+       <td class="nowrap">{$row.action}</td>
        </tr>
       {/foreach}
   </table>
   {/strip}
+{else}
+   <div class="messages status">
+       <dl>
+       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+       <dd>
+         {ts}There are no Personal Campaign Page for you.{/ts}
+       </dd>
+       </dl>
+  </div>
+{/if}
 </div>
