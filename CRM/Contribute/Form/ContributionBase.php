@@ -147,6 +147,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public $_pcpBlock;
 
+    /**
+     * pcp info
+     *
+     * @var array
+     * @public
+     */
+    public $_pcpInfo;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -302,7 +309,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             // also set cancel subscription url
             if ( !$isPayLater && $this->_paymentObject ) {    
                 $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
-
+                
             }
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
@@ -333,22 +340,23 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
         $pcpId = CRM_Utils_Request::retrieve( 'pcpId', 'Positive', $this );
         if ( $pcpId ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
+            require_once 'CRM/Contribute/BAO/PCP.php';
             require_once 'CRM/Contribute/PseudoConstant.php';
-           
-            $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
-            $pcpBlock  = CRM_Contribute_BAO_Contribution::getPcpBlock( $pcpId );
             
+            $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+            $pcpBlock  = CRM_Contribute_BAO_PCP::getPcpBlock( $this->_values['id'] );
+            $pcpInfo   = CRM_Contribute_BAO_PCP::getPcp( $pcpId );
+                       
             //start and end date of the contribution page
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',$this->_values ) );
             $endDate   = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'end_date',$this->_values ) );
             $now       = time( );
 
-            if ( $pcpBlock['contribution_page_id'] != $this->_values['id'] ) {
+            if ( $pcpInfo['contribution_page_id'] != $this->_values['id'] ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page Not Releted this contribution page.') );
-            } else if ( $pcpBlock['status_id'] != 2 ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpBlock['status_id']] )) );
-            } else if ( ! CRM_Utils_Array::value( 'pcp_enabled', $this->_values ) ) {
+            } else if ( $pcpInfo['status_id'] != 2 ) {
+                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
+            } else if ( ! CRM_Utils_Array::value( 'is_active', $pcpBlock ) ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page is disabled.') );
             } else if ( ( $startDate > $now ) || ( $endDate < $now ) ) {
                 $customStartDate =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'start_date',$this->_values ) );
@@ -356,14 +364,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 if ( $startDate && $endDate ) {
                     CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page in between %1 to %2.', 
                                               array( 1 => $customStartDate  , 2 => $customEndDate ) ) );
-                }  else if ( $startDate ) {
+                } else if ( $startDate ) {
                     CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page begins on %1.', array( 1 => $customStartDate ) ) );
-                } else {
+                } else if ( $endDate ) {
                     CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', ( array( 1 => $customEndDate ) ) ) );
                 } 
             }
             $this->_pcpId    = $pcpId;
             $this->_pcpBlock = $pcpBlock;
+            $this->_pcpInfo  = $pcpInfo;
         }
         //set pledge block if block id is set
         if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
@@ -427,8 +436,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         if ( $this->_pcpId ) {
-            $this->assign( 'title', $pcpBlock['title'] );
-            CRM_Utils_System::setTitle( $pcpBlock['title'] );     
+            $this->assign( 'title', $pcpInfo['title'] );
+            CRM_Utils_System::setTitle( $pcpInfo['title'] );     
         } else {
             $this->assign( 'title', $this->_values['title'] );
             CRM_Utils_System::setTitle( $this->_values['title'] ); 

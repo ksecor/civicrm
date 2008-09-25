@@ -160,8 +160,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
             if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
                 $this->assign( $val, $this->_params[$val]);
-                $this->assign( 'pcpBlock', true);
             }
+        }
+        if ( CRM_Utils_Array::value( 'pcp_display_in_roll', $this->_params ) || 
+             CRM_Utils_Array::value( 'pcp_roll_nickname', $this->_params ) ||
+             CRM_Utils_Array::value( 'pcp_personal_note', $this->_params ) ) {
+            $this->_params['pcp_made_through_id'] =$this-> _pcpInfo['pcp_id']; 
+            $this->assign( 'pcpBlock', true);
+            
         }
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         $this->set( 'params', $this->_params );
@@ -335,7 +341,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // add a description field at the very beginning
         $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . 
-            ( ( $this->_pcpBlock['title'] ) ? $this->_pcpBlock['title'] : $this->_values['title'] );
+            ( ( $this->_pcpInfo['title'] ) ? $this->_pcpInfo['title'] : $this->_values['title'] );
         
         // also add accounting code
         $this->_params['accountingCode'] = CRM_Utils_Array::value( 'accountingCode',
@@ -682,7 +688,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-        foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+        foreach ( array ( 'pcp_made_through_id', 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
             if ( CRM_Utils_Array::value( $val, $params ) ) {
                 $contribParams[$val] = $params[$val];
             }

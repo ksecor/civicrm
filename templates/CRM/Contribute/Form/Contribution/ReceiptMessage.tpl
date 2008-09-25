@@ -77,13 +77,13 @@
 {ts}Personal Campaign Page{/ts}
 
 ===========================================================
-{ts}Display Roll{/ts} : {if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}
+{ts}Display In Roll{/ts} : {if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}
 
 {if $pcp_roll_nickname}{ts}Nick Name{/ts} : {$pcp_roll_nickname}{/if}
 
-{if $pcp_personal_note}{ts}Note{/ts} : {$pcp_personal_note|truncate}{/if}
+{if $pcp_personal_note}{ts}Note{/ts} : {$pcp_personal_note}{/if}
 
- {/if}
+{/if}
 {if $onBehalfName}
 ===========================================================
 {ts}On Behalf Of{/ts}

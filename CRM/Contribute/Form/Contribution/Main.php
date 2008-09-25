@@ -58,8 +58,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     {  
         parent::preProcess( );
 
-        if (  CRM_Utils_Array::value( 'id', $this->_pcpBlock )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpBlock ) ) {
-            $this->assign( 'intro_text' , $this->_pcpBlock['intro_text'] );
+        if (  CRM_Utils_Array::value( 'id', $this->_pcpInfo )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpInfo ) ) {
+            $this->assign( 'intro_text' , $this->_pcpInfo['intro_text'] );
         } else if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
             $this->assign( 'intro_text' , $this->_values['intro_text'] );
         }
@@ -306,12 +306,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
         if ( $this->_pcpId ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            if ( $pcpSupporter = CRM_Contribute_BAO_Contribution::displayName( $this->_pcpId ) ) {
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            if ( $pcpSupporter = CRM_Contribute_BAO_PCP::displayName( $this->_pcpId ) ) {
                 $this->assign( 'pcpSupporterText' , ts('This Personal Campaign Page of <strong>%1</stonrg>.',array(1 => $pcpSupporter ) ) );
             }
             $this->assign( 'pcp', true );
-            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly Roll'), null );
+            $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly In Roll'), null );
             $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 15 ) );
             $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 2, 'coloums' => 60 ) );
         }
