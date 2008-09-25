@@ -945,7 +945,7 @@ class CRM_Contact_BAO_Query
         }
 
         if ( ! $likeNames ) {
-            $likeNames = array( 'sort_name', 'email', 'notes', 'display_name' );
+            $likeNames = array( 'sort_name', 'email', 'note', 'display_name' );
         }
 
         if ( ! $useEquals &&
