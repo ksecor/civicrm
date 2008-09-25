@@ -64,12 +64,20 @@ class CRM_Contribute_BAO_PCP extends CRM_Contribute_DAO_PCP
      */
     static function add(&$params) 
     {
-        // action is taken depending upon the mode
-        require_once 'CRM/Contribute/DAO/PCPBlock.php';
-        $dao              =& new CRM_Contribute_DAO_PCPBlock( );
-        $dao->copyValues( $params );
-        $dao->save( );
-        return $dao;
+        if (! isset($params['MAX_FILE_SIZE']) ) {
+            // action is taken depending upon the mode
+            require_once 'CRM/Contribute/DAO/PCPBlock.php';
+            $dao              =& new CRM_Contribute_DAO_PCPBlock( );
+            $dao->copyValues( $params );
+            $dao->save( );
+            return $dao;
+        } else {
+            require_once 'CRM/Contribute/DAO/PCP.php';
+            $dao              =& new CRM_Contribute_DAO_PCP( );
+            $dao->copyValues( $params );
+            $dao->save( );
+            return $dao;
+        }
     }
     
     /**
