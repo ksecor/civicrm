@@ -1036,11 +1036,12 @@ commented since it is overwiting simple td
 } 
 
 /* class for tinymce buttons display */
-#crm-container table.mceLayout td{ 
+#crm-container table.mceLayout td,#crm-container table.mceLayout table{ 
     padding: 0px;
     background: #EDEDED;
     border: 2px solid #EDEDED;
     font-size: 0em;
+    vertical-align: top;
 }
 
 /* overwrite tree icon classes, since we don't want icons*/
