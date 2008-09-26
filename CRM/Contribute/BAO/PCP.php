@@ -109,45 +109,65 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
      * @access public
      * @static
      */
-    static function getPcpDashboardInfo( ) 
+    static function getPcpDashboardInfo( $contactId ) 
     {
+        $links = self::pcpLinks();
+        $mask  = 0;
         require_once 'CRM/Contribute/PseudoConstant.php';
         $query = "
         SELECT pg.id as pageId, pg.title as pageTitle, pg.start_date , 
-                  pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus 
+                  pg.end_date 
         FROM civicrm_contribution_page pg 
-        LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
         WHERE pcpblock.is_active = 1";
-        $pcpInfo = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $pcpBlock = array();
-        $links = self::pcpLinks();
-        $mask  = 0;
-        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
-        while ( $pcpInfo->fetch( ) ) {
+
+        $pcpBlockDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $pcpBlock    = array();
+        while ( $pcpBlockDao->fetch( ) ) {
             if ( $links ) {
-                $replace = array( 
-                                 'pageId' => $pcpInfo->pageId, 
-                                 'pcpId'  => $pcpInfo->pcpId,
-                                 );
-            }
+                $replace = array( 'pageId' => $pcpBlockDao->pageId );
+            }      
             $pcpLink = $links['add'];
-            if ( $pcpInfo->pcpStatus ) {
-                $pcpLink = $links['all'];
-            } 
             $action = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
-            $pcpBlock[] = array ( 'pageId'     => $pcpInfo->pageId,
-                                  'pageTitle'  => $pcpInfo->pageTitle,
-                                  'start_date' => $pcpInfo->start_date,
-                                  'end_date'   => $pcpInfo->end_date,
-                                  'pcpId'      => $pcpInfo->pcpId,
-                                  'pcpTitle'   => $pcpInfo->pcpTitle,
-                                  'pcpStatus'  => $pcpStatus[$pcpInfo->pcpStatus],
-                                  'status'     => $pcpInfo->pcpStatus,
+            $pcpBlock[] = array ( 'pageId'     => $pcpBlockDao->pageId,
+                                  'pageTitle'  => $pcpBlockDao->pageTitle,
+                                  'start_date' => $pcpBlockDao->start_date,
+                                  'end_date'   => $pcpBlockDao->end_date,
                                   'action'     => $action
                                   );
         }
-        return  $pcpBlock;
+
+        $query = "
+        SELECT pg.start_date, pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus 
+        FROM civicrm_contribution_page pg 
+        LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
+        LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
+        INNER JOIN civicrm_contact as ct ON (ct.id = pcp.contact_id  AND pcp.contact_id = {$contactId})
+        WHERE pcpblock.is_active = 1";
+
+        $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $pcpInfo = array();
+        
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        while ( $pcpInfoDao->fetch( ) ) {
+            if ( $links ) {
+                $replace = array( 'pcpId'  => $pcpInfoDao->pcpId );
+            }
+            $pcpLink = $links['all'];
+            $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
+            $pcpinfo[] = array ( 
+                                 'start_date' => $pcpInfoDao->start_date,
+                                 'end_date'   => $pcpInfoDao->end_date,
+                                 'pcpId'      => $pcpInfoDao->pcpId,
+                                 'pcpTitle'   => $pcpInfoDao->pcpTitle,
+                                 'pcpStatus'  => $pcpStatus[$pcpInfoDao->pcpStatus],
+                                 'status'     => $pcpInfoDao->pcpStatus,
+                                 'action'     => $action
+                                  );
+        }
+        return  array( $pcpBlock, $pcpinfo );
+       
+       
     } 
     
     /**
