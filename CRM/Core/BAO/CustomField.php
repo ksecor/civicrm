@@ -109,8 +109,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                                   $params['id'],
                                                                   'column_name' );
         }
-
-       
+        
+        $indexExist = false;
+        //as during create if field is_searchable we had created index.
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            $indexExist = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $params['id'], 'is_searchable' );
+        }
+        
         if ( ( $params['html_type'] == 'CheckBox' ||
                $params['html_type'] == 'Multi-Select' ) &&
              isset($params['default_checkbox_option'] ) ) {
@@ -206,26 +211,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
         $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
         $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
-
         $customField->save( );
         
         // make sure all values are present in the object for further processing
         $customField->find(true);
         
-        // add column / index for custom table
+        //create/drop the index when we toggle the is_searchable flag
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            $dropIndex  = false;
-            // drop the index if it existed (not the most efficient, but the logic is easy)
-            if ( $customField->is_searchable ) {
-                $dropIndex = true;
-            }
-            self::createField( $customField, 'modify', $dropIndex );
+            self::createField( $customField, 'modify', $indexExist );
         } else {
             $customField->column_name .= "_{$customField->id}";
             $customField->save();
             // make sure all values are present in the object
             $customField->find(true);
-
+            
             self::createField( $customField, 'add' );
         }
         
@@ -1265,7 +1264,7 @@ SELECT $columnName
         return $table;
     }
 
-    static function createField( $field, $operation, $dropIndex = false) {
+    static function createField( $field, $operation, $indexExist = false ) {
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                                       $field->custom_group_id,
@@ -1300,7 +1299,7 @@ SELECT $columnName
         }
 
         require_once 'CRM/Core/BAO/SchemaHandler.php';
-        CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $dropIndex );
+        CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $indexExist );
     }
 
     static function getTableColumnGroup( $fieldID ) {

@@ -150,29 +150,26 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildSearchIndexSQL( &$params, $separator, $prefix, $dropIndex = false ) {
+    static function buildSearchIndexSQL( &$params, $separator, $prefix, $indexExist = false ) {
         $sql     = null;
-
+        
         // dont index blob
         if ( $params['type'] == 'text' ) {
             return $sql;
         }
-
-        if ( $dropIndex ) {
-            $sql .= $separator;
-            $sql .= str_repeat( ' ', 8 );
-            $sql .= "DROP INDEX INDEX_{$params['name']}";
-        }
-
-        if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
-            // optimize this, we dont need to drop and recreate the index
-            if ( $dropIndex ) {
-                return null;
-            }
+        
+        //create index only for searchable fields during ADD,
+        //create index only if field is become searchable during MODIFY,
+        //drop index only if field is no more searchable and index was exist. 
+        if ( CRM_Utils_Array::value( 'searchable', $params ) && !$indexExist ) {
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
             $sql .= "INDEX_{$params['name']} ( {$params['name']} )";
+        } else if ( !CRM_Utils_Array::value( 'searchable', $params ) && $indexExist ) {
+            $sql .= $separator;
+            $sql .= str_repeat( ' ', 8 );
+            $sql .= "DROP INDEX INDEX_{$params['name']}";
         }
         return $sql;
     }
@@ -215,13 +212,13 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function alterFieldSQL( &$params, $dropIndex = false ) {
+    static function alterFieldSQL( &$params, $indexExist = false ) {
         $sql  = str_repeat( ' ', 8 );
         $sql .= "ALTER TABLE {$params['table_name']}";
-
+        
         // lets suppress the required flag, since that can cause sql issue
         $params['required'] = false;
-
+        
         switch ( $params['operation'] ) {
         case 'add':
             $separator = "\n";
@@ -238,9 +235,9 @@ class CRM_Core_BAO_SchemaHandler
             $prefix    = "MODIFY ";
             $sql      .= self::buildFieldSQL      ( $params, $separator, $prefix );
             $separator = ",\n";
-            $sql      .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX ", $dropIndex );
+            $sql      .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX ", $indexExist );
             break;
-
+            
         case 'delete':
             $sql  .= " DROP COLUMN `{$params['name']}`";
             if ( CRM_Utils_Array::value( 'primary', $params ) ) {
@@ -250,12 +247,12 @@ class CRM_Core_BAO_SchemaHandler
                 $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['name']}";
             }
             break;
-
+            
         }
-
+        
         $dao =& CRM_Core_DAO::executeQuery( $sql );
         $dao->free();
-
+        
         return true;
     }
 
