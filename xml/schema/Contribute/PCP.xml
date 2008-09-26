@@ -55,6 +55,12 @@
       <default>NULL</default>
       <add>2.2</add>   
   </field>  
+  <field>   
+      <name>page_text</name>   
+      <type>text</type>   
+      <default>NULL</default>
+      <add>2.2</add>   
+  </field>  
   <field>      
       <name>donate_link_text</name>
       <type>varchar</type>   
