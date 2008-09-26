@@ -388,6 +388,10 @@ class CRM_Utils_Date
                     $format = $config->dateformatDatetime;
                 } elseif ($day > 0) {
                     $format = $config->dateformatFull;
+                    $year = (int) substr($dateString,  0, 4);
+                    if( $year == 1900 ) {
+                        $format=substr($format, 0, 7);
+                    }
                 } elseif ($month > 0) {
                     $format = $config->dateformatPartial;
                 } else {
@@ -407,6 +411,7 @@ class CRM_Utils_Date
                 $minute = (int) substr($dateString, 14, 2);
             } else {
                 $year   = (int) substr($dateString,  0, 4);
+                if( $year == 1900 ) $year = null;
                 $month  = (int) substr($dateString,  4, 2);
                 $day    = (int) substr($dateString,  6, 2);
                 
@@ -605,6 +610,11 @@ class CRM_Utils_Date
                 return false;
             }
             break;
+        case 64 :           
+            //CRM-3143 :allow only month/day while importing birthdate 
+            if ( ! preg_match('/^[A-Za-z]*.[ \t]?\d\d/', $value ) ) {
+                return false;
+            }
         }
 
         if ( $dateType == 1 ) {
@@ -635,7 +645,7 @@ class CRM_Utils_Date
                 return false;
             }    
         }
-        if ( $dateType == 8 ) {
+        if ( $dateType == 8 || $dateType == 64 ) {
             $dateArray = explode(' ',$value);
             $dateArray[1] = (int) substr($dateArray[1], 0, 2); //ignore comma(,) 
             
@@ -656,7 +666,7 @@ class CRM_Utils_Date
                     }
                 }
             }
-            $year   = (int) $dateArray[2];
+            $year   = ($dateType == 64) ? (int) "1900" : (int) $dateArray[2];
             $day    = (int) $dateArray[1];
             $month  = (int) $monthInt;
         }
@@ -885,6 +895,10 @@ class CRM_Utils_Date
         
         $bDate      = explode('-',$formatedBirthDate);
         $birthYear  = $bDate[0]; 
+        if( ! $birthYear ) {
+            //if not birthYear then do not calculate the age
+            return false; 
+        }
         $birthMonth = $bDate[1]; 
         $birthDay   = $bDate[2]; 
         $year_diff  = date("Y") - $birthYear; 
