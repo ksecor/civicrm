@@ -101,4 +101,18 @@
   related data for contact a ?</comment>
        <add>2.1</add>
   </field>
+  <field>
+       <name>case_id</name>
+       <type>int unsigned</type>
+       <default>NULL</default>
+       <comment>FK to civicrm_case</comment>
+       <add>2.2</add>
+  </field>
+  <foreignKey> 
+       <name>case_id</name> 
+       <table>civicrm_case</table> 
+       <key>id</key> 
+       <add>2.2</add>
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>
 </table>
