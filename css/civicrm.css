@@ -1055,3 +1055,10 @@ commented since it is overwiting simple td
 .tundra .dijitLeaf { 
    display: none;
 }
+
+#location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
+   border: 0px;
+   vertical-align: top;
+   margin-bottom: -5px;
+   width: auto;
+}
