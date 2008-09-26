@@ -1042,8 +1042,12 @@ commented since it is overwiting simple td
     border: 2px solid #EDEDED;
     font-size: 0em;
     vertical-align: top;
+    width: auto;
 }
 
+#crm-container tr.mceLast { 
+    border: 1px solid #EDEDED;                            
+ }
 /* overwrite tree icon classes, since we don't want icons*/
 .tundra .dijitFolderOpened  { 
    display: none;
