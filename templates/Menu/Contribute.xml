@@ -123,4 +123,13 @@
      <access_arguments>access CiviContribute</access_arguments>
      <weight>0</weight>
   </item>
+  <item>
+     <path>civicrm/admin/contribute/pcp</path>
+     <title>Personal Campaign Pages</title>
+     <page_callback>CRM_Contribute_Page_PCP</page_callback>
+     <desc>List all the PCPs setup in the sysemm and change their statuses.</desc>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/contribution_types.png</icon>
+     <weight>370</weight>
+  </item>
   </menu>
