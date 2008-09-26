@@ -157,7 +157,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $sel2['ParticipantEventName'] = array("" => "-- Any --") + CRM_Event_PseudoConstant::event( );
         $sel2['ParticipantEventType'] = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
         
-        CRM_Core_Error::debug( $sel2 );
         require_once "CRM/Contact/BAO/Relationship.php";
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
