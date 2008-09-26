@@ -45,20 +45,29 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
      */
 
     public  $_pageId = null;
-    
+    public  $_id = null;
+
     public function preProcess()  
     {
         $session =& CRM_Core_Session::singleton( );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         $this->_pageId = CRM_Utils_Request::retrieve( 'pageId', 'Positive', $this );
         $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        $this->set( 'action', $this->_action );
-        $this->set( 'page_id', $this->_pageId );
-        $this->set('contribution_page_id', $this->_pageId );
+     
+        if ( ! $this->_pageId ) {
+            $this->_pageId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contribution_page_id' );
+        }
+       
+        $this->set( 'action'              , $this->_action );
+        $this->set( 'page_id'             , $this->_id );
+        $this->set( 'contribution_page_id', $this->_pageId );
+
     }
 
     function setDefaultValues( ) 
     {
+        $profileID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_pageId, 'supporter_profile_id', 'entity_id' );
+        $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup',  $profileID,'is_cms_user' );
     }
     
     /** 
@@ -71,11 +80,8 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     {
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get('userID');
-        if ( $this->_action == CRM_Core_Action::ADD ){
-            $id = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_pageId, 'supporter_profile_id', 'entity_id' );
-        } else {
-            $id = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_id, 'supporter_profile_id' );
-        }
+        
+        $id = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_pageId, 'supporter_profile_id', 'entity_id' );
         $fields = null;
         require_once "CRM/Core/BAO/UFGroup.php";
         if ( $contactID ) {

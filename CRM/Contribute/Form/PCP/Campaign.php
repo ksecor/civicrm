@@ -33,20 +33,33 @@
  *
  */
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contribute/BAO/PCP.php';
 /**
  * This class generates form components for processing a ontribution 
  * 
  */
+
 class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 {
  
     public function preProcess()  
     {
-       
+        
     }
 
     function setDefaultValues( ) 
     {
+        require_once 'CRM/Contribute/DAO/PCP.php';
+        $dafaults = array( );
+        $dao =& new CRM_Contribute_DAO_PCP( );
+
+        if( $this->get('page_id') ) {
+            $dao->id = $this->get('page_id');
+            if ( $dao->find(true) ) {
+                CRM_Core_DAO::storeValues( $dao, $defaults );
+            }
+        }
+        return $defaults;
     }
     
     
@@ -59,28 +72,28 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     public function buildQuickForm( )  
     {
         $this->addElement('text', 'title', ts('Page Title') );
-        $this->addElement('text', 'into_text', ts('Intro Text') ); 
-        $this->addElement('date', 'page_active_from', ts('Page Active From'), CRM_Core_SelectValues::date('activityDate') ); 
-        $this->addElement('date', 'page_active_until', ts('Page Active Until'), CRM_Core_SelectValues::date('activityDate') );
+        $this->addElement('text', 'intro_text', ts('Intro Text') ); 
         $this->addElement('text', 'goal_amount', ts('Goal Amount') ); 
         $this->addElement('text', 'donate_link_text', ts('Donate Button Text') ); 
         $attrib = Array ('rows' => 8, 'cols' => 60 );
         $this->addWysiwyg( 'page_text', ts('Page Text'), $attrib ); 
-        $this->add( 'file', 'uploadImageI', ts('Upload Image'), 'size=30 maxlength=60');
-        $this->add( 'file', 'uploadImageII', '', 'size=30 maxlength=60');
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this, null );
+        $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
+        
         $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Thermometer') );
-        $this->addElement( 'checkbox', 'is_honor_roll', ts('Dispaly Honour Roll') );
+        $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
+        $this->addElement( 'checkbox', 'is_active', ts('Active') );
+        if ($this->get('action') & CRM_Core_Action::ADD ) {
+            $this->setDefaults(array('is_active' => 1));
+        }
         $this->addButtons( array( 
                                 array ( 'type'      => 'submit',
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ), 
-                                array ( 'type'      => 'reset',
-                                        'name'      => ts('Reset'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ) 
-                                )
-                           ); 
+                                        'isDefault' => true   
+                                        )
+                                )); 
         
     }
     
@@ -107,20 +120,31 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
      */ 
     public function postProcess( )  
     {
-        $session =& CRM_Core_Session::singleton( );
 
-        $params  = $this->controller->exportValues( $this->_name );
+        $session =& CRM_Core_Session::singleton( );
+        $checkBoxes = array( 'is_thermometer', 'is_honor_roll', 'is_active' );
+        
+        $params  = $this->controller->exportValues( $this->getName( ) );
+
+        foreach( $checkBoxes as $key ) {
+            if( ! isset( $params[$key] ) ) {
+                $params[$key] = 0;
+            }
+        }
         $params['contact_id']           = $session->get('userID');
         $params['contribution_page_id'] = $this->get('contribution_page_id');
-
-        if ( $this->get('action') == CRM_Core_Action::ADD ) {
-            $params['status_id'] = 1;
+        
+        if ( $this->get('action') & CRM_Core_Action::ADD ) {
+            $params['status_id']  = 1;
         }
-
+        $params['id'] = $this->get('page_id');
+        
         require_once 'CRM/Contribute/BAO/PCP.php';
-        CRM_Contribute_BAO_PCP::add( $params );
+        $pcp = CRM_Contribute_BAO_PCP::add( $params );
+
+        CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/user', 'reset=1') );
     }
-            
 }
 
 ?>
