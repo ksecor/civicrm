@@ -91,7 +91,7 @@ class CRM_Core_IDS {
     exceptions[]        = __utmz
     exceptions[]        = __utmc
     exceptions[]        = widget_code
-    html[]              = html_message
+    exceptions[]        = html_message
     html[]              = description
     html[]              = intro
     html[]              = thankyou_text
@@ -104,7 +104,6 @@ class CRM_Core_IDS {
     html[]              = help_pre
     html[]              = help_post
     html[]              = msg_html
-    html[]              = widget_code
 ";
             file_put_contents( $configFile, $contents );
         }
