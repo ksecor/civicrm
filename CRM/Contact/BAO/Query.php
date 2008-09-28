@@ -2048,7 +2048,7 @@ WHERE  id IN ( $groupIDs )
 
         $n = trim( $value );
         $value = strtolower(addslashes($n));
-        if ( $wildcard ) {
+        if ( $wildcard || $op == 'LIKE' ) {
             if ( strpos( $value, '%' ) !== false ) {
                 // only add wild card if not there
                 $value = "'$value'";
