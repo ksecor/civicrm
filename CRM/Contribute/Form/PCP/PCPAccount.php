@@ -66,8 +66,6 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
 
     function setDefaultValues( ) 
     {
-        $profileID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_pageId, 'supporter_profile_id', 'entity_id' );
-        $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup',  $profileID,'is_cms_user' );
     }
     
     /** 

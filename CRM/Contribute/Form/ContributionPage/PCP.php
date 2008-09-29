@@ -85,7 +85,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 	
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Administrator approval required for new Personal Campaign Pages') );
         
-        $profile = array( );
+        $profile = array( '' => '-select-' );
         CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
@@ -93,9 +93,9 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             }
             $this->assign('profile',$profile);
         } 
-        $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), 
-                   array_merge( array ( '' => '-select-' ), $profile ), 
-                   true ); 
+        
+        $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), $profile, true ); 
+        
         $this->addElement( 'checkbox', 'is_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
         
         $this->add( 'text', 
