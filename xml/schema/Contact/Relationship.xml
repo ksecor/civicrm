@@ -113,6 +113,6 @@
        <table>civicrm_case</table> 
        <key>id</key> 
        <add>2.2</add>
-       <onDelete>SET NULL</onDelete>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
 </table>
