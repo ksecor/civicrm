@@ -5,8 +5,8 @@
 		{$form.location_type.label}<br />
         {$form.location_type.html} 
         <div class="description" >
-            {ts}Location search uses the PRIMARY location for each contact by default.<br /> 
-            To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
+            {ts}Location search uses the PRIMARY location for each contact by default.{/ts}<br /> 
+            {ts}To search by specific location types (e.g. Home, Work...), check one or more boxes above.{/ts}
         </div> 
         </td>
         <td colspan="2">{$form.street_address.label}<br />
