@@ -167,11 +167,12 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
      */
     function run( )
     {
-        $context   = CRM_Utils_Request::retrieve('context', 'String', $this );
-        $contactId = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
-        $action    = CRM_Utils_Request::retrieve('action', 'String', $this );
+        $context    = CRM_Utils_Request::retrieve('context', 'String', $this );
+        $contactId  = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullArray );
+        $action     = CRM_Utils_Request::retrieve('action', 'String', $this );
+        $activityId = CRM_Utils_Request::retrieve('id', 'Positive', $this );
         
-        if ( $context == 'standalone' || ( ! $contactId && ( $action != CRM_Core_Action::DELETE ) ) ) {
+        if ( $context == 'standalone' || ( ! $contactId && ( $action != CRM_Core_Action::DELETE ) && !$activityId ) ) {
             $this->_action = CRM_Core_Action::ADD;
             $this->assign('action', $this->_action );
         } else {
