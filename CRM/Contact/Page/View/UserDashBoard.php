@@ -135,7 +135,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                 continue;
             }
 
-            if( in_array( $name, array_keys($this->_userOptions) ) &&
+            if( CRM_Utils_Array::value( $name, $this->_userOptions ) &&
                 ( CRM_Core_Permission::access( $component->name ) ||
                   CRM_Core_Permission::check( $elem['perm'][0] ) ) ) {
 

@@ -84,11 +84,17 @@ function civicrm_check_permission( $args ) {
     if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }
-
+    
     $config = CRM_Core_Config::singleton( );
     
     $arg2 = CRM_Utils_Array::value( 2, $args );
     $arg3 = CRM_Utils_Array::value( 3, $args );
+
+    // allow editing of related contacts
+    if ( $arg1 == 'contact' &&
+         $arg2 == 'relatedcontact' ) {
+        return true;
+    }
 
     // a transaction page is valid
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
@@ -116,7 +122,7 @@ function civicrm_check_permission( $args ) {
     if ( $arg1 == 'mailing' &&
          in_array( 'CiviMail', $config->enableComponents ) ) {
         if ( in_array( $arg2,
-                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout' ) ) ) {
+                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout', 'subscribe' ) ) ) {
             return true;
         }
     }

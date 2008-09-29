@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-04-18 03:36-0700\n"
-"Last-Translator: Victor N. Titarchuk, Ph.D. <vtitarchuk@gmail.com>\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"PO-Revision-Date: 2008-09-23 14:53-0700\n"
+"Last-Translator: Alexandr <a.kolesnikov@mail.ru>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +27,11 @@ msgstr "Нет, спасибо"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Contribution Type - %1"
-msgstr "Тип взноса - %1"
+msgstr "Тип вложения - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Contribution Page - %1"
-msgstr "Дата внесения взноса - %1"
+msgstr "Страница вложения - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #, fuzzy
@@ -144,8 +143,9 @@ msgstr "Дата получения"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
+#, fuzzy
 msgid "Is Pay Later"
-msgstr ""
+msgstr "Оплачено позже"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
@@ -254,10 +254,13 @@ msgid ""
 "your site administrator if you need assistance. If you continue, you will be "
 "issued a new membership."
 msgstr ""
+"Ой. Кажется, членство, которое вы пробуете возобновить, отменено. Свяжитесь "
+"с администратором сайта, если вам нужна помощь. Если вы продолжете, вы "
+"создадите новое членство."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
-msgstr ""
+msgstr "Страница, которую вы запросили, в настоящее время недоступна."
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
@@ -284,20 +287,20 @@ msgstr "Имя уже существует в базе данных"
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Number"
-msgstr ""
+msgstr "Пожалуйста введите правильный номер карты"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr ""
+msgstr "Подалуйста введите правильный код карты"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Минимальное количество"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Максимальное количество"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -360,7 +363,7 @@ msgstr "Выберите действительную дату."
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
 msgid "End Date / Time"
-msgstr "Дата и Время"
+msgstr "Конец дата/время"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
@@ -397,15 +400,13 @@ msgid "Delete Contributions"
 msgstr "Удалить вклады"
 
 #: CRM/Contribute/Form/Task/PDF.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Print Contribution Receipts"
-msgstr "Тип вклада"
+msgstr ""
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
-#, fuzzy
 msgid "Import mode"
-msgstr "Удалить членов"
+msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Event/Page/DashBoard.tpl
@@ -425,7 +426,7 @@ msgstr ""
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "Продолжение"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -443,74 +444,67 @@ msgstr "Отменить Вознаграждение"
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "View Contribution"
-msgstr "Просмотр подарка"
+msgstr "Просмотр вложения"
 
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Edit Contribution"
-msgstr "Редактировать подарок"
+msgstr "Редактировать вложение"
 
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Delete Contribution"
-msgstr "Удалить подарок"
+msgstr "Удалить вложение"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Fee level"
-msgstr "Лэйбл поля"
+msgstr "Уровень сбора"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 msgid "Participant Source"
-msgstr ""
+msgstr "Дополнительный источник"
 
 #: CRM/Event/BAO/Query.php CRM/Event/Selector/Search.php
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Fee Level"
-msgstr "Лэйбл поля"
+msgstr "Уровень Сбора"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
-#, fuzzy
 msgid "Event ID"
-msgstr "Событие"
+msgstr "ID События"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Confirm From Name"
-msgstr "Отправитель"
+msgstr "Подтвердить от имени"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Confirm From Email"
-msgstr "От"
+msgstr "Подтвердить от email"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Event Title"
-msgstr "Должность"
+msgstr "Заголовок события"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
 msgid "Event Summary"
-msgstr "Краткий Обзор"
+msgstr "Обзор события"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Start Date"
-msgstr "Дата действия"
+msgstr "Дата старта регистрации"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration End Date"
-msgstr "Дата действия"
+msgstr "Дата окончания регистрации"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 #, fuzzy
 msgid "Fee Label"
-msgstr "Лэйбл поля"
+msgstr "Уровень сбора"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
 #, fuzzy
@@ -530,7 +524,7 @@ msgstr "Имя уже существует в базе данных"
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
 msgid "Payment Status"
-msgstr ""
+msgstr "Статус оплаты"
 
 #: CRM/Event/Form/EventFees.php CRM/Event/Form/ManageEvent/Fee.php
 #: CRM/Event/Form/Registration/Register.php
@@ -538,44 +532,39 @@ msgid "Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Delete Event"
-msgstr "Удалить заметку"
+msgstr "Удалить событие"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid end date."
-msgstr "Выберите действительную дату."
+msgstr "Выберите действительную дату окончания."
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Configure Event"
-msgstr "Настраивать"
+msgstr "Насторить событие"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
-#, fuzzy
 msgid "Could not find valid payment processor for this page"
-msgstr "Недоступен contact_id и/или contact_type"
+msgstr "Недоступен действительный процессор оплаты для этой страницы"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 msgid "Grant Status"
-msgstr "Статус представления"
+msgstr ""
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr "Сумма запрошенная"
+msgstr "Запрошенное количество"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
 msgid "Amount Granted"
-msgstr "Сумма предоставленная"
+msgstr "Количество предоставленное"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
@@ -585,16 +574,14 @@ msgstr "Значение опции"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid "Application Received"
-msgstr "Дата получения"
+msgstr "Приложение получено"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
 msgid "Money Transferred"
-msgstr "Телефон (предпочтение)"
+msgstr "Деньги переведены"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -634,9 +621,8 @@ msgid "Component Type"
 msgstr "Тип действия"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Тело текста"
+msgstr "Тело HTML"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -645,7 +631,7 @@ msgstr "Тело текста"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
 msgid "Subscribe"
-msgstr ""
+msgstr "Подписать"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -671,11 +657,11 @@ msgstr ""
 msgid "Next >>"
 msgstr "Далее>>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
-#, fuzzy
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 msgid "Save & Continue Later"
-msgstr "Обновить и Продолжить"
+msgstr "Сохранить и Продолжить позже"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
 #: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
@@ -684,46 +670,42 @@ msgid ""
 "Your mailing has been saved. Click the 'Continue' action to resume working "
 "on it."
 msgstr ""
+"Ваше сообщение сохранено. Нажмите 'Продолжить'  чтобы закончить работу."
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Cancel Mailing"
-msgstr "Название рассылки"
+msgstr "Отменить расссылку"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Delete Mailing"
-msgstr "Удалить встречу"
+msgstr "Удалить рассылку"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
+msgstr "Отсутствуют входные параметры"
 
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Membership Types"
-msgstr ""
+msgstr "Тип членства"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Member Since"
-msgstr "Членские Взносы"
+msgstr ""
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Import/Form/MapField.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
 msgid "Membership Start Date"
-msgstr "Дата начала"
+msgstr "Дата начала членства"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Start Event"
-msgstr "Дата начала"
+msgstr "Старт события"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
@@ -731,9 +713,8 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "End Event"
-msgstr "Событие"
+msgstr "Окончание события"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
@@ -748,7 +729,7 @@ msgstr "Текущее участие в группах"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Минимальный взнос"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -761,7 +742,7 @@ msgstr ""
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
-msgstr ""
+msgstr "Отпраивть подтверждение и квитанцию?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
@@ -772,43 +753,39 @@ msgid "Renew"
 msgstr ""
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
-#, fuzzy
 msgid "Delete Members"
-msgstr "Удалить встречу"
+msgstr "Удалить члена"
 
 #: CRM/Member/Page/DashBoard.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #, fuzzy
 msgid "Member"
-msgstr "Участники"
+msgstr "Член"
 
 #: CRM/Member/Page/MembershipType.php CRM/Member/Page/Tab.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Edit Membership Type"
-msgstr ""
+msgstr "Редактировать типы членства"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Renew Membership"
-msgstr ""
+msgstr "Возобновить членство"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "View Membership"
-msgstr "Новое участие в группе"
+msgstr "Просмотр членства"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Edit Membership"
-msgstr "В прошлом участник"
+msgstr "Редактировать членство"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
-#, fuzzy
 msgid "Renew-Credit Card"
-msgstr "Новая Кредитная Карта"
+msgstr "Возобновить карту"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 msgid "Renew Membership Using Credit Card"
@@ -816,53 +793,45 @@ msgstr ""
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Delete Membership"
-msgstr "В прошлом участник"
+msgstr "Удалить членство"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Total Paid"
-msgstr "Цена"
+msgstr "Конечная цена"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Next Payment Date"
-msgstr "Создано новых записей о взаимоотношениях: %1."
+msgstr "Дата следующего платежа"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Next Payment Amount"
-msgstr "Сумма Net"
+msgstr "Сумма следующего платежа"
 
 #: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Status"
-msgstr "Статус портфеля"
+msgstr "Статус подтверждения"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 msgid "Maximum Number of Reminders"
-msgstr ""
+msgstr "Максимальное количество напоминаний"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "Initial Reminder Day"
-msgstr "Включить Пол"
+msgstr "День начала напоминаний"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Additional Reminder Days"
-msgstr "Доп. Адрес 1"
+msgstr "День дополнительно напоминания"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Total Pledged"
-msgstr "Цена"
+msgstr ""
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
@@ -874,9 +843,8 @@ msgid "%1(s)"
 msgstr ""
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
-#, fuzzy
 msgid "Delete Pledges"
-msgstr "Удалить встречу"
+msgstr ""
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
@@ -2811,14 +2779,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr "Домен \"%1\" был сохранен."
@@ -3482,11 +3442,6 @@ msgstr "Название рассылки"
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr "Отправить немедленно"
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "Добавить в расписание/Отправить письма"
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
@@ -5083,6 +5038,12 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
 msgstr "Истекает"
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
+msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6705,7 +6666,8 @@ msgstr "(с начала приема)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
-msgid "View contribution summary as bar or circle chart\""
+msgid ""
+"View contribution summary as bar or pie chart using the Google Chart API"
 msgstr "Просмотреть все подарки для этого контакта"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -8040,10 +8002,6 @@ msgstr ""
 msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
-
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr "ИЛИ"
 
 #: templates/CRM/Mailing/Form/Search.tpl
 #, fuzzy
@@ -9411,3 +9369,10 @@ msgstr "Создать"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "Добавить в расписание/Отправить письма"
+
+#~ msgid "OR"
+#~ msgstr "ИЛИ"

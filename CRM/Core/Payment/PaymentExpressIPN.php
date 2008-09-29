@@ -368,7 +368,7 @@ class CRM_Core_Payment_PaymentExpressIPN extends CRM_Core_Payment_BaseIPN {
       
         //Check status and take appropriate action
      
-        if ( $success =1 ){
+        if ( $success == 1 ){
 		    if ( $duplicateTransaction == 0 ){
                 $ipn->newOrderNotify($success, $privateData, $component,$amount,$transactionReference);
 			}

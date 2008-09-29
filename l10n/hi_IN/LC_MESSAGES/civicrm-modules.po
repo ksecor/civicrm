@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-09-16 04:55-0700\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"PO-Revision-Date: 2008-09-26 01:28-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -636,8 +636,9 @@ msgstr ""
 msgid "Next >>"
 msgstr "अगला >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "Save & Continue Later"
 msgstr "उन्नत आैर जारी"
@@ -793,9 +794,8 @@ msgstr "नेट राशि"
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Status"
-msgstr "भुगतान स्थिति"
+msgstr "वचन की स्थिति"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #, fuzzy
@@ -815,21 +815,20 @@ msgstr "नवीकरण स्मरणक दिवस"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
 msgid "Total Pledged"
-msgstr ""
+msgstr "कुल वचन"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Pledge Made"
-msgstr ""
+msgstr "वचन दिया"
 
 #: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
 msgid "%1(s)"
 msgstr ""
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
-#, fuzzy
 msgid "Delete Pledges"
-msgstr "सदस्यों काे नष्ट करे"
+msgstr "वचन काे नष्ट करे"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
@@ -1241,30 +1240,27 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Oops. You cannot make a payment for this pledge - pledge status is %1."
-msgstr ""
+msgstr "आप इस वचन के लिए कोई भुगतान नहीं बना सकते हैं - वचन स्थिति  %1 है।"
 
 #: CRM/Contribute/Form/ContributionCharts.php
-#, fuzzy
 msgid "Chart Style"
-msgstr "संपर्क के प्रकार"
+msgstr "चार्ट शैली"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Bar"
-msgstr ""
+msgstr "बार"
 
 #: CRM/Contribute/Form/ContributionCharts.php
-#, fuzzy
 msgid "Pie"
-msgstr "किमत"
+msgstr "पाई"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Select Year (for monthly breakdown)"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionCharts.php
-#, fuzzy
 msgid "Reload Charts"
-msgstr "रिपोर्ट"
+msgstr "रिलाेड चार्ट"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -1326,7 +1322,7 @@ msgstr "प्रत्येक"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
-msgstr "फ़्रिक्वेंसी पूरी संख्या होना चाहिए  ( उदाहरण : हर महीने 3 )."
+msgstr "फ़्रिक्वेंसी पूरी संख्या होना चाहिए ( उदाहरण : हर महीने 3 )."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "installments"
@@ -1400,14 +1396,12 @@ msgid "At least one payment option needs to be checked."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid pledge installment."
-msgstr "कृपया याेग्य राशी डाले"
+msgstr "कृपया एक मान्य वचन दर्ज करें।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Pledge Installments is required field."
-msgstr "राशि क्षेत्र जरूरी है।"
+msgstr "वचन किश्तीया क्षेत्र आवश्यक है।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1417,21 +1411,19 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge Installments field must be > 1."
-msgstr ""
+msgstr "वचन किश्तीया क्षेत्र १ से जादा आवश्यक है।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid Pledge Frequency Interval."
-msgstr "कृपया याेग्य मुद्रा डाले।"
+msgstr "कृपया एक मान्य वचन आवृति अंतराल दर्ज करें।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Pledge Frequency Interval. is required field."
-msgstr "राशि क्षेत्र जरूरी है।"
+msgstr "वचन आवृत्ति अंतराल आवश्यक है क्षेत्र।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge frequency interval field must be > 0"
-msgstr ""
+msgstr "वचन आवृत्ति अंतराल क्षेत्र > ० होना चाहिए।"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
@@ -1490,7 +1482,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Supported pledge frequencies"
-msgstr ""
+msgstr "समर्थित वचन आवृत्तियां"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow frequency intervals"
@@ -1526,13 +1518,14 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "At least one pledge frequency option needs to be checked."
-msgstr ""
+msgstr "कम से कम एक वचन आवृत्ति विकल्प जरूरी है।"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
 "You cannot enable both Recurring Contributions AND Pledges on the same "
 "online contribution page."
 msgstr ""
+"आप ऑनलाइन योगदान पृष्ठ पर एक साथ पुनरावृत्ति योगदान और वचन को सक्षम नहीं कर सकते।"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
@@ -1787,7 +1780,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Pledge payment status should be 'Pending' or  'Overdue'."
-msgstr ""
+msgstr "वचन भुगतान की स्थिति 'स्थगित' या 'अतिदेय' होना चाहिए।"
 
 #: CRM/Contribute/Form/Contribution.php
 msgid ""
@@ -2645,14 +2638,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr "स्थान प्रकार '%1' सुरक्षित कर दिया है।"
@@ -3270,11 +3255,6 @@ msgstr ""
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr ""
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "अनुसूचित तिथि"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Scheduled date is not valid."
@@ -4209,76 +4189,63 @@ msgstr ""
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "Make Pledge Payment(s):"
-msgstr ""
+msgstr "वचन के लिए भुगतान किजिएँ :"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "I want to make a one-time contribution"
 msgstr "मैं एक बार योगदान करना चाहता हुँ।"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "I pledge to contribute this amount every"
-msgstr "मैं इस राशि का योगदान करना चाहता हुँ।"
+msgstr ""
 
 #: CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "Pledge Frequency Interval"
-msgstr "फ़्रिक्वेंसी इकाई"
+msgstr "वचन आवृत्ति अंतराल"
 
 #: CRM/Pledge/BAO/Pledge.php
-#, fuzzy
 msgid "Balance Amount"
-msgstr "लक्ष्य राशि"
+msgstr "शेष राशि"
 
 #: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
-#, fuzzy
 msgid "Paid Amount"
-msgstr "न्यूनतम राशि"
+msgstr "देयक राशि"
 
 #: CRM/Pledge/BAO/Pledge.php templates/CRM/Pledge/Page/Payment.tpl
-#, fuzzy
 msgid "Paid Date"
-msgstr "आखिरी दिनांक"
+msgstr "देयक दिनांक"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Status %1"
-msgstr "भुगतान स्थिति"
+msgstr "वचन स्थिति %1"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Payment Status %1"
-msgstr "भुगतान स्थिति"
+msgstr "वचन भुगतान स्थिति %1"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Payments Start Date - From"
-msgstr "आरंभ तिथि - से"
+msgstr "भुगतान आरंभ तिथि - से"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Payments Ended Date - From"
-msgstr "कार्यक्रम तिथि - से"
+msgstr "भुगतान समाप्त तिथि - से"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Made - From"
-msgstr "कार्यक्रम तिथि - से"
+msgstr "वचन दिया तिथि - से"
 
 #: CRM/Pledge/BAO/Query.php
 msgid "Payment Scheduled - From"
 msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Find Test Pledge?"
-msgstr "टेस्ट प्रतिभागियों काे खोजें?"
+msgstr "परिक्षण वचन काे खोजें?"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Payment Status"
-msgstr "भुगतान स्थिति"
+msgstr "वचन भुगतान स्थिति"
 
 #: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
 #, fuzzy
@@ -4301,13 +4268,12 @@ msgid "Entity Id"
 msgstr "सदस्य नंबर"
 
 #: CRM/Pledge/DAO/PledgeBlock.php
-#, fuzzy
 msgid "Pledge Frequency Unit"
-msgstr "फ़्रिक्वेंसी इकाई"
+msgstr "वचन आवृत्ति इकाई"
 
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Pledge ID"
-msgstr ""
+msgstr "वचन क्रमांक"
 
 #: CRM/Pledge/DAO/Pledge.php
 #, fuzzy
@@ -4325,15 +4291,13 @@ msgid "Select a valid Scheduled date."
 msgstr "सही समय चुने."
 
 #: CRM/Pledge/Form/Payment.php
-#, fuzzy
 msgid "Pledge Payment Schedule has been updated.<br />"
-msgstr "चुना हुआ भुगतान प्रोसेसर हटा दिया गया है।"
+msgstr "वचन भुगतान अनुसूची का अद्यतन किया गया है।"
 
 #: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Total Pledge Amount"
-msgstr "कुल राशि"
+msgstr "कुल वचन राशि"
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -4403,7 +4367,7 @@ msgstr ""
 
 #: CRM/Pledge/Form/Pledge.php
 msgid "Total Pledge Amount should be greater than zero."
-msgstr ""
+msgstr "कुल वचन राशि तुलना में शून्य से अधिक होना चाहिए।"
 
 #: CRM/Pledge/Form/Pledge.php
 msgid "Installments should be greater than zero."
@@ -4422,12 +4386,11 @@ msgstr "कृपया याेग्य मुद्रा डाले।"
 #: CRM/Pledge/Form/Pledge.php
 msgid ""
 "Pledge has been recorded and the payment schedule has been created.<br />"
-msgstr ""
+msgstr "वचन दर्ज किया गया है आैर भुगतान अनुसूची बना दी है।.<br />"
 
 #: CRM/Pledge/Form/Pledge.php
-#, fuzzy
 msgid "Pledge has been updated.<br />"
-msgstr "चुना हुआ मामला निकाला है।"
+msgstr "वचन का अद्यतन किया गया है।"
 
 #: CRM/Pledge/Form/Pledge.php
 msgid "An acknowledgment email has been sent to %1.<br />"
@@ -4446,38 +4409,32 @@ msgid ""
 msgstr ""
 
 #: CRM/Pledge/Form/Search.php
-#, fuzzy
 msgid "Pledger Name or Email"
-msgstr "नाम आैर ईमेल"
+msgstr "वचन देने वाले का नाम आैर ईमेल"
 
 #: CRM/Pledge/Form/Search.php
-#, fuzzy
 msgid "Find Pledges"
-msgstr "सदस्यों काे खोजें"
+msgstr "वचन काे खोजें"
 
 #: CRM/Pledge/Form/Task/Delete.php
 msgid "Deleted Pledge(s): %1"
-msgstr ""
+msgstr "मिटाएँ गये वचन : %1"
 
 #: CRM/Pledge/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Pledge(s): %1"
-msgstr "कुल चुने संपर्क : %1"
+msgstr "कुल चुने वचन : %1"
 
 #: CRM/Pledge/Form/Task/Print.php
-#, fuzzy
 msgid "Print Pledge List"
-msgstr "संपर्क सूची छापिऐ"
+msgstr "वचन सूची छापिऐ"
 
 #: CRM/Pledge/Info.php
-#, fuzzy
 msgid "CiviCRM Pledge Engine"
-msgstr "CiviCRM प्रोफाइल"
+msgstr "सिवीसिआरएम वचन इंजन"
 
 #: CRM/Pledge/Info.php
-#, fuzzy
 msgid "Your Pledge(s)"
-msgstr "आपकी घटनाएँ"
+msgstr "आपके वचन"
 
 #: CRM/Pledge/Page/Tab.php
 msgid ""
@@ -4492,38 +4449,32 @@ msgid ""
 msgstr ""
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "View Pledge"
-msgstr "लाइव पृष्ठ"
+msgstr "वचन देखे"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Edit Pledge"
-msgstr "नियम संपादन"
+msgstr "वचन संपादन"
 
 #: CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Cancel Pledge"
-msgstr "रद्द"
+msgstr "रद्द वचन"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Delete Pledge"
-msgstr "सदस्यों काे नष्ट करे"
+msgstr "वचन नष्ट करे"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Balance Due"
 msgstr ""
 
 #: CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Pledge Search"
-msgstr "अग्रवर्ती खोज"
+msgstr "वचन खोज"
 
 #: CRM/Pledge/Task.php
-#, fuzzy
 msgid "Export Pledges"
-msgstr "निर्यात प्रकार"
+msgstr "निर्यात वचन"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -4771,6 +4722,12 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -6352,7 +6309,8 @@ msgid "(since inception)"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "View contribution summary as bar or circle chart\""
+msgid ""
+"View contribution summary as bar or pie chart using the Google Chart API"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -7605,10 +7563,6 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr ""
-
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Find Mailings"
 msgstr ""
@@ -8587,25 +8541,21 @@ msgid "Dear %1"
 msgstr "नया %1"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-#, fuzzy
 msgid ""
 "Thank you for your generous pledge. Please print this acknowledgment for "
 "your records."
 msgstr ""
-"आपका सौदा सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने रिकॉर्ड के लिए "
-"छापे।"
+"आपका वचन सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने रिकॉर्ड के लिए छापे।"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Pledge Information"
-msgstr "कार्यक्रम जानकारी"
+msgstr "वचन जानकारी"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Pledge Received"
-msgstr "मिल गया"
+msgstr "वचन मिल गया"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #, fuzzy
@@ -8628,17 +8578,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Pledge/Form/AcknowledgeSubject.tpl
-#, fuzzy
 msgid "Thank you for your Pledge"
-msgstr "समर्थन के लिए धन्यवाद।"
+msgstr "वचन के लिए धन्यवाद।"
 
 #: templates/CRM/Pledge/Form/Payment.tpl
 msgid "Edit Pledge Payment"
-msgstr ""
+msgstr "वचन भुगतान संपादन"
 
 #: templates/CRM/Pledge/Form/Payment.tpl
 msgid "Scheduled Date for Pledge payment."
-msgstr ""
+msgstr "वचन भुगतान के लिए अनुसूचित तिथि"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -8650,7 +8599,7 @@ msgstr ""
 
 #: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
 msgid "New Pledge"
-msgstr ""
+msgstr "नया वचन"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -8660,7 +8609,7 @@ msgstr ""
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Pledge by"
-msgstr ""
+msgstr "वचन के द्वारा"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
@@ -8678,15 +8627,15 @@ msgstr ""
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date when pledge was made by the contributor."
-msgstr ""
+msgstr "तिथि जब वचन योगदानकर्ता द्वारा बनाया गया था।"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date of first pledge payment."
-msgstr ""
+msgstr "पहले वचन भुगतान की तिथि।"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date when an acknowledgment of the pledge was sent."
-msgstr ""
+msgstr "तिथि जब वचन की एक रसीद भेजी गयी थी।"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Sets the default contribution type for payments against this pledge."
@@ -8707,9 +8656,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "Pledge By"
-msgstr "सशुल्क द्वारा"
+msgstr "वचन के द्वारा"
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
@@ -8750,16 +8698,15 @@ msgstr "समर्थन के लिए धन्यवाद।"
 
 #: templates/CRM/Pledge/Form/ReminderSubject.tpl
 msgid "Pledge Payment Reminder"
-msgstr ""
+msgstr "वचन भुगतान अनुस्मारक"
 
 #: templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Amounts"
-msgstr "राशि शुल्क"
+msgstr "वचन राशि"
 
 #: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
 msgid "No matching pledge results found."
-msgstr ""
+msgstr "कोई मेल खाते वचन परिणाम नही मिले।"
 
 #: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
 msgid ""
@@ -8775,11 +8722,11 @@ msgstr ""
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Click %1 to view pledge payments."
-msgstr ""
+msgstr "वचन के भुगतान को देखने के लिये क्लिक %1"
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Find more pledges"
-msgstr ""
+msgstr "और अधिक वचनाे काे खोजें"
 
 #: templates/CRM/Pledge/Form/Task/Delete.tpl
 msgid ""
@@ -8799,12 +8746,11 @@ msgstr "पंजीकरण तिथि"
 
 #: templates/CRM/Pledge/Form/Task.tpl
 msgid "Number of selected pledges: %1"
-msgstr ""
+msgstr "चयन वचनाे की संख्या: %1"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
-#, fuzzy
 msgid "Pledge Summary"
-msgstr "कार्यक्रम सारांश"
+msgstr "वचन सारांश"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "(current month)"
@@ -8817,7 +8763,7 @@ msgstr "जारी नियोक्ता"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Total Pledges"
-msgstr ""
+msgstr "कुल वचन"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 #, fuzzy
@@ -8829,9 +8775,8 @@ msgid "Past Due"
 msgstr ""
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Pledges"
-msgstr "हाल की सदस्यताएँ"
+msgstr "हाल ही में दिये गये वचन"
 
 #: templates/CRM/Pledge/Page/Payment.tpl
 msgid "<a href='%1'>View Payment</a>"
@@ -8890,3 +8835,7 @@ msgstr "बनाना"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "अनुसूचित तिथि"

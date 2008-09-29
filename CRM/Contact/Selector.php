@@ -332,13 +332,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             } else {
                                 $locationTypeName = $locationTypes[$lType];
                             }
-                            
+
                             if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                                 if ( $type ) {
                                     $name = "`$locationTypeName-$fieldName-$type`";
                                 } else {
-                                    $name = "`$locationTypeName-$fieldName-1`";
-                                     }
+                                    $name = "`$locationTypeName-$fieldName`";
+                                }
                             } else {
                                 $name = "`$locationTypeName-$fieldName`";
                             }
@@ -477,13 +477,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 continue;
                             }
                         }                    
-    
+
                         $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                         if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                             if ( $type ) {
                                 $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
                             } else {
-                                $names[] = "{$locationTypeName}-{$fieldName}-1";
+                                $names[] = "{$locationTypeName}-{$fieldName}";
                             }
                         } else {
                             $names[] = "{$locationTypeName}-{$fieldName}";

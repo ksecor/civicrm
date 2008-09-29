@@ -54,10 +54,10 @@ class CRM_Utils_System_Joomla {
         }
 
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', $title );
+        $template->assign( 'pageTitle', $pageTitle );
 
 		$document=& JFactory::getDocument();
-		$document->setTitle($pageTitle);
+		$document->setTitle($title);
 
         return;
     }

@@ -22,16 +22,17 @@
 <tr>
     <td>
      {$form.member_source.label}
-    <br />{$form.member_source.html}
+     <br />{$form.member_source.html}
     </td>
     <td>
-     {$form.member_test.html}&nbsp;{$form.member_test.label}<br/>
-     {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}</td> 
+     {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}<br />
+     {$form.member_test.html}&nbsp;{$form.member_test.label}
+    </td> 
 </tr>
 <tr> 
     <td> 
      {$form.member_join_date_low.label} 
-    <br />
+     <br />
      {$form.member_join_date_low.html} &nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_5}
      {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_5}
@@ -46,7 +47,7 @@
 <tr> 
     <td> 
      {$form.member_start_date_low.label} 
-    <br />
+     <br />
      {$form.member_start_date_low.html} &nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
      {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_1}
@@ -62,14 +63,14 @@
 <tr> 
     <td>  
      {$form.member_end_date_low.label} 
-    <br />
+     <br />
      {$form.member_end_date_low.html} &nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_3}
      {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_3}
     </td>
     <td> 
      {$form.member_end_date_high.label}
-    <br />
+     <br />
      {$form.member_end_date_high.html} &nbsp;
      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_4}
      {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_4}

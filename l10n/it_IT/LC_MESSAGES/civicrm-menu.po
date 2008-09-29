@@ -5,154 +5,156 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-09-18 15:00+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2008-09-25 04:00-0700\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Carte di credito accettate"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Controllo degli accessi"
 
 msgid "ACL"
-msgstr ""
+msgstr "ACL"
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "Ruoli ACL"
 
 msgid "Activities"
-msgstr ""
+msgstr "Attività"
 
 msgid "Activity"
-msgstr ""
+msgstr "Attività"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Tipi attività"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Altre informazioni"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Form altre informazioni"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Preferenze indirizzo"
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Amministra CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Ricerca avanzata"
 
 msgid "Assign Users to ACL Roles"
-msgstr ""
+msgstr "Assegna utenti a ruoli ACL"
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Sfoglia file caricati"
 
 msgid "Case"
-msgstr ""
+msgstr "Caso"
 
 msgid "Case Types"
-msgstr ""
+msgstr "Tipi di caso"
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CivCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "Home CiviCRM"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "Profilo CiviCRM"
 
 msgid "CiviCRM Profile Create"
-msgstr ""
+msgstr "Crea profilo CiviCRM"
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Campi profilo CiviCRM"
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvent"
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "CiviGrant"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMember"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "CiviPledge"
 
 msgid "Components"
-msgstr ""
+msgstr "Componenti"
 
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Dettagli contatto"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Riassunto contatti"
 
 msgid "Contacts"
-msgstr ""
+msgstr "Contatti"
 
 msgid "Contribution Chart"
-msgstr ""
+msgstr "Grafico contributi"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tipi contributo"
 
 msgid "Contributions"
-msgstr ""
+msgstr "Contributi"
 
 msgid "Create New Group"
-msgstr ""
+msgstr "Crea nuovo gruppo"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Dati personalizzati"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Campi dati personalizzati"
 
 msgid "Custom Field - Move"
-msgstr ""
+msgstr "Campo personalizzato - Sposta"
 
 msgid "Custom Field - Options"
-msgstr ""
+msgstr "Campo personalizzato - Opzioni"
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Ricerche personalizzate"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formattazione date"
 
 msgid "Debugging"
-msgstr ""
+msgstr "Debug"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Elimina contatto"
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Elimina recapito"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Informazioni dominio"
 
 msgid "Download Errors"
-msgstr ""
+msgstr "Scarica errori"
 
 msgid "Draft and Unscheduled Mailings"
 msgstr ""
@@ -251,7 +253,7 @@ msgid "Localization"
 msgstr ""
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Tipi recapito (casa, lavoro, ...)"
 
 msgid "Log out"
 msgstr ""

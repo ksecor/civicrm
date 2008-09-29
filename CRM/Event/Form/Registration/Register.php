@@ -332,7 +332,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-     
+             
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
@@ -379,44 +379,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     return empty( $errors ) ? true : $errors;
                 }
             } 
-            //validation for the user who attemp the amount value zero
-            //is an already member
-            $session =& CRM_Core_Session::singleton( );
-            $userID  = $session->get( 'userID' );
-            $zeroAmountError = ts( "The Zero amount facility is only for the valid members" );
-            if ( $fields['priceSetId'] ) { 
-                $zeroAmount = array( );
-                foreach( $fields as $key => $val  )  {
-                    if ( substr( $key, 0, 6 ) == 'price_' ) {
-                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
-                        if( $htmlType != 'Text' ) {
-                            if ( is_array( $val) ) {
-                                foreach( $val as $keys => $vals  )  {
-                                    $zeroAmount[] = $keys;
-                                }
-                            } else {
-                                $zeroAmount[] = $val;
-                            }
-                        } else if ( $htmlType == 'Text' && $val && $val <= 0 ) {
-                            $errors[$key] =  ts( "The Number of Items must be greater than zero (0)" );
-                        } else if ( $htmlType == 'Text' && !$userID && $val == 0 && is_numeric( $val ) ) {
-                            $errors[$key] = $zeroAmountError;
-                        } 
-                    } 
-                }
-                foreach( $zeroAmount as $keyes => $values  )  {
-                    if( $values && !$userID && 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'name', 'id' ) == 0 ) {
-                        $errors['amount'] = $zeroAmountError;
-                    }
-                }
-            } else {
-                $zeroAmount = $fields['amount'];
-                if ( $zeroAmount && !$userID && 
-                     CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value', 'id' ) == 0 ) {
-                    $errors['amount'] = $zeroAmountError;
-                }
-            }
+            $zeroAmount = $fields['amount'];
             // also return if paylater mode or zero fees for valid members
             if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
                 if ( $fields['priceSetId'] ) { 
@@ -429,29 +392,35 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     return empty( $errors ) ? true : $errors;
                 }
             } else if ( $fields['priceSetId'] ) { 
+                //here take all value(amount) of optoin value id
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
                         $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
                         if ( is_array( $val) ) {
+                            //$keys is the id of the option value
                             foreach( $val as $keys => $vals  )  {
                                 $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
                             }
                         } else if( $htmlType == 'Text') {
                             $check[] = $val;  
                         } else {
+                            //$val is the id of the option value
                             $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'name');
                         }
                     }
                 }
+                //validation for submitted each value is zero
+                //if not zero give credit card validation error else
+                //bypass it.
                 $level = count ( $check );
-                $j = null;
-                for ($i = 0; $i < $level; $i++ ) {
-                    if ( $check[$i] == 0 ) {
-                        $j++;
+                $j = 0;
+                for ( $i = 0; $i < $level; $i++ ) {
+                    if ( $check[$i] >= 0 ) {
+                        $j += $check[$i] ;
                     }   
                 }
-                if ( $j == $level && isset( $j ) ) {
+                if ( $j == 0 ) {
                     return empty( $errors ) ? true : $errors;
                 } 
             } else if ( $zeroAmount ) {

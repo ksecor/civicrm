@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-08-28 11:22-0700\n"
 "Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -652,8 +652,9 @@ msgstr "Test"
 msgid "Next >>"
 msgstr "Nächster >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "Save & Continue Later"
 msgstr "Upgraden und fortfahren.."
@@ -2840,14 +2841,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr "Wählen Sie zumindest eine eine Teilnahmegebühr aus"
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr "Anmeldeinformation zur Veranstaltung für %1 wurde aktualisiert."
@@ -3517,11 +3510,6 @@ msgstr "Mailing abbrechen"
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr "Sofort versenden"
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "Mailing planen / senden"
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
@@ -5157,6 +5145,16 @@ msgstr ""
 #, fuzzy
 msgid "Expires"
 msgstr "Exportieren"
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#, fuzzy
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
+msgstr ""
+"Ihre Anmeldung wird nicht abgeschlossen solange Sie nicht den "
+"<strong>Weiter</strong>-Knopf gedrückt haben. Bitte drücken Sie nur einmal "
+"auf den Knopf."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6856,7 +6854,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
-msgid "View contribution summary as bar or circle chart\""
+msgid ""
+"View contribution summary as bar or pie chart using the Google Chart API"
 msgstr "Primärer Standort für diesen Kontakt"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -8370,10 +8369,6 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr "ODER"
-
 #: templates/CRM/Mailing/Form/Search.tpl
 #, fuzzy
 msgid "Find Mailings"
@@ -9797,3 +9792,10 @@ msgstr "Erstellen"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "Mailing planen / senden"
+
+#~ msgid "OR"
+#~ msgstr "ODER"

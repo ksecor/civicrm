@@ -44,14 +44,28 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
     { 
         parent::preProcess( );
         $this->_groupID = CRM_Utils_Request::retrieve( 'gid', 'Integer', $this );
+        
+        require_once 'CRM/Contact/BAO/Group.php';
 
         if ( $this->_groupID ) {
-            $this->assign( 'groupID'  , $this->_groupID );
-            $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
-                                                       $this->_groupID,
-                                                       'title' );
-            $this->assign( 'groupName', $groupName );
-            CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $groupName)));
+            $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
+            
+            // make sure requested qroup is accessible and exists
+            $query = "
+SELECT   title, description
+  FROM   civicrm_group
+ WHERE   id={$this->_groupID}  
+   AND   visibility != 'User and User Admin Only'
+   AND   $groupTypeCondition";
+            
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            if ( $dao->fetch( ) ) {
+                $this->assign( 'groupName', $dao->title );
+                CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $dao->title)));
+            } else {
+                CRM_Core_Error::fatal( "The specified group is not configured for this action OR The group doesn't exist." );
+            }
+
             $this->assign( 'single', true  );
         } else {
             $this->assign( 'single', false );
@@ -79,9 +93,8 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 
         if ( ! $this->_groupID ) {
             // create a selector box of all public groups
-            require_once 'CRM/Contact/BAO/Group.php';
-
             $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
+
             $query = "
 SELECT   id, title, description
   FROM   civicrm_group

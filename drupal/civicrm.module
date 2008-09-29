@@ -389,7 +389,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         } else {
             return civicrm_register_data( $edit, $user, $category, false, true );
         }
-        return;
+        break;
 
     case 'insert':
         $config =& CRM_Core_Config::singleton( );
@@ -405,7 +405,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
             CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                civicrm_get_ctype( 'Individual' ) );
         }
-
+        break;
 
     case 'view':
         return civicrm_view_data($user);
@@ -449,7 +449,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'validate':
         return civicrm_validate_data($edit, $user, $category);
-
+        
     case 'categories':
         return civicrm_categories( $user );
 

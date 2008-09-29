@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-21 12:58-0700\n"
 "Last-Translator: annirossi <annirossi@hotmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1563,6 +1563,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "CEP"
 
@@ -3718,12 +3719,12 @@ msgstr "CEP"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr "CEP maior que \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr "CEP menor que \"%1\""
 
 #: CRM/Contact/BAO/Query.php
@@ -8606,6 +8607,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php
+msgid ""
+"Database consistency check failed. FK constraint names not in the required "
+"format. Please rebuild your 2.0 database to ensure schema integrity."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/Step1.php
 msgid "CiviCRM 2.1 Upgrade: Step One (Domain Ids)"
 msgstr ""
 
@@ -11363,6 +11370,11 @@ msgstr ""
 "organizar e segmentar seus registros(<a href=\"%1\" target=\"_blank\" title="
 "\"%2\">leia mais...</a>)."
 
+#: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr ""
+
 #: templates/CRM/Admin/Page/Tag.tpl
 #, fuzzy
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
@@ -11484,7 +11496,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -12013,14 +12024,26 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+"Por predefinição, a busca por localidade usa a localidade PRIMÁRIA de cada "
+"contato.Para buscar tipos específicos de localidade (ex: Casa, Trabalho...), "
+"marque umaou mais caixas acima."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
 "Por predefinição, a busca por localidade usa a localidade PRIMÁRIA de cada "
 "contato.Para buscar tipos específicos de localidade (ex: Casa, Trabalho...), "
 "marque umaou mais caixas acima."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -13490,10 +13513,6 @@ msgstr ""
 "que são membros baseados em características de contatos (ex. este grupo pode "
 "consistir de todas as pessoas que vivem em derterminada localidade)."
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "ID"
-msgstr ""
-
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
 msgstr ""
@@ -14356,6 +14375,11 @@ msgstr "Somente visualizar"
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
 msgstr "Novo campo de perfil no CiviCRM"
+
+#: templates/CRM/UF/Page/Field.tpl
+#, fuzzy
+msgid "Edit Profile Settings"
+msgstr "Definições de Perfil - %1"
 
 #: templates/CRM/UF/Page/Field.tpl
 #, fuzzy

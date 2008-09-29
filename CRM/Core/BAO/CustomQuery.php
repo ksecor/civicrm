@@ -320,7 +320,7 @@ SELECT label, value
                             //if user check only 'CiviCRM_OP_OR' check box
                             //of custom checkbox field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
-                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue );
+                                $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
                                 $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ($sqlOP)";
                             }
                         } else { // for multi select
@@ -334,7 +334,7 @@ SELECT label, value
                             //if user select only 'CiviCRM_OP_OR' value
                             //of custom multi select field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
-                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue ); 
+                                $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
                                 $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
                             }
                         }                    
@@ -493,11 +493,11 @@ SELECT label, value
             $clauses = array( );
             foreach ( $this->_where as $grouping => $values ) {
                 if ( ! empty( $values ) ) {
-                    $clauses[] = implode( ' AND ', $values );
+                    $clauses[] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
                 }
             }
             if ( ! empty( $clauses ) ) {
-                $whereStr = implode( ' OR ', $clauses );
+                $whereStr = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         }
 

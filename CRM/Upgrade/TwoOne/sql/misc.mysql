@@ -243,6 +243,10 @@ UPDATE civicrm_state_province SET abbreviation = "MC"   WHERE id = 3221;
 UPDATE civicrm_state_province SET abbreviation = "PU"   WHERE id = 3237;
 
 
+-- CRM-3609
+
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5217, 1020, "BRU", "Brussels");
+
 
 -- Following wasn't done by 2.0 upgrade script, so adding here (also added to 2.0 script)
 

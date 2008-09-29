@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-09-22 01:02-0700\n"
+"PO-Revision-Date: 2008-09-27 12:03-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgid "Access Control"
 msgstr "Toegangscontrole"
 
 msgid "ACL"
-msgstr ""
+msgstr "ACL"
 
 msgid "ACL Roles"
 msgstr ""
@@ -63,13 +63,13 @@ msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Home"
 
 msgid "CiviCRM Profile"
 msgstr ""
@@ -81,25 +81,25 @@ msgid "CiviCRM Profile Fields"
 msgstr ""
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvent"
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "CiviGrant"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMember"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "CiviPledge"
 
 msgid "Components"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Bevestig"
 
 msgid "Contact Dashboard"
 msgstr ""
@@ -108,7 +108,7 @@ msgid "Contact Summary"
 msgstr ""
 
 msgid "Contacts"
-msgstr ""
+msgstr "Contacten"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -144,16 +144,16 @@ msgid "Debugging"
 msgstr ""
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Verwijder Contact"
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Verwijder Locatie"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Domein Informatie"
 
 msgid "Download Errors"
-msgstr ""
+msgstr "Download fouten"
 
 msgid "Draft and Unscheduled Mailings"
 msgstr ""
@@ -165,19 +165,19 @@ msgid "Email a Contact"
 msgstr ""
 
 msgid "Event Information"
-msgstr ""
+msgstr "Evenement Informatie"
 
 msgid "Event Participants List"
-msgstr ""
+msgstr "Evenement Deelnemerslijst"
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Evenement Registratie"
 
 msgid "Event Types"
-msgstr ""
+msgstr "Evenementtypes"
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Exporteer Contacten"
 
 msgid "File System Paths"
 msgstr ""
@@ -186,64 +186,64 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Zoek Contacten"
 
 msgid "Find Contributions"
-msgstr ""
+msgstr "Zoek Bijdragen"
 
 msgid "Find Grants"
 msgstr ""
 
 msgid "Find Members"
-msgstr ""
+msgstr "Zoek Leden"
 
 msgid "Find Participants"
-msgstr ""
+msgstr "Zoek Deelnemers"
 
 msgid "Find Pledges"
-msgstr ""
+msgstr "Zoek Borgstellingen"
 
 msgid "From Email Address"
-msgstr ""
+msgstr "E-mailadres afzender"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Geslacht Opties"
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Globale Instellingen"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Groepsleden"
 
 msgid "Groups"
-msgstr ""
+msgstr "Groepen"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Headers, Footers en Automatische berichten"
 
 msgid "Import"
-msgstr ""
+msgstr "Importeer"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importeer Bijdragen"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importeer Leden"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Importeer Deelnemers"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Im- of Exporteer mappings "
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Persoonlijke voorvoegsels"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Persoonlijke achtervoegsels"
 
 msgid "Instant Messenger Services"
 msgstr ""
@@ -252,13 +252,13 @@ msgid "Localization"
 msgstr ""
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Locatie types"
 
 msgid "Log out"
 msgstr ""
 
 msgid "Mailer Settings"
-msgstr ""
+msgstr "Instellingen mailprogramma"
 
 msgid "Mailing Event"
 msgstr ""
@@ -270,40 +270,40 @@ msgid "Manage ACLs"
 msgstr ""
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "Beheer Bijdrage Pagina"
 
 msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
-msgstr ""
+msgstr "Beheer Evenementen"
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Beheer Groepen"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Beheer Geschenken"
 
 msgid "Manage Price Sets"
-msgstr ""
+msgstr "Beheer Prijs-sets"
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Beheer Evenementlocaties"
 
 msgid "Map Location(s)"
-msgstr ""
+msgstr "Beheer Locatie(s)"
 
 msgid "Mapping and Geocoding"
 msgstr ""
 
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Statusregels Lidmaatschap"
 
 msgid "Membership Types"
-msgstr ""
+msgstr "Types Lidmaatschap"
 
 msgid "Memberships"
-msgstr ""
+msgstr "Lidmaatschappen"
 
 msgid "Merge Contact"
 msgstr ""
@@ -318,22 +318,22 @@ msgid "Mobile Phone Providers"
 msgstr ""
 
 msgid "New Activity"
-msgstr ""
+msgstr "Nieuwe Activiteit"
 
 msgid "New Contact"
-msgstr ""
+msgstr "Nieuw Contact"
 
 msgid "New Contact Dialog"
 msgstr ""
 
 msgid "New Event"
-msgstr ""
+msgstr "Nieuw Evenement"
 
 msgid "New Mailing"
-msgstr ""
+msgstr "Nieuwe Mailing "
 
 msgid "Notes"
-msgstr ""
+msgstr "Aantekeningen"
 
 msgid "Option Groups"
 msgstr ""
@@ -345,10 +345,10 @@ msgid "Optout"
 msgstr ""
 
 msgid "Participant Role"
-msgstr ""
+msgstr "Regel Deelneming"
 
 msgid "Participant Status"
-msgstr ""
+msgstr "Status Deelneming"
 
 msgid "Payment Instruments"
 msgstr ""
@@ -360,46 +360,46 @@ msgid "Payment Processor Type"
 msgstr ""
 
 msgid "Pledge Payments"
-msgstr ""
+msgstr "Betalingen Borgstelling"
 
 msgid "Pledges"
-msgstr ""
+msgstr "Borgstellingen"
 
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "Voorkeur methode communicatie"
 
 msgid "Preview Mailing"
-msgstr ""
+msgstr "Voorvertoon mailing"
 
 msgid "Price Field Options"
-msgstr ""
+msgstr "Prijsveld Opties"
 
 msgid "Price Fields"
-msgstr ""
+msgstr "Prijsvelden"
 
 msgid "Price Sets"
-msgstr ""
+msgstr "Prijs-sets"
 
 msgid "Registration Page"
-msgstr ""
+msgstr "Registratiepagina"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Relatietypes"
 
 msgid "Relationships"
 msgstr ""
 
 msgid "Resubscribe"
-msgstr ""
+msgstr "Heraanmelden"
 
 msgid "Safe File Extension Options"
-msgstr ""
+msgstr "Opties veilige bestandstypes"
 
 msgid "Scheduled and Sent Mailings"
-msgstr ""
+msgstr "Geplande en verstuurde mailings"
 
 msgid "Search Builder"
-msgstr ""
+msgstr "Opbouw zoeken"
 
 msgid "Sending Mail"
 msgstr ""
@@ -438,10 +438,10 @@ msgid "This should never be seen"
 msgstr ""
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Afmelden"
 
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Evenementen binnenkort"
 
 msgid "Update Directory Path and URL"
 msgstr ""
@@ -453,7 +453,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Toon activiteit"
 
 msgid "View Date Prefences"
-msgstr ""
+msgstr "Toon voorkeur datums"

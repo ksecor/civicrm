@@ -7,7 +7,7 @@
 <div class="form-item">
 <fieldset>
   <dl>
-    <dt class="label">{$form.start_date.label}</dt>
+    <dt class="label extra-long-fourty">{$form.start_date.label}</dt>
         <dd>{$form.start_date.html}<br />
             <span class="description">{ts}Set a date and time when you want CiviMail to start sending this mailing.{/ts}</span>
         </dd>

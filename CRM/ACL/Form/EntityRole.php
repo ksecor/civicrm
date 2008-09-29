@@ -85,7 +85,8 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
     public function postProcess() 
     {
         require_once 'CRM/ACL/BAO/EntityRole.php';        
-
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_ACL_BAO_EntityRole::del($this->_id);

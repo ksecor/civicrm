@@ -96,15 +96,23 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
+        $componentPanes = array();
         foreach( $components as $name => $component ) {
             if( in_array( $name, array_keys($this->_searchOptions) ) &&
                 $this->_searchOptions[$name] &&
                 CRM_Core_Permission::access( $component->name ) ) {
-                $elem = $component->registerAdvancedSearchPane();
+                $componentPanes[$name] = $component->registerAdvancedSearchPane();
+                $componentPanes[$name]['name'] = $name;
+            }
+        }
+
+        require_once 'CRM/Utils/Sort.php';
+        usort( $componentPanes, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
+
+        foreach( $componentPanes as $name => $pane ) {
                 // FIXME: we should change the use of $name here
                 // FIXME: to keyword
-                $paneNames[$elem['title']] = $name;
-            }
+                $paneNames[$pane['title']] = $pane['name'];
         }
 
         // FIXME: exception for CiviCase, which is not formally a component
@@ -142,8 +150,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                     $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
                 }
             }
-        }
-
+        }                
 
         $this->assign( 'allPanes', $allPanes );
 

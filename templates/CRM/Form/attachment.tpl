@@ -1,3 +1,4 @@
+{if $form.attachFile_1}
 <fieldset><legend>{ts}Attachment(s){/ts}</legend>
     <table class="form-layout-compressed">
         <tr>
@@ -28,3 +29,4 @@
 {/if}
     </table>
 </fieldset>
+{/if}

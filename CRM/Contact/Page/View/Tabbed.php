@@ -112,7 +112,11 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public
      */
     function view( ) 
-        {
+    {
+        $session =& CRM_Core_Session::singleton();
+        $url     = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
+        $session->pushUserContext( $url );
+
         $params   = array( );
         $defaults = array( );
         $ids      = array( );

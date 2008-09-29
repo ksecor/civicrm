@@ -114,7 +114,7 @@
       <name>details</name>
       <type>text</type>
       <htmlType>textarea</htmlType>
-      <rows>16</rows>
+      <rows>8</rows>
       <cols>60</cols>
       <comment>Details about the meeting (agenda, notes, etc).</comment>
       <add>1.8</add>

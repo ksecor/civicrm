@@ -71,11 +71,9 @@
             <table class="form-layout-compressed">
 	         {section name=loop start=1 loop=11}
         	    {assign var=idx value=$smarty.section.loop.index}
-                {if $feeBlock.value.$idx}
                 	<tr><td>{$feeBlock.label.$idx}</td>
                         <td>{$feeBlock.value.$idx|crmMoney}</td>
                     </tr>
-                {/if}
          	 {/section}
          	</table>
             </td>

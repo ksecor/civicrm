@@ -353,6 +353,19 @@ WHERE e.id = %1";
      */
     static function deleteLocationBlocks( $contactId, $locationTypeId ) 
     {
+        // ensure that contactId has a value
+        if ( empty( $contactId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $contactId ) ) {
+            CRM_Core_Error::fatal( );
+        }
+             
+        if ( empty( $locationTypeId ) ||
+             ! CRM_Utils_Rule::positiveInteger( $locationTypeId ) ) {
+            // so we only delete the blocks which DO NOT have a location type Id
+            // CRM-3581
+            $locationTypeId = 'null';
+        }
+
         static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID', 'Email' );
         
         require_once "CRM/Core/BAO/Block.php";

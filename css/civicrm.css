@@ -928,6 +928,11 @@ div.crm-pager a {
   background: #F5F5F5;
 }
 
+/* Suppress fading background image in search fieldsets. Looks bad with gray tables. */
+#crm-container div#searchForm fieldset {
+ background-image: none;
+}
+
 #crm-container #main {
 	height: 95%;
 	width: 95%;
@@ -1030,15 +1035,35 @@ commented since it is overwiting simple td
     padding: 6px 0 4px 12px; /* push text down 1px */
 } 
 
-/* class for advance search address fields display */
-#crm-container  table.noborder tr {
-    background: #F5F5F5;
-    border:1px solid #DDDDDD;
+/* class for tinymce buttons display */
+#crm-container table.mceLayout td,#crm-container table.mceLayout table{ 
+    padding: 0px;
+    background: #EDEDED;
+    border: 2px solid #EDEDED;
+    font-size: 0em;
+    vertical-align: top;
+    width: auto;
 }
 
-/* class for tinymce buttons display */
-#crm-container table.mceLayout td{ 
-    padding: 0px;
-    background: #F5F5F5;
-    border: 1px solid #F5F5F5;
+#crm-container tr.mceLast { 
+    border: 1px solid #EDEDED;                            
+ }
+/* overwrite tree icon classes, since we don't want icons*/
+.tundra .dijitFolderOpened  { 
+   display: none;
+}
+
+.tundra .dijitFolderClosed {
+   display: none;
+}
+
+.tundra .dijitLeaf { 
+   display: none;
+}
+
+#location .form-layout table, #location .form-layout td,#crm-container div#location table.form-layout table.inner-table td{
+   border: 0px;
+   vertical-align: top;
+   margin-bottom: -5px;
+   width: auto;
 }

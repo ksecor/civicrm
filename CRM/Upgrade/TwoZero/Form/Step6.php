@@ -99,12 +99,13 @@ WHERE id={$res->id}
             $eventTitles[] = $event->title;
         }
         foreach ( $eventTitles as $level ) {
-            $query1 = "SELECT civicrm_participant_payment.participant_id,civicrm_participant_payment.contribution_id FROM civicrm_participant, civicrm_participant_payment where civicrm_participant.event_level = '{$level }' AND civicrm_participant_payment.participant_id = civicrm_participant.id"; 
-            $participant =& CRM_Core_DAO::executeQuery( $query1, CRM_Core_DAO::$_nullArray );
+            $query1 = "SELECT civicrm_participant_payment.participant_id,civicrm_participant_payment.contribution_id FROM civicrm_participant, civicrm_participant_payment where civicrm_participant.event_level = %1 AND civicrm_participant_payment.participant_id = civicrm_participant.id"; 
+            $participant =& CRM_Core_DAO::executeQuery( $query1, $params );
             while ( $participant->fetch( ) ) {
                 $eventLevel = array();
                 $query2     = "SELECT label, qty FROM civicrm_line_item WHERE entity_id = {$participant->contribution_id} ";
-                $priceField =& CRM_Core_DAO::executeQuery( $query2, CRM_Core_DAO::$_nullArray );
+                $params     = array( 1 => array( $participant->contribution_id, 'Integer' ) );
+                $priceField =& CRM_Core_DAO::executeQuery( $query2, $params );
                 while ( $priceField->fetch( ) ) {
                     $lineItem = explode( ':',$priceField->label );
                     if ( ! CRM_Utils_Array::value( 1, $lineItem ) ) {

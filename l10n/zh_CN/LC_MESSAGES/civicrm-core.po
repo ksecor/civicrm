@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-07-09 02:36-0700\n"
 "Last-Translator: trunks <trunksye@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1537,6 +1537,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr ""
 
@@ -3547,11 +3548,11 @@ msgid "Postal code"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -7997,6 +7998,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php
+msgid ""
+"Database consistency check failed. FK constraint names not in the required "
+"format. Please rebuild your 2.0 database to ensure schema integrity."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/Step1.php
 msgid "CiviCRM 2.1 Upgrade: Step One (Domain Ids)"
 msgstr ""
 
@@ -10314,6 +10321,11 @@ msgid ""
 "records (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Group.tpl
+msgid "ID"
+msgstr ""
+
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
 msgstr ""
@@ -10427,7 +10439,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -10907,10 +10918,17 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
@@ -12210,10 +12228,6 @@ msgid ""
 "in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "ID"
-msgstr ""
-
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
 msgstr ""
@@ -12890,6 +12904,10 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
+msgstr ""
+
+#: templates/CRM/UF/Page/Field.tpl
+msgid "Edit Profile Settings"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl

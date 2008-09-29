@@ -895,7 +895,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->set( 'uploadNames', $uploadNames );
 
         $config =& CRM_Core_Config::singleton( );
-        $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+        if ( ! empty( $uploadNames ) ) {
+            $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+        }
     }
 
     function buttonType( ) {

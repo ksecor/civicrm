@@ -953,7 +953,7 @@ class CRM_Contact_BAO_Query
         }
 
         if ( ! $likeNames ) {
-            $likeNames = array( 'sort_name', 'email', 'notes', 'display_name' );
+            $likeNames = array( 'sort_name', 'email', 'note', 'display_name' );
         }
 
         if ( ! $useEquals &&
@@ -2067,7 +2067,7 @@ WHERE  id IN ( $groupIDs )
 
         $n = trim( $value );
         $value = strtolower(addslashes($n));
-        if ( $wildcard ) {
+        if ( $wildcard || $op == 'LIKE' ) {
             if ( strpos( $value, '%' ) !== false ) {
                 // only add wild card if not there
                 $value = "'$value'";
@@ -2281,21 +2281,30 @@ WHERE  id IN ( $groupIDs )
 
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
+        // Handle numeric postal code range searches properly by casting the column as numeric
+        if ( is_numeric( $value ) ) {
+            $field = 'ROUND(civicrm_address.postal_code)';
+            $val   = CRM_Utils_Type::escape( $value, 'Integer' );
+        } else {
+            $field = 'civicrm_address.postal_code';
+            $val   = CRM_Utils_Type::escape( $value, 'String' );
+        }
+
         $this->_tables['civicrm_address' ] = $this->_whereTables['civicrm_address' ] = 1;
 
         if ( $name == 'postal_code' ) {
-            $this->_where[$grouping][] = "civicrm_address.postal_code {$op} '" . CRM_Utils_Type::escape( $value, 'String' ) ."'"; 
+            $this->_where[$grouping][] = "{$field} {$op} '" . $val ."'"; 
             $this->_qill[$grouping][] = ts('Postal code') . " - '$value'";
         } else if ( $name =='postal_code_low') { 
-            $this->_where[$grouping][] = ' ( civicrm_address.postal_code >= "' .
-                CRM_Utils_Type::escape( $value, 'String' ) . 
+            $this->_where[$grouping][] = ' (' . $field . ' >= "' .
+                $val . 
                 '" ) ';
-            $this->_qill[$grouping][] = ts('Postal code greater than \'%1\'', array( 1 => $value ) );
+            $this->_qill[$grouping][] = ts('Postal code greater than or equal to \'%1\'', array( 1 => $value ) );
         } else if ( $name == 'postal_code_high' ) {
-            $this->_where[$grouping][] = ' ( civicrm_address.postal_code <= "' .
-                CRM_Utils_Type::escape( $value, 'String' ) .
+            $this->_where[$grouping][] = ' (' . $field . ' <= "' .
+                $val .
                 '" ) ';
-            $this->_qill[$grouping][] = ts('Postal code less than \'%1\'', array( 1 => $value ) );
+            $this->_qill[$grouping][] = ts('Postal code less than or equal to \'%1\'', array( 1 => $value ) );
         }
     }
 

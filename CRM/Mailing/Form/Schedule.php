@@ -75,7 +75,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
                                  array(  'type'  => 'cancel',
                                          'name'  => ts('Cancel')),
                                  array ( 'type'  => 'submit',
-                                         'name'  => ts('Schedule or Send Later'),
+                                         'name'  => ts('Save & Continue Later')
                                          ),
                                  )
                            );

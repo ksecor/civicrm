@@ -405,10 +405,8 @@ WHERE id={$contactId}; ";
         // add country state selector using new hs-widget method.
         $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
         $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
-                             'url1'         => CRM_Utils_System::url( $config->resourceBase . 'bin/ajax.php', 
-                                                                      'return=countries', false ),
-                             'url2'         => CRM_Utils_System::url( $config->resourceBase . 'bin/ajax.php', 
-                                                                      'return=states', false ),
+                             'url1'         => "{$config->resourceBase}bin/ajax.php?return=countries",
+                             'url2'         => "{$config->resourceBase}bin/ajax.php?return=states",
                              'default1'     => $countryDefault,
                              'default2'     => $stateDefault,
                              'firstInList'  => "true",
