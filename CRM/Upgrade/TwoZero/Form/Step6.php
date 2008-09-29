@@ -101,7 +101,8 @@ WHERE id={$res->id}
             $eventTitles[] = $event->title;
         }
         foreach ( $eventTitles as $level ) {
-            $query1 = "SELECT civicrm_participant_payment.participant_id,civicrm_participant_payment.contribution_id FROM civicrm_participant, civicrm_participant_payment where civicrm_participant.event_level = %1 AND civicrm_participant_payment.participant_id = civicrm_participant.id"; 
+            $query1 = "SELECT civicrm_participant_payment.participant_id,civicrm_participant_payment.contribution_id FROM civicrm_participant, civicrm_participant_payment where civicrm_participant.event_level = %1 AND civicrm_participant_payment.participant_id = civicrm_participant.id";
+            $params      = array( 1 => array( $level, 'String' ) );
             $participant =& CRM_Core_DAO::executeQuery( $query1, $params );
             while ( $participant->fetch( ) ) {
                 $eventLevel = array();
