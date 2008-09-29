@@ -180,12 +180,12 @@ class CRM_Export_BAO_Export
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
         if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
-            $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
-            if ( empty( $where ) ) {
-                $where = "WHERE $groupClause";
-            } else {
-                $where .= " AND $groupClause";
-            }
+            $oldClause = "contact_a.id = civicrm_group_contact.contact_id";
+            $newClause = " ( $oldClause AND civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status IS NULL ) ";
+            // total hack for export, CRM-3618
+            $from = str_replace( $oldClause,
+                                 $newClause,
+                                 $from );
         }
 
         if ( $componentClause ) {
