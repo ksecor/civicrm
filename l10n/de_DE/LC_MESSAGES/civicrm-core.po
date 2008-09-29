@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-28 17:58-0700\n"
 "Last-Translator: Andreas Rudin <andreas.rudin@revamp-it.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1564,6 +1564,7 @@ msgstr "benutzerdefinierte Suche"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "PLZ"
 
@@ -2158,8 +2159,8 @@ msgid ""
 "and codebase files before starting the upgrade process."
 msgstr ""
 "Vergewissern Sie sich, dass Sie ein aktuelles und vollständiges Backup ihrer "
-"Datenbank und ihrer \"Codebase\" Dateien haben, bevor Sie den Upgrade Prozess "
-"starten!"
+"Datenbank und ihrer \"Codebase\" Dateien haben, bevor Sie den Upgrade "
+"Prozess starten!"
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Begin Upgrade"
@@ -2857,8 +2858,7 @@ msgstr "<< Deaktivieren"
 #: CRM/Admin/Form/Setting/Component.php
 msgid "You need to enable CiviContribute before enabling CiviPledge."
 msgstr ""
-"Sie müssen CiviContribute aktivieren, bevor Sie CiviPledge aktivieren "
-"können."
+"Sie müssen CiviContribute aktivieren, bevor Sie CiviPledge aktivieren können."
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -3667,11 +3667,13 @@ msgid "Postal code"
 msgstr "Postleitzahl"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than '%1'"
+#, fuzzy
+msgid "Postal code greater than or equal to '%1'"
 msgstr "Postleitzahl größer als '%1'"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than '%1'"
+#, fuzzy
+msgid "Postal code less than or equal to '%1'"
 msgstr "Postleitzahl kleiner als '%1'"
 
 #: CRM/Contact/BAO/Query.php
@@ -11322,7 +11324,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -11858,13 +11859,24 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Hat dieser Kontakt ein %1 Konto?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+"Die Standortsuche sucht automatisch nach dem Primären Standort.Um andere "
+"Standortstypen zu finden bitte die entsprechenden Kästchen ankreuzen."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
 "Die Standortsuche sucht automatisch nach dem Primären Standort.Um andere "
 "Standortstypen zu finden bitte die entsprechenden Kästchen ankreuzen."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."

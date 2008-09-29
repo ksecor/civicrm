@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-07-10 05:22-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1570,6 +1570,7 @@ msgstr "Recherche personnalisée"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "Code postal"
 
@@ -3754,12 +3755,12 @@ msgstr "Code postal"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr "plus grand que \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr "Code postal - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
@@ -11239,7 +11240,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -11764,14 +11764,26 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+"Par défaut, la recherche de coordonnées se fonde sur le profil principal de "
+"chaque contact. Pour chercher un type spécifique de profil (p. ex., domicile "
+"ou travail), cochez une des cases ci-dessus."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
 "Par défaut, la recherche de coordonnées se fonde sur le profil principal de "
 "chaque contact. Pour chercher un type spécifique de profil (p. ex., domicile "
 "ou travail), cochez une des cases ci-dessus."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."

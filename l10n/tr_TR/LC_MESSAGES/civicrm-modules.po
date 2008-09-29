@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-05-01 20:12-0700\n"
 "Last-Translator: ioz <i0z@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -662,8 +662,9 @@ msgstr ""
 msgid "Next >>"
 msgstr "Sonraki >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "Save & Continue Later"
 msgstr "Yükselt ve Devam Et"
@@ -2789,14 +2790,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr " \"%1\" alanadı kaydedildi."
@@ -3462,11 +3455,6 @@ msgstr "Postalamayı İptal Et"
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr "Hemen Gönder"
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "Planla / Gönder"
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
@@ -5033,6 +5021,12 @@ msgstr ""
 #, fuzzy
 msgid "Expires"
 msgstr "Export"
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
+msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -8046,10 +8040,6 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr "OR"
-
 #: templates/CRM/Mailing/Form/Search.tpl
 #, fuzzy
 msgid "Find Mailings"
@@ -9413,3 +9403,10 @@ msgstr "Yarat"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "Planla / Gönder"
+
+#~ msgid "OR"
+#~ msgstr "OR"

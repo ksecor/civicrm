@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -983,7 +983,7 @@ msgstr ""
 msgid "Custom Search"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
+#: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr ""
 
@@ -2848,11 +2848,11 @@ msgid "Postal code"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -8867,7 +8867,7 @@ msgstr ""
 msgid "Provide a password for the new account in both fields."
 msgstr ""
 
-#: templates/CRM/common/displaySearchCriteria.tpl templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#: templates/CRM/common/displaySearchCriteria.tpl
 msgid "AND"
 msgstr ""
 
@@ -9228,7 +9228,15 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
-msgid "Location search uses the PRIMARY location for each contact by default. To search by specific location types (e.g. Home, Work...), check one or more boxes above."
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "To search by specific location types (e.g. Home, Work...), check one or more boxes above."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl

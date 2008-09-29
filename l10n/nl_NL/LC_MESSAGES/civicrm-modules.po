@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-28 03:27-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -623,8 +623,9 @@ msgstr "Tijdstempel"
 msgid "Next >>"
 msgstr "Volgende >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 msgid "Save & Continue Later"
 msgstr "Opslaan & Later doorgaan"
 
@@ -634,7 +635,8 @@ msgstr "Opslaan & Later doorgaan"
 msgid ""
 "Your mailing has been saved. Click the 'Continue' action to resume working "
 "on it."
-msgstr "Uw mailing is opgeslagen. Klik op 'Doorgaan' om de mailing te bewerken."
+msgstr ""
+"Uw mailing is opgeslagen. Klik op 'Doorgaan' om de mailing te bewerken."
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -2582,14 +2584,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr "Kies minimaal één evenementbijdrage"
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 msgid "Registration information for participant 1 has been saved."
 msgstr "Evenementregistratie voor deelnemer %1 is opgeslagen."
 
@@ -3189,10 +3183,6 @@ msgid "Send Immediately"
 msgstr "Verstuur direct"
 
 #: CRM/Mailing/Form/Schedule.php
-msgid "Schedule or Send Later"
-msgstr "Plan of Verstuur Later"
-
-#: CRM/Mailing/Form/Schedule.php
 msgid "Scheduled date is not valid."
 msgstr "Geplande datum is niet geldig."
 
@@ -3269,8 +3259,8 @@ msgid ""
 "Your did not provided any email address or selected any group. No test mail "
 "is sent."
 msgstr ""
-"U heeft geen e-mailadres opgegeven en geen groep geselecteerd. Er is geen "
-"e-mail verzonden."
+"U heeft geen e-mailadres opgegeven en geen groep geselecteerd. Er is geen e-"
+"mail verzonden."
 
 #: CRM/Mailing/Form/Test.php
 msgid "You cannot provide more than one email address."
@@ -4633,6 +4623,15 @@ msgstr "Namens"
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
 msgstr "Verloopt op"
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#, fuzzy
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
+msgstr ""
+"Uw registratie is pas definitief als u klikt op de knop <strong>Doorgaan</"
+"strong>. Klik  a.u.b. slechts een keer op de knop."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6370,8 +6369,8 @@ msgstr "Productie Bijdrage Pagina"
 msgid ""
 "Review your customized <strong>LIVE</strong> online contribution page here."
 msgstr ""
-"Bekijk uw gewijzigde online bijdragepagina zoals die in "
-"<strong>productie</strong> zal zijn."
+"Bekijk uw gewijzigde online bijdragepagina zoals die in <strong>productie</"
+"strong> zal zijn."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -7919,10 +7918,6 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr "Bepaal de begindatum en -tijd van de verzending."
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr "OF"
-
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Find Mailings"
 msgstr "Zoek Mailings"
@@ -9359,3 +9354,9 @@ msgstr "Aanmaakdatum"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Schedule or Send Later"
+#~ msgstr "Plan of Verstuur Later"
+
+#~ msgid "OR"
+#~ msgstr "OF"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-08-13 23:03-0700\n"
 "Last-Translator: Kenzo Fujii <fujii.kenzo@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1600,6 +1600,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "郵便番号"
 
@@ -3679,12 +3680,12 @@ msgstr "郵便番号"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr "郵便番号 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr "郵便番号 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
@@ -10758,7 +10759,6 @@ msgstr ""
 "新しいアカウントのパスワードを、上の両方のフィールドに入力してください。"
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -11252,10 +11252,17 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl

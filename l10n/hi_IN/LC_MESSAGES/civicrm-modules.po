@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-26 01:28-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -636,8 +636,9 @@ msgstr ""
 msgid "Next >>"
 msgstr "अगला >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "Save & Continue Later"
 msgstr "उन्नत आैर जारी"
@@ -1524,8 +1525,7 @@ msgid ""
 "You cannot enable both Recurring Contributions AND Pledges on the same "
 "online contribution page."
 msgstr ""
-"आप ऑनलाइन योगदान पृष्ठ पर एक साथ पुनरावृत्ति योगदान और वचन को सक्षम नहीं कर "
-"सकते।"
+"आप ऑनलाइन योगदान पृष्ठ पर एक साथ पुनरावृत्ति योगदान और वचन को सक्षम नहीं कर सकते।"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
@@ -2638,14 +2638,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr "स्थान प्रकार '%1' सुरक्षित कर दिया है।"
@@ -3263,11 +3255,6 @@ msgstr ""
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr ""
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "अनुसूचित तिथि"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Scheduled date is not valid."
@@ -4735,6 +4722,12 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -7570,10 +7563,6 @@ msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr ""
-
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Find Mailings"
 msgstr ""
@@ -8556,8 +8545,7 @@ msgid ""
 "Thank you for your generous pledge. Please print this acknowledgment for "
 "your records."
 msgstr ""
-"आपका वचन सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने रिकॉर्ड "
-"के लिए छापे।"
+"आपका वचन सफलतापूर्वक संसाधित कर दिया गया है। कृपया इस पन्ने काे अपने रिकॉर्ड के लिए छापे।"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
@@ -8847,3 +8835,7 @@ msgstr "बनाना"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "अनुसूचित तिथि"

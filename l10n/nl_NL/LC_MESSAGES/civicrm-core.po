@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-28 05:56-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1545,6 +1545,7 @@ msgstr "Aangepaste Zoek"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "Postcode"
 
@@ -3572,11 +3573,13 @@ msgid "Postal code"
 msgstr "Postcode"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than '%1'"
+#, fuzzy
+msgid "Postal code greater than or equal to '%1'"
 msgstr "Postcode groter dan '%1'"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than '%1'"
+#, fuzzy
+msgid "Postal code less than or equal to '%1'"
 msgstr "Postcode kleiner dan '%1'"
 
 #: CRM/Contact/BAO/Query.php
@@ -6110,7 +6113,8 @@ msgstr "De UserID van de betaalmethode is niet gevonden"
 
 #: CRM/Core/Payment/ClickAndPledge.php
 msgid "User ID is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr "User ID is niet ingesteld in het Beheer CiviCRM &raquo;  Betaalmethode."
+msgstr ""
+"User ID is niet ingesteld in het Beheer CiviCRM &raquo;  Betaalmethode."
 
 #: CRM/Core/Payment/ClickAndPledge.php
 msgid ""
@@ -6215,7 +6219,8 @@ msgstr ""
 
 #: CRM/Core/Payment/PaymentExpress.php
 msgid "UserID is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr "User ID is niet ingesteld in het Beheer CiviCRM &raquo;  Betaalmethode."
+msgstr ""
+"User ID is niet ingesteld in het Beheer CiviCRM &raquo;  Betaalmethode."
 
 #: CRM/Core/Payment/PaymentExpress.php
 msgid ""
@@ -11003,7 +11008,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr "Vul in beide velden een wachtwoord in voor de nieuwe account."
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -11532,13 +11536,24 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Heeft het contact een %1 account?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+"Standaard wordt op primaire lokatie  gezocht. U kunt op type(s) zoeken met "
+"de knoppen hierboven."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
 "Standaard wordt op primaire lokatie  gezocht. U kunt op type(s) zoeken met "
 "de knoppen hierboven."
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."

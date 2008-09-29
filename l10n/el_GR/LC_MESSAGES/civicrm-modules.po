@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2007-08-14 06:18+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -625,8 +625,9 @@ msgstr ""
 msgid "Next >>"
 msgstr ""
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 msgid "Save & Continue Later"
 msgstr ""
 
@@ -2577,14 +2578,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr "Το επισυναπτόμενο αρχείο διαγράφηκε."
@@ -3179,10 +3172,6 @@ msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
-msgstr ""
-
-#: CRM/Mailing/Form/Schedule.php
-msgid "Schedule or Send Later"
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
@@ -4631,6 +4620,12 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -7433,10 +7428,6 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Search.tpl

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-07-09 00:31-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -640,8 +640,9 @@ msgstr "Timestamp"
 msgid "Next >>"
 msgstr "Successivo >>"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
-#: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
+#: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
+#: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "Save & Continue Later"
 msgstr "Aggiorna e Continua"
@@ -2764,14 +2765,6 @@ msgid "Select atleast one option from Event Fee(s)"
 msgstr "Seleziona almeno una opzione di Costi Evento"
 
 #: CRM/Event/Form/Registration/Register.php
-msgid "The Zero amount facility is only for the valid members"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
-msgid "The Number of Items must be greater than zero (0)"
-msgstr ""
-
-#: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "Registration information for participant 1 has been saved."
 msgstr ""
@@ -3411,11 +3404,6 @@ msgstr "Pianifica Mailing"
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
 msgstr "Invia immediatamente"
-
-#: CRM/Mailing/Form/Schedule.php
-#, fuzzy
-msgid "Schedule or Send Later"
-msgstr "Pianifica o Invia"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Scheduled date is not valid."
@@ -4997,6 +4985,16 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
 msgstr "Scade il"
+
+#: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
+#, fuzzy
+msgid ""
+"Your contribution will not be completed until you click the "
+"<strong>Continue</strong> button. Please click the button one time only."
+msgstr ""
+"La registrazione non verrà completata fino a che non cliccherete sul "
+"pulsante <strong>Continua</strong>. Si prega di cliccare sul pulsante una "
+"volta sola."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -8551,10 +8549,6 @@ msgstr ""
 "Impostate la data e ora in cui volete che CiviMail inizi ad inviare questo "
 "mailing."
 
-#: templates/CRM/Mailing/Form/Schedule.tpl
-msgid "OR"
-msgstr "O"
-
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Find Mailings"
 msgstr "Trova Mailing"
@@ -10126,3 +10120,10 @@ msgstr "Crea"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Schedule or Send Later"
+#~ msgstr "Pianifica o Invia"
+
+#~ msgid "OR"
+#~ msgstr "O"

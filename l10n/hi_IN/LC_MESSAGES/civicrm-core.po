@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-09-29 09:12+0200\n"
 "PO-Revision-Date: 2008-09-26 00:08-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1547,6 +1547,7 @@ msgstr "कस्टम खोज"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "Postal Code"
 msgstr "पिन कोड"
 
@@ -2808,9 +2809,7 @@ msgstr "<< निष्क्रिय"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "You need to enable CiviContribute before enabling CiviPledge."
-msgstr ""
-"आप काे सिवीप्लेज सक्षम करने से पहले सिवीकाँन्ट्रीब्यट सक्षम करने की आवश्यकता "
-"है।"
+msgstr "आप काे सिवीप्लेज सक्षम करने से पहले सिवीकाँन्ट्रीब्यट सक्षम करने की आवश्यकता है।"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -3612,11 +3611,11 @@ msgid "Postal code"
 msgstr "पिन कोड"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than '%1'"
+msgid "Postal code greater than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than '%1'"
+msgid "Postal code less than or equal to '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -10469,8 +10468,8 @@ msgid ""
 "Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant and/or "
 "CiviMail components."
 msgstr ""
-"सिवीकाँन्ट्रीब्यट, सिवीप्लेज, सिवीईव्हेंट, सिवीमेंबर, सिवीग्रांट और / या "
-"सिवीमेल घटकों सक्षम करें।"
+"सिवीकाँन्ट्रीब्यट, सिवीप्लेज, सिवीईव्हेंट, सिवीमेंबर, सिवीग्रांट और / या सिवीमेल घटकों सक्षम "
+"करें।"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10709,7 +10708,6 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/displaySearchCriteria.tpl
-#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "AND"
 msgstr ""
 
@@ -11197,10 +11195,17 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "Location search uses the PRIMARY location for each contact by default."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid ""
-"Location search uses the PRIMARY location for each contact by default. To "
-"search by specific location types (e.g. Home, Work...), check one or more "
+"To search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+msgid "OR"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
