@@ -89,6 +89,9 @@ ALTER TABLE `civicrm_custom_group`
   DROP INDEX `UI_name_domain_id` ,
   ADD UNIQUE `UI_name_extends` ( `name` , `extends` );
 
+ALTER TABLE `civicrm_custom_group`
+  MODIFY `extends` enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Group','Membership','Participant','Event','Grant','Pledge') collate utf8_unicode_ci default 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
+
 -- change the default value of is_email_confirm to 0 from 1 in civicrm_event_page table, CRM-3109
 
 ALTER TABLE `civicrm_event_page`
