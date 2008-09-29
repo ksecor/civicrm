@@ -468,11 +468,16 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     self::formattedDates( $calcDates, $formatted );
                     
                     //fix for CRM-3570, exclude the statuses those having is_admin = 1
+                    //now user can import is_admin if is override is true.
+                    $excludeIsAdmin = false;
+                    if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+                        $formatted['exclude_is_admin'] = $excludeIsAdmin = true;
+                    }
                     $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
                                                                                               $endDate,
                                                                                               $joinDate,
                                                                                               'today',
-                                                                                              true );
+                                                                                              $excludeIsAdmin );
                     
                     if ( ! $formatted['status_id']) {                        
                         $formatted['status_id'] = $calcStatus['id'];
@@ -486,8 +491,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                             return CRM_Member_Import_Parser::ERROR;
                         }
                     }
-
-                    $newMembership = civicrm_contact_membership_create($formatted, $cid);
+                    
+                    $newMembership = civicrm_contact_membership_create( $formatted );
                     if ( civicrm_error( $newMembership ) ) {
                         array_unshift($values, $newMembership['error_message']);
                         return CRM_Member_Import_Parser::ERROR;
@@ -505,7 +510,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                     );
                 require_once 'CRM/Dedupe/BAO/Rule.php';
                 $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
-            
+                
                 foreach ( $fieldsArray as $value ) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
@@ -516,15 +521,15 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                         }
                     }
                 } 
-
+                
                 if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
                     $disp = $params['external_identifier'];
                 }
-
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Member_Import_Parser::ERROR;
             }
-          
+            
         } else {
             if ( $values['external_identifier'] ) {
                 $checkCid = new CRM_Contact_DAO_Contact();
@@ -542,11 +547,35 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                                                                   $joinDate,
                                                                                   $startDate,
                                                                                   $endDate );
-           
             self::formattedDates( $calcDates, $formatted );
             //end of date calculation part
             
-            $newMembership = civicrm_contact_membership_create($formatted, $formatted['contact_id']);
+            //fix for CRM-3570, exclude the statuses those having is_admin = 1
+            //now user can import is_admin if is override is true.
+            $excludeIsAdmin = false;
+            if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+                $formatted['exclude_is_admin'] = $excludeIsAdmin = true;
+            }
+            require_once 'CRM/Member/BAO/MembershipStatus.php';
+            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
+                                                                                      $endDate,
+                                                                                      $joinDate,
+                                                                                      'today',
+                                                                                      $excludeIsAdmin );
+            if ( ! $formatted['status_id']) {
+                $formatted['status_id'] = $calcStatus['id'];
+            } else if ( !$formatted['is_override'] || !isset($formatted['is_override']) ) {
+                if ( empty( $calcStatus ) ) {
+                    array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules. Record was not imported.");
+                    return CRM_Member_Import_Parser::ERROR;
+                } else if ( $formatted['status_id'] != $calcStatus['id'] ) { 
+                    //Status Hold" is either NOT mapped or is FALSE  
+                    array_unshift($values,"Status in import row (" .$values['status_id'].") does not match calculated status based on your configured Membership Status Rules (".$calcStatus['name']."). Record was not imported.");
+                    return CRM_Member_Import_Parser::ERROR;
+                }
+            }
+            
+            $newMembership = civicrm_contact_membership_create( $formatted );
             if ( civicrm_error( $newMembership ) ) {
                 array_unshift($values, $newMembership['error_message']);
                 return CRM_Member_Import_Parser::ERROR;

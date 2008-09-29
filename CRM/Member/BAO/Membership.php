@@ -193,8 +193,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
-            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
-              
+            //fix for CRM-3570, during import exclude the statuses those having is_admin = 1
+            $excludeIsAdmin = CRM_Utils_Array::value('exclude_is_admin', $params, false );
+            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate, 
+                                                                                      'today', $excludeIsAdmin );            
             if ( empty( $calcStatus ) ) {
                 if ( ! $skipRedirect ) {
                     // Redirect the form in case of error
