@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-03-03 07:10-0800\n"
+"PO-Revision-Date: 2008-09-25 03:48-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,22 +15,22 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 msgid "Europe and Central Asia"
-msgstr ""
+msgstr "Europa ed Asia centrale"
 
 msgid "America South, Central, North and Carribean"
-msgstr ""
+msgstr "America del Sud, Centrale, del Nord e Caraibica"
 
 msgid "Middle East and North Africa"
-msgstr ""
+msgstr "Medio Oriente e Nord Africa"
 
 msgid "Asia-Pacific"
-msgstr ""
+msgstr "Asia-Pacifico"
 
 msgid "Africa West, East, Central and Southern"
-msgstr ""
+msgstr "Africa Orientale, Occidentale, Centrale e del Sud"
 
 msgid "unassigned"
-msgstr ""
+msgstr "non assegnato"
 
 msgid "Afghanistan"
 msgstr "Afghanistan"
@@ -453,7 +453,7 @@ msgid "Micronesia, Federated States of"
 msgstr "Micronesia (Stati Federati di)"
 
 msgid "Moldova"
-msgstr ""
+msgstr "Moldavia"
 
 msgid "Monaco"
 msgstr "Monaco"

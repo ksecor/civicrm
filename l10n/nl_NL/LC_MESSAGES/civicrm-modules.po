@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-24 13:32+0200\n"
-"PO-Revision-Date: 2008-09-22 08:54-0700\n"
+"PO-Revision-Date: 2008-09-28 03:27-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -251,7 +251,7 @@ msgstr "<< Terug"
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 msgid "(s)"
@@ -634,7 +634,7 @@ msgstr "Opslaan & Later doorgaan"
 msgid ""
 "Your mailing has been saved. Click the 'Continue' action to resume working "
 "on it."
-msgstr ""
+msgstr "Uw mailing is opgeslagen. Klik op 'Doorgaan' om de mailing te bewerken."
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -896,7 +896,7 @@ msgstr "Voettekst Bedankbericht"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "On Behalf Of Organization"
-msgstr "Ten behoeve van organisatie"
+msgstr "Namens een organisatie"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
@@ -1169,7 +1169,7 @@ msgid ""
 "Amount section or Membership section. Please check with the site "
 "administrator for assistance."
 msgstr ""
-"De gevraagde online bijdrage pagina heeft geen verplicht onderdeel "
+"De gevraagde online bijdrage pagina mist een verplicht onderdeel "
 "(bijdragebedrag of lidmaatschap). Raadpleeg be webbeheerder."
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -1534,7 +1534,7 @@ msgstr "Verwijder Pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage.php
 msgid "I am contributing on behalf of an organization."
-msgstr ""
+msgstr "Ik doe een bijdrage namens een organisatie."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums (%1)"
@@ -1580,10 +1580,12 @@ msgid ""
 "Allow individuals to contribute and / or signup for membership on behalf of "
 "an organization?"
 msgstr ""
+"Personen toestaan zich aan te melden namens een organisatie / een bijdrage "
+"te doen?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "On behalf of label"
-msgstr ""
+msgstr "Tekst Namens "
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
@@ -3220,7 +3222,7 @@ msgstr "Tel Doorklikken?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Track Opens?"
-msgstr "Tel openen?"
+msgstr "Tel Openen?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Auto-respond to Replies?"
@@ -3260,13 +3262,15 @@ msgstr "Stuur naar deze groep"
 
 #: CRM/Mailing/Form/Test.php
 msgid "Send a Test Mailing"
-msgstr "Verstuur testmailing"
+msgstr "Verzend Test Mailing"
 
 #: CRM/Mailing/Form/Test.php
 msgid ""
 "Your did not provided any email address or selected any group. No test mail "
 "is sent."
 msgstr ""
+"U heeft geen e-mailadres opgegeven en geen groep geselecteerd. Er is geen "
+"e-mail verzonden."
 
 #: CRM/Mailing/Form/Test.php
 msgid "You cannot provide more than one email address."
@@ -3282,6 +3286,9 @@ msgid ""
 "or Send your live mailing (you will still have a chance to confirm or cancel "
 "sending this mailing on the next page)."
 msgstr ""
+"Uw testbericht is verzonden. Klik op 'Volgende' indien u de mailing wil "
+"verzenden of inplannen. (U kunt op de volgende pagina nog het versturen "
+"afbreken.)"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "FROM"
@@ -3701,7 +3708,7 @@ msgstr "Introductie Tekst - Verlengingen"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Require Membership Signup"
-msgstr "Bevestiging lidmaatschap"
+msgstr "Eis aanmelden lidmaatschap"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Display Membership Fee"
@@ -4614,7 +4621,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "On Behalf Of"
-msgstr ""
+msgstr "Namens"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -5139,6 +5146,8 @@ msgid ""
 "If you want to allow the contribution/signup to be done by individuals on "
 "behalf of an organization."
 msgstr ""
+"Als het toegestaan is om namens een organisatie zich aan te melden of een "
+"bijdrage te doen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -6315,7 +6324,7 @@ msgstr "Wijzig bedankpagina en ontvangstbewijsmogelijkheden"
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
 "Make it easy for contributors to spread the word to friends and colleagues."
-msgstr ""
+msgstr "Vraag contributanten om anderen te benaderen."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Widget"
@@ -6361,6 +6370,8 @@ msgstr "Productie Bijdrage Pagina"
 msgid ""
 "Review your customized <strong>LIVE</strong> online contribution page here."
 msgstr ""
+"Bekijk uw gewijzigde online bijdragepagina zoals die in "
+"<strong>productie</strong> zal zijn."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -6483,10 +6494,9 @@ msgid "(since inception)"
 msgstr "(sinds de start)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "View contribution summary as bar or pie chart using the Google Chart API"
-msgstr "Toon alle bijdragen op kaart als staaf of cirkel"
+msgstr "Toon overzicht bijdragen als staaf of taartdiagram"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
@@ -7889,7 +7899,7 @@ msgid ""
 "least one group that's a Mailing List or at least one previous mailing."
 msgstr ""
 "Om een mailing te versturen dient er een groep ontvangers te zijn - of "
-"minstens een mailing-list groep of minstens een eerdere mailing."
+"minstens een mailing-lijst groep of minstens een eerdere mailing."
 
 #: templates/CRM/Mailing/Form/Group.tpl
 msgid "Mailing Recipients"
@@ -7902,8 +7912,7 @@ msgid ""
 "&quot;Send Immediately&quot;."
 msgstr ""
 "U kunt de mailing plannen op een begindatum en tijd, of U kunt de mailing zo "
-"spoedig mogelijk verzenden door  &quot;Verstuur onmiddellijk&quot; aan te "
-"vinken."
+"spoedig mogelijk verzenden door  &quot;Verstuur direct&quot; aan te vinken."
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -8025,7 +8034,7 @@ msgid ""
 msgstr ""
 "Het is aan te bevelen om de mailing te testen door het naar eerst naar uzelf "
 "en een beperkte groep mensen van uw organisatie te sturen. U kunt een "
-"voorvertoning zien door te klikken op de (+) bij Toon Mailing."
+"voorvertoning zien door te klikken op de (+) bij Voorvertoon mailing."
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "(filled with your contact's token values)"
@@ -8149,8 +8158,8 @@ msgid ""
 "<strong>%1 (%2)</strong> has been successfully subscribed to the <strong>%3</"
 "strong> mailing list."
 msgstr ""
-"<strong>%1 (%2)</strong> is toegevoegd aan de <strong>%3</strong> mailing "
-"list."
+"<strong>%1 (%2)</strong> is toegevoegd aan de <strong>%3</strong> mailing-"
+"lijst."
 
 #: templates/CRM/Mailing/Page/Confirm.tpl
 msgid ""
@@ -8232,7 +8241,7 @@ msgstr "Bekijk het volledige bericht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Attachments"
-msgstr ""
+msgstr "Bijlagen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
