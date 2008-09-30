@@ -456,7 +456,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
     {
         $funcStruct = array('type' => null,'token' => $token);
         $matches = array();
-        if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) && $this->url_tracking ) {
+        if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) ) {
             // it is a url so we need to check to see if there are any tokens embedded
             // if so then call this function again to get the token dataFunc
             // and assign the type 'embedded'  so that the data retrieving function
@@ -636,7 +636,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
             if ($this->body_text) {
                 $this->_getTokens('text');
             }
-            
+         
         }
         return $this->tokens;      
     }
@@ -936,7 +936,7 @@ AND civicrm_contact.is_opt_out =0";
 
         $pTemplates = $this->getPreparedTemplates();
         $pEmails = array( );
-        
+
         foreach( $pTemplates as $type => $pTemplate ) {
             $html = ($type == 'html') ? true : false;
             $pEmails[$type] = array( );
@@ -1068,9 +1068,15 @@ AND civicrm_contact.is_opt_out =0";
             if ( isset( $token_a['embed_parts'][$numSlices] ) ) {
                 $url .= $token_a['embed_parts'][$numSlices];
             }
-            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
+            // never use url tracking for token replacement urls
+            // CRM-3639
+            $data = $url;
         } else if ( $type == 'url' ) {
-            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+            if ( $this->url_tracking ) {
+                $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+            } else {
+                $data = $token;
+            }
         } else if ( $type == 'contact' ) {
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
         } else if ( $type == 'action' ) {
