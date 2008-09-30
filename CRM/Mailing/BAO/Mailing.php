@@ -428,7 +428,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
         $punc = '.:?\-';
         $any = "{$letters}{$gunk}{$punc}";
         if ( $onlyHrefs ) {
-            $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))([\"'])?";
+            $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))";
         } else {
             $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
         }
@@ -963,7 +963,7 @@ AND civicrm_contact.is_opt_out =0";
         if ( isset( $pEmails['html'] ) &&  is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
             $html = &$pEmails['html'];
         }
-        
+
         $text = null;
         if ( isset( $pEmails['text'] ) && is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
