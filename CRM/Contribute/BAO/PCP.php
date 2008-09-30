@@ -138,7 +138,8 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         }
 
         $query = "
-        SELECT pg.start_date, pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus 
+        SELECT pg.start_date, pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus, 
+               pcpblock.is_tellfriend_enabled as tellfriend
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
@@ -147,6 +148,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
 
         $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $pcpInfo = array();
+        $mask = array_sum( array_keys( $links['all'] ) );
         
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         while ( $pcpInfoDao->fetch( ) ) {
@@ -154,6 +156,9 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                 $replace = array( 'pcpId'  => $pcpInfoDao->pcpId );
             }
             $pcpLink = $links['all'];
+            if ( ! $pcpInfoDao->tellfriend ) {
+                $mask -= CRM_Core_Action::DETACH;
+            }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
             $pcpinfo[] = array ( 
                                  'start_date' => $pcpInfoDao->start_date,
@@ -166,8 +171,6 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                   );
         }
         return  array( $pcpBlock, $pcpinfo );
-       
-       
     } 
     
     /**
@@ -192,11 +195,6 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                                                                 'url'   => 'civicrm/contribute/campaign',
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
-                                                                                ),
-                                             CRM_Core_Action::VIEW   => array ( 'name'  => ts('View'),
-                                                                                'url'   => 'civicrm/contribute/view/campaign',
-                                                                                'qs'    => 'reset=1&id=%%pcpId%%',
-                                                                                'title' => ts('View')
                                                                                 ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
                                                                                 'url'   => 'civicrm/contact/tellafriend',

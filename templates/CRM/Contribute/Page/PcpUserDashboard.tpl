@@ -39,7 +39,7 @@
 
     {foreach from=$pcpInfo item=row}
        <tr class="{cycle values="odd-row,even-row"}">
-        <td>{$row.pcpTitle}</td>
+        <td class="bold"><a href="{crmURL p='civicrm/contribute/campaign/info' q="reset=1&id=`$row.pcpId`"}">{$row.pcpTitle}</a></td>
         <td>{$row.start_date|truncate:10:''|crmDate}</td>
         <td>{$row.end_date|truncate:10:''|crmDate}</td>
         <td>{$row.pcpStatus}</td>
