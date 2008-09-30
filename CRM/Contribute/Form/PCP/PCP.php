@@ -50,7 +50,7 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
      */
     public function preProcess()
     {
-
+        parent::preProcess( );
     }
 
     /**
@@ -64,6 +64,8 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
      */
     function setDefaultValues()
     {
+        $defaults = array();
+        return $defaults;
     }
 
  
@@ -80,15 +82,18 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
         require_once 'CRM/Contribute/PseudoConstant.php';
         $status            = CRM_Contribute_PseudoConstant::pcpstatus( );
         $contribution_page = CRM_Contribute_PseudoConstant::contributionPage( );
-        $this->addElement('select', 'pcp_status', ts('Personal Campaign Pages Status'), $status );
-        $this->addElement('select', 'pcp_contibution_page', ts('Contribution Page'), $contribution_page );
+        
+        $this->addElement('select', 'status_id', ts('Personal Campaign Pages Status'), $status );
+        $this->addElement('select', 'contibution_page_id', ts('Contribution Page'), $contribution_page );
         $this->addButtons( array( 
-                                 array ( 'type'      => 'submit',
+                                 array ( 'type'      => 'refresh',
                                          'name'      => ts('Show'), 
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                          'isDefault' => true
                                          ))
                            );
+        
+        parent::buildQuickForm( );
     }
 
     /**
@@ -114,6 +119,20 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
 
     public function postProcess()
     {
+        $params  = $this->controller->exportValues( $this->_name );
+        $parent  = $this->controller->getParent( );
+        
+        if ( ! empty( $params ) ) {
+            $fields = array( 'status_id', 'contribution_page_id' );
+            foreach ( $fields as $field ) {
+                if ( isset( $params[$field] ) &&
+                     ! CRM_Utils_System::isNull( $params[$field] ) ) {
+                    $parent->set( $field, $params[$field] );
+                    } else {
+                        $parent->set( $field, null );
+                    }
+            }
+        }
     }
 }
 
