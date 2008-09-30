@@ -1,6 +1,6 @@
 <fieldset><legend>{ts}Personal Campaign Configuration Screen{/ts}</legend>
 <div class="form-item">
-<table class="form-layout-compressed">
+<table class="form-layout-compressed" width="100%">
 	<tr>
 		<td class="label">{$form.title.label}</td>
 		<td>{$form.title.html|crmReplace:class:big}</td>
@@ -17,8 +17,8 @@
 		<td>{$form.donate_link_text.html}</td>
 	</tr>
 	<tr>
-		<td class="label">{$form.page_text.label}</td>
-		<td>{$form.page_text.html}</td>
+		<td class="label" width="15%">{$form.page_text.label}</td>
+		<td width="85%">{$form.page_text.html}</td>
 	</tr>
 </table>
       {include file="CRM/Form/attachment.tpl"}
