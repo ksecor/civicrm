@@ -711,11 +711,31 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             // at some point wold be nice to have related counts as separate
                             $relationIds = array('contact' => $primaryContactId);
                             
-                            CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
-                            
+                            list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = 
+                                CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
                             CRM_Contact_BAO_Relationship::relatedMemberships( $primaryContactId, 
                                                                               $relationParams,
                                                                               $relationIds );
+                            //handle current employer, CRM-3532
+                            if ( $valid ) {
+                                require_once 'CRM/Core/PseudoConstant.php';
+                                $allRelationships   = CRM_Core_PseudoConstant::relationshipType( );
+                                $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''),  $key );
+                                $relationshipType   = str_replace( $relationshipTypeId . '_', '', $key );
+                                $orgId = $individualId = null;
+                                if ( $allRelationships[$relationshipTypeId]["name_{$relationshipType}"] == 'Employee of' ) {
+                                    $orgId = $relContactId;
+                                    $individualId = $primaryContactId;
+                                } else if ( $allRelationships[$relationshipTypeId]["name_{$relationshipType}"] == 'Employer of' ) {
+                                    $orgId = $primaryContactId;
+                                    $individualId = $relContactId;
+                                }
+                                if ( $orgId && $individualId ) {
+                                    $currentEmpParams[$individualId] = $orgId;
+                                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                                    CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams ); 
+                                }
+                            }
                         }
                     }
                 }
