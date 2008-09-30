@@ -428,7 +428,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
         $punc = '.:?\-';
         $any = "{$letters}{$gunk}{$punc}";
         if ( $onlyHrefs ) {
-            $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))";
+            $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))([\"'])?";
         } else {
             $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
         }
@@ -1068,8 +1068,13 @@ AND civicrm_contact.is_opt_out =0";
             if ( isset( $token_a['embed_parts'][$numSlices] ) ) {
                 $url .= $token_a['embed_parts'][$numSlices];
             }
-            // never use url tracking for token replacement urls
-            // CRM-3639
+            // add trailing quote since we've gobbled it up in a previous regex
+            // function getPatterns, line 431
+            if ( preg_match( '/^href[ ]*=[ ]*\'/', $url ) ) {
+                $url .= "'";
+            } else if ( preg_match( '/^href[ ]*=[ ]*\"/', $url ) ) {
+                $url .= '"';
+            }
             $data = $url;
         } else if ( $type == 'url' ) {
             if ( $this->url_tracking ) {
