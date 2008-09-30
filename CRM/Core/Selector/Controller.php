@@ -228,7 +228,7 @@ class CRM_Core_Selector_Controller {
         if ( $output == self::TRANSFER ) {
             $params['total'] = $this->_store->get( $this->_prefix . 'rowCount' );
         } else {
-            $params['total'] = $this->_object->getTotalCount($action);
+            $params['total'] = $this->_object->getTotalCount($action, $this->_case );
         }
 
         $this->_total = $params['total'];

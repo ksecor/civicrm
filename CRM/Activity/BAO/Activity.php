@@ -562,7 +562,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @static
      * @access public
      */
-    static function getNumOpenActivity( $id, $admin = false, $context = null ) 
+    static function getNumOpenActivity( $id, $admin = false, $context = null, $caseId ) 
     {
         $params = array( );
         $clause = 1 ;
@@ -576,7 +576,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $context == 'home' ) {
             $statusClause = " civicrm_activity.status_id = 1 "; 
         }
-
+        //handle case related activity if $case is set
+        $case = 1;
+        if ( $caseId ) {
+            $case = "civicrm_case_activity.case_id = {$caseId}";
+            $caseJoin = "LEFT JOIN civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
+        } 
 
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
         $contributionFilter = 1;
@@ -589,8 +594,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_activity.id = civicrm_activity_target.activity_id
                   left join civicrm_activity_assignment on 
                             civicrm_activity.id = civicrm_activity_assignment.activity_id
+                  {$caseJoin}
                   where {$clause}
-                  and is_test = 0 and {$contributionFilter} and {$statusClause}";
+                  and is_test = 0 and {$contributionFilter} and {$statusClause} and {$case}";
 
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
