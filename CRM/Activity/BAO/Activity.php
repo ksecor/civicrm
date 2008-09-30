@@ -562,7 +562,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @static
      * @access public
      */
-    static function getNumOpenActivity( $id, $admin = false, $context = null, $caseId ) 
+    static function getNumOpenActivity( $id, $admin = false, $context = null, $caseId = null ) 
     {
         $params = array( );
         $clause = 1 ;
