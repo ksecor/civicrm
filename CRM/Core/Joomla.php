@@ -53,11 +53,17 @@ class CRM_Core_Joomla {
             return;
         }
 
-        $blockIds = array( 1, 2, 4, 8 );
+        require_once 'CRM/Core/Block.php';
+        $blockIds = array( 
+            CRM_Core_Block::MENU,
+            CRM_Core_Block::SHORTCUTS,
+            CRM_Core_Block::SEARCH,
+            CRM_Core_Block::ADD,
+            CRM_Core_Block::LANGSWITCH,
+        );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {
-            require_once 'CRM/Core/Block.php';
             $blocks[] = CRM_Core_Block::getContent( $id );
         }
 
