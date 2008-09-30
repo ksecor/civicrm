@@ -4,6 +4,7 @@
   <head>
     <title>Dave Greenberg | Dave's Drupal 6 - Civi 2.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="js/Common.js"></script>
 <style type="text/css">@import url(css/civicrm.css);</style>
 <style type="text/css">@import url(css/skins/aqua/theme.css);</style>
 
@@ -97,26 +98,323 @@
 <fieldset><legend>Case Summary</legend>
     <table class="form-layout-compressed">
         <tr>
-            <td class="font-size12pt bold" colspan="6">Client: Mr. Jack A. Smith</strong>&nbsp;</td>
+            <td class="font-size12pt bold">Client: Mr. Jack A. Smith</strong>&nbsp;</td>
+            <td style="vertical-align: bottom;"><a href="" class="button"><span>&raquo; New Activity</span></a></td>
+            <td class="right"><label>Report</label> <select><option>15-day Review</option><option>Disability Application</option></select> <input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location=''"/></td> 
         </tr>
         <tr>
-            <td><label for="case_type_id">Case Type</label></td><td>Substance Abuse</td>
-      	    <td><label for="subject">Subject</label></td><td>Acute morphine abuse></td>
-            <td><label for="status_id">Status</label></td><td>Ongoing</td>
+            <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>Case Type:</label> Substance Abuse <a href="" title="Change case type (creates activity record)"><img src="i/edit.png" border="0"></a></td>
+      	    <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>Subject:</label> Acute morphine abuse <a href="" title="Change case description (creates activity record)"><img src="i/edit.png" border="0"></a></td>
+            <td style="border: solid 1px #dddddd; padding-right: 2em; vertical-align: bottom;"><label>Status:</label> Ongoing <a href="" title="Change case status (creates activity record)"><img src="i/edit.png" border="0"></a></td>
         </tr>
     </table>
 </fieldset>
 
+<div id="caseRole_show" class="section-hidden section-hidden-border">
+  <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Roles</label><br />
+</div>
+
+<div id="caseRole" class="section-shown">
+ <fieldset>
+  <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Roles</legend>
+    <table class="report">
+        <tr>
+            <td class="label">Case Coordinator <a href="" title="edit case role"><img src="i/edit.png"></a></td><td><a href="" title="view contact record">Greenberg, Dave</a></td><td>(415) 244-1092</td><td><a href="" title="Send Email"><img src="i/EnvelopeIn.gif"></a></td>
+        </tr>
+        <tr>
+            <td class="label">Addiction Counselor <a href="" title="edit case role"><img src="i/edit.png"></a></td><td><a href="" title="view contact record">Smith, Jane</a></td><td>(408) 552-3912</td><td><a href="" title="Send Email"><img src="i/EnvelopeIn.gif"></a></td>
+        </tr>
+        <tr>
+            <td class="label">Primary Care Physician <a href="" title="edit case role"><img src="i/edit.png"></a></td><td>(not assigned)</td><td></td><td></td>
+        </tr>
+    </table>
+ </fieldset>
+</div>
+
+<script type="text/javascript">
+show('caseRole_show');
+hide('caseRole');
+</script>
+
+<div id="activities_show" class="section-hidden section-hidden-border">
+  <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Activities</label><br />
+</div>
+
+<div id="activities" class="section-shown">
 <fieldset>
-  <legend>Activities</legend>
+  <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Activities</legend>
+  <table class="no-border">
+    <tr>
+        <td class="label"><label for="activity_category">Category</label><br />
+            <select name="activity_category" id="activity_category" class="form-select">
+            <option>- any category -</option>
+            <option>Case History</option>
+            <option>Personal History</option>
+            </select>
+        </td>
+        <td class="label"><label for="contact_type">Type</label><br />
+            <select name="activity_type" id="activity_type" class="form-select">
+            <option value="" selected="selected">- any activity type -</option>
+            <option>Intake Assessment</option>
+            <option>Workplace Review</option>
+            <option>Supervisor Interview</option>
+            </select>
+        </td>
+        <td class="label"><label for="reporter">Reporter/Role</label><br />
+            <select name="reporter" id="reporter" class="form-select">
+            <option value="" selected="selected">- any reporter -</option>
+            <option>Greenberg, David (Case Coordinator)</option>
+            <option>Smith, Jane (Addiction Counselor)</option>
+            </select>
+        </td>
+        <td class="label"><label for="status">Status</label><br />
+            <select name="status" id="status" class="form-select">
+            <option value="" selected="selected">- any status -</option>
+            <option>Scheduled</option>
+            <option>Completed</option>
+            </select>
+        </td>
+        <td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="submit" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"> 
+                <input type="radio" value="due_date" name="date_type" checked=true> <label>Due</label> &nbsp;   <input type="radio" name="date_type" value="activity_date"> <label>Completed</label>  &nbsp;&nbsp; <label>- From</label> 
+                <br />
+                <select class="form-date" id="contribution_date_low[M]" name="contribution_date_low[M]">
+	<option value="">-month-</option>
+
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+	<option value="3">Mar</option>
+	<option value="4">Apr</option>
+	<option value="5">May</option>
+	<option value="6">Jun</option>
+
+	<option value="7">Jul</option>
+	<option value="8">Aug</option>
+	<option value="9">Sep</option>
+	<option value="10">Oct</option>
+	<option value="11">Nov</option>
+	<option value="12">Dec</option>
+
+</select>&nbsp;<select class="form-date" id="contribution_date_low[d]" name="contribution_date_low[d]">
+	<option value="">-day-</option>
+	<option value="1">01</option>
+	<option value="2">02</option>
+	<option value="3">03</option>
+	<option value="4">04</option>
+	<option value="5">05</option>
+
+	<option value="6">06</option>
+	<option value="7">07</option>
+	<option value="8">08</option>
+	<option value="9">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option value="29">29</option>
+
+	<option value="30">30</option>
+	<option value="31">31</option>
+</select>&nbsp;<select class="form-date" id="contribution_date_low[Y]" name="contribution_date_low[Y]">
+	<option value="">-year-</option>
+	<option value="1988">1988</option>
+	<option value="1989">1989</option>
+	<option value="1990">1990</option>
+
+	<option value="1991">1991</option>
+	<option value="1992">1992</option>
+	<option value="1993">1993</option>
+	<option value="1994">1994</option>
+	<option value="1995">1995</option>
+	<option value="1996">1996</option>
+
+	<option value="1997">1997</option>
+	<option value="1998">1998</option>
+	<option value="1999">1999</option>
+	<option value="2000">2000</option>
+	<option value="2001">2001</option>
+	<option value="2002">2002</option>
+
+	<option value="2003">2003</option>
+	<option value="2004">2004</option>
+	<option value="2005">2005</option>
+	<option value="2006">2006</option>
+	<option value="2007">2007</option>
+	<option value="2008">2008</option>
+
+	<option value="2009">2009</option>
+	<option value="2010">2010</option>
+	<option value="2011">2011</option>
+	<option value="2012">2012</option>
+	<option value="2013">2013</option>
+	<option value="2014">2014</option>
+
+	<option value="2015">2015</option>
+	<option value="2016">2016</option>
+	<option value="2017">2017</option>
+	<option value="2018">2018</option>
+	<option value="2019">2019</option>
+	<option value="2020">2020</option>
+
+	<option value="2021">2021</option>
+	<option value="2022">2022</option>
+	<option value="2023">2023</option>
+	<option value="2024">2024</option>
+	<option value="2025">2025</option>
+	<option value="2026">2026</option>
+
+	<option value="2027">2027</option>
+	<option value="2028">2028</option>
+</select> &nbsp;
+                <img src="i/cal.gif" id="trigger_search_contribution_1" alt="Calendar" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>                
+            </td>
+            <td> 
+                 <label>To</label><br /> <select class="form-date" id="contribution_date_high[M]" name="contribution_date_high[M]">
+
+	<option value="">-month-</option>
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+	<option value="3">Mar</option>
+	<option value="4">Apr</option>
+	<option value="5">May</option>
+
+	<option value="6">Jun</option>
+	<option value="7">Jul</option>
+	<option value="8">Aug</option>
+	<option value="9">Sep</option>
+	<option value="10">Oct</option>
+	<option value="11">Nov</option>
+
+	<option value="12">Dec</option>
+</select>&nbsp;<select class="form-date" id="contribution_date_high[d]" name="contribution_date_high[d]">
+	<option value="">-day-</option>
+	<option value="1">01</option>
+	<option value="2">02</option>
+	<option value="3">03</option>
+	<option value="4">04</option>
+
+	<option value="5">05</option>
+	<option value="6">06</option>
+	<option value="7">07</option>
+	<option value="8">08</option>
+	<option value="9">09</option>
+	<option value="10">10</option>
+
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+
+	<option value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+</select>&nbsp;<select class="form-date" id="contribution_date_high[Y]" name="contribution_date_high[Y]">
+	<option value="">-year-</option>
+	<option value="1988">1988</option>
+	<option value="1989">1989</option>
+
+	<option value="1990">1990</option>
+	<option value="1991">1991</option>
+	<option value="1992">1992</option>
+	<option value="1993">1993</option>
+	<option value="1994">1994</option>
+	<option value="1995">1995</option>
+
+	<option value="1996">1996</option>
+	<option value="1997">1997</option>
+	<option value="1998">1998</option>
+	<option value="1999">1999</option>
+	<option value="2000">2000</option>
+	<option value="2001">2001</option>
+
+	<option value="2002">2002</option>
+	<option value="2003">2003</option>
+	<option value="2004">2004</option>
+	<option value="2005">2005</option>
+	<option value="2006">2006</option>
+	<option value="2007">2007</option>
+
+	<option value="2008">2008</option>
+	<option value="2009">2009</option>
+	<option value="2010">2010</option>
+	<option value="2011">2011</option>
+	<option value="2012">2012</option>
+	<option value="2013">2013</option>
+
+	<option value="2014">2014</option>
+	<option value="2015">2015</option>
+	<option value="2016">2016</option>
+	<option value="2017">2017</option>
+	<option value="2018">2018</option>
+	<option value="2019">2019</option>
+
+	<option value="2020">2020</option>
+	<option value="2021">2021</option>
+	<option value="2022">2022</option>
+	<option value="2023">2023</option>
+	<option value="2024">2024</option>
+	<option value="2025">2025</option>
+
+	<option value="2026">2026</option>
+	<option value="2027">2027</option>
+	<option value="2028">2028</option>
+</select> &nbsp;
+                 <img src="i/cal.gif" id="trigger_search_contribution_2" alt="Calendar" style="padding: 5px 0px 0px 0px; vertical-align: text-bottom;"/>                 
+        </td>
+    </tr>
+  </table>
 
   <form title="activity_pager" action="" method="post">
-
   <table class="selector">
-    <tr class="columnheader"><th scope="col"><a href="" class="sort-none">Type</a></th><th scope="col"><a href="" class="sort-none">Case</a></th><th scope="col"><a href="" class="sort-none">Subject</a></th><th scope="col"><a href="" class="sort-none">Added By</a></th><th scope="col"><a href="" class="sort-none">With</a></th><th scope="col"><a href="" class="sort-none">Assigned To</a></th><th scope="col"><a href="" class="sort-none">Date</a></th><th scope="col"><a href="" class="sort-none">Status</a></th><th scope="col"></th></tr>
-    <tr class="odd-row status-ontime"><td>Interview</td><td><a href="">Acute morphine abuse</a></td><td>Assessment interview</td><td>Greenberg, Dave</td><td><a href="108" title="View contact">Smith, Jack</a></td><td><em>n/a</em></td><td>September 24th, 2008  5:00 PM</td><td>Completed</td><td><a href="" >View</a>&nbsp;|&nbsp;<a href="" >Edit</a>&nbsp;|&nbsp;<a href="" >Delete</a>&nbsp;|&nbsp;<a href="" >Detach</a></td></tr></table>
+    <tr class="columnheader"><th scope="col"><a href="" class="sort-none">Category</a></th><th scope="col"><a href="" class="sort-none">Type</a></th><th scope="col"><a href="" class="sort-none">Reporter</a></th><th scope="col"><a href="" class="sort-none">Due</a></th><th scope="col"><a href="" class="sort-none">Completed</a></th><th scope="col"><a href="" class="sort-none">Status</a></th><th scope="col"></th></tr>
+    <tr class="odd-row status-ontime"><td>Medical History</td><td><a href="">Complete Physical</a></td><td>(Primary Care Physician)</td><td>Oct 8th, 2008</td><td></td><td>Scheduled</td><td><a href="" >View</a>&nbsp;|&nbsp;<a href="" >Edit</a>&nbsp;|&nbsp;<a href="" >Delete</a></td></tr>
+    <tr class="odd-row status-ontime"><td>Case History</td><td><a href="">Intake Assessment</a></td><td><a href="">Greenberg, Dave</a><br />(Case Coordinator)</td><td>Sept 24th, 2008</td><td>Sept 24th, 2008  5:00 PM</td><td>Completed</td><td><a href="" >View</a>&nbsp;|&nbsp;<a href="" >Edit</a>&nbsp;|&nbsp;<a href="" >Delete</a></td></tr>
+  </table>
   </form>
 </fieldset>
+</div> <!-- End Activities div -->
+
+<script type="text/javascript">
+show('activities_show');
+hide('activities');
+</script>
+
 </div>
 
  <div class="footer" id="access">
