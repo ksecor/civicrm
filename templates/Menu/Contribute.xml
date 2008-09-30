@@ -132,4 +132,11 @@
      <icon>admin/small/contribution_types.png</icon>
      <weight>370</weight>
   </item>
+  <item>
+     <path>civicrm/contribute/pcp/info</path>
+     <page_callback>CRM_Contribute_Page_PCPInfo</page_callback>
+     <title>Personal Campaign Page Information</title>
+     <access_callback>1</access_callback>
+     <is_public>true</is_public>
+  </item>
   </menu>
