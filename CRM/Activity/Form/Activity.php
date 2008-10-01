@@ -458,8 +458,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('admin', $admin);
-        
-        $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
+
+        if( $config->civiHRD ) {
+          $label = ts('From');
+        } else {
+          $label = ts('Added By');
+        }
+        $sourceContactField =& $this->add( 'text','source_contact_id', $label, $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
         } else if ( $this->_sourceContactId ) {
