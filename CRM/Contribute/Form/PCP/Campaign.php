@@ -44,7 +44,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
  
     public function preProcess()  
     {
-        
+      
     }
 
     function setDefaultValues( ) 
@@ -79,7 +79,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->addWysiwyg( 'page_text', ts('Page Text'), $attrib ); 
 
         require_once 'CRM/Core/BAO/File.php';
-        CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp' );
+        CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->get('page_id'));
         
         $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Thermometer') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
@@ -88,9 +88,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $this->setDefaults(array('is_active' => 1));
         }
-        
+        $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
+        $buttonType = $this->buttonType( );
+
         $this->addButtons( array(
-                                 array ( 'type'      => 'upload',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
