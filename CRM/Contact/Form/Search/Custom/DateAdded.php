@@ -279,35 +279,33 @@ class CRM_Contact_Form_Search_Custom_DateAdded
         CRM_Core_DAO::executeQuery( $includeGroup, CRM_Core_DAO::$_nullArray );
         
         //search for smart group contacts
-        if ( ! empty( $this->_includeGroups ) ) {
-            foreach( $this->_includeGroups as $keys => $values ) {
-                if ( in_array( $values, $smartGroup ) ) {
-                
-                    $ssId = CRM_Utils_Array::key( $values, $smartGroup );
+        foreach( $this->_includeGroups as $keys => $values ) {
+            if ( in_array( $values, $smartGroup ) ) {
             
-                    $smartSql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ssId );
-      
-                    $smartSql .= " AND contact_a.id NOT IN ( 
-                                   SELECT contact_id FROM civicrm_group_contact
-                                   WHERE civicrm_group_contact.group_id = {$values} AND civicrm_group_contact.status = 'Removed')";
-            
-                    //used only when exclude group is selected
-                    if ( $xGroups != 0 ) {
-                        $smartSql .= " AND contact_a.id NOT IN (SELECT contact_id FROM  Xg_{$this->_tableName})";
-                    }
-           
-                    $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
-                        $smartSql";
-            
-                    CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
-                    $insertGroupNameQuery = 
-                       "UPDATE IGNORE Ig_{$this->_tableName}
-                        SET group_names = (SELECT title FROM civicrm_group
-                            WHERE civicrm_group.id = $values)
-                        WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
-                            AND Ig_{$this->_tableName}.group_names IS NULL";
-                    CRM_Core_DAO::executeQuery( $insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
+                $ssId = CRM_Utils_Array::key( $values, $smartGroup );
+        
+                $smartSql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ssId );
+  
+                $smartSql .= " AND contact_a.id NOT IN ( 
+                               SELECT contact_id FROM civicrm_group_contact
+                               WHERE civicrm_group_contact.group_id = {$values} AND civicrm_group_contact.status = 'Removed')";
+        
+                //used only when exclude group is selected
+                if ( $xGroups != 0 ) {
+                    $smartSql .= " AND contact_a.id NOT IN (SELECT contact_id FROM  Xg_{$this->_tableName})";
                 }
+       
+                $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
+                    $smartSql";
+        
+                CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
+                $insertGroupNameQuery = 
+                   "UPDATE IGNORE Ig_{$this->_tableName}
+                    SET group_names = (SELECT title FROM civicrm_group
+                        WHERE civicrm_group.id = $values)
+                    WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
+                        AND Ig_{$this->_tableName}.group_names IS NULL";
+                CRM_Core_DAO::executeQuery( $insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
             }
         }
         
@@ -334,6 +332,14 @@ class CRM_Contact_Form_Search_Custom_DateAdded
         } else {
             CRM_Utils_System::setTitle(ts('Search'));
         }
+    }
+    
+    function count( ) {
+        $sql = $this->all( );
+           
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                             CRM_Core_DAO::$_nullArray );
+        return $dao->N;
     }
     
     function __destruct( ) {
