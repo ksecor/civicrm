@@ -1067,3 +1067,13 @@ commented since it is overwiting simple td
    margin-bottom: -5px;
    width: auto;
 }
+/* class for personal campaign info page */
+#crm-container table.campaign th, td, #crm-container table.campaign { 
+  font-size: 9pt;
+  font-family:Verdana,Arial,Helvetica,sans-serif;
+  border: 0px;
+ }
+
+#crm-container table.campaign table{ 
+  background: #FCEDF4;
+ }

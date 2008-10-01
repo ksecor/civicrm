@@ -84,13 +84,19 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1
 ";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $honor = array();
+        
         while( $dao->fetch() ) {
             $honor[] = $dao->honor;
         }
         
+        if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
+            $image = '<img align="middle" src="'.CRM_Utils_System::url( 'civicrm/file', 
+                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=300 height=300/>';
+        }
+        $this->assign('image', $image);
         $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
-        
+
         // make sure that we are between  registration start date and registration end date
         $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',
                                                                        $default['1'] ) );
