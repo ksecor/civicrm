@@ -56,7 +56,8 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
     {
         $config =& CRM_Core_Config::singleton();
         $currencySymbol = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency', $config->defaultCurrency, 'symbol', 'name');
-
+        $this->assign('currencySymbol', $currencySymbol);
+        $this->assign('config', $config);
         //get the pcp id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
 
@@ -93,10 +94,20 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1
             $image = '<img align="middle" src="'.CRM_Utils_System::url( 'civicrm/file', 
                                                          "reset=1&id=$file_id&eid=$this->_id" ).'"width=300 height=300/>';
         }
+
+        require_once 'CRM/Contribute/BAO/PCP.php';
+        $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
+        $achieved = $totalAmount/$pcpInfo['goal_amount'] *100;
+        
         $this->assign('image', $image);
         $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
-
+        $this->assign('total', $totalAmount);
+        $this->assign('achieved', $achieved);
+        
+        if ( $achieved <= 100 ) {
+            $this->assign('remaining', 100- $achieved );
+        }
         // make sure that we are between  registration start date and registration end date
         $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'start_date',
                                                                        $default['1'] ) );

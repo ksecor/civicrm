@@ -174,6 +174,26 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     } 
     
     /**
+     * function to add the Personal Campaign Page Block
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id     * 
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function thermoMeter( $pcpId ) 
+    {
+        $query = "
+     SELECT SUM(cc.total_amount) as total
+     FROM civicrm_pcp pcp LEFT JOIN 
+          civicrm_contribution cc ON ( pcp.id = cc.pcp_made_through_id )
+     WHERE pcp.id = {$pcpId}";
+
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+    
+    /**
      * Get action links
      *
      * @return array (reference) of action links

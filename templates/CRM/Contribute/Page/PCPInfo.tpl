@@ -19,10 +19,19 @@
 </td></tr>
 
 <tr><td>
-thermometer part
+<div class="pcp_progress">
+  Goal<div class="money">{$currencySymbol}{$pcp.goal_amount}</div>
+  <div class="meter">
+    <div class="remaining">&nbsp;</div>
+    <div class="achieved">&nbsp;</div>
+  </div>
+  <div class="percentage">{$achieved}%</div>
+  Achieved<div class="money">{$currencySymbol}{$total}</div>
+  
+</div>
 </td>
 <td>HONOR ROLL<br />
-<marquee behavior="scroll" direction="up" SCROLLDELAY="200" BGCOLOR=WHITE WIDTH=150 HEIGHT=200>
+<marquee behavior="scroll" direction="up" SCROLLDELAY="200" bgcolor="#fafafa">
 {foreach from=$honor key=k item=v}
 {$v}<br /><br /><br />
 {/foreach}
@@ -30,7 +39,38 @@ thermometer part
 </td></tr>
 </table>
 </td>
-
 </tr>
 </table>
 </div>
+{literal}
+<style>
+.pcp_progress {
+    font-family: arial;
+    font-size: 12px;
+    margin: 5px 20px 0 0;
+    padding: 20px;
+    text-align: center;
+    width: 50px;
+    color: black;
+    background-color: #fafafa;
+    border: 1px solid #9d9fca;
+}
+.money, .percentage, {
+    padding: 3px;
+}
+.meter {
+    height: 150px;
+}
+{/literal}{if $remaining}{literal}
+.remaining {
+    height: {/literal}{$remaining}{literal}%;
+    background: url("{/literal}{$config->resourceBase}{literal}i/contribute/pcp_remain.gif");}
+{/literal}
+{/if}
+{if $achieved}{literal}
+.achieved {
+    height: {/literal}{$achieved}{literal}%;
+    background: url("{/literal}{$config->resourceBase}{literal}i/contribute/pcp_achieve.gif");}
+{/literal}{/if}{literal}
+</style>
+{/literal}
