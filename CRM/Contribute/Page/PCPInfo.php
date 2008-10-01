@@ -54,7 +54,10 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
      */
     function run()
     {
-        //get the event id.
+        $config =& CRM_Core_Config::singleton();
+        $currencySymbol = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency', $config->defaultCurrency, 'symbol', 'name');
+
+        //get the pcp id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
 
         $action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
@@ -73,6 +76,19 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
                                          $pcpInfo['contribution_page_id'], $default, array( 'start_date', 'end_date' ) );
 
+
+        $query="
+SELECT CONCAT_WS(' $currencySymbol ', pcp_roll_nickname,  total_amount ) as honor
+FROM civicrm_contribution
+WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $honor = array();
+        while( $dao->fetch() ) {
+            $honor[] = $dao->honor;
+        }
+        
+        $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
         
         // make sure that we are between  registration start date and registration end date
@@ -90,15 +106,15 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $validDate = false;
         }
         
-       
+        $this->assign( 'validDate', true  );
         if ( $validDate ) {
             
-            $contribtionText = ts('Contribute Now');
+            $contributionText = ts('Contribute Now');
             if ( CRM_Utils_Array::value('donate_link_text',$pcpInfo ) ) {
-                $contribtionText = $pcpInfo['donate_link_text'];
+                $contributionText = $pcpInfo['donate_link_text'];
             }
-            
-            $this->assign( 'contribtionText', $contribtionText );
+                
+            $this->assign( 'contributionText', $contributionText );
             
             // we always generate urls for the front end in joomla
             if ( $action ==  CRM_Core_Action::PREVIEW ) {
