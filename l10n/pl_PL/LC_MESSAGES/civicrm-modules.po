@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-01 10:39+0200\n"
 "PO-Revision-Date: 2008-02-27 05:15-0800\n"
 "Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -4540,7 +4540,7 @@ msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
 #, fuzzy
-msgid "Find Test Pledge?"
+msgid "Find Test Pledges?"
 msgstr "Szukanie dotacji"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
