@@ -174,10 +174,10 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     } 
     
     /**
-     * function to add the Personal Campaign Page Block
+     * function to show the total amount for Personal Campaign Page
      *
-     * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id     * 
+     * @param array $pcpId  contains the pcp ID
+     * 
      * @access public
      * @static 
      * @return object
