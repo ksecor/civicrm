@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-29 09:12+0200\n"
-"PO-Revision-Date: 2008-09-28 03:27-0700\n"
+"PO-Revision-Date: 2008-09-30 04:30-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4625,13 +4625,12 @@ msgid "Expires"
 msgstr "Verloopt op"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#, fuzzy
 msgid ""
 "Your contribution will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas definitief als u klikt op de knop <strong>Doorgaan</"
-"strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw bijdrage is pas definitief als u klikt op de knop "
+"<strong>Doorgaan</strong>. Klik a.u.b. maar een keer op de knop."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6543,7 +6542,7 @@ msgid ""
 "There are no custom Payment Instruments entered. You can <a href='%1'>add "
 "one</a>."
 msgstr ""
-"Er is geen specifieke betaalwijze. U kunt er een <a href='%1'>toevoegen</a>."
+"Er is geen standaard betaalwijze. U kunt er een <a href='%1'>toevoegen</a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -6656,7 +6655,7 @@ msgid ""
 "Check this box to enter payment information. You will also be able to "
 "generate a customized receipt."
 msgstr ""
-"Vind dee box aan op betaalinformatie in te voeren. U kunt dan ook een "
+"Vind deze box aan op betaalinformatie in te voeren. U kunt dan ook een "
 "ontvangsbewijs opstellen."
 
 #: templates/CRM/Event/Form/EventFees.tpl
@@ -6706,7 +6705,7 @@ msgid ""
 "After selecting an Event Type, this page will display any custom event "
 "fields for that type."
 msgstr ""
-"Na selectie van het evenementtype worden op deze pagina eventuele specifieke "
+"Na selectie van het evenementtype worden op deze pagina eventuele standaard "
 "velden getoond die er voor dat type zijn."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -7608,11 +7607,11 @@ msgid ""
 "the database. Use obvious test contact names so you can review and delete "
 "these records as needed.</strong>"
 msgstr ""
-"Test het hele registratie proces, inclusief specifieke velden, "
-"bevestigingen, bedankpagina en ontvangstbewijzen. Transacties worden naar de "
-"test-machine van uw bank gestuurd. <strong> Er worden geen echte transacties "
-"verricht maar de ingevulde gegevens  over het contact en de bijdrage worden "
-"in de database opgenomen.</strong>"
+"Test het hele registratie proces, inclusief standaard velden, bevestigingen, "
+"bedankpagina en ontvangstbewijzen. Transacties worden naar de test-machine "
+"van uw bank gestuurd. <strong> Er worden geen echte transacties verricht "
+"maar de ingevulde gegevens  over het contact en de bijdrage worden in de "
+"database opgenomen.</strong>"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Live Registration"
@@ -8974,7 +8973,7 @@ msgid ""
 "There are no custom membership status entered. You can <a href='%1'>add one</"
 "a>."
 msgstr ""
-"Er is nog geen specifieke status lidmaatschapsstatus. U kunt er een <a "
+"Er is nog geen standaard status lidmaatschap. U kunt er een <a "
 "href='%1'>toevoegen</a>."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
