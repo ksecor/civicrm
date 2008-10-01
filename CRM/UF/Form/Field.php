@@ -505,43 +505,31 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      */
     public function postProcess()
     {
-        $ufGroupDefaults = array( );
-        $ufGroupParams   = array('id' => $this->_gid );
-        $ufGroupIds['ufgroup'] = $this->_gid; 
-        $ids = array( );
-        $ids['uf_group'] = $this->_gid;
-        
+        $ids = array( 'uf_group' => $this->_gid );
         if ($this->_action & CRM_Core_Action::DELETE) {
             $fieldValues = array('uf_group_id' => $this->_gid);
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
-            $ufFieldDefaults = array( );
-            $ufFieldParams   = array( 'id'          => $this->_id,
-                                      'uf_group_id' => $this->_gid 
-                                      );
-            CRM_Core_BAO_UFField::retrieve( $ufFieldParams, $ufFieldDefaults );
-            $deleteFieldType = $ufFieldDefaults['field_type'];
+            $deleted = CRM_Core_BAO_UFField::del( $this->_id );
             
-            CRM_Core_BAO_UFField::del( $this->_id );
-            
-            //check for updating group_type.
-            $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );
-            $updateUFGroup = true;
-            
-            foreach( $ufFields as $name => $value ) {
-                if ( $value['field_type'] == $deleteFieldType ) {
-                    $updateUFGroup = false;
-                    break;
+            //calculate group_type every time. CRM-3608 
+            if ( $this->_gid && $deleted ) { 
+                //get the profile fields
+                $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );   
+                $groupType = 'null';
+                if ( !empty( $ufFields ) ) {
+                    foreach ( $ufFields as $fieldName => $fieldValue ) {
+                        if ( strpos( $groupType, $fieldValue['field_type'] ) === false ) {
+                            if (  $groupType == 'null' ) {
+                                $groupType = $fieldValue['field_type'];
+                            } else {
+                                $groupType .= "," . $fieldValue['field_type'];
+                            }
+                        }
+                    }
                 }
-            }
-            
-            if ( $updateUFGroup ) {
-                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
-                $groupType = explode( ',', $ufGroupDefaults['group_type'] );
-                $fieldTypeKey = CRM_Utils_Array::key( $deleteFieldType, $groupType );
-                unset( $groupType[$fieldTypeKey] );
-                $ufGroupDefaults['group_type'] = implode( ',', $groupType );
-                //update uf group
-                $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+                
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
             
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
@@ -554,7 +542,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $params['is_searchable'] = 0;
             $params['in_selector']   = 0; 
         }
-       
+        
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
@@ -568,24 +556,25 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
             
-            //fix for CRM-3037.
-            $updateUFGroup = false;
-            if ( $this->_gid ) {
-                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
-                if ( ! is_null( $ufGroupDefaults['group_type'] ) ) {
-                    $groupType = explode( ',', $ufGroupDefaults['group_type'] );
-                    if ( ! in_array( $params['field_name'][0], $groupType ) ) {
-                        $ufGroupDefaults['group_type'] .= ",".$params['field_name'][0]; 
-                        $updateUFGroup = true;
+            //calculate group_type every time. CRM-3608 
+            if ( $this->_gid && is_a( $ufField, 'CRM_Core_DAO_UFField' ) ) {
+                //get the profile fields
+                $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );   
+                $groupType = 'null';
+                if ( !empty( $ufFields ) ) {
+                    foreach ( $ufFields as $fieldName => $fieldValue ) {
+                        if ( strpos( $groupType, $fieldValue['field_type'] ) === false ) {
+                            if ( $groupType == 'null' ) {
+                                $groupType = $fieldValue['field_type'];
+                            } else {
+                                $groupType .= "," . $fieldValue['field_type'];
+                            }
+                        }
                     }
-                } else { 
-                    $ufGroupDefaults['group_type'] = $params['field_name'][0];
-                    $updateUFGroup = true;
                 }
-                //update uf group
-                if ( $updateUFGroup ) {
-                    $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
-                }
+                
+                //set group type
+                CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
@@ -671,9 +660,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         //fix for CRM-3037
         $fieldType = $fields['field_name'][0];
-        $groupType = explode( ',', 
-                              CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $fields['group_id'], 'group_type' )
-                              );
+        $groupType = explode( ',', CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $fields['group_id'], 'group_type' ) );
         
         switch ( $fieldType ) {
             
