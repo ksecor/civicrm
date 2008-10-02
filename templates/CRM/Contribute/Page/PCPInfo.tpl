@@ -18,7 +18,9 @@
 {/if}
 </td></tr>
 
-<tr><td>
+<tr>
+{if $pcp.is_thermometer}
+<td>
 <div class="pcp_progress">
   Goal<div class="money">{$currencySymbol}{$pcp.goal_amount}</div>
   <div class="meter">
@@ -30,13 +32,17 @@
   
 </div>
 </td>
+{/if}
+{if $pcp.is_honor_roll}
 <td>HONOR ROLL<br />
 <marquee behavior="scroll" direction="up" SCROLLDELAY="200" bgcolor="#fafafa">
 {foreach from=$honor key=k item=v}
 {$v}<br /><br /><br />
 {/foreach}
 </marquee>
-</td></tr>
+</td>
+{/if}
+</tr>
 </table>
 </td>
 </tr>

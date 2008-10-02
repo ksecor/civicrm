@@ -174,13 +174,13 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     } 
     
     /**
-     * function to show the total amount for Personal Campaign Page
+     * function to show the total amount for Personal Campaign Page on thermometer
      *
      * @param array $pcpId  contains the pcp ID
      * 
      * @access public
      * @static 
-     * @return object
+     * @return total amount
      */
     static function thermoMeter( $pcpId ) 
     {
@@ -188,7 +188,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
      SELECT SUM(cc.total_amount) as total
      FROM civicrm_pcp pcp LEFT JOIN 
           civicrm_contribution cc ON ( pcp.id = cc.pcp_made_through_id )
-     WHERE pcp.id = {$pcpId}";
+     WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
 
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }

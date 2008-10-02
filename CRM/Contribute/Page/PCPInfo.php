@@ -81,7 +81,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $query="
 SELECT CONCAT_WS(' $currencySymbol ', pcp_roll_nickname,  total_amount ) as honor
 FROM civicrm_contribution
-WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1
+WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribution_status_id =1 AND is_test = 0
 ";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $honor = array();
