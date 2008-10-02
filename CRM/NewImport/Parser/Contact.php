@@ -768,7 +768,8 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                 return CRM_NewImport_Parser::ERROR;
             }
         }
-        sleep(3);
+        # this sleep is only for debugging, commenting out
+        #sleep(3);
         return CRM_NewImport_Parser::VALID;
     }
 
