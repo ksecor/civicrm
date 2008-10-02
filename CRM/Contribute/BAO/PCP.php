@@ -148,15 +148,16 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
 
         $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $pcpInfo = array();
-        $mask = array_sum( array_keys( $links['all'] ) );
+        $hide = $mask = array_sum( array_keys( $links['all'] ) );
         
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         while ( $pcpInfoDao->fetch( ) ) {
+            $mask = $hide;
             if ( $links ) {
                 $replace = array( 'pcpId'  => $pcpInfoDao->pcpId );
             }
             $pcpLink = $links['all'];
-            if ( ! $pcpInfoDao->tellfriend ) {
+            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatus != 2 ) {
                 $mask -= CRM_Core_Action::DETACH;
             }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );

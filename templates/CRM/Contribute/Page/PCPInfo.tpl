@@ -17,7 +17,7 @@
 				{if $validDate} 
 				{* Show link to PCP contribution if configured for online contribution *}
 				<div class="action-link">
-					<strong><a href="{$contributeURL}" class="button"><span>&raquo; {$contributionText}</span></a>
+					<strong><a href="javascript:pcpPage();" class="button"><span>&raquo; {$contributionText}</span></a>
 					</strong>
 				</div>
 				{/if}</td>
@@ -114,6 +114,10 @@ function roll_start_stop() {
 		document.getElementById('roll').title = 'Stop the Honor Roll';
 		document.getElementById('pcp_roll').start();
        }
+}
+function pcpPage() {
+	var string = "{/literal}{$contributeURL}{literal}";
+	window.location=  string.replace(/&amp;/g, '&');
 }
 </script>
 {/literal}
