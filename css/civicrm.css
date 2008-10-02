@@ -1069,7 +1069,7 @@ commented since it is overwiting simple td
 }
 /* class for personal campaign info page */
 
-#crm-container table.campaign th, td, #crm-container table.campaign { 
+#crm-container table.campaign th, table.campaign td, #crm-container table.campaign { 
   font-size: 9pt;
   font-family:Verdana,Arial,Helvetica,sans-serif;
   border: 0px;
