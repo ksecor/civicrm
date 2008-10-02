@@ -79,14 +79,14 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Approve'),
-                                                                    'url'   => 'civicrm/contribute/campaign',
-                                                                    'qs'    => 'action=approve&id=%%id%%',
+                                                                    'url'   => 'civicrm/admin/contribute/pcp',
+                                                                    'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Approve Personal Campaign Page') 
                                                                     ),
                                   CRM_Core_Action::DISABLE  => array(
                                                                     'name'  => ts('Reject'),
-                                                                    'url'   => 'civicrm/contribute/campaign',
-                                                                    'qs'    => 'action=reject&id=%%id%%',
+                                                                    'url'   => 'civicrm/admin/contribute/pcp',
+                                                                    'qs'    => 'action=disable&id=%%id%%',
                                                                     'title' => ts('Reject Personal Campaign Page') 
                                                                    )
 
@@ -182,6 +182,11 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
     }
 
     function search( ) {
+       
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return;
+        }
+        
         $form = new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_PCP_PCP', ts( 'Search Campaign Pages' ), CRM_Core_Action::ADD );
         $form->setEmbedded( true );
         $form->setParent( $this );

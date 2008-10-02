@@ -50,6 +50,11 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
      */
     public function preProcess()
     {
+        if ( $this->_action & CRM_Core_Action::DELETE  ) {
+            $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'title' );
+            $this->assign('title', $this->_title);
+        }
         parent::preProcess( );
     }
 
@@ -79,25 +84,36 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        $status            = array_merge( 
-                                         array( '- all status -' ), 
-                                         CRM_Contribute_PseudoConstant::pcpstatus( ));
-        $contribution_page = array_merge(
-                                         array( '- all pages -' ),
-                                         CRM_Contribute_PseudoConstant::contributionPage( ));
-        
-        $this->addElement('select', 'status_id', ts('Personal Campaign Pages Status'), $status );
-        $this->addElement('select', 'contibution_page_id', ts('Contribution Page'), $contribution_page );
-        $this->addButtons( array( 
-                                 array ( 'type'      => 'refresh',
-                                         'name'      => ts('Show'), 
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                         'isDefault' => true
-                                         ))
-                           );
-        
-        parent::buildQuickForm( );
+        if ($this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Delete Campaign'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+            
+        } else {      
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $status            = array_merge( 
+                                             array( '- all status -' ), 
+                                             CRM_Contribute_PseudoConstant::pcpstatus( ));
+            $contribution_page = array_merge(
+                                             array( '- all pages -' ),
+                                             CRM_Contribute_PseudoConstant::contributionPage( ));
+            
+            $this->addElement('select', 'status_id', ts('Personal Campaign Pages Status'), $status );
+            $this->addElement('select', 'contibution_page_id', ts('Contribution Page'), $contribution_page );
+            $this->addButtons( array( 
+                                     array ( 'type'      => 'refresh',
+                                             'name'      => ts('Show'), 
+                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                             'isDefault' => true
+                                             ))
+                               );
+            parent::buildQuickForm( );
+        }
     }
 
     /**
@@ -123,18 +139,24 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
 
     public function postProcess()
     {
-        $params  = $this->controller->exportValues( $this->_name );
-        $parent  = $this->controller->getParent( );
-        
-        if ( ! empty( $params ) ) {
-            $fields = array( 'status_id', 'contribution_page_id' );
-            foreach ( $fields as $field ) {
-                if ( isset( $params[$field] ) &&
-                     ! CRM_Utils_System::isNull( $params[$field] ) ) {
-                    $parent->set( $field, $params[$field] );
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            CRM_Contribute_BAO_PCP::delete( $this->_id );
+            CRM_Core_Session::setStatus( ts("The Campaign Page '%1' has been deleted.", array(1 => $this->_title)) );
+        } else {
+            $params  = $this->controller->exportValues( $this->_name );
+            $parent  = $this->controller->getParent( );
+            
+            if ( ! empty( $params ) ) {
+                $fields = array( 'status_id', 'contribution_page_id' );
+                foreach ( $fields as $field ) {
+                    if ( isset( $params[$field] ) &&
+                         ! CRM_Utils_System::isNull( $params[$field] ) ) {
+                        $parent->set( $field, $params[$field] );
                     } else {
                         $parent->set( $field, null );
                     }
+                }
             }
         }
     }

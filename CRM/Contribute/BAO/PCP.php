@@ -226,5 +226,57 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         }
         return self::$_pcpLinks;
     }
+
+    /**
+     * Function to Delete the campaign page
+     * 
+     * @param int $id campaign page id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    function delete ( $id ) 
+    {
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pre( 'delete', 'Campaign', $id, CRM_Core_DAO::$_nullArray );
+        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        // delete from pcp table
+        $pcp     =& new CRM_Contribute_DAO_PCP( );
+        $pcp->id = $id;
+        $pcp->delete( );
+       
+        $transaction->commit( );
+        
+        CRM_Utils_Hook::post( 'delete', 'Campaign', $id, $pcp );
+    } 
+
+    /**
+     * Function to Approve / Reject the campaign page
+     * 
+     * @param int $id campaign page id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function setIsActive( $id, $is_active ) {
+        switch ($is_active) 
+        {
+        case 0:
+            $is_active = 3;
+            break;
+            
+        case 1:
+            $is_active = 2;
+            break;
+        }
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
+    }
 }
 ?>

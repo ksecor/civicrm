@@ -2,8 +2,10 @@
 <p>{ts}This Screen allows to list all the Personal Campaign Pages
 set up in the system and Admin can change the statuses...{/ts}</p>
 </div>
-{if $action ne 2 AND $action ne 8} 
+{if $action ne 8} 
 {include file="CRM/Contribute/Form/PCP/PCP.tpl"} 
+{else}
+{include file="CRM/Contribute/Form/PCP/Delete.tpl"} 
 {/if} 
 {if $rows}
 <div id="ltype">
