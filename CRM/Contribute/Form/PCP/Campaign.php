@@ -71,9 +71,12 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {
-        $this->addElement('text', 'title', ts('Page Title') );
-        $this->addElement('text', 'intro_text', ts('Intro Text') ); 
-        $this->addElement('text', 'goal_amount', ts('Goal Amount') ); 
+        $config = CRM_Core_Config::singleton();
+        $config->maxAttachments = 2;
+       
+        $this->add('text', 'title', ts('Page Title'), null, true );
+        $this->add('text', 'intro_text', ts('Intro Text'), null, true ); 
+        $this->add('text', 'goal_amount', ts('Goal Amount'), null, true ); 
         $this->addElement('text', 'donate_link_text', ts('Donate Button Text') ); 
         $attrib = Array ('rows' => 8, 'cols' => 60 );
         $this->addWysiwyg( 'page_text', ts('Page Text'), $attrib ); 
@@ -99,6 +102,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+        $this->addFormRule( array( 'CRM_Contribute_Form_PCP_Campaign', 'formRule' ), $this );
     }
     
     /**  
@@ -114,6 +118,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) 
     {
+        $errors = array();
+        if ( $fields["goal_amount"] <= 0 ) {
+            $errors['goal_amount'] = ts('Goal Amount should be greater than zero.');
+        }
+        return $errors;
     }
     
     /** 
@@ -125,8 +134,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     public function postProcess( )  
     {
         $params  = $this->controller->exportValues( );
-
         $checkBoxes = array( 'is_thermometer', 'is_honor_roll', 'is_active' );
+        
         foreach( $checkBoxes as $key ) {
             if ( ! isset( $params[$key] ) ) {
                 $params[$key] = 0;
@@ -137,9 +146,15 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $params['contact_id']           = $session->get('userID');
         $params['contribution_page_id'] = $this->get('contribution_page_id');
         
-        if ( $this->get('action') & CRM_Core_Action::ADD ) {
+        $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
+                                                        $params['contribution_page_id'], 'is_approval_needed', 'entity_id' );
+
+        if ( $this->get('action') & CRM_Core_Action::ADD && $approval_needed ) {
             $params['status_id']  = 1;
+        } else {
+            $params['status_id']  = 2;
         }
+
         $params['id'] = $this->get('page_id');
         
         require_once 'CRM/Contribute/BAO/PCP.php';

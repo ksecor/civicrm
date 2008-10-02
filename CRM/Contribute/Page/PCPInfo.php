@@ -54,15 +54,11 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
      */
     function run()
     {
-        $config =& CRM_Core_Config::singleton();
-        $currencySymbol = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Currency', $config->defaultCurrency, 'symbol', 'name');
-        $this->assign('currencySymbol', $currencySymbol);
-        $this->assign('config', $config);
         //get the pcp id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
 
         $action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
-
+        
         $prms = array( 'id' => $this->_id );
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
@@ -79,7 +75,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
 
 
         $query="
-SELECT CONCAT_WS(' $currencySymbol ', pcp_roll_nickname,  total_amount ) as honor
+SELECT id, pcp_roll_nickname ,  total_amount
 FROM civicrm_contribution
 WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribution_status_id =1 AND is_test = 0
 ";
@@ -87,24 +83,25 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribut
         $honor = array();
         
         while( $dao->fetch() ) {
-            $honor[] = $dao->honor;
+            $honor[$dao->id]['nickname'] = ucwords($dao->pcp_roll_nickname);
+            $honor[$dao->id]['total_amount'] = $dao->total_amount;
         }
-        
+           
         if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
             $image = '<img align="middle" src="'.CRM_Utils_System::url( 'civicrm/file', 
-                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=300 height=300/>';
+                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=350 height=350/>';
         }
 
         require_once 'CRM/Contribute/BAO/PCP.php';
         $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
-        $achieved = $totalAmount/$pcpInfo['goal_amount'] *100;
+        $achieved = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
         
         $this->assign('image', $image);
         $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
-        $this->assign('total', $totalAmount);
-        $this->assign('achieved', $achieved);
-        
+        $this->assign('total', $totalAmount ? $totalAmount : '0.0' );
+        $this->assign('achieved', $achieved <= 100 ? $achieved : 100 );
+
         if ( $achieved <= 100 ) {
             $this->assign('remaining', 100- $achieved );
         }
