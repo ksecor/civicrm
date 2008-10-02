@@ -80,8 +80,12 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
     public function buildQuickForm()
     {
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $status            = CRM_Contribute_PseudoConstant::pcpstatus( );
-        $contribution_page = CRM_Contribute_PseudoConstant::contributionPage( );
+        $status            = array_merge( 
+                                         array( '- all status -' ), 
+                                         CRM_Contribute_PseudoConstant::pcpstatus( ));
+        $contribution_page = array_merge(
+                                         array( '- all pages -' ),
+                                         CRM_Contribute_PseudoConstant::contributionPage( ));
         
         $this->addElement('select', 'status_id', ts('Personal Campaign Pages Status'), $status );
         $this->addElement('select', 'contibution_page_id', ts('Contribution Page'), $contribution_page );

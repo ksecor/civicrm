@@ -111,15 +111,27 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         require_once 'CRM/Contribute/PseudoConstant.php';
         $status            = CRM_Contribute_PseudoConstant::pcpstatus( );
         $contribution_page = CRM_Contribute_PseudoConstant::contributionPage( );
-        $pcpSummary = array();
+        $pcpSummary = $params = array();
+        $whereClause = null;
 
         if ( ! empty ($_POST) ) {
-            $whereClause  = ' AND cp.status_id = %1 AND cp.contribution_page_id = %2';
-            $params       = array( 1 => array( $_POST['status_id'] , 'Integer' ),
-                                   2 => array( $_POST['contibution_page_id'] , 'Integer' ) );
+            if ( $_POST['status_id'] != 0 ) {           
+                $whereClause  = ' AND cp.status_id = %1';
+                $params['1']  = array( $_POST['status_id'] , 'Integer' );
+            }                
+
+            if ( $_POST['contibution_page_id'] != 0 ){  
+                $whereClause .=  ' AND cp.contribution_page_id = %2';
+                $params['2']  = array( $_POST['contibution_page_id'] , 'Integer' );
+            }
             
-            $this->set( 'whereClause', $whereClause );
-            $this->set( 'params', $params );
+            if ( $_POST['status_id'] != 0 || $_POST['contibution_page_id'] != 0 ){
+                $this->set( 'whereClause', $whereClause );
+                $this->set( 'params', $params );
+            } else {
+                $this->set( 'whereClause', null );
+                $this->set( 'params', null );
+            }
         }
         
         $query = "
