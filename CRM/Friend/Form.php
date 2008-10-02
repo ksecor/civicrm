@@ -85,7 +85,10 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
         } elseif ( $page == 'pledge' ) {
             $this->_entityTable = 'civicrm_pb_pledge';
-            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );            
+            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );        
+        } if ( $page == 'pcp' ) {
+            $this->_entityTable = 'civicrm_pcp';
+            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_entityId, 'title');
         } else {
             CRM_Core_Error::fatal( ts( 'page argument missing or invalid' ) );
         }

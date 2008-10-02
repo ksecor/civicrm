@@ -218,8 +218,8 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                                                                 'title' => ts('Configure')
                                                                                 ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
-                                                                                'url'   => 'civicrm/contact/tellafriend',
-                                                                                'qs'    => 'reset=1&id=%%pcpId%%',
+                                                                                'url'   => 'civicrm/friend',
+                                                                                'qs'    => 'eid=%%pcpId%%&reset=1&page=pcp',
                                                                                 'title' => ts('Tell a Friend')
                                                                                 ),
                                              );
