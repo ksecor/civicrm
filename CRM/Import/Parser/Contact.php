@@ -789,7 +789,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 return CRM_Import_Parser::ERROR;
             }
         }
-        sleep(3);
+        // sleep(3);
         return CRM_Import_Parser::VALID;
     }
 
