@@ -154,7 +154,6 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             $pcpSummary[$dao->id]['start_date']           = $dao->start_date;
             $pcpSummary[$dao->id]['end_date']             = $dao->end_date;
             $pcpSummary[$dao->id]['supporter']            = $contact['0'];
-            $pcpSummary[$dao->id]['supporter_image']      = $contact['1'];
             $pcpSummary[$dao->id]['supporter_id']         = $dao->contact_id;
             $pcpSummary[$dao->id]['status_id']            = $status[$dao->status_id];
             $pcpSummary[$dao->id]['contribution_page_id'] = $contribution_page[$dao->contribution_page_id];
