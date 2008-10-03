@@ -109,7 +109,24 @@ WHERE  id IN ( $groupIDs )
                                     CRM_Core_DAO::$_nullArray );
     }
 
-    static function remove( $groupID = null ) {
+    static function remove( $groupID = null, $onceOnly = true ) {
+        static $invoked = false;
+
+        // typically this needs to happy only once per instance
+        // this is especially true in import, where we dont need 
+        // to do this all the time
+        // this optimization is done only when no groupID is passed
+        // i.e. cache is reset for all groups
+        if ( $onceOnly &&
+             $invoked  &&
+             $groupID == null ) {
+            return;
+        }
+        
+        if ( $groupID == null ) {
+            $invoked = true;
+        }
+
         if ( ! isset( $groupID ) ) {
             $query = "
 DELETE     g
