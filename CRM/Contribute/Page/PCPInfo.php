@@ -138,7 +138,7 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribut
             // we always generate urls for the front end in joomla
             if ( $action ==  CRM_Core_Action::PREVIEW ) {
                 $url    = CRM_Utils_System::url( 'civicrm/contribute/transact',
-                                                 "id={$pcpInfo['contribution_page_id']}&pcpId={$this->_id}reset=1&action=preview",
+                                                 "id={$pcpInfo['contribution_page_id']}&pcpId={$this->_id}&reset=1&action=preview",
                                                  true, null, true,
                                                  true );
             } else {

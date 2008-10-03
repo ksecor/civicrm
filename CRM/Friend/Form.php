@@ -46,7 +46,7 @@ class CRM_Friend_Form extends CRM_Core_Form
      /** 
      * Constants for number of friend contacts
      */ 
-    const NUM_OPTION = 3;
+    const NUM_OPTION = 4;
     /**
      * the id of the entity that we are proceessing
      *
@@ -86,7 +86,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         } elseif ( $page == 'pledge' ) {
             $this->_entityTable = 'civicrm_pb_pledge';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );        
-        } if ( $page == 'pcp' ) {
+        } elseif ( $page == 'pcp' ) {
             $this->_pcpBlockId = CRM_Utils_Request::retrieve( 'blockId', 'Positive', $this, true ); 
             
             CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', 'id', 

@@ -115,13 +115,14 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         
         }
         //pcp elements
-        foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
-            if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
-                $this->assign( $val, $this->_params[$val]);
-                $this->assign( 'pcpBlock', true);
+        if ( $this->_pcpId ) { 
+            foreach ( array ( 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+                if ( CRM_Utils_Array::value( $val, $this->_params ) ) {
+                    $this->assign( $val, $this->_params[$val]);
+                    $this->assign( 'pcpBlock', true);
+                }
             }
         }
-
         if ( $membershipTypeID ) {
             $transactionID     = $this->get( 'membership_trx_id' );
             $membershipAmount  = $this->get( 'membership_amount' );
@@ -180,16 +181,27 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $values['entity_table'] = 'civicrm_contribution_page';
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
-
-        if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
+        $tellAFriend = false;
+        if ( $this->_pcpId ) {
+            if ( $this->_pcpBlock['is_tellfriend_enabled'] ) {
+                $this->assign( 'friendText', 'Tell a Friend' );
+                $subUrl = "eid={$this->_pcpId}&blockId={$this->_pcpBlock['id']}&page=pcp";
+                $tellAFriend = true;
+            }
+        } else if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
             $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
+            $subUrl = "eid={$this->_id}&page=contribution";
+            $tellAFriend = true;
+        }
+
+        if ( $tellAFriend ) {
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=contribution" );
+                                             "reset=1&action=preview&{$subUrl}" );
             } else {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                         "eid={$this->_id}&reset=1&page=contribution" );
+                                         "reset=1&{$subUrl}");
             }
             $this->assign( 'friendURL', $url );
         }
