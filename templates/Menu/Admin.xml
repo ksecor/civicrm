@@ -359,6 +359,16 @@
      <icon>admin/small/01.png</icon>
      <weight>398</weight>
   </item>
+   <item>
+     <path>civicrm/admin/options/greeting_type</path>
+     <title>Greeting Types</title>
+     <desc>Options for assigning greeting to individual and household contacts.</desc>
+     <path_arguments>group=greeting_type</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>400</weight>
+  </item>
   <item>
      <path>civicrm/admin/access</path>
      <title>Access Control</title>

@@ -82,6 +82,13 @@ class CRM_Core_PseudoConstant
     private static $individualSuffix;
     
     /**
+     * greeting
+     * @var array
+     * @static
+     */
+    private static $greeting;
+
+    /**
      * gender
      * @var array
      * @static
@@ -435,7 +442,28 @@ class CRM_Core_PseudoConstant
         }
         return self::$individualSuffix;
     }
-
+ /**
+     * Get all Greeting.
+     *
+     * The static array greeting is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Greeting - default is to get only active ones.
+     *
+     * @return array - array reference of all greetings.
+     *
+     */
+    public static function &greeting( )
+    {
+        if ( ! self::$greeting ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$greeting = CRM_Core_OptionGroup::values('greeting_type');
+        }
+        return self::$greeting;
+    }
+    
     /**
      * Get all Gender.
      *

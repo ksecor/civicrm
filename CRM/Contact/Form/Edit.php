@@ -511,7 +511,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         // greeting type
-        $this->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting(), array( 'onchange' => "showGreeting();") );
+        $this->addElement('select', 'greeting_type', ts('Greeting'), array('' => ts('- Greeting -')) + CRM_Core_PseudoConstant::greeting(), array( 'onchange' => " showGreeting();") );
 
         // custom greeting
         $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));

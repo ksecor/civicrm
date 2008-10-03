@@ -139,7 +139,8 @@ VALUES
    ('mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1),
    ('wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1),
    ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1),
-   ('activity_medium'               , '{ts escape="sql"}Activity Medium{/ts}'                    , 0, 1);  
+   ('activity_medium'               , '{ts escape="sql"}Activity Medium{/ts}'                    , 0, 1),
+   ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1);  
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -175,6 +176,7 @@ SELECT @option_group_id_mt             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_we             := max(id) from civicrm_option_group where name = 'wysiwyg_editor';
 SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
 SELECT @option_group_id_am             := max(id) from civicrm_option_group where name = 'activity_medium';
+SELECT @option_group_id_gr             := max(id) from civicrm_option_group where name = 'greeting_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -270,6 +272,13 @@ VALUES
   (@option_group_id_etype, '{ts escape="sql"}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
   (@option_group_id_etype, '{ts escape="sql"}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
 
+--greeting type 
+
+  (@option_group_id_gr, '{ts escape="sql"}Dear [first]{/ts}',                 'Informal',  'Dear [first]',                 NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [first] [last]{/ts}', 'Formal',    'Dear [prefix] [first] [last]', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [last]{/ts}',         'Honorific', 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Customized{/ts}',                   'Custom',    'Customized',                   NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+
 -- note that these are not ts'ed since they are used for logic in most cases and not display
 -- they are used for display only in the prefernces field settings
   (@option_group_id_cvOpt, '{ts escape="sql"}Activities{/ts}'   ,   1, 'activity', NULL, 0, NULL,  1,  NULL, 0, 0, 1, NULL),
@@ -360,6 +369,7 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet', 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, '{ts escape="sql"}Price Set Details for Event Participants{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ZipCodeRange', 10, 'CRM_Contact_Form_Search_Custom_ZipCodeRange', NULL, 0, NULL, 10, '{ts escape="sql"}Zip Code Range{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_DateAdded', 11, 'CRM_Contact_Form_Search_Custom_DateAdded', NULL, 0, NULL, 11, '{ts escape="sql"}Date Added to CiviCRM{/ts}', 0, 0, 1, NULL),
+
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),

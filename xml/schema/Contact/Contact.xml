@@ -310,8 +310,8 @@
   </index>
   <field>
        <name>greeting_type</name>
-       <type>enum</type>
-       <values>Formal, Informal, Honorific, Custom, Other</values>
+       <type>varchar</type>
+       <length>128</length>
        <import>true</import>
        <comment>Preferred greeting format.</comment>
        <add>1.1</add>

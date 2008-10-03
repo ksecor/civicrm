@@ -37,25 +37,7 @@
  */
 class CRM_Core_SelectValues 
 {
-
-    /**
-     * greetings
-     * @static
-     */
-    static function &greeting()
-    {
-        static $greeting = null;
-        if (!$greeting) {
-            $greeting = array(
-                'Formal'    => ts('default - Dear [prefix] [first] [last]'),
-                'Informal'  => ts('Dear [first]'),
-                'Honorific' => ts('Dear [prefix] [last]'),
-                'Custom'    => ts('Customized')
-            );
-        }
-        return $greeting;
-    }
-    
+   
     /**CRM/Core/SelectValues.php
      * different types of phones
      * @static
