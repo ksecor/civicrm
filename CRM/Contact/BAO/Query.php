@@ -1138,7 +1138,7 @@ class CRM_Contact_BAO_Query
 
         $this->includeContactIds( );       
         if ( ! empty( $this->_params ) ) {
-            $case = $activity = false;
+            $activity = false;
 
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -1153,9 +1153,6 @@ class CRM_Contact_BAO_Query
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
             
-                if ( substr ($this->_params[$id][0], 0 , 5) == 'case_') {
-                    $case = true;
-                }
                 if ( substr ($this->_params[$id][0], 0 , 9) == 'activity_') {
                     $activity = true;
                 }
@@ -1163,11 +1160,6 @@ class CRM_Contact_BAO_Query
 
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
-
-            if ( $case ) {
-                require_once 'CRM/Case/BAO/Query.php';
-                CRM_Case_BAO_Query::where( $this );
-            }
 
             if ( $activity ) {
                 require_once 'CRM/Activity/BAO/Query.php';
@@ -1817,10 +1809,6 @@ class CRM_Contact_BAO_Query
                                                           AND contact_a.id = civicrm_task_status.responsible_entity_id )";
                 continue;
 
-            case 'civicrm_case':
-                $from .= CRM_Case_BAO_Query::from( $name, $mode, $side );
-                continue;
-                
             case 'civicrm_grant':
                 $from .= CRM_Grant_BAO_Query::from( $name, $mode, $side );
                 continue;    

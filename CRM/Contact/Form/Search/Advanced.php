@@ -115,13 +115,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                 $paneNames[$pane['title']] = $pane['name'];
         }
 
-        // FIXME: exception for CiviCase, which is not formally a component
-        // FIXME: consider reworking it for cases project
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        if ( $this->_viewOptions['CiviCase'] ) {
-            $paneNames[ts('Cases')] = 'CiviCase';
-        }
-
         $this->_paneTemplatePath = array( );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {

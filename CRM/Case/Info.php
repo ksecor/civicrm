@@ -50,7 +50,7 @@ class CRM_Case_Info extends CRM_Core_Component_Info
         return  array( 'name'	        => 'CiviCase',
                        'translatedName' => ts('CiviCase'),
                        'title'          => ts('CiviCase Engine'),
-                       'search'         => 0 );
+                       'search'         => 1 );
     }
 
     // docs inherited from interface
@@ -77,7 +77,8 @@ class CRM_Case_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function registerAdvancedSearchPane()
     {
-        return array(  );
+        return array( 'title'   => ts( 'Cases' ),
+                      'weight'  => 50 );
     }
 
     // docs inherited from interface    

@@ -53,13 +53,12 @@ class CRM_Case_BAO_Query
      */
     static function select( &$query ) 
     {
-        $query->_select['case_type_id'     ] = "civicrm_case.case_type_id as Case type";
+        $query->_select['case_type_id'     ] = "civicrm_case.case_type_id as case_type";
         $query->_element['case_type_id'    ] = 1;
-        $query->_tables['civicrm_case'     ] = 1;
-        $query->_whereTables['civicrm_case'] = 1;
  
         $query->_select['subject'] = "civicrm_case.subject as subject";
         $query->_element['subject'] = 1;
+
         $query->_tables['civicrm_case'] = 1;
         $query->_whereTables['civicrm_case'] = 1;
     }
@@ -254,6 +253,10 @@ class CRM_Case_BAO_Query
         $form->addRule('case_start_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->assign( 'validCase', true );
+    }
+
+    static function searchAction( &$row, $id ) 
+    {
     }
 
     static function addShowHide( &$showHide ) 
