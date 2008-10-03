@@ -146,26 +146,41 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
+        ksort($sel1);
         $sel2= array();
-        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType( false );
+        $activityType=CRM_Core_PseudoConstant::activityType( false );
+        asort($activityType);
+        $sel2['Activity']     = array("" => "-- Any --") + $activityType;
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
-        $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
-        $sel2['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
-        $sel2['ParticipantRole']  = array("" => "-- Any --") + CRM_Core_OptionGroup::values('participant_role');
+        $membershipType       = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        asort($membershipType);
+        $sel2['Membership']   = array("" => "-- Any --") + $membershipType;
+        $eventType=CRM_Core_OptionGroup::values('event_type');
+        asort($eventType);
+        $sel2['Event']        = array("" => "-- Any --") + $eventType;
+        
+        $participantRole      = CRM_Core_OptionGroup::values('participant_role');
+        asort($participantRole);
+        $sel2['ParticipantRole']  = array("" => "-- Any --") + $participantRole;
         
         require_once 'CRM/Event/PseudoConstant.php';
         $sel2['ParticipantEventName'] = array("" => "-- Any --") + CRM_Event_PseudoConstant::event( );
-        $sel2['ParticipantEventType'] = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
+        $event_type=CRM_Core_OptionGroup::values('event_type');
+        asort($event_type);
+        $sel2['ParticipantEventType'] = array("" => "-- Any --") + $event_type;
         
         require_once "CRM/Contact/BAO/Relationship.php";
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        asort($relTypeInd);
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        asort($relTypeOrg);
         $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        asort($relTypeHou);
         $allRelationshipType =array();
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         
-        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+        $sel2['Relationship'] = array("1" => "-- Individual --") + $relTypeInd +  array("2" => "--Organisation --") + $relTypeOrg + array("3" => "-- Household --") + $relTypeHou;
         
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
