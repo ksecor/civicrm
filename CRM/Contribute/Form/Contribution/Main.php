@@ -499,10 +499,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildRecur( ) {
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionRecur' );
-
+        $extraOption = array('onclick' =>"enablePeriod();");
         $elements = array( );
-      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to make a one-time contribution.' ), 0 );
-      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to contribute this amount' ), 1 );
+      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to make a one-time contribution.'), 0, $extraOption );
+      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to contribute this amount'), 1, $extraOption );
         $this->addGroup( $elements, 'is_recur', null, '<br />' );
         $this->_defaults['is_recur'] = 0;
         

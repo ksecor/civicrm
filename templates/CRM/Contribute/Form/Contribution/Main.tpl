@@ -300,5 +300,30 @@ if (! is_monetary ) {
 	document.getElementsByName("is_pay_later")[0].disabled = true;
     }
 }
+if ( {/literal}"{$form.is_recur}"{literal} ) {
+    if ( document.getElementsByName("is_recur")[0].checked == true ) { 
+	window.onload = function() {
+	    enablePeriod();
+	}
+    }
+}
+function enablePeriod ( ) {
+    var frqInt  = {/literal}"{$form.frequency_interval}"{literal};
+    if ( document.getElementsByName("is_recur")[0].checked == true ) { 
+	document.getElementById('installments').value = '';
+	if ( frqInt ) {
+	    document.getElementById('frequency_interval').value    = '';
+	    document.getElementById('frequency_interval').disabled = true;
+	}
+	document.getElementById('installments').disabled   = true;
+	document.getElementById('frequency_unit').disabled = true;
+    } else {
+	if ( frqInt ) {
+	    document.getElementById('frequency_interval').disabled = false;
+	}
+	document.getElementById('installments').disabled   = false;
+	document.getElementById('frequency_unit').disabled = false;
+    }
+}
 </script>
 {/literal}

@@ -103,9 +103,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         // add optional start and end dates
         $this->add('date', 'start_date',
                    ts('Start Date'),
-                   CRM_Core_SelectValues::date('datetime'),
-                   false,
-                   array('onchange' => 'defaultDate(this);'));  
+                   CRM_Core_SelectValues::date('datetime') );  
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
 
         $this->add('date', 'end_date',
