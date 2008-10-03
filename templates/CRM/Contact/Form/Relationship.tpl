@@ -174,9 +174,15 @@
             <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}'{$sort_name_b}'{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}'{$sort_name_b}'{else}'{$sort_name_a}'{/if}</b></dd>
         {/if}
 	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-        {if $action eq 2 and $isEmployeeOf}<dt>{$form.is_currentEmployee.label}</dt><dd>{$form.is_currentEmployee.html}</dd>
-        {elseif $action eq 2 and $isEmployerOf}<dt>{$form.is_currentEmployer.label}</dt><dd>{$form.is_currentEmployer.html}</dd>{/if}
         </dl>
+        {if $action eq 2}
+            <dl id="current_employee">
+                <dt>{$form.is_current_employee.label}</dt><dd>{$form.is_current_employee.html}</dd>
+            </dl>
+            <dl id="current_employer">
+                <dt>{$form.is_current_employer.label}</dt><dd>{$form.is_current_employer.html}</dd>
+            </dl>
+        {/if}
         <dl><dt></dt><dd id="customData"></dd></dl>
         <div class="spacer"></div>
         <dl>
@@ -204,4 +210,25 @@
 {if $searchRows OR $action EQ 2}
  {*include custom data js file*}
  {include file="CRM/common/customData.tpl"}
+{/if}
+{if $action EQ 2}
+{literal}
+<script type="text/javascript">
+   currentEmployer( );
+   function currentEmployer( ) 
+   {
+      var relType = document.getElementById('relationship_type_id').value;
+      if ( relType == '4_a_b' ) {
+           show('current_employee',  'block');
+           hide('current_employer',  'block');
+      } else if ( relType == '4_b_a' ) {
+           show('current_employer',  'block');
+           hide('current_employee',  'block');
+      } else {
+           hide('current_employer',  'block');
+           hide('current_employee',  'block');
+      }
+   }
+</script>
+{/literal}
 {/if}
