@@ -110,9 +110,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
             $this->assign( 'fields', $fields );
             $addCaptcha = false;
             foreach($fields as $key => $field) {
-                if ( $viewOnly &&
-                     isset( $field['data_type'] ) &&
-                     $field['data_type'] == 'File' ) {
+                if ( isset( $field['data_type'] ) && $field['data_type'] == 'File' ) {
                     // ignore file upload fields
                     continue;
                 }
@@ -125,8 +123,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                 }
             }
             
-            if ( $addCaptcha &&
-                 ! $viewOnly ) {
+            if ( $addCaptcha ) {
                 require_once 'CRM/Utils/ReCAPTCHA.php';
                 $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
                 $captcha->add( $this );

@@ -161,7 +161,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                 $mask -= CRM_Core_Action::DETACH;
             }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
-            $pcpinfo[] = array ( 
+            $pcpInfo[] = array ( 
                                  'start_date' => $pcpInfoDao->start_date,
                                  'end_date'   => $pcpInfoDao->end_date,
                                  'pcpId'      => $pcpInfoDao->pcpId,
@@ -171,7 +171,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                  'action'     => $action
                                   );
         }
-        return  array( $pcpBlock, $pcpinfo );
+        return  array( $pcpBlock, $pcpInfo );
     } 
     
     /**

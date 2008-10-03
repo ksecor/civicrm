@@ -91,13 +91,13 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribut
         if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
             $image = '<img align="middle" src="'.CRM_Utils_System::url( 'civicrm/file', 
                                                          "reset=1&id=$file_id&eid=$this->_id" ).'"width=350 height=350/>';
+            $this->assign('image', $image);
         }
 
         require_once 'CRM/Contribute/BAO/PCP.php';
         $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
         $achieved = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
         
-        $this->assign('image', $image);
         $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
         $this->assign('total', $totalAmount ? $totalAmount : '0.0' );
