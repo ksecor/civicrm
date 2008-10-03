@@ -11,9 +11,8 @@
             <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd> 
             <dt>{$form.details.label}</dt><dd>{$form.details.html}</dd>
       </dl>
-      <dl class="html-adjust">  
-          <dd>{include file="CRM/Contact/Page/View/InlineCustomData.tpl"}</dd>
-      </dl>
+  	    <div class="spacer"></div>
+            <dd>{include file="CRM/Contact/Page/View/InlineCustomData.tpl"}</dd>
       <dl class="html-adjust">
          <dt></dt><dd>{$form.buttons.html}</dd>	
       </dl>
