@@ -1476,8 +1476,11 @@ ORDER BY weight ASC, label ASC";
             return 'civicrm_grant';
             
         case 'Pledge':
-            return 'civicrm_pledge';    
-            
+            return 'civicrm_pledge';   
+ 
+        case 'Case':
+            return 'civicrm_case';       
+       
         default:
             CRM_Core_Error::fatal( );
         }

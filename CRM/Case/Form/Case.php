@@ -36,7 +36,7 @@
 require_once "CRM/Contact/Form/AddContact.php";
 require_once 'CRM/Core/Form.php';
 require_once "CRM/Contact/Form/Task.php";
-
+require_once 'CRM/Custom/Form/CustomData.php';
 /**
  * This class generates form components for processing a case
  * 
@@ -71,11 +71,20 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $this->_contactID ) {
             $currentlyViewedContact = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                            $this->_contactID,
-                                                            'sort_name',
-                                                            'id' );
+                                                                   $this->_contactID,
+                                                                   'sort_name',
+                                                                   'id' );
             $this->assign('currentlyViewedContact',$currentlyViewedContact);
         }
+
+        //handle custom data.
+        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+
         $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
         $this->_context = CRM_Utils_Request::retrieve('context','String',$this);
         if ( $this->_context != 'search' ) {
@@ -86,6 +95,12 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         $this->assign('enableCase', true );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
         $this->assign( 'action', $this->_action);
+
+
+        //handle custom data.
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Case', $this->_id );
+        }
 
         $this->_addCaseContact = CRM_Utils_Array::value( 'case_contact', $_GET );
         
@@ -114,6 +129,14 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             $this->assign('search', true);
         }
         
+        //when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            $this->set( 'type'    , 'Case' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        }
+              
         $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
         
         // build case contact combo
@@ -123,12 +146,19 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             }
             $this->assign( 'caseContactCount', count( $_POST['case_contact'] ) );
         }
+                 
     }
 
     function setDefaultValues( ) 
     {
         $defaults = array( );
         $contactNames = array();
+
+        //set default custom data.
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         require_once 'CRM/Case/BAO/Case.php' ;
         if ( isset( $this->_id ) ) { 
             $params = array( 'id' => $this->_id );
@@ -168,6 +198,11 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
      */ 
     public function buildQuickForm( )
     {
+        //build custom data form.
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        
         if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
             $contactIds = implode(',',$this->_contactIds);
             $query = "SELECT id, sort_name 
@@ -180,7 +215,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             }
             $this->assign('caseContacts', $caseContacts);
         } 
-
+       
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -193,7 +228,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                               );
             return;
         }
-
+     
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
         $this->add( 'text', 'subject', ts('Subject'), array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
         $this->addRule( 'subject', ts('A case with this subject already exists.'),     
@@ -250,10 +285,18 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                     false); 
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         $this->add('textarea', 'details', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case', 'details' ));
-
+  
+        //need to assign custom data type to the template
+        $this->assign('customDataType', 'Case');
+        $this->assign('entityId',  $this->_id );
+  
         $this->addFormRule( array( 'CRM_Case_Form_Case', 'formRule' ) );
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
+            if ( isset( $this->_groupTree ) ) {
+                CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+            }
+            
             $this->freeze( );
             $this->addButtons(array(  
                                     array ( 'type'      => 'cancel',  
@@ -308,7 +351,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
      * @return None 
      */ 
     public function postProcess( )
-    {
+    { 
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
             require_once 'CRM/Case/BAO/Case.php';
             CRM_Case_BAO_Case::deleteCase( $this->_id );
@@ -318,7 +361,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-        
+                               
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_id ;
         }
@@ -333,7 +376,38 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             $params['casetag2_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag2_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
             $params['casetag3_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag3_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
         }
-        
+       
+        //format custom data
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            $params['hidden_custom'] = 1;
+                        
+            $customData = array( );
+            foreach ( $params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
+                    $params[$key] = $value;
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Case', null, $this->_id );
+                }
+            }
+           
+            if ( !empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Case' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Case', null, $this->_id );
+                    }
+                }
+            }
+        }
+           
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );
         CRM_Case_BAO_Case::deleteCaseContact($case->id);

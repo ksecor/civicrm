@@ -127,6 +127,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $id = $params['contact_id'];
         } 
 
+        //handle custom data.
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_case', $case->id );
+        }
+
         // Log the information on successful add/edit of Case
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(

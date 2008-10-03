@@ -1,5 +1,7 @@
 {* this template is used for adding/editing/deleting case *} 
-{if $addCaseContact }
+{if $cdType}
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $addCaseContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
@@ -38,7 +40,7 @@
             {else}
                 <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$caseContacts}</td>
             {/if}
-             </tr>
+            </tr>
             <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>  
     	    <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>                    
             <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
@@ -53,10 +55,13 @@
             </tr>
            <tr><td class="label">{$form.details.label}</td><td>{$form.details.html}</td></tr>
      {/if}
-            <tr> {* <tr> for add / edit form buttons *}
-      	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
-    	    </tr>
+            
        </table>
+       <div id="customData"></div>
+       {include file="CRM/common/customData.tpl"}
+      <dl>    
+       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
+    </dl> 
     </div>
 </fieldset>
 

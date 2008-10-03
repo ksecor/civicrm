@@ -261,6 +261,7 @@ class CRM_Core_SelectValues
                 'ParticipantEventType' => ts('Participants (Event Type)'),
                 'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
+                'Case'         => ts('Cases')    
             );
         }
         return $customGroupExtends;
