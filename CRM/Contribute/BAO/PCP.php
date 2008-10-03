@@ -139,7 +139,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
 
         $query = "
         SELECT pg.start_date, pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus, 
-               pcpblock.is_tellfriend_enabled as tellfriend, pcpblock.id as blockId
+               pcpblock.is_tellfriend_enabled as tellfriend, pcpblock.id as blockId, pcp.is_active as pcpActive
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
@@ -152,6 +152,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         while ( $pcpInfoDao->fetch( ) ) {
+
             $mask = $hide;
             if ( $links ) {
                 $replace = array( 'pcpId'    => $pcpInfoDao->pcpId, 
@@ -159,6 +160,15 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
             }
             $pcpLink = $links['all'];
             if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatus != 2 ) {
+                $mask -= CRM_Core_Action::DETACH;
+            }
+            if ( $pcpInfoDao->pcpStatus == 2 ) {
+                $mask -= CRM_Core_Action::DELETE;
+            }
+            if ( $pcpInfoDao->pcpActive == 1 ) {
+                $mask -= CRM_Core_Action::ENABLE;
+            } else {
+                $mask -= CRM_Core_Action::DISABLE;
                 $mask -= CRM_Core_Action::DETACH;
             }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
@@ -204,6 +214,8 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     static function &pcpLinks()
     {
         if (! ( self::$_pcpLinks ) ) {
+            $deleteExtra = ts('Are you sure you want to delete this Campaign Page ?\n This Action is Undone !!!');
+
             self::$_pcpLinks['add']  = array (
                                               CRM_Core_Action::ADD => array( 'name'  => ts('Configure'),
                                                                              'url'   => 'civicrm/contribute/campaign',
@@ -213,10 +225,26 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                               );
             
             self::$_pcpLinks['all'] = array (
+                                             CRM_Core_Action::DELETE => array ( 'name'  => ts('Delete'),
+                                                                                'url'   => 'civicrm/contribute/pcp',
+                                                                                'qs'    => 'action=delete&reset=1&id=%%pcpId%%',
+                                                                                'extra' => 'onclick = "return confirm(\''. $deleteExtra . '\');"',
+                                                                                'title' => ts('Delete')
+                                                                                ),
                                              CRM_Core_Action::UPDATE => array ( 'name'  => ts('Edit'),
                                                                                 'url'   => 'civicrm/contribute/campaign',
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
+                                                                                ),
+                                             CRM_Core_Action::DISABLE => array ( 'name'  => ts('Disable'),
+                                                                                'url'   => 'civicrm/contribute/pcp',
+                                                                                'qs'    => 'action=disable&reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('Disable')
+                                                                                ),
+                                             CRM_Core_Action::ENABLE => array ( 'name'  => ts('Enable'),
+                                                                                 'url'   => 'civicrm/contribute/pcp',
+                                                                                 'qs'    => 'action=enable&reset=1&id=%%pcpId%%',
+                                                                                 'title' => ts('Enable')
                                                                                 ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
                                                                                 'url'   => 'civicrm/friend',
@@ -278,6 +306,20 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
             break;
         }
         return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
+    }
+
+    /**
+     * Function to Enable / Disable the campaign page
+     * 
+     * @param int $id campaign page id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function setDisable( $id, $is_active ) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'is_active', $is_active );
     }
 }
 ?>

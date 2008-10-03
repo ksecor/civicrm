@@ -153,12 +153,10 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
                                                         $params['contribution_page_id'], 'is_approval_needed', 'entity_id' );
 
-        if ( $this->get('action') & CRM_Core_Action::ADD && $approval_needed ) {
-            $params['status_id']  = 1;
-        } else {
-            $params['status_id']  = 2;
+        if ( $this->get('action') & CRM_Core_Action::ADD ) {
+            $params['status_id'] = $approval_needed ? 1 : 2;
         }
-
+        
         $params['id'] = $this->get('page_id');
         
         require_once 'CRM/Contribute/BAO/PCP.php';

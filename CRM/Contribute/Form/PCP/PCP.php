@@ -54,10 +54,37 @@ class CRM_Contribute_Form_PCP_PCP extends CRM_Core_Form
             $this->_id    = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'title' );
             $this->assign('title', $this->_title);
+            parent::preProcess( );
         }
-        parent::preProcess( );
+        
+        if ( ! $this->_action ) {
+            $action = CRM_Utils_Array::value( 'action', $_GET );
+            $id     = CRM_Utils_Array::value( 'id', $_GET );
+            
+            switch ($action)
+            {
+            case 'delete':
+                require_once 'CRM/Contribute/BAO/PCP.php';
+                $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'title' );
+                CRM_Contribute_BAO_PCP::delete( $id );
+                CRM_Core_Session::setStatus( ts("The Campaign Page '%1' has been deleted.", array(1 => $title)) );
+                break;
+                
+            case 'disable':
+                require_once 'CRM/Contribute/BAO/PCP.php';
+                CRM_Contribute_BAO_PCP::setDisable( $id, '0' );
+                break;
+                
+            case 'enable':
+                require_once 'CRM/Contribute/BAO/PCP.php';
+                CRM_Contribute_BAO_PCP::setDisable( $id, '1' );
+                break;
+            }
+            $session =& CRM_Core_Session::singleton();
+            CRM_Utils_System::redirect( $session->popUserContext() );
+        }
     }
-
+    
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
