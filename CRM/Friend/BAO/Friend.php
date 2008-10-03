@@ -181,9 +181,14 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                                                      'confirm_from_email' );
             $urlPath = 'civicrm/event/info';
             $mailParams['module'] = 'event';
+        } elseif ( $params['entity_table'] == 'civicrm_pcp' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $params['source_contact_id'],
+                                                                     'email', 'contact_id' );
+            $urlPath = 'civicrm/contribute/pcp/info';
+            $mailParams['module'] = 'contribute';
         } 
 
-        $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", false, null, false);
+        $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
         list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
        
         //send mail

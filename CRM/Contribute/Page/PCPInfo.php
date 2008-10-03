@@ -68,6 +68,10 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, die a fatal death
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+        } else if ( $pcpInfo['status_id'] != 2 ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+            CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
         }      
         $default = array();
         

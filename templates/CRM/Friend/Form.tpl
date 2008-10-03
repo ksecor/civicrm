@@ -17,8 +17,8 @@
           <td>{ts}Last Name{/ts}</td>
           <td>{ts}Email Address{/ts}</td>
       </tr>
-    {section name=loop start=1 loop=4}
-        {assign var=idx value=$smarty.section.loop.index}
+    {section name=mail start=1 loop=$mailLimit}
+        {assign var=idx value=$smarty.section.mail.index}
          <tr>
             <td class="even-row">{$form.friend.$idx.first_name.html}</td>
             <td class="even-row">{$form.friend.$idx.last_name.html}</td>
