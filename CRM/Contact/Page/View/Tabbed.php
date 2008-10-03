@@ -220,9 +220,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 }
             }
         }
+        $weight += 10;
 
         $rest = array( 'activity'      => ts('Activities')    ,
-                       'case'          => ts('Cases')         ,
                        'rel'           => ts('Relationships') ,
                        'group'         => ts('Groups')        ,
                        'note'          => ts('Notes')         ,
@@ -238,7 +238,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $this->_viewOptions[$title] = true;
         }
 
-        $this->_viewOptions['case'] = $this->_viewOptions['CiviCase'];
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$k] ) {
                 continue;
