@@ -176,12 +176,9 @@
 	<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
         {if $action eq 2}
-            <dl id="current_employee">
-                <dt>{$form.is_current_employee.label}</dt><dd>{$form.is_current_employee.html}</dd>
-            </dl>
-            <dl id="current_employer">
-                <dt>{$form.is_current_employer.label}</dt><dd>{$form.is_current_employer.html}</dd>
-            </dl>
+        <dt id="employee">{ts}Is current employee?{/ts}</dt>
+        <dt id="employer">{ts}Is current employer?{/ts}</dt>
+        <dd id="current_employer">{$form.is_current_employer.html}</dd>
         {/if}
         <dl><dt></dt><dd id="customData"></dd></dl>
         <div class="spacer"></div>
@@ -219,14 +216,17 @@
    {
       var relType = document.getElementById('relationship_type_id').value;
       if ( relType == '4_a_b' ) {
-           show('current_employee',  'block');
-           hide('current_employer',  'block');
+           show('current_employer', 'block');
+           show('employee', 'block');
+           hide('employer', 'block');
       } else if ( relType == '4_b_a' ) {
-           show('current_employer',  'block');
-           hide('current_employee',  'block');
+	   show('current_employer', 'block');
+           show('employer', 'block');
+           hide('employee', 'block');
       } else {
-           hide('current_employer',  'block');
-           hide('current_employee',  'block');
+           hide('employer', 'block');
+           hide('employee', 'block');
+	   hide('current_employer', 'block');
       }
    }
 </script>

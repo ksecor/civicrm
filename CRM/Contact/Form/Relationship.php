@@ -146,7 +146,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         //get the relationship type id 
         $this->_relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId );
-       
         
         //get the relationship type 
         if ( !$this->_rtype ) {
@@ -202,13 +201,14 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     //is current employee/employer.
                     if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' &&
                          $contact->id == CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $this->_contactId, 'employer_id' ) ) {
-                        $defaults['is_current_employee'] = 1;
+                        $defaults['is_current_employer'] = 1;
                         $this->_values['current_employee_id'] = $this->_contactId;
+                        $this->_values['current_employer_id'] = $contact->id;
                     } else if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' && 
-                                $this->_contactId ==
-                                CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
+                                $this->_contactId == $contact->employer_id ) {
                         $defaults['is_current_employer'] = 1;
                         $this->_values['current_employee_id'] = $contact->id;
+                        $this->_values['current_employer_id'] = $this->_contactId;
                     }
                 }
                 
@@ -283,7 +283,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                      )
                                );
             return;
-            
         }
                 
         $searchRows = $this->get( 'searchRows' );
@@ -359,8 +358,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->addElement('checkbox', 'is_current_employee', ts('Is current employee?') );
-            $this->addElement('checkbox', 'is_current_employer', ts('Is current employer?') );
+            $this->addElement('checkbox', 'is_current_employer' );
         }
                 
         $this->assign('duplicateRelationship', $duplicateRelationship);
@@ -420,7 +418,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $this->set( 'searchDone', 1 );
             return;
         }
-
+        
         // action is taken depending upon the mode
         $ids = array( );
         $ids['contact'] = $this->_contactId;
@@ -521,15 +519,16 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //handle current employee/employer relationship, CRM-3532
         if ( $this->_allRelationships[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) {
             $orgId = null;
-            
-            if ( CRM_Utils_Array::value( 'employee_of', $params ) ) {
+            if ( CRM_Utils_Array::value( 'employee_of', $params ) ) { 
                 $orgId = $params['employee_of'];
             } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
-                if ( CRM_Utils_Array::value( 'is_current_employee', $params ) ) {
-                    $orgId = CRM_Utils_Array::value( 'contactTarget', $ids );
+                if ( CRM_Utils_Array::value( 'is_current_employer', $params ) ) {
+                    if ( CRM_Utils_Array::value( 'contactTarget', $ids ) != 
+                         CRM_Utils_Array::value( 'current_employer_id', $this->_values ) )  {
+                        $orgId = CRM_Utils_Array::value( 'contactTarget', $ids );
+                    }
                 } else if ( CRM_Utils_Array::value( 'contactTarget', $ids ) == 
-                            CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $this->_contactId, 'employer_id' ) ) { 
-                    
+                            CRM_Utils_Array::value( 'current_employer_id', $this->_values ) ) { 
                     //clear current employer.
                     require_once 'CRM/Contact/BAO/Contact/Utils.php';
                     CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $this->_contactId );
@@ -542,18 +541,19 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
                 CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams );
             }
+            
         } else if ( $this->_allRelationships[$relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of' ) {
             $individualIds = array( );
-            
             if ( CRM_Utils_Array::value( 'employer_of', $params ) ) { 
                 $individualIds = array_keys( $params['employer_of'] );
             } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
                 if ( CRM_Utils_Array::value( 'is_current_employer', $params ) ) {
-                    $individualIds[] = CRM_Utils_Array::value( 'contactTarget', $ids ); 
-                } else if ( CRM_Utils_Array::value( 'contactTarget', $ids ) && 
-                            $this->_contactId == 
-                            CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $ids['contactTarget'], 'employer_id' ) )  {
-                    
+                    if ( CRM_Utils_Array::value( 'contactTarget', $ids ) != 
+                         CRM_Utils_Array::value( 'current_employee_id', $this->_values ) ) {
+                        $individualIds[] = CRM_Utils_Array::value( 'contactTarget', $ids ); 
+                    }
+                } else if ( CRM_Utils_Array::value( 'contactTarget', $ids ) == 
+                            CRM_Utils_Array::value( 'current_employee_id', $this->_values ) )  {
                     // clear current employee
                     require_once 'CRM/Contact/BAO/Contact/Utils.php';
                     CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $ids['contactTarget'] );
