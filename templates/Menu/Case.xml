@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/case</path>
+     <title>CiviCase</title>
+     <page_callback>CRM_Case_Page_DashBoard</page_callback>
+     <access_arguments>access CiviCase</access_arguments>
+     <page_type>1</page_type>
+     <weight>900</weight>
+     <component>CiviCase</component>
+  </item>
+  <item>
+     <path>civicrm/case/search</path>
+     <title>Find Cases</title>
+     <page_callback>CRM_Case_Controller_Search</page_callback>
+     <access_arguments>access CiviCase</access_arguments>
+     <page_type>1</page_type>
+     <weight>910</weight>
+  </item>
+</menu>
