@@ -1,9 +1,8 @@
 {* this template is used for displaying PCP information *} 
 <div>
 <table class="campaign" width="40%">
-	<th>{$pcp.title}</th>
 	<tr>
-		<td colspan=2>{$pcp.intro_text}</td>
+		<th colspan=2>{$pcp.intro_text}</th>
 	</tr>
 	<tr>
 		<td width="20%">{$pcp.page_text}</td>

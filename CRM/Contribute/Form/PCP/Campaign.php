@@ -44,7 +44,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
  
     public function preProcess()  
     {
-      
+        CRM_Utils_System::setTitle(ts('Set up your Personal Campaign Page'));
+        parent::preProcess( );
     }
 
     function setDefaultValues( ) 
@@ -119,8 +120,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) 
     {
         $errors = array();
-        if ( $fields["goal_amount"] <= 0 ) {
+        if ( $fields['goal_amount'] <= 0 ) {
             $errors['goal_amount'] = ts('Goal Amount should be greater than zero.');
+        }
+        if ( strlen($fields['donate_link_text']) >= 64 ){
+            $errors['donate_link_text'] = ts('Button Text cannot be greater than 64 Characters.');
         }
         return $errors;
     }
