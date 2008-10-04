@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-04 23:22+0200\n"
 "PO-Revision-Date: 2007-08-29 16:02+0800\n"
 "Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -71,9 +71,6 @@ msgstr "路易斯安那州"
 msgid "Maine"
 msgstr "缅因州"
 
-msgid "Maryland"
-msgstr "马里兰州"
-
 msgid "Massachusetts"
 msgstr "马萨诸塞州"
 
@@ -88,9 +85,6 @@ msgstr "密西西比州"
 
 msgid "Missouri"
 msgstr "密苏里州"
-
-msgid "Montana"
-msgstr "蒙大拿州"
 
 msgid "Nebraska"
 msgstr "内布拉斯加州"
@@ -1250,9 +1244,6 @@ msgstr "埃诺省"
 msgid "Liege"
 msgstr "列日省"
 
-msgid "Limburg"
-msgstr ""
-
 msgid "Luxembourg"
 msgstr "卢森堡"
 
@@ -1865,9 +1856,6 @@ msgstr ""
 msgid "South-East"
 msgstr "东南"
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr "布列斯特州"
 
@@ -2200,9 +2188,6 @@ msgstr "东方省"
 
 msgid "Far North"
 msgstr "极北省"
-
-msgid "North"
-msgstr "北方省"
 
 msgid "South"
 msgstr "南方省"
@@ -3339,9 +3324,6 @@ msgstr "南方各族"
 msgid "Tigrai"
 msgstr "提格雷"
 
-msgid "Eastern"
-msgstr ""
-
 msgid "Northern"
 msgstr ""
 
@@ -4022,9 +4004,6 @@ msgstr "卢顿"
 
 msgid "Magherafelt"
 msgstr "马拉费尔特"
-
-msgid "Manchester"
-msgstr ""
 
 msgid "Medway"
 msgstr "梅德韦"
@@ -11496,9 +11475,6 @@ msgstr "腾布荣"
 msgid "North Gaza"
 msgstr "北达科他州"
 
-msgid "Gaza"
-msgstr "加扎省"
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -11570,6 +11546,30 @@ msgstr ""
 #, fuzzy
 msgid "Ogliastra"
 msgstr "锡利斯特拉"
+
+msgid "Maryland"
+msgstr "马里兰州"
+
+msgid "Montana"
+msgstr "蒙大拿州"
+
+msgid "Limburg"
+msgstr ""
+
+msgid "Southern"
+msgstr ""
+
+msgid "North"
+msgstr "北方省"
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Manchester"
+msgstr ""
+
+msgid "Gaza"
+msgstr "加扎省"
 
 #~ msgid "Frederikaberg municipality"
 #~ msgstr "菲特烈堡郡"

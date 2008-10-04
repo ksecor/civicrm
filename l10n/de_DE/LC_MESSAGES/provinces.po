@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-04 23:22+0200\n"
 "PO-Revision-Date: 2008-08-27 18:07+0100\n"
 "Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -71,9 +71,6 @@ msgstr "Louisiana"
 msgid "Maine"
 msgstr "Maine"
 
-msgid "Maryland"
-msgstr "Maryland"
-
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
@@ -88,9 +85,6 @@ msgstr "Mississippi"
 
 msgid "Missouri"
 msgstr "Missouri"
-
-msgid "Montana"
-msgstr "Montana"
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1263,9 +1257,6 @@ msgstr "Hennegau"
 msgid "Liege"
 msgstr "Lüttich"
 
-msgid "Limburg"
-msgstr "Limburg"
-
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1878,9 +1869,6 @@ msgstr "North-West"
 msgid "South-East"
 msgstr "South-East"
 
-msgid "Southern"
-msgstr "Southern"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Brest"
 
@@ -2213,9 +2201,6 @@ msgstr "Est"
 
 msgid "Far North"
 msgstr "Extrême-Nord"
-
-msgid "North"
-msgstr "North"
 
 msgid "South"
 msgstr "Sud"
@@ -3351,9 +3336,6 @@ msgstr ""
 msgid "Tigrai"
 msgstr ""
 
-msgid "Eastern"
-msgstr "Eastern"
-
 msgid "Northern"
 msgstr ""
 
@@ -4034,9 +4016,6 @@ msgstr "Luton"
 
 msgid "Magherafelt"
 msgstr "Magherafelt"
-
-msgid "Manchester"
-msgstr "Manchester"
 
 msgid "Medway"
 msgstr "Medway"
@@ -11506,9 +11485,6 @@ msgstr "Temburong"
 msgid "North Gaza"
 msgstr "North Dakota"
 
-msgid "Gaza"
-msgstr ""
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -11580,6 +11556,30 @@ msgstr ""
 #, fuzzy
 msgid "Ogliastra"
 msgstr "Silistra"
+
+msgid "Maryland"
+msgstr "Maryland"
+
+msgid "Montana"
+msgstr "Montana"
+
+msgid "Limburg"
+msgstr "Limburg"
+
+msgid "Southern"
+msgstr "Southern"
+
+msgid "North"
+msgstr "North"
+
+msgid "Eastern"
+msgstr "Eastern"
+
+msgid "Manchester"
+msgstr "Manchester"
+
+msgid "Gaza"
+msgstr ""
 
 #~ msgid "Frederikaberg municipality"
 #~ msgstr "Frederiksborgs Amt"

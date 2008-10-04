@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-04 23:22+0200\n"
 "PO-Revision-Date: 2008-03-10 18:19+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -71,9 +71,6 @@ msgstr "Louisiana"
 msgid "Maine"
 msgstr "Maine"
 
-msgid "Maryland"
-msgstr "Maryland"
-
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
@@ -88,9 +85,6 @@ msgstr "Mississippi"
 
 msgid "Missouri"
 msgstr "Missouri"
-
-msgid "Montana"
-msgstr "Montana"
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1372,9 +1366,6 @@ msgstr "Hainaut"
 msgid "Liege"
 msgstr "Liège"
 
-msgid "Limburg"
-msgstr "Limburg"
-
 msgid "Luxembourg"
 msgstr "Lúc-xăm-buac"
 
@@ -2036,10 +2027,6 @@ msgstr "Miền Tây Bắc"
 msgid "South-East"
 msgstr "Đông Nam"
 
-#, fuzzy
-msgid "Southern"
-msgstr "Miền Nam"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Brèsckaja voblasc'"
 
@@ -2408,9 +2395,6 @@ msgstr "Miền Nam"
 
 msgid "Far North"
 msgstr "Miền Bắc Xa"
-
-msgid "North"
-msgstr "Miền Bắc"
 
 msgid "South"
 msgstr "Miền Nam"
@@ -3650,9 +3634,6 @@ msgstr ""
 msgid "Tigrai"
 msgstr "Tigray"
 
-msgid "Eastern"
-msgstr "Miền Đông"
-
 msgid "Northern"
 msgstr "Miền Bắc"
 
@@ -4345,9 +4326,6 @@ msgstr "Luton"
 
 msgid "Magherafelt"
 msgstr "Magherafelt"
-
-msgid "Manchester"
-msgstr "Manchester"
 
 msgid "Medway"
 msgstr "Medway"
@@ -12466,9 +12444,6 @@ msgstr "Temburong"
 msgid "North Gaza"
 msgstr "North Dakota"
 
-msgid "Gaza"
-msgstr "Gaza"
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -12553,6 +12528,31 @@ msgstr ""
 #, fuzzy
 msgid "Ogliastra"
 msgstr "Silistra"
+
+msgid "Maryland"
+msgstr "Maryland"
+
+msgid "Montana"
+msgstr "Montana"
+
+msgid "Limburg"
+msgstr "Limburg"
+
+#, fuzzy
+msgid "Southern"
+msgstr "Miền Nam"
+
+msgid "North"
+msgstr "Miền Bắc"
+
+msgid "Eastern"
+msgstr "Miền Đông"
+
+msgid "Manchester"
+msgstr "Manchester"
+
+msgid "Gaza"
+msgstr "Gaza"
 
 #~ msgid "Frederikaberg municipality"
 #~ msgstr "Thành Phố Frederikaberg"

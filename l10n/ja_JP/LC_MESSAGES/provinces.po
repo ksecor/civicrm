@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-04 23:22+0200\n"
 "PO-Revision-Date: 2007-12-30 22:39+0900\n"
 "Last-Translator: Shinji R. Yamane <s-yamane@computer.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -71,9 +71,6 @@ msgstr "ルイジアナ"
 msgid "Maine"
 msgstr "メーン"
 
-msgid "Maryland"
-msgstr "メリーランド"
-
 msgid "Massachusetts"
 msgstr "マサチューセッツ"
 
@@ -88,9 +85,6 @@ msgstr "ミシシッピー"
 
 msgid "Missouri"
 msgstr "ミズーリ"
-
-msgid "Montana"
-msgstr "モンタナ"
 
 msgid "Nebraska"
 msgstr "ネブラスカ"
@@ -1332,10 +1326,6 @@ msgstr "エノー"
 msgid "Liege"
 msgstr "リエージュ"
 
-#, fuzzy
-msgid "Limburg"
-msgstr "リンブルフ"
-
 msgid "Luxembourg"
 msgstr "ルクセンブルグ"
 
@@ -1972,9 +1962,6 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -2314,9 +2301,6 @@ msgid "East"
 msgstr ""
 
 msgid "Far North"
-msgstr ""
-
-msgid "North"
 msgstr ""
 
 msgid "South"
@@ -3516,9 +3500,6 @@ msgstr ""
 msgid "Tigrai"
 msgstr ""
 
-msgid "Eastern"
-msgstr ""
-
 msgid "Northern"
 msgstr ""
 
@@ -4266,10 +4247,6 @@ msgstr ""
 
 msgid "Magherafelt"
 msgstr ""
-
-#, fuzzy
-msgid "Manchester"
-msgstr "マンチェスター"
 
 msgid "Medway"
 msgstr ""
@@ -12148,9 +12125,6 @@ msgstr "バーモント"
 msgid "North Gaza"
 msgstr "ノース・ダコタ"
 
-msgid "Gaza"
-msgstr ""
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -12223,3 +12197,29 @@ msgstr ""
 #, fuzzy
 msgid "Ogliastra"
 msgstr "大分"
+
+msgid "Maryland"
+msgstr "メリーランド"
+
+msgid "Montana"
+msgstr "モンタナ"
+
+#, fuzzy
+msgid "Limburg"
+msgstr "リンブルフ"
+
+msgid "Southern"
+msgstr ""
+
+msgid "North"
+msgstr ""
+
+msgid "Eastern"
+msgstr ""
+
+#, fuzzy
+msgid "Manchester"
+msgstr "マンチェスター"
+
+msgid "Gaza"
+msgstr ""

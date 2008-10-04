@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-04 23:22+0200\n"
 "PO-Revision-Date: 2008-09-28 03:17-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -71,9 +71,6 @@ msgstr "Louisiana"
 msgid "Maine"
 msgstr "Maine"
 
-msgid "Maryland"
-msgstr "Maryland"
-
 msgid "Massachusetts"
 msgstr "Massachusetts"
 
@@ -88,9 +85,6 @@ msgstr "Mississippi"
 
 msgid "Missouri"
 msgstr "Missouri"
-
-msgid "Montana"
-msgstr "Montana"
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1250,9 +1244,6 @@ msgstr "Henegouwen"
 msgid "Liege"
 msgstr "Luik"
 
-msgid "Limburg"
-msgstr "Limburg"
-
 msgid "Luxembourg"
 msgstr "Luxemburg"
 
@@ -1865,9 +1856,6 @@ msgstr "Noord-West"
 msgid "South-East"
 msgstr "Zuid-Oost"
 
-msgid "Southern"
-msgstr "Zuidelijk"
-
 msgid "Brèsckaja voblasc'"
 msgstr "Provincie Brest"
 
@@ -2200,9 +2188,6 @@ msgstr "Oost"
 
 msgid "Far North"
 msgstr "Verre Noorden"
-
-msgid "North"
-msgstr "Noord"
 
 msgid "South"
 msgstr "Zuid"
@@ -3332,9 +3317,6 @@ msgstr "Zuidelijke naties, nationaliteiten en volkeren"
 msgid "Tigrai"
 msgstr "Tigrai"
 
-msgid "Eastern"
-msgstr "Oostelijk"
-
 msgid "Northern"
 msgstr "Noordelijk"
 
@@ -4015,9 +3997,6 @@ msgstr "Luton"
 
 msgid "Magherafelt"
 msgstr "Magherafelt"
-
-msgid "Manchester"
-msgstr "Manchester"
 
 msgid "Medway"
 msgstr "Medway"
@@ -11477,9 +11456,6 @@ msgstr "Hebron"
 msgid "North Gaza"
 msgstr "Noord Gaza"
 
-msgid "Gaza"
-msgstr "Gaza"
-
 msgid "Deir el-Balah"
 msgstr "Deir el-Balah"
 
@@ -11548,6 +11524,30 @@ msgstr "Medio Campidano"
 
 msgid "Ogliastra"
 msgstr "Ogliastra"
+
+msgid "Maryland"
+msgstr "Maryland"
+
+msgid "Montana"
+msgstr "Montana"
+
+msgid "Limburg"
+msgstr "Limburg"
+
+msgid "Southern"
+msgstr "Zuidelijk"
+
+msgid "North"
+msgstr "Noord"
+
+msgid "Eastern"
+msgstr "Oostelijk"
+
+msgid "Manchester"
+msgstr "Manchester"
+
+msgid "Gaza"
+msgstr "Gaza"
 
 #~ msgid "Frederikaberg municipality"
 #~ msgstr "Gemeente Frederikaberg"
