@@ -44,9 +44,9 @@ if ( ! in_array($installType, array('drupal', 'standalone')) ) {
 if ( $installType == 'drupal' ) {
     // do not check 'sites/all/modules' only since it could be a multi-site
     // install. Rather check for existance of sites & modules in the url
-    if ( ! preg_match('/sites\/[a-zA-Z0-9_.]+\/modules/', $_SERVER['SCRIPT_FILENAME']) ) {
+    if ( ! preg_match('/sites.[a-zA-Z0-9_.]+.modules/', $_SERVER['SCRIPT_FILENAME']) ) {
         $errorTitle = "Oops! Please Correct Your Install Location";
-        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
+        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>" . implode(DIRECTORY_SEPARATOR, array('sites', 'all', 'modules')) . "</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 }
@@ -103,9 +103,9 @@ if ( $installType == 'drupal' ) {
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
     if ( $installType == 'drupal' ) {
-        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . implode(DIRECTORY_SEPARATOR, array('[your Drupal root directory]', 'sites', 'default')) . "</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     } elseif ( $installType == 'standalone' ) {
-        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]/standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]" . DIRECTORY_SEPARATOR . "standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     }
     errorDisplayPage( $errorTitle, $errorMsg );
 }
@@ -578,7 +578,7 @@ class InstallRequirements {
 
 
 	function getBaseDir() {
-		return dirname($_SERVER['SCRIPT_FILENAME']) . '/';
+		return dirname($_SERVER['SCRIPT_FILENAME']) . DIRECTORY_SEPARATOR;
 	}
 	
 	function testing($testDetails) {
@@ -681,9 +681,9 @@ class Installer extends InstallRequirements {
 }
 
 function getSiteDir( $str ) {
-    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7;
-    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], '/modules/');
-    $siteDir = substr($_SERVER['SCRIPT_FILENAME'], strpos($_SERVER['SCRIPT_FILENAME'], '/sites/') + 7, ($pos2 - $pos1));
+    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7;
+    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
+    $siteDir = substr($_SERVER['SCRIPT_FILENAME'], strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7, ($pos2 - $pos1));
     if ( preg_match('/^[a-zA-Z0-9_.]+$/', $siteDir) && ($siteDir != 'all') ) {
         return $siteDir;
     }
