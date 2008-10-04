@@ -7,8 +7,7 @@ tempfile=`tempfile`
 
 
 
-# build the three XML-originating files:
-# 1. build POT headers
+# build POT headers
 echo "# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
@@ -22,10 +21,14 @@ msgstr \"\"
 \"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n\"
 \"MIME-Version: 1.0\n\"
 \"Content-Type: text/plain; charset=UTF-8\n\"
-\"Content-Transfer-Encoding: 8bit\n\"
-" | tee $potdir/civicrm-menu.pot $potdir/countries.pot $potdir/provinces.pot > /dev/null
+\"Content-Transfer-Encoding: 8bit\n\"" | tee $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
 
-# 2. append the string definitions
+echo "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n\"" | tee -a $potdir/civicrm-{core,modules}.pot > /dev/null
+
+echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countries,provinces}.pot > /dev/null
+
+
+# build the three XML-originating files
 echo ' * building civcrm-menu.pot'
 grep -h '<title>' templates/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
 echo ' * building countries.pot'
@@ -33,7 +36,7 @@ grep ^INSERT xml/templates/civicrm_country.tpl     | cut -d\" -f4               
 echo ' * building provinces.pot'
 grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
 
-# 3. make sure none of the provinces repeat
+# make sure none of the province names repeat
 msgcomm --more-than 2 $potdir/provinces.pot $potdir/./provinces.pot > $tempfile
 msgcomm -u $potdir/provinces.pot $tempfile | msgcat - $tempfile | sponge $potdir/provinces.pot
 
@@ -41,7 +44,7 @@ msgcomm -u $potdir/provinces.pot $tempfile | msgcat - $tempfile | sponge $potdir
 
 # extract ts()- and {ts}-tagged strings and build -core
 echo ' * building civicrm-core.pot'
-$root/bin/extractor.php core > $potdir/civicrm-core.pot
+$root/bin/extractor.php core >> $potdir/civicrm-core.pot
 
 # drop strings already in -menu
 msgcomm $potdir/civicrm-core.pot $potdir/civicrm-menu.pot > $tempfile
@@ -49,7 +52,7 @@ msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm
 
 # extract ts()- and {ts}-tagged strings and build -modules
 echo ' * building civicrm-modules.pot'
-$root/bin/extractor.php modules > $potdir/civicrm-modules.pot
+$root/bin/extractor.php modules >> $potdir/civicrm-modules.pot
 
 # drop strings already in -menu and -core
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-menu.pot > $tempfile
@@ -59,7 +62,7 @@ msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civi
 
 # extract ts()- and {ts}-tagged strings and build -helpfiles
 echo ' * building civicrm-helpfiles.pot'
-$root/bin/extractor.php helpfiles > $potdir/civicrm-helpfiles.pot
+$root/bin/extractor.php helpfiles >> $potdir/civicrm-helpfiles.pot
 
 # drop strings already in -menu, -core and -modules
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-menu.pot > $tempfile
