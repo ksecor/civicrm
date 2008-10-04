@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-09-04 03:53-0700\n"
+"PO-Revision-Date: 2008-10-02 01:34-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3605,7 +3605,7 @@ msgstr "CMS gebruiker?"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Search Views"
-msgstr "Zoek overzichten"
+msgstr "Weergave"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- default view -"
