@@ -455,6 +455,8 @@ abstract class CRM_NewImport_Parser {
                     $customHeaders[$key] = $customfields[$id][0];
                 }
             }
+            $config =& CRM_Core_Config::singleton( );
+            $fileName = $config->uploadDir . "sqlImport";
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
                 $headers = array_merge( array(  ts('Line Number'),
@@ -745,7 +747,7 @@ abstract class CRM_NewImport_Parser {
         case 'Organization':
             $store->set( 'contactType', CRM_NewImport_Parser::CONTACT_ORGANIZATION );    
         }
-        
+
         if ($this->_invalidRowCount) {
             $store->set( 'errorsFileName', $this->_errorFileName );
         }

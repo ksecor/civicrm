@@ -423,14 +423,14 @@ class CRM_Export_BAO_Export
         } else if ( $realm == 'activity' ) {
             $controller = 'CRM_Activity_Import_Controller';
         } else {
-            $controller = 'CRM_Import_Controller';
+            $controller = 'CRM_NewImport_Controller';
         }
         
         require_once 'CRM/Core/Key.php';
         $qfKey = CRM_Core_Key::get( $controller );
         
         $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
-        
+
         $config =& CRM_Core_Config::singleton( ); 
         
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

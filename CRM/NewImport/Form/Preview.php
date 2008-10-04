@@ -406,9 +406,11 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
             }
-            
-            $errorFile = $fileName . '.error.log';
-            
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
             if ( $fd = fopen( $errorFile, 'w' ) ) {
                 fwrite($fd, implode('\n', $errorMessage));
             }
