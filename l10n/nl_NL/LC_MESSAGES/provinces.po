@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-04 23:22+0200\n"
+"POT-Creation-Date: 2008-10-05 01:16+0200\n"
 "PO-Revision-Date: 2008-09-28 03:17-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -40,9 +40,6 @@ msgstr "Delaware"
 
 msgid "Florida"
 msgstr "Florida"
-
-msgid "Georgia"
-msgstr "Georgia"
 
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -161,23 +158,8 @@ msgstr "Wyoming"
 msgid "District of Columbia"
 msgstr "District van Columbia"
 
-msgid "American Samoa"
-msgstr "Amerikaans Samoa"
-
-msgid "Guam"
-msgstr "Guam"
-
-msgid "Northern Mariana Islands"
-msgstr "Noordelijke Marianen"
-
-msgid "Puerto Rico"
-msgstr "Puerto Rico"
-
 msgid "Virgin Islands"
 msgstr "Virgin-eilanden"
-
-msgid "United States Minor Outlying Islands"
-msgstr "Verenigde Staten Kleine Uitliggende Eilanden"
 
 msgid "Armed Forces Europe"
 msgstr "Gewapende troepen van Europa"
@@ -1244,9 +1226,6 @@ msgstr "Henegouwen"
 msgid "Liege"
 msgstr "Luik"
 
-msgid "Luxembourg"
-msgstr "Luxemburg"
-
 msgid "Namur"
 msgstr "Namen"
 
@@ -1874,9 +1853,6 @@ msgstr "Provincie Minsk"
 msgid "Vicebskaja voblasc'"
 msgstr "Provincie Vitsebsk"
 
-msgid "Belize"
-msgstr "Belize"
-
 msgid "Cayo"
 msgstr "Cayo"
 
@@ -2270,9 +2246,6 @@ msgstr "Shanxi"
 msgid "Sichuan"
 msgstr "Sichuan"
 
-msgid "Taiwan"
-msgstr "Taiwan"
-
 msgid "Yunnan"
 msgstr "Yunnan"
 
@@ -2290,9 +2263,6 @@ msgstr "Xinjiang [Sinkiang]"
 
 msgid "Xizang"
 msgstr "Tibet [Xizang]"
-
-msgid "Hong Kong"
-msgstr "Hong Kong"
 
 msgid "Macau"
 msgstr "Macau"
@@ -2638,9 +2608,6 @@ msgstr "Ali Sabiah"
 
 msgid "Dikhil"
 msgstr "Dikhil"
-
-msgid "Djibouti"
-msgstr "Djibouti"
 
 msgid "Obock"
 msgstr "Obock"
@@ -3875,9 +3842,6 @@ msgstr "Gloucestershire"
 msgid "Greenwich"
 msgstr "Greenwich"
 
-msgid "Guernsey"
-msgstr "Guernsey"
-
 msgid "Gwynedd"
 msgstr "Gwynedd"
 
@@ -3934,9 +3898,6 @@ msgstr "Scilly-eiland"
 
 msgid "Islington"
 msgstr "Islington"
-
-msgid "Jersey"
-msgstr "Jersey"
 
 msgid "Kensington and Chelsea"
 msgstr "Kensington en Chelsea"
@@ -4424,9 +4385,6 @@ msgstr "Lola"
 msgid "Macenta"
 msgstr "Macenta"
 
-msgid "Mali"
-msgstr "Mali"
-
 msgid "Mamou"
 msgstr "Mamou"
 
@@ -4648,9 +4606,6 @@ msgstr "El Progreso"
 
 msgid "Escuintla"
 msgstr "Escuintla"
-
-msgid "Guatemala"
-msgstr "Guatemala"
 
 msgid "Huehuetenango"
 msgstr "Huehuetenango"
@@ -7109,9 +7064,6 @@ msgstr "Cargados Carajos Shoals"
 msgid "Rodrigues Island"
 msgstr "Rodrigues-eiland"
 
-msgid "Male"
-msgstr "Male"
-
 msgid "Alif"
 msgstr "Alif"
 
@@ -7288,9 +7240,6 @@ msgstr "Hidalgo"
 
 msgid "Jalisco"
 msgstr "Jalisco"
-
-msgid "Mexico"
-msgstr "Mexico"
 
 msgid "Michoacin"
 msgstr "Michoacin"
@@ -7559,9 +7508,6 @@ msgstr "Lagos"
 msgid "Nassarawa"
 msgstr "Nassarawa"
 
-msgid "Niger"
-msgstr "Niger"
-
 msgid "Ogun"
 msgstr "Ogun"
 
@@ -7822,9 +7768,6 @@ msgstr "Herrera"
 
 msgid "Loa Santoa"
 msgstr "Loa Santoa"
-
-msgid "Panama"
-msgstr "Panama"
 
 msgid "Veraguas"
 msgstr "Veraguas"
@@ -8974,9 +8917,6 @@ msgstr "Graafschap Örebro"
 
 msgid "Ostergotlands lan"
 msgstr "Graafschap Östergötland"
-
-msgid "Saint Helena"
-msgstr "Sint Helena"
 
 msgid "Ascension"
 msgstr "Ascension"
@@ -11473,9 +11413,6 @@ msgstr "North West"
 
 msgid "Tyne and Wear"
 msgstr "Tyne and Wear"
-
-msgid "Isle of Man"
-msgstr "Eiland Man"
 
 msgid "Greater Manchester"
 msgstr "Greater Manchester"
