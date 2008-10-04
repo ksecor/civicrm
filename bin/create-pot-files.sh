@@ -34,7 +34,7 @@ grep -h '<title>' templates/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq
 echo ' * building countries.pot'
 grep ^INSERT xml/templates/civicrm_country.tpl     | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
 echo ' * building provinces.pot'
-grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
+grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4 | grep -v ^Male$                 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
 
 # make sure none of the province names repeat
 msgcomm --more-than 2 $potdir/provinces.pot $potdir/./provinces.pot > $tempfile
