@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-26 00:08-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6213,52 +6213,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Permission.php
-msgid "add contacts"
-msgstr "सदस्य बनाईये"
-
-#: CRM/Core/Permission.php
-msgid "view all contacts"
-msgstr "सब सदस्य काे देखिईये"
-
-#: CRM/Core/Permission.php
-msgid "edit all contacts"
-msgstr "सब सदस्य का संपादन किजिये"
-
-#: CRM/Core/Permission.php
-msgid "import contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "edit groups"
-msgstr "समूह का संपादन किजिये"
-
-#: CRM/Core/Permission.php
-msgid "administer CiviCRM"
-msgstr "CiviCRM प्रशासन"
-
-#: CRM/Core/Permission.php
-msgid "access uploaded files"
-msgstr "फाइल अपलोड पहुँच"
-
-#: CRM/Core/Permission.php
-msgid "profile listings and forms"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access all custom data"
-msgstr ""
-
-#: CRM/Core/Permission.php
 msgid "view all activities"
 msgstr "सभी गतिविधियां देखे"
-
-#: CRM/Core/Permission.php
-msgid "access CiviCRM"
-msgstr "अभिगम CiviCRM"
-
-#: CRM/Core/Permission.php
-msgid "access Contact Dashboard"
-msgstr "अभिगम संपर्क फलक"
 
 #: CRM/Core/Permission.php
 #, fuzzy
@@ -11635,10 +11591,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
-
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "View Contact Dashboard"
-msgstr "डैशबोर्ड संपर्क देखें"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy

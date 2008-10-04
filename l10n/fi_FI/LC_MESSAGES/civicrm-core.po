@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6580,53 +6580,9 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Permission.php
-msgid "add contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "view all contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "edit all contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "import contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "edit groups"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "administer CiviCRM"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access uploaded files"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "profile listings and forms"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access all custom data"
-msgstr ""
-
-#: CRM/Core/Permission.php
 #, fuzzy
 msgid "view all activities"
 msgstr "Toimenpiteen historia."
-
-#: CRM/Core/Permission.php
-msgid "access CiviCRM"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access Contact Dashboard"
-msgstr ""
 
 #: CRM/Core/Permission.php
 #, fuzzy
@@ -12377,11 +12333,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
-
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
-msgid "View Contact Dashboard"
-msgstr "Näytä yhteyden yksityiskohdat"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy

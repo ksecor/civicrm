@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-03-25 13:59-0700\n"
 "Last-Translator: Benjamin Yau <benymh@yahoo.com.hk>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6048,51 +6048,7 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Permission.php
-msgid "add contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "view all contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "edit all contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "import contacts"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "edit groups"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "administer CiviCRM"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access uploaded files"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "profile listings and forms"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access all custom data"
-msgstr ""
-
-#: CRM/Core/Permission.php
 msgid "view all activities"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access CiviCRM"
-msgstr ""
-
-#: CRM/Core/Permission.php
-msgid "access Contact Dashboard"
 msgstr ""
 
 #: CRM/Core/Permission.php
@@ -11411,10 +11367,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "View Contact Dashboard"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl

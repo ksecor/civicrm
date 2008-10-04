@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-07-10 23:19-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -6377,52 +6377,8 @@ msgstr ""
 "\">documentazione</a> per altri dettagli."
 
 #: CRM/Core/Permission.php
-msgid "add contacts"
-msgstr "aggiungi contatti"
-
-#: CRM/Core/Permission.php
-msgid "view all contacts"
-msgstr "visualizza tutti i contatti"
-
-#: CRM/Core/Permission.php
-msgid "edit all contacts"
-msgstr "modifica tutti i contatti"
-
-#: CRM/Core/Permission.php
-msgid "import contacts"
-msgstr "importa contatti"
-
-#: CRM/Core/Permission.php
-msgid "edit groups"
-msgstr "modifica gruppi"
-
-#: CRM/Core/Permission.php
-msgid "administer CiviCRM"
-msgstr "amministra CiviCRM"
-
-#: CRM/Core/Permission.php
-msgid "access uploaded files"
-msgstr "accedi ai file caricati"
-
-#: CRM/Core/Permission.php
-msgid "profile listings and forms"
-msgstr "elenchi e form profilo"
-
-#: CRM/Core/Permission.php
-msgid "access all custom data"
-msgstr "accedi a tutti i dati personalizzati"
-
-#: CRM/Core/Permission.php
 msgid "view all activities"
 msgstr "visualizza tutte le attività"
-
-#: CRM/Core/Permission.php
-msgid "access CiviCRM"
-msgstr "accedi a CiviCRM"
-
-#: CRM/Core/Permission.php
-msgid "access Contact Dashboard"
-msgstr "accedi gestione mio account"
 
 #: CRM/Core/Permission.php
 #, fuzzy
@@ -12535,10 +12491,6 @@ msgstr "Partito"
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
 "Nessun dato disponibile su questo contatto. Si controlli città/provincia/cap"
-
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "View Contact Dashboard"
-msgstr "Visualizza dettagli account"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy

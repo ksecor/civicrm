@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2007-05-07 11:19+0200\n"
+"POT-Creation-Date: 2008-09-18 14:48+0200\n"
 "PO-Revision-Date: 2007-12-30 21:40+0900\n"
 "Last-Translator: Shinji R. Yamane <s-yamane@computer.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
