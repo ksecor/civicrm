@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-04-27 10:26-0700\n"
 "Last-Translator: Durukan Duru <md_duru@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -14,12 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.0.2\n"
-
-#: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
-#: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
-#: templates/CRM/Admin/Page/DedupeFind.tpl
-msgid "Contact"
-msgstr "İrtibat"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
@@ -35,10 +29,6 @@ msgstr "ACL Rolü"
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
 msgstr "Öbek"
-
-#: CRM/ACL/BAO/ACL.php CRM/Core/Menu.php
-msgid "Import"
-msgstr "Karşıdan Al (İçeri Aktar)"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
@@ -225,10 +215,6 @@ msgstr "Tüm Profiller"
 msgid "All Events"
 msgstr "Tüm Etkinlikler"
 
-#: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php
-msgid "Custom Data"
-msgstr "Özel Veri"
-
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
 msgstr "Profil"
@@ -267,11 +253,6 @@ msgstr "ACL'yi Düzenle"
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Delete ACL"
 msgstr "ACL'yi Sil"
-
-#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
-#: CRM/Admin/Page/Options.php
-msgid "Access Control"
-msgstr "Erişim Denetimi"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -434,15 +415,17 @@ msgstr "İptal"
 msgid "Status"
 msgstr "Durum"
 
+#: CRM/Activity/Form/Activity.php CRM/Core/BAO/CustomField.php
+#: CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
+#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+msgid "From"
+msgstr "Kimden"
+
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
 msgstr "Ekleyen"
-
-#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-msgid "Case"
-msgstr "Vaka"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -811,10 +794,6 @@ msgstr "Buton Bağlantısı"
 msgid "API URL"
 msgstr "API Bağlantısı"
 
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "Payment Processor Type"
-msgstr "Ödeme İşlemcisi Türü"
-
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Billing Mode"
@@ -858,13 +837,6 @@ msgstr "Biçim"
 msgid "Value should be a positive number"
 msgstr "Değer pozitif bir sayı olmalı"
 
-#: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
-#: templates/CRM/Block/Search.tpl
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: templates/CRM/Contact/Page/View/DashBoard.tpl
-msgid "Advanced Search"
-msgstr "Ayrıntılı Arama"
-
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
@@ -898,10 +870,6 @@ msgstr "Seçeneği Düzenle"
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "%1 Düzenle"
-
-#: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
-msgid "Global Settings"
-msgstr "Genel Ayarlar"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl xml/templates/civicrm_data.tpl
@@ -937,14 +905,6 @@ msgstr "Başlangıç Tarihi"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "Bitiş Tarihi"
-
-#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Dedupe/Merger.php CRM/Note/Form/Note.php
-#: templates/CRM/Contact/Form/Edit.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Notes"
-msgstr "Notlar"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -1448,18 +1408,6 @@ msgid "Search"
 msgstr "Ara"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Activity/Selector/Activity.tpl xml/templates/civicrm_data.tpl
-msgid "Activities"
-msgstr "Etkinlikler"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Relationships"
-msgstr "İlişkiler"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: xml/templates/civicrm_data.tpl
 msgid "Change Log"
 msgstr "Değişiklik Günlüğü (Kaydı)"
@@ -1682,20 +1630,6 @@ msgstr "Disable Relationship"
 msgid "SMS Sent"
 msgstr "SMS Gönderildi"
 
-#: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Groups"
-msgstr "Öbekler"
-
-#: CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Tags"
-msgstr "Etiketler"
-
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
 msgstr "İrtibat Detaylarını Göster"
@@ -1741,13 +1675,6 @@ msgstr "Dosya"
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 msgid "Link"
 msgstr "Bağlantı"
-
-#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-#: templates/CRM/Contact/Page/View/Email.tpl
-#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
-msgid "From"
-msgstr "Kimden"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1975,16 +1902,6 @@ msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr "CiviCRM Yönetimi &raquo; Ödeme İşlemcisi sayfasında şifre girilmedi."
 
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Contributions"
-msgstr "Katılımlar"
-
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Memberships"
-msgstr "Üyelikler"
-
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
 msgstr "Özel Alanı Sil"
@@ -2083,12 +2000,6 @@ msgstr "Özel Veriyi Önizle"
 #: CRM/UF/Page/Group.php
 msgid "Settings"
 msgstr "Ayarlar"
-
-#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
-#: CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php
-#: xml/templates/civicrm_data.tpl
-msgid "Tell a Friend"
-msgstr "Arkadaşına haber ver"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
@@ -2475,10 +2386,6 @@ msgid "View Activity History URL"
 msgstr "Etkinlik Geçmişi URLsini Görüntüle"
 
 #: CRM/Activity/Selector/Activity.php
-msgid "View Activity"
-msgstr "Etkinliği Göster"
-
-#: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
 msgstr ""
 
@@ -2821,10 +2728,6 @@ msgstr "İrtibatı Görüntüle"
 msgid "Editing Contacts"
 msgstr "İrtibatları Bul"
 
-#: CRM/Admin/Form/Preferences/Display.php
-msgid "Contact Dashboard"
-msgstr "İrtibat Kontrol Paneli"
-
 #: CRM/Admin/Form/Preferences/Display.php xml/templates/civicrm_data.tpl
 msgid "WYSIWYG Editor"
 msgstr ""
@@ -2848,10 +2751,6 @@ msgstr "The Relationship Type has been saved."
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
 msgstr "Ayarlar - Bileşenleri Etkinleştir"
-
-#: CRM/Admin/Form/Setting/Component.php
-msgid "Components"
-msgstr "Bileşenler"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Enable >>"
@@ -3969,21 +3868,9 @@ msgid "Select Existing Organization"
 msgstr "Üyelik Kuruluşu"
 
 #: CRM/Contact/Form/DeleteLocation.php
-msgid "Delete Location"
-msgstr "Konum Sil"
-
-#: CRM/Contact/Form/DeleteLocation.php
 #, fuzzy
 msgid "The location has been deleted."
 msgstr "Seçili yer türü silindi."
-
-#: CRM/Contact/Form/Domain.php
-msgid "Domain Information"
-msgstr "Alan (Bölge) Bilgisi"
-
-#: CRM/Contact/Form/Domain.php
-msgid "Administer CiviCRM"
-msgstr "CiviCRM Yönetimi"
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -4053,6 +3940,11 @@ msgstr "Posta Biçimi"
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
 msgstr ""
+
+#: CRM/Contact/Form/Edit.php
+#, fuzzy
+msgid "Please select at least one tag."
+msgstr "Please select at least one contact."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -4337,10 +4229,6 @@ msgstr "Bul..."
 #, fuzzy
 msgid "with"
 msgstr "İle"
-
-#: CRM/Contact/Form/Search/Basic.php
-msgid "Find Contacts"
-msgstr "İrtibatları Bul"
 
 #: CRM/Contact/Form/Search/Builder.php
 #, fuzzy
@@ -4655,11 +4543,6 @@ msgstr "Dahil"
 msgid "Exclude Tag(s)"
 msgstr "Hariç"
 
-#: CRM/Contact/Form/Search/Custom.php
-#, fuzzy
-msgid "Custom Searches"
-msgstr "Gelişmiş Arama"
-
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "There are no events with Price Sets"
 msgstr ""
@@ -4730,10 +4613,6 @@ msgstr "Yazdır"
 #, fuzzy
 msgid "Add Contact To Existing Group"
 msgstr "Add Contacts to a Group"
-
-#: CRM/Contact/Form/Task/AddToGroup.php
-msgid "Create New Group"
-msgstr "Yeni Öbek Yarat"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #, fuzzy
@@ -4916,11 +4795,6 @@ msgid "Merge labels for contacts with the same address"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
-msgid "Map Location(s)"
-msgstr "En Çok Yer"
-
-#: CRM/Contact/Form/Task/Map.php
 msgid ""
 "This address does not contain latitude/longitude information and cannot be "
 "mapped."
@@ -4993,10 +4867,6 @@ msgid "Contact Activities"
 msgstr ""
 
 #: CRM/Contact/Page/View/Activity.php
-msgid "Email a Contact"
-msgstr "Bir İrtibata E-posta Gönder"
-
-#: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
 msgstr ""
 
@@ -5017,10 +4887,6 @@ msgid ""
 "We could not find a user id. You must be logged in to access the CiviCRM "
 "Home Page and menus."
 msgstr ""
-
-#: CRM/Contact/Page/View/DashBoard.php
-msgid "CiviCRM Home"
-msgstr "CiviCRM Ana Sayfa"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
@@ -5127,10 +4993,6 @@ msgstr "Tag Contacts (assign tags)"
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
 msgstr "Etiketsiz İrtibatlar(etiketleri kaldır)"
-
-#: CRM/Contact/Task.php
-msgid "Export Contacts"
-msgstr "İrtibatları Gönder (Aktar)"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -5455,15 +5317,6 @@ msgstr ""
 msgid "Dynamic Form Creator"
 msgstr ""
 
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Participant Status"
-msgstr "Medeni Durum?"
-
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-msgid "Participant Role"
-msgstr ""
-
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
 msgstr "Lütfen geçerli biir miktar giriniz."
@@ -5510,10 +5363,6 @@ msgid "CiviCRM Menu"
 msgstr "CiviCRM Menüsü"
 
 #: CRM/Core/Block.php
-msgid "CiviCRM"
-msgstr "CiviCRM"
-
-#: CRM/Core/Block.php
 msgid "CiviCRM Language Switcher"
 msgstr ""
 
@@ -5526,10 +5375,6 @@ msgstr "CiviCRM Shortcuts"
 #, fuzzy
 msgid "Quest Search"
 msgstr "Search"
-
-#: CRM/Core/Block.php templates/CRM/Activity/Form/Activity.tpl
-msgid "New Activity"
-msgstr "Yeni Etkinlik"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
@@ -5569,10 +5414,6 @@ msgstr "Update Tags"
 #, fuzzy
 msgid "My Account"
 msgstr "Miktar"
-
-#: CRM/Core/Block.php
-msgid "Log out"
-msgstr "Çıkış"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -5820,10 +5661,6 @@ msgstr "Biçem"
 #, fuzzy
 msgid "Table Name"
 msgstr "Kanuni Adı"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Activity"
-msgstr "Etkinlik"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -6080,10 +5917,6 @@ msgstr "Seçenek İsmi"
 #, fuzzy
 msgid "Filter"
 msgstr "Dosya"
-
-#: CRM/Core/DAO/PaymentProcessor.php
-msgid "Payment Processor"
-msgstr "Ödeme İşlemcisi"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6397,15 +6230,6 @@ msgstr ""
 msgid "Bad menu record in database"
 msgstr "Bu Ad, Veritabanında kayıtlı."
 
-#: CRM/Core/Invoke.php templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Search Builder"
-msgstr "Arama Oluşturucu"
-
-#: CRM/Core/Invoke.php
-msgid "New Contact"
-msgstr "Yeni İrtibat"
-
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
 msgstr "Profil Yarat"
@@ -6414,35 +6238,6 @@ msgstr "Profil Yarat"
 #, fuzzy
 msgid "Could not find %1 in path tree"
 msgstr "Geçerli bir irtibat no bulunamadı"
-
-#: CRM/Core/Menu.php
-msgid "CiviContribute"
-msgstr "CiviBağış"
-
-#: CRM/Core/Menu.php
-msgid "CiviEvent"
-msgstr ""
-
-#: CRM/Core/Menu.php
-msgid "CiviMember"
-msgstr "CiviÜye"
-
-#: CRM/Core/Menu.php
-msgid "CiviMail"
-msgstr "CiviPosta"
-
-#: CRM/Core/Menu.php
-msgid "CiviGrant"
-msgstr "Bağış"
-
-#: CRM/Core/Menu.php xml/templates/civicrm_data.tpl
-msgid "PledgeBank"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviPledge"
-msgstr "CiviÜye"
 
 #: CRM/Core/Menu.php
 msgid "Logout"
@@ -6824,10 +6619,6 @@ msgid "Rich Text Editor"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Contacts"
-msgstr "İrtibatlar"
-
-#: CRM/Core/SelectValues.php
 msgid "Individuals"
 msgstr "Bireyler"
 
@@ -6841,10 +6632,6 @@ msgstr "Kuruluşlar"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
-
-#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
-msgid "Pledges"
 msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
@@ -7601,10 +7388,6 @@ msgid "Thanks for spreading the word about this pledge to your friends."
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "Manage Groups"
-msgstr "Öbekleri Yönet"
-
-#: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr "Confirm Group Delete"
 
@@ -7653,10 +7436,6 @@ msgstr "Are you sure you want to disable this component?"
 #: CRM/Group/Page/Group.php
 msgid "Members"
 msgstr "Üyeler"
-
-#: CRM/Group/Page/Group.php
-msgid "Group Members"
-msgstr "Öbek Üyeleri"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -8062,10 +7841,6 @@ msgstr "Disable CiviCRM Profile Field"
 #: CRM/Price/Page/Set.php
 msgid "Enable Price Set"
 msgstr ""
-
-#: CRM/Price/Page/Set.php
-msgid "Price Sets"
-msgstr "Ücret Kümeleri"
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
@@ -9354,12 +9129,6 @@ msgstr ""
 "address formatting). These rows will be skipped (not imported)."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
-#: templates/CRM/Activity/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Errors"
-msgstr "Download Errors"
-
-#: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr "Conflicting Rows"
@@ -10205,11 +9974,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Geocoding"
-msgstr "Haritalama ve Koordinatlar"
-
-#: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
 "Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
@@ -10387,10 +10151,6 @@ msgid "CMS Settings"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-msgid "Update Directory Path and URL"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
 "Use this form if you need to reset the Base Directory Path and Base URL "
 "settings for your CiviCRM\n"
@@ -10437,10 +10197,6 @@ msgid ""
 "time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your "
 "installation's settings file (civicrm.settings.php)."
 msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Site URLs"
-msgstr "Site URL'leri"
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -11025,10 +10781,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-msgid "Localization"
-msgstr "Yerelleştirme"
-
-#: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
@@ -11071,10 +10823,6 @@ msgid ""
 "Enable Version Checking, configure Contact Search behavior, and configure "
 "optional reCAPTCHA feature to prevent automated abuse of public forms."
 msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Debugging"
-msgstr "Hata Ayıklama"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -12575,10 +12323,6 @@ msgid "Are you sure you want to unsubscribe from %1?"
 msgstr "Are you sure you want to remove %1 from %2?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Unsubscribe"
-msgstr "Ayrıl"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Pending Subscriptions"
 msgstr "Unsubscriptions"
@@ -12592,10 +12336,6 @@ msgstr "Membership in these group(s) is pending confirmation by this contact."
 #, fuzzy
 msgid "Are you sure you want to confirm subscription for %1?"
 msgstr "Are you sure you want to remove %1 from %2?"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Confirm"
-msgstr "Onayla"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -13944,10 +13684,6 @@ msgid "Disable CiviCRM Profile"
 msgstr "Disable CiviCRM Profile Field"
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr "CiviCRM Profili"
-
-#: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
 
@@ -14329,10 +14065,6 @@ msgid "Instant Messenger (IM) screen-names"
 msgstr "IM (birincil)"
 
 #: xml/templates/civicrm_data.tpl
-msgid "Mobile Phone Providers"
-msgstr "Cep Telefonu Sağlayıcıları"
-
-#: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Individual contact prefixes"
 msgstr "Idd Prefix"
@@ -14341,14 +14073,6 @@ msgstr "Idd Prefix"
 #, fuzzy
 msgid "Individual contact suffixes"
 msgstr "Individual"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Accepted Credit Cards"
-msgstr "Kabul Edilen Kredi Kartları"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Payment Instruments"
-msgstr "Ödeme Araçları"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14377,11 +14101,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "From Email Address"
-msgstr "Invalid Email address"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Recurring Frequency Units"
 msgstr "Frekans Birimi"
 
@@ -14400,10 +14119,6 @@ msgstr "Kısa Mesaj (SMS)"
 #: xml/templates/civicrm_data.tpl
 msgid "Text message (SMS) sent."
 msgstr "Kısa mesaj (SMS) gönderildi."
-
-#: xml/templates/civicrm_data.tpl
-msgid "Event Registration"
-msgstr "Olay Kaydetme"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Online or offline event registration."

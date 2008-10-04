@@ -11562,9 +11562,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Western Zealand"
-#~ msgstr "Western Zealand"
-
-#~ msgid "Funen"
-#~ msgstr "Funen"

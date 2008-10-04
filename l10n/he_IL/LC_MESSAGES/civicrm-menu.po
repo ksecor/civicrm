@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 msgid "Access Control"
-msgstr ""
+msgstr "בקרת גישה"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "פעילויות"
 
 msgid "Activity"
-msgstr ""
+msgstr "פעילות"
 
 msgid "Activity Types"
 msgstr ""
@@ -95,7 +95,7 @@ msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "קומפוננטות"
 
 msgid "Confirm"
 msgstr ""
@@ -103,26 +103,26 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
+msgid "Contacts"
 msgstr ""
 
-msgid "Contacts"
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "תרומות"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
 msgstr ""
 
 msgid "Custom Data"
-msgstr ""
+msgstr "מידע מותאם אישית"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -146,7 +146,7 @@ msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "מחק מיקום"
 
 msgid "Domain Information"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "מצא אנשי קשר"
 
 msgid "Find Contributions"
 msgstr ""
@@ -201,6 +201,10 @@ msgstr ""
 
 msgid "Find Pledges"
 msgstr ""
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "קבוצה"
 
 msgid "From Email Address"
 msgstr ""
@@ -218,15 +222,18 @@ msgid "Group Members"
 msgstr ""
 
 msgid "Groups"
-msgstr ""
+msgstr "קבוצות"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "ייבוא"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "חברות"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -248,7 +256,7 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "לוקליזציה"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
@@ -280,6 +288,10 @@ msgstr ""
 msgid "Manage Groups"
 msgstr ""
 
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "בוטל"
+
 msgid "Manage Premiums"
 msgstr ""
 
@@ -295,13 +307,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr "חברות"
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -320,7 +332,7 @@ msgid "New Activity"
 msgstr ""
 
 msgid "New Contact"
-msgstr ""
+msgstr "איש קשר חדש"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -331,8 +343,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "הערות"
 
 msgid "Option Groups"
 msgstr ""
@@ -356,6 +371,9 @@ msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +400,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "קשרים"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"

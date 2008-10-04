@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-01 10:39+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-04-02 10:04-0700\n"
 "Last-Translator: Martin Larsen <draven@draven.dk>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -613,10 +613,6 @@ msgstr "Body Tekst"
 msgid "Body Text"
 msgstr "Body Tekst"
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-msgid "Subscribe"
-msgstr "Abonner"
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 #, fuzzy
@@ -668,11 +664,6 @@ msgstr "Slet mailudsendelse"
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
 msgstr "Manglende input parametre"
-
-#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
-#: templates/CRM/Member/Page/Tab.tpl
-msgid "Membership Types"
-msgstr ""
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
@@ -1953,10 +1944,6 @@ msgstr ""
 msgid "Contributor Name or Email"
 msgstr "Bidrag Siden"
 
-#: CRM/Contribute/Form/Search.php
-msgid "Find Contributions"
-msgstr ""
-
 #: CRM/Contribute/Form/Task/Batch.php
 msgid "Batch Update for Contributions"
 msgstr ""
@@ -2063,11 +2050,6 @@ msgstr ""
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Make a Copy of CiviCRM Contribution Page"
 msgstr ""
-
-#: CRM/Contribute/Page/ContributionPage.php
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "Manage Contribution Pages"
-msgstr "Administrer bidrags sider"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
@@ -2266,14 +2248,6 @@ msgstr "Registrerings slut dato"
 #, fuzzy
 msgid "Max Participants"
 msgstr "Deltager ID"
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Event Information"
-msgstr "Event Information"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2698,10 +2672,6 @@ msgstr "Angiv venligst en gyldig slut dato"
 msgid "Please select valid event type."
 msgstr "Angiv venligst en gyldig slut dato"
 
-#: CRM/Event/Form/Search.php
-msgid "Find Participants"
-msgstr ""
-
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
 msgstr ""
@@ -2818,10 +2788,6 @@ msgstr ""
 #: CRM/Event/Page/ManageEvent.php
 msgid "Copy Event"
 msgstr ""
-
-#: CRM/Event/Page/ManageEvent.php
-msgid "Manage Events"
-msgstr "Administer begivenheder"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -3096,10 +3062,6 @@ msgstr ""
 #, fuzzy
 msgid "OptOut"
 msgstr "Vælge-ud"
-
-#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
-msgid "Resubscribe"
-msgstr "Genabonner"
 
 #: CRM/Mailing/DAO/Group.php
 #, fuzzy
@@ -3412,14 +3374,6 @@ msgid "Mailing Content"
 msgstr ""
 
 #: CRM/Mailing/Page/Browse.php
-msgid "Draft and Unscheduled Mailings"
-msgstr ""
-
-#: CRM/Mailing/Page/Browse.php
-msgid "Scheduled and Sent Mailings"
-msgstr ""
-
-#: CRM/Mailing/Page/Browse.php
 msgid "Search Mailings"
 msgstr ""
 
@@ -3498,6 +3452,12 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+msgid "Contact"
 msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
@@ -4057,10 +4017,6 @@ msgstr ""
 msgid "Member Name or Email"
 msgstr ""
 
-#: CRM/Member/Form/Search.php
-msgid "Find Members"
-msgstr ""
-
 #: CRM/Member/Form/Task/Batch.php
 msgid "Batch Update for Members"
 msgstr ""
@@ -4417,10 +4373,6 @@ msgstr ""
 
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
-msgstr ""
-
-#: CRM/Pledge/Form/Search.php
-msgid "Find Pledges"
 msgstr ""
 
 #: CRM/Pledge/Form/Task/Delete.php
@@ -7295,11 +7247,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
-msgid "New Event"
-msgstr "Slet Event"
-
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
 msgstr ""
 
@@ -7424,10 +7371,6 @@ msgstr ""
 msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
@@ -7652,10 +7595,6 @@ msgid "(filled with your contact's token values)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
-msgid "Preview Mailing"
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
 msgstr ""
 
@@ -7728,10 +7667,6 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "New Mailing"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr ""
 
@@ -7774,11 +7709,6 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
 msgstr ""
-
-#: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
-msgid "Optout"
-msgstr "Vælge-ud"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8587,10 +8517,6 @@ msgid ""
 "is no email address recorded for this contact. If you want a acknowledgment "
 "to be sent when this pledge is recorded, click Cancel and then click Edit "
 "from the Summary tab to add an email address before recording the pledge."
-msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-msgid "New Pledge"
 msgstr ""
 
 #: templates/CRM/Pledge/Form/Pledge.tpl

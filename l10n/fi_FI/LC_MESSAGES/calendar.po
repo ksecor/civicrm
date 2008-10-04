@@ -39,7 +39,9 @@ msgstr "- Käytä \\u2039, \\u203a painikkeita valitaksesi kuukausi"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- Pitämällä hiiren painiketta minkä tahansa yllä olevan painikkeen kohdalla, saat näkyviin valikon nopeampaan siirtymiseen."
+msgstr ""
+"- Pitämällä hiiren painiketta minkä tahansa yllä olevan painikkeen kohdalla, "
+"saat näkyviin valikon nopeampaan siirtymiseen."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
@@ -55,7 +57,9 @@ msgstr "- tai pitämällä Shift-näppäintä pohjassa saat aikaa taaksepäin"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr "- tai klikkaa ja pidä hiiren painike pohjassa sekä liikuta hiirtä muuttaaksesi aikaa nopeasti eteen- ja taaksepäin."
+msgstr ""
+"- tai klikkaa ja pidä hiiren painike pohjassa sekä liikuta hiirtä "
+"muuttaaksesi aikaa nopeasti eteen- ja taaksepäin."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"

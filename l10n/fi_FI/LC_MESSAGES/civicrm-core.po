@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -13,12 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-
-#: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
-#: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
-#: templates/CRM/Admin/Page/DedupeFind.tpl
-msgid "Contact"
-msgstr "Yhteystiedot"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
@@ -34,10 +28,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
 msgstr "Ryhmä"
-
-#: CRM/ACL/BAO/ACL.php CRM/Core/Menu.php
-msgid "Import"
-msgstr "Tuo"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
@@ -232,10 +222,6 @@ msgstr "Profiili"
 msgid "All Events"
 msgstr ""
 
-#: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php
-msgid "Custom Data"
-msgstr "Yksilölliset tiedot"
-
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
 msgstr "Profiili"
@@ -278,11 +264,6 @@ msgstr "Muokkaa"
 #, fuzzy
 msgid "Delete ACL"
 msgstr "Poista"
-
-#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
-#: CRM/Admin/Page/Options.php
-msgid "Access Control"
-msgstr "Käyttöoikeuksien valvonta"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -446,14 +427,16 @@ msgstr "Peruuta"
 msgid "Status"
 msgstr "Tila"
 
+#: CRM/Activity/Form/Activity.php CRM/Core/BAO/CustomField.php
+#: CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
+#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+msgid "From"
+msgstr "Lähtien"
+
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
-
-#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-msgid "Case"
 msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
@@ -827,11 +810,6 @@ msgstr ""
 msgid "API URL"
 msgstr ""
 
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
-msgid "Payment Processor Type"
-msgstr "Maksun välittäjä"
-
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 #, fuzzy
@@ -879,13 +857,6 @@ msgstr ""
 msgid "Value should be a positive number"
 msgstr ""
 
-#: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
-#: templates/CRM/Block/Search.tpl
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: templates/CRM/Contact/Page/View/DashBoard.tpl
-msgid "Advanced Search"
-msgstr "Täsmällisempi haku"
-
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
@@ -919,11 +890,6 @@ msgstr "Muokkaa valintamahdollisuuksia"
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "Muokkaa %1"
-
-#: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
-#, fuzzy
-msgid "Global Settings"
-msgstr "Asetukset"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl xml/templates/civicrm_data.tpl
@@ -959,14 +925,6 @@ msgstr "Alkamispäivä"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "Päättymispäivä"
-
-#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Dedupe/Merger.php CRM/Note/Form/Note.php
-#: templates/CRM/Contact/Form/Edit.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Notes"
-msgstr "Muistiinpanot"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -1483,18 +1441,6 @@ msgid "Search"
 msgstr "Etsi"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Activity/Selector/Activity.tpl xml/templates/civicrm_data.tpl
-msgid "Activities"
-msgstr "Aktiviteetit"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Relationships"
-msgstr "Yhteyssuhteet"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Change Log"
@@ -1723,20 +1669,6 @@ msgstr "Poista yhteys käytöstä"
 msgid "SMS Sent"
 msgstr ""
 
-#: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Groups"
-msgstr "Ryhmät"
-
-#: CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Tags"
-msgstr "Luokat"
-
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
 msgstr "Näytä yhteyden yksityiskohdat"
@@ -1784,13 +1716,6 @@ msgstr "Täytä"
 #, fuzzy
 msgid "Link"
 msgstr " :"
-
-#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-#: templates/CRM/Contact/Page/View/Email.tpl
-#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
-msgid "From"
-msgstr "Lähtien"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -2022,17 +1947,6 @@ msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Contributions"
-msgstr "Avustukset"
-
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Memberships"
-msgstr "Jäsenet"
-
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
 msgstr "Poista räätälöity kenttä"
@@ -2133,12 +2047,6 @@ msgstr "Näytä räätälöidyt tiedot"
 #: CRM/UF/Page/Group.php
 msgid "Settings"
 msgstr "Asetukset"
-
-#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
-#: CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php
-#: xml/templates/civicrm_data.tpl
-msgid "Tell a Friend"
-msgstr ""
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
@@ -2534,10 +2442,6 @@ msgid "View Activity History URL"
 msgstr "Toimenpiteen historia."
 
 #: CRM/Activity/Selector/Activity.php
-msgid "View Activity"
-msgstr "Näytä aktiviteetti"
-
-#: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
 msgstr ""
 
@@ -2885,11 +2789,6 @@ msgstr "Näytä yhteydet"
 msgid "Editing Contacts"
 msgstr "Etsi yhteyksistä"
 
-#: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
-msgid "Contact Dashboard"
-msgstr "Yhteyden luokat"
-
 #: CRM/Admin/Form/Preferences/Display.php xml/templates/civicrm_data.tpl
 msgid "WYSIWYG Editor"
 msgstr ""
@@ -2914,11 +2813,6 @@ msgstr "Yhteystyyppi on tallennettu."
 #, fuzzy
 msgid "Settings - Enable Components"
 msgstr "Tuo näkyviin viestikomponentti"
-
-#: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
-msgid "Components"
-msgstr "Valmissa"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -4091,22 +3985,8 @@ msgstr "Lisää jäseniä yhteisöön"
 
 #: CRM/Contact/Form/DeleteLocation.php
 #, fuzzy
-msgid "Delete Location"
-msgstr "poista sijaintipaikan tyyppi."
-
-#: CRM/Contact/Form/DeleteLocation.php
-#, fuzzy
 msgid "The location has been deleted."
 msgstr "Valittu sijaintipaikka on poistettu."
-
-#: CRM/Contact/Form/Domain.php
-#, fuzzy
-msgid "Domain Information"
-msgstr "Lisää yhteystiedot"
-
-#: CRM/Contact/Form/Domain.php
-msgid "Administer CiviCRM"
-msgstr "Hallinnoi CiviCRM"
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -4176,6 +4056,11 @@ msgstr "Suositeltava postimuoto"
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
 msgstr ""
+
+#: CRM/Contact/Form/Edit.php
+#, fuzzy
+msgid "Please select at least one tag."
+msgstr "Valitse vähintään yksi yhteys."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -4462,10 +4347,6 @@ msgstr "Löydä..."
 #: CRM/Contact/Form/Search/Basic.php
 msgid "with"
 msgstr ""
-
-#: CRM/Contact/Form/Search/Basic.php
-msgid "Find Contacts"
-msgstr "Etsi yhteyksistä"
 
 #: CRM/Contact/Form/Search/Builder.php
 #, fuzzy
@@ -4784,11 +4665,6 @@ msgstr "Merkki/merkit"
 msgid "Exclude Tag(s)"
 msgstr "Merkki/merkit"
 
-#: CRM/Contact/Form/Search/Custom.php
-#, fuzzy
-msgid "Custom Searches"
-msgstr "Etsi"
-
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "There are no events with Price Sets"
 msgstr ""
@@ -4859,10 +4735,6 @@ msgstr "Tulosta"
 #, fuzzy
 msgid "Add Contact To Existing Group"
 msgstr "Lisää yhteyksiä ryhmään"
-
-#: CRM/Contact/Form/Task/AddToGroup.php
-msgid "Create New Group"
-msgstr "Muodosta uusi ryhmä"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #, fuzzy
@@ -5059,11 +4931,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
 #, fuzzy
-msgid "Map Location(s)"
-msgstr "Ensisijainen osoite"
-
-#: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid ""
 "This address does not contain latitude/longitude information and cannot be "
 "mapped."
@@ -5143,10 +5010,6 @@ msgid "Contact Activities"
 msgstr ""
 
 #: CRM/Contact/Page/View/Activity.php
-msgid "Email a Contact"
-msgstr "Lähetä yhteydelle sähköpostia"
-
-#: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
 msgstr ""
 
@@ -5167,11 +5030,6 @@ msgid ""
 "We could not find a user id. You must be logged in to access the CiviCRM "
 "Home Page and menus."
 msgstr ""
-
-#: CRM/Contact/Page/View/DashBoard.php
-#, fuzzy
-msgid "CiviCRM Home"
-msgstr "CiviCRM valikko"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
@@ -5279,10 +5137,6 @@ msgstr "Yhteyksien luokat (assign tags)"
 #, fuzzy
 msgid "Untag Contacts (remove tags)"
 msgstr "Yhteyksien luokat (assign tags)"
-
-#: CRM/Contact/Task.php
-msgid "Export Contacts"
-msgstr "Tuo yhteystiedot"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -5610,15 +5464,6 @@ msgstr ""
 msgid "Dynamic Form Creator"
 msgstr "Dynaamisen lomakkeen työkalu"
 
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Participant Status"
-msgstr "Lahjoituksen tila"
-
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-msgid "Participant Role"
-msgstr ""
-
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
 msgstr "Anna kelvollinen summa"
@@ -5665,10 +5510,6 @@ msgid "CiviCRM Menu"
 msgstr "CiviCRM valikko"
 
 #: CRM/Core/Block.php
-msgid "CiviCRM"
-msgstr "CiviCRM"
-
-#: CRM/Core/Block.php
 msgid "CiviCRM Language Switcher"
 msgstr ""
 
@@ -5681,10 +5522,6 @@ msgstr "CiviCRM oikopolut"
 #, fuzzy
 msgid "Quest Search"
 msgstr "Etsi"
-
-#: CRM/Core/Block.php templates/CRM/Activity/Form/Activity.tpl
-msgid "New Activity"
-msgstr ""
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
@@ -5724,11 +5561,6 @@ msgstr "Päivitä merkkien kuvaukset"
 #, fuzzy
 msgid "My Account"
 msgstr "Määrä"
-
-#: CRM/Core/Block.php
-#, fuzzy
-msgid "Log out"
-msgstr "Loopi"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -5975,10 +5807,6 @@ msgstr "Tyyppi"
 #, fuzzy
 msgid "Table Name"
 msgstr "Virallinen"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Activity"
-msgstr "Aktiviteetti"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -6233,10 +6061,6 @@ msgstr "Valinnaninen tunnus"
 #, fuzzy
 msgid "Filter"
 msgstr "Täytä"
-
-#: CRM/Core/DAO/PaymentProcessor.php
-msgid "Payment Processor"
-msgstr "Maksun välittäjä"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6553,17 +6377,6 @@ msgstr ""
 msgid "Bad menu record in database"
 msgstr "Antamasi nimi löytyy entuudestaan tietokannasta."
 
-#: CRM/Core/Invoke.php templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Search Builder"
-msgstr "Hakuprofiili"
-
-#: CRM/Core/Invoke.php
-#, fuzzy
-msgid "New Contact"
-msgstr "Näytä yhteydet"
-
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
 msgstr "Luo profiili"
@@ -6572,36 +6385,6 @@ msgstr "Luo profiili"
 #, fuzzy
 msgid "Could not find %1 in path tree"
 msgstr "Emme löydä kirjautumistasi käyttäjän ID:stä"
-
-#: CRM/Core/Menu.php
-msgid "CiviContribute"
-msgstr "CiviLahjoita"
-
-#: CRM/Core/Menu.php
-msgid "CiviEvent"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviMember"
-msgstr "Jäsenet"
-
-#: CRM/Core/Menu.php
-msgid "CiviMail"
-msgstr "CiviPosti"
-
-#: CRM/Core/Menu.php
-msgid "CiviGrant"
-msgstr ""
-
-#: CRM/Core/Menu.php xml/templates/civicrm_data.tpl
-msgid "PledgeBank"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviPledge"
-msgstr "Jäsenet"
 
 #: CRM/Core/Menu.php
 msgid "Logout"
@@ -6987,10 +6770,6 @@ msgid "Rich Text Editor"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Contacts"
-msgstr "Yhteydet"
-
-#: CRM/Core/SelectValues.php
 msgid "Individuals"
 msgstr "Yksilöt"
 
@@ -7004,10 +6783,6 @@ msgstr "Yhteisöt"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
-
-#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
-msgid "Pledges"
 msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
@@ -7773,10 +7548,6 @@ msgid "Thanks for spreading the word about this pledge to your friends."
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "Manage Groups"
-msgstr "Muokkaa ryhmiä"
-
-#: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr "Vahvista ryhmän poisto"
 
@@ -7824,10 +7595,6 @@ msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
 #: CRM/Group/Page/Group.php
 msgid "Members"
 msgstr "Jäsenet"
-
-#: CRM/Group/Page/Group.php
-msgid "Group Members"
-msgstr "Ryhmän jäsenet"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -8238,10 +8005,6 @@ msgstr "Poista näkyvistä CiviCRM profiilikenttä."
 
 #: CRM/Price/Page/Set.php
 msgid "Enable Price Set"
-msgstr ""
-
-#: CRM/Price/Page/Set.php
-msgid "Price Sets"
 msgstr ""
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
@@ -9495,12 +9258,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
-#: templates/CRM/Activity/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Errors"
-msgstr ""
-
-#: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr ""
@@ -10337,11 +10094,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Geocoding"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
 "Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
@@ -10519,10 +10271,6 @@ msgid "CMS Settings"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-msgid "Update Directory Path and URL"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
 "Use this form if you need to reset the Base Directory Path and Base URL "
 "settings for your CiviCRM\n"
@@ -10568,10 +10316,6 @@ msgid ""
 "Javascript files, images, etc.). Default values will be inserted the first "
 "time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your "
 "installation's settings file (civicrm.settings.php)."
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Site URLs"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
@@ -11168,11 +10912,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
-msgid "Localization"
-msgstr "Sijainti"
-
-#: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
@@ -11214,10 +10953,6 @@ msgstr "Otsikko ja asetukset"
 msgid ""
 "Enable Version Checking, configure Contact Search behavior, and configure "
 "optional reCAPTCHA feature to prevent automated abuse of public forms."
-msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Debugging"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -12702,10 +12437,6 @@ msgid "Are you sure you want to unsubscribe from %1?"
 msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Unsubscribe"
-msgstr "Peruuta kirjautuminen"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Pending Subscriptions"
 msgstr "Tilauksen peruutukset"
@@ -12718,11 +12449,6 @@ msgstr ""
 #, fuzzy
 msgid "Are you sure you want to confirm subscription for %1?"
 msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
-msgid "Confirm"
-msgstr "Anna asetukset"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -13977,10 +13703,6 @@ msgid "Disable CiviCRM Profile"
 msgstr "Poista näkyvistä CiviCRM profiilikenttä."
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr "CiviCRM profiili"
-
-#: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
 
@@ -14356,10 +14078,6 @@ msgid "Instant Messenger (IM) screen-names"
 msgstr "Pikaviesti (ensisijainen)"
 
 #: xml/templates/civicrm_data.tpl
-msgid "Mobile Phone Providers"
-msgstr "Matkapuhelin operaattorit"
-
-#: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Individual contact prefixes"
 msgstr "Yksilöllinen etuliite"
@@ -14368,14 +14086,6 @@ msgstr "Yksilöllinen etuliite"
 #, fuzzy
 msgid "Individual contact suffixes"
 msgstr "Yksilöllinen tarkenne"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Accepted Credit Cards"
-msgstr "Hyväksy luottokortit"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Payment Instruments"
-msgstr "Maksuvälineet"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14404,11 +14114,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "From Email Address"
-msgstr "Viallinen sähköpostiosoite"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Recurring Frequency Units"
 msgstr "Street Unit"
 
@@ -14426,10 +14131,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Text message (SMS) sent."
-msgstr ""
-
-#: xml/templates/civicrm_data.tpl
-msgid "Event Registration"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl

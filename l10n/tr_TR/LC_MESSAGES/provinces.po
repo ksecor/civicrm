@@ -11570,18 +11570,3 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr "Gaza"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "Frederikaberg belediyesi"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Kopenhag belediyesi"
-
-#~ msgid "Western Zealand"
-#~ msgstr "Batı Zealand"
-
-#~ msgid "Funen"
-#~ msgstr "Funen"
-
-#~ msgid "Forli"
-#~ msgstr "Forli"

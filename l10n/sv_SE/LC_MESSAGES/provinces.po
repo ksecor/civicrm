@@ -11564,9 +11564,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Köpenhamns Storstad"
-
-#~ msgid "Funen"
-#~ msgstr "Fyn"

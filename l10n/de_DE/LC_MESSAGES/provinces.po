@@ -11580,15 +11580,3 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "Frederiksborgs Amt"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Københavns Amt"
-
-#~ msgid "Western Zealand"
-#~ msgstr "Vestsjællands Amt"
-
-#~ msgid "Funen"
-#~ msgstr "Fyns Amt"

@@ -11570,18 +11570,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr "加扎省"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "菲特烈堡郡"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "哥本哈根郡"
-
-#~ msgid "Western Zealand"
-#~ msgstr "西希兰"
-
-#~ msgid "Funen"
-#~ msgstr "菲茵"
-
-#~ msgid "Forli"
-#~ msgstr "弗利"

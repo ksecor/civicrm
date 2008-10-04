@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,10 +14,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Hyväksy luottokortit"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Käyttöoikeuksien valvonta"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Aktiviteetit"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktiviteetti"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Hallinnoi CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Täsmällisempi haku"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -62,16 +62,16 @@ msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviLahjoita"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
 msgstr ""
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM profiili"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -86,7 +86,7 @@ msgid "CiviGrant"
 msgstr ""
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviPosti"
 
 msgid "CiviMember"
 msgstr ""
@@ -103,26 +103,26 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
-msgstr ""
-
 msgid "Contacts"
+msgstr "Yhteydet"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
+msgid "Contributions"
+msgstr "Avustukset"
+
 msgid "Contribution Types"
 msgstr ""
 
-msgid "Contributions"
-msgstr ""
-
 msgid "Create New Group"
-msgstr ""
+msgstr "Muodosta uusi ryhmä"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Yksilölliset tiedot"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -161,7 +161,7 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Lähetä yhteydelle sähköpostia"
 
 msgid "Event Information"
 msgstr ""
@@ -176,7 +176,7 @@ msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Tuo yhteystiedot"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,10 +185,10 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Etsi yhteyksistä"
 
 msgid "Find Contributions"
-msgstr ""
+msgstr "Etsi lahjoituksia"
 
 msgid "Find Grants"
 msgstr ""
@@ -201,6 +201,10 @@ msgstr ""
 
 msgid "Find Pledges"
 msgstr ""
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "Viestit"
 
 msgid "From Email Address"
 msgstr ""
@@ -215,18 +219,21 @@ msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Ryhmän jäsenet"
 
 msgid "Groups"
-msgstr ""
+msgstr "Ryhmät"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Tuo"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Jäsenet"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -278,7 +286,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Muokkaa ryhmiä"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Peruutettu"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -295,13 +307,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr ""
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -314,7 +326,7 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Matkapuhelin operaattorit"
 
 msgid "New Activity"
 msgstr ""
@@ -331,8 +343,12 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
+#, fuzzy
+msgid "New Pledge"
+msgstr "Näytä profiilin yksityiskohdat"
+
 msgid "Notes"
-msgstr ""
+msgstr "Muistiinpanot"
 
 msgid "Option Groups"
 msgstr ""
@@ -350,12 +366,15 @@ msgid "Participant Status"
 msgstr ""
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Maksuvälineet"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Maksun välittäjä"
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +401,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "Yhteyssuhteet"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -413,7 +432,7 @@ msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Tilaa"
 
 msgid "Sunlight"
 msgstr ""
@@ -425,7 +444,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Luokat"
 
 msgid "Tags (Categories)"
 msgstr ""
@@ -437,7 +456,7 @@ msgid "This should never be seen"
 msgstr ""
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Peruuta kirjautuminen"
 
 msgid "Upcoming Events"
 msgstr ""
@@ -452,7 +471,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Näytä aktiviteetti"
 
 msgid "View Date Prefences"
 msgstr ""

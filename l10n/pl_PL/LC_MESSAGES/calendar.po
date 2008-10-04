@@ -39,7 +39,9 @@ msgstr "- użyj przycisków \\u2039, \\u203a by wybrać miesiąc,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- przytrzymaj klawisz myszy nad jednym z powyższych przycisków dla szybszego wyboru."
+msgstr ""
+"- przytrzymaj klawisz myszy nad jednym z powyższych przycisków dla szybszego "
+"wyboru."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
@@ -116,4 +118,3 @@ msgstr "ty"
 #: js/lang/calendar-lang.php
 msgid "Time:"
 msgstr "Czas:"
-

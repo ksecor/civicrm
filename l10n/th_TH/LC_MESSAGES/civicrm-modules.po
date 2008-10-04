@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-01 10:39+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2006-11-19 07:18-0800\n"
 "Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -656,11 +656,6 @@ msgstr ""
 msgid "Body Text"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-#, fuzzy
-msgid "Subscribe"
-msgstr "รายการ"
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
@@ -712,11 +707,6 @@ msgstr "ลบกิจกรรม"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
-#: templates/CRM/Member/Page/Tab.tpl
-msgid "Membership Types"
 msgstr ""
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
@@ -2082,10 +2072,6 @@ msgstr "ผู้ให้บริการ IM \"%1\" ได้ถูกบั�
 msgid "Contributor Name or Email"
 msgstr "ชื่อหน่วยงาน"
 
-#: CRM/Contribute/Form/Search.php
-msgid "Find Contributions"
-msgstr ""
-
 #: CRM/Contribute/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Contributions"
@@ -2203,12 +2189,6 @@ msgstr "ชื่อหน่วยงาน"
 #, fuzzy
 msgid "Make a Copy of CiviCRM Contribution Page"
 msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Contribute/Page/ContributionPage.php
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
-msgid "Manage Contribution Pages"
-msgstr "หน่วยงานใหม่"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
@@ -2416,15 +2396,6 @@ msgstr "แก้ไขประเภทสถานที่"
 #, fuzzy
 msgid "Max Participants"
 msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Event Information"
-msgstr "ชื่อหน่วยงาน"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2881,10 +2852,6 @@ msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 msgid "Please select valid event type."
 msgstr "กรุณาใส่ชื่อที่ถูกต้อง."
 
-#: CRM/Event/Form/Search.php
-msgid "Find Participants"
-msgstr ""
-
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Events"
@@ -3015,11 +2982,6 @@ msgstr "เปิดประเภทสถานที่"
 #, fuzzy
 msgid "Copy Event"
 msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Event/Page/ManageEvent.php
-#, fuzzy
-msgid "Manage Events"
-msgstr "ข้อความ"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -3314,11 +3276,6 @@ msgstr "ข้อความ"
 #, fuzzy
 msgid "OptOut"
 msgstr "ระยะเวลา"
-
-#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
-msgid "Resubscribe"
-msgstr "รายการ"
 
 #: CRM/Mailing/DAO/Group.php
 #, fuzzy
@@ -3647,16 +3604,6 @@ msgstr "ปิดประเภทสถานที่"
 
 #: CRM/Mailing/Page/Browse.php
 #, fuzzy
-msgid "Draft and Unscheduled Mailings"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Mailing/Page/Browse.php
-#, fuzzy
-msgid "Scheduled and Sent Mailings"
-msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
-
-#: CRM/Mailing/Page/Browse.php
-#, fuzzy
 msgid "Search Mailings"
 msgstr "ข้อความ"
 
@@ -3746,6 +3693,13 @@ msgstr "CiviCRM โครงร่างขอบเขตข้อมูล"
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
 msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+#, fuzzy
+msgid "Contact"
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Mailing/Selector/Event.php
 #, fuzzy
@@ -4335,11 +4289,6 @@ msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบั�
 msgid "Member Name or Email"
 msgstr ""
 
-#: CRM/Member/Form/Search.php
-#, fuzzy
-msgid "Find Members"
-msgstr "สมาชิกกลุ่ม"
-
 #: CRM/Member/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Members"
@@ -4719,11 +4668,6 @@ msgstr ""
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
 msgstr ""
-
-#: CRM/Pledge/Form/Search.php
-#, fuzzy
-msgid "Find Pledges"
-msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Pledge/Form/Task/Delete.php
 #, fuzzy
@@ -7653,11 +7597,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
-msgid "New Event"
-msgstr "บันทึก"
-
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
 msgstr ""
 
@@ -7785,10 +7724,6 @@ msgstr ""
 msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
@@ -8020,11 +7955,6 @@ msgid "(filled with your contact's token values)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
-#, fuzzy
-msgid "Preview Mailing"
-msgstr "ปิดประเภทสถานที่"
-
-#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
 msgstr ""
 
@@ -8099,11 +8029,6 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr "ปิดผู้ให้บริการ IM"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
-msgid "New Mailing"
-msgstr "ข้อความ"
-
-#: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr ""
 
@@ -8148,11 +8073,6 @@ msgstr ""
 #, fuzzy
 msgid "Are you sure you want to optout: %1 (%2)"
 msgstr "ปิดผู้ให้บริการ IM"
-
-#: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
-msgid "Optout"
-msgstr "ระยะเวลา"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8978,11 +8898,6 @@ msgid ""
 "from the Summary tab to add an email address before recording the pledge."
 msgstr ""
 
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
-msgid "New Pledge"
-msgstr "ตำแหน่ง"
-
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
 "WARNING: Deleting this pledge will result in the loss of the associated "
@@ -9221,7 +9136,3 @@ msgstr "วันที่"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Schedule or Send Later"
-#~ msgstr "ตารางเวลา"

@@ -766,7 +766,3 @@ msgstr "Gơnh-xị"
 
 msgid "Isle of Man"
 msgstr "Đảo Man"
-
-#, fuzzy
-#~ msgid "Moldova, Republic of"
-#~ msgstr "Nước Cộng Hoà Ma-xê-đô-ni"

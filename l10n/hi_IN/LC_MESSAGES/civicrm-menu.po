@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-26 00:02-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: none\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "स्वीकृत क्रेडिट कार्ड"
 
 msgid "Access Control"
 msgstr ""
@@ -27,10 +27,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "घटनाएँ"
 
 msgid "Activity"
-msgstr ""
+msgstr "घटना"
 
 msgid "Activity Types"
 msgstr ""
@@ -45,10 +45,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM व्यवस्थापक"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "अग्रवर्ती खोज"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -57,22 +57,22 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "मामला"
 
 msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "सिवीकाँन्ट्रीब्यट"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM होम"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM प्रोफाइल"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -81,49 +81,49 @@ msgid "CiviCRM Profile Fields"
 msgstr ""
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "सिवीईव्हेंट"
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "सिवीग्रांटस्"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "सिवीमेल"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "सिवीमेंबर"
 
 msgid "CiviPledge"
 msgstr "सिवीप्लेज"
 
 msgid "Components"
-msgstr ""
+msgstr "घटक"
 
 msgid "Confirm"
 msgstr ""
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "सम्पर्क दिखावट फलक"
 
 msgid "Contacts"
+msgstr "सदस्य"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
+msgid "Contributions"
+msgstr "योगदान"
+
 msgid "Contribution Types"
 msgstr ""
 
-msgid "Contributions"
-msgstr ""
-
 msgid "Create New Group"
-msgstr ""
+msgstr "नया समूह बनाये"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "कस्टम डाटा"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -141,16 +141,16 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "दोषमार्जन"
 
 msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "स्थान मिटाइये"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "प्रक्षेत्र जानकारी"
 
 msgid "Download Errors"
 msgstr ""
@@ -162,22 +162,22 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "संर्पक काे ईमेल भेजे"
 
 msgid "Event Information"
-msgstr ""
+msgstr "कार्यक्रम जानकारी"
 
 msgid "Event Participants List"
 msgstr ""
 
 msgid "Event Registration"
-msgstr ""
+msgstr "घटना पंजीकरण"
 
 msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "सदस्य बाहर भेजना"
 
 msgid "File System Paths"
 msgstr ""
@@ -186,22 +186,26 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "सदस्य काे खाेजे"
 
 msgid "Find Contributions"
-msgstr ""
+msgstr "याेगदान खाेजें"
 
 msgid "Find Grants"
 msgstr ""
 
 msgid "Find Members"
-msgstr ""
+msgstr "सदस्यों काे खोजें"
 
 msgid "Find Participants"
-msgstr ""
+msgstr "प्रतिभागियाें काे खाेजें"
 
 msgid "Find Pledges"
-msgstr ""
+msgstr "वचन काे खोजें"
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "सदस्यों काे खोजें"
 
 msgid "From Email Address"
 msgstr ""
@@ -210,24 +214,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "सार्विक अनुकूलन"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "समूह के सदस्य"
 
 msgid "Groups"
-msgstr ""
+msgstr "समुह"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "बाहर से लाना"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -236,8 +243,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "सदस्यता बनाएँ"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -249,7 +257,7 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "स्थानीयकरण"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
@@ -270,16 +278,20 @@ msgid "Manage ACLs"
 msgstr ""
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "योगदान प्रबंधित पन्ने"
 
 msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
-msgstr ""
+msgstr "कार्यक्रम प्रबंधित"
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "समूह काे संभालिये"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "रद्द वचन"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -294,16 +306,16 @@ msgid "Map Location(s)"
 msgstr ""
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "मिलान और Geocoding"
+
+msgid "Memberships"
+msgstr "सदस्यता"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
-msgstr ""
+msgstr "सदस्यता प्रकार"
 
 msgid "Merge Contact"
 msgstr ""
@@ -315,13 +327,13 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "मोबाइल फोन प्रदाता"
 
 msgid "New Activity"
-msgstr ""
+msgstr "नयी घटना"
 
 msgid "New Contact"
-msgstr ""
+msgstr "नया संर्पक"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -332,8 +344,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
+msgid "New Pledge"
+msgstr "नया वचन"
+
 msgid "Notes"
-msgstr ""
+msgstr "नोट"
 
 msgid "Option Groups"
 msgstr ""
@@ -345,18 +360,21 @@ msgid "Optout"
 msgstr ""
 
 msgid "Participant Role"
-msgstr ""
+msgstr "सहभाग की भूमिका"
 
 msgid "Participant Status"
-msgstr ""
+msgstr "प्रतिभागि की स्थिति"
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "भुगतान उपकरण"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "प्रोसेसर भुगतान"
 
 msgid "Payment Processor Type"
+msgstr "भुगतान संसाधित्र प्रकार"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -378,15 +396,15 @@ msgid "Price Fields"
 msgstr ""
 
 msgid "Price Sets"
-msgstr ""
+msgstr "मूल्य समूह"
 
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "संबंध"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -399,7 +417,7 @@ msgid "Scheduled and Sent Mailings"
 msgstr ""
 
 msgid "Search Builder"
-msgstr ""
+msgstr "शाेध बनायिये"
 
 msgid "Sending Mail"
 msgstr ""
@@ -408,7 +426,7 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "साइट URLs"
 
 msgid "Smtp Server"
 msgstr ""
@@ -426,13 +444,13 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "लेबल"
 
 msgid "Tags (Categories)"
 msgstr ""
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "दाेस्त काे बतायिएे"
 
 msgid "This should never be seen"
 msgstr ""
@@ -453,7 +471,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "क्रिया दृश्य"
 
 msgid "View Date Prefences"
 msgstr ""

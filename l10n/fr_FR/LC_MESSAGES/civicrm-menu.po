@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-10-02 07:27-0700\n"
 "Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
 "Language-Team: none\n"
@@ -104,20 +104,20 @@ msgstr "Confirmation"
 msgid "Contact Dashboard"
 msgstr "Tableau de bord des contacts"
 
-msgid "Contact Summary"
-msgstr "Résumé Contact"
-
 msgid "Contacts"
 msgstr "Contacts"
+
+msgid "Contact Summary"
+msgstr "Résumé Contact"
 
 msgid "Contribution Chart"
 msgstr "Tableau des contributions"
 
-msgid "Contribution Types"
-msgstr "Types de Contribution"
-
 msgid "Contributions"
 msgstr "Contributions"
+
+msgid "Contribution Types"
+msgstr "Types de Contribution"
 
 msgid "Create New Group"
 msgstr "Créer un nouveau groupe"
@@ -203,6 +203,10 @@ msgstr "Trouver des participants"
 msgid "Find Pledges"
 msgstr "Trouver des promesses de don"
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Trouver des membres"
+
 msgid "From Email Address"
 msgstr "De l'adresse email"
 
@@ -230,14 +234,18 @@ msgstr "Importer"
 msgid "Import Contributions"
 msgstr "Importer des contributions"
 
+msgid "Import/Export Mappings"
+msgstr "Importer/exporter des mappings"
+
 msgid "Import Members"
 msgstr "Importer des membres"
 
 msgid "Import Participants"
 msgstr "Importer des participants"
 
-msgid "Import/Export Mappings"
-msgstr "Importer/exporter des mappings"
+#, fuzzy
+msgid "Import Signers"
+msgstr "Importer des membres"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Civilité (M., Mme, ...)"
@@ -281,6 +289,10 @@ msgstr "Gestion des évènements"
 msgid "Manage Groups"
 msgstr "Gestion des groupes"
 
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Annulé"
+
 msgid "Manage Premiums"
 msgstr "Gestion des cadeaux"
 
@@ -296,14 +308,14 @@ msgstr "Carte d'adresse(s)"
 msgid "Mapping and Geocoding"
 msgstr "Mapping et Geocoding"
 
+msgid "Memberships"
+msgstr "Adhésions"
+
 msgid "Membership Status Rules"
 msgstr "Règles des statuts d'adhésion"
 
 msgid "Membership Types"
 msgstr "Types d'adhésion"
-
-msgid "Memberships"
-msgstr "Adhésions"
 
 msgid "Merge Contact"
 msgstr "Fusionner Contact"
@@ -333,6 +345,9 @@ msgstr "Nouvel évènement"
 msgid "New Mailing"
 msgstr "Nouveau mailing"
 
+msgid "New Pledge"
+msgstr ""
+
 msgid "Notes"
 msgstr "Notes"
 
@@ -360,6 +375,9 @@ msgstr "Processus de paiement"
 msgid "Payment Processor Type"
 msgstr "Type de processus de paiement"
 
+msgid "PledgeBank"
+msgstr ""
+
 msgid "Pledge Payments"
 msgstr "Règlements des promesses de don"
 
@@ -384,11 +402,11 @@ msgstr "Tarifs"
 msgid "Registration Page"
 msgstr "Page d'enregistrement"
 
-msgid "Relationship Types"
-msgstr "Types de relation"
-
 msgid "Relationships"
 msgstr "Relation"
+
+msgid "Relationship Types"
+msgstr "Types de relation"
 
 msgid "Resubscribe"
 msgstr "Renouvellement d'adhésion"

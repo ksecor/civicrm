@@ -113,8 +113,8 @@ msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
-"activar bloco CiviCRM em <a href=\"!1\">Administrar &raquo; Construção do Site "
-"&raquo; Blocos</a>."
+"activar bloco CiviCRM em <a href=\"!1\">Administrar &raquo; Construção do "
+"Site &raquo; Blocos</a>."
 
 #: drupal/civicrm.module
 msgid ""
@@ -122,8 +122,8 @@ msgid ""
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
 "ler sobre as <a href=\"!1\">permissões de acesso ao CiviCRM</a> e definir "
-"permissões de acesso em <a href=\"!2\">Administrar CiviCRM &raquo; Controlo de "
-"Acesso</a>."
+"permissões de acesso em <a href=\"!2\">Administrar CiviCRM &raquo; Controlo "
+"de Acesso</a>."
 
 #: drupal/civicrm.module
 msgid ""
@@ -212,8 +212,8 @@ msgid ""
 "which includes project information, documentation and support resources and "
 "more."
 msgstr ""
-"Para mais informações por favor visite <a href=\"!1\">CiviCRM web-site</a> que "
-"inclui informação sobre o projecto, documentação e recursos de suporte e "
+"Para mais informações por favor visite <a href=\"!1\">CiviCRM web-site</a> "
+"que inclui informação sobre o projecto, documentação e recursos de suporte e "
 "muito mais."
 
 #: drupal/civicrm.module

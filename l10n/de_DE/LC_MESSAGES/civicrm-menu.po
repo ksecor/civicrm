@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,10 +14,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Akzeptierte Kreditkarten"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Zugangskontrolle"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Aktivitäten"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivität"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM administrieren"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Erweiterte Suche"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -56,22 +56,22 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "Fall"
 
 msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviContribute"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Home"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM Profil"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -80,49 +80,49 @@ msgid "CiviCRM Profile Fields"
 msgstr ""
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvent"
 
 msgid "CiviGrant"
 msgstr ""
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMember"
 
 msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "Komponenten"
 
 msgid "Confirm"
 msgstr ""
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "Kontaktübersicht"
 
 msgid "Contacts"
+msgstr "Kontakte"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
+msgid "Contributions"
+msgstr "Zuwendungen"
+
 msgid "Contribution Types"
 msgstr ""
 
-msgid "Contributions"
-msgstr ""
-
 msgid "Create New Group"
-msgstr ""
+msgstr "Neue Gruppe erstellen"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Eigene Daten"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -140,19 +140,19 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Fehlersuche (Debugging)"
 
 msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Standort löschen"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Organisationsinformation"
 
 msgid "Download Errors"
-msgstr ""
+msgstr "Fehler beim Herunterladen"
 
 msgid "Draft and Unscheduled Mailings"
 msgstr ""
@@ -161,10 +161,10 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Kontakt per Email versenden"
 
 msgid "Event Information"
-msgstr ""
+msgstr "Veranstaltungsinformation"
 
 msgid "Event Participants List"
 msgstr ""
@@ -176,7 +176,7 @@ msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Kontakte exportieren"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,22 +185,26 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Kontakte finden"
 
 msgid "Find Contributions"
-msgstr ""
+msgstr "Zuwendungen finden"
 
 msgid "Find Grants"
 msgstr ""
 
 msgid "Find Members"
-msgstr ""
+msgstr "Mitglieder finden"
 
 msgid "Find Participants"
-msgstr ""
+msgstr "Teilnehmer finden"
 
 msgid "Find Pledges"
 msgstr ""
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "Mitglieder finden"
 
 msgid "From Email Address"
 msgstr ""
@@ -209,24 +213,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "allgemeine Einstellungen"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Gruppenmitglieder"
 
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importieren"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Mitglieder importieren"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -248,13 +256,13 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Standort"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Ausloggen"
 
 msgid "Mailer Settings"
 msgstr ""
@@ -269,16 +277,20 @@ msgid "Manage ACLs"
 msgstr ""
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "Bearbeite Spendenseiten"
 
 msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
-msgstr ""
+msgstr "Veranstaltung verwalten"
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Gruppen verwalten"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Storniert"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -290,19 +302,19 @@ msgid "Map Event Location"
 msgstr ""
 
 msgid "Map Location(s)"
-msgstr ""
+msgstr "Standortkarte ermitteln"
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Zuordnung und Laenderspezifisches"
+
+msgid "Memberships"
+msgstr "Letzte Mitgliedschaften"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
-msgstr ""
+msgstr "Mitgliedschaftsarten"
 
 msgid "Merge Contact"
 msgstr ""
@@ -314,25 +326,29 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Mobilfunkanbieter"
 
 msgid "New Activity"
-msgstr ""
+msgstr "Neue Aktivität"
 
 msgid "New Contact"
-msgstr ""
+msgstr "neuer Kontakt"
 
 msgid "New Contact Dialog"
 msgstr ""
 
 msgid "New Event"
-msgstr ""
+msgstr "Neue Veranstaltung"
 
 msgid "New Mailing"
 msgstr ""
 
+#, fuzzy
+msgid "New Pledge"
+msgstr "Profildetails ansehen"
+
 msgid "Notes"
-msgstr ""
+msgstr "Notizen"
 
 msgid "Option Groups"
 msgstr ""
@@ -344,18 +360,21 @@ msgid "Optout"
 msgstr ""
 
 msgid "Participant Role"
-msgstr ""
+msgstr "Teilnehmerrolle"
 
 msgid "Participant Status"
-msgstr ""
+msgstr "Teilnehmerstatus"
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Zahlungswege"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Zahlungsbearbeiter"
 
 msgid "Payment Processor Type"
+msgstr "Zahlungsform"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -377,19 +396,19 @@ msgid "Price Fields"
 msgstr ""
 
 msgid "Price Sets"
-msgstr ""
+msgstr "Preisvorgaben"
 
 msgid "Registration Page"
 msgstr ""
 
+msgid "Relationships"
+msgstr "Beziehungen"
+
 msgid "Relationship Types"
 msgstr ""
 
-msgid "Relationships"
-msgstr ""
-
 msgid "Resubscribe"
-msgstr ""
+msgstr "Erneut abonnieren"
 
 msgid "Safe File Extension Options"
 msgstr ""
@@ -398,7 +417,7 @@ msgid "Scheduled and Sent Mailings"
 msgstr ""
 
 msgid "Search Builder"
-msgstr ""
+msgstr "Such-Generator"
 
 msgid "Sending Mail"
 msgstr ""
@@ -407,13 +426,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Website URL"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnieren"
 
 msgid "Sunlight"
 msgstr ""
@@ -425,7 +444,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 msgid "Tags (Categories)"
 msgstr ""
@@ -437,7 +456,7 @@ msgid "This should never be seen"
 msgstr ""
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Abbestellen"
 
 msgid "Upcoming Events"
 msgstr ""
@@ -452,7 +471,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Aktivität ansehen"
 
 msgid "View Date Prefences"
 msgstr ""

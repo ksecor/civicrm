@@ -40,7 +40,8 @@ msgstr "- gebruik de \\u2039, \\u203a knoppen om de maand te selecteren,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- houd de muisknop op een van bovenstaande knoppen voor een snellere selectie"
+msgstr ""
+"- houd de muisknop op een van bovenstaande knoppen voor een snellere selectie"
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"

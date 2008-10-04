@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-07-12 22:58-0700\n"
 "Last-Translator: Siriwat <lazyM0m3nt@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -14,13 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.0.2\n"
-
-#: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
-#: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
-#: templates/CRM/Admin/Page/DedupeFind.tpl
-#, fuzzy
-msgid "Contact"
-msgstr "ประเภทของการติดต่อ"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
@@ -35,10 +28,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
-msgstr ""
-
-#: CRM/ACL/BAO/ACL.php CRM/Core/Menu.php
-msgid "Import"
 msgstr ""
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
@@ -231,11 +220,6 @@ msgstr "profiles ทั้งหมด"
 msgid "All Events"
 msgstr "Events ทั้งหมด"
 
-#: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php
-#, fuzzy
-msgid "Custom Data"
-msgstr "ข้อมูลที่สร้างเอง"
-
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 #, fuzzy
 msgid "Profile"
@@ -279,11 +263,6 @@ msgstr "แก้ไข ACL"
 #, fuzzy
 msgid "Delete ACL"
 msgstr "ลบ ACL"
-
-#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
-#: CRM/Admin/Page/Options.php
-msgid "Access Control"
-msgstr "ควบคุมการเข้าใช้งาน"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -448,15 +427,17 @@ msgstr "ยกเลิก"
 msgid "Status"
 msgstr "สถานะ"
 
+#: CRM/Activity/Form/Activity.php CRM/Core/BAO/CustomField.php
+#: CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
+#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+msgid "From"
+msgstr ""
+
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
 msgstr "เพิ่มโดย"
-
-#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-msgid "Case"
-msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -827,10 +808,6 @@ msgstr ""
 msgid "API URL"
 msgstr ""
 
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "Payment Processor Type"
-msgstr ""
-
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 #, fuzzy
@@ -877,13 +854,6 @@ msgstr ""
 msgid "Value should be a positive number"
 msgstr ""
 
-#: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
-#: templates/CRM/Block/Search.tpl
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: templates/CRM/Contact/Page/View/DashBoard.tpl
-msgid "Advanced Search"
-msgstr "ค้นหาขั้นสูง"
-
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
@@ -917,11 +887,6 @@ msgstr "แก้ไขตัวเลือก"
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "แก้ไข %1"
-
-#: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
-#, fuzzy
-msgid "Global Settings"
-msgstr "กลุ่ม"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl xml/templates/civicrm_data.tpl
@@ -957,14 +922,6 @@ msgstr "เริ่มวันที่"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "สิ้นสุดวันที่"
-
-#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Dedupe/Merger.php CRM/Note/Form/Note.php
-#: templates/CRM/Contact/Form/Edit.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Notes"
-msgstr "บันทึก"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -1477,18 +1434,6 @@ msgid "Search"
 msgstr "ค้นหา"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Activity/Selector/Activity.tpl xml/templates/civicrm_data.tpl
-msgid "Activities"
-msgstr ""
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Relationships"
-msgstr ""
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Change Log"
@@ -1718,20 +1663,6 @@ msgstr ""
 msgid "SMS Sent"
 msgstr ""
 
-#: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Groups"
-msgstr "กลุ่ม"
-
-#: CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Tags"
-msgstr ""
-
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
 msgstr ""
@@ -1778,13 +1709,6 @@ msgstr "ชื่อเรื่อง"
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 msgid "Link"
-msgstr ""
-
-#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-#: templates/CRM/Contact/Page/View/Email.tpl
-#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
-msgid "From"
 msgstr ""
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
@@ -2023,17 +1947,6 @@ msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Contributions"
-msgstr ""
-
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Memberships"
-msgstr "สมาชิกกลุ่ม"
-
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 #, fuzzy
 msgid "Delete Custom Field"
@@ -2137,12 +2050,6 @@ msgstr ""
 #, fuzzy
 msgid "Settings"
 msgstr "ข้อความ"
-
-#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
-#: CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php
-#: xml/templates/civicrm_data.tpl
-msgid "Tell a Friend"
-msgstr ""
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
@@ -2535,10 +2442,6 @@ msgid "View Activity History URL"
 msgstr "ลบประวัติกิจกรรม"
 
 #: CRM/Activity/Selector/Activity.php
-msgid "View Activity"
-msgstr ""
-
-#: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
 msgstr ""
 
@@ -2890,11 +2793,6 @@ msgstr "ประเภทของการติดต่อ"
 msgid "Editing Contacts"
 msgstr "นำเข้าที่ติดต่อ"
 
-#: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
-msgid "Contact Dashboard"
-msgstr "ประเภทของการติดต่อ"
-
 #: CRM/Admin/Form/Preferences/Display.php xml/templates/civicrm_data.tpl
 msgid "WYSIWYG Editor"
 msgstr ""
@@ -2920,11 +2818,6 @@ msgstr "ประเภทของความสัมพันธ์ได้
 #, fuzzy
 msgid "Settings - Enable Components"
 msgstr "ปิดประเภทสถานที่"
-
-#: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
-msgid "Components"
-msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -4061,22 +3954,8 @@ msgstr "หน่วยงานใหม่"
 
 #: CRM/Contact/Form/DeleteLocation.php
 #, fuzzy
-msgid "Delete Location"
-msgstr "ปิดประเภทสถานที่"
-
-#: CRM/Contact/Form/DeleteLocation.php
-#, fuzzy
 msgid "The location has been deleted."
 msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
-
-#: CRM/Contact/Form/Domain.php
-#, fuzzy
-msgid "Domain Information"
-msgstr "ชื่อหน่วยงาน"
-
-#: CRM/Contact/Form/Domain.php
-msgid "Administer CiviCRM"
-msgstr ""
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -4146,6 +4025,11 @@ msgstr "อีเมล์"
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
 msgstr ""
+
+#: CRM/Contact/Form/Edit.php
+#, fuzzy
+msgid "Please select at least one tag."
+msgstr "กรุณาเลือกสถานะ."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -4422,10 +4306,6 @@ msgstr "ค้นหา..."
 
 #: CRM/Contact/Form/Search/Basic.php
 msgid "with"
-msgstr ""
-
-#: CRM/Contact/Form/Search/Basic.php
-msgid "Find Contacts"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Builder.php
@@ -4743,11 +4623,6 @@ msgstr "ยกเลิก"
 msgid "Exclude Tag(s)"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom.php
-#, fuzzy
-msgid "Custom Searches"
-msgstr "ค้นหา"
-
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "There are no events with Price Sets"
 msgstr ""
@@ -4819,10 +4694,6 @@ msgstr ""
 #, fuzzy
 msgid "Add Contact To Existing Group"
 msgstr "นำเข้าที่ติดต่อ"
-
-#: CRM/Contact/Form/Task/AddToGroup.php
-msgid "Create New Group"
-msgstr ""
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #, fuzzy
@@ -5019,11 +4890,6 @@ msgid "Merge labels for contacts with the same address"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
-#, fuzzy
-msgid "Map Location(s)"
-msgstr "สถานที่"
-
-#: CRM/Contact/Form/Task/Map.php
 msgid ""
 "This address does not contain latitude/longitude information and cannot be "
 "mapped."
@@ -5103,10 +4969,6 @@ msgid "Contact Activities"
 msgstr ""
 
 #: CRM/Contact/Page/View/Activity.php
-msgid "Email a Contact"
-msgstr ""
-
-#: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
 msgstr ""
 
@@ -5127,11 +4989,6 @@ msgid ""
 "We could not find a user id. You must be logged in to access the CiviCRM "
 "Home Page and menus."
 msgstr ""
-
-#: CRM/Contact/Page/View/DashBoard.php
-#, fuzzy
-msgid "CiviCRM Home"
-msgstr "CiviCRM"
 
 #: CRM/Contact/Page/View/Delete.php
 #, fuzzy
@@ -5241,11 +5098,6 @@ msgstr ""
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
 msgstr ""
-
-#: CRM/Contact/Task.php
-#, fuzzy
-msgid "Export Contacts"
-msgstr "นำเข้าที่ติดต่อ"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -5566,15 +5418,6 @@ msgstr ""
 msgid "Dynamic Form Creator"
 msgstr ""
 
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Participant Status"
-msgstr "นำเข้าที่ติดต่อ"
-
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-msgid "Participant Role"
-msgstr ""
-
 #: CRM/Core/BAO/UFGroup.php
 #, fuzzy
 msgid "Please enter a valid amount."
@@ -5622,10 +5465,6 @@ msgid "CiviCRM Menu"
 msgstr ""
 
 #: CRM/Core/Block.php
-msgid "CiviCRM"
-msgstr "CiviCRM"
-
-#: CRM/Core/Block.php
 msgid "CiviCRM Language Switcher"
 msgstr ""
 
@@ -5637,10 +5476,6 @@ msgstr ""
 #, fuzzy
 msgid "Quest Search"
 msgstr "ค้นหา"
-
-#: CRM/Core/Block.php templates/CRM/Activity/Form/Activity.tpl
-msgid "New Activity"
-msgstr ""
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
@@ -5680,10 +5515,6 @@ msgstr "วันที่"
 #, fuzzy
 msgid "My Account"
 msgstr "ประเทศ"
-
-#: CRM/Core/Block.php
-msgid "Log out"
-msgstr ""
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -5926,11 +5757,6 @@ msgstr ""
 #, fuzzy
 msgid "Table Name"
 msgstr "ชื่อทางการ"
-
-#: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
-msgid "Activity"
-msgstr "วันที่กิจกรรม"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -6182,10 +6008,6 @@ msgstr "ชื่อหน่วยงาน"
 #, fuzzy
 msgid "Filter"
 msgstr "ชื่อเรื่อง"
-
-#: CRM/Core/DAO/PaymentProcessor.php
-msgid "Payment Processor"
-msgstr ""
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6499,17 +6321,6 @@ msgstr ""
 msgid "Bad menu record in database"
 msgstr "มีชื่อนี้อนู่ในฐานข้อมูลแล้ว."
 
-#: CRM/Core/Invoke.php templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Search Builder"
-msgstr "ค้นหา"
-
-#: CRM/Core/Invoke.php
-#, fuzzy
-msgid "New Contact"
-msgstr "ประเภทของการติดต่อ"
-
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
 msgstr ""
@@ -6517,37 +6328,6 @@ msgstr ""
 #: CRM/Core/Menu.php
 msgid "Could not find %1 in path tree"
 msgstr ""
-
-#: CRM/Core/Menu.php
-msgid "CiviContribute"
-msgstr ""
-
-#: CRM/Core/Menu.php
-msgid "CiviEvent"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviMember"
-msgstr "สมาชิกกลุ่ม"
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviMail"
-msgstr "CiviCRM"
-
-#: CRM/Core/Menu.php
-msgid "CiviGrant"
-msgstr ""
-
-#: CRM/Core/Menu.php xml/templates/civicrm_data.tpl
-msgid "PledgeBank"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviPledge"
-msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Core/Menu.php
 msgid "Logout"
@@ -6927,10 +6707,6 @@ msgid "Rich Text Editor"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Contacts"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
 msgid "Individuals"
 msgstr ""
 
@@ -6944,10 +6720,6 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
-
-#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
-msgid "Pledges"
 msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
@@ -7715,10 +7487,6 @@ msgid "Thanks for spreading the word about this pledge to your friends."
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "Manage Groups"
-msgstr ""
-
-#: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr ""
 
@@ -7766,10 +7534,6 @@ msgstr ""
 #: CRM/Group/Page/Group.php
 #, fuzzy
 msgid "Members"
-msgstr "สมาชิกกลุ่ม"
-
-#: CRM/Group/Page/Group.php
-msgid "Group Members"
 msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Group/Page/Group.php
@@ -8172,10 +7936,6 @@ msgstr "ลบกลุ่ม"
 
 #: CRM/Price/Page/Set.php
 msgid "Enable Price Set"
-msgstr ""
-
-#: CRM/Price/Page/Set.php
-msgid "Price Sets"
 msgstr ""
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
@@ -9421,12 +9181,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
-#: templates/CRM/Activity/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Errors"
-msgstr ""
-
-#: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr ""
@@ -10234,11 +9988,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Geocoding"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
 "Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
@@ -10416,10 +10165,6 @@ msgid "CMS Settings"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-msgid "Update Directory Path and URL"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
 "Use this form if you need to reset the Base Directory Path and Base URL "
 "settings for your CiviCRM\n"
@@ -10465,10 +10210,6 @@ msgid ""
 "Javascript files, images, etc.). Default values will be inserted the first "
 "time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your "
 "installation's settings file (civicrm.settings.php)."
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Site URLs"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
@@ -11004,11 +10745,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
-msgid "Localization"
-msgstr "สถานที่"
-
-#: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
@@ -11050,10 +10786,6 @@ msgstr "ข้อความ"
 msgid ""
 "Enable Version Checking, configure Contact Search behavior, and configure "
 "optional reCAPTCHA feature to prevent automated abuse of public forms."
-msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Debugging"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -12454,10 +12186,6 @@ msgid "Are you sure you want to unsubscribe from %1?"
 msgstr "ปิดผู้ให้บริการ IM"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Unsubscribe"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Pending Subscriptions"
 msgstr "รายการ"
@@ -12470,11 +12198,6 @@ msgstr ""
 #, fuzzy
 msgid "Are you sure you want to confirm subscription for %1?"
 msgstr "ปิดผู้ให้บริการ IM"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
-msgid "Confirm"
-msgstr "ต่อไป >>"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -13657,10 +13380,6 @@ msgid "Disable CiviCRM Profile"
 msgstr "CiviCRM โครงร่างกลุ่ม"
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr ""
-
-#: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
 
@@ -14043,11 +13762,6 @@ msgstr "ประเภทของการติดต่อ"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "Mobile Phone Providers"
-msgstr "ผู้ให้บริการ IM"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Individual contact prefixes"
 msgstr "บุคคล"
 
@@ -14055,14 +13769,6 @@ msgstr "บุคคล"
 #, fuzzy
 msgid "Individual contact suffixes"
 msgstr "บุคคล"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Accepted Credit Cards"
-msgstr ""
-
-#: xml/templates/civicrm_data.tpl
-msgid "Payment Instruments"
-msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14091,11 +13797,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "From Email Address"
-msgstr "ที่อยู่"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Recurring Frequency Units"
 msgstr "ชือถนน"
 
@@ -14114,10 +13815,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Text message (SMS) sent."
-msgstr ""
-
-#: xml/templates/civicrm_data.tpl
-msgid "Event Registration"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl

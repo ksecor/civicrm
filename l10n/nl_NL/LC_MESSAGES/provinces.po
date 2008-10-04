@@ -11548,18 +11548,3 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr "Gaza"
-
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "Gemeente Frederikaberg"
-
-#~ msgid "Copenhagen municipality"
-#~ msgstr "Gemeente Kopenhagen"
-
-#~ msgid "Western Zealand"
-#~ msgstr "West-Zeeland"
-
-#~ msgid "Funen"
-#~ msgstr "Funen"
-
-#~ msgid "Forli"
-#~ msgstr "Forli"
