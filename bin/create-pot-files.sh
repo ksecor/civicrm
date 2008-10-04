@@ -26,7 +26,7 @@ msgcomm -u $potdir/civicrm-helpfiles.no-core.pot $potdir/civicrm-common.pot > $p
 echo ' * cleanup'
 rm $potdir/civicrm-modules.*.pot $potdir/civicrm-helpfiles.*.pot $potdir/civicrm-common.pot
 
-echo ' * building countries.pot and provinces.pot'
+echo ' * building civcrm-menu.pot, countries.pot and provinces.pot'
 echo "# Copyright CiviCRM LLC (c) 2004-2008
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
@@ -41,6 +41,7 @@ msgstr \"\"
 \"MIME-Version: 1.0\n\"
 \"Content-Type: text/plain; charset=UTF-8\n\"
 \"Content-Transfer-Encoding: 8bit\n\"
-" | tee $potdir/countries.pot $potdir/provinces.pot > /dev/null
-grep ^INSERT xml/templates/civicrm_country.tpl | cut -d\" -f4 - | while read country; do echo -e "msgid \"$country\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
-grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4 - | while read province; do echo -e "msgid \"$province\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
+" | tee $potdir/civicrm-menu.pot $potdir/countries.pot $potdir/provinces.pot > /dev/null
+grep -h '<title>' templates/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read menu; do echo -e "msgid \"$menu\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
+grep ^INSERT xml/templates/civicrm_country.tpl | cut -d\" -f4 | while read country; do echo -e "msgid \"$country\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
+grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4 | while read province; do echo -e "msgid \"$province\"\nmsgstr \"\"\n"; done >> $potdir/provinces.pot
