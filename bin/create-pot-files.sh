@@ -40,13 +40,17 @@ grep '^(' xml/templates/civicrm_state_province.tpl | cut -d\" -f4               
 msgcomm --more-than 2 $potdir/provinces.pot $potdir/./provinces.pot > $tempfile
 msgcomm -u $potdir/provinces.pot $tempfile | msgcat - $tempfile | sponge $potdir/provinces.pot
 
+# drop strings already in countries.pot
+msgcomm $potdir/provinces.pot $potdir/countries.pot > $tempfile
+msgcomm -u --no-wrap $potdir/provinces.pot $tempfile | sponge $potdir/provinces.pot
+
 
 
 # extract ts()- and {ts}-tagged strings and build -core
 echo ' * building civicrm-core.pot'
 $root/bin/extractor.php core >> $potdir/civicrm-core.pot
 
-# drop strings already in drupal-civicrm.po and civicrm-menu.po
+# drop strings already in drupal-civicrm.pot and civicrm-menu.pot
 msgcomm $potdir/civicrm-core.pot $potdir/drupal-civicrm.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm-core.pot
 msgcomm $potdir/civicrm-core.pot $potdir/civicrm-menu.pot > $tempfile
@@ -56,7 +60,7 @@ msgcomm -u --no-wrap $potdir/civicrm-core.pot $tempfile | sponge $potdir/civicrm
 echo ' * building civicrm-modules.pot'
 $root/bin/extractor.php modules >> $potdir/civicrm-modules.pot
 
-# drop strings already in drupal-civicrm.po, civicrm-menu.po and civicrm-core.po
+# drop strings already in drupal-civicrm.pot, civicrm-menu.pot and civicrm-core.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/drupal-civicrm.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civicrm-modules.pot
 msgcomm $potdir/civicrm-modules.pot $potdir/civicrm-menu.pot > $tempfile
@@ -68,7 +72,7 @@ msgcomm -u --no-wrap $potdir/civicrm-modules.pot $tempfile | sponge $potdir/civi
 echo ' * building civicrm-helpfiles.pot'
 $root/bin/extractor.php helpfiles >> $potdir/civicrm-helpfiles.pot
 
-# drop strings already in drupal-civicrm.po, civicrm-menu.po, civicrm-core.po and civicrm-modules.po
+# drop strings already in drupal-civicrm.pot, civicrm-menu.pot, civicrm-core.pot and civicrm-modules.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/drupal-civicrm.pot > $tempfile
 msgcomm -u --no-wrap $potdir/civicrm-helpfiles.pot $tempfile | sponge $potdir/civicrm-helpfiles.pot
 msgcomm $potdir/civicrm-helpfiles.pot $potdir/civicrm-menu.pot > $tempfile
