@@ -5,9 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-04 23:23+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3179,6 +3180,12 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
+msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+msgid "Contact"
 msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
