@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -26,7 +26,7 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "សកម្មភាព"
 
 msgid "Activity"
 msgstr ""
@@ -65,7 +65,7 @@ msgid "CiviContribute"
 msgstr ""
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CivicCRM"
 
 msgid "CiviCRM Home"
 msgstr ""
@@ -103,23 +103,23 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
-msgstr ""
-
 msgid "Contacts"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
 msgstr ""
 
-msgid "Create New Group"
+msgid "Contribution Types"
 msgstr ""
+
+msgid "Create New Group"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
 
 msgid "Custom Data"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +202,10 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
 msgid "From Email Address"
 msgstr ""
 
@@ -215,10 +219,10 @@ msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "សមាជិក​ក្រុម"
 
 msgid "Groups"
-msgstr ""
+msgstr "ក្រុម"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
@@ -229,14 +233,18 @@ msgstr ""
 msgid "Import Contributions"
 msgstr ""
 
+msgid "Import/Export Mappings"
+msgstr ""
+
 msgid "Import Members"
 msgstr ""
 
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "សមាជិក​ក្រុម"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -278,7 +286,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "រៀប​ចំ​ក្រុម"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "បោះបង់"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -295,13 +307,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr ""
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -331,8 +343,12 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
+#, fuzzy
+msgid "New Pledge"
+msgstr "មុខ​តំណែង"
+
 msgid "Notes"
-msgstr ""
+msgstr "ចំណាំ"
 
 msgid "Option Groups"
 msgstr ""
@@ -356,6 +372,9 @@ msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +401,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
+msgid "Relationships"
 msgstr ""
 
-msgid "Relationships"
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"

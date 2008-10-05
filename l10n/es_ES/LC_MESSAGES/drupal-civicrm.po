@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2007-05-07 11:19+0200\n"
+"POT-Creation-Date: 2008-09-18 14:48+0200\n"
 "PO-Revision-Date: 2007-06-28 12:17-0700\n"
 "Last-Translator: jorge ceporro <triskapellejos@hotmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -242,18 +242,3 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr ""
-
-#~ msgid ""
-#~ "For more information please read the configuration and customization "
-#~ "handbook <a href=\"%1\">CiviCRM page</a>."
-#~ msgstr ""
-#~ "Para más información, por favor, lea el manual de configuración y "
-#~ "personalización <a href=\"%1\">CiviCRM</a>."
-
-#, fuzzy
-#~ msgid ""
-#~ "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
-#~ "contacts, relationships and groups, and track contact activities."
-#~ msgstr ""
-#~ "CRM. Permite a los sitios manejar contactos, relaciones y grupos, y hacer "
-#~ "seguimiento de las actividades de los contactos."

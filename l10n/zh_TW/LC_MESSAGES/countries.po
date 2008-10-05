@@ -766,6 +766,3 @@ msgstr ""
 
 msgid "Isle of Man"
 msgstr ""
-
-#~ msgid "Moldova, Republic of"
-#~ msgstr "摩爾多瓦"

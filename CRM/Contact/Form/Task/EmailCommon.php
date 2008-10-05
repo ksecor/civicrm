@@ -78,11 +78,16 @@ class CRM_Contact_Form_Task_EmailCommon
                                                'display_name' );
         foreach ( $emails as $emailId => $item ) {
             $email = $item['email'];
-            if (!$email && ( count($emails) <= 1 ) ) {
+            if (! $email &&
+                ( count($emails) <= 1 ) ) {
                 $form->_emails[$email] = '"' . $toName . '"';
                 $form->_noEmails = true;
             } else {
-                if ($email) {
+                if ( $email ) {
+                    if ( isset( $form->_emails[$email] ) ) {
+                        // CRM-3624
+                        continue;
+                    }
                     $form->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
                     $form->_onHold[$email] = $item['on_hold'];
                 }

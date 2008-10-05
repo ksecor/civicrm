@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -103,20 +103,20 @@ msgstr "Confirm"
 msgid "Contact Dashboard"
 msgstr "Contact Dashboard"
 
-msgid "Contact Summary"
-msgstr "Contact Summary"
-
 msgid "Contacts"
 msgstr "Contacts"
+
+msgid "Contact Summary"
+msgstr "Contact Summary"
 
 msgid "Contribution Chart"
 msgstr "Contribution Chart"
 
-msgid "Contribution Types"
-msgstr "Contribution Types"
-
 msgid "Contributions"
 msgstr "Contributions"
+
+msgid "Contribution Types"
+msgstr "Contribution Types"
 
 msgid "Create New Group"
 msgstr "Create New Group"
@@ -202,6 +202,10 @@ msgstr "Find Participants"
 msgid "Find Pledges"
 msgstr "Find Pledges"
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Find Members"
+
 msgid "From Email Address"
 msgstr "From Email Address"
 
@@ -229,14 +233,18 @@ msgstr "Import"
 msgid "Import Contributions"
 msgstr "Import Contributions"
 
+msgid "Import/Export Mappings"
+msgstr "Import/Export Mappings"
+
 msgid "Import Members"
 msgstr "Import Members"
 
 msgid "Import Participants"
 msgstr "Import Participants"
 
-msgid "Import/Export Mappings"
-msgstr "Import/Export Mappings"
+#, fuzzy
+msgid "Import Signers"
+msgstr "Import Members"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Individual Prefixes (Ms, Mr...)"
@@ -280,6 +288,10 @@ msgstr "Manage Events"
 msgid "Manage Groups"
 msgstr "Manage Groups"
 
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Canceled"
+
 msgid "Manage Premiums"
 msgstr "Manage Premiums"
 
@@ -295,14 +307,14 @@ msgstr "Map Location(s)"
 msgid "Mapping and Geocoding"
 msgstr "Mapping and Geocoding"
 
+msgid "Memberships"
+msgstr "Memberships"
+
 msgid "Membership Status Rules"
 msgstr "Membership Status Rules"
 
 msgid "Membership Types"
 msgstr "Membership Types"
-
-msgid "Memberships"
-msgstr "Memberships"
 
 msgid "Merge Contact"
 msgstr "Merge Contact"
@@ -331,6 +343,10 @@ msgstr "New Event"
 msgid "New Mailing"
 msgstr "New Mailing"
 
+#, fuzzy
+msgid "New Pledge"
+msgstr "View Contact Details"
+
 msgid "Notes"
 msgstr "Notes"
 
@@ -358,6 +374,9 @@ msgstr "Payment Processor"
 msgid "Payment Processor Type"
 msgstr "Payment Processor Type"
 
+msgid "PledgeBank"
+msgstr ""
+
 msgid "Pledge Payments"
 msgstr "Pledge Payments"
 
@@ -382,11 +401,11 @@ msgstr "Price Sets"
 msgid "Registration Page"
 msgstr "Registration Page"
 
-msgid "Relationship Types"
-msgstr "Relationship Types"
-
 msgid "Relationships"
 msgstr "Relationships"
+
+msgid "Relationship Types"
+msgstr "Relationship Types"
 
 msgid "Resubscribe"
 msgstr "Resubscribe"

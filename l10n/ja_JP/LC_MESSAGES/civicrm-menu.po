@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "クレジットカード受付"
 
 msgid "Access Control"
 msgstr ""
@@ -26,7 +26,7 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "活動"
 
 msgid "Activity"
 msgstr ""
@@ -44,7 +44,7 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRMの管理"
 
 msgid "Advanced Search"
 msgstr ""
@@ -56,7 +56,7 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "ケース"
 
 msgid "Case Types"
 msgstr ""
@@ -68,7 +68,7 @@ msgid "CiviCRM"
 msgstr ""
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM ホーム"
 
 msgid "CiviCRM Profile"
 msgstr ""
@@ -103,19 +103,19 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
-msgstr ""
-
 msgid "Contacts"
+msgstr "連絡先"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "寄付"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
@@ -149,7 +149,7 @@ msgid "Delete Location"
 msgstr ""
 
 msgid "Domain Information"
-msgstr ""
+msgstr "ドメインの情報"
 
 msgid "Download Errors"
 msgstr ""
@@ -164,7 +164,7 @@ msgid "Email a Contact"
 msgstr ""
 
 msgid "Event Information"
-msgstr ""
+msgstr "イベントの情報"
 
 msgid "Event Participants List"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "コンタクトをさがす"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +202,9 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+msgid "Find Signers"
+msgstr ""
+
 msgid "From Email Address"
 msgstr ""
 
@@ -215,10 +218,10 @@ msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "グループメンバー"
 
 msgid "Groups"
-msgstr ""
+msgstr "グループ一覧"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
@@ -229,14 +232,18 @@ msgstr ""
 msgid "Import Contributions"
 msgstr ""
 
+msgid "Import/Export Mappings"
+msgstr ""
+
 msgid "Import Members"
 msgstr ""
 
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "メンバーシップ"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -278,7 +285,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "グループ管理"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "キャンセル"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -295,13 +306,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr ""
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -314,13 +325,13 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "携帯電話会社"
 
 msgid "New Activity"
 msgstr ""
 
 msgid "New Contact"
-msgstr ""
+msgstr "新しい連絡先"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -329,6 +340,9 @@ msgid "New Event"
 msgstr ""
 
 msgid "New Mailing"
+msgstr ""
+
+msgid "New Pledge"
 msgstr ""
 
 msgid "Notes"
@@ -344,18 +358,21 @@ msgid "Optout"
 msgstr ""
 
 msgid "Participant Role"
-msgstr ""
+msgstr "参加者種別"
 
 msgid "Participant Status"
-msgstr ""
+msgstr "参加状況"
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "支払い方法"
 
 msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -377,15 +394,15 @@ msgid "Price Fields"
 msgstr ""
 
 msgid "Price Sets"
-msgstr ""
+msgstr "価格表"
 
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "関係"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -407,13 +424,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "サイトのURL"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "購読"
 
 msgid "Sunlight"
 msgstr ""
@@ -437,7 +454,7 @@ msgid "This should never be seen"
 msgstr ""
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "購読停止"
 
 msgid "Upcoming Events"
 msgstr ""
@@ -452,7 +469,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "活動をみる"
 
 msgid "View Date Prefences"
 msgstr ""

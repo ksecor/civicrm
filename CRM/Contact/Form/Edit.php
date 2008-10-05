@@ -781,6 +781,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     static function formRule(&$fields, &$errors)
     {
+
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->civiHRD && ! isset( $fields['tag']) ) {
+            $errors["tag"] = ts('Please select at least one tag.');
+        }
+
         $primaryID = false;
 
         // make sure that at least one field is marked is_primary

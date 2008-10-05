@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 msgid "Access Control"
-msgstr ""
+msgstr "Åtkomstskydd"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Aktiviteter"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitet"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administrera CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Avancerad sökning"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -56,22 +56,22 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "Ärende"
 
 msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviBidrag"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Hem"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM Profil"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -80,49 +80,49 @@ msgid "CiviCRM Profile Fields"
 msgstr ""
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviEvenemang"
 
 msgid "CiviGrant"
 msgstr ""
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviMail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviMedlem"
 
 msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "Komponenter"
 
 msgid "Confirm"
 msgstr ""
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "Visningsskärm för kontakter"
 
 msgid "Contacts"
+msgstr "Kontakter"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "Medverkan"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
 msgstr ""
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Egen data"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -140,16 +140,16 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Felkontroll"
 
 msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Ta bort plats"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Domäninformation"
 
 msgid "Download Errors"
 msgstr ""
@@ -161,7 +161,7 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Skicka e-post till en kontakt"
 
 msgid "Event Information"
 msgstr ""
@@ -170,13 +170,13 @@ msgid "Event Participants List"
 msgstr ""
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Anmälan till händelse"
 
 msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Exportera kontakter"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Hitta kontakter"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +202,10 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Skicka mejl"
+
 msgid "From Email Address"
 msgstr ""
 
@@ -209,24 +213,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Globala inställningar"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Gruppmedlemmar"
 
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importera"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Importera medlemmar"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -248,13 +256,13 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Landsinställningar"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 msgid "Mailer Settings"
 msgstr ""
@@ -275,10 +283,14 @@ msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
-msgstr ""
+msgstr "Hantera arrangemang"
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Hantera grupper"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Avbruten"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -293,15 +305,15 @@ msgid "Map Location(s)"
 msgstr ""
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Kartläggning"
+
+msgid "Memberships"
+msgstr "Medlemsskap"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -317,10 +329,10 @@ msgid "Mobile Phone Providers"
 msgstr ""
 
 msgid "New Activity"
-msgstr ""
+msgstr "Ny aktivitet"
 
 msgid "New Contact"
-msgstr ""
+msgstr "Ny kontakt"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -331,8 +343,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "Noteringar"
 
 msgid "Option Groups"
 msgstr ""
@@ -350,12 +365,15 @@ msgid "Participant Status"
 msgstr ""
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Betalningsinstrument"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Betalningsmotor"
 
 msgid "Payment Processor Type"
+msgstr "Betalningsmotor"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -376,16 +394,17 @@ msgstr ""
 msgid "Price Fields"
 msgstr ""
 
+# Knepig en... prissättning? prisinställning? Men jag tror det har med grupperingar av priser, t ex olika prislistor, att göra
 msgid "Price Sets"
-msgstr ""
+msgstr "Prisgrupper"
 
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "Förhållanden"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -398,7 +417,7 @@ msgid "Scheduled and Sent Mailings"
 msgstr ""
 
 msgid "Search Builder"
-msgstr ""
+msgstr "Sökbyggare"
 
 msgid "Sending Mail"
 msgstr ""
@@ -407,13 +426,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Hemsidans URL"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Prenumerera"
 
 msgid "Sunlight"
 msgstr ""
@@ -425,7 +444,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Märke"
 
 msgid "Tags (Categories)"
 msgstr ""
@@ -452,7 +471,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Visa aktivitet"
 
 msgid "View Date Prefences"
 msgstr ""

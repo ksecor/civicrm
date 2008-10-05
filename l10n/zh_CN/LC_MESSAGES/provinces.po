@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-05 01:16+0200\n"
 "PO-Revision-Date: 2007-08-29 16:02+0800\n"
 "Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -41,9 +41,6 @@ msgstr "特拉华州"
 msgid "Florida"
 msgstr "佛罗里达州"
 
-msgid "Georgia"
-msgstr "佐治亚州"
-
 msgid "Hawaii"
 msgstr "夏威夷州"
 
@@ -71,9 +68,6 @@ msgstr "路易斯安那州"
 msgid "Maine"
 msgstr "缅因州"
 
-msgid "Maryland"
-msgstr "马里兰州"
-
 msgid "Massachusetts"
 msgstr "马萨诸塞州"
 
@@ -88,9 +82,6 @@ msgstr "密西西比州"
 
 msgid "Missouri"
 msgstr "密苏里州"
-
-msgid "Montana"
-msgstr "蒙大拿州"
 
 msgid "Nebraska"
 msgstr "内布拉斯加州"
@@ -167,23 +158,8 @@ msgstr "怀俄明州"
 msgid "District of Columbia"
 msgstr "华盛顿哥伦比亚特区"
 
-msgid "American Samoa"
-msgstr "美属萨摩亚"
-
-msgid "Guam"
-msgstr "关岛"
-
-msgid "Northern Mariana Islands"
-msgstr "北马里亚纳群岛"
-
-msgid "Puerto Rico"
-msgstr "波多黎各"
-
 msgid "Virgin Islands"
 msgstr "美属维尔京群岛"
-
-msgid "United States Minor Outlying Islands"
-msgstr "美国本土外小岛屿"
 
 msgid "Armed Forces Europe"
 msgstr "美军欧洲分部"
@@ -1250,12 +1226,6 @@ msgstr "埃诺省"
 msgid "Liege"
 msgstr "列日省"
 
-msgid "Limburg"
-msgstr ""
-
-msgid "Luxembourg"
-msgstr "卢森堡"
-
 msgid "Namur"
 msgstr "那慕尔省"
 
@@ -1865,9 +1835,6 @@ msgstr ""
 msgid "South-East"
 msgstr "东南"
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr "布列斯特州"
 
@@ -1885,9 +1852,6 @@ msgstr "明斯克州"
 
 msgid "Vicebskaja voblasc'"
 msgstr "维捷布斯克州"
-
-msgid "Belize"
-msgstr "伯利兹"
 
 msgid "Cayo"
 msgstr "卡约"
@@ -2201,9 +2165,6 @@ msgstr "东方省"
 msgid "Far North"
 msgstr "极北省"
 
-msgid "North"
-msgstr "北方省"
-
 msgid "South"
 msgstr "南方省"
 
@@ -2285,9 +2246,6 @@ msgstr "山西省"
 msgid "Sichuan"
 msgstr "四川省"
 
-msgid "Taiwan"
-msgstr "台湾省"
-
 msgid "Yunnan"
 msgstr "云南省"
 
@@ -2305,9 +2263,6 @@ msgstr "新疆维吾尔自治区"
 
 msgid "Xizang"
 msgstr "西藏自治区"
-
-msgid "Hong Kong"
-msgstr "香港特别行政区"
 
 msgid "Macau"
 msgstr "澳门特别行政区"
@@ -2653,9 +2608,6 @@ msgstr ""
 
 msgid "Dikhil"
 msgstr "迪奇尔州"
-
-msgid "Djibouti"
-msgstr "吉布提市"
 
 msgid "Obock"
 msgstr "奥伯克州"
@@ -3339,9 +3291,6 @@ msgstr "南方各族"
 msgid "Tigrai"
 msgstr "提格雷"
 
-msgid "Eastern"
-msgstr ""
-
 msgid "Northern"
 msgstr ""
 
@@ -3900,9 +3849,6 @@ msgstr "格洛斯特郡"
 msgid "Greenwich"
 msgstr "格林尼治市"
 
-msgid "Guernsey"
-msgstr "根西"
-
 msgid "Gwynedd"
 msgstr "圭内斯"
 
@@ -3959,9 +3905,6 @@ msgstr "锡利群岛"
 
 msgid "Islington"
 msgstr "艾斯灵顿市"
-
-msgid "Jersey"
-msgstr "泽西"
 
 msgid "Kensington and Chelsea"
 msgstr "坎星顿－切尔西市"
@@ -4022,9 +3965,6 @@ msgstr "卢顿"
 
 msgid "Magherafelt"
 msgstr "马拉费尔特"
-
-msgid "Manchester"
-msgstr ""
 
 msgid "Medway"
 msgstr "梅德韦"
@@ -4452,9 +4392,6 @@ msgstr "洛拉"
 msgid "Macenta"
 msgstr "马桑达"
 
-msgid "Mali"
-msgstr "马利"
-
 msgid "Mamou"
 msgstr "玛木"
 
@@ -4676,9 +4613,6 @@ msgstr "埃尔普罗格雷索"
 
 msgid "Escuintla"
 msgstr "埃斯昆特拉"
-
-msgid "Guatemala"
-msgstr "瓜地马拉"
 
 msgid "Huehuetenango"
 msgstr "韦韦特南戈"
@@ -7137,9 +7071,6 @@ msgstr ""
 msgid "Rodrigues Island"
 msgstr "罗德里格斯"
 
-msgid "Male"
-msgstr "马累"
-
 msgid "Alif"
 msgstr "北阿里"
 
@@ -7316,9 +7247,6 @@ msgstr "伊达尔戈州"
 
 msgid "Jalisco"
 msgstr "哈利斯科州"
-
-msgid "Mexico"
-msgstr "墨西哥州"
 
 msgid "Michoacin"
 msgstr "米却肯州"
@@ -7587,9 +7515,6 @@ msgstr "拉哥斯州"
 msgid "Nassarawa"
 msgstr "纳萨拉瓦州"
 
-msgid "Niger"
-msgstr "尼日尔州"
-
 msgid "Ogun"
 msgstr "奥贡州"
 
@@ -7850,9 +7775,6 @@ msgstr "埃雷拉省"
 
 msgid "Loa Santoa"
 msgstr "洛斯桑托斯省"
-
-msgid "Panama"
-msgstr "巴拿马省"
 
 msgid "Veraguas"
 msgstr "贝拉瓜斯省"
@@ -9002,9 +8924,6 @@ msgstr "厄勒布鲁省"
 
 msgid "Ostergotlands lan"
 msgstr "东约特兰省"
-
-msgid "Saint Helena"
-msgstr "圣赫勒拿岛"
 
 msgid "Ascension"
 msgstr "阿森松岛"
@@ -11496,9 +11415,6 @@ msgstr "腾布荣"
 msgid "North Gaza"
 msgstr "北达科他州"
 
-msgid "Gaza"
-msgstr "加扎省"
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -11518,9 +11434,6 @@ msgstr ""
 
 msgid "Tyne and Wear"
 msgstr ""
-
-msgid "Isle of Man"
-msgstr "马恩岛"
 
 msgid "Greater Manchester"
 msgstr ""
@@ -11571,17 +11484,26 @@ msgstr ""
 msgid "Ogliastra"
 msgstr "锡利斯特拉"
 
-#~ msgid "Frederikaberg municipality"
-#~ msgstr "菲特烈堡郡"
+msgid "Maryland"
+msgstr "马里兰州"
 
-#~ msgid "Copenhagen municipality"
-#~ msgstr "哥本哈根郡"
+msgid "Montana"
+msgstr "蒙大拿州"
 
-#~ msgid "Western Zealand"
-#~ msgstr "西希兰"
+msgid "Limburg"
+msgstr ""
 
-#~ msgid "Funen"
-#~ msgstr "菲茵"
+msgid "Southern"
+msgstr ""
 
-#~ msgid "Forli"
-#~ msgstr "弗利"
+msgid "North"
+msgstr "北方省"
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Manchester"
+msgstr ""
+
+msgid "Gaza"
+msgstr "加扎省"

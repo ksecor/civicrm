@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 msgid "Access Control"
-msgstr ""
+msgstr "Nadzor dostopa"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Dejavnosti"
 
 msgid "Activity"
-msgstr ""
+msgstr "Dejavnost"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administriraj CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Napredno iskanje"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -56,22 +56,23 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "Primer"
 
 msgid "Case Types"
 msgstr ""
 
+# Saj je lastno ime ampak mogoče bi bilo vseeno bolje to prevesti?
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviPrispevaj"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM domov"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM profil"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -80,49 +81,50 @@ msgid "CiviCRM Profile Fields"
 msgstr ""
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviDogodek"
 
 msgid "CiviGrant"
 msgstr ""
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviPošta"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviČlan"
 
 msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "Komponente"
 
 msgid "Confirm"
 msgstr ""
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "Plošča stikov"
 
 msgid "Contacts"
+msgstr "Stiki"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "Prispevki"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
 msgstr ""
 
+# "Posebno" je problem.
 msgid "Custom Data"
-msgstr ""
+msgstr "Posebni podatki"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -140,16 +142,16 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Razhroščevanje"
 
 msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Izbriši lokacijo"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Podatki o domeni"
 
 msgid "Download Errors"
 msgstr ""
@@ -161,7 +163,7 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Pošlji stiku elektronsko pošto"
 
 msgid "Event Information"
 msgstr ""
@@ -176,7 +178,7 @@ msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Izvozi stike"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,7 +187,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Najdi stike"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +204,10 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Skupine"
+
 msgid "From Email Address"
 msgstr ""
 
@@ -209,24 +215,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Vsesplošne nastavitve"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Člani skupine"
 
 msgid "Groups"
-msgstr ""
+msgstr "Skupine"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Uvozi"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +244,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Članstva"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -248,13 +258,13 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Lokalizacija"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Odjava"
 
 msgid "Mailer Settings"
 msgstr ""
@@ -278,7 +288,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Upravljaj skupine"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Preklicano"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -292,16 +306,17 @@ msgstr ""
 msgid "Map Location(s)"
 msgstr ""
 
+# Anglicizem attacks.
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapiranje in geokodiranje"
+
+msgid "Memberships"
+msgstr "Članstva"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -317,10 +332,10 @@ msgid "Mobile Phone Providers"
 msgstr ""
 
 msgid "New Activity"
-msgstr ""
+msgstr "Nova dejavnost"
 
 msgid "New Contact"
-msgstr ""
+msgstr "Nov kontakt"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -331,8 +346,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "Zapiski"
 
 msgid "Option Groups"
 msgstr ""
@@ -352,10 +370,15 @@ msgstr ""
 msgid "Payment Instruments"
 msgstr ""
 
+# Mogoče "Procesor plačevanja"?
 msgid "Payment Processor"
-msgstr ""
+msgstr "Procesor plačil"
 
+# Moti me beseda "procesor"
 msgid "Payment Processor Type"
+msgstr "Tip plačilnega procesorja"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +405,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "Odnosi"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -397,8 +420,9 @@ msgstr ""
 msgid "Scheduled and Sent Mailings"
 msgstr ""
 
+# Mogoče bi bilo še kaj bolj primernega od izdelovalec.
 msgid "Search Builder"
-msgstr ""
+msgstr "Izdelovalec iskanja"
 
 msgid "Sending Mail"
 msgstr ""
@@ -407,7 +431,7 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "URL-ji strani"
 
 msgid "Smtp Server"
 msgstr ""
@@ -425,13 +449,13 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Oznake"
 
 msgid "Tags (Categories)"
 msgstr ""
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Povej prijatelju/ci"
 
 msgid "This should never be seen"
 msgstr ""
@@ -452,7 +476,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Poglej aktivnost"
 
 msgid "View Date Prefences"
 msgstr ""

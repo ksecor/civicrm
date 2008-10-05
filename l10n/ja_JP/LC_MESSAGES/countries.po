@@ -767,6 +767,3 @@ msgstr "ガーンジー諸島"
 
 msgid "Isle of Man"
 msgstr "マン島"
-
-#~ msgid "Moldova, Republic of"
-#~ msgstr "モルドバ共和国"

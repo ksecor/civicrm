@@ -308,8 +308,20 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             require_once 'CRM/Utils/String.php';
             $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
         }
-        
-        
+
+        // convert params if array type
+        if ( isset( $params['group_type'] ) ) {
+            if ( is_array( $params['group_type'] ) ) {
+                $params['group_type'] =
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR,
+                             array_keys( $params['group_type'] ) ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+            }
+        } else {
+            $params['group_type'] = '';
+        }
+
         $group =& new CRM_Contact_BAO_Group();
         $group->copyValues($params);
         $group->save( );

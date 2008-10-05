@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Δραστηριότητες"
 
 msgid "Activity"
-msgstr ""
+msgstr "Δραστηριότητα"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Διαχείριση CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Προηγμένη Αναζήτηση"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -68,7 +68,7 @@ msgid "CiviCRM"
 msgstr ""
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "Αρχική Σελίδα CiviCRM"
 
 msgid "CiviCRM Profile"
 msgstr ""
@@ -103,26 +103,26 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
-msgstr ""
-
 msgid "Contacts"
+msgstr "Επαφές"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "Εισφορές"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
 msgstr ""
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Προσαρμοσμένα Δεδομένα"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -146,7 +146,7 @@ msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Διαγραφή Τοποθεσίας"
 
 msgid "Domain Information"
 msgstr ""
@@ -176,7 +176,7 @@ msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Εξαγωγή Επαφών"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Αναζήτηση Επαφών"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +202,10 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Όλες οι Ομάδες"
+
 msgid "From Email Address"
 msgstr ""
 
@@ -209,24 +213,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Γενικές Ρυθμίσεις"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Μέλη Ομάδας"
 
 msgid "Groups"
-msgstr ""
+msgstr "Ομάδες"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Εισαγωγή"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Συνδρομές Μελών"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -278,7 +286,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Διαχείρηση Ομάδων"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Ακύρωση"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -295,13 +307,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr "Συνδρομές Μελών"
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -320,7 +332,7 @@ msgid "New Activity"
 msgstr ""
 
 msgid "New Contact"
-msgstr ""
+msgstr "Νέα Επαφή"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -331,8 +343,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "Παρατηρήσεις"
 
 msgid "Option Groups"
 msgstr ""
@@ -356,6 +371,9 @@ msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +400,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "Συσχετισμοί"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -407,7 +425,7 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Διευθύνσεις Ιστοσελίδας"
 
 msgid "Smtp Server"
 msgstr ""
@@ -425,7 +443,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Ετικέτες"
 
 msgid "Tags (Categories)"
 msgstr ""

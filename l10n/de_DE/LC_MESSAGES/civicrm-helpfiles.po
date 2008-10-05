@@ -2398,6 +2398,3 @@ msgstr ""
 "CAPTCHA erfordert eine dynamische Seitengeneration. Erstellen eines Stand-"
 "Alone Formulars mit eingeschaltetem CAPTCHA Modul wird immer mit einem "
 "CAPTCHA Überprüfungsfehler geantwortet."
-
-#~ msgid "more info"
-#~ msgstr "mehr Informationen"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-24 15:36-0700\n"
 "Last-Translator: Henrik Helgesen <henrik@helgesen.us>\n"
 "Language-Team: none\n"
@@ -30,7 +30,7 @@ msgid "Activities"
 msgstr ""
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitet"
 
 msgid "Activity Types"
 msgstr ""
@@ -45,10 +45,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administrer CiviCrm"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Avanceret Søgning"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -66,7 +66,7 @@ msgid "CiviContribute"
 msgstr ""
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
 msgstr "CiviCRM Forside"
@@ -95,7 +95,6 @@ msgstr "CiviMedlem"
 msgid "CiviPledge"
 msgstr ""
 
-#, fuzzy
 msgid "Components"
 msgstr "Komponenter"
 
@@ -105,19 +104,19 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
-msgstr ""
-
 msgid "Contacts"
 msgstr "Kontakter"
+
+msgid "Contact Summary"
+msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
+msgid "Contributions"
 msgstr ""
 
-msgid "Contributions"
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
@@ -163,10 +162,10 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Email en kontakt"
 
 msgid "Event Information"
-msgstr ""
+msgstr "Event Information"
 
 msgid "Event Participants List"
 msgstr ""
@@ -204,6 +203,9 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+msgid "Find Signers"
+msgstr ""
+
 msgid "From Email Address"
 msgstr ""
 
@@ -211,7 +213,7 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Globale Indstillinger"
 
 msgid "Grant Types"
 msgstr ""
@@ -220,15 +222,18 @@ msgid "Group Members"
 msgstr ""
 
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -237,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Importer medlemmer"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -271,16 +277,20 @@ msgid "Manage ACLs"
 msgstr ""
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "Administrer bidrags sider"
 
 msgid "Manage Custom Searches"
 msgstr ""
 
 msgid "Manage Events"
-msgstr ""
+msgstr "Administer begivenheder"
 
 msgid "Manage Groups"
 msgstr ""
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Anulleret"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -297,13 +307,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr "Medlemskaber"
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -333,8 +343,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "Noter"
 
 msgid "Option Groups"
 msgstr ""
@@ -358,6 +371,9 @@ msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -384,14 +400,14 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
 msgstr ""
 
-msgid "Resubscribe"
+msgid "Relationship Types"
 msgstr ""
+
+msgid "Resubscribe"
+msgstr "Genabonner"
 
 msgid "Safe File Extension Options"
 msgstr ""
@@ -409,13 +425,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Side URL'er"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonner"
 
 msgid "Sunlight"
 msgstr ""
@@ -427,7 +443,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
 msgid "Tags (Categories)"
 msgstr ""
@@ -454,7 +470,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Se aktivitet"
 
 msgid "View Date Prefences"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:23+0200\n"
+"POT-Creation-Date: 2008-10-05 01:16+0200\n"
 "PO-Revision-Date: 2007-05-08 09:06-0700\n"
 "Last-Translator: ycs <yuccmember@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -41,9 +41,6 @@ msgstr "德拉瓦州"
 msgid "Florida"
 msgstr "佛羅里達州"
 
-msgid "Georgia"
-msgstr "喬治亞州"
-
 msgid "Hawaii"
 msgstr "夏威夷州"
 
@@ -71,9 +68,6 @@ msgstr "路易斯安那州"
 msgid "Maine"
 msgstr "緬因州"
 
-msgid "Maryland"
-msgstr "馬里蘭州"
-
 msgid "Massachusetts"
 msgstr "麻薩諸塞州"
 
@@ -88,9 +82,6 @@ msgstr "密西西比州"
 
 msgid "Missouri"
 msgstr "密蘇里州"
-
-msgid "Montana"
-msgstr "蒙大拿州"
 
 msgid "Nebraska"
 msgstr "內布拉斯加州"
@@ -167,23 +158,8 @@ msgstr "懷俄明州"
 msgid "District of Columbia"
 msgstr "哥倫比亞特區"
 
-msgid "American Samoa"
-msgstr "美屬薩摩亞"
-
-msgid "Guam"
-msgstr "關島"
-
-msgid "Northern Mariana Islands"
-msgstr "美屬北馬里亞納群島"
-
-msgid "Puerto Rico"
-msgstr "波多黎各(美屬)"
-
 msgid "Virgin Islands"
 msgstr "美屬維京群島"
-
-msgid "United States Minor Outlying Islands"
-msgstr "美屬邊疆群島"
 
 msgid "Armed Forces Europe"
 msgstr "美軍歐洲分部"
@@ -1250,12 +1226,6 @@ msgstr ""
 msgid "Liege"
 msgstr ""
 
-msgid "Limburg"
-msgstr ""
-
-msgid "Luxembourg"
-msgstr "盧森堡"
-
 msgid "Namur"
 msgstr ""
 
@@ -1865,9 +1835,6 @@ msgstr ""
 msgid "South-East"
 msgstr ""
 
-msgid "Southern"
-msgstr ""
-
 msgid "Brèsckaja voblasc'"
 msgstr ""
 
@@ -1884,9 +1851,6 @@ msgid "Minskaja voblasc'"
 msgstr ""
 
 msgid "Vicebskaja voblasc'"
-msgstr ""
-
-msgid "Belize"
 msgstr ""
 
 msgid "Cayo"
@@ -2201,9 +2165,6 @@ msgstr ""
 msgid "Far North"
 msgstr ""
 
-msgid "North"
-msgstr ""
-
 msgid "South"
 msgstr ""
 
@@ -2285,9 +2246,6 @@ msgstr "山西省"
 msgid "Sichuan"
 msgstr "四川省"
 
-msgid "Taiwan"
-msgstr "台灣"
-
 msgid "Yunnan"
 msgstr "雲南省"
 
@@ -2305,9 +2263,6 @@ msgstr "新疆維吾爾自治區"
 
 msgid "Xizang"
 msgstr "西藏自治區"
-
-msgid "Hong Kong"
-msgstr "香港特別行政區"
 
 msgid "Macau"
 msgstr "澳門特別行政區"
@@ -2652,9 +2607,6 @@ msgid "Ali Sabiah"
 msgstr ""
 
 msgid "Dikhil"
-msgstr ""
-
-msgid "Djibouti"
 msgstr ""
 
 msgid "Obock"
@@ -3335,9 +3287,6 @@ msgstr ""
 msgid "Tigrai"
 msgstr ""
 
-msgid "Eastern"
-msgstr ""
-
 msgid "Northern"
 msgstr ""
 
@@ -3896,9 +3845,6 @@ msgstr ""
 msgid "Greenwich"
 msgstr ""
 
-msgid "Guernsey"
-msgstr ""
-
 msgid "Gwynedd"
 msgstr ""
 
@@ -3954,9 +3900,6 @@ msgid "Isles of Scilly"
 msgstr ""
 
 msgid "Islington"
-msgstr ""
-
-msgid "Jersey"
 msgstr ""
 
 msgid "Kensington and Chelsea"
@@ -4017,9 +3960,6 @@ msgid "Luton"
 msgstr ""
 
 msgid "Magherafelt"
-msgstr ""
-
-msgid "Manchester"
 msgstr ""
 
 msgid "Medway"
@@ -4448,9 +4388,6 @@ msgstr ""
 msgid "Macenta"
 msgstr ""
 
-msgid "Mali"
-msgstr ""
-
 msgid "Mamou"
 msgstr ""
 
@@ -4672,9 +4609,6 @@ msgstr ""
 
 msgid "Escuintla"
 msgstr ""
-
-msgid "Guatemala"
-msgstr "瓜地馬拉"
 
 msgid "Huehuetenango"
 msgstr ""
@@ -7133,9 +7067,6 @@ msgstr ""
 msgid "Rodrigues Island"
 msgstr ""
 
-msgid "Male"
-msgstr ""
-
 msgid "Alif"
 msgstr ""
 
@@ -7312,9 +7243,6 @@ msgstr ""
 
 msgid "Jalisco"
 msgstr ""
-
-msgid "Mexico"
-msgstr "墨西哥"
 
 msgid "Michoacin"
 msgstr ""
@@ -7583,9 +7511,6 @@ msgstr ""
 msgid "Nassarawa"
 msgstr ""
 
-msgid "Niger"
-msgstr ""
-
 msgid "Ogun"
 msgstr ""
 
@@ -7846,9 +7771,6 @@ msgstr ""
 
 msgid "Loa Santoa"
 msgstr ""
-
-msgid "Panama"
-msgstr "巴拿馬"
 
 msgid "Veraguas"
 msgstr ""
@@ -8997,9 +8919,6 @@ msgid "Orebro lan"
 msgstr ""
 
 msgid "Ostergotlands lan"
-msgstr ""
-
-msgid "Saint Helena"
 msgstr ""
 
 msgid "Ascension"
@@ -11487,9 +11406,6 @@ msgstr "佛蒙特州"
 msgid "North Gaza"
 msgstr "北達科他州"
 
-msgid "Gaza"
-msgstr ""
-
 msgid "Deir el-Balah"
 msgstr ""
 
@@ -11508,9 +11424,6 @@ msgid "North West"
 msgstr ""
 
 msgid "Tyne and Wear"
-msgstr ""
-
-msgid "Isle of Man"
 msgstr ""
 
 msgid "Greater Manchester"
@@ -11559,4 +11472,28 @@ msgid "Medio Campidano"
 msgstr ""
 
 msgid "Ogliastra"
+msgstr ""
+
+msgid "Maryland"
+msgstr "馬里蘭州"
+
+msgid "Montana"
+msgstr "蒙大拿州"
+
+msgid "Limburg"
+msgstr ""
+
+msgid "Southern"
+msgstr ""
+
+msgid "North"
+msgstr ""
+
+msgid "Eastern"
+msgstr ""
+
+msgid "Manchester"
+msgstr ""
+
+msgid "Gaza"
 msgstr ""

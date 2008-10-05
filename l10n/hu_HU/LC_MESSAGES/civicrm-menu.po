@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 msgid "Access Control"
-msgstr ""
+msgstr "Hozzáférés-szabályozás "
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Aktivitás"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitás"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM adminisztráció"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Részletes kereső"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -56,7 +56,7 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "Eset"
 
 msgid "Case Types"
 msgstr ""
@@ -95,7 +95,7 @@ msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "Komponensek"
 
 msgid "Confirm"
 msgstr ""
@@ -103,26 +103,26 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
+msgid "Contacts"
 msgstr ""
 
-msgid "Contacts"
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
-msgstr ""
-
 msgid "Contributions"
+msgstr "Hozzájárulások"
+
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
 msgstr ""
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Egyedi adat "
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -140,7 +140,7 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Hibaelhárítás "
 
 msgid "Delete Contact"
 msgstr ""
@@ -149,7 +149,7 @@ msgid "Delete Location"
 msgstr ""
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Domain információ"
 
 msgid "Download Errors"
 msgstr ""
@@ -176,7 +176,7 @@ msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "Kapcsolat export"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "Kapcsolatok keresése"
 
 msgid "Find Contributions"
 msgstr ""
@@ -202,6 +202,10 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+#, fuzzy
+msgid "Find Signers"
+msgstr "Mégsem"
+
 msgid "From Email Address"
 msgstr ""
 
@@ -209,7 +213,7 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Általános beállítások"
 
 msgid "Grant Types"
 msgstr ""
@@ -218,15 +222,18 @@ msgid "Group Members"
 msgstr ""
 
 msgid "Groups"
-msgstr ""
+msgstr "Csoportok"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Tagok szerkesztés"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -280,6 +288,10 @@ msgstr ""
 msgid "Manage Groups"
 msgstr ""
 
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Dátum törlés"
+
 msgid "Manage Premiums"
 msgstr ""
 
@@ -293,15 +305,15 @@ msgid "Map Location(s)"
 msgstr ""
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Térképek"
+
+msgid "Memberships"
+msgstr "Tagságok"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -331,8 +343,11 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
-msgid "Notes"
+msgid "New Pledge"
 msgstr ""
+
+msgid "Notes"
+msgstr "Jegyzet"
 
 msgid "Option Groups"
 msgstr ""
@@ -353,9 +368,12 @@ msgid "Payment Instruments"
 msgstr ""
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Fizetési modul"
 
 msgid "Payment Processor Type"
+msgstr ""
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -382,10 +400,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "Kapcsolatok"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -407,7 +425,7 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Web URL"
 
 msgid "Smtp Server"
 msgstr ""
@@ -425,7 +443,7 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Címkék"
 
 msgid "Tags (Categories)"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,10 +14,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Kabul Edilen Kredi Kartları"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Erişim Denetimi"
 
 msgid "ACL"
 msgstr ""
@@ -26,10 +26,10 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Etkinlikler"
 
 msgid "Activity"
-msgstr ""
+msgstr "Etkinlik"
 
 msgid "Activity Types"
 msgstr ""
@@ -44,10 +44,10 @@ msgid "Address Preferences"
 msgstr ""
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM Yönetimi"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Ayrıntılı Arama"
 
 msgid "Assign Users to ACL Roles"
 msgstr ""
@@ -56,22 +56,22 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr ""
+msgstr "Vaka"
 
 msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviBağış"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Ana Sayfa"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM Profili"
 
 msgid "CiviCRM Profile Create"
 msgstr ""
@@ -83,46 +83,46 @@ msgid "CiviEvent"
 msgstr ""
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "Bağış"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviPosta"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviÜye"
 
 msgid "CiviPledge"
 msgstr ""
 
 msgid "Components"
-msgstr ""
+msgstr "Bileşenler"
 
 msgid "Confirm"
-msgstr ""
+msgstr "Onayla"
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "İrtibat Kontrol Paneli"
 
 msgid "Contacts"
+msgstr "İrtibatlar"
+
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
+msgid "Contributions"
+msgstr "Katılımlar"
+
 msgid "Contribution Types"
 msgstr ""
 
-msgid "Contributions"
-msgstr ""
-
 msgid "Create New Group"
-msgstr ""
+msgstr "Yeni Öbek Yarat"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Özel Veri"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -140,19 +140,19 @@ msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Hata Ayıklama"
 
 msgid "Delete Contact"
 msgstr ""
 
 msgid "Delete Location"
-msgstr ""
+msgstr "Konum Sil"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Alan (Bölge) Bilgisi"
 
 msgid "Download Errors"
-msgstr ""
+msgstr "Download Errors"
 
 msgid "Draft and Unscheduled Mailings"
 msgstr ""
@@ -161,7 +161,7 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "Bir İrtibata E-posta Gönder"
 
 msgid "Event Information"
 msgstr ""
@@ -170,13 +170,13 @@ msgid "Event Participants List"
 msgstr ""
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Olay Kaydetme"
 
 msgid "Event Types"
 msgstr ""
 
 msgid "Export Contacts"
-msgstr ""
+msgstr "İrtibatları Gönder (Aktar)"
 
 msgid "File System Paths"
 msgstr ""
@@ -185,7 +185,7 @@ msgid "Find and Merge Duplicate Contacts"
 msgstr ""
 
 msgid "Find Contacts"
-msgstr ""
+msgstr "İrtibatları Bul"
 
 msgid "Find Contributions"
 msgstr ""
@@ -194,13 +194,17 @@ msgid "Find Grants"
 msgstr ""
 
 msgid "Find Members"
-msgstr ""
+msgstr "Üyeleri Bul"
 
 msgid "Find Participants"
 msgstr ""
 
 msgid "Find Pledges"
 msgstr ""
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "Üyeleri Bul"
 
 msgid "From Email Address"
 msgstr ""
@@ -209,24 +213,27 @@ msgid "Gender Options"
 msgstr ""
 
 msgid "Global Settings"
-msgstr ""
+msgstr "Genel Ayarlar"
 
 msgid "Grant Types"
 msgstr ""
 
 msgid "Group Members"
-msgstr ""
+msgstr "Öbek Üyeleri"
 
 msgid "Groups"
-msgstr ""
+msgstr "Öbekler"
 
 msgid "Headers, Footers, and Automated Messages"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Karşıdan Al (İçeri Aktar)"
 
 msgid "Import Contributions"
+msgstr ""
+
+msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
@@ -235,8 +242,9 @@ msgstr ""
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
-msgstr ""
+#, fuzzy
+msgid "Import Signers"
+msgstr "Üyeleri -Karşıdan- Al"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr ""
@@ -248,13 +256,13 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Yerelleştirme"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
 
 msgid "Log out"
-msgstr ""
+msgstr "Çıkış"
 
 msgid "Mailer Settings"
 msgstr ""
@@ -278,7 +286,11 @@ msgid "Manage Events"
 msgstr ""
 
 msgid "Manage Groups"
-msgstr ""
+msgstr "Öbekleri Yönet"
+
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "İptal Edildi"
 
 msgid "Manage Premiums"
 msgstr ""
@@ -293,15 +305,15 @@ msgid "Map Location(s)"
 msgstr ""
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Haritalama ve Koordinatlar"
+
+msgid "Memberships"
+msgstr "Üyelikler"
 
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -314,13 +326,13 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Cep Telefonu Sağlayıcıları"
 
 msgid "New Activity"
-msgstr ""
+msgstr "Yeni Etkinlik"
 
 msgid "New Contact"
-msgstr ""
+msgstr "Yeni İrtibat"
 
 msgid "New Contact Dialog"
 msgstr ""
@@ -331,8 +343,12 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
+#, fuzzy
+msgid "New Pledge"
+msgstr "View Contact Details"
+
 msgid "Notes"
-msgstr ""
+msgstr "Notlar"
 
 msgid "Option Groups"
 msgstr ""
@@ -350,12 +366,15 @@ msgid "Participant Status"
 msgstr ""
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Ödeme Araçları"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Ödeme İşlemcisi"
 
 msgid "Payment Processor Type"
+msgstr "Ödeme İşlemcisi Türü"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -368,7 +387,7 @@ msgid "Preferred Communication Methods"
 msgstr ""
 
 msgid "Preview Mailing"
-msgstr ""
+msgstr "Postalamayı Önizle"
 
 msgid "Price Field Options"
 msgstr ""
@@ -377,15 +396,15 @@ msgid "Price Fields"
 msgstr ""
 
 msgid "Price Sets"
-msgstr ""
+msgstr "Ücret Kümeleri"
 
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
-msgstr ""
-
 msgid "Relationships"
+msgstr "İlişkiler"
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -398,7 +417,7 @@ msgid "Scheduled and Sent Mailings"
 msgstr ""
 
 msgid "Search Builder"
-msgstr ""
+msgstr "Arama Oluşturucu"
 
 msgid "Sending Mail"
 msgstr ""
@@ -407,13 +426,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Site URL'leri"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abone Ol"
 
 msgid "Sunlight"
 msgstr ""
@@ -425,19 +444,19 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 msgid "Tags (Categories)"
 msgstr ""
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Arkadaşına haber ver"
 
 msgid "This should never be seen"
 msgstr ""
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Ayrıl"
 
 msgid "Upcoming Events"
 msgstr ""
@@ -452,7 +471,7 @@ msgid "User Framework Settings"
 msgstr ""
 
 msgid "View Activity"
-msgstr ""
+msgstr "Etkinliği Göster"
 
 msgid "View Date Prefences"
 msgstr ""

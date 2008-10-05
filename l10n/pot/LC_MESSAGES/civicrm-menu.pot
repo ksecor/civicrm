@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -103,19 +103,19 @@ msgstr ""
 msgid "Contact Dashboard"
 msgstr ""
 
-msgid "Contact Summary"
+msgid "Contacts"
 msgstr ""
 
-msgid "Contacts"
+msgid "Contact Summary"
 msgstr ""
 
 msgid "Contribution Chart"
 msgstr ""
 
-msgid "Contribution Types"
+msgid "Contributions"
 msgstr ""
 
-msgid "Contributions"
+msgid "Contribution Types"
 msgstr ""
 
 msgid "Create New Group"
@@ -202,6 +202,9 @@ msgstr ""
 msgid "Find Pledges"
 msgstr ""
 
+msgid "Find Signers"
+msgstr ""
+
 msgid "From Email Address"
 msgstr ""
 
@@ -229,13 +232,16 @@ msgstr ""
 msgid "Import Contributions"
 msgstr ""
 
+msgid "Import/Export Mappings"
+msgstr ""
+
 msgid "Import Members"
 msgstr ""
 
 msgid "Import Participants"
 msgstr ""
 
-msgid "Import/Export Mappings"
+msgid "Import Signers"
 msgstr ""
 
 msgid "Individual Prefixes (Ms, Mr...)"
@@ -280,6 +286,9 @@ msgstr ""
 msgid "Manage Groups"
 msgstr ""
 
+msgid "Manage Pledges"
+msgstr ""
+
 msgid "Manage Premiums"
 msgstr ""
 
@@ -295,13 +304,13 @@ msgstr ""
 msgid "Mapping and Geocoding"
 msgstr ""
 
+msgid "Memberships"
+msgstr ""
+
 msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
-
-msgid "Memberships"
 msgstr ""
 
 msgid "Merge Contact"
@@ -331,6 +340,9 @@ msgstr ""
 msgid "New Mailing"
 msgstr ""
 
+msgid "New Pledge"
+msgstr ""
+
 msgid "Notes"
 msgstr ""
 
@@ -358,6 +370,9 @@ msgstr ""
 msgid "Payment Processor Type"
 msgstr ""
 
+msgid "PledgeBank"
+msgstr ""
+
 msgid "Pledge Payments"
 msgstr ""
 
@@ -382,10 +397,10 @@ msgstr ""
 msgid "Registration Page"
 msgstr ""
 
-msgid "Relationship Types"
+msgid "Relationships"
 msgstr ""
 
-msgid "Relationships"
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
@@ -456,3 +471,4 @@ msgstr ""
 
 msgid "View Date Prefences"
 msgstr ""
+

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-06-02 02:04-0700\n"
 "Last-Translator: DOKTER_MOF <mofdok@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -15,12 +15,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.0.2\n"
-
-#: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
-#: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
-#: templates/CRM/Admin/Page/DedupeFind.tpl
-msgid "Contact"
-msgstr "Контакт"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
@@ -36,10 +30,6 @@ msgstr "ACL роль"
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
 msgstr "Группа"
-
-#: CRM/ACL/BAO/ACL.php CRM/Core/Menu.php
-msgid "Import"
-msgstr "Импорт"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
@@ -233,10 +223,6 @@ msgstr "Профиль"
 msgid "All Events"
 msgstr "Все события"
 
-#: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php
-msgid "Custom Data"
-msgstr "Настраиваемые данные"
-
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
 msgstr "Профиль"
@@ -278,11 +264,6 @@ msgstr "Редактировать"
 #, fuzzy
 msgid "Delete ACL"
 msgstr "Удалить"
-
-#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
-#: CRM/Admin/Page/Options.php
-msgid "Access Control"
-msgstr "Настройка прав"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -446,15 +427,17 @@ msgstr "Отмена"
 msgid "Status"
 msgstr "Статус"
 
+#: CRM/Activity/Form/Activity.php CRM/Core/BAO/CustomField.php
+#: CRM/Friend/Form.php templates/CRM/Case/Form/CaseActivity.tpl
+#: templates/CRM/Contact/Page/View/Email.tpl
+#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+msgid "From"
+msgstr "От"
+
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
 msgstr "Добавил"
-
-#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-msgid "Case"
-msgstr "Портфель"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -825,11 +808,6 @@ msgstr "URL адрес кнопки"
 msgid "API URL"
 msgstr "URL адрес API"
 
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
-msgid "Payment Processor Type"
-msgstr "Инструмент оплаты"
-
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 #, fuzzy
@@ -877,13 +855,6 @@ msgstr "Формат"
 msgid "Value should be a positive number"
 msgstr "Значение должно быть положительным числом"
 
-#: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
-#: templates/CRM/Block/Search.tpl
-#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: templates/CRM/Contact/Page/View/DashBoard.tpl
-msgid "Advanced Search"
-msgstr "Расширенный поиск"
-
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
@@ -917,11 +888,6 @@ msgstr "Редактировать опцию"
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "Редактировать %1"
-
-#: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
-#, fuzzy
-msgid "Global Settings"
-msgstr "Свойства группы"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl xml/templates/civicrm_data.tpl
@@ -957,14 +923,6 @@ msgstr "Дата начала"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "Дата завершения"
-
-#: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Dedupe/Merger.php CRM/Note/Form/Note.php
-#: templates/CRM/Contact/Form/Edit.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Notes"
-msgstr "Заметки"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -1475,18 +1433,6 @@ msgid "Search"
 msgstr "Поиск"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Activity/Selector/Activity.tpl xml/templates/civicrm_data.tpl
-msgid "Activities"
-msgstr "Действия"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Relationships"
-msgstr "Связи"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: xml/templates/civicrm_data.tpl
 msgid "Change Log"
 msgstr "Дата изменения"
@@ -1715,20 +1661,6 @@ msgstr "Отключить связь"
 msgid "SMS Sent"
 msgstr "SMS отправлено"
 
-#: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Groups"
-msgstr "Группы"
-
-#: CRM/Contact/Page/View/Tabbed.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
-#: xml/templates/civicrm_data.tpl
-msgid "Tags"
-msgstr "Закладки"
-
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
 msgstr "Просмотреть данные о контакте"
@@ -1776,13 +1708,6 @@ msgstr "Заполнить"
 #, fuzzy
 msgid "Link"
 msgstr "в"
-
-#: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
-#: templates/CRM/Contact/Page/View/Email.tpl
-#: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
-msgid "From"
-msgstr "От"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -2015,17 +1940,6 @@ msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr "Не выбран пароль в CiviCRM &raquo;Payment Processor."
 
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-msgid "Contributions"
-msgstr "Вклады"
-
-#: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Memberships"
-msgstr "В прошлом участник"
-
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
 msgstr "Удалить настраиваемое поле"
@@ -2127,12 +2041,6 @@ msgstr "Просмотр настраиваемых данных"
 #: CRM/UF/Page/Group.php
 msgid "Settings"
 msgstr "Настройки"
-
-#: CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
-#: CRM/Friend/Form/Event.php CRM/Friend/Form/Pledge.php
-#: xml/templates/civicrm_data.tpl
-msgid "Tell a Friend"
-msgstr "Сказать другу"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
@@ -2528,10 +2436,6 @@ msgid "View Activity History URL"
 msgstr "Просмотр URL Истории взаимодействия"
 
 #: CRM/Activity/Selector/Activity.php
-msgid "View Activity"
-msgstr "Просмотреть действие"
-
-#: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
 msgstr ""
 
@@ -2880,11 +2784,6 @@ msgstr "Просмотреть контакт"
 msgid "Editing Contacts"
 msgstr "Найти контакт"
 
-#: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
-msgid "Contact Dashboard"
-msgstr "Пометки"
-
 #: CRM/Admin/Form/Preferences/Display.php xml/templates/civicrm_data.tpl
 msgid "WYSIWYG Editor"
 msgstr ""
@@ -2909,11 +2808,6 @@ msgstr "Тип связи сохранен."
 #, fuzzy
 msgid "Settings - Enable Components"
 msgstr "Дата и Время"
-
-#: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
-msgid "Components"
-msgstr "Тип действия"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
@@ -4074,21 +3968,8 @@ msgstr "Добавить членов в Организацию"
 
 #: CRM/Contact/Form/DeleteLocation.php
 #, fuzzy
-msgid "Delete Location"
-msgstr "Удалить тип местанахождения"
-
-#: CRM/Contact/Form/DeleteLocation.php
-#, fuzzy
 msgid "The location has been deleted."
 msgstr "Выбранный тип местоположения удален."
-
-#: CRM/Contact/Form/Domain.php
-msgid "Domain Information"
-msgstr "Информация о домене"
-
-#: CRM/Contact/Form/Domain.php
-msgid "Administer CiviCRM"
-msgstr "CiviCRM Настройка"
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -4158,6 +4039,11 @@ msgstr "Формат почты"
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
 msgstr ""
+
+#: CRM/Contact/Form/Edit.php
+#, fuzzy
+msgid "Please select at least one tag."
+msgstr "Пожалуйста выберите хотябы один контакт."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -4446,10 +4332,6 @@ msgstr "Найти..."
 #, fuzzy
 msgid "with"
 msgstr "С"
-
-#: CRM/Contact/Form/Search/Basic.php
-msgid "Find Contacts"
-msgstr "Найти контакт"
 
 #: CRM/Contact/Form/Search/Builder.php
 #, fuzzy
@@ -4769,11 +4651,6 @@ msgstr "Включено"
 msgid "Exclude Tag(s)"
 msgstr "Исключено"
 
-#: CRM/Contact/Form/Search/Custom.php
-#, fuzzy
-msgid "Custom Searches"
-msgstr "Выборочный поиск"
-
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "There are no events with Price Sets"
 msgstr ""
@@ -4844,10 +4721,6 @@ msgstr "Печать"
 #, fuzzy
 msgid "Add Contact To Existing Group"
 msgstr "Добавить Контакты в Группу"
-
-#: CRM/Contact/Form/Task/AddToGroup.php
-msgid "Create New Group"
-msgstr "Создать новую группу"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #, fuzzy
@@ -5044,11 +4917,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Map.php
 #, fuzzy
-msgid "Map Location(s)"
-msgstr "Местоположение"
-
-#: CRM/Contact/Form/Task/Map.php
-#, fuzzy
 msgid ""
 "This address does not contain latitude/longitude information and cannot be "
 "mapped."
@@ -5128,10 +4996,6 @@ msgid "Contact Activities"
 msgstr ""
 
 #: CRM/Contact/Page/View/Activity.php
-msgid "Email a Contact"
-msgstr "Написать письмо"
-
-#: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
 msgstr ""
 
@@ -5152,11 +5016,6 @@ msgid ""
 "We could not find a user id. You must be logged in to access the CiviCRM "
 "Home Page and menus."
 msgstr ""
-
-#: CRM/Contact/Page/View/DashBoard.php
-#, fuzzy
-msgid "CiviCRM Home"
-msgstr "CiviCRM Меню"
 
 #: CRM/Contact/Page/View/Delete.php
 msgid "Contact Delete"
@@ -5262,10 +5121,6 @@ msgstr "Пометить Контакты (расставить пометки)"
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
 msgstr "Отменить пометки Контактов (удалить пометки)"
-
-#: CRM/Contact/Task.php
-msgid "Export Contacts"
-msgstr "Экспорт контактов"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -5590,15 +5445,6 @@ msgstr ""
 msgid "Dynamic Form Creator"
 msgstr "Помощь Post-формы"
 
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Participant Status"
-msgstr "Статус группы"
-
-#: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_data.tpl
-msgid "Participant Role"
-msgstr ""
-
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
 msgstr "Пожалуйста укажите корректную сумму"
@@ -5645,10 +5491,6 @@ msgid "CiviCRM Menu"
 msgstr "CiviCRM Меню"
 
 #: CRM/Core/Block.php
-msgid "CiviCRM"
-msgstr "CiviCRM"
-
-#: CRM/Core/Block.php
 msgid "CiviCRM Language Switcher"
 msgstr ""
 
@@ -5661,10 +5503,6 @@ msgstr "CiviCRM Ярлыки "
 #, fuzzy
 msgid "Quest Search"
 msgstr "Поиск"
-
-#: CRM/Core/Block.php templates/CRM/Activity/Form/Activity.tpl
-msgid "New Activity"
-msgstr ""
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
@@ -5704,10 +5542,6 @@ msgstr "Обновить Смарт Группу"
 #, fuzzy
 msgid "My Account"
 msgstr "Сумма"
-
-#: CRM/Core/Block.php
-msgid "Log out"
-msgstr "Выйти"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -5954,10 +5788,6 @@ msgstr ""
 #, fuzzy
 msgid "Table Name"
 msgstr "Полное наименование"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Activity"
-msgstr "Действие"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -6214,11 +6044,6 @@ msgstr "Опция надпись"
 #, fuzzy
 msgid "Filter"
 msgstr "Заполнить"
-
-#: CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
-msgid "Payment Processor"
-msgstr "Инструмент оплаты"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6538,17 +6363,6 @@ msgstr ""
 msgid "Bad menu record in database"
 msgstr "Имя уже существует в базе данных"
 
-#: CRM/Core/Invoke.php templates/CRM/Contact/Form/Search/ResultTasks.tpl
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "Search Builder"
-msgstr "Результаты поиска"
-
-#: CRM/Core/Invoke.php
-#, fuzzy
-msgid "New Contact"
-msgstr "Просмотреть контакт"
-
 #: CRM/Core/Invoke.php
 msgid "Create Profile"
 msgstr "Создать профиль"
@@ -6557,37 +6371,6 @@ msgstr "Создать профиль"
 #, fuzzy
 msgid "Could not find %1 in path tree"
 msgstr "Мы не смогли найти id контакта."
-
-#: CRM/Core/Menu.php
-msgid "CiviContribute"
-msgstr "CiviВзнос"
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviEvent"
-msgstr "Событие"
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviMember"
-msgstr "Участники"
-
-#: CRM/Core/Menu.php
-msgid "CiviMail"
-msgstr "CiviMail"
-
-#: CRM/Core/Menu.php
-msgid "CiviGrant"
-msgstr ""
-
-#: CRM/Core/Menu.php xml/templates/civicrm_data.tpl
-msgid "PledgeBank"
-msgstr ""
-
-#: CRM/Core/Menu.php
-#, fuzzy
-msgid "CiviPledge"
-msgstr "Участники"
 
 #: CRM/Core/Menu.php
 msgid "Logout"
@@ -6783,53 +6566,9 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Permission.php
-msgid "add contacts"
-msgstr "добавить контакты"
-
-#: CRM/Core/Permission.php
-msgid "view all contacts"
-msgstr "просмотреть все контакты"
-
-#: CRM/Core/Permission.php
-msgid "edit all contacts"
-msgstr "редактировать все контакты"
-
-#: CRM/Core/Permission.php
-msgid "import contacts"
-msgstr "импортировать контакты"
-
-#: CRM/Core/Permission.php
-msgid "edit groups"
-msgstr "редактировать группы"
-
-#: CRM/Core/Permission.php
-msgid "administer CiviCRM"
-msgstr "администрирование CiviCRM"
-
-#: CRM/Core/Permission.php
-msgid "access uploaded files"
-msgstr "доступ для загруженных файлов"
-
-#: CRM/Core/Permission.php
-msgid "profile listings and forms"
-msgstr "профиль списков и форм"
-
-#: CRM/Core/Permission.php
-msgid "access all custom data"
-msgstr "доступ ко всем выбраным данным"
-
-#: CRM/Core/Permission.php
 #, fuzzy
 msgid "view all activities"
 msgstr "Просмотр всей истории действий..."
-
-#: CRM/Core/Permission.php
-msgid "access CiviCRM"
-msgstr "доступ CiviCRM"
-
-#: CRM/Core/Permission.php
-msgid "access Contact Dashboard"
-msgstr "доступ Контакт панель"
 
 #: CRM/Core/Permission.php
 #, fuzzy
@@ -6969,10 +6708,6 @@ msgid "Rich Text Editor"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Contacts"
-msgstr "Контакты"
-
-#: CRM/Core/SelectValues.php
 msgid "Individuals"
 msgstr "Физические лица"
 
@@ -6986,10 +6721,6 @@ msgstr "Организации"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
-
-#: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
-msgid "Pledges"
 msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
@@ -7752,10 +7483,6 @@ msgid "Thanks for spreading the word about this pledge to your friends."
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "Manage Groups"
-msgstr "Редактировать Группы"
-
-#: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr "Подтверждение удаленя группы"
 
@@ -7803,10 +7530,6 @@ msgstr "Действительно деактивировать группу?"
 #: CRM/Group/Page/Group.php
 msgid "Members"
 msgstr "Участники"
-
-#: CRM/Group/Page/Group.php
-msgid "Group Members"
-msgstr "Участники группы"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -8222,10 +7945,6 @@ msgstr "Деактивировать поле профиля поле CiviCRM"
 #: CRM/Price/Page/Set.php
 msgid "Enable Price Set"
 msgstr ""
-
-#: CRM/Price/Page/Set.php
-msgid "Price Sets"
-msgstr "Выборка прайсов"
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
@@ -9476,12 +9195,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
-#: templates/CRM/Activity/Import/Form/Summary.tpl
-#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
-msgid "Download Errors"
-msgstr "Ошибки загрузки"
-
-#: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr "Конфликты строк"
@@ -10321,11 +10034,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Mapping and Geocoding"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid ""
 "Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
@@ -10503,10 +10211,6 @@ msgid "CMS Settings"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-msgid "Update Directory Path and URL"
-msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
 "Use this form if you need to reset the Base Directory Path and Base URL "
 "settings for your CiviCRM\n"
@@ -10553,10 +10257,6 @@ msgid ""
 "time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your "
 "installation's settings file (civicrm.settings.php)."
 msgstr ""
-
-#: templates/CRM/Admin/Form/Setting/Url.tpl
-msgid "Site URLs"
-msgstr "URL Адрес сайта"
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -11116,11 +10816,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
-msgid "Localization"
-msgstr "Местоположение"
-
-#: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
@@ -11163,10 +10858,6 @@ msgid ""
 "Enable Version Checking, configure Contact Search behavior, and configure "
 "optional reCAPTCHA feature to prevent automated abuse of public forms."
 msgstr ""
-
-#: templates/CRM/Admin/Page/Setting.tpl
-msgid "Debugging"
-msgstr "Отладка"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -12601,11 +12292,6 @@ msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
-msgid "View Contact Dashboard"
-msgstr "Просмотреть данные о контакте"
-
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "view current employer"
 msgstr ""
 
@@ -12663,10 +12349,6 @@ msgid "Are you sure you want to unsubscribe from %1?"
 msgstr "Вы действительно хотите удалить %1 из %2?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Unsubscribe"
-msgstr "Отказаться от подписки"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Pending Subscriptions"
 msgstr "Ожидается участие"
@@ -12680,11 +12362,6 @@ msgstr "Участие в этих группах ожидает подтвер�
 #, fuzzy
 msgid "Are you sure you want to confirm subscription for %1?"
 msgstr "Вы действительно хотите удалить %1 из %2?"
-
-#: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
-msgid "Confirm"
-msgstr "Настраивать"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -13982,10 +13659,6 @@ msgid "Disable CiviCRM Profile"
 msgstr "Деактивировать поле профиля поле CiviCRM"
 
 #: templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr "Профиль  CiviCRM"
-
-#: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
 
@@ -14375,10 +14048,6 @@ msgid "Instant Messenger (IM) screen-names"
 msgstr "Служба Мгновенных Сообщений (предпочитаемый)"
 
 #: xml/templates/civicrm_data.tpl
-msgid "Mobile Phone Providers"
-msgstr "Операторы мобильной связи"
-
-#: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Individual contact prefixes"
 msgstr "Префикс"
@@ -14387,14 +14056,6 @@ msgstr "Префикс"
 #, fuzzy
 msgid "Individual contact suffixes"
 msgstr "Суффикс"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Accepted Credit Cards"
-msgstr "Принятые кредитные карточки"
-
-#: xml/templates/civicrm_data.tpl
-msgid "Payment Instruments"
-msgstr "Метод оплаты"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14423,11 +14084,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
-msgid "From Email Address"
-msgstr "Неверный электронный адрес"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Recurring Frequency Units"
 msgstr "Единица частоты"
 
@@ -14445,10 +14101,6 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Text message (SMS) sent."
-msgstr ""
-
-#: xml/templates/civicrm_data.tpl
-msgid "Event Registration"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl

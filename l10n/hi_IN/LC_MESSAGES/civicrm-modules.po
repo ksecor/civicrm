@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-09-26 01:28-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -609,10 +609,6 @@ msgstr ""
 msgid "Body Text"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-msgid "Subscribe"
-msgstr ""
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
@@ -664,11 +660,6 @@ msgstr ""
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
 msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
-#: templates/CRM/Member/Page/Tab.tpl
-msgid "Membership Types"
-msgstr "सदस्यता प्रकार"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
@@ -1955,10 +1946,6 @@ msgstr ""
 msgid "Contributor Name or Email"
 msgstr "योगदान तिथि से"
 
-#: CRM/Contribute/Form/Search.php
-msgid "Find Contributions"
-msgstr "याेगदान खाेजें"
-
 #: CRM/Contribute/Form/Task/Batch.php
 msgid "Batch Update for Contributions"
 msgstr "याेगदान के लिये सामूहिक अद्यतन"
@@ -2065,11 +2052,6 @@ msgstr ""
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Make a Copy of CiviCRM Contribution Page"
 msgstr ""
-
-#: CRM/Contribute/Page/ContributionPage.php
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "Manage Contribution Pages"
-msgstr "योगदान प्रबंधित पन्ने"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Manage Contribution Page"
@@ -2261,14 +2243,6 @@ msgstr "घटना पंजीकरण"
 #, fuzzy
 msgid "Max Participants"
 msgstr "प्रतिभागि"
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Event Information"
-msgstr "कार्यक्रम जानकारी"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2693,10 +2667,6 @@ msgstr ""
 msgid "Please select valid event type."
 msgstr ""
 
-#: CRM/Event/Form/Search.php
-msgid "Find Participants"
-msgstr "प्रतिभागियाें काे खाेजें"
-
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
 msgstr "कार्यक्रम के लिये सामूहिक अद्यतन"
@@ -2811,10 +2781,6 @@ msgstr ""
 #: CRM/Event/Page/ManageEvent.php
 msgid "Copy Event"
 msgstr ""
-
-#: CRM/Event/Page/ManageEvent.php
-msgid "Manage Events"
-msgstr "कार्यक्रम प्रबंधित"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -3099,10 +3065,6 @@ msgstr ""
 #, fuzzy
 msgid "OptOut"
 msgstr "ऑप्ट - आउट"
-
-#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
-msgid "Resubscribe"
-msgstr ""
 
 #: CRM/Mailing/DAO/Group.php
 #, fuzzy
@@ -3413,15 +3375,6 @@ msgid "Mailing Content"
 msgstr ""
 
 #: CRM/Mailing/Page/Browse.php
-msgid "Draft and Unscheduled Mailings"
-msgstr ""
-
-#: CRM/Mailing/Page/Browse.php
-#, fuzzy
-msgid "Scheduled and Sent Mailings"
-msgstr "भेजें विपत्र"
-
-#: CRM/Mailing/Page/Browse.php
 msgid "Search Mailings"
 msgstr ""
 
@@ -3501,6 +3454,13 @@ msgstr ""
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
 msgstr ""
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+#, fuzzy
+msgid "Contact"
+msgstr "संपर्क फाेन"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -4056,10 +4016,6 @@ msgstr "सदस्याता प्रकार '%1' सुरक्षि�
 msgid "Member Name or Email"
 msgstr "नाम आैर ईमेल"
 
-#: CRM/Member/Form/Search.php
-msgid "Find Members"
-msgstr "सदस्यों काे खोजें"
-
 #: CRM/Member/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Members"
@@ -4240,7 +4196,8 @@ msgid "Payment Scheduled - From"
 msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
-msgid "Find Test Pledge?"
+#, fuzzy
+msgid "Find Test Pledges?"
 msgstr "परिक्षण वचन काे खोजें?"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
@@ -4411,10 +4368,6 @@ msgstr ""
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
 msgstr "वचन देने वाले का नाम आैर ईमेल"
-
-#: CRM/Pledge/Form/Search.php
-msgid "Find Pledges"
-msgstr "वचन काे खोजें"
 
 #: CRM/Pledge/Form/Task/Delete.php
 msgid "Deleted Pledge(s): %1"
@@ -7299,10 +7252,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-msgid "New Event"
-msgstr ""
-
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
 msgstr ""
 
@@ -7429,10 +7378,6 @@ msgstr ""
 msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
@@ -7660,10 +7605,6 @@ msgid "(filled with your contact's token values)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
-msgid "Preview Mailing"
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
 msgstr ""
 
@@ -7736,10 +7677,6 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "New Mailing"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr ""
 
@@ -7781,10 +7718,6 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Optout.tpl
-msgid "Optout"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
@@ -8597,10 +8530,6 @@ msgid ""
 "from the Summary tab to add an email address before recording the pledge."
 msgstr ""
 
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-msgid "New Pledge"
-msgstr "नया वचन"
-
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
 "WARNING: Deleting this pledge will result in the loss of the associated "
@@ -8835,7 +8764,3 @@ msgstr "बनाना"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Schedule or Send Later"
-#~ msgstr "अनुसूचित तिथि"

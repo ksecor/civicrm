@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -657,11 +657,6 @@ msgstr ""
 msgid "Body Text"
 msgstr ""
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-#, fuzzy
-msgid "Subscribe"
-msgstr "ពិពណ៌នា"
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
@@ -714,11 +709,6 @@ msgstr "លុប"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
-#: templates/CRM/Member/Page/Tab.tpl
-msgid "Membership Types"
 msgstr ""
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
@@ -2083,11 +2073,6 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "Contributor Name or Email"
 msgstr "ឈ្មោះ​អង្គការ"
 
-#: CRM/Contribute/Form/Search.php
-#, fuzzy
-msgid "Find Contributions"
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
 #: CRM/Contribute/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Contributions"
@@ -2204,12 +2189,6 @@ msgstr "ឈ្មោះ​អង្គការ"
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Make a Copy of CiviCRM Contribution Page"
-msgstr "អង្គការ​ថ្មី"
-
-#: CRM/Contribute/Page/ContributionPage.php
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
-msgid "Manage Contribution Pages"
 msgstr "អង្គការ​ថ្មី"
 
 #: CRM/Contribute/Page/ContributionPage.php
@@ -2417,15 +2396,6 @@ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 #, fuzzy
 msgid "Max Participants"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Event Information"
-msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2881,11 +2851,6 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "Please select valid event type."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Event/Form/Search.php
-#, fuzzy
-msgid "Find Participants"
-msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Events"
@@ -3013,11 +2978,6 @@ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 #, fuzzy
 msgid "Copy Event"
 msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Event/Page/ManageEvent.php
-#, fuzzy
-msgid "Manage Events"
-msgstr "រៀប​ចំ​ក្រុម"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -3311,11 +3271,6 @@ msgstr "សារ"
 #, fuzzy
 msgid "OptOut"
 msgstr "រយៈពេល"
-
-#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
-msgid "Resubscribe"
-msgstr "ពិពណ៌នា"
 
 #: CRM/Mailing/DAO/Group.php
 #, fuzzy
@@ -3646,16 +3601,6 @@ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
 #: CRM/Mailing/Page/Browse.php
 #, fuzzy
-msgid "Draft and Unscheduled Mailings"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#: CRM/Mailing/Page/Browse.php
-#, fuzzy
-msgid "Scheduled and Sent Mailings"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#: CRM/Mailing/Page/Browse.php
-#, fuzzy
 msgid "Search Mailings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
@@ -3741,6 +3686,13 @@ msgstr ""
 #, fuzzy
 msgid "%1 %%StatusMessage%%"
 msgstr "ព័ត៌មាន​ទំនាក់​ទំនង %%StatusMessage%%"
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+#, fuzzy
+msgid "Contact"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
 
 #: CRM/Mailing/Selector/Event.php
 #, fuzzy
@@ -4329,11 +4281,6 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "Member Name or Email"
 msgstr ""
 
-#: CRM/Member/Form/Search.php
-#, fuzzy
-msgid "Find Members"
-msgstr "សមាជិក​ក្រុម"
-
 #: CRM/Member/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Members"
@@ -4534,7 +4481,7 @@ msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
 #, fuzzy
-msgid "Find Test Pledge?"
+msgid "Find Test Pledges?"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
@@ -4711,11 +4658,6 @@ msgstr ""
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
 msgstr ""
-
-#: CRM/Pledge/Form/Search.php
-#, fuzzy
-msgid "Find Pledges"
-msgstr "សមាជិក​ក្រុម"
 
 #: CRM/Pledge/Form/Task/Delete.php
 #, fuzzy
@@ -7645,11 +7587,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
-msgid "New Event"
-msgstr "ចំណាំ"
-
-#: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
 msgstr ""
 
@@ -7777,10 +7714,6 @@ msgstr ""
 msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
-msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
@@ -8012,11 +7945,6 @@ msgid "(filled with your contact's token values)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
-#, fuzzy
-msgid "Preview Mailing"
-msgstr "សារ"
-
-#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
 msgstr ""
 
@@ -8089,11 +8017,6 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
-msgid "New Mailing"
-msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr ""
 
@@ -8137,11 +8060,6 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
 msgstr ""
-
-#: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
-msgid "Optout"
-msgstr "រយៈពេល"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8967,11 +8885,6 @@ msgid ""
 "from the Summary tab to add an email address before recording the pledge."
 msgstr ""
 
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
-msgid "New Pledge"
-msgstr "មុខ​តំណែង"
-
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
 "WARNING: Deleting this pledge will result in the loss of the associated "
@@ -9211,7 +9124,3 @@ msgstr "កាលបរិច្ឆេទ"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Schedule or Send Later"
-#~ msgstr "បាន​កំណត់​​ពេល"

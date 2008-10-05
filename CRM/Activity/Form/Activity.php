@@ -458,8 +458,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('admin', $admin);
-        
-        $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
+
+        if( $config->civiHRD ) {
+          $label = ts('From');
+        } else {
+          $label = ts('Added By');
+        }
+        $sourceContactField =& $this->add( 'text','source_contact_id', $label, $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
         } else if ( $this->_sourceContactId ) {
@@ -622,12 +627,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
         }
         
-        if ( $fields['activity_type_id'] == 3 && $fields['status_id'] == 1 ) {
+        if ( CRM_Utils_Array::value( 'activity_type_id', $fields ) == 3 && CRM_Utils_Array::value( 'status_id', $fields ) == 1 ) {
             $errors['status_id'] = ts('You cannot record scheduled email activity.');
-        } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
+        } else if (CRM_Utils_Array::value( 'activity_type_id', $fields ) == 4 && CRM_Utils_Array::value( 'status_id', $fields ) == 1) {
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
-
+        
         if ( CRM_Utils_Array::value( 'case_id', $fields) && !is_numeric($fields['case_id'] ) ) {
             $errors['case_id'] = ts('Plesase select valid Case.');
         }

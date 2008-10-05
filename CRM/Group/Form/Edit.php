@@ -285,16 +285,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             $params['is_active'] = 1;
 
-            if ( is_array( $params['group_type'] ) ) {
-                $params['group_type'] =
-                    CRM_Core_DAO::VALUE_SEPARATOR . 
-                    implode( CRM_Core_DAO::VALUE_SEPARATOR,
-                             array_keys( $params['group_type'] ) ) .
-                    CRM_Core_DAO::VALUE_SEPARATOR;
-            } else {
-                $params['group_type'] = '';
-            }
-
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
             }

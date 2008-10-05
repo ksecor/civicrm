@@ -94,6 +94,7 @@ WHERE pledge_id = %1
 
         $scheduled_date =  $params['scheduled_date'];
 
+        $contributionStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         //calculation of schedule date according to frequency day of period
         //frequency day is not applicable for daily installments
         if ( $params['frequency_unit'] != 'day' ) {
@@ -124,18 +125,18 @@ WHERE pledge_id = %1
         $statues = array( );
         $prevScheduledDate[1] = CRM_Utils_Date::format( $params['scheduled_date'] );
         if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[1], '%Y%m%d'), $now ) ) {
-            $statues[1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+            $statues[1] = array_search( 'Overdue', $contributionStatus); 
         } else {
-            $statues[1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+            $statues[1] = array_search( 'Pending', $contributionStatus); 
         }
         
         for ( $i = 1; $i < $params['installments']; $i++ ) {
             $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], 
                                                                                            $i * ($params['frequency_interval']) , $scheduled_date ));
             if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[$i+1], '%Y%m%d'), $now ) ) {
-                $statues[$i+1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+                $statues[$i+1] = array_search( 'Overdue', $contributionStatus);
             } else {
-                $statues[$i+1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
+                $statues[$i+1] = array_search( 'Pending', $contributionStatus);
             }
         }
         

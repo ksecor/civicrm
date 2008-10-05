@@ -478,7 +478,7 @@ AND    $mg.mailing_id = {$mailing_id}
     {
         $funcStruct = array('type' => null,'token' => $token);
         $matches = array();
-        if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) && $this->url_tracking ) {
+        if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) ) {
             // it is a url so we need to check to see if there are any tokens embedded
             // if so then call this function again to get the token dataFunc
             // and assign the type 'embedded'  so that the data retrieving function
@@ -658,7 +658,7 @@ AND    $mg.mailing_id = {$mailing_id}
             if ($this->body_text) {
                 $this->_getTokens('text');
             }
-            
+         
         }
         return $this->tokens;      
     }
@@ -948,7 +948,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
 
         $pTemplates = $this->getPreparedTemplates();
         $pEmails = array( );
-        
+
         foreach( $pTemplates as $type => $pTemplate ) {
             $html = ($type == 'html') ? true : false;
             $pEmails[$type] = array( );
@@ -975,7 +975,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         if ( isset( $pEmails['html'] ) &&  is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
             $html = &$pEmails['html'];
         }
-        
+
         $text = null;
         if ( isset( $pEmails['text'] ) && is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
@@ -1080,9 +1080,20 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             if ( isset( $token_a['embed_parts'][$numSlices] ) ) {
                 $url .= $token_a['embed_parts'][$numSlices];
             }
-            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
+            // add trailing quote since we've gobbled it up in a previous regex
+            // function getPatterns, line 431
+            if ( preg_match( '/^href[ ]*=[ ]*\'/', $url ) ) {
+                $url .= "'";
+            } else if ( preg_match( '/^href[ ]*=[ ]*\"/', $url ) ) {
+                $url .= '"';
+            }
+            $data = $url;
         } else if ( $type == 'url' ) {
-            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+            if ( $this->url_tracking ) {
+                $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+            } else {
+                $data = $token;
+            }
         } else if ( $type == 'contact' ) {
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
         } else if ( $type == 'action' ) {

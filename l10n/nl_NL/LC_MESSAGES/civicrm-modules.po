@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-29 09:12+0200\n"
-"PO-Revision-Date: 2008-09-28 03:27-0700\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"PO-Revision-Date: 2008-09-30 04:30-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -596,10 +596,6 @@ msgstr "body HTML"
 msgid "Body Text"
 msgstr "body text"
 
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-msgid "Subscribe"
-msgstr "Aanmelden"
-
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
@@ -651,11 +647,6 @@ msgstr "Mailing verwijderen"
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
 msgstr "Ontbrekende invoerwaarden "
-
-#: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
-#: templates/CRM/Member/Page/Tab.tpl
-msgid "Membership Types"
-msgstr "Lidmaatschap type"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
@@ -1914,10 +1905,6 @@ msgstr "Relatiegeschenk '%1' is opgeslagen."
 msgid "Contributor Name or Email"
 msgstr "Naam of e-mail contributant"
 
-#: CRM/Contribute/Form/Search.php
-msgid "Find Contributions"
-msgstr "Zoek bijdragen"
-
 #: CRM/Contribute/Form/Task/Batch.php
 msgid "Batch Update for Contributions"
 msgstr "Bijwerken Bijdragen in batch"
@@ -2021,11 +2008,6 @@ msgstr "Kopieer Bijdrage Pagina"
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Make a Copy of CiviCRM Contribution Page"
 msgstr "Maak een kopie van de Bijdrage Pagina"
-
-#: CRM/Contribute/Page/ContributionPage.php
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "Manage Contribution Pages"
-msgstr "Beheer Bijdrage Pagina"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Manage Contribution Page"
@@ -2203,14 +2185,6 @@ msgstr "Evenement Registratie link tekst"
 #: CRM/Event/DAO/Event.php
 msgid "Max Participants"
 msgstr "Maximum aantal deelnemers"
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Event Information"
-msgstr "Evenement Informatie"
 
 #: CRM/Event/DAO/Event.php
 msgid "show location"
@@ -2643,10 +2617,6 @@ msgstr "Kies een geldig evenement."
 msgid "Please select valid event type."
 msgstr "Kies een geldig type evenement."
 
-#: CRM/Event/Form/Search.php
-msgid "Find Participants"
-msgstr "Zoek deelnemers"
-
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
 msgstr "Batch wijzig evenementen "
@@ -2760,10 +2730,6 @@ msgstr "Schakel evenement in"
 #: CRM/Event/Page/ManageEvent.php
 msgid "Copy Event"
 msgstr "Kopieer Evenement"
-
-#: CRM/Event/Page/ManageEvent.php
-msgid "Manage Events"
-msgstr "Evenementen beheren"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -3029,10 +2995,6 @@ msgstr "Welkom"
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
 msgstr "OptOut"
-
-#: CRM/Mailing/DAO/Component.php templates/CRM/Mailing/Page/Resubscribe.tpl
-msgid "Resubscribe"
-msgstr "Opnieuw aanmelden"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Include"
@@ -3341,14 +3303,6 @@ msgid "Mailing Content"
 msgstr "Mailing Inhoud"
 
 #: CRM/Mailing/Page/Browse.php
-msgid "Draft and Unscheduled Mailings"
-msgstr ""
-
-#: CRM/Mailing/Page/Browse.php
-msgid "Scheduled and Sent Mailings"
-msgstr "Geplande en Verzonden mailings"
-
-#: CRM/Mailing/Page/Browse.php
 msgid "Search Mailings"
 msgstr "Zoek Mailings"
 
@@ -3427,6 +3381,13 @@ msgstr "CiviMail Mailingen"
 #: CRM/Mailing/Selector/Event.php
 msgid "%1 %%StatusMessage%%"
 msgstr "%1 %%StatusMessage%%"
+
+#: CRM/Mailing/Selector/Event.php
+#: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
+#: templates/CRM/Event/Page/EventInfo.tpl
+#, fuzzy
+msgid "Contact"
+msgstr "Contact telefoon"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3961,10 +3922,6 @@ msgstr "Het lidmaatschaptype '%1' is bewaard."
 msgid "Member Name or Email"
 msgstr "Naam of e-mail lid."
 
-#: CRM/Member/Form/Search.php
-msgid "Find Members"
-msgstr "Zoek Leden"
-
 #: CRM/Member/Form/Task/Batch.php
 msgid "Batch Update for Members"
 msgstr "Batch wijzig leden"
@@ -4138,7 +4095,8 @@ msgid "Payment Scheduled - From"
 msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
-msgid "Find Test Pledge?"
+#, fuzzy
+msgid "Find Test Pledges?"
 msgstr "Zoek test-borgstellingen?"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
@@ -4293,10 +4251,6 @@ msgstr ""
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
 msgstr "Naam of e-mail borgsteller."
-
-#: CRM/Pledge/Form/Search.php
-msgid "Find Pledges"
-msgstr "Zoek Borgstellers."
 
 #: CRM/Pledge/Form/Task/Delete.php
 msgid "Deleted Pledge(s): %1"
@@ -4625,13 +4579,12 @@ msgid "Expires"
 msgstr "Verloopt op"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#, fuzzy
 msgid ""
 "Your contribution will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas definitief als u klikt op de knop <strong>Doorgaan</"
-"strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw bijdrage is pas definitief als u klikt op de knop <strong>Doorgaan</"
+"strong>. Klik a.u.b. maar een keer op de knop."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6543,7 +6496,7 @@ msgid ""
 "There are no custom Payment Instruments entered. You can <a href='%1'>add "
 "one</a>."
 msgstr ""
-"Er is geen specifieke betaalwijze. U kunt er een <a href='%1'>toevoegen</a>."
+"Er is geen standaard betaalwijze. U kunt er een <a href='%1'>toevoegen</a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -6656,7 +6609,7 @@ msgid ""
 "Check this box to enter payment information. You will also be able to "
 "generate a customized receipt."
 msgstr ""
-"Vind dee box aan op betaalinformatie in te voeren. U kunt dan ook een "
+"Vind deze box aan op betaalinformatie in te voeren. U kunt dan ook een "
 "ontvangsbewijs opstellen."
 
 #: templates/CRM/Event/Form/EventFees.tpl
@@ -6706,7 +6659,7 @@ msgid ""
 "After selecting an Event Type, this page will display any custom event "
 "fields for that type."
 msgstr ""
-"Na selectie van het evenementtype worden op deze pagina eventuele specifieke "
+"Na selectie van het evenementtype worden op deze pagina eventuele standaard "
 "velden getoond die er voor dat type zijn."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -7608,11 +7561,11 @@ msgid ""
 "the database. Use obvious test contact names so you can review and delete "
 "these records as needed.</strong>"
 msgstr ""
-"Test het hele registratie proces, inclusief specifieke velden, "
-"bevestigingen, bedankpagina en ontvangstbewijzen. Transacties worden naar de "
-"test-machine van uw bank gestuurd. <strong> Er worden geen echte transacties "
-"verricht maar de ingevulde gegevens  over het contact en de bijdrage worden "
-"in de database opgenomen.</strong>"
+"Test het hele registratie proces, inclusief standaard velden, bevestigingen, "
+"bedankpagina en ontvangstbewijzen. Transacties worden naar de test-machine "
+"van uw bank gestuurd. <strong> Er worden geen echte transacties verricht "
+"maar de ingevulde gegevens  over het contact en de bijdrage worden in de "
+"database opgenomen.</strong>"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Live Registration"
@@ -7627,10 +7580,6 @@ msgstr ""
 "Bekijk uw gewijzigde <strong>Productie</strong> online evenement registratie "
 "pagina. Gebruik de volgende URL in links en knoppen op een website om "
 "bezoekers naar deze pagina te leiden"
-
-#: templates/CRM/Event/Page/ManageEvent.tpl
-msgid "New Event"
-msgstr "Nieuw Evenement"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
@@ -7767,10 +7716,6 @@ msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
 msgstr ""
-
-#: templates/CRM/Grant/Form/Search.tpl
-msgid "Find Grants"
-msgstr "Zoek Vrienden"
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
@@ -8036,10 +7981,6 @@ msgid "(filled with your contact's token values)"
 msgstr "(gevuld met token waarden van uw contact)"
 
 #: templates/CRM/Mailing/Form/Test.tpl
-msgid "Preview Mailing"
-msgstr "Voorvertoon Mailing"
-
-#: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
 msgstr ""
 
@@ -8117,10 +8058,6 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr "Wilt U de mailing %1 verwijderen?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "New Mailing"
-msgstr "Nieuwe Mailing"
-
-#: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr "Geen Verzonden Mailing voldoet aan uw zoekcriteria. Suggesties:"
 
@@ -8171,10 +8108,6 @@ msgstr "Terug naar Rapportage"
 #: templates/CRM/Mailing/Page/Optout.tpl
 msgid "Are you sure you want to optout: %1 (%2)"
 msgstr "Wilt U geen mail (optout) meer: %1 (%2)"
-
-#: templates/CRM/Mailing/Page/Optout.tpl
-msgid "Optout"
-msgstr "Uitschrijven"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8974,8 +8907,8 @@ msgid ""
 "There are no custom membership status entered. You can <a href='%1'>add one</"
 "a>."
 msgstr ""
-"Er is nog geen specifieke status lidmaatschapsstatus. U kunt er een <a "
-"href='%1'>toevoegen</a>."
+"Er is nog geen standaard status lidmaatschap. U kunt er een <a href='%"
+"1'>toevoegen</a>."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
@@ -9117,10 +9050,6 @@ msgid ""
 "to be sent when this pledge is recorded, click Cancel and then click Edit "
 "from the Summary tab to add an email address before recording the pledge."
 msgstr ""
-
-#: templates/CRM/Pledge/Form/Pledge.tpl templates/CRM/Pledge/Page/Tab.tpl
-msgid "New Pledge"
-msgstr "Nieuwe Borgstelling"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -9354,9 +9283,3 @@ msgstr "Aanmaakdatum"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Schedule or Send Later"
-#~ msgstr "Plan of Verstuur Later"
-
-#~ msgid "OR"
-#~ msgstr "OF"

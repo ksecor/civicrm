@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-18 15:00+0200\n"
-"PO-Revision-Date: 2008-09-27 12:03-0700\n"
+"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"PO-Revision-Date: 2008-09-30 05:27-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Geacepteerde Creditcards"
 
 msgid "Access Control"
 msgstr "Toegangscontrole"
@@ -24,43 +24,43 @@ msgid "ACL"
 msgstr "ACL"
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "ACL Rollen"
 
 msgid "Activities"
-msgstr ""
+msgstr "Activiteiten"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activiteit"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Activiteittypes"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Aanvullende informatie"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Scherm aanvullende informatie"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Adres voorkeuren"
 
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Beheer CiviCRM"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Geavanceerd zoeken"
 
 msgid "Assign Users to ACL Roles"
-msgstr ""
+msgstr "ACL rollen toekennen aan gebruikers"
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Bekijken geuploade bestanden"
 
 msgid "Case"
-msgstr ""
+msgstr "Zaak"
 
 msgid "Case Types"
-msgstr ""
+msgstr "Zaak Types"
 
 msgid "CiviContribute"
 msgstr "CiviContribute"
@@ -72,13 +72,13 @@ msgid "CiviCRM Home"
 msgstr "CiviCRM Home"
 
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM Profiel"
 
 msgid "CiviCRM Profile Create"
-msgstr ""
+msgstr "CiviCRM Profiel Aanmaken"
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "CiviCRM Profiel Velden"
 
 msgid "CiviEvent"
 msgstr "CiviEvent"
@@ -96,37 +96,37 @@ msgid "CiviPledge"
 msgstr "CiviPledge"
 
 msgid "Components"
-msgstr ""
+msgstr "Componenten"
 
 msgid "Confirm"
 msgstr "Bevestig"
 
 msgid "Contact Dashboard"
-msgstr ""
-
-msgid "Contact Summary"
-msgstr ""
+msgstr "Overzicht Contact"
 
 msgid "Contacts"
 msgstr "Contacten"
 
-msgid "Contribution Chart"
-msgstr ""
+msgid "Contact Summary"
+msgstr "Samenvatting Contacten"
 
-msgid "Contribution Types"
-msgstr ""
+msgid "Contribution Chart"
+msgstr "Bijdragenoverzicht"
 
 msgid "Contributions"
-msgstr ""
+msgstr "Bijdragen"
+
+msgid "Contribution Types"
+msgstr "Bijdragentypes"
 
 msgid "Create New Group"
-msgstr ""
+msgstr "Groep aanmaken"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Standaard Gegevens"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Standaard velden"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -135,13 +135,13 @@ msgid "Custom Field - Options"
 msgstr ""
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Standaard Zoeken"
 
 msgid "Date Formatting"
 msgstr ""
 
 msgid "Debugging"
-msgstr ""
+msgstr "Debugging"
 
 msgid "Delete Contact"
 msgstr "Verwijder Contact"
@@ -162,7 +162,7 @@ msgid "Edit Related Contact"
 msgstr ""
 
 msgid "Email a Contact"
-msgstr ""
+msgstr "E-mail naar een contact"
 
 msgid "Event Information"
 msgstr "Evenement Informatie"
@@ -192,7 +192,7 @@ msgid "Find Contributions"
 msgstr "Zoek Bijdragen"
 
 msgid "Find Grants"
-msgstr ""
+msgstr "Zoek Vrienden"
 
 msgid "Find Members"
 msgstr "Zoek Leden"
@@ -202,6 +202,10 @@ msgstr "Zoek Deelnemers"
 
 msgid "Find Pledges"
 msgstr "Zoek Borgstellingen"
+
+#, fuzzy
+msgid "Find Signers"
+msgstr "Zoek Leden"
 
 msgid "From Email Address"
 msgstr "E-mailadres afzender"
@@ -230,14 +234,18 @@ msgstr "Importeer"
 msgid "Import Contributions"
 msgstr "Importeer Bijdragen"
 
+msgid "Import/Export Mappings"
+msgstr "Im- of Exporteer mappings "
+
 msgid "Import Members"
 msgstr "Importeer Leden"
 
 msgid "Import Participants"
 msgstr "Importeer Deelnemers"
 
-msgid "Import/Export Mappings"
-msgstr "Im- of Exporteer mappings "
+#, fuzzy
+msgid "Import Signers"
+msgstr "Importeer Leden"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Persoonlijke voorvoegsels"
@@ -249,13 +257,13 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Lokalisatie"
 
 msgid "Location Types (Home, Work...)"
 msgstr "Locatie types"
 
 msgid "Log out"
-msgstr ""
+msgstr "Uitloggen"
 
 msgid "Mailer Settings"
 msgstr "Instellingen mailprogramma"
@@ -281,6 +289,10 @@ msgstr "Beheer Evenementen"
 msgid "Manage Groups"
 msgstr "Beheer Groepen"
 
+#, fuzzy
+msgid "Manage Pledges"
+msgstr "Annuleer borgstelling"
+
 msgid "Manage Premiums"
 msgstr "Beheer Geschenken"
 
@@ -294,16 +306,16 @@ msgid "Map Location(s)"
 msgstr "Beheer Locatie(s)"
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapping en Geocoding"
+
+msgid "Memberships"
+msgstr "Lidmaatschappen"
 
 msgid "Membership Status Rules"
 msgstr "Statusregels Lidmaatschap"
 
 msgid "Membership Types"
 msgstr "Types Lidmaatschap"
-
-msgid "Memberships"
-msgstr "Lidmaatschappen"
 
 msgid "Merge Contact"
 msgstr ""
@@ -315,7 +327,7 @@ msgid "Miscellaneous"
 msgstr ""
 
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Mobiele telefoon providers"
 
 msgid "New Activity"
 msgstr "Nieuwe Activiteit"
@@ -332,6 +344,9 @@ msgstr "Nieuw Evenement"
 msgid "New Mailing"
 msgstr "Nieuwe Mailing "
 
+msgid "New Pledge"
+msgstr "Nieuwe Borgstelling"
+
 msgid "Notes"
 msgstr "Aantekeningen"
 
@@ -342,7 +357,7 @@ msgid "Option Values"
 msgstr ""
 
 msgid "Optout"
-msgstr ""
+msgstr "Uitschrijven"
 
 msgid "Participant Role"
 msgstr "Regel Deelneming"
@@ -351,12 +366,15 @@ msgid "Participant Status"
 msgstr "Status Deelneming"
 
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Betaalwijze"
 
 msgid "Payment Processor"
-msgstr ""
+msgstr "Betaalmethode"
 
 msgid "Payment Processor Type"
+msgstr "Betaalmethode Type"
+
+msgid "PledgeBank"
 msgstr ""
 
 msgid "Pledge Payments"
@@ -383,11 +401,11 @@ msgstr "Prijs-sets"
 msgid "Registration Page"
 msgstr "Registratiepagina"
 
+msgid "Relationships"
+msgstr "Relaties"
+
 msgid "Relationship Types"
 msgstr "Relatietypes"
-
-msgid "Relationships"
-msgstr ""
 
 msgid "Resubscribe"
 msgstr "Heraanmelden"
@@ -408,13 +426,13 @@ msgid "Simple Search"
 msgstr ""
 
 msgid "Site URLs"
-msgstr ""
+msgstr "Site URLs"
 
 msgid "Smtp Server"
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Aanmelden"
 
 msgid "Sunlight"
 msgstr ""
@@ -426,13 +444,13 @@ msgid "System Preferences"
 msgstr ""
 
 msgid "Tags"
-msgstr ""
+msgstr "Markeringen"
 
 msgid "Tags (Categories)"
 msgstr ""
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Mond tot mond reclame"
 
 msgid "This should never be seen"
 msgstr ""

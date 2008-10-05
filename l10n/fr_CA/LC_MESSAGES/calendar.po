@@ -39,7 +39,9 @@ msgstr "- utilisez les boutons \\u2039, \\u203a pour sélectionner le mois,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- gardez la souris sur n’importe quel de ces boutons pour une sélection plus rapide."
+msgstr ""
+"- gardez la souris sur n’importe quel de ces boutons pour une sélection plus "
+"rapide."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
@@ -51,7 +53,9 @@ msgstr "- Cliquez sur les heures ou les minutes pour incrémenter"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr "- ou cliquez en maintenant la touche Majuscule enfoncée (Maj-clic) pour décrémenter"
+msgstr ""
+"- ou cliquez en maintenant la touche Majuscule enfoncée (Maj-clic) pour "
+"décrémenter"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
@@ -116,4 +120,3 @@ msgstr "Sem."
 #: js/lang/calendar-lang.php
 msgid "Time:"
 msgstr "Heure:"
-
