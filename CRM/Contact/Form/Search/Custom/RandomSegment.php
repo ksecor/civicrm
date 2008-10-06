@@ -48,6 +48,29 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
                                  ts('Contact Type') => 'contact_type',
                                  ts('Name')         => 'sort_name',
                                  ts('Email' )       => 'email' );
+
+        $this->initialize( );
+    }
+
+    function initialize( )  {
+        $this->_segmentSize     = CRM_Utils_Array::value( 'segmentSize', $this->_formValues );
+                      
+        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
+
+        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues );
+        
+        $this->_allSearch = false; 
+        $this->_groups    = false;
+        
+        if ( empty( $this->_includeGroups ) && empty( $this->_excludeGroups ) ) {
+            //empty search
+            $this->_allSearch = true;
+        }
+        
+        if ( ! empty( $this->_includeGroups ) || ! empty( $this->_excludeGroups ) ) {
+            //group(s) selected
+            $this->_groups = true;
+        }
     }
 
     function buildForm( &$form ) {
@@ -91,26 +114,6 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
-                      
-        $this->_segmentSize     = CRM_Utils_Array::value( 'segmentSize', $this->_formValues );
-                      
-        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
-
-        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues );
-        
-        $this->_allSearch = false; 
-        $this->_groups    = false;
-        
-        if ( empty( $this->_includeGroups ) && empty( $this->_excludeGroups ) ) {
-            //empty search
-            $this->_allSearch = true;
-        }
-        
-        if ( ! empty( $this->_includeGroups ) || ! empty( $this->_excludeGroups ) ) {
-            //group(s) selected
-            $this->_groups = true;
-        }
-        
         $selectClause = "contact_a.id   as contact_id,
                          contact_a.contact_type as contact_type,
                          contact_a.sort_name    as sort_name,
@@ -268,14 +271,14 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         
         $from = "FROM civicrm_contact contact_a";
         
-        $fromTail = "INNER JOIN civicrm_email ON contact_a.id = civicrm_email.contact_id";
+        $fromTail = "INNER JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 )";
         
         $fromTail .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
         
         // now create a temp table to store the randomized contacts
         $sql = "CREATE TEMPORARY TABLE random_{$this->_tableName} ( id int primary key ) ENGINE=HEAP";
         CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        
+
         $sql = "INSERT INTO random_{$this->_tableName} ( id )
                 SELECT DISTINCT contact_a.id $from $fromTail
                 WHERE {$this->where()}
@@ -339,7 +342,7 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         $sql = $this->all( );
            
         $dao = CRM_Core_DAO::executeQuery( $sql,
-                                             CRM_Core_DAO::$_nullArray );
+                                           CRM_Core_DAO::$_nullArray );
         return $dao->N;
     }
     
