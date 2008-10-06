@@ -4,7 +4,7 @@
         <tr>
             <td class="label">{$form.attachFile_1.label}</td>
             <td>{$form.attachFile_1.html}<br />
-                <span class="description">{ts 1=$config->maxAttachments}Browse to the <strong>file</strong> you want attached. You can have a maximum of %1 attachments{/ts}</span>
+                <span class="description">{ts 1=$numAttachments}Browse to the <strong>file</strong> you want attached. You can have a maximum of %1 attachment(s){/ts}</span>
             </td>
         </tr>
 {section name=attachLoop start=2 loop=$config->maxAttachments+1}
