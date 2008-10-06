@@ -170,7 +170,7 @@
   <field>
        <name>home_URL</name>
        <rule>url</rule>
-       <title>Home URL</title>
+       <title>Website</title>
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
