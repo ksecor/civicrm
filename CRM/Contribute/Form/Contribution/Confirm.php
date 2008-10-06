@@ -925,9 +925,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @access public
      */
     static function processOnBehalfOrganization( &$behalfOrganization, &$contactID, &$values, &$params ) {
+        $isCurrentEmployer = false;
         if ( $behalfOrganization['organization_id'] && $behalfOrganization['org_option'] ) {
             $orgID = $behalfOrganization['organization_id'];
             unset($behalfOrganization['organization_id']);
+            $isCurrentEmployer = true;
         }
 
         // formalities for creating / editing organization.
@@ -994,6 +996,20 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // required for IPN
             $params['related_contact'] = $contactID;
             
+            //make this employee of relationship as current
+            //employer / employee relationship,  CRM-3532
+            if ( $isCurrentEmployer && 
+                 ( $orgID != CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $contactID, 'employer_id') ) ) {
+                $isCurrentEmployer = false;
+            }
+            
+            if ( !$isCurrentEmployer && $orgID ) {
+                //build current employer params
+                $currentEmpParams[$contactID] = $orgID;
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams );
+            }
+           
             // contribution / signup will be done using this
             // organization id.
             $contactID = $orgID;
