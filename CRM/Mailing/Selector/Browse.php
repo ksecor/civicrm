@@ -339,7 +339,7 @@ LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_maili
         
         $createOrSentBy = $this->_parent->get( 'sort_name' );
         if ( !CRM_Utils_System::isNull( $createOrSentBy ) ) {
-            $clauses[] = 'sort_name LIKE %4';
+            $clauses[] = 'civicrm_contact.sort_name LIKE %4';
             $params[4] = array( '%' . $createOrSentBy . '%', 'String' );
         }
         
