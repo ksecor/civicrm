@@ -317,16 +317,10 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
     }
     
     function __destruct( ) {
-        //drop the temp. tables if they exist
-        if ( !empty ( $this->_includeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE IF EXISTS Ig_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql );
-        }
-        
-        if ( !empty( $this->_excludeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE IF EXISTS Xg_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql );
-        }
+        // the temporary tables are dropped automatically
+        // so we dont do it here
+        // but let mysql clean up
+        return;
     }
 }
 
