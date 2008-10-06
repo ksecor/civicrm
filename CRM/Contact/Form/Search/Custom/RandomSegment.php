@@ -119,8 +119,6 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
                          contact_a.sort_name    as sort_name,
                          civicrm_email.email    as email";
 
-        #$selectClause .= ", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname";
-      
         return $this->sql( $selectClause,
                            $offset, $rowcount, $sort,
                            $includeContactIDs, null );
@@ -159,9 +157,9 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         }
         
         $sql = "DROP TEMPORARY TABLE IF EXISTS Xg_{$this->_tableName}";
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );           
+        CRM_Core_DAO::executeQuery( $sql );
         $sql = "CREATE TEMPORARY TABLE Xg_{$this->_tableName} ( contact_id int primary key) ENGINE=HEAP";  
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $sql );
         
         //used only when exclude group is selected 
         if( $xGroups != 0 ) {
@@ -173,7 +171,7 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
                  civicrm_group_contact.status = 'Added' AND
                  civicrm_group_contact.group_id IN ( {$xGroups} )";
             
-            CRM_Core_DAO::executeQuery( $excludeGroup, CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $excludeGroup );
 
             //search for smart group contacts
             foreach( $this->_excludeGroups as $keys => $values ) {
@@ -188,14 +186,14 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
                     
                     $smartGroupQuery = " INSERT IGNORE INTO Xg_{$this->_tableName}(contact_id) $smartSql";
                     
-                    CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
+                    CRM_Core_DAO::executeQuery( $smartGroupQuery );
                 }
             }
             
         }
         
         $sql = "DROP TEMPORARY TABLE IF EXISTS Ig_{$this->_tableName}";
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $sql );
         $sql = "CREATE TEMPORARY TABLE Ig_{$this->_tableName}
             ( id int PRIMARY KEY AUTO_INCREMENT,
               contact_id int,
@@ -206,8 +204,8 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
             print "$sql;";
             print "</pre>";
         }
-        
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
+        CRM_Core_DAO::executeQuery( $sql );
         
         $includeGroup = 
             "INSERT INTO Ig_{$this->_tableName} (contact_id, group_names)
@@ -236,7 +234,7 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
             print "</pre>";
         }
         
-        CRM_Core_DAO::executeQuery( $includeGroup, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $includeGroup );
         
         //search for smart group contacts
         foreach( $this->_includeGroups as $keys => $values ) {
@@ -258,14 +256,14 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
                 $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
                     $smartSql";
         
-                CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
+                CRM_Core_DAO::executeQuery( $smartGroupQuery );
                 $insertGroupNameQuery = 
                    "UPDATE IGNORE Ig_{$this->_tableName}
                     SET group_names = (SELECT title FROM civicrm_group
                         WHERE civicrm_group.id = $values)
                     WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
                         AND Ig_{$this->_tableName}.group_names IS NULL";
-                CRM_Core_DAO::executeQuery( $insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
+                CRM_Core_DAO::executeQuery( $insertGroupNameQuery );
             }
         }      
         
@@ -277,14 +275,14 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         
         // now create a temp table to store the randomized contacts
         $sql = "CREATE TEMPORARY TABLE random_{$this->_tableName} ( id int primary key ) ENGINE=HEAP";
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $sql );
 
         $sql = "INSERT INTO random_{$this->_tableName} ( id )
                 SELECT DISTINCT contact_a.id $from $fromTail
                 WHERE {$this->where()}
                 ORDER BY RAND()
                 LIMIT {$this->_segmentSize}";
-        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $sql );
         
         $from = "FROM random_{$this->_tableName} random";
         
@@ -314,21 +312,20 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
     function count( ) {
         $sql = $this->all( );
            
-        $dao = CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $sql );
         return $dao->N;
     }
     
     function __destruct( ) {
         //drop the temp. tables if they exist
         if ( !empty ( $this->_includeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE Ig_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
+            $sql = "DROP TEMPORARY TABLE IF EXISTS Ig_{$this->_tableName}";
+            CRM_Core_DAO::executeQuery( $sql );
         }
         
         if ( !empty( $this->_excludeGroups ) ) {
-            $sql = "DROP TEMPORARY TABLE Xg_{$this->_tableName}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
+            $sql = "DROP TEMPORARY TABLE IF EXISTS Xg_{$this->_tableName}";
+            CRM_Core_DAO::executeQuery( $sql );
         }
     }
 }
