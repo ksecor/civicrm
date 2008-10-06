@@ -728,4 +728,20 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
-  
+INSERT INTO 
+   `civicrm_category` ( `label`, `weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id` ) 
+VALUES 
+    ('{ts escape="sql"}Meeting{/ts}',              1,   NULL,                                            1, 1, NULL,    NULL),
+    ('{ts escape="sql"}Phone Call{/ts}',           2,   NULL,                                            1, 1, NULL,    NULL),
+    ('{ts escape="sql"}Email{/ts}',                3,  '{ts escape="sql"}Email sent.{/ts}',              1, 1, NULL,    NULL),
+    ('{ts escape="sql"}Text Message (SMS){/ts}',   4,  '{ts escape="sql"}Text message (SMS) sent.{/ts}', 1, 1, NULL,    NULL),
+
+    ('{ts escape="sql"}Event Registration{/ts}',   5,  '{ts escape="sql"}Online or offline event registration.{/ts}', 1, 1, NULL,    1),
+    ('{ts escape="sql"}Contribution{/ts}',         6,  '{ts escape="sql"}Contribution{/ts}',                          1, 1, NULL,    2),
+    ('{ts escape="sql"}Membership Signup{/ts}',    7,  '{ts escape="sql"}Membership Signup{/ts}',                     1, 1, NULL,    3),
+    ('{ts escape="sql"}Membership Renewal{/ts}',   8,  '{ts escape="sql"}Membership Renewal{/ts}',                    1, 1, NULL,    3),
+    ('{ts escape="sql"}Tell a Friend{/ts}',        9,  '{ts escape="sql"}Tell a Friend{/ts}',                         1, 1, NULL, NULL),
+    ('{ts escape="sql"}Pledge Acknowledgmen{/ts}', 10, '{ts escape="sql"}Pledge Acknowledgment{/ts}',                 1, 1, NULL,    6),
+    ('{ts escape="sql"}Pledge Reminder{/ts}',      11, '{ts escape="sql"}Pledge Reminder{/ts}',                       1, 1, NULL,    6);
+
+   

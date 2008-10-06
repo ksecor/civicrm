@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<table>
+  <base>CRM/Core</base>
+  <class>Category</class>
+  <name>civicrm_category</name>
+  <comment>Hierarchical categorisation are stored here.</comment>
+  <add>2.2</add>
+
+ <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>category id</comment>
+    <add>2.2</add>
+ </field>
+ <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+ </primaryKey>
+ <field>
+    <name>label</name>
+    <title>Category Label</title>
+    <type>varchar</type>
+    <required>true</required>
+    <length>255</length>
+    <localizable>true</localizable>
+    <comment>Category label string as displayed to users.</comment>
+    <add>2.2</add>
+ </field>
+ <field>
+    <name>weight</name>
+    <type>int</type>
+    <default>1</default>
+    <comment>Order in which the subtypes should appear</comment>
+    <add>2.2</add>
+ </field>
+ <field>
+    <name>description</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>Optional verbose description for the category.</comment>
+   <add>2.2</add>
+ </field>
+ <field>
+    <name>is_active</name>
+    <type>boolean</type>
+    <default>1</default>
+    <comment>is the Category active ?</comment>
+    <add>2.2</add>
+ </field> 
+ <field>
+    <name>is_reserved</name>
+    <type>boolean</type>
+    <default>0</default>
+    <comment>is the Category reserved ?</comment>
+    <add>2.2</add>
+ </field> 
+ <field>
+    <name>parent_id</name>
+    <type>int unsigned</type>
+    <default>NULL</default>
+    <comment>Parent Category ID (if this is a Category).for storing hierarchical categorisation</comment>
+    <add>2.2</add>
+ </field>
+ <foreignKey>
+    <name>parent_id</name>
+    <table>civicrm_category</table>
+    <key>id</key>
+    <add>2.2</add>
+    <onDelete>CASCADE</onDelete>
+ </foreignKey>
+ <field>
+      <name>component_id</name>
+      <type>int unsigned</type>
+      <default>NULL</default>
+      <comment>Component that this option value belongs/caters to.</comment>
+       <add>2.2</add>
+ </field>
+ <foreignKey>
+       <name>component_id</name>
+       <table>civicrm_component</table>
+       <key>id</key>
+       <add>2.2</add>
+ </foreignKey>  
+</table>

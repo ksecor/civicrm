@@ -3,5 +3,4 @@
 <xi:include href="Activity.xml"           parse="xml" />
 <xi:include href="ActivityAssignment.xml" parse="xml" />
 <xi:include href="ActivityTarget.xml"     parse="xml" />
-<xi:include href="ActivityType.xml"       parse="xml" />
 </tables>
