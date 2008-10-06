@@ -11,36 +11,37 @@
 			<tr>
 				<td colspan="3"><center>{$image}</center></td>
 			</tr>
+			{if $validDate} 
 			<tr>
 				<td colspan="3">
-				{if $validDate} 
 				{* Show link to PCP contribution if configured for online contribution *}
 				<div class="action-link">
 					<strong><a href="javascript:pcpPage();" class="button"><span>&raquo; {$contributionText}</span></a>
 					</strong>
 				</div>
-				{/if}</td>
+                </td>
 			</tr>
-
+			{/if}
 			<tr>
-				{if $pcp.is_thermometer}<td>&nbsp;</td>
-				<td><strong>MY PROGRESS</strong><br />
-				<div class="pcp_progress">
-				Goal
-				<div class="money">{$pcp.goal_amount|crmMoney}</div>
+				{if $pcp.is_thermometer}
+                <td>&nbsp;</td>
+				<td><strong>{ts}MY PROGRESS{/ts}</strong><br />
+				    <div class="pcp_progress">
+                      {ts}Goal{/ts}
+				    <div class="money">{$pcp.goal_amount|crmMoney}</div>
 				<div class="meter">
-				<div class="remaining">&nbsp;</div>
-				<div class="achieved">&nbsp;</div>
+				     <div class="remaining">&nbsp;</div>
+				     <div class="achieved">&nbsp;</div>
 				</div>
 				<div class="percentage">{$achieved}%</div>
-				Achieved
+				{ts}Achieved{/ts}
 				<div class="money">{$total|crmMoney}</div>
 
 				</div>
 				</td>
 				{/if} 
 				{if $pcp.is_honor_roll}
-				<td><strong>HONOR ROLL</strong><br />
+				<td><strong>{ts}HONOR ROLL{/ts}</strong><br />
 				<div class="honor_roll">
 				<marquee behavior="scroll" direction="up" id="pcp_roll"	scrolldelay="200" bgcolor="#fafafa"> 
 				        {foreach from = $honor item = v} 

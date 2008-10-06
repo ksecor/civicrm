@@ -83,7 +83,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
     {
         $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
 	
-        $this->addElement( 'checkbox', 'is_approval_needed', ts('Administrator approval required for new Personal Campaign Pages') );
+        $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         
         $profile = array( '' => '-select-' );
         CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
