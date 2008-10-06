@@ -16,8 +16,7 @@
 				<td colspan="3">
 				{* Show link to PCP contribution if configured for online contribution *}
 				<div class="action-link">
-					<strong><a href="javascript:pcpPage();" class="button"><span>&raquo; {$contributionText}</span></a>
-					</strong>
+                     <a href={$contributeURL} class="button"><span>&raquo; <strong>{$contributionText}</strong></span></a>
 				</div>
                 </td>
 			</tr>
@@ -26,18 +25,7 @@
 				{if $pcp.is_thermometer}
                 <td>&nbsp;</td>
 				<td><strong>{ts}MY PROGRESS{/ts}</strong><br />
-				    <div class="pcp_progress">
-                      {ts}Goal{/ts}
-				    <div class="money">{$pcp.goal_amount|crmMoney}</div>
-				<div class="meter">
-				     <div class="remaining">&nbsp;</div>
-				     <div class="achieved">&nbsp;</div>
-				</div>
-				<div class="percentage">{$achieved}%</div>
-				{ts}Achieved{/ts}
-				<div class="money">{$total|crmMoney}</div>
-
-				</div>
+                Thermometer HERE
 				</td>
 				{/if} 
 				{if $pcp.is_honor_roll}
@@ -62,62 +50,11 @@
 </table>
 </div>
 
-
 {literal}
-<style>
-.pcp_progress {
-	font-family      : arial;
-	font-size        : 12px;
-	margin           : 5px 20px 0 0;
-    	padding          : 50px;
-    	text-align       : center;
-    	width            : 50px;
-    	color            : black;
-    	background-color : #fafafa;
-    	border           : 1px solid #9d9fca;
-}
-.honor_roll {
-	margin           : 5px 20px 0 0;
-	padding          : 10px;	
-    	width            : 150px;
-	height           : 317px;
-    	background-color : #fafafa;
-    	border           : 1px solid #9d9fca;
-}
-.percentage {
-    	padding : 3px;
-}
-.meter {
-    	height  : 150px;
-}
-{/literal}{if $remaining}{literal}
-.remaining {
-    	height     : {/literal}{$remaining}{literal}%;
-    	background : url("{/literal}{$config->resourceBase}{literal}i/contribute/pcp_remain.gif");}
-{/literal}
-{/if}
-{if $achieved}{literal}
-.achieved {
-    	height     : {/literal}{$achieved}{literal}%;
-    	background : url("{/literal}{$config->resourceBase}{literal}i/contribute/pcp_achieve.gif");}
-{/literal}{/if}{literal}
-</style>
-
 <script language="JavaScript">
-function roll_start_stop() {
-      if( document.getElementById('roll').innerHTML == 'Stop') {
-		document.getElementById('roll').innerHTML = 'Start';
-		document.getElementById('roll').title = 'Start the Honor Roll';
-		document.getElementById('pcp_roll').stop();
-       } else {
-		document.getElementById('roll').innerHTML = 'Stop';
-		document.getElementById('roll').title = 'Stop the Honor Roll';
-		document.getElementById('pcp_roll').start();
-       }
-}
-function pcpPage() {
-	var string = "{/literal}{$contributeURL}{literal}";
-	window.location=  string.replace(/&amp;/g, '&');
+
+function roll_start_stop( ) {
+
 }
 </script>
 {/literal}
