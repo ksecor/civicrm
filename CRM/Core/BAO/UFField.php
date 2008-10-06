@@ -130,14 +130,16 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     public static function duplicateField($params, $ids)
     {
         $ufField                   =& new CRM_Core_DAO_UFField();
-        $ufField->field_name       = $params['field_name'][0];
-        $ufField->location_type_id = CRM_Utils_Array::value( 1, $params['field_name'] );
-        $ufField->phone_type       = CRM_Utils_Array::value( 2, $params['field_name'] );
         $ufField->uf_group_id      = CRM_Utils_Array::value( 'uf_group', $ids );
+        $ufField->field_type       = $params['field_name'][0];
+        $ufField->field_name       = $params['field_name'][1]; 
+        $ufField->location_type_id = CRM_Utils_Array::value( 2, $params['field_name'] );
+        $ufField->phone_type       = CRM_Utils_Array::value( 3, $params['field_name'] );
+        
         if (CRM_Utils_Array::value( 'uf_field', $ids )) {
             $ufField->whereAdd("id <> ".CRM_Utils_Array::value( 'uf_field', $ids ));
         }
-
+        
         return $ufField->find(true);
     }
 
