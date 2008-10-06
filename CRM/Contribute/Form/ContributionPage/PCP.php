@@ -127,6 +127,10 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         $errors = array( );
         if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
         }
+        if ( CRM_Utils_Array::value( 'is_tellfriend_enabled', $params ) && 
+             ( CRM_Utils_Array::value( 'tellfriend_limit', $params ) <= 0 ) ) {
+            $errors['tellfriend_limit'] = ts('if Tell Friend is enable, Maximum recipients limit should be greater than zero.');
+        }
         return empty($errors) ? true : $errors;
     }
     

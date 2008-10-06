@@ -46,7 +46,7 @@ class CRM_Friend_Form extends CRM_Core_Form
      /** 
      * Constants for number of friend contacts
      */ 
-    const NUM_OPTION = 4;
+    const NUM_OPTION = 3;
     /**
      * the id of the entity that we are proceessing
      *
@@ -175,7 +175,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         if ( $this->_entityTable == 'civicrm_pcp' ) {
             $mailLimit = $this->_mailLimit;
         }
-        $this->assign( 'mailLimit', $mailLimit);
+        $this->assign( 'mailLimit', $mailLimit + 1);
         for ( $i = 1; $i <= $mailLimit; $i++ ) {           
             $this->add('text', "friend[$i][first_name]", ts("Friend's First Name"));           
             $this->add('text', "friend[$i][last_name]", ts("Friend's Last Name")); 

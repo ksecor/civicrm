@@ -317,5 +317,28 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     static function setDisable( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'is_active', $is_active );
     }
+
+    /**
+     * Function to get pcp block is active 
+     * 
+     * @param int $id campaign page id
+     *
+     * @return int
+     * @access public
+     * @static
+     *
+     */
+    static function getStatus( $pcpId ) 
+    {
+        $query = "
+     SELECT pb.is_active 
+     FROM civicrm_pcp pcp 
+          LEFT JOIN civicrm_pcp_block pb ON ( pcp.contribution_page_id = pb.entity_id )
+          LEFT JOIN civicrm_contribution_page as cp ON ( cp.id =  pcp.contribution_page_id )
+     WHERE pcp.id = {$pcpId}";
+        
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
 }
 ?>

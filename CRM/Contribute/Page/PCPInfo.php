@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contribute/BAO/PCP.php';
 
 /**
  * PCP Info Page - Summmary about the PCP
@@ -72,7 +73,12 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
             CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
-        }      
+        } else {
+            $getStatus = CRM_Contribute_BAO_PCP::getStatus( $this->_id );
+            if ( ! $getStatus ) {
+                CRM_Core_Error::fatal( ts('Personal Campaign Page Block not Active.') );
+            }
+        }
         $default = array();
         
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
@@ -98,7 +104,6 @@ WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribut
             $this->assign('image', $image);
         }
 
-        require_once 'CRM/Contribute/BAO/PCP.php';
         $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
         $achieved = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
         
