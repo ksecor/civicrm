@@ -277,7 +277,7 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         
         $sql = "INSERT INTO random_{$this->_tableName} ( id )
-                SELECT contact_a.id $from $fromTail
+                SELECT DISTINCT contact_a.id $from $fromTail
                 WHERE {$this->where()}
                 ORDER BY RAND()
                 LIMIT {$this->_segmentSize}";
