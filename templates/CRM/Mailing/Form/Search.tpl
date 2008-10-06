@@ -15,6 +15,12 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=mailing_to startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
         </td> 
     </tr>
+    <tr> 
+        <td>{$form.sort_name.label}<br />
+            {$form.sort_name.html|crmReplace:class:big}<br />
+            <span class="description font-italic">{ts}Complete OR partial name of mailing created or sent by.{/ts}</span>
+        </td>
+    </tr>
     <tr>
         <td>{$form.buttons.html}</td><td colspan="2"></td>
     </tr>

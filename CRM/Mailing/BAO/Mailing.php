@@ -1683,9 +1683,10 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
-            FROM        $mailing 
-                        LEFT JOIN $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
-            WHERE       $mailingACL $additionalClause
+            FROM        civicrm_contact
+            LEFT JOIN   $mailing ON ( $mailing.created_id = civicrm_contact.id OR $mailing.scheduled_id = civicrm_contact.id )
+            LEFT JOIN   $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
+            WHERE       $mailingACL $additionalClause 
             GROUP BY    $mailing.id ";
         
         if ($sort) {
@@ -1704,7 +1705,6 @@ SELECT DISTINCT( m.id ) as id
         }
 
         $dao = CRM_Core_DAO::executeQuery( $query, $additionalParams );
-
         
         $rows = array();
         while ($dao->fetch()) {

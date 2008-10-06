@@ -174,10 +174,12 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $params      = array( );
         $whereClause = $this->whereClause( $params );
         $query = "
-SELECT count(civicrm_mailing.id)
-  FROM civicrm_mailing
-     LEFT JOIN civicrm_mailing_job ON (civicrm_mailing.id = civicrm_mailing_job.mailing_id AND civicrm_mailing_job.is_test = 0)
-   AND $whereClause";
+SELECT    count(civicrm_mailing.id)
+FROM      civicrm_contact
+LEFT JOIN civicrm_mailing ON ( civicrm_mailing.created_id = civicrm_contact.id OR civicrm_mailing.scheduled_id = civicrm_contact.id )
+LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
+   AND    $whereClause";
+        
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
@@ -334,7 +336,13 @@ SELECT count(civicrm_mailing.id)
                 $this->_parent->assign( 'isSearch', 0 );
             }
         }
- 
+        
+        $createOrSentBy = $this->_parent->get( 'sort_name' );
+        if ( !CRM_Utils_System::isNull( $createOrSentBy ) ) {
+            $clauses[] = 'sort_name LIKE %4';
+            $params[4] = array( '%' . $createOrSentBy . '%', 'String' );
+        }
+        
         if ( empty( $clauses ) ) {
             return 1;
         }
@@ -350,8 +358,9 @@ SELECT count(civicrm_mailing.id)
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_mailing, civicrm_mailing_job
-    WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+     FROM civicrm_contact
+LEFT JOIN civicrm_mailing ON ( civicrm_mailing.created_id = civicrm_contact.id OR civicrm_mailing.scheduled_id = civicrm_contact.id )
+LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id )
       AND $whereClause
  ORDER BY LEFT(name, 1)
 ";
