@@ -159,17 +159,13 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                   'pcpBock'  => $pcpInfoDao->blockId);
             }
             $pcpLink = $links['all'];
-            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatus != 2 ) {
+            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatus != 2 ||  $pcpInfoDao->pcpActive != 1 ) {
                 $mask -= CRM_Core_Action::DETACH;
-            }
-            if ( $pcpInfoDao->pcpStatus == 2 ) {
-                $mask -= CRM_Core_Action::DELETE;
             }
             if ( $pcpInfoDao->pcpActive == 1 ) {
                 $mask -= CRM_Core_Action::ENABLE;
             } else {
                 $mask -= CRM_Core_Action::DISABLE;
-                $mask -= CRM_Core_Action::DETACH;
             }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
             $pcpInfo[] = array ( 
