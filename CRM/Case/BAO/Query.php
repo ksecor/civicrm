@@ -173,6 +173,10 @@ class CRM_Case_BAO_Query
                                       'civicrm_case', 'case_start_date', 'start_date', 'Start Date' );
             return;
 
+        case 'case_id':
+            $query->_where[$grouping][] = "civicrm_case.id $op $value";
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
         }
     }
 
@@ -251,8 +255,27 @@ class CRM_Case_BAO_Query
         
         $form->addElement('date', 'case_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('case_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+ 
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $case = array( 'Case' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $case );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('caseGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
 
-        $form->assign( 'validCase', true );
+        $form->assign( 'validCiviCase', true );
     }
 
     static function searchAction( &$row, $id ) 
