@@ -298,33 +298,6 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
     function where( $includeContactIDs = false ) {
         return '(1)';
     }
-    
-    /* Doesn't work - nasty hack anyway
-    function sql( $selectClause ) {
-
-        $sql =
-            "SELECT $selectClause "     .
-            $this->from ( )             .
-            " WHERE "                   .
-            $this->where( )             .
-            " AND contact_a.id IN ( "   .
-            "SELECT contact_a.id "      .
-            $this->from ( )             .
-            " WHERE "                   .
-            $this->where( )             .
-            " ORDER BY RAND() LIMIT "   .
-            $this->_segmentSize         .
-            " )";
-        
-        if ($this->_debug > 0) {
-            print "-- Final SQL: <pre>";
-            print "$sql;";
-            print "</pre>";
-        }
-        
-        return $sql;
-    }
-    */
 
     function templateFile( ) {
         return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
