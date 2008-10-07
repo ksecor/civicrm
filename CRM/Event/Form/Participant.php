@@ -713,7 +713,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             foreach ( $nameFields as $name ) {
                 $fields[$name] = 1;
                 if ( array_key_exists( "billing_$name", $params ) ) {
-                    $params[$name] = $params["billing_{$name}"];
+                    $params[$name]            = $params["billing_{$name}"];
+                    $params['preserveDBName'] = true;
                 }
             }
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
