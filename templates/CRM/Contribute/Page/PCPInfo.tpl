@@ -39,7 +39,7 @@
 				</marquee>
 				</div><br />	
 				<center>
-					[<a href="javascript:roll_start_stop();" id="roll" title="Stop the Honor Roll">Stop</a>]
+					[<a href="javascript:roll_start_stop();" id="roll" title="Stop the Honor Roll">{ts}Stop{/ts}</a>]
 				</center>
 				</td>
 				{/if}
@@ -52,9 +52,19 @@
 
 {literal}
 <script language="JavaScript">
-
+var start=true;
 function roll_start_stop( ) {
-
+	if ( start ) {
+		document.getElementById('roll').innerHTML = "{/literal}{ts}Start{/ts}{literal}";
+		document.getElementById('roll').title = "{/literal}{ts}Start the Honor Roll{/ts}{literal}";
+		document.getElementById('pcp_roll').stop();
+		start=false;
+      	 } else {
+		document.getElementById('roll').innerHTML = "{/literal}{ts}Stop{/ts}{literal}";
+		document.getElementById('roll').title = "{/literal}{ts}Stop the Honor Roll{/ts}{literal}";
+		document.getElementById('pcp_roll').start();
+		start=true;
+       	}
 }
 </script>
 {/literal}
