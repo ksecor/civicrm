@@ -129,31 +129,41 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
             
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'  => ts('Mailing Name'),
+                                                'name'      => ts('Mailing Name'),
                                                 'sort'      => 'name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Status'),
+                                                'name'      => ts('Status'),
                                                 'sort'      => 'status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ), 
+                                                ),
                                           array(
-                                                'name' => ts('Scheduled Date'),
+                                                'name'      => ts('Created By'),
+                                                'sort'      => 'created_by',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ),
+                                          array(
+                                                'name'      => ts('Sent By'),
+                                                'sort'      => 'scheduled_by',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ),
+                                          array(
+                                                'name'      => ts('Scheduled Date'),
                                                 'sort'      => 'scheduled_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Start Date'),
+                                                'name'      => ts('Start Date'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ), 
                                           array(
-                                                'name' => ts('Completed Date'),
+                                                'name'      => ts('Completed Date'),
                                                 'sort'      => 'end_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
-                                                ), 
-            );
+                                                )
+                                          );
             if ($output != CRM_Core_Selector_Controller::EXPORT) {
                 self::$_columnHeaders[] = array('name' => ts('Action'));
             }
@@ -173,12 +183,14 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
     {
         $params      = array( );
         $whereClause = $this->whereClause( $params );
+
         $query = "
 SELECT    count(civicrm_mailing.id)
-FROM      civicrm_contact
-LEFT JOIN civicrm_mailing ON ( civicrm_mailing.created_id = civicrm_contact.id OR civicrm_mailing.scheduled_id = civicrm_contact.id )
+FROM      civicrm_contact contact_a, civicrm_contact contact_b, civicrm_mailing
 LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
-   AND    $whereClause";
+WHERE     civicrm_mailing.created_id = contact_a.id 
+AND       civicrm_mailing.scheduled_id = contact_b.id      
+AND       $whereClause";
         
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
@@ -339,7 +351,7 @@ LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_maili
         
         $createOrSentBy = $this->_parent->get( 'sort_name' );
         if ( !CRM_Utils_System::isNull( $createOrSentBy ) ) {
-            $clauses[] = 'civicrm_contact.sort_name LIKE %4';
+            $clauses[] = '(contact_a.sort_name LIKE %4 OR contact_b.sort_name LIKE %4)';
             $params[4] = array( '%' . $createOrSentBy . '%', 'String' );
         }
         
@@ -358,9 +370,10 @@ LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_maili
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_contact
-LEFT JOIN civicrm_mailing ON ( civicrm_mailing.created_id = civicrm_contact.id OR civicrm_mailing.scheduled_id = civicrm_contact.id )
+     FROM civicrm_contact contact_a, civicrm_contact contact_b, civicrm_mailing
 LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id )
+    WHERE civicrm_mailing.created_id = contact_a.id
+      AND civicrm_mailing.scheduled_id = contact_b.id
       AND $whereClause
  ORDER BY LEFT(name, 1)
 ";

@@ -1682,11 +1682,16 @@ SELECT DISTINCT( m.id ) as id
                         $job.status, 
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
-                        MAX($job.end_date) as end_date
-            FROM        civicrm_contact
-            LEFT JOIN   $mailing ON ( $mailing.created_id = civicrm_contact.id OR $mailing.scheduled_id = civicrm_contact.id )
+                        MAX($job.end_date) as end_date,
+                        contact_a.sort_name as created_by, 
+                        contact_b.sort_name as scheduled_by,
+                        contact_a.id as created_id, 
+                        contact_b.id as scheduled_id
+            FROM        civicrm_contact contact_a, civicrm_contact contact_b, $mailing
             LEFT JOIN   $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
-            WHERE       $mailingACL $additionalClause 
+            WHERE       civicrm_mailing.created_id = contact_a.id 
+            AND         civicrm_mailing.scheduled_id = contact_b.id
+            AND         $mailingACL $additionalClause 
             GROUP BY    $mailing.id ";
         
         if ($sort) {
@@ -1715,7 +1720,11 @@ SELECT DISTINCT( m.id ) as id
                             'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
                             'scheduled_iso' => $dao->scheduled_date,
                             'start'         => CRM_Utils_Date::customFormat($dao->start_date), 
-                            'end'           => CRM_Utils_Date::customFormat($dao->end_date)
+                            'end'           => CRM_Utils_Date::customFormat($dao->end_date),
+                            'created_by'    => $dao->created_by,
+                            'scheduled_by'  => $dao->scheduled_by,
+                            'created_id'    => $dao->created_id,
+                            'scheduled_id'  => $dao->scheduled_id
                             );
         }
         return $rows;

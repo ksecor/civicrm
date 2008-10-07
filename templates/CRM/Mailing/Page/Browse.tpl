@@ -33,6 +33,8 @@
   <tr class="{cycle values="odd-row,even-row"}">
     <td>{$row.name}</td>
     <td>{$row.status}</td>
+    <td><a href ={crmURL p='civicrm/contact/view' q="reset=1&cid="}{$row.created_id}>{$row.created_by}</a></td>
+    <td><a href ={crmURL p='civicrm/contact/view' q="reset=1&cid="}{$row.scheduled_id}>{$row.scheduled_by}</a></td>	
     <td>{$row.scheduled}</td>
     <td>{$row.start}</td>
     <td>{$row.end}</td>
