@@ -143,9 +143,9 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                 $params[$key] = 0;
             }
         }
-        
+        $contactID = $this->get('contactID');
         $session =& CRM_Core_Session::singleton( );
-        $params['contact_id']           = $session->get('userID');
+        $params['contact_id']           = $contactID;
         $params['contribution_page_id'] = $this->get('contribution_page_id');
         
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 

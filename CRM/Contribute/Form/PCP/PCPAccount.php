@@ -45,7 +45,7 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
      */
 
     public  $_pageId = null;
-    public  $_id = null;
+    public  $_id     = null;
 
     public function preProcess()  
     {
@@ -66,6 +66,9 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
 
     function setDefaultValues( ) 
     {   
+        if (!$this->_contactID) {
+            return;
+        }
         foreach ( $this->_fields as $name => $dontcare) {
             $fields[$name] = 1;
         }
@@ -103,6 +106,9 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
             }
         } else {
+            require_once 'CRM/Core/BAO/CMSUser.php';
+            CRM_Core_BAO_CMSUser::buildForm( $this, $id , true );
+
             $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
         }
         
@@ -163,9 +169,18 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
      */ 
     public function postProcess( )  
     {
-        $params  = $this->controller->exportValues( );
+        $params  = $this->controller->exportValues( $this->getName() );
+        if ( ! $this->_contactID && isset( $params['cms_create_account'] ) ) {
+            foreach( $params as $key => $value ) {
+                if ( substr( $key , 0,5 ) == 'email' && ! empty( $value ) )  {
+                    $params['email'] = $value;
+                }
+            }
+        }
         $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $this->_fields, $this->_contactID, $addToGroups );
+        $this->set('contactID', $contactID);
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID, 'email' );
     }
-            
 }
 ?>
