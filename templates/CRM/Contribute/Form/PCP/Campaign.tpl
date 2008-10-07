@@ -12,7 +12,7 @@ Configuration Screen{/ts}</legend>
 	</tr>
 	<tr>
 		<td class="label">{$form.goal_amount.label}</td>
-		<td>{$form.goal_amount.html|crmReplace:class:six}</td>
+		<td>{' '|crmMoney}{$form.goal_amount.html|crmReplace:class:six}</td>
 	</tr>
 	<tr>
 		<td class="label">{$form.donate_link_text.label}</td>
