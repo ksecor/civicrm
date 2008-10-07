@@ -169,7 +169,13 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
 
         CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/user', 'reset=1') );
+        
+        if ( $session->get('userID') ) {
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/user', 'reset=1') );
+        } else {
+            $config =& CRM_Core_Config::singleton( );
+            $session->pushUserContext($config->userFrameworkBaseURL);
+        }
     }
 }
 
