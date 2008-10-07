@@ -58,7 +58,7 @@ class CRM_Contact_Form_Phone
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
             
             if ( ! $phoneType ) {
-                $phoneType = CRM_Core_SelectValues::phoneType( );
+                $phoneType = CRM_Core_PseudoConstant::phoneType( );
             }
             
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',

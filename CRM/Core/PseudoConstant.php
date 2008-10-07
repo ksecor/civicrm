@@ -257,19 +257,26 @@ class CRM_Core_PseudoConstant
      */
     private static $activityStatus;
 
-   /**
+    /**
      * wysiwyg Editor
      * @var array
      * @static
      */
     private static $wysiwygEditor;
 
-   /**
+    /**
      * Mapping Types
      * @var array
      * @static
      */
     private static $mappingType;
+
+    /**
+     * Phone Types
+     * @var array
+     * @static
+     */
+    private static $phoneType;
 
     /**
      * populate the object from the database. generic populate
@@ -421,6 +428,28 @@ class CRM_Core_PseudoConstant
         return self::$individualPrefix;
     }
 
+    /**
+     * Get all phone type
+     * The static array phoneType is returned
+     * 
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All phone type - default is to get
+     * only active ones.
+     *
+     * @return array - array reference of all phone types.
+     *
+     */
+    public static function &phoneType( )
+    {
+        if ( ! self::$phoneType ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$phoneType = CRM_Core_OptionGroup::values('phone_type');
+        }
+        return self::$phoneType;
+    }
+    
     /**
      * Get all Individual Suffix.
      *

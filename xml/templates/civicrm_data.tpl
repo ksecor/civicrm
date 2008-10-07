@@ -140,7 +140,8 @@ VALUES
    ('wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1),
    ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1),
    ('activity_medium'               , '{ts escape="sql"}Activity Medium{/ts}'                    , 0, 1),
-   ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1);  
+   ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1), 
+   ('phone_type'		    , '{ts escape="sql"}Phone Type{/ts}'			 , 0, 1);  
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -177,6 +178,7 @@ SELECT @option_group_id_we             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
 SELECT @option_group_id_am             := max(id) from civicrm_option_group where name = 'activity_medium';
 SELECT @option_group_id_gr             := max(id) from civicrm_option_group where name = 'greeting_type';
+SELECT @option_group_id_pht	       := max(id) from civicrm_option_group where name = 'phone_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -422,7 +424,13 @@ VALUES
   (@option_group_id_am, '{ts escape="sql"}Face-to-Face{/ts}' , 'face-to-face' ,  'face-to-face',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_group_id_am, '{ts escape="sql"}Inbound Phone{/ts}', 'inbound phone',  'inbound phone', NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
   (@option_group_id_am, '{ts escape="sql"}Letter{/ts}'       , 'letter'       ,  'letter',        NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_am, '{ts escape="sql"}Email{/ts}'        , 'email'        ,  'email',         NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
+  (@option_group_id_am, '{ts escape="sql"}Email{/ts}'        , 'email'        ,  'email',         NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL),
+  
+  (@option_group_id_pht, '{ts escape="sql"}Phone{/ts}' , 1, 'Phone' , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pht, '{ts escape="sql"}Mobile{/ts}', 2, 'Mobile', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pht, '{ts escape="sql"}Fax{/ts}'   , 3, 'Fax'   , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pht, '{ts escape="sql"}Pager{/ts}' , 4, 'Pager' , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL);
+
 
 
 -- sample membership status entries

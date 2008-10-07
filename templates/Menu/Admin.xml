@@ -219,6 +219,17 @@
      <weight>320</weight>
   </item>
   <item>
+    <path>civicrm/admin/options/phone_type</path>
+    <title>Phone Type</title>
+    <desc>Options for assigning phone type to contacts (e.g Phone,
+    Mobile, Fax, Pager)</desc>
+    <path_arguments>group=phone_type</path_arguments>
+    <page_callback>CRM_Admin_Page_Options</page_callback>
+    <adminGroup>Option Lists</adminGroup>
+    <icon>tel.gif</icon>
+    <weight>325</weight>
+  </item>
+  <item>
      <path>civicrm/admin/options/individual_prefix</path>
      <title>Individual Prefixes (Ms, Mr...)</title>
      <desc>Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).</desc>
