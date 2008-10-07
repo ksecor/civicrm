@@ -485,7 +485,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                 )
                           );
 
-        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ));
+        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ), $this );
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -511,23 +511,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
             $deleted = CRM_Core_BAO_UFField::del( $this->_id );
             
-            //calculate group_type every time. CRM-3608 
+            //update group_type every time. CRM-3608 
             if ( $this->_gid && $deleted ) { 
-                //get the profile fields
-                $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );   
+                //get the profile type.
                 $groupType = 'null';
-                if ( !empty( $ufFields ) ) {
-                    foreach ( $ufFields as $fieldName => $fieldValue ) {
-                        if ( strpos( $groupType, $fieldValue['field_type'] ) === false ) {
-                            if (  $groupType == 'null' ) {
-                                $groupType = $fieldValue['field_type'];
-                            } else {
-                                $groupType .= "," . $fieldValue['field_type'];
-                            }
-                        }
-                    }
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
                 }
-                
                 //set group type
                 CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
@@ -556,23 +547,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
             
-            //calculate group_type every time. CRM-3608 
+            //update group_type every time. CRM-3608 
             if ( $this->_gid && is_a( $ufField, 'CRM_Core_DAO_UFField' ) ) {
-                //get the profile fields
-                $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );   
+                //get the profile type.
                 $groupType = 'null';
-                if ( !empty( $ufFields ) ) {
-                    foreach ( $ufFields as $fieldName => $fieldValue ) {
-                        if ( strpos( $groupType, $fieldValue['field_type'] ) === false ) {
-                            if ( $groupType == 'null' ) {
-                                $groupType = $fieldValue['field_type'];
-                            } else {
-                                $groupType .= "," . $fieldValue['field_type'];
-                            }
-                        }
-                    }
+                $fieldsType = CRM_Core_BAO_UFGroup::calculateGroupType( $this->_gid );
+                if ( !empty( $fieldsType ) ) {
+                    $groupType = implode( ',', $fieldsType );
                 }
-                
                 //set group type
                 CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'group_type', $groupType );
             }
@@ -595,7 +577,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields ) 
+    static function formRule( &$fields, &$files, $self ) 
     {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
@@ -660,7 +642,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         //fix for CRM-3037
         $fieldType = $fields['field_name'][0];
-        $groupType = explode( ',', CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $fields['group_id'], 'group_type' ) );
+        
+        //get the group type. 
+        $groupType = CRM_Core_BAO_UFGroup::calculateGroupType( $self->_gid, CRM_Utils_Array::value( 'field_id', $fields ) );
         
         switch ( $fieldType ) {
             

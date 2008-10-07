@@ -370,7 +370,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'add_to_group_id'  => $group->add_to_group_id,
                           'collapse_display' => $group->collapse_display,
                           'add_captcha'      => $group->add_captcha,
-                          'field_type'       => $field->field_type
+                          'field_type'       => $field->field_type,
+                          'field_id'         => $field->id
                           );
 
                 //adding custom field property 
@@ -1984,6 +1985,34 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         return $data;
     }
-
+    
+    /**
+     * calculate the profile type 'group_type' as per profile fields.
+     *
+     * @param int $gid           profile id
+     * @param int $ignoreFieldId ignore perticular profile field
+     *
+     * @return array list of calculated group type
+     */
+    function calculateGroupType( $gId, $ignoreFieldId = null ) 
+    {
+        //get the profile fields.
+        $ufFields  = self::getFields( $gId, false, null, null, null, true );
+        $groupType = array( );
+        if ( !empty( $ufFields ) ) {
+            foreach ( $ufFields as $fieldName => $fieldValue ) {
+                //ignore field from group type when provided.
+                //in case of update profile field.
+                if ( $ignoreFieldId && ( $ignoreFieldId == $fieldValue['field_id'] ) ) {
+                    continue;
+                }
+                if ( !in_array( $fieldValue['field_type'], $groupType ) ) {
+                    $groupType[] = $fieldValue['field_type'];
+                }
+            }
+        }
+        
+        return $groupType;
+    }
 }
 
