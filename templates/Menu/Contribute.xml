@@ -120,11 +120,11 @@
      <path>civicrm/contribute/campaign</path>
      <title>Account Creation Screen</title>
      <page_callback>CRM_Contribute_Controller_PCP</page_callback>
-     <access_arguments>access CiviContribute</access_arguments>
+     <access_arguments>make online contributions</access_arguments>
      <weight>0</weight>
   </item>
   <item>
-     <path>civicrm/admin/contribute/pcp</path>
+     <path>civicrm/admin/pcp</path>
      <title>Personal Campaign Pages</title>
      <page_callback>CRM_Contribute_Page_PCP</page_callback>
      <desc>List all the PCPs setup in the sysemm and change their statuses.</desc>

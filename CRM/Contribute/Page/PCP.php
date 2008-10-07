@@ -70,29 +70,26 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
             $deleteExtra = ts('Are you sure you want to delete this Campaign Page ?');
 
             self::$_links = array(
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/contribute/pcp',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\''. $deleteExtra . '\');"',
-                                                                    'title' => ts('Delete Personal Campaign Page') 
-                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Approve'),
-                                                                    'url'   => 'civicrm/admin/contribute/pcp',
+                                                                    'url'   => 'civicrm/admin/pcp',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Approve Personal Campaign Page') 
                                                                     ),
                                   CRM_Core_Action::DISABLE  => array(
                                                                     'name'  => ts('Reject'),
-                                                                    'url'   => 'civicrm/admin/contribute/pcp',
+                                                                    'url'   => 'civicrm/admin/pcp',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'title' => ts('Reject Personal Campaign Page') 
-                                                                   )
-
-
-
-                                 );
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/pcp',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'extra' => 'onclick = "return confirm(\''. $deleteExtra . '\');"',
+                                                                    'title' => ts('Delete Personal Campaign Page') 
+                                                                    )
+                                  );
         }
         return self::$_links;
     }
@@ -242,7 +239,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/contribute/pcp';
+        return 'civicrm/admin/pcp';
     }
 }
 
