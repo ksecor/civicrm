@@ -221,32 +221,32 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                               );
             
             self::$_pcpLinks['all'] = array (
-                                             CRM_Core_Action::DELETE => array ( 'name'  => ts('Delete'),
-                                                                                'url'   => 'civicrm/contribute/pcp',
-                                                                                'qs'    => 'action=delete&reset=1&id=%%pcpId%%',
-                                                                                'extra' => 'onclick = "return confirm(\''. $deleteExtra . '\');"',
-                                                                                'title' => ts('Delete')
-                                                                                ),
                                              CRM_Core_Action::UPDATE => array ( 'name'  => ts('Edit'),
                                                                                 'url'   => 'civicrm/contribute/campaign',
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
                                                                                 ),
-                                             CRM_Core_Action::DISABLE => array ( 'name'  => ts('Disable'),
-                                                                                'url'   => 'civicrm/contribute/pcp',
-                                                                                'qs'    => 'action=disable&reset=1&id=%%pcpId%%',
-                                                                                'title' => ts('Disable')
-                                                                                ),
                                              CRM_Core_Action::ENABLE => array ( 'name'  => ts('Enable'),
-                                                                                 'url'   => 'civicrm/contribute/pcp',
-                                                                                 'qs'    => 'action=enable&reset=1&id=%%pcpId%%',
-                                                                                 'title' => ts('Enable')
+                                                                                'url'   => 'civicrm/contribute/pcp',
+                                                                                'qs'    => 'action=enable&reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('Enable')
                                                                                 ),
+                                             CRM_Core_Action::DISABLE => array ( 'name'  => ts('Disable'),
+                                                                                 'url'   => 'civicrm/contribute/pcp',
+                                                                                 'qs'    => 'action=disable&reset=1&id=%%pcpId%%',
+                                                                                 'title' => ts('Disable')
+                                                                                 ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
                                                                                 'url'   => 'civicrm/friend',
                                                                                 'qs'    => 'eid=%%pcpId%%&blockId=%%pcpBock%%&reset=1&page=pcp',
                                                                                 'title' => ts('Tell a Friend')
                                                                                 ),
+                                             CRM_Core_Action::DELETE => array ( 'name'  => ts('Delete'),
+                                                                                'url'   => 'civicrm/contribute/pcp',
+                                                                                'qs'    => 'action=delete&reset=1&id=%%pcpId%%',
+                                                                                'extra' => 'onclick = "return confirm(\''. $deleteExtra . '\');"',
+                                                                                'title' => ts('Delete')
+                                                                                )
                                              );
         }
         return self::$_pcpLinks;
