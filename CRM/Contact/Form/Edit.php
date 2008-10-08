@@ -765,7 +765,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $form->add('select', 'preferred_mail_format', ts('Email Format'), CRM_Core_SelectValues::pmf());
 
-        $form->add('checkbox', 'is_opt_out', ts( 'User Opt Out' ) );
+        $form->add('checkbox', 'is_opt_out', ts( 'NO BULK EMAILS (User Opt Out)' ) );
     }
 
 

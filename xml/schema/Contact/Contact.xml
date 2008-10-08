@@ -88,7 +88,7 @@
   <field>
     <name>is_opt_out</name>
     <type>boolean</type>
-    <title>No Bulk Mail (Opted-out)</title>
+    <title>No Bulk Emails (User Opt Out)</title>
     <default>0</default>
     <import>true</import>
     <required>true</required>
