@@ -105,6 +105,15 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
      */
     function browse( $action = null )
     {  
+        require_once 'CRM/Contact/BAO/GroupNesting.php';
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );        
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+        }
+
         require_once 'CRM/Contribute/PseudoConstant.php';
         $status            = CRM_Contribute_PseudoConstant::pcpstatus( );
         $contribution_page = CRM_Contribute_PseudoConstant::contributionPage( );
@@ -130,13 +139,15 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                 $this->set( 'params', null );
             }
         }
-        
+        $params = $this->get('params') ? $this->get('params') : array();
+        $title       = ' AND cp.title LIKE %3';
+        $params['3'] = array( $this->_sortByCharacter . '%', 'String' );        
+
         $query = "
   SELECT cp.id as id, contact_id , status_id, cp.title as title, contribution_page_id, start_date, end_date
     FROM civicrm_pcp cp, civicrm_contribution_page cpp
-   WHERE cp.contribution_page_id = cpp.id". $this->get('whereClause');
-
-        $params = $this->get('params') ? $this->get('params') : array();
+   WHERE cp.contribution_page_id = cpp.id $title". $this->get('whereClause');
+        
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contribute_DAO_PCP' );
 
         while ( $dao->fetch( ) ) {
@@ -171,7 +182,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         }
 
         $this->search( );   
- 
+        $this->pagerAToZ( $this->get('whereClause'), $params );
         if ( $pcpSummary ){ 
             $this->assign('rows', $pcpSummary);
         }
@@ -240,6 +251,21 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
     function userContext($mode = null) 
     {
         return 'civicrm/admin/pcp';
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $query = "
+ SELECT UPPER(LEFT(cp.title, 1)) as sort_name
+     FROM civicrm_pcp cp, civicrm_contribution_page cpp
+   WHERE cp.contribution_page_id = cpp.id $whereClause
+ ORDER BY LEFT(cp.title, 1);
+        ";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
+        $this->assign( 'aToZ', $aToZBar );
     }
 }
 

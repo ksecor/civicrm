@@ -10,6 +10,8 @@ set up in the system and Admin can change the statuses...{/ts}</p>
 {if $rows}
 <div id="ltype">
 <p></p>
+{include file="CRM/common/pager.tpl" location="top"}
+{include file="CRM/common/pagerAToZ.tpl}
 <div class="form-item">
 {strip}
 <table cellpadding="0" cellspacing="0" border="0">
