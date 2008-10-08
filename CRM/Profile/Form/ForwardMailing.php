@@ -135,7 +135,14 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             $status = ts( "Mailing is forwarded successfully to %1 email address(es).", array( 1 => $forwarded ) );
         }
         CRM_Core_Session::setStatus( $status );
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
+        
+        //redirect to mailing browse page. 
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check( 'access CiviMail') ) {
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
+        } else {
+            $session->pushUserContext( CRM_Utils_System::url('civicrm', "reset=1" ) );
+        }
     }
 }
 
