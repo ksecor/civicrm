@@ -135,15 +135,23 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
                 $emails[] = $email;
             }
         }
-    
+        
+        $forwarded = null;
         foreach ($emails as $email) {
             $result = crm_mailer_event_forward( $job_id, $queue_id, 
                                                 $hash, $email, $this->_fromEmail, $params );
+            if ( $result ) {
+                $forwarded++;
+            }
         }
         
         require_once "CRM/Core/Session.php";
-        $session =& CRM_Core_Session::singleton(); 
-        CRM_Core_Session::setStatus( "Mail has been Forwarded Successfully" );
+        $session =& CRM_Core_Session::singleton( );
+        $status = ts( 'Mailing is not forwarded to given email address(es).' );
+        if ( $forwarded ) {
+            $status = ts( "Mailing is forwarded successfully to %1 email address(es).", array( 1 => $forwarded ) );
+        }
+        CRM_Core_Session::setStatus( $status );
         $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
     }
 }
