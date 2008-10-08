@@ -128,21 +128,18 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
         }
         
         //fix for CRM-3674.
-        require_once "CRM/Core/Session.php";
-        $session =& CRM_Core_Session::singleton( );
         $status = ts( 'Mailing is not forwarded to given email address(es).' );
         if ( $forwarded ) {
             $status = ts( "Mailing is forwarded successfully to %1 email address(es).", array( 1 => $forwarded ) );
         }
-        CRM_Core_Session::setStatus( $status );
         
-        //redirect to mailing browse page. 
-        require_once 'CRM/Core/Permission.php';
-        if ( CRM_Core_Permission::check( 'access CiviMail') ) {
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
-        } else {
-            $session->pushUserContext( CRM_Utils_System::url('civicrm', "reset=1" ) );
-        }
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::setUFMessage( $status );
+        
+        // always redirect to front page of url
+        $session =& CRM_Core_Session::singleton( );
+        $config  =& CRM_Core_Config::singleton( );
+        $session->pushUserContext( $config->userFrameworkBaseURL );
     }
 }
 
