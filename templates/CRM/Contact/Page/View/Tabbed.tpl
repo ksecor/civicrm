@@ -142,7 +142,7 @@
       {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
     {/foreach}
     {if $is_opt_out}
-      {ts}User Opt Out (NO BULK EMAILS){/ts}
+      {ts}No Bulk Emails (User Opt Out){/ts}
     {/if}
     </span>
   </div>
