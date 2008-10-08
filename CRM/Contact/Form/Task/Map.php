@@ -69,11 +69,24 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
         $profileGID = CRM_Utils_Request::retrieve( 'profileGID', 'Integer',
                                                    $this, false );
         $this->assign( 'profileGID', $profileGID );
+        $seachType = CRM_Utils_Request::retrieve( 'searchType', 'String',
+                                                  $this, false );
 
         $type = 'Contact';
         if ( $cid ) {
             $ids = array( $cid );
             $this->_single     = true;
+            if ( $seachType && ! $profileGID ) {
+                $fragment = '/basic';
+                if ( $seachType == 'advance') {
+                    $fragment = '/advanced';
+                } elseif ( $seachType == 'custom') {
+                    $fragment = '/custom';
+                }
+                $session =& CRM_Core_Session::singleton();
+                $url = CRM_Utils_System::url( 'civicrm/contact/search' . $fragment, 'force=1' );
+                $session->replaceUserContext( $url );
+            }
         } else if ( $eid ) {
             $ids = $eid;
             $type = 'Event';
@@ -149,7 +162,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
 
         if ( $addBreadCrumb ) {
             $session =& CRM_Core_Session::singleton(); 
-            $redirect = $session->readUserContext(); 
+            $redirect = $session->readUserContext();
             if ( $type == 'Contact') {
                 $bcTitle = ts('Contact');
             } else {

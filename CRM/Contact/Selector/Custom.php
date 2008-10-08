@@ -184,7 +184,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/map',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'qs'       => 'reset=1&cid=%%id%%&searchType=custom',
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
