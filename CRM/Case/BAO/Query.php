@@ -249,13 +249,57 @@ class CRM_Case_BAO_Query
             $form->add('select', 'case_casetag3_id',  ts( 'Violation' ),  
                        $caseViolation , false, array("size"=>"5",  "multiple"));
         }
-    
-        $form->addElement('date', 'case_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('case_start_date_low', ts('Select a valid date.'), 'qfDate'); 
+   
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        require_once 'CRM/Core/PseudoConstant.php';
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        $attributes = array('onchange' => "setUrl( );");
+        $form->addElement('select', 'relation_type_id', ts('Case Role'),  array('' => ts('- select -')) + $allRelationshipType, $attributes);
         
-        $form->addElement('date', 'case_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('case_start_date_high', ts('Select a valid date.'), 'qfDate'); 
- 
+        // add a dojo facility for searching contacts
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
+        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                             'mode'           => 'remote',
+                             'store'          => 'contactStore',
+                             'pageSize'       => 10, 
+                             'id'             => 'case_role'
+                             );
+              
+        $form->addElement('text', 'name'      , ts('Related Contact'), $attributes );
+
+        $form->addElement('date', 'scheduledActivity_start_date_low', ts('From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('scheduledActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
+        
+        $form->addElement('date', 'scheduledActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('scheduledActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+
+        $activityTypes =
+            array( ''   => ' - select activity - ' ) + 
+            CRM_Core_PseudoConstant::activityType( );
+                
+        // we need to remove some activity types
+        CRM_Utils_Array::crmArraySplice( $activityTypes, 4, 9);
+        $form->add('select', 'scheduledActivity_type_id', ts('Scheduled Activity Type'),
+                   $activityTypes,
+                   false);
+
+        $form->addElement('date', 'completedActivity_start_date_low', ts('From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('completedActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
+        
+        $form->addElement('date', 'completedActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('completedActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+         
+        $form->add('select', 'completedActivity_type_id', ts('Completed Activity Type'),
+                   $activityTypes,
+                   false);
+        
+
+
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $case = array( 'Case' );

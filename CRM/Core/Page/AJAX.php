@@ -152,7 +152,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             $name  = str_replace( '*', '%', $name );
 
             //contact's based of relationhip type
-            $relType = null;
+            $relType = null; 
             if ( isset($_GET['rel']) ) {
                 $relation = explode( '_', $_GET['rel'] );
                 $relType  = CRM_Utils_Type::escape( $relation[0], 'Integer');
@@ -226,15 +226,25 @@ SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address,25),city) 'sort_name' ,
 WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName%' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
-                
-                $query = "
+                if ( CRM_Utils_Array::value( 'case', $_GET ) ) {
+                    $query = "
+SELECT distinct(c.id), c.sort_name
+FROM civicrm_contact c 
+LEFT JOIN civicrm_relationship ON civicrm_relationship.contact_id_{$rel} = c.id
+WHERE c.sort_name LIKE '%$name%'
+AND civicrm_relationship.relationship_type_id = $relType
+GROUP BY sort_name 
+";
+                } else {
+                    
+                    $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
 WHERE c.sort_name LIKE '%$name%'
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
-            
+                }
             } else {
                 
                 $query = "

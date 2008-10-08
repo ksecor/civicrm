@@ -71,16 +71,14 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                 'contact_id',
                                 'sort_name',   
                                 'display_name',
-                                'pledge_id',   
-                                'pledge_amount', 
-                                'pledge_create_date',
-                                'pledge_total_paid',
-                                'pledge_next_pay_date', 
-                                'pledge_next_pay_amount',    
-                                'pledge_outstanding_amount',    
-                                'pledge_status_id' ,
-                                'pledge_is_test',
-                                'pledge_contribution_page_id'
+                                'case_id',   
+                                'case_status_id', 
+                                'case_type_id',
+                                'relationshipType_id',
+                                'case_recent_activity_date',
+                                'case_recent_activity_type', 
+                                'case_scheduled_activity_date',
+                                'case_scheduled_activity_type'
                                  );
 
     /** 
@@ -170,9 +168,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         $this->_action = $action;
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
-                                                    CRM_Contact_BAO_Query::MODE_PLEDGE);
+                                                    CRM_Contact_BAO_Query::MODE_CASE);
 
-        $this->_query->_distinctComponentClause = " DISTINCT civicrm_pledge.id ";
+        $this->_query->_distinctComponentClause = " DISTINCT civicrm_case.id ";
     }//end of constructor
 
     
@@ -189,32 +187,32 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      */
     static function &links( $hideOption )
     {
-        $cancelExtra = ts('Cancelling this pledge will also cancel any scheduled (and not completed) pledge payments. This action cannot be undone. Do you want to continue?');
+        $cancelExtra = ts('Do you want to continue?');
         self::$_links = array(
                               CRM_Core_Action::VIEW   => array(
                                                                'name'     => ts('View'),
-                                                               'url'      => 'civicrm/contact/view/pledge',
-                                                               'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=pledge',
-                                                               'title'    => ts('View Pledge'),
+                                                               'url'      => 'civicrm/contact/view/case',
+                                                               'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case',
+                                                               'title'    => ts('View Case'),
                                                                ),
                               CRM_Core_Action::UPDATE => array(
                                                                'name'     => ts('Edit'),
-                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'url'      => 'civicrm/contact/view/case',
                                                                'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                               'title'    => ts('Edit Pledge'),
+                                                               'title'    => ts('Edit Case'),
                                                                ),
                               CRM_Core_Action::DETACH => array(
                                                                'name'     => ts('Cancel'),
-                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'url'      => 'civicrm/contact/view/case',
                                                                'qs'       => 'reset=1&action=detach&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                'extra'    => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
-                                                               'title'    => ts('Cancel Pledge'),
+                                                               'title'    => ts('Cancel Case'),
                                                                ),
                               CRM_Core_Action::DELETE => array(
                                                                'name'     => ts('Delete'),
-                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'url'      => 'civicrm/contact/view/Case',
                                                                'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                               'title'    => ts('Delete Pledge'),
+                                                               'title'    => ts('Delete Case'),
                                                                ),
                               ); 
         
@@ -235,7 +233,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = ts('Pledge') . ' %%StatusMessage%%';
+        $params['status']       = ts('Case') . ' %%StatusMessage%%';
         $params['csvString']    = null;
         if ( $this->_limit ) {
             $params['rowCount']     = $this->_limit;
@@ -288,7 +286,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          
          // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit pledges' ) ) {
+         if ( CRM_Core_Permission::check( 'edit cases' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
          
@@ -301,21 +299,17 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
-             
-             if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
-                 $row['pledge_status_id'] .= ' (test)';
-             }
-             
+                                       
              $hideOption = array();
              if ( CRM_Utils_Array::key( 'Cancelled', $row ) ||
                   CRM_Utils_Array::key('Completed', $row ) ) {
                  $hideOption[] = 'Cancel';
              }
              
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links( $hideOption ), $mask,
-                                                           array( 'id'  => $result->pledge_id,
+                                                           array( 'id'  => $result->case_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              
@@ -368,38 +362,43 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Total Pledged'),
-                                                'sort'      => 'pledge_amount',
+                                                'name'      => ts('Client\'s Name'),
+                                                'sort'      => 'sort_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Total Paid'),
-                                                'sort'      => 'pledge_total_paid',
+                                                'name'      => ts('Case Status'),
+                                                'sort'      => 'case_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Balance Due'),
-                                                'sort'      => 'pledge_balance_amount',
+                                                'name'      => ts('Case Type'),
+                                                'sort'      => 'case_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Pledge Made'),
-                                                'sort'      => 'pledge_create_date',
+                                                'name'      => ts('Role'),
+                                                'sort'      => 'relationshipType_id',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Payment Date'),
-                                                'sort'      => 'pledge_next_pay_date',
+                                                'name'      => ts('Date of Most Recent Activity'),
+                                                'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Next Payment Amount'),
-                                                'sort'      => 'pledge_next_pay_amount',
+                                                'name'      => ts('Activity(most recent activity)'),
+                                                'sort'      => 'case_recent_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Status'),
-                                                'sort'      => 'pledge_status_id',
+                                                'name'      => ts('Date of next scheduled Activity'),
+                                                'sort'      => 'case_scheduled_activity_date',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Activity(next scheduled activity)'),
+                                                'sort'      => 'case_scheduled_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
