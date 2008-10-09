@@ -70,12 +70,13 @@ function run() {
             if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {
                 $session->set( 'msg' , 'You are not allowed to login. Login failed. Contact your Administrator.' );	
                 $session->set( 'goahead', "no" );
-            }
-            CRM_Utils_System_Standalone::getUserID( $user );
-
-            if ( ! $session->get('userID') ) {
-                $session->set( 'msg' , 'You are not authorized to login.' );
-                $session->set( 'goahead', "no" );
+            } else {
+                CRM_Utils_System_Standalone::getUserID( $user );
+                
+                if ( ! $session->get('userID') ) {
+                    $session->set( 'msg' , 'You are not authorized to login.' );
+                    $session->set( 'goahead', "no" );
+                }
             }
 
             header("Location: index.php");
