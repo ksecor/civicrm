@@ -306,7 +306,7 @@
        <name>is_current_revision</name>
        <title>Is this activity a current revision in versioning chain?</title>
        <type>boolean</type>
-       <default>0</default>
+       <default>1</default>
        <import>true</import>
        <add>2.2</add>
   </field>  
