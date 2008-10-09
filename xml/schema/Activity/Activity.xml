@@ -225,7 +225,7 @@
        <default>0</default>
        <import>true</import>
        <add>2.0</add>
-  </field>                                 
+  </field>
   <field>
        <name>medium</name>
        <title>Activity Medium</title>
@@ -302,4 +302,12 @@
        <add>2.1</add>
        <hrd>1</hrd>
   </index>
+  <field>
+       <name>is_current_revision</name>
+       <title>Is this activity a current revision in versioning chain?</title>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <add>2.2</add>
+  </field>  
 </table>
