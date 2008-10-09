@@ -566,7 +566,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                 $this->assign( 'credit_card_exp_date', $date );
                 $this->assign( 'credit_card_number',
                                CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
-                $this->assign( ' credit_card_type', $this->_params['credit_card_type'] );
+                $this->assign( 'credit_card_type', $this->_params['credit_card_type'] );
                 $this->assign( 'contributeMode', 'direct');
                 $this->assign( 'isAmountzero' , 0);
                 $this->assign( 'is_pay_later',0);

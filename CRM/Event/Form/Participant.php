@@ -1025,7 +1025,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'credit_card_exp_date', $date );
                 $this->assign( 'credit_card_number',
                                CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
-                $this->assign( ' credit_card_type', $params['credit_card_type'] );
+                $this->assign( 'credit_card_type', $params['credit_card_type'] );
                 $this->assign( 'contributeMode', 'direct');
                 $this->assign( 'isAmountzero' , 0);
                 $this->assign( 'is_pay_later',0);

@@ -52,6 +52,7 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
 
         if ($q == null) {
             /** ERROR **/
+            CRM_Core_Error::fatal(ts('Invalid form parameters.'));
             CRM_Core_Error::statusBounce(ts('Invalid form parameters.'));
         }
         $mailing =& $q->getMailing();
