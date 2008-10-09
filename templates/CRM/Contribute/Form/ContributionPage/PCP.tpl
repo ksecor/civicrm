@@ -4,7 +4,7 @@
 	{if !$profile} 
 	{capture assign=pUrl}{crmURL p='civicrm/admin/uf/group' q="reset=1"}{/capture}
 	<div class="status message">
-		{ts 1=$pUrl}No Supporter Profile has been configured / enabled for your site.You need to <a href='%1'>configure Supporter profile</a> first.{/ts}
+		{ts 1=$pUrl}No Profile with user account registration option has been configured / enabled for your site.You need to <a href='%1'>configure Supporter profile</a> first.{/ts}
 	</div>
 	{/if}
 	<div id="help">
