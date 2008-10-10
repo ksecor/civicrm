@@ -97,272 +97,6 @@ class views_plugin_argument_default_civicrm extends views_plugin_argument_defaul
 }
 
 /**
- * Field handler to provide simple renderer that allows linking to a user.
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm extends views_handler_field {
-    /**
-     * Override init function to provide generic option to link to user.
-     */
-    function init(&$view, &$data) {
-        parent::init($view, $data);
-    }
-
-    /**
-     * Provide link to node option
-     */
-    function options_form(&$form, &$form_state) {
-        parent::options_form($form, $form_state);
-        $form['link_to_civicrm'] = array(
-                                         '#title' => t('Link this field to its user'),
-                                         '#type' => 'checkbox',
-                                         '#default_value' => $this->options['link_to_civicrm'],
-                                         );
-    }
-
-    function render_link($data, $values) {
-        if (!empty($this->options['link_to_civicrm']) && user_access('access CiviCRM') && $values->id) {
-            return civicrm_views_href( $data,
-                                       'civicrm/contact/view',
-                                       "reset=1&cid={$values->id}" );
-        }
-        else {
-            return $data;
-        }
-    }
-
-    function render($values) {
-        return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-    }
-}
-
-/**
- * Field handler to present a link to the user.
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_link extends views_handler_field {
-    function construct() {
-        parent::construct();
-        $this->additional_fields['id'] = 'id';
-    }
-
-    function option_definition() {
-        $options = parent::option_definition();
-        $options['text'] = array('default' => '', 'translatable' => TRUE);
-        return $options;
-    }
-
-    function options_form(&$form, &$form_state) {
-        parent::options_form($form, $form_state);
-        $form['text'] = array(
-                              '#type' => 'textfield',
-                              '#title' => t('Text to display'),
-                              '#default_value' => $this->options['text'],
-                              );
-    }
-
-    // An example of field level access control.
-    function access() {
-        return user_access('access CiviCRM');
-    }
-
-    function query() {
-        $this->ensure_my_table();
-        $this->add_additional_fields();
-    }
-
-    function render($values) {
-        $text = !empty($this->options['text']) ? $this->options['text'] : t('view');
-        $id = $values->{$this->aliases['id']};
-        return civicrm_views_href($text, "civicrm/contact/view", "reset=1&id=$id");
-    }
-}
-
-/**
- * Field handler to present a link to user edit.
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_link_edit extends views_handler_field_civicrm_link {
-    // An example of field level access control.
-    function access() {
-        return user_access('access CiviCRM');
-    }
-
-    function render($values) {
-        $text = !empty($this->options['text']) ? $this->options['text'] : t('edit');
-        $id = $values->id;
-        return civicrm_views_href( $text,
-                                   'civicrm/contact/add',
-                                   "reset=1&action=update&cid=$id" );
-    }
-}
-
-/**
- * Field handler to present a link to user delete.
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_link_delete extends views_handler_field_civicrm_link {
-    // An example of field level access control.
-    function access() {
-        return user_access('access CiviCRM');
-    }
-
-    function render($values) {
-        $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
-        $id = $values->{$this->aliases['id']};
-        return civicrm_views_href( $text,
-                                   'civicrm/contact/delete',
-                                   "reset=1&id=$id" );
-    }
-}
-
-/**
- * Field handler to provide acess control for the email field
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_mail extends views_handler_field_civicrm {
-    function option_definition() {
-        $options = parent::option_definition();
-        $options['link_to_civicrm'] = array('default' => 'mailto');
-        return $options;
-    }
-
-    function options_form(&$form, &$form_state) {
-        parent::options_form($form, $form_state);
-        $form['link_to_civicrm'] = array(
-                                         '#title' => t('Link this field'),
-                                         '#type' => 'radios',
-                                         '#options' => array(
-                                                             0 => t('No link'),
-                                                             'user' => t('To the user'),
-                                                             'mailto' => t("With a mailto:"),
-                                                             ),
-                                         '#default_value' => $this->options['link_to_civicrm'],
-                                         );
-    }
-
-    function render($values) {
-        if ($this->options['link_to_civicrm'] == 'mailto') {
-            return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
-        }
-        return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-    }
-}
-
-/**
- * Field handler to provide acess control for the email field
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_email extends views_handler_field_civicrm {
-  function option_definition() {
-    $options = parent::option_definition();
-    $options['link_to_user'] = array('default' => 'mailto');
-    return $options;
-  }
-
-  function options_form(&$form, &$form_state) {
-    parent::options_form($form, $form_state);
-    $form['link_to_user'] = array(
-      '#title' => t('Link this field'),
-      '#type' => 'radios',
-      '#options' => array(
-        0 => t('No link'),
-        'user' => t('To the user'),
-        'mailto' => t("With a mailto:"),
-      ),
-      '#default_value' => $this->options['link_to_user'],
-    );
-  }
-
-  function render($values) {
-    if ($this->options['link_to_user'] == 'mailto') {
-      return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
-    }
-    return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-  }
-}
-
-/**
- * Field handler to provide acess control for the location field (which is a lookup)
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_location extends views_handler_field_civicrm {
-    static $_locationTypes;
-
-    function construct( ) {
-        if ( ! self::$_locationTypes ) {
-            civicrm_initialize( );
-            require_once 'CRM/Core/PseudoConstant.php';
-            self::$_locationTypes = CRM_Core_PseudoConstant::locationType( );
-        }
-    }
-
-    function render( $values ) {
-        $lid = $values->{$this->field_alias};
-        if ( empty( $lid ) ||
-             (int ) $lid <= 0 ) {
-            return null;
-        }
-
-        return self::$_locationTypes[$values->{$this->field_alias}];
-    }
-}
-
-class views_handler_filter_civicrm_location extends views_handler_filter_in_operator {
-    static $_locationTypes;
-
-    function construct( ) {
-        if ( ! self::$_locationTypes ) {
-            civicrm_initialize( );
-            require_once 'CRM/Core/PseudoConstant.php';
-            self::$_locationTypes = CRM_Core_PseudoConstant::locationType( );
-        }
-    }
-
-    function get_value_options() {
-        if (!isset($this->value_options)) {
-            $this->value_title = t('Location type');
-            $options = array( );
-            foreach (self::$_locationTypes as $id => $name ) {
-                $options[$id] = $name;
-            }
-            $this->value_options = $options;
-        }
-    }
-
-}
-
-class views_handler_filter_civicrm_contact_type extends views_handler_filter_in_operator {
-    static $_contactTypes;
-
-    function construct( ) {
-        if ( ! self::$_contactTypes ) {
-            civicrm_initialize( );
-            require_once 'CRM/Core/SelectValues.php';
-            self::$_contactTypes = CRM_Core_SelectValues::contactType( );
-        }
-    }
-
-    function get_value_options() {
-        if (!isset($this->value_options)) {
-            $this->value_title = t('Contact type');
-            $options = array( );
-            foreach (self::$_contactTypes as $id => $name ) {
-                $options[$id] = $name;
-            }
-            $this->value_options = $options;
-        }
-    }
-}
-
-/**
  * Allow replacement of current userid so we can cache these queries
  */
 function civicrm_views_query_substitutions($view) {
@@ -612,6 +346,57 @@ function civicrm_views_get_filter_handler( $type, $fieldName, $objectName ) {
 
 function civicrm_views_get_sort_handler( $type, $fieldName, $objectName ) {
     return 'views_handler_sort';
+}
+
+/**
+ * Implementation of hook_views_handlers() to register all of the basic handlers
+ * views uses.
+ */
+function civicrm_views_handlers() {
+    return array(
+                 'info' => array(
+                                 'path' => drupal_get_path('module', 'views') . '/modules/user',
+                                 ),
+                 'handlers' => array(
+                                     'views_handler_field_civicrm' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_link' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_link_edit' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_link_delete' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_mail' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_email' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_field_civicrm_location' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_filter_civicrm_contact_type' 
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+                                     'views_handler_filter_civicrm_location'
+                                     => array(
+                                              'parent' => 'views_handler_field',
+                                              ),
+
+                                     ),
+                 );
 }
 
 /**
