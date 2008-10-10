@@ -68,7 +68,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
             $defaults['entity_table'] = 'civicrm_event_page';            
             $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
-            $this->_friendId = $defaults['id'];
+            $this->_friendId = CRM_Utils_Array::value( 'id', $defaults );
         } 
        
         if ( !$this->_friendId ) {
