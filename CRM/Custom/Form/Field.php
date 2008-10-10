@@ -212,11 +212,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             }
             $defaults['option_type'] = 2;
         } else {
+            $defaults['is_active']   = 1;
             $defaults['option_type'] = 1;
         }
 
-        // set defaults for weight and active
-        $defaults['is_active'] = 1;
+        // set defaults for weight.
         for($i=1; $i<=self::NUM_OPTION; $i++) {
             $defaults['option_status['.$i.']'] = 1;
             $defaults['option_weight['.$i.']'] = $i;
