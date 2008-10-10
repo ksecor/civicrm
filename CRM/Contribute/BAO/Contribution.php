@@ -259,7 +259,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
         self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
-        self::lookupValue($defaults, 'contribution_status', CRM_Contribute_PseudoConstant::contributionStatus(), $reverse);    }
+        self::lookupValue($defaults, 'contribution_status', CRM_Contribute_PseudoConstant::contributionStatus(), $reverse);
+        self::lookupValue($defaults, 'pcp_made_through', CRM_Contribute_PseudoConstant::pcPage(), $reverse);
+    }
 
     /**
      * This function is used to convert associative array names to values
