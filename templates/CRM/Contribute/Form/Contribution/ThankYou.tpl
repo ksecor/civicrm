@@ -14,7 +14,12 @@
     {if $friendText}
         <div id="tell-a-friend">
             <a href="{$friendURL}" title="{$friendText}" class="button"><span>&raquo; {$friendText}</span></a>
-       </div><br /><br />
+       </div>{if !$linkText}<br /><br />{/if}
+    {/if}  
+    {if $linkText}
+ 	<div>
+            <a href="{$linkTextUrl}" title="{$linkText}" class="button"><span>&raquo; {$linkText}</span></a>
+        </div><br /><br />
     {/if}  
 
     <div id="help">

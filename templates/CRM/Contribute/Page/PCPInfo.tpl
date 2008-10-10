@@ -16,16 +16,16 @@
 				<td colspan="3">
 				{* Show link to PCP contribution if configured for online contribution *}
 				<div class="action-link">
-                     <a href={$contributeURL} class="button"><span>&raquo; <strong>{$contributionText}</strong></span></a>
+                     		<a href={$contributeURL} class="button"><span>&raquo; <strong>{$contributionText}</strong></span></a>
 				</div>
-                </td>
+                		</td>
 			</tr>
 			{/if}
 			<tr>
 				{if $pcp.is_thermometer}
-                <td>&nbsp;</td>
+                		<td>&nbsp;</td>
 				<td><strong>{ts}MY PROGRESS{/ts}</strong><br />
-                Thermometer HERE
+                		Thermometer HERE
 				</td>
 				{/if} 
 				{if $pcp.is_honor_roll}

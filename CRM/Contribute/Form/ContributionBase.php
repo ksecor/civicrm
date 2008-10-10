@@ -338,9 +338,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
+        require_once 'CRM/Contribute/BAO/PCP.php';
         $pcpId = CRM_Utils_Request::retrieve( 'pcpId', 'Positive', $this );
         if ( $pcpId ) {
-            require_once 'CRM/Contribute/BAO/PCP.php';
             require_once 'CRM/Contribute/PseudoConstant.php';
             
             $prms =  array( 'entity_id' => $this->_values['id'], 
@@ -381,6 +381,16 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->_pcpId    = $pcpId;
             $this->_pcpBlock = $pcpBlock;
             $this->_pcpInfo  = $pcpInfo;
+        }
+        if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $this->_id ) ) {
+            $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
+                                                  "action=add&reset=1&pageId={$this->_id}",
+                                                  true, null, true,
+                                                  true );
+            $this->_linkTextUrl = $linkTextUrl;
+            $this->_linkTex     = $linkText;
+            $this->assign( 'linkTextUrl', $linkTextUrl );
+            $this->assign( 'linkText', $linkText );
         }
         
         //set pledge block if block id is set

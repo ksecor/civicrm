@@ -91,12 +91,12 @@ class CRM_Friend_Form extends CRM_Core_Form
             
             CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', 'id', 
                                              $this->_pcpBlockId, $pcpBlock, array( 'is_tellfriend_enabled', 'tellfriend_limit' ) );
-
-            if ( ! CRM_Utils_Array::value( 'is_tellfriend_enabled', $pcpBlock['1'] ) ) { 
+            
+            if ( ! CRM_Utils_Array::value( 'is_tellfriend_enabled', $pcpBlock[$this->_pcpBlockId] ) ) { 
                 CRM_Core_Error::fatal( ts( 'Tell Friend is disable for this Personal Campaign Page' ) );
             }
             
-            $this->_mailLimit = $pcpBlock['1']['tellfriend_limit'];
+            $this->_mailLimit = $pcpBlock[$this->_pcpBlockId]['tellfriend_limit'];
             $this->_entityTable = 'civicrm_pcp';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_entityId, 'title');
         } else {

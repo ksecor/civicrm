@@ -95,6 +95,9 @@ function clearAmountOther() {
 		<td>&nbsp;{$form.$n.html}
 		{if $form.is_for_organization}&nbsp;&nbsp;&nbsp;{$form.is_for_organization.html}&nbsp;{$form.is_for_organization.label}
 		{/if}</td>
+		{if $linkText}
+		<td style="vertical-align: top"><a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a>
+	        </td>{/if}
 	</tr>
 </table>
 
@@ -148,7 +151,7 @@ function clearAmountOther() {
 		<td>{$form.pcp_roll_nickname.html}</td>
 	</tr>
 	<tr>
-		<td>{$form.pcp_personal_note.label}</td>
+		<td style="vertical-align: top">{$form.pcp_personal_note.label}</td>
 		<td>{$form.pcp_personal_note.html}</td>
 	</tr>
 </table>

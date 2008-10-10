@@ -340,5 +340,25 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
+    /**
+     * Function to get pcp block is enabled for contribution page 
+     * 
+     * @param int $id contribution page id
+     *
+     * @return String
+     * @access public
+     * @static
+     *
+     */
+    static function getPcpBlockStatus( $pageId ) 
+    {
+        $query = "
+     SELECT pb.link_text as linkText
+     FROM civicrm_contribution_page cp 
+          LEFT JOIN civicrm_pcp_block pb ON ( cp.id = pb.entity_id AND pb.entity_table = 'civicrm_contribution_page' )
+     WHERE pb.is_active = 1 AND cp.id = {$pageId}";
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
 }
 ?>

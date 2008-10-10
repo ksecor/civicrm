@@ -123,6 +123,10 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 }
             }
         }
+        if ($this->_linkText ) {
+            $this->assign( 'linkTextUrl', $linkTextUrl );
+            $this->assign( 'linkText', $linkText );
+        } 
         if ( $membershipTypeID ) {
             $transactionID     = $this->get( 'membership_trx_id' );
             $membershipAmount  = $this->get( 'membership_amount' );
