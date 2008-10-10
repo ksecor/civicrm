@@ -138,7 +138,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         }
 
         $query = "
-        SELECT pg.start_date, pg.end_date, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus, 
+        SELECT pg.start_date, pg.end_date, pg.title as pageTitle, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus, 
                pcpblock.is_tellfriend_enabled as tellfriend, pcpblock.id as blockId, pcp.is_active as pcpActive
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
@@ -171,6 +171,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
             $pcpInfo[] = array ( 
                                  'start_date' => $pcpInfoDao->start_date,
                                  'end_date'   => $pcpInfoDao->end_date,
+                                 'pageTitle'  => $pcpInfoDao->pageTitle,
                                  'pcpId'      => $pcpInfoDao->pcpId,
                                  'pcpTitle'   => $pcpInfoDao->pcpTitle,
                                  'pcpStatus'  => $pcpStatus[$pcpInfoDao->pcpStatus],

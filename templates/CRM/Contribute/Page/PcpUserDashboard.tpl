@@ -30,6 +30,7 @@
 <table class="selector">
 	<tr class="columnheader">
 		<th>{ts}Title{/ts}</th>
+		<th>{ts}Contribution Page{/ts}</th>
 		<th>{ts}Active From{/ts}</th>
 		<th>{ts}Active Until{/ts}</th>
 		<th>{ts}Status{/ts}</th>
@@ -43,6 +44,7 @@
 		{else}
 		<td class="bold">{$row.pcpTitle}</strong></td>
 		{/if}
+		<td>{$row.pageTitle}</td>
 		<td>{$row.start_date|truncate:10:''|crmDate}</td>
 		<td>{$row.end_date|truncate:10:''|crmDate}</td>
 		<td>{$row.pcpStatus}</td>
