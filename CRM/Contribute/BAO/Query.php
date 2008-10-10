@@ -211,6 +211,15 @@ class CRM_Contribute_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Contribution Page - %1', array( 1 => $pages[$cPage] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
+
+        case 'contribution_pcp_made_through_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pcPage = $value;
+            $pcpages = CRM_Contribute_PseudoConstant::pcPage( );
+            $query->_where[$grouping][] = "civicrm_contribution.pcp_made_through_id = $pcPage";
+            $query->_qill[$grouping ][] = ts( 'Personal Campaign Page - %1', array( 1 => $pcpages[$pcPage] ) );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
             
         case 'contribution_payment_instrument_id':
         case 'contribution_payment_instrument':
@@ -352,6 +361,16 @@ class CRM_Contribute_BAO_Query
             $query->_tables['contribution_participant'] = $query->_whereTables['contribution_participant'] = 1;
             
             return;
+
+        case 'contribution_pcp_display_in_roll':
+            $query->_where[$grouping][] = " civicrm_contribution.pcp_display_in_roll $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Display in Roll";
+            }
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
@@ -561,6 +580,11 @@ class CRM_Contribute_BAO_Query
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::paymentInstrument( ) );
 
+        $form->add('select', 'contribution_pcp_made_through_id', 
+                   ts( 'Personal Campaign Page' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::pcPage( ) );
+        
         $status = array( );
         
         require_once "CRM/Core/OptionGroup.php";
@@ -589,6 +613,9 @@ class CRM_Contribute_BAO_Query
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
         $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
+
+        //add field for pcp display in roll search
+        $form->addElement( 'checkbox', 'contribution_pcp_display_in_roll' , ts( 'Display In Roll?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
