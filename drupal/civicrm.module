@@ -765,3 +765,7 @@ function civicrm_admin_menu( ) {
     return $links;
 
 }
+
+function civicrm_views_api( ) {
+	 return views_views_api( );
+}
