@@ -44,7 +44,9 @@
 function smarty_modifier_crmDate($dateString, $dateFormat = null, $onlyTime = false )
 {
     if ($dateString) {
-        if ( $dateFormat == 0 ) {
+        // this check needs to be type sensitive
+        // CRM-3689, CRM-2441
+        if ( $dateFormat === 0 ) {
             $dateFormat = null;
         }
         if ( $onlyTime ) {
