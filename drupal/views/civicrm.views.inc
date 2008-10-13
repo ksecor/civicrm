@@ -70,26 +70,26 @@ function civicrm_views_href( $text, $path, $query ) {
 }
  
 function civicrm_views_data_contact( &$data, &$config ) {
-   $data['civicrm_contact']['table']['group']  = t('CiviCRM Contact');
+    $data['civicrm_contact']['table']['group'] = t('CiviCRM Contact');
 
     $data['civicrm_contact']['table']['base'] = array(
                                                       'field' => 'id',
                                                       'title' => t('CiviCRM Contacts'),
-                                                      'help' => t('CiviCRM Contacts'),
+                                                      'help'  => t('CiviCRM Contacts'),
                                                       'database' => 'civicrm',
                                                       );
 
     // id
     $data['civicrm_contact']['id'] = array(
                                            'title' => t('Contact ID'),
-                                           'help' => t('The contact ID'), // The help that appears on the UI,
+                                           'help'  => t('The contact ID'), // The help that appears on the UI,
                                            'field' => array(
-                                                            'handler' => 'views_handler_field',
+                                                            'handler' => 'views_handler_field_numeric',
                                                             'click sortable' => TRUE,
                                                             ),
-                                           'sort' => array(
-                                                           'handler' => 'views_handler_sort',
-                                                           ),
+                                           'sort'  => array(
+                                                            'handler' => 'views_handler_sort',
+                                                            ),
                                            );
 
     // name
@@ -112,7 +112,7 @@ function civicrm_views_data_contact( &$data, &$config ) {
     // contact_type
     $data['civicrm_contact']['contact_type'] = array(
                                                      'title' => t('Contact Type'), // The item it appears as on the UI,
-                                                     'help' => t('Contact Type.'), // The help that appears on the UI,
+                                                     'help'  => t('Contact Type.'), // The help that appears on the UI,
                                                      'field' => array(
                                                                       'handler' => 'views_handler_field',
                                                                       'click sortable' => TRUE,
@@ -240,11 +240,11 @@ function civicrm_views_data_contribution( &$data, &$config ) {
                                                 'filter' => array(
                                                                   'handler' => 'views_handler_filter_numeric',
                                                                   ),
-                                                'sort' => array(
-                                                                'handler' => 'views_handler_sort',
-                                                                ),
+                                                'sort'   => array(
+                                                                  'handler' => 'views_handler_sort',
+                                                                  ),
                                                 'argument' => array(
-                                                                    'handler' => 'views_handler_argument',
+                                                                    'handler' => 'views_handler_argument_numeric',
                                                                     ),
                                                 );
 
@@ -283,36 +283,89 @@ function civicrm_views_add_fields( &$fields, &$data, &$skipFields, $tableName ) 
                              'title' => $value['title'],
                              'help'  => $value['title'],
                              'field' => array( 
-                                              'handler' => civicrm_views_get_field_handler  ( $value['type'],
-                                                                                              $value['name'],
-                                                                                              $objType ),
+                                              'handler' => civicrm_views_get_field_handler  ( $value['type'] ),
                                               'click sortable' => true,
-                                               ),
+                                              ),
                              'sort'  => array(
-                                              'handler' => civicrm_views_get_sort_handler   ( $value['type'], 
-                                                                                              $value['name'],
-                                                                                              $objType ),
+                                              'handler' => civicrm_views_get_sort_handler   ( $value['type'] ),
                                               ),
                              'filter' => array(
-                                               'handler' => civicrm_views_get_filter_handler( $value['type'],
-                                                                                              $value['name'],
-                                                                                              $objType ),
+                                               'handler' => civicrm_views_get_filter_handler( $value['type'] ),
                                                ),
                              );
     }
 
 }
 
-function civicrm_views_get_field_handler( $type, $fieldName, $objectName ) {
-    return 'views_handler_field';
+function civicrm_views_get_field_handler( $type ) {
+    switch ( $type ) {
+    case CRM_Utils_Type::T_INT   :
+    case CRM_Utils_Type::T_CCNUM :
+    case CRM_Utils_Type::T_FLOAT :
+    case CRM_Utils_Type::T_MONEY :
+        return 'views_handler_field_numeric';
+
+    case CRM_Utils_Type::T_URL :
+        return 'views_handler_field_url';
+        
+    case CRM_Utils_Type::T_DATE :
+    case CRM_Utils_Type::T_TIME :
+    case CRM_Utils_Type::T_TIMESTAMP :
+        return 'views_handler_field_date';
+        
+    case CRM_Utils_Type::T_BOOL :
+    case CRM_Utils_Type::T_BOOLEAN :
+        return 'views_handler_field_boolean';
+        
+    default:
+        return 'views_handler_field';
+    }
 }
 
-function civicrm_views_get_filter_handler( $type, $fieldName, $objectName ) {
-    return 'views_handler_filter';
+function civicrm_views_get_filter_handler( $type ) {
+    switch ( $type ) {
+    case CRM_Utils_Type::T_INT   :
+    case CRM_Utils_Type::T_CCNUM :
+    case CRM_Utils_Type::T_FLOAT :
+    case CRM_Utils_Type::T_MONEY :
+        return 'views_handler_filter_numeric';
+
+    case CRM_Utils_Type::T_ENUM :
+        return 'views_handler_filter_in_operator';
+        
+    case CRM_Utils_Type::T_TEXT :
+    case CRM_Utils_Type::T_LONGTEXT :
+    case CRM_Utils_Type::T_STRING :
+    case CRM_Utils_Type::T_BLOB :
+    case CRM_Utils_Type::T_EMAIL :
+    case CRM_Utils_Type::T_MEDIUMBLOB :
+    case CRM_Utils_Type::T_URL :
+        return 'views_handler_filter_string';
+        
+    case CRM_Utils_Type::T_DATE :
+    case CRM_Utils_Type::T_TIME :
+    case CRM_Utils_Type::T_TIMESTAMP :
+        return 'views_handler_filter_date';
+        
+    case CRM_Utils_Type::T_BOOL :
+    case CRM_Utils_Type::T_BOOLEAN :
+        return 'views_handler_filter_boolean_operator';
+        
+    default:
+        return 'views_handler_filter';
+    }
 }
 
-function civicrm_views_get_sort_handler( $type, $fieldName, $objectName ) {
-    return 'views_handler_sort';
+function civicrm_views_get_sort_handler( $type ) {
+    switch ( $type ) {
+    case CRM_Utils_Type::T_DATE :
+    case CRM_Utils_Type::T_TIME :
+    case CRM_Utils_Type::T_TIMESTAMP :
+        return 'views_handler_sort_date';
+        
+    default:
+        return 'views_handler_sort';
+    }
 }
 
 /**
