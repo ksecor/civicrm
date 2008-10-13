@@ -75,7 +75,7 @@
 	    </tr>
         <tr>
             <td>{$form.privacy.label}</td>
-            <td colspan="3">{$form.privacy.html}
+            <td colspan="3">{$form.privacy.html} {help id="id-privacy"}
             </td>
         </tr>
         <tr>

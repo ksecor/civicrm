@@ -212,9 +212,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    static function &links()
+    static function &links( $searchType = null )
     {
-
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -233,10 +232,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             $config = CRM_Core_Config::singleton( );
             if ( $config->mapAPIKey && $config->mapProvider) {
+                $mapSearch = null;
+                if ( $searchType ) {
+                    $mapSearch = "&searchType={$searchType}";
+                }
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'     => ts('Map'),
                                                             'url'      => 'civicrm/contact/map',
-                                                            'qs'       => 'reset=1&cid=%%id%%',
+                                                            'qs'       => "reset=1&cid=%%id%%{$mapSearch}",
                                                             'title'    => ts('Map Contact'),
                                                             );
             }
@@ -508,9 +511,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-
+        $searchType = null;
+        if ( $this->_action == CRM_Core_Action::BASIC ) {
+            $searchType = 'basic';
+        } elseif ( $this->_action == CRM_Core_Action::ADVANCED ) {
+            $searchType = 'advance';
+        }
         require_once 'CRM/Core/OptionGroup.php';
-        $links =& self::links( );
+        $links =& self::links( $searchType );
 
         while ($result->fetch()) {
             $row = array( );

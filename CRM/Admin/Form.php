@@ -83,7 +83,7 @@ class CRM_Admin_Form extends CRM_Core_Form
         }
 
         // its ok if there is no element called is_active
-        $defaults['is_active'] = 1;
+        $defaults['is_active'] = ( $this->_id ) ? $defaults['is_active'] : 1;
 
         return $defaults;
     }

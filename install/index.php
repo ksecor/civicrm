@@ -22,6 +22,11 @@ ini_set('max_execution_time', 300);
 // set installation type - drupal / standalone
 session_start();
 
+// unset civicrm session if any
+if ( array_key_exists( 'CiviCRM', $_SESSION ) ) {
+    unset($_SESSION['CiviCRM']);
+}
+
 if ( isset($_GET['mode']) ) {
     $_SESSION['install_type'] = $_GET['mode'];
 } else {
@@ -70,7 +75,7 @@ if ( $installType == 'drupal' ) {
     } else {
         $drupalConfig = array(
                               "server"   => "localhost",
-                              "username" => "civicrm",
+                              "username" => "drupal",
                               "password" => "",
                               "database" => "drupal",
                               );

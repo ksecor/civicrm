@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-10-02 07:27-0700\n"
-"Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
+"PO-Revision-Date: 2008-10-09 21:10-0700\n"
+"Last-Translator: Gabriel Mayrand Chadwick <gabrielmayrandchadwick@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -289,9 +289,10 @@ msgstr "Gestion des évènements"
 msgid "Manage Groups"
 msgstr "Gestion des groupes"
 
+# Trouver remplacent pour pledges
 #, fuzzy
 msgid "Manage Pledges"
-msgstr "Annulé"
+msgstr "Gestion des pledges"
 
 msgid "Manage Premiums"
 msgstr "Gestion des cadeaux"
@@ -345,8 +346,9 @@ msgstr "Nouvel évènement"
 msgid "New Mailing"
 msgstr "Nouveau mailing"
 
+#, fuzzy
 msgid "New Pledge"
-msgstr ""
+msgstr "Nouveau pledge"
 
 msgid "Notes"
 msgstr "Notes"
@@ -420,9 +422,8 @@ msgstr "Mailings programmés et envoyés"
 msgid "Search Builder"
 msgstr "Paramétrage des Recherches"
 
-#, fuzzy
 msgid "Sending Mail"
-msgstr "Mail en envoi"
+msgstr "Envoi en cours"
 
 msgid "Simple Search"
 msgstr "Recherche simple"

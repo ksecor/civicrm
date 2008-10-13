@@ -720,7 +720,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             foreach ( $nameFields as $name ) {
                 $fields[$name] = 1;
                 if ( array_key_exists( "billing_$name", $params ) ) {
-                    $params[$name] = $params["billing_{$name}"];
+                    $params[$name]            = $params["billing_{$name}"];
+                    $params['preserveDBName'] = true;
                 }
             }
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
@@ -1032,7 +1033,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'credit_card_exp_date', $date );
                 $this->assign( 'credit_card_number',
                                CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
-                $this->assign( ' credit_card_type', $params['credit_card_type'] );
+                $this->assign( 'credit_card_type', $params['credit_card_type'] );
                 $this->assign( 'contributeMode', 'direct');
                 $this->assign( 'isAmountzero' , 0);
                 $this->assign( 'is_pay_later',0);

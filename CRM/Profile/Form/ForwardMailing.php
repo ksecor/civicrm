@@ -52,6 +52,7 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
 
         if ($q == null) {
             /** ERROR **/
+            CRM_Core_Error::fatal(ts('Invalid form parameters.'));
             CRM_Core_Error::statusBounce(ts('Invalid form parameters.'));
         }
         $mailing =& $q->getMailing();
@@ -145,14 +146,18 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             }
         }
         
-        require_once "CRM/Core/Session.php";
-        $session =& CRM_Core_Session::singleton( );
         $status = ts( 'Mailing is not forwarded to given email address(es).' );
         if ( $forwarded ) {
             $status = ts( "Mailing is forwarded successfully to %1 email address(es).", array( 1 => $forwarded ) );
         }
-        CRM_Core_Session::setStatus( $status );
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/mailing', "reset=1" ) );
+        
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::setUFMessage( $status );
+        
+        // always redirect to front page of url
+        $session =& CRM_Core_Session::singleton( );
+        $config  =& CRM_Core_Config::singleton( );
+        $session->pushUserContext( $config->userFrameworkBaseURL );
     }
 }
 

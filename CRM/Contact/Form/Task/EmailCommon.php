@@ -250,7 +250,7 @@ class CRM_Contact_Form_Task_EmailCommon
         $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
-        
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         if ( $form->_noEmails ) {
             $emailAddress = $formValues['emailAddress'];
 
@@ -306,7 +306,6 @@ class CRM_Contact_Form_Task_EmailCommon
                          );
         
         $statusOnHold = '';
-        require_once 'CRM/Contact/BAO/Contact/Location.php';
         foreach ($form->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
             $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
