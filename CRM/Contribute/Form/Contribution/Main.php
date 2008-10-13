@@ -312,8 +312,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly In Roll'), null );
+            $this->add( 'checkbox', 'pcp_anonymous_name', ts('Yes, make this an anonymous gift.'), 
+                        null, null, array('onclick'=>'pcpAnonymousName();') );
             $this->add( 'text', 'pcp_roll_nickname', ts('Nick Name'), array( 'size' => 20, 'maxlength' => 15 ) );
-            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 2, 'coloums' => 60 ) );
+            $this->add( 'textarea', "pcp_personal_note", ts( 'Personal Note' ), array( 'rows' => 4, 'coloums' => 80 ) );
         }
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||

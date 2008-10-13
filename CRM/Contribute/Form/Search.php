@@ -334,6 +334,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                        $this->_formValues ) ) {
             $this->_formValues["contribution_test"] = 0;
         }
+        
+        //we show don't disply in roll unless explicitly selected
+        if ( CRM_Utils_Array::value( 'contribution_pcp_made_through_id', $this->_formValues ) && 
+             ! CRM_Utils_Array::value( 'contribution_pcp_display_in_roll', $this->_formValues ) ) {
+            $this->_formValues["contribution_pcp_display_in_roll"] = 0;
+        } 
 
         foreach ( array( 'contribution_amount_low', 'contribution_amount_high' ) as $f ) {
             if ( isset( $this->_formValues[$f] ) ) {

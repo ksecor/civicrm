@@ -144,7 +144,13 @@ function clearAmountOther() {
 <table class="form-layout-compressed">
 	<tr>
 		<td>{$form.pcp_display_in_roll.label}</td>
-		<td>{$form.pcp_display_in_roll.html}</td>
+		<td>{$form.pcp_display_in_roll.html}<br />
+		<span class="description">{ts}you can display the amount of donation publicly.{/ts}</span></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>{$form.pcp_anonymous_name.html}<br />
+                <span class="description">{$form.pcp_anonymous_name.label}</span></td>
 	</tr>
 	<tr>
 		<td>{$form.pcp_roll_nickname.label}</td>
@@ -326,6 +332,15 @@ function enablePeriod ( ) {
 	}
 	document.getElementById('installments').disabled   = false;
 	document.getElementById('frequency_unit').disabled = false;
+    }
+}
+function pcpAnonymousName( ) {
+    if ( document.getElementsByName("pcp_anonymous_name")[0].checked == true ) { 
+	document.getElementById('pcp_roll_nickname').value    = 'Anonymous';
+	document.getElementById('pcp_roll_nickname').disabled = true;
+    } else {
+	document.getElementById('pcp_roll_nickname').value    = '';
+	document.getElementById('pcp_roll_nickname').disabled = false;
     }
 }
 </script>
