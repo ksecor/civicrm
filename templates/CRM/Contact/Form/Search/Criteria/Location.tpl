@@ -26,9 +26,9 @@
                 {$form.postal_code.html}
 			</td>
 			<td>
-				&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<label>{ts}OR{/ts}</label>
-				&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 			<td><label>{ts}Postal Code{/ts}</label>
 				{$form.postal_code_low.label|replace:'-':'<br />'}
