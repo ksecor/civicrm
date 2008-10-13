@@ -310,7 +310,7 @@ function civicrm_views_get_sort_handler( $type, $fieldName, $objectName ) {
 function civicrm_views_handlers() {
     return array(
                  'info' => array(
-                                 'path' => drupal_get_path('module', 'views') . '/modules/user',
+                                 'path' => drupal_get_path('module', 'views') . '/modules/civicrm',
                                  ),
                  'handlers' => array(
                                      'views_handler_field_civicrm' 
@@ -323,37 +323,33 @@ function civicrm_views_handlers() {
                                               ),
                                      'views_handler_field_civicrm_link_edit' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_field_civicrm_link',
                                               ),
                                      'views_handler_field_civicrm_link_delete' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_field_civicrm_link',
                                               ),
                                      'views_handler_field_civicrm_mail' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_field_civicrm',
                                               ),
                                      'views_handler_field_civicrm_email' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_field_civicrm',
                                               ),
                                      'views_handler_field_civicrm_location' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_field_civicrm',
                                               ),
                                      'views_handler_filter_civicrm_contact_type' 
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_filter_in_operator',
                                               ),
                                      'views_handler_filter_civicrm_location'
                                      => array(
-                                              'parent' => 'views_handler_field',
+                                              'parent' => 'views_handler_filter_in_operator',
                                               ),
 
                                      ),
                  );
 }
-
-/**
- * @}
- */
