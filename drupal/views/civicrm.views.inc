@@ -151,27 +151,7 @@ function civicrm_views_data_contact( &$data, &$config ) {
                          'contact_type' => 1,
                          'contact_sub_type' => 1,
                          );
-    foreach ( $fields as $name => $value ) {
-        if ( CRM_Utils_Array::value( $name, $skipFields ) ||
-             substr( $value['where'], 0, 15 ) != 'civicrm_contact' ) {
-            continue;
-        }
-
-        $data['civicrm_contact'][$name] = array(
-                                                'title' => $value['title'],
-                                                'help'  => $value['title'],
-                                                'field' => array( 
-                                                                 'handler' => civicrm_views_get_field_handler  ( $value['type'], $name, $objType ),
-                                                                 'click sortable' => true,
-                                                                  ),
-                                                'sort'  => array(
-                                                                 'handler' => civicrm_views_get_sort_handler   ( $value['type'], $name, $objType ),
-                                                                 ),
-                                                'filter' => array(
-                                                                  'handler' => civicrm_views_get_filter_handler( $value['type'], $name, $objType ),
-                                                                  ),
-                                                );
-    }
+    civicrm_views_add_fields( $fields, $data['civicrm_contact'], $skipFields, 'civicrm_contact' );
 }
 
 function civicrm_views_data_email( &$data, &$config ) {
@@ -279,16 +259,48 @@ function civicrm_views_data_contribution( &$data, &$config ) {
                                                                                 ),
                                                         );
 
-    $data['civicrm_contribution']['total_amount'] = array(
-                                                          'title' => t('Total Amount'),
-                                                          'help' => t('Total Amount contributed'),
-                                                          'field' => array(
-                                                                           'handler' => 'views_handler_field_numeric',
-                                                                           ),
-                                                          'filter' => array(
-                                                                            'handler' => 'views_handler_filter_numeric',
-                                                                            ),
-                                                          );
+    // add the other generic fields
+    civicrm_initialize( );
+    require_once 'CRM/Contribute/BAO/Contribution.php';
+    $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+
+    $skipFields = array( 'id' => 1,
+                         'contribution_id' => 1,
+                         'contribution_contact_id' => 1,
+                         'contact_id' => 1 );
+
+    civicrm_views_add_fields( $fields, $data['civicrm_contribution'], $skipFields, 'civicrm_contribution' );
+}
+
+function civicrm_views_add_fields( &$fields, &$data, &$skipFields, $tableName ) {
+    foreach ( $fields as $name => $value ) {
+        if ( CRM_Utils_Array::value( $name, $skipFields ) ||
+             substr( $value['where'], 0, strlen( $tableName ) + 1 ) != "{$tableName}." ) {
+            continue;
+        }
+
+        $data[$value['name']] = array(
+                             'title' => $value['title'],
+                             'help'  => $value['title'],
+                             'field' => array( 
+                                              'handler' => civicrm_views_get_field_handler  ( $value['type'],
+                                                                                              $value['name'],
+                                                                                              $objType ),
+                                              'click sortable' => true,
+                                               ),
+                             'sort'  => array(
+                                              'handler' => civicrm_views_get_sort_handler   ( $value['type'], 
+                                                                                              $value['name'],
+                                                                                              $objType ),
+                                              ),
+                             'filter' => array(
+                                               'handler' => civicrm_views_get_filter_handler( $value['type'],
+                                                                                              $value['name'],
+                                                                                              $objType ),
+                                               ),
+                             );
+    }
+
 }
 
 function civicrm_views_get_field_handler( $type, $fieldName, $objectName ) {
