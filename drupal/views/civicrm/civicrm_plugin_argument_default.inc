@@ -3,7 +3,7 @@
 /**
  * Default argument plugin to extract a civicrm user id via menu_get_object
  */
-class civicrm_plugin_argument_default_civicrm extends civicrm_plugin_argument_default {
+class civicrm_plugin_argument_default extends views_plugin_argument_default {
     var $option_name = 'default_argument_civicrm';
 
     function argument_form(&$form, &$form_state) {

@@ -5,7 +5,7 @@
  *
  * @ingroup civicrm_field_handlers
  */
-class civicrm_handler_field_link extends views_handler_field {
+class civicrm_handler_field_link extends civicrm_handler_field {
     function construct() {
         parent::construct();
         $this->additional_fields['id'] = 'id';
