@@ -1,0 +1,100 @@
+<?php
+// $Id: civicrm_group_roles.module,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
+
+/* @file
+ * A simple module that adds a user to groups based on Role.
+ * Internal Version identifier - 0.3-beta
+ */
+
+/**
+ * Implementation of hook_help()
+ */
+function civicrm_group_roles_help($section, $args = array() ) 
+{ 
+    switch ($section) { 
+    case 'admin/modules#description': 
+        return t('Adds users to a matching CiviCRM group on account creation, update, or login for each of their Drupal roles.');
+    default :
+        return;
+    } 
+} 
+
+
+/**
+ * Implementation of hook_user().
+ */
+function civicrm_group_roles_user($op, $edit, &$user, $category = NULL) 
+{
+    
+    $debug_mode = FALSE;
+    
+    if ($op == 'login' OR $op == 'after_update' OR $op == 'insert') {
+        
+        //get user's roles, ignoring built-in roles
+        if ($op == 'insert') { // $user->roles isn;t set on insert, we have to get them from the form directly...
+            $all = user_roles(TRUE);
+            $rids = $edit['roles']; //the insert form only stores role ids. :-P
+            $rids = is_array($rids) ? $rids : array($rids);
+            $roles = array_intersect_key($all, $rids);
+        } else {
+            $roles = array_diff($user->roles, array('anonymous user', 'authenticated user'));
+        }
+        
+        if ($roles) { // make sure user has other roles other than authenticated
+            
+            //init
+            civicrm_initialize(true);
+            require_once 'api/v2/Contact.php';
+            require_once 'api/v2/Group.php';
+            require_once 'api/v2/GroupContact.php';
+            
+            //find the contact record
+            $params = array('email' => $user->mail);
+            $contact =& civicrm_contact_get($params);
+            $contact_id = $contact['contact_id'];
+            
+            if ($contact && isset($contact['contact_id'])) {
+                
+                //loop over roles
+                foreach ($roles as $role) {
+                    
+                    //find the group for the role
+                    $params = array('title' => $role);
+                    $groups =& civicrm_group_get($params);
+                    
+                    if ($groups && count($groups) == 1) {
+                        
+                        //add the contact
+                        $group = current($groups);
+                        $contacts = array($contact);
+                        $gparams = array('group_id' => $group['id'], 'contact_id' => $contact_id);
+                        $result = civicrm_group_contact_add($gparams);
+                        
+                        if ($result['is_error'] > 0) {
+                            $msg = t('Error: Unable to sync role @role', array('@role' => $role) );
+                            watchdog('civicrm_group_roles', $msg);
+                            if ($debug_mode) drupal_set_message($msg);
+                        } elseif ($debug_mode && $result['added'] > 0) {
+                            drupal_set_message("Added user $user->name to Group: $role");
+                            drupal_set_message(var_export($result, TRUE));
+                        } elseif ($debug_mode) {
+                            drupal_set_message("User $user->name NOT added to Group: $role");
+                            drupal_set_message(var_export($result, TRUE));
+                        }
+            
+                    } elseif ($debug_mode) {
+                        $msg = t('CiviCRM group not found for @id', array('@id' => $role));
+                        watchdog('civicrm', $msg);
+                        drupal_set_message($msg);
+                    } //end if $groups
+                    
+                } //end foreach
+                
+            } else {
+                $msg = t('CiviCRM contact not found for %email', array('%email' => $user->mail));
+                watchdog('civicrm',  $msg);
+                if ($debug_mode) drupal_set_message($msg);
+            } //end if $contact
+        } //endif $roles
+    } //endif $op
+}
