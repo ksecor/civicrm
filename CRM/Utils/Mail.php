@@ -130,7 +130,7 @@ class CRM_Utils_Mail {
                                                    1,
                                                    'email_return_path' );
         if ( ! $returnPath ) {
-            $returnPath = self::_pluckEmailFromHeader($from);
+            $returnPath = self::pluckEmailFromHeader($from);
         }
 
         $headers = array( );  
@@ -256,11 +256,11 @@ This is probably related to a problem in your Outbound Email Settings (Administe
      * @param  string $header  the full name + email address string
      * @return string          the plucked email address
      */
-    private function _pluckEmailFromHeader($header) {
+    function pluckEmailFromHeader($header) {
         preg_match('/<([^<]*)>$/', $header, $matches);
         return $matches[1];
     }
-
+    
     /**
      * Get the Active outBound email 
      * @return boolean true if valid outBound email configuration found, false otherwise

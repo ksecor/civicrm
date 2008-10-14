@@ -32,7 +32,10 @@
             <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
         {/if} 
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>        
+        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+        {if $showDefault}
+            <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
+        {/if}
     </dl>
     {/if}
 	<dl><dt></dt><dd>{$form.buttons.html}</dd></dl>

@@ -146,8 +146,22 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $session =& CRM_Core_Session::singleton();
-        $this->add('text', 'from_name', ts('FROM Name'));
-        $this->add('text', 'from_email', ts('FROM'), NULL, true);
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $formEmailAddress = CRM_Core_PseudoConstant::fromEmailAddress( "from_email_address" );
+        if ( empty( $formEmailAddress ) ) {
+            //redirect user to enter from email address. 
+            $url = CRM_Utils_System::url( 'civicrm/admin/options/from_email_address', 'group=from_email_address&action=add&reset=1' );
+            $status = ts( "There is no valid from email address present. You can add here <a href='%1'>Add From Email Address.</a>", array( 1 => $url ) );
+            $session->setStatus( $status );
+        } else {
+            foreach ( $formEmailAddress as $key => $email ) {
+                $formEmailAddress[$key] = htmlspecialchars( $formEmailAddress[$key] );
+            }
+        }
+        
+        $this->add( 'select', 'from_email_address', 
+                    ts( 'From Email Address' ), $formEmailAddress, true );
         
         $this->add('text', 'subject', ts('Mailing Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
@@ -292,7 +306,18 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                              'civicrm_mailing',
                                              $this->_mailingID );
         $ids['mailing_id'] = $this->_mailingID;
-
+        
+        //handle mailing from name & address.
+        $formEmailAddress = CRM_Utils_Array::value( $formValues['from_email_address'],
+                                                    CRM_Core_PseudoConstant::fromEmailAddress( "from_email_address" ) );
+        
+        //get the from email address
+        require_once 'CRM/Utils/Mail.php';
+        $params['from_email'] = CRM_Utils_Mail::pluckEmailFromHeader( $formEmailAddress );
+        
+        //get the from Name
+        $params['from_name'] = CRM_Utils_Array::value( 1, explode('"', $formEmailAddress ) );
+        
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);

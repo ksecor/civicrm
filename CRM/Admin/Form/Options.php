@@ -151,7 +151,13 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-       
+        
+        //fix for CRM-3552
+        if ( $this->_gName == 'from_email_address' ) {
+            $this->assign( 'showDefault', true );
+            $this->add('checkbox', 'is_default', ts('Default Option?'));
+        }
+        
         if ($this->_gName == 'participant_status') {
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
             if ( $this->_id ) {
@@ -161,8 +167,40 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                 } 
             }
         }
+        
+        $this->addFormRule( array( 'CRM_Admin_Form_Options', 'formRule' ), $this );
     }
-           
+    
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields the input form values  
+     * @param array $files  the uploaded files if any  
+     * @param array $self   current form object. 
+     *  
+     * @return array array of errors / empty array.   
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields, &$files, $self ) 
+    {
+        $errors = array( );
+        if ( $self->_gName == 'from_email_address' ) {
+            require_once 'CRM/Utils/Mail.php';
+            $formEmail = CRM_Utils_Mail::pluckEmailFromHeader( $fields['label'] );
+            if ( !CRM_Utils_Rule::email( $formEmail ) ) {
+                $errors['label'] = ts( 'Please enter the valid email address.' );
+            }
+            
+            $formName = explode('"', $fields['label'] );
+            if ( !CRM_Utils_Array::value( 1, $formName ) || count( $formName ) != 3 ) {
+                $errors['label'] = ts( 'Please follow the proper format for From Email Address' ); 
+            }
+        }
+        
+        return $errors;
+    }
+    
     /**
      * Function to process the form
      *
