@@ -30,6 +30,8 @@ function civicrm_views_data() {
 
     civicrm_views_data_email       ( $data, $config );
 
+    civicrm_views_data_address     ( $data, $config );
+
     civicrm_views_data_contribution( $data, $config );
 
     return $data;
@@ -180,17 +182,9 @@ function civicrm_views_data_email( &$data, &$config ) {
                                                               ),
                                             );
 
-    $data['civicrm_email']['email_location'] = array(
-                                                     'title' => t('Email Location'),
-                                                     'real field' => 'location_type_id',
-                                                     'help' => t('Email location of the contact (home,work...)'),
-                                                     'field' => array(
-                                                                      'handler' => 'views_handler_field_civicrm_location',
-                                                                      ),
-                                                     'filter' => array(
-                                                                       'handler' => 'views_handler_filter_civicrm_location',
-                                                                       ),
-                                            );
+    $data['civicrm_email']['email_location'] =
+        civicrm_views_location_type( t('Email Location'),
+                                     t('Email location of the contact (home,work...)') );
 
     $data['civicrm_email']['email_is_primary'] = array(
                                                        'title' => t('Is Primary Email?'),
@@ -203,13 +197,47 @@ function civicrm_views_data_email( &$data, &$config ) {
                                                                          'handler' => 'views_handler_filter_boolean_operator',
                                                                          ),
                                                        );
+}
+
+function civicrm_views_data_address( &$data, &$config ) {
+    // ----------------------------------------------------------------------
+    // CiviCRM email table
+
+    $data['civicrm_address']['table']['group']  = t('CiviCRM Contact');
+
+    // Explain how this table joins to others.
+    $data['civicrm_address']['table']['join'] = array(
+                                                      // Directly links to contact table.
+                                                      'civicrm_contact' => array(
+                                                                                 'left_field' => 'id',
+                                                                                 'field' => 'contact_id',
+                                                                                 ),
+                                                      );
+
+    require_once 'CRM/Core/DAO/Address.php';
+    $fields = CRM_Core_DAO_Address::export( );
+
+    $skipFields = array( 'id'               => 1,
+                         'contact_id'       => 1,
+                         'location_type_id' => 1,
+                         'geo_code_1'       => 1,
+                         'geo_code_2'       => 1 );
+    civicrm_views_add_fields( $fields, $data['civicrm_address'], $skipFields, 'civicrm_address' );
+
+    $data['civicrm_address']['address_location'] =
+        civicrm_views_location_type( t('Address Location'),
+                                     t('Address location of the contact (home,work...)') );
+
+    $data['civicrm_address']['state_province'] =
+        civicrm_views_state_province( );
+
+    $data['civicrm_address']['state_province'] =
+        civicrm_views_country( );
 
 }
 
 function civicrm_views_data_contribution( &$data, &$config ) {
     // ----------------------------------------------------------------------
-    // CiviCRM email table
-
     $data['civicrm_contribution']['table']['group']  = t('CiviCRM Contributions');
 
     $data['civicrm_contribution']['table']['base'] =
@@ -416,5 +444,45 @@ function civicrm_views_handlers() {
                                               ),
 
                                      ),
+                 );
+}
+
+function civicrm_views_location_type( $title, $help ) {
+    return array( 
+                 'title' => $title,
+                 'real field' => 'location_type_id',
+                 'help' => $help,
+                 'field' => array(
+                                  'handler' => 'views_handler_field_civicrm_location',
+                                  ),
+                 'filter' => array(
+                                   'handler' => 'views_handler_filter_civicrm_location',
+                                   ),
+                  );
+}
+
+function civicrm_views_state_province( ) {
+    return array(
+                 'title' => t('State'),
+                 'real field' => 'state_province_id',
+                 'field' => array(
+                                  'handler' => 'views_handler_field_civicrm_state',
+                                  ),
+                 'filter' => array(
+                                   'handler' => 'views_handler_filter_civicrm_state',
+                                   ),
+                 );
+}
+
+function civicrm_views_country( ) {
+    return array(
+                 'title' => t('Country'),
+                 'real field' => 'country_id',
+                 'field' => array(
+                                  'handler' => 'views_handler_field_civicrm_country',
+                                  ),
+                 'filter' => array(
+                                   'handler' => 'views_handler_filter_civicrm_country',
+                                   ),
                  );
 }
