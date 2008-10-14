@@ -231,7 +231,7 @@ function civicrm_views_data_address( &$data, &$config ) {
     $data['civicrm_address']['state_province'] =
         civicrm_views_state_province( );
 
-    $data['civicrm_address']['state_province'] =
+    $data['civicrm_address']['country'] =
         civicrm_views_country( );
 
 }
@@ -434,6 +434,14 @@ function civicrm_views_handlers() {
                                      => array(
                                               'parent' => 'views_handler_field_civicrm',
                                               ),
+                                     'views_handler_field_civicrm_state'
+                                     => array(
+                                              'parent' => 'views_handler_field_civicrm',
+                                              ),
+                                     'views_handler_field_civicrm_country'
+                                     => array(
+                                              'parent' => 'views_handler_field_civicrm',
+                                              ),
                                      'views_handler_filter_civicrm_contact_type' 
                                      => array(
                                               'parent' => 'views_handler_filter_in_operator',
@@ -464,6 +472,7 @@ function civicrm_views_location_type( $title, $help ) {
 function civicrm_views_state_province( ) {
     return array(
                  'title' => t('State'),
+                 'help'  => t('State'),
                  'real field' => 'state_province_id',
                  'field' => array(
                                   'handler' => 'views_handler_field_civicrm_state',
@@ -477,6 +486,7 @@ function civicrm_views_state_province( ) {
 function civicrm_views_country( ) {
     return array(
                  'title' => t('Country'),
+                 'help'  => t('Country'),
                  'real field' => 'country_id',
                  'field' => array(
                                   'handler' => 'views_handler_field_civicrm_country',
