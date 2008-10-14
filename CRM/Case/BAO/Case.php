@@ -403,6 +403,46 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          return $caseArray;
      }
 
+    /**
+     * function to get the amount details date wise.
+     */
+    function getCaseSummary( $status = null, $typeId = null ) 
+    {
+        $where = array( );
+        $select = $from = $queryDate = null;
+        $queryDate   =  CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,date("d"),date("Y"))) , '%Y%m%d');
+        switch ( $status ) {
+        case 'Active'  :
+            $from    = "LEFT JOIN civicrm_case_activity cca ON cca.case_id = cc.id";
+            $where = "cc.status_id =1 AND cc.case_type_id LIKE '$typeId'";
+            break;
+            
+        case 'New'     :
+            $from    = "LEFT JOIN civicrm_case_activity cca ON cca.case_id = cc.id";
+            $where = "cc.status_id =1 AND cca.case_id IS NULL AND cc.start_date > {$queryDate} AND cc.case_type_id LIKE '$typeId'";
+            break;
+
+        case 'Closed'  :
+            $where = "cc.status_id =2 AND cc.case_type_id LIKE '$typeId'";
+        case 'Inactive':
+            $from    = "LEFT JOIN civicrm_case_activity cca ON cca.case_id = cc.id";
+            $where = "cc.status_id =1 AND cca.case_id IS NULL AND cc.start_date < {$queryDate} AND cc.case_type_id LIKE '$typeId'";
+            break;
+
+        } 
+        $query = "
+SELECT count( cc.id ) as case_count
+FROM   civicrm_case cc {$from}
+WHERE  $where
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            return $case_count = array( 'case_count'  => $dao->case_count,
+                                        'purl'          => CRM_Utils_System::url( 'civicrm/case','reset=1')
+                                        );
+        }
+        return null;
+    }
 }
 
-
+   

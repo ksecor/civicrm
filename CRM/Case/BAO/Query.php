@@ -53,14 +53,65 @@ class CRM_Case_BAO_Query
      */
     static function select( &$query ) 
     {
-        $query->_select['case_type_id'     ] = "civicrm_case.case_type_id as case_type";
-        $query->_element['case_type_id'    ] = 1;
- 
-        $query->_select['subject'] = "civicrm_case.subject as subject";
-        $query->_element['subject'] = 1;
+        if ( ( $query->_mode & CRM_Contact_BAO_Query::MODE_CASE ) ||
+             CRM_Utils_Array::value( 'case_id', $query->_returnProperties ) ) {
+            $query->_select['case_id'] = "civicrm_case.id as case_id";
+            $query->_element['case_id'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'case_type_id', $query->_returnProperties ) ) {
+            $query->_select['case_type_id']  = "case_type.name as case_type_id";
+            $query->_element['case_type'] = 1;
+            $query->_tables['case_type']  = $query->_whereTables['case_type'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'relationshipType_id', $query->_returnProperties ) ) {
+            $query->_select['relationshipType_id']  = "civicrm_relationship_type.name_a_b as relationshipType_id";
+            $query->_element['relationshipType_id'] = 1;
+            $query->_tables['civicrm_relationship_type'] = $query->_whereTables['civicrm_relationship_type'] = 1;
+        }
 
-        $query->_tables['civicrm_case'] = 1;
-        $query->_whereTables['civicrm_case'] = 1;
+        if ( CRM_Utils_Array::value( 'case_status_id', $query->_returnProperties ) ) {
+            $query->_select['case_status_id']  = "case_status.name as case_status_id";
+            $query->_element['case_status'] = 1;
+            $query->_tables['case_status']  = $query->_whereTables['case_status'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
+            $query->_select['case_recent_activity_date']  = "civicrm_activity.activity_date_time as case_recent_activity_date";
+            $query->_element['case_recent_activity_date'] = 1;
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_recent_activity_type', $query->_returnProperties ) ) {
+            $query->_select['case_recent_activity_type']  = "civicrm_category.label as case_recent_activity_type";
+            $query->_element['case_recent_activity_type'] = 1;
+            $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
+            $query->_select['case_scheduled_activity_date']  = "civicrm_activity.activity_date_time as case_scheduled_activity_date";
+            $query->_element['case_scheduled_activity_date'] = 1;
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_scheduled_activity_type', $query->_returnProperties ) ) {
+            $query->_select['case_scheduled_activity_type']  = "civicrm_category.label as case_scheduled_activity_type";
+            $query->_element['case_scheduled_activity_type'] = 1;
+            $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
+        }
+
+        // $query->_select['case_type_id'     ] = "civicrm_case.case_type_id as case_type";
+//         $query->_element['case_type_id'    ] = 1;
+ 
+//         $query->_select['subject'] = "civicrm_case.subject as subject";
+//         $query->_element['subject'] = 1;
+
+//         $query->_tables['civicrm_case'] = 1;
+//         $query->_whereTables['civicrm_case'] = 1;
     }
 
      /** 
@@ -72,11 +123,23 @@ class CRM_Case_BAO_Query
      */ 
     static function where( &$query ) 
     {
+        $isTest   = false;
+        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
+                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                    $query->_useDistinct = true;
+                }
+                $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
+        
+        //  foreach ( array_keys( $query->_params ) as $id ) {
+        //             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
+        //                 self::whereClauseSingle( $query->_params[$id], $query );
+        //             }
+        //         }
     }
     
     /** 
@@ -106,6 +169,7 @@ class CRM_Case_BAO_Query
             $value = $caseStatus[$value];
             $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
             
         case 'case_type_id':
@@ -125,6 +189,39 @@ class CRM_Case_BAO_Query
             $value = $caseType[$value];
             $query->_qill[$grouping ][] = ts( 'Case Type %1', array( 1 => $op))  . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+
+        case 'case_relation_type_id':
+            require_once 'CRM/Core/PseudoConstant.php';
+            $relId = explode( '_' , $value );
+            $relationTypes = CRM_Core_PseudoConstant::relationshipType( );
+            $query->_where[$grouping][] = "civicrm_relationship.relationship_type_id = $relId[0]";
+            $query->_qill[$grouping ][] = ts( 'Case Role - %1', array( 1 => $pages[$relId] ) );
+            $query->_tables['civicrm_relationship'] = $query->_whereTables['civicrm_relationship'] = 1;
+            return;
+
+        case 'completedActivity_start_date_low':
+        case 'completedActivity_start_date_low':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_activity', 'completedActivity_start_date', 'activity_date_time', 'Completed Activity Date' );
+            return;
+
+        case 'case_scheduledActivity_start_date_low':
+        case 'case_scheduledActivity_start_date_low':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_activity', 'scheduledActivity_start_date', 'activity_date_time', 'Scheduled Activity Date' );
+            return;
+
+        case 'case_scheduledActivity_type_id':
+        case 'case_completedActivity_type_id':
+            require_once 'CRM/Core/PseudoConstant.php';
+            $aType = $value;
+            $types = CRM_Core_PseudoConstant::activityType( );
+            $query->_where[$grouping][] = "civicrm_category.id = $aType";
+            $query->_qill[$grouping ][] = ts( 'Completed Activity Type - %1', array( 1 => $types[$cType] ) );
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
             return;
 
         case 'case_casetag2_id':
@@ -183,11 +280,32 @@ class CRM_Case_BAO_Query
     static function from( $name, $mode, $side ) 
     {
         $from = null;
+                   
         switch ( $name ) {
             
-        case 'civicrm_case':
-            $from = " LEFT JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id
-                      LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_case_contact.case_id";
+         case 'civicrm_case':
+                                 
+             break;
+
+        case 'case_status':
+            $from .= " LEFT  JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id
+                       $side JOIN civicrm_case ON civicrm_case.id = civicrm_case_contact.case_id 
+                       $side JOIN civicrm_option_group option_group_case_status ON (option_group_case_status.name = 'case_status')";
+            $from .= " $side JOIN civicrm_option_value case_status ON (civicrm_case.status_id = case_status.value AND option_group_case_status.id = case_status.option_group_id ) ";
+            break;
+
+        case 'case_type':
+            $from .= " $side JOIN civicrm_option_group option_group_case_type ON (option_group_case_type.name = 'case_type')";
+            $from .= " $side JOIN civicrm_option_value case_type ON (civicrm_case.case_type_id = case_type.value AND option_group_case_type.id = case_type.option_group_id ) ";
+            break;
+            
+        case 'civicrm_category':
+            $from .= " $side JOIN civicrm_category ON civicrm_category.id = civicrm_activity.activity_type_id LEFT JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id";
+            break;
+
+        case 'case_relation_type':
+            
+            $from .="$side JOIN civicrm_relationship_type ON civicrm_relationship_type.id = civicrm_relationship.relationship_type_id WHERE civicrm_relationship.case_id = case_id";
             break;
         }
         return $from;
@@ -206,12 +324,25 @@ class CRM_Case_BAO_Query
     
     static function defaultReturnProperties( $mode ) 
     {
-        $properties = array(  
-                            'contact_type'              => 1, 
-                            'sort_name'                 => 1, 
-                            'display_name'              => 1,
-                            'case_subject'              => 1,
+
+        $properties = null;
+        
+        if ( $mode & CRM_Contact_BAO_Query::MODE_CASE ) {
+            $properties = array(  
+                                'contact_id'                  =>      1,
+                                'sort_name'                   =>      2,   
+                                'display_name'                =>      3,
+                                'case_id'                     =>      4,   
+                                'case_status_id'              =>      5, 
+                                'case_type_id'                =>      6,
+                                'relationshipType_id'         =>      7,
+                                'case_recent_activity_date'   =>      8,
+                                'case_recent_activity_type'   =>      9, 
+                                'case_scheduled_activity_date'=>      10,
+                                'case_scheduled_activity_type'=>      11
+
                             );
+        }
         return $properties;
     }
     
@@ -259,7 +390,7 @@ class CRM_Case_BAO_Query
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $attributes = array('onchange' => "setUrl( );");
-        $form->addElement('select', 'relation_type_id', ts('Case Role'),  array('' => ts('- select -')) + $allRelationshipType, $attributes);
+        $form->addElement('select', 'case_relation_type_id', ts('Case Role'),  array('' => ts('- select -')) + $allRelationshipType, $attributes);
         
         // add a dojo facility for searching contacts
         $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
@@ -272,11 +403,11 @@ class CRM_Case_BAO_Query
               
         $form->addElement('text', 'name'      , ts('Related Contact'), $attributes );
 
-        $form->addElement('date', 'scheduledActivity_start_date_low', ts('From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('scheduledActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
+        $form->addElement('date', 'case_scheduledActivity_start_date_low', ts('Scheduled Activity Date-From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('case_scheduledActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
         
-        $form->addElement('date', 'scheduledActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('scheduledActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addElement('date', 'case_scheduledActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('case_scheduledActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $activityTypes =
             array( ''   => ' - select activity - ' ) + 
@@ -284,17 +415,17 @@ class CRM_Case_BAO_Query
                 
         // we need to remove some activity types
         CRM_Utils_Array::crmArraySplice( $activityTypes, 4, 9);
-        $form->add('select', 'scheduledActivity_type_id', ts('Scheduled Activity Type'),
+        $form->add('select', 'case_scheduledActivity_type_id', ts('Scheduled Activity Type'),
                    $activityTypes,
                    false);
 
-        $form->addElement('date', 'completedActivity_start_date_low', ts('From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('completedActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
+        $form->addElement('date', 'case_completedActivity_start_date_low', ts('Complited Activity Date-From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('case_completedActivity_start_date_low', ts('Select a valid date.'), 'qfDate'); 
         
-        $form->addElement('date', 'completedActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('completedActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->addElement('date', 'case_completedActivity_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('case_completedActivity_start_date_high', ts('Select a valid date.'), 'qfDate'); 
          
-        $form->add('select', 'completedActivity_type_id', ts('Completed Activity Type'),
+        $form->add('select', 'case_completedActivity_type_id', ts('Completed Activity Type'),
                    $activityTypes,
                    false);
         

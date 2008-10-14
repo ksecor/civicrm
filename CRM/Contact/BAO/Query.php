@@ -453,7 +453,8 @@ class CRM_Contact_BAO_Query
 
             //skip component fields
             if ( ( substr( $name, 0, 12  ) == 'participant_' ) || 
-                 ( (substr( $name, 0, 7  ) == 'pledge_' ) ) ) {
+                 ( (substr( $name, 0, 7  ) == 'pledge_' ) ) || 
+                 ( (substr( $name, 0, 5  ) == 'case_' ) )  ) {
                 continue;
             }
 
@@ -1627,7 +1628,7 @@ class CRM_Contact_BAO_Query
         // to handle table dependencies of components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::tableNames( $tables );
- 
+        
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );

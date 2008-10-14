@@ -49,6 +49,19 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        CRM_Utils_System::setTitle( ts('CiviCase') );
+        $this->_caseType = array();
+        $statuses   = array( 'Active', 'Closed', 'New', 'Inactive' );
+        require_once 'CRM/Core/OptionGroup.php';    
+        $caseTypes  = CRM_Core_OptionGroup::values('case_type');
+        require_once 'CRM/Case/BAO/Case.php';
+        foreach ( $caseTypes as $typeId => $caseType ) {
+            $typeId = '%'.$typeId.'%';
+            foreach ( $statuses as $status ) {
+                $this->_caseType[$caseType][$status]  =  CRM_Case_BAO_Case::getCaseSummary( $status, $typeId );
+            }
+        }
+        $this->assign('caseType', $this->_caseType);
     }
     
     /** 
@@ -60,7 +73,20 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
      */                                                          
     function run( ) 
     {
+        $this->preProcess( );
+        
+        // $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Search', 
+//                                                        ts('Case'), 
+//                                                        null );
+//         $controller->setEmbedded( true ); 
+//         $controller->reset( ); 
+//         $controller->set( 'limit', 10 );
+//         $controller->set( 'force', 1 );
+//         $controller->set( 'context', 'dashboard' ); 
+//         $controller->process( ); 
+//         $controller->run( ); 
+        
         return parent::run( );
     }
-}
 
+}
