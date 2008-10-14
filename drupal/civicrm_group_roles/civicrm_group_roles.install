@@ -9,10 +9,9 @@
 /**
  * Implementation of hook_install().
  */
-function civimember_roles_install( ) 
+function civicrm_group_roles_install( ) 
 {
-    //Create table.
-    drupal_install_schema('civimember_roles');
+    drupal_install_schema('civicrm_group_roles');
 }
 
 /**
@@ -21,24 +20,24 @@ function civimember_roles_install( )
 function civicrm_group_roles_schema( ) 
 {
     $schema['civicrm_group_roles_rules'] = array(
-                                              'fields' => array(
-                                                                'id' => array(
-                                                                              'type' => 'serial', 
-                                                                              'unsigned' => TRUE, 
-                                                                              'not null' => TRUE,
-                                                                              ),
-                                                                'role_id' => array(
-                                                                                   'type' => 'int', 
-                                                                                   'unsigned' => TRUE, 
-                                                                                   'not null' => TRUE,
-                                                                                   ),
-                                                                'group_id' => array(
-                                                                                    'type' => 'int', 
-                                                                                    'unsigned' => TRUE, 
-                                                                                    'not null' => TRUE,
-                                                                                    )
-                                                                ),
-                                              'primary key' => array('rule_id'),
+                                                 'fields' => array(
+                                                                   'id' => array(
+                                                                                 'type' => 'serial', 
+                                                                                 'unsigned' => TRUE, 
+                                                                                 'not null' => TRUE,
+                                                                                 ),
+                                                                   'role_id' => array(
+                                                                                      'type' => 'int', 
+                                                                                      'unsigned' => TRUE, 
+                                                                                      'not null' => TRUE,
+                                                                                      ),
+                                                                   'group_id' => array(
+                                                                                       'type' => 'int', 
+                                                                                       'unsigned' => TRUE, 
+                                                                                       'not null' => TRUE,
+                                                                                       )
+                                                                   ),
+                                                 'primary key' => array('id'),
                                                  );
     
     return $schema;
@@ -47,8 +46,7 @@ function civicrm_group_roles_schema( )
 /**
  * Implementation of hook_uninstall().
  */
-function civimember_roles_uninstall( ) 
+function civicrm_group_roles_uninstall( ) 
 {
     drupal_uninstall_schema('civicrm_group_roles_rules');
-    variable_del('ccivicrm_group_roles_method');
 }
