@@ -3,9 +3,9 @@
 /**
  * Field handler to present a link to the user.
  *
- * @ingroup views_field_handlers
+ * @ingroup civicrm_field_handlers
  */
-class views_handler_field_civicrm_link extends views_handler_field {
+class civicrm_handler_field_link extends views_handler_field {
     function construct() {
         parent::construct();
         $this->additional_fields['id'] = 'id';
@@ -39,7 +39,7 @@ class views_handler_field_civicrm_link extends views_handler_field {
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('view');
         $id = $values->{$this->aliases['id']};
-        return civicrm_views_href($text, "civicrm/contact/view", "reset=1&id=$id");
+        return civicrm_href($text, "civicrm/contact/view", "reset=1&id=$id");
     }
 }
 ?>

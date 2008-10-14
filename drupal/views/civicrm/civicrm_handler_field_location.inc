@@ -3,9 +3,9 @@
 /**
  * Field handler to provide acess control for the location field (which is a lookup)
  *
- * @ingroup views_field_handlers
+ * @ingroup civicrm_field_handlers
  */
-class views_handler_field_civicrm_location extends views_handler_field_civicrm {
+class civicrm_handler_field_location extends civicrm_handler_field {
     static $_locationTypes;
 
     function construct( ) {

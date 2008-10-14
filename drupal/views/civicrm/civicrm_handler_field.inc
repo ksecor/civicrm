@@ -3,9 +3,9 @@
 /**
  * Field handler to provide simple renderer that allows linking to a user.
  *
- * @ingroup views_field_handlers
+ * @ingroup civicrm_field_handlers
  */
-class views_handler_field_civicrm extends views_handler_field {
+class civicrm_handler_field extends views_handler_field {
     /**
      * Override init function to provide generic option to link to user.
      */
@@ -27,7 +27,7 @@ class views_handler_field_civicrm extends views_handler_field {
 
     function render_link($data, $values) {
         if (!empty($this->options['link_to_civicrm']) && user_access('access CiviCRM') && $values->id) {
-            return civicrm_views_href( $data,
+            return civicrm_href( $data,
                                        'civicrm/contact/view',
                                        "reset=1&cid={$values->id}" );
         }

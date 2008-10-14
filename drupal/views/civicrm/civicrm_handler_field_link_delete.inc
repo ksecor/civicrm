@@ -3,9 +3,9 @@
 /**
  * Field handler to present a link to user delete.
  *
- * @ingroup views_field_handlers
+ * @ingroup civicrm_field_handlers
  */
-class views_handler_field_civicrm_link_delete extends views_handler_field_civicrm_link {
+class civicrm_handler_field_link_delete extends civicrm_handler_field_link {
     // An example of field level access control.
     function access() {
         return user_access('access CiviCRM');
@@ -14,7 +14,7 @@ class views_handler_field_civicrm_link_delete extends views_handler_field_civicr
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
         $id = $values->{$this->aliases['id']};
-        return civicrm_views_href( $text,
+        return civicrm_href( $text,
                                    'civicrm/contact/delete',
                                    "reset=1&id=$id" );
     }

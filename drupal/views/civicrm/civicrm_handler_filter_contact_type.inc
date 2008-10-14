@@ -1,6 +1,6 @@
 <?php
 
-class views_handler_filter_civicrm_contact_type extends views_handler_filter_in_operator {
+class civicrm_handler_filter_contact_type extends views_handler_filter_in_operator {
     static $_contactTypes;
 
     function construct( ) {

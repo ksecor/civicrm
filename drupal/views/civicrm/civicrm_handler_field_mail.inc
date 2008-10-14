@@ -3,9 +3,9 @@
 /**
  * Field handler to provide acess control for the email field
  *
- * @ingroup views_field_handlers
+ * @ingroup civicrm_field_handlers
  */
-class views_handler_field_civicrm_mail extends views_handler_field_civicrm {
+class civicrm_handler_field_mail extends civicrm_handler_field {
     function option_definition() {
         $options = parent::option_definition();
         $options['link_to_civicrm'] = array('default' => 'mailto');
