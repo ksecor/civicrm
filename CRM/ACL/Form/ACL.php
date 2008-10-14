@@ -249,8 +249,8 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             CRM_Core_Session::setStatus( ts('Selected ACL has been deleted.') );
         } else {
             $params = $this->controller->exportValues( $this->_name );
-
-            $params['deny'] = 0;
+            $params['is_active']    = CRM_Utils_Array::value( 'is_active', $params, false );
+            $params['deny']         = 0;
             $params['entity_table'] = 'civicrm_acl_role';
 
             // Figure out which type of object we're permissioning on and set object_table and object_id.
