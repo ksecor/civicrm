@@ -22,6 +22,7 @@ function civicrm_group_roles_help($section, $args = array() )
 
 /**
  * Implementation of hook_user().
+ * This provides sync from Drupal -> CiviCRM
  */
 function civicrm_group_roles_user($op, $edit, &$user, $category = NULL) 
 {
@@ -31,7 +32,7 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
     if ($op == 'login' OR $op == 'after_update' OR $op == 'insert') {
         
         //get user's roles, ignoring built-in roles
-        if ($op == 'insert') { // $user->roles isn;t set on insert, we have to get them from the form directly...
+        if ($op == 'insert') { // $user->roles isn't set on insert, we have to get them from the form directly...
             $all = user_roles(TRUE);
             $rids = $edit['roles']; //the insert form only stores role ids. :-P
             $rids = is_array($rids) ? $rids : array($rids);
@@ -97,6 +98,52 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
             } //end if $contact
         } //endif $roles
     } //endif $op
+}
+
+
+/**
+ * Implementation of hook_civicrm_post().
+ * This provides sync from CiviCRM -> Drupal
+ */
+function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$objectRef )
+{
+    if ($objectName != 'GroupContact') {
+        return; // We only care about Group contacts, so bail on anythign else.
+    }
+
+    $group_id = $objectId;
+    
+    foreach ($objectRef AS $contact_id) {
+        
+        switch ($op) {
+            
+            case 'create':
+            case 'edit':
+                //Contact added or re-joined to group; add to corresponding role
+                //dsm("Adding Contact $contact_id to Group $group_id");
+                
+                //Do we have a Drupal Account?
+                require_once 'api/UFGroup.php';
+                $uid = crm_uf_get_uf_id($contact_id);
+                if (!$uid) {
+                    //dsm("No User found");
+                    break;
+                }
+                
+                //Do we have a Role sync rule?
+                $role_id = db_result(db_query("SELECT role_id FROM {civicrm_group_roles_rules} WHERE group_id=%d", $group_id));
+                
+                //dsm("Adding Role $role_id to User $uid");
+                
+                break;
+            
+            case 'delete':
+                //Contact is removed from group; remove role
+                //dsm("Removing Contact $contact_id from Group $group_id");
+                break;
+        }
+    }
+
 }
 
 
@@ -307,3 +354,4 @@ function civicrm_group_roles_add_rule_form_submit($form, &$form_state)
         }
     }
 }
+
