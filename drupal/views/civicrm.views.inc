@@ -78,7 +78,6 @@ function civicrm_views_data_contact( &$data, &$config ) {
                                                       'field' => 'id',
                                                       'title' => t('CiviCRM Contacts'),
                                                       'help'  => t('CiviCRM Contacts'),
-                                                      'database' => 'civicrm',
                                                       );
 
     // id
@@ -245,7 +244,6 @@ function civicrm_views_data_contribution( &$data, &$config ) {
               'field' => 'id',
               'title' => t('CiviCRM Contributions'),
               'help' => t('CiviCRM Contributions' ), 
-              'database' => 'civicrm',
              );
 
     // Explain how this table joins to others.
