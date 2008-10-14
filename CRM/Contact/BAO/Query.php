@@ -1047,6 +1047,10 @@ class CRM_Contact_BAO_Query
         case 'location_type':
             $this->locationType( $values ); 
             return;
+            
+        case 'state_province':
+            $this->stateProvince( $values );
+            return;
 
         case 'postal_code':
         case 'postal_code_low':
@@ -2327,6 +2331,39 @@ WHERE  id IN ( $groupIDs )
             } else {
                 return implode( ' ' . ts('or') . ' ', $names );
             }
+        }
+    }
+    
+    /**
+     * where / qill clause for state/province
+     *
+     * @return void
+     * @access public
+     */
+    function stateProvince( &$values, $status = null )
+    {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        if (is_array($value)) {
+            $this->_where[$grouping][] = 'civicrm_state_province.id IN (' . 
+                implode( ',', $value ) .
+                ')';
+            $this->_tables['civicrm_state_province'] = 1;
+            $this->_whereTables['civicrm_state_province'] = 1;
+            
+            $stateProvince =& CRM_Core_PseudoConstant::stateProvince();
+            $names = array( );
+            foreach ( $value as $id ) {
+                $names[] = $stateProvince[$id];
+            }
+            
+            if (!$status) {
+                $this->_qill[$grouping][] = ts('State/Province') . ' - ' . implode( ' ' . ts('or') . ' ', $names );
+            } else {
+                return implode( ' ' . ts('or') . ' ', $names );
+            }
+        } else {
+            return $this->restWhere( $values );
         }
     }
 

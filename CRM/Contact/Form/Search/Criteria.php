@@ -121,17 +121,17 @@ class CRM_Contact_Form_Search_Criteria {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
  
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
-                          'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
-                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
-                          'county'                 => array( ts('County')            ,  $attributes['county_id'], 'county' ),
-                          'state_province'         => array( ts('State / Province')  ,  $attributes['state_province_id'],'stateProvince' ),
-                          'country'                => array( ts('Country')           ,  $attributes['country_id'], 'country' ), 
-                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ), 
+                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null, null ),
+                          'city'                   => array( ts('City')              ,  $attributes['city'] , null, null ),
+                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null, null ),
+                          'county'                 => array( ts('County')            ,  $attributes['county_id'], 'county', false ),
+                          'state_province'         => array( ts('State / Province')  ,  $attributes['state_province_id'], 'stateProvince', true ),
+                          'country'                => array( ts('Country')           ,  $attributes['country_id'], 'country', false ), 
+                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null, null ), 
                            );
  
         foreach ( $elements as $name => $v ) {
-            list( $title, $attributes, $select ) = $v;
+            list( $title, $attributes, $select, $multiSelect ) = $v;
             
             if ( ! $addressOptions[$name] ) {
                 continue;
@@ -143,7 +143,10 @@ class CRM_Contact_Form_Search_Criteria {
             
             if ( $select ) {
                 $selectElements = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::$select( );
-                $form->addElement('select', $name, $title, $selectElements );
+                $element = $form->addElement('select', $name, $title, $selectElements );
+                if ( $multiSelect ) {
+                    $element->setMultiple( true );
+                }
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
