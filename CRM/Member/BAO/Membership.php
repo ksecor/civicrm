@@ -501,9 +501,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             if (! empty( $membershipTypeIds ) ) {
                 //set status message if wrong membershipType is included in membershipBlock
-                $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-                if ( $mid ) {
-                    $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $mid, 'membership_type_id' );
+                if ( $form->_mid ) {
+                    $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $form->_mid, 'membership_type_id' );
                     if ( !in_array( $membershipTypeID, $membershipTypeIds ) ){
                         CRM_Core_Session::setStatus( ts("Oops. The membership you're trying to renew appears to be invalid. Contact your site administrator if you need assistance. If you continue, you will be issued a new membership.") );
                     }

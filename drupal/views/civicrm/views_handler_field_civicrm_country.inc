@@ -3,9 +3,9 @@
 /**
  * Field handler to provide acess control for the state field (which is a lookup)
  *
- * @ingroup civicrm_field_handlers
+ * @ingroup views_field_handlers
  */
-class civicrm_handler_field_country extends civicrm_handler_field {
+class views_handler_field_civicrm_country extends views_handler_field_civicrm {
     static $_countries;
 
     function construct( ) {

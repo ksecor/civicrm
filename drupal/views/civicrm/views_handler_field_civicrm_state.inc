@@ -3,16 +3,16 @@
 /**
  * Field handler to provide acess control for the state field (which is a lookup)
  *
- * @ingroup civicrm_field_handlers
+ * @ingroup views_field_handlers
  */
-class civicrm_handler_field_country extends civicrm_handler_field {
-    static $_countries;
+class views_handler_field_civicrm_state extends views_handler_field_civicrm {
+    static $_states;
 
     function construct( ) {
-        if ( ! self::$_countries ) {
+        if ( ! self::$_states ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_countries = CRM_Core_PseudoConstant::countryIsoCode( );
+            self::$_states = CRM_Core_PseudoConstant::stateProvinceAbbreviation( );
         }
     }
 
@@ -23,7 +23,7 @@ class civicrm_handler_field_country extends civicrm_handler_field {
             return null;
         }
 
-        return self::$_countries[$values->{$this->field_alias}];
+        return self::$_states[$values->{$this->field_alias}];
     }
 }
 ?>

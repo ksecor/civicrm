@@ -289,11 +289,6 @@ class BAO_Event_Participant extends CiviTestCase
             $id = $this->_contactId;
         }
         
-        $expectedParams = array('note' => $params['note'] , 'contact_id' => $id);
-        $savedParams = array('entity_table' => 'civicrm_participant' , 'entity_id' => $participant->id);
-
-        $this->assertDBCompareValues('CRM_Core_BAO_Note', $savedParams, $expectedParams );
-        
         //Deleting the Participant created by create function in this function
         $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant( $participant->id );
         $this->assertDBNull('CRM_Event_BAO_Participant', $this->_contactId, 'id', 

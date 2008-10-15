@@ -168,11 +168,11 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             }
 
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
-            
+
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
                     // reset checkbox because a form does not send null checkbox values
-                    if ( $customField['html_type'] == 'CheckBox' ) {
+                    if ( in_array( $customField['html_type'], array( 'Multi-Select', 'CheckBox' ) ) ) {
                         // only reset on a POST submission if we dont see any value
                         $value = null;
                         $this->set( $name, $value );
@@ -182,9 +182,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $this->set( $name, $value );  
                 }
             }
-            
+
             if ( isset( $value ) && $value != null ) {
-                $this->_params[$name] = $this->_fields[$name]['value'] = trim($value);
+                if ( !is_array( $value) ) {
+                    $value = trim( $value );
+                }
+                $this->_params[$name] = $this->_fields[$name]['value'] = $value;
             }
         }
 

@@ -7,7 +7,7 @@ class civicrm_handler_filter_country extends views_handler_filter_in_operator {
         if ( ! self::$_countries ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_countries = CRM_Core_PseudoConstant::country( );
+            self::$_countries = CRM_Core_PseudoConstant::countryIsoCode( );
         }
     }
 

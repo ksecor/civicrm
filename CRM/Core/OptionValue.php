@@ -162,6 +162,7 @@ class CRM_Core_OptionValue
             }
         } else {
             $optionGroupID = $optionGroup->id;
+            $oldWeight = null;
             if ($optionValueID) {
                 $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionValueID, 'weight', 'id' );
             }
@@ -171,7 +172,7 @@ class CRM_Core_OptionValue
         }
         $params['option_group_id'] = $optionGroupID;
         
-        if ( ($action & CRM_Core_Action::ADD) && !$params['value'] ) {
+        if ( ($action & CRM_Core_Action::ADD) && !CRM_Utils_Array::value( 'value', $params ) ) {
             $fieldValues = array('option_group_id' => $optionGroupID);
             // use the next available value
             /* CONVERT(value, DECIMAL) is used to convert varchar
@@ -183,7 +184,7 @@ class CRM_Core_OptionValue
         if ( ! $params['label'] && $params['name'] ) {
             $params['label'] = $params['name'];
         }
-        if ( ! $params['name'] && $params['label'] ) {
+        if ( !CRM_Utils_Array::value( 'name', $params ) && $params['label'] ) {
             $params['name'] = $params['label'];
         }
         if ( $action & CRM_Core_Action::UPDATE ) {

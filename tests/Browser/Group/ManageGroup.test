@@ -95,6 +95,9 @@ class Browser_Group_ManageGroup extends CiviTestCase {
     $this->clickLink('Disable', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );
 
+    $params = array( 'inactive_status' => 1 );     
+    $this->drupalPost( NULL, $params, '_qf_Search_refresh');
+    
     $this->clickLink('Enable', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );     
   }  

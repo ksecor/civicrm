@@ -521,7 +521,7 @@ LIKE %1
      * @return array
      * @static
      */
-    function getStorageValues( $tableName = null, $maxTablesToCheck = 0, $fieldName = 'Engine' ) 
+    function getStorageValues( $tableName = null, $maxTablesToCheck = 10, $fieldName = 'Engine' ) 
     {
         $values = array( );
         $query   = "SHOW TABLE STATUS LIKE %1";

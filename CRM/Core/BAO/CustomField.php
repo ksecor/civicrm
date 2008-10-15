@@ -1140,6 +1140,13 @@ SELECT id
                     $unformat = CRM_Utils_Date::unformat( $value, $separator );
                     if ( $unformat ) {
                         $value = $unformat;
+
+
+
+
+
+
+
                     }
                 }
 
@@ -1163,7 +1170,12 @@ SELECT id
              $customFields[$customFieldId][2] == 'Int' ) {
             if ( !$value ) {
                 $value = 0;  
-            }          
+            }
+
+            if ( $customFields[$customFieldId][2] == 'Money' ) {
+                require_once 'CRM/Utils/Rule.php';
+                $value = CRM_Utils_Rule::cleanMoney( $value );
+            }
         }
                
         if ( ( $customFields[$customFieldId][2] == 'StateProvince' || 

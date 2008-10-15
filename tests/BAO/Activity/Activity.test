@@ -139,7 +139,7 @@ class BAO_Activity_Activity extends CiviTestCase
         $this->assertEqual( $defaults['source_contact_id'], $contactId, 'Verify source contact id is correct.');
         $this->assertEqual( $defaults['activity_type_id'], 2, 'Verify activity type id is correct.');
         
-        $this->assertEqual( $defaults['target_contact'], 'hurleey, liz', 'Verify sort name of target contact is correct.');
+        $this->assertEqual( $defaults['target_contact'][1], $targetContactId, 'Verify target contact id is correct.');
         
         Contact::delete( $contactId );
         Contact::delete( $targetContactId );

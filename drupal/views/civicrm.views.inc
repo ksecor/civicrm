@@ -93,6 +93,9 @@ function civicrm_views_data_contact( &$data, &$config ) {
                                            'sort'  => array(
                                                             'handler' => 'views_handler_sort',
                                                             ),
+                                           'argument' => array(
+                                                               'handler' => 'views_handler_argument_numeric',
+                                                               ),
                                            );
 
     // name

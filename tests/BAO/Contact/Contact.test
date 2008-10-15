@@ -544,7 +544,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         //create employee of relationship.
         require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship( $contactId, $params['create_employer'] );
+        CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactId, $params['create_employer'] );
         //add contact to group
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $contactId );
@@ -682,7 +682,7 @@ class BAO_Contact_Contact extends CiviTestCase
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
 
-        $this->assertEqual( $values['custom_' . $fieldID], 'S', 'Verify that the data value is empty for contact ' . $contactId);
+        $this->assertEqual( $values['custom_' . $fieldID], '', 'Verify that the data value is empty for contact ' . $contactId);
         $this->assertEqual( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
         
         //Now check DB for contact.
@@ -845,7 +845,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $searchParams = array( 'contact_id' => $contactId );
         $relationship = CRM_Contact_BAO_Relationship::getValues( $searchParams,  $values );
         //Now check values of Relationship Count.
-        $this->assertEqual( 1, $values['relationship']['totalCount'], 'Check for total relationship count' );
+        $this->assertEqual( 0, $values['relationship']['totalCount'], 'Check for total relationship count' );
         foreach( $values['relationship']['data'] as $key => $val ) {
             //Now check values of Relationship organization.
             $this->assertEqual( $profileParams['organization_name'], $val['name'], 'Check for organization' );  
@@ -1051,7 +1051,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $searchParams = array( 'contact_id' => $contactId );
         $relationship = CRM_Contact_BAO_Relationship::getValues( $searchParams,  $values );
         //Now check values of Relationship Count.
-        $this->assertEqual( 1, $values['relationship']['totalCount'], 'Check for total relationship count' );
+        $this->assertEqual( 0, $values['relationship']['totalCount'], 'Check for total relationship count' );
         foreach( $values['relationship']['data'] as $key => $val ) {
             //Now check values of Relationship organization.
             $this->assertEqual( $updatePfParams['organization_name'], $val['name'], 'Check for organization' );  

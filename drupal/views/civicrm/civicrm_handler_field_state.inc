@@ -12,7 +12,7 @@ class civicrm_handler_field_state extends civicrm_handler_field {
         if ( ! self::$_states ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_states = CRM_Core_PseudoConstant::stateProvince( );
+            self::$_states = CRM_Core_PseudoConstant::stateProvinceAbbreviation( );
         }
     }
 
