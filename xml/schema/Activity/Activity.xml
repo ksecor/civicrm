@@ -270,7 +270,6 @@
   <field>
       <name>original_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Activity ID of the first activity record in versioning chain.</comment>
       <add>2.2</add>
   </field>

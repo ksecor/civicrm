@@ -37,7 +37,8 @@ require_once 'CRM/Contact/Form/Search/Custom/Base.php';
 require_once 'CRM/Contact/BAO/SavedSearch.php';
 
 class CRM_Contact_Form_Search_Custom_Group
-    implements CRM_Contact_Form_Search_Interface {
+   extends    CRM_Contact_Form_Search_Custom_Base
+   implements CRM_Contact_Form_Search_Interface {
 
     protected $_formValues;
 
