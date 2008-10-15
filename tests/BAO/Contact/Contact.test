@@ -544,7 +544,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         //create employee of relationship.
         require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship( $contactId, $params['create_employer'] );
+        CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactId, $params['create_employer'] );
         //add contact to group
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $contactId );

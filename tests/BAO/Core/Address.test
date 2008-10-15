@@ -160,7 +160,7 @@ class BAO_Core_Address extends CiviTestCase
                            'country_id' => '1228',
                            'geo_code_1' => '44.553719',
                            'geo_code_2' => '-90.61457',
-                           'location_type_id' => '1',
+                           'location_type_id' => '2',
                            'is_primary' => '',
                            'is_billing' => '1',
                            'contact_id' => $contactId
@@ -174,7 +174,7 @@ class BAO_Core_Address extends CiviTestCase
         
         require_once 'CRM/Core/BAO/Address.php';
         $allAddress = CRM_Core_BAO_Address::allAddress( $contactId ) ;
-        
+               
         $this->assertEqual( count( $allAddress ) , 2, 'Checking number of returned addresses.' );
         
         Contact::delete( $contactId );

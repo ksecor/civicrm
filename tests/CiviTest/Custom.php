@@ -19,6 +19,7 @@ class Custom extends DrupalTestCase
             
         }
         require_once 'CRM/Core/BAO/CustomGroup.php';
+        require_once 'CRM/Utils/String.php';
         $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
         $customGroupBAO->copyValues( $group );
         $customGroup = $customGroupBAO->save();
