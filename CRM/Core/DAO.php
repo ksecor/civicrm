@@ -521,9 +521,9 @@ LIKE %1
      * @return array
      * @static
      */
-    function getStorageEngines( $tableName = null, $maxTablesToCheck = 0 ) 
+    function getStorageValues( $tableName = null, $maxTablesToCheck = 10, $fieldName = 'Engine' ) 
     {
-        $engines = array();
+        $values = array( );
         $query   = "SHOW TABLE STATUS LIKE %1";
 
         $params = array( );
@@ -538,8 +538,8 @@ LIKE %1
 
         $count = 0;
         while ( $dao->fetch( ) ) {
-            if (! isset($engines[$dao->Engine])) {
-                $engines[$dao->Engine] = 1;
+            if (! isset($values[$dao->$fieldName])) {
+                $values[$dao->$fieldName] = 1;
             }
             $count++;
             if ( $maxTablesToCheck &&
@@ -549,13 +549,13 @@ LIKE %1
         }
         $dao->free( );
         
-        return $engines;
+        return $values;
     }
 
-    static function isDBMyISAM( $maxTablesToCheck = 0 ) 
+    static function isDBMyISAM( $maxTablesToCheck = 10 ) 
     {
         // show error if any of the tables, use 'MyISAM' storage engine. 
-        $engines = self::getStorageEngines( null, $maxTablesToCheck );
+        $engines = self::getStorageValues( null, $maxTablesToCheck );
         if ( array_key_exists('MyISAM', $engines) ) {
             return true;
         }

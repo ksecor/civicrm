@@ -765,3 +765,13 @@ function civicrm_admin_menu( ) {
     return $links;
 
 }
+
+/**
+ * Implementation of hook_views_api().
+ */
+function civicrm_views_api() {
+    return array(
+                 'api' => 2,
+                 'path' => drupal_get_path('module', 'civicrm') . '/views',
+                 );
+}
