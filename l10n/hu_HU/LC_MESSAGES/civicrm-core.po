@@ -1,4 +1,3 @@
-# Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
@@ -6,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-10-09 14:31-0700\n"
+"PO-Revision-Date: 2008-10-16 00:16+0100\n"
 "Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +190,7 @@ msgstr "Esemény"
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Kijelölt"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
@@ -202,7 +201,7 @@ msgstr "- csoport választás -"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr ""
+msgstr "Biztosan le akarja tiltani ezt a megbeszélést?"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
@@ -324,12 +323,12 @@ msgstr "Helyes időpont kiválasztás"
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "-ig"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Elkülönít"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -397,7 +396,7 @@ msgstr "Állapot"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Hozzáadta"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -436,17 +435,17 @@ msgstr "Mentés"
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Térkép Opció"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Térkép Betöltés"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Térkép mentése"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php
 #: CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php
@@ -538,7 +537,7 @@ msgstr ""
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
-msgstr ""
+msgstr "Importálás Most >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
 #: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
@@ -548,15 +547,15 @@ msgstr "Előnézet"
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
-msgstr ""
+msgstr "A rekordok frissültek az importált adatokkal."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
-msgstr ""
+msgstr "Az importált adatok betöltődtek."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
-msgstr ""
+msgstr "Ezek a rekordok nem lettek importálva."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -565,19 +564,19 @@ msgstr "Áttekintés"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
-msgstr ""
+msgstr "Importálás Adat File"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Érvényes file feltöltve."
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr ""
+msgstr "File méret kisebb legyen mint %1 MBytes (%2 bytes)"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
-msgstr ""
+msgstr "A filenak CSV formátumúnak kell lennie"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
@@ -585,7 +584,7 @@ msgstr ""
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
-msgstr ""
+msgstr "Kihagyás"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
@@ -593,11 +592,11 @@ msgstr "Frissítés"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Fill"
-msgstr ""
+msgstr "Kitölt"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr ""
+msgstr "Adatok Feltöltése"
 
 #: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
@@ -605,15 +604,15 @@ msgstr "Hiányzó szükséges mezők"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Sor Szám"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
-msgstr ""
+msgstr "Ok"
 
 #: CRM/Activity/Selector/Activity.php CRM/Core/Invoke.php
 msgid "View Activity"
-msgstr ""
+msgstr "Megtekintés Tevékenység"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View/Tabbed.php
@@ -686,7 +685,7 @@ msgstr "Címke"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "szám tartalmú mező"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Friend/BAO/Friend.php templates/CRM/Admin/Page/OptionValue.tpl
@@ -705,7 +704,7 @@ msgstr "Érték"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr ""
+msgstr "Beállítások- Fizetési Modul"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -728,7 +727,7 @@ msgstr "Címmezők"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "Az értéknek pozitív számnak kell lennie"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
 #: CRM/Core/Menu.php templates/CRM/Block/Search.tpl
@@ -769,11 +768,11 @@ msgstr "SMTP szerver"
 
 #: CRM/Admin/Form/Setting/UF.php CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Beállítások - Erőforrás URLS"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Testreszabás"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -790,7 +789,7 @@ msgstr "Beállítások"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
-msgstr ""
+msgstr "Szabály Szerkesztés"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -942,7 +941,7 @@ msgstr "Ország"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "World Region"
-msgstr ""
+msgstr "Világrész"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1008,7 +1007,7 @@ msgstr "Megye"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- első betű (k) -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 #, fuzzy
@@ -1063,7 +1062,7 @@ msgstr "Forrás"
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External Id"
-msgstr ""
+msgstr "Külső Id"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -1138,7 +1137,7 @@ msgstr "igen"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1212,7 +1211,7 @@ msgstr "Tagságok"
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 msgid "Grants"
-msgstr ""
+msgstr "Adomány"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
@@ -1226,11 +1225,11 @@ msgstr "-más csoportok-"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "in"
-msgstr ""
+msgstr "-ban"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "- any tag -"
-msgstr ""
+msgstr "- bármilyen cimke -"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Tagged"
@@ -1266,7 +1265,7 @@ msgstr "Cím"
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr ""
+msgstr "Póstai"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1275,22 +1274,22 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr ""
+msgstr "Kapcsolat Id"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Count"
-msgstr ""
+msgstr "Adomány Szám"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Amount"
-msgstr ""
+msgstr "Adomány Összeg"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
-msgstr ""
+msgstr "Egyeni Keresés"
 
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
@@ -1403,16 +1402,16 @@ msgstr "A kapcsolat ID nem található."
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM Kezdőoldal"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
 msgid "Contact's Groups"
-msgstr ""
+msgstr "Kapcsolat Csoportok"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
@@ -1433,11 +1432,11 @@ msgstr "Címkék"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
-msgstr ""
+msgstr "Kapcsolat Részletek Megtekintése"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "Edit Contact Details"
-msgstr ""
+msgstr "Kapcsolat Részleteinek Szerkesztése"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
@@ -1460,24 +1459,24 @@ msgstr "Kapcsolat export"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "Egy bejegyzés már megtalálható ugyanezzel az információval."
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
-msgstr ""
+msgstr "Egész"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Money"
-msgstr ""
+msgstr "Pénz"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 #: CRM/Custom/Form/Field.php
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
 #: templates/CRM/Case/Form/CaseActivity.tpl
@@ -1485,7 +1484,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "Tól"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1511,7 +1510,7 @@ msgstr "Tagságok"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
-msgstr ""
+msgstr "Fizetve"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
@@ -1520,32 +1519,32 @@ msgstr "Hozzájárulás típus"
 
 #: CRM/Core/BAO/UFGroup.php CRM/Grant/Form/Grant.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Kérem érvényes összeget adjon meg."
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "Új Tevékenység"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
-msgstr ""
+msgstr "CiviGrant"
 
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Mondd el egy barátodnak"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Domain Információs Oldal"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -1558,15 +1557,15 @@ msgstr "Keresőeredmények "
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr ""
+msgstr "Keresés Szerkesztő"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr ""
+msgstr "Új Kapcsolat"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Egyéni Adat Mezők"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
@@ -1574,7 +1573,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM Profil Mező"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -1598,48 +1597,48 @@ msgstr "Kapcsolat oldal"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
-msgstr ""
+msgstr "Ár Beállítások"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Price Field"
-msgstr ""
+msgstr "Ár Mező"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Ár Beállítás"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
-msgstr ""
+msgstr "Csoportok Kezelése"
 
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Mondd el egy barátodnak"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
-msgstr ""
+msgstr "Kapcsolatok"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "Csoport Tagok"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 msgid "The attached file has been deleted."
-msgstr ""
+msgstr "A csatolt file törlődött."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "Felhasználói Név nincs beállítva az Adminisztráció CiviCrm részben"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "Jelszó nincs beállítva az Adminisztráció CiviCrm részben"
 
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 #: CRM/Price/Form/Field.php
@@ -1648,7 +1647,7 @@ msgstr "Szöveg"
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr ""
+msgstr "Törlés Egyéni Mező"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 #, fuzzy
@@ -1657,20 +1656,20 @@ msgstr "A kiválasztott megbeszélés törölve."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Select"
-msgstr ""
+msgstr "Kiválaszt"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Rádió"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "CheckBox"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 msgid "Field Label"
-msgstr ""
+msgstr "Mező Cimke"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
 #: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
@@ -1678,50 +1677,50 @@ msgstr ""
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Order"
-msgstr ""
+msgstr "Megrendel"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "Aktív?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
-msgstr ""
+msgstr "Szükséges?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Options Per Line"
-msgstr ""
+msgstr "Opciók Soronként"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "szám érték legyen"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
-msgstr ""
+msgstr "Mező Segítség"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid number value."
-msgstr ""
+msgstr "Kérem érvényes értéket adjon meg."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
-msgstr ""
+msgstr "Érvénytelen alapértelmezett érték az országhoz."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Duplicate Option label"
-msgstr ""
+msgstr "Másolat Opció Cimke"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option label cannot be empty"
-msgstr ""
+msgstr "Opció cimke nem lehet üres."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option value cannot be empty"
-msgstr ""
+msgstr "Opció érték nem lehet üres."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 #, fuzzy
@@ -1730,7 +1729,7 @@ msgstr "Írja be a valódi nevét"
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
-msgstr ""
+msgstr "Előnézet %1"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
@@ -1748,26 +1747,26 @@ msgstr ""
 #: CRM/Custom/Form/Option.php CRM/Price/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Opció Cimke"
 
 #: CRM/Custom/Form/Option.php CRM/Price/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Opció Érték"
 
 #: CRM/Custom/Form/Preview.php CRM/Price/Form/Option.php
 #: CRM/Price/Form/Preview.php CRM/UF/Form/Preview.php
 msgid "Done with Preview"
-msgstr ""
+msgstr "Kész előnézettel"
 
 #: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/UF/Page/Field.php
 msgid "Preview Custom Data"
-msgstr ""
+msgstr "Előnézet Egyéni Adatok"
 
 #: CRM/Custom/Page/Group.php CRM/Group/Page/Group.php CRM/Price/Page/Set.php
 #: CRM/UF/Page/Group.php
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
@@ -1776,11 +1775,11 @@ msgstr ""
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Adomány Típus"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant Status"
-msgstr ""
+msgstr "Adomány Állapot"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
@@ -1789,12 +1788,12 @@ msgstr "Befejezése"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 msgid "Money Transferred"
-msgstr ""
+msgstr "Pénz Átutalva"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "Kért Összeg"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
@@ -1803,11 +1802,11 @@ msgstr "Összeg"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr ""
+msgstr "Törlés Adományok"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
-msgstr ""
+msgstr "Csoport Törlése"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Form/Search.php CRM/UF/Form/Field.php
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -1817,7 +1816,7 @@ msgstr "Láthatóság"
 
 #: CRM/Group/Form/Edit.php CRM/Upgrade/Form.php
 msgid "Continue"
-msgstr ""
+msgstr "Folytatódik"
 
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
 #, fuzzy
@@ -1833,7 +1832,7 @@ msgstr "Személyes"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "Server Url"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -1875,35 +1874,35 @@ msgstr "Kapcsolat típus"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Administer"
-msgstr ""
+msgstr "Adminisztráció"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "Kapcsolat(ok) Hozzáadása"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "Összes Kapcsolat Listázása"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "Összes Kapcsolat Szerkesztése"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "Importálás Kapcsolat"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "Szerkesztés Csoportok"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "Adminisztráció CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "hozzáférés feltöltött fileok"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
@@ -1911,7 +1910,7 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "hozzáférés összes ügyfél adat"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
@@ -1920,11 +1919,11 @@ msgstr "Aktivitás"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "Hozzáférés CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "Hozzáféreés Kapcsolatok"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -1949,7 +1948,7 @@ msgstr ""
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Type of Data"
-msgstr ""
+msgstr "Adat Típus"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
@@ -2014,7 +2013,7 @@ msgstr ""
 
 #: CRM/Activity/BAO/Activity.php
 msgid "- Activity Fields -"
-msgstr ""
+msgstr "-Tevékenység-"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity %2 %1"
@@ -2042,16 +2041,16 @@ msgstr ""
 
 #: CRM/Activity/BAO/Query.php
 msgid "Content"
-msgstr ""
+msgstr "Tartalom"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Egyéb Tevékenység"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "- tevékenység kiválasztás -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
@@ -2119,7 +2118,7 @@ msgstr ""
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
-msgstr ""
+msgstr "Frissítés Tevékenység"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Delete Activity"
@@ -2147,11 +2146,11 @@ msgstr "Telefonhívás"
 
 #: CRM/Activity/Selector/Activity.php xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "CiviCRM Activity"
-msgstr ""
+msgstr "CiviCRM Tevékenység"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2173,7 +2172,7 @@ msgstr "- országok -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
-msgstr ""
+msgstr "Hossz"
 
 #: CRM/Admin/Form/DedupeRules.php
 msgid "Weight Threshold to Consider Contacts 'Matching':"
@@ -2369,7 +2368,7 @@ msgstr "Tárgy"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
-msgstr ""
+msgstr "PHP osztály név"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -2582,11 +2581,11 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Year Only"
-msgstr ""
+msgstr "Csak Év"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Time Only"
-msgstr ""
+msgstr "Csak Idő"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Fiscal Year Start"
@@ -2654,7 +2653,7 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "Beállítások - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
@@ -2719,7 +2718,7 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
-msgstr ""
+msgstr "Képek"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Custom Files"
@@ -2744,15 +2743,15 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
-msgstr ""
+msgstr "Hitelesítés?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP Felhasználónév"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP Jelszó"
 
 #: CRM/Admin/Form/Setting/UF.php
 msgid "%1 Version"
@@ -3207,11 +3206,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Address.php
 msgid "Latitude"
-msgstr ""
+msgstr "Szélesség"
 
 #: CRM/Contact/Form/Address.php
 msgid "Longitude"
-msgstr ""
+msgstr "Hosszúság"
 
 #: CRM/Contact/Form/Address.php
 #, fuzzy
@@ -3294,7 +3293,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
-msgstr ""
+msgstr "Mentés és Új"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
@@ -3369,11 +3368,11 @@ msgstr ""
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
-msgstr ""
+msgstr "Azonnali Üzenetküldő (preferált)"
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Azonnali Üzenetküldő"
 
 #: CRM/Contact/Form/IM.php
 msgid "another IM"
@@ -3417,7 +3416,7 @@ msgstr "- megjegyzés -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Greeting"
-msgstr ""
+msgstr "Üdvözlés"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
@@ -3425,11 +3424,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr ""
+msgstr "Elhunyt"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Deceased date"
-msgstr ""
+msgstr "Elhalálozás Dátuma"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Date of birth"
@@ -3437,11 +3436,11 @@ msgstr "Születési idő"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Create new household"
-msgstr ""
+msgstr "Létrehozás Új Háztartás"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Select existing household"
-msgstr ""
+msgstr "Létező Háztartás Kiválasztása"
 
 #: CRM/Contact/Form/Individual.php
 msgid "shared options"
@@ -3462,6 +3461,8 @@ msgid ""
 "Enter a valid web location beginning with 'http://' or 'https://'. EXAMPLE: "
 "http://www.mysite.org/"
 msgstr ""
+"Kérem adjon meg egy valós web címet 'http://' vagy 'https://' kezdettel. "
+"Például: http://oldalam.org"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
@@ -3475,11 +3476,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
-msgstr ""
+msgstr "Válasszon ki egy háztartást a 'Háztartások Listájáról'"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please specify a new household"
-msgstr ""
+msgstr "Új Háztartás Meghatározása"
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
@@ -3511,7 +3512,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Merge.php
 msgid "EMPTY"
-msgstr ""
+msgstr "Üres"
 
 #: CRM/Contact/Form/Merge.php
 #, fuzzy
@@ -4569,7 +4570,7 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Shortcuts"
-msgstr ""
+msgstr "CiviCRM Parancsikonok"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Quick Add"
@@ -4577,19 +4578,19 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "New Individual"
-msgstr ""
+msgstr "Új Egyén"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Search"
-msgstr ""
+msgstr "CiviCRM Keresés"
 
 #: CRM/Core/Block.php
 msgid "Contact Search"
-msgstr ""
+msgstr "Contact Keresés"
 
 #: CRM/Core/Block.php
 msgid "CiviCRM Menu"
-msgstr ""
+msgstr "CiviCRM Menu"
 
 #: CRM/Core/Block.php
 msgid "GCC Shortcuts"
@@ -4597,11 +4598,11 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "New Organization"
-msgstr ""
+msgstr "Új Szervezet"
 
 #: CRM/Core/Block.php
 msgid "New Household"
-msgstr ""
+msgstr "Új Háztartás"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -4610,7 +4611,7 @@ msgstr "Keresés"
 
 #: CRM/Core/Block.php templates/CRM/Group/Page/Group.tpl
 msgid "New Group"
-msgstr ""
+msgstr "Új Csoport"
 
 #: CRM/Core/Block.php
 msgid "My Contact Dashboard"
@@ -4619,7 +4620,7 @@ msgstr ""
 #: CRM/Core/Block.php
 #, fuzzy
 msgid "New Participant"
-msgstr "Nyomtatás"
+msgstr "Új Résztvevő"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -4629,7 +4630,7 @@ msgstr "Nyomtatás"
 #: CRM/Core/Block.php
 #, fuzzy
 msgid "Reports"
-msgstr "Import"
+msgstr "Jelentések"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -4672,7 +4673,7 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: CRM/Core/Config.php
 msgid ""
@@ -4726,7 +4727,7 @@ msgstr ""
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
-msgstr ""
+msgstr "Dátum Formátum"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
@@ -5448,39 +5449,39 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"
-msgstr ""
+msgstr "Egy soros beviteli mező (szöveg vagy szám)"
 
 #: CRM/Core/SelectValues.php
 msgid "Multi-line text box (textarea)"
-msgstr ""
+msgstr "Több soros szöveg doboz (szövegterület)"
 
 #: CRM/Core/SelectValues.php
 msgid "Drop-down (select list)"
-msgstr ""
+msgstr "Legördülő menü (kiválasztó lista)"
 
 #: CRM/Core/SelectValues.php
 msgid "Radio buttons"
-msgstr ""
+msgstr "Rádió gomb"
 
 #: CRM/Core/SelectValues.php
 msgid "Checkbox(es)"
-msgstr ""
+msgstr "Jelölőnégyzet(ek)"
 
 #: CRM/Core/SelectValues.php
 msgid "Date selector"
-msgstr ""
+msgstr "Dátum választó"
 
 #: CRM/Core/SelectValues.php
 msgid "State / Province selector"
-msgstr ""
+msgstr "Állam / Terület kiválasztó"
 
 #: CRM/Core/SelectValues.php
 msgid "Country selector"
-msgstr ""
+msgstr "Ország kiválasztó"
 
 #: CRM/Core/SelectValues.php
 msgid "Participants"
-msgstr ""
+msgstr "Résztvevők"
 
 #: CRM/Core/SelectValues.php
 msgid "Tab"
@@ -5492,11 +5493,11 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
-msgstr ""
+msgstr "Felhasználó Regisztráció"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Mutat/Szerkeszt Felhasználó adatok"
 
 #: CRM/Core/SelectValues.php
 msgid "Added"
@@ -5533,11 +5534,11 @@ msgstr "Publikus felhasználói oldalak és listák"
 
 #: CRM/Core/SelectValues.php
 msgid "Header"
-msgstr ""
+msgstr "Fejléc"
 
 #: CRM/Core/SelectValues.php
 msgid "Footer"
-msgstr ""
+msgstr "Lábléc"
 
 #: CRM/Core/SelectValues.php
 msgid "Reply Auto-responder"
@@ -5553,11 +5554,11 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Welcome Message"
-msgstr ""
+msgstr "Üdvözlő Üzenet"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Unsubscribe Message"
-msgstr ""
+msgstr "Leíratkozó Üzenet"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -5595,21 +5596,21 @@ msgstr "Fizetési modul"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: CRM/Core/SelectValues.php
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "show field or section"
-msgstr ""
+msgstr "Mutat Mező vagy Terület"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "hide field or section"
-msgstr ""
+msgstr "Elrejt Mező vagy Terület"
 
 #: CRM/Custom/Form/DeleteField.php
 msgid "Confirm Custom Field Delete"
@@ -5687,6 +5688,8 @@ msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters."
 msgstr ""
+"Kérem érvényes értéket adjon meg. Engedélyezett értékek: a - z, A - Z, 1 - "
+"9, szóköz és alsó aláhúzás ( _ ) ."
 
 #: CRM/Custom/Form/Field.php
 msgid "Dates may be up to"
@@ -5694,27 +5697,27 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Month"
-msgstr ""
+msgstr "Hónap"
 
 #: CRM/Custom/Form/Field.php
 msgid "Day"
-msgstr ""
+msgstr "Nap"
 
 #: CRM/Custom/Form/Field.php
 msgid "Year"
-msgstr ""
+msgstr "Év"
 
 #: CRM/Custom/Form/Field.php
 msgid "Hour"
-msgstr ""
+msgstr "Óra"
 
 #: CRM/Custom/Form/Field.php
 msgid "min"
-msgstr ""
+msgstr "Perc"
 
 #: CRM/Custom/Form/Field.php
 msgid "AM/PM"
-msgstr ""
+msgstr "Délelőtt/Délután"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
@@ -5722,15 +5725,15 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Width (columns)"
-msgstr ""
+msgstr "Szélesség ( oszlopok )"
 
 #: CRM/Custom/Form/Field.php
 msgid "Height (rows)"
-msgstr ""
+msgstr "Magasság ( sorok )"
 
 #: CRM/Custom/Form/Field.php
 msgid "Default Value"
-msgstr ""
+msgstr "Alapértelmezett Érték"
 
 #: CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -5738,7 +5741,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
-msgstr ""
+msgstr "Ez a mező Kereshető?"
 
 #: CRM/Custom/Form/Field.php
 msgid "Search by Range?"
@@ -7286,31 +7289,31 @@ msgstr ""
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
-msgstr ""
+msgstr "-hét napja-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day-"
-msgstr ""
+msgstr "-nap-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-month-"
-msgstr ""
+msgstr "-hónap-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-year-"
-msgstr ""
+msgstr "-év-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-hour-"
-msgstr ""
+msgstr "-óra-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-min-"
-msgstr ""
+msgstr "-perc-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-sec-"
-msgstr ""
+msgstr "-másodperc-"
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -9489,18 +9492,18 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
-msgstr ""
+msgstr "Név és üdvözlés"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Demographics"
-msgstr ""
+msgstr "Demográfia"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Tags and Groups"
-msgstr ""
+msgstr "Címkék és Csoportok"
 
 #: templates/CRM/Contact/Form/IM.tpl
 msgid "Select im service provider, and enter screen-name / user id."
@@ -9508,11 +9511,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Primary Location"
-msgstr ""
+msgstr "Elsődleges Helyszín"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Additional Location"
-msgstr ""
+msgstr "További Helyszín"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -13090,5 +13093,6 @@ msgstr ""
 #~ msgid "Activity Entity Table"
 #~ msgstr "Előzmények"
 
+#, fuzzy
 #~ msgid "Setup"
 #~ msgstr "Beállítás"
