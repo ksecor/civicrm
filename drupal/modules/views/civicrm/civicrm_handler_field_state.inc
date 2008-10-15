@@ -5,14 +5,14 @@
  *
  * @ingroup civicrm_field_handlers
  */
-class civicrm_handler_field_country extends civicrm_handler_field {
-    static $_countries;
+class civicrm_handler_field_state extends civicrm_handler_field {
+    static $_states;
 
     function construct( ) {
-        if ( ! self::$_countries ) {
+        if ( ! self::$_states ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_countries = CRM_Core_PseudoConstant::countryIsoCode( );
+            self::$_states = CRM_Core_PseudoConstant::stateProvinceAbbreviation( );
         }
     }
 
@@ -23,7 +23,7 @@ class civicrm_handler_field_country extends civicrm_handler_field {
             return null;
         }
 
-        return self::$_countries[$values->{$this->field_alias}];
+        return self::$_states[$values->{$this->field_alias}];
     }
 }
 ?>

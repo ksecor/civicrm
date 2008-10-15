@@ -1,0 +1,52 @@
+<?php
+// $Id: civicrm_group_roles.module,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
+
+/* @file
+ * A simple module that adds a user to groups based on Role.
+ * Internal Version identifier - 0.3-beta
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function civicrm_group_roles_install( ) 
+{
+    drupal_install_schema('civicrm_group_roles');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function civicrm_group_roles_schema( ) 
+{
+    $schema['civicrm_group_roles_rules'] = array(
+                                                 'fields' => array(
+                                                                   'id' => array(
+                                                                                 'type' => 'serial', 
+                                                                                 'unsigned' => TRUE, 
+                                                                                 'not null' => TRUE,
+                                                                                 ),
+                                                                   'role_id' => array(
+                                                                                      'type' => 'int', 
+                                                                                      'unsigned' => TRUE, 
+                                                                                      'not null' => TRUE,
+                                                                                      ),
+                                                                   'group_id' => array(
+                                                                                       'type' => 'int', 
+                                                                                       'unsigned' => TRUE, 
+                                                                                       'not null' => TRUE,
+                                                                                       )
+                                                                   ),
+                                                 'primary key' => array('id'),
+                                                 );
+    
+    return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function civicrm_group_roles_uninstall( ) 
+{
+    drupal_uninstall_schema('civicrm_group_roles_rules');
+}
