@@ -184,7 +184,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testStates( )
   {
-      $this->civiGet('civicrm/ajax/state&node=1228', 'name=California*&start=0&count=Infinity');
+      $this->civiGet('civicrm/ajax/state', 'name=Cal*&start=0&count=10');
       $this->assertWantedRaw( 'California', 'Returns json object.' );
   } 
   

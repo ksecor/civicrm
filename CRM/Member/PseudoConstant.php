@@ -71,7 +71,8 @@ class CRM_Member_PseudoConstant extends CRM_Core_PseudoConstant {
             if (array_key_exists($id, self::$membershipType)) {
                 return self::$membershipType[$id];
             } else {
-                return null;
+                $result = null;
+                return $result;
             }
         }
         return self::$membershipType;
