@@ -157,6 +157,7 @@ class Browser_Core_AJAX extends CiviTestCase
       //create test event Type.
       $groupParams = array( 'name' => 'event_type' ); 
       $params = array( 'label'     => 'Test Event Type',
+                       'weight'    => 10,
                        'is_active' => 1 );
       
       require_once 'CRM/Core/OptionValue.php';
@@ -183,7 +184,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testStates( )
   {
-      $this->civiGet('civicrm/ajax/states', 'return=states&node1=1228&name=California&start=0');
+      $this->civiGet('civicrm/ajax/state&node=1228', 'name=California*&start=0&count=Infinity');
       $this->assertWantedRaw( 'California', 'Returns json object.' );
   } 
   
@@ -193,15 +194,6 @@ class Browser_Core_AJAX extends CiviTestCase
   function testCountry( )
   {
       $this->civiGet('civicrm/ajax/country', '?name=United States*&start=0&count=10');
-      $this->assertWantedRaw( 'United States', 'Returns json object.' );
-  }
-
-  /**
-   * Test case for countries( )
-   */
-  function testCountries( )
-  {
-      $this->civiGet('civicrm/ajax/countries', 'return=countries&name=United States&start=0');
       $this->assertWantedRaw( 'United States', 'Returns json object.' );
   }
   
