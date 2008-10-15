@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-10-11 15:03-0700\n"
+"PO-Revision-Date: 2008-10-14 13:40-0700\n"
 "Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -2702,7 +2702,7 @@ msgstr "Keresés Dátum Szerint"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Events by Dates"
-msgstr ""
+msgstr "Események Dátum szerint"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event FROM date."
@@ -2759,7 +2759,7 @@ msgstr ""
 
 #: CRM/Event/Form/Task/Print.php
 msgid "Print Participant List"
-msgstr ""
+msgstr "Nyomtatás Résztvevők Listája"
 
 #: CRM/Event/Import/Form/MapField.php
 msgid ""
@@ -2808,7 +2808,7 @@ msgstr ""
 
 #: CRM/Event/Page/DashBoard.php
 msgid "events"
-msgstr ""
+msgstr "Események"
 
 #: CRM/Event/Page/EventInfo.php
 msgid "You do not have permission to view this event"
@@ -2816,7 +2816,7 @@ msgstr ""
 
 #: CRM/Event/Page/EventInfo.php
 msgid "Register Now"
-msgstr ""
+msgstr "Regisztráció Most"
 
 #: CRM/Event/Page/ManageEventEdit.php
 #, fuzzy
@@ -2825,7 +2825,7 @@ msgstr "Konfiguráció"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Are you sure you want to disable this Event?"
-msgstr ""
+msgstr "Biztosan le akarod tiltani ezt az Eseményt?"
 
 #: CRM/Event/Page/ManageEvent.php
 #, fuzzy
