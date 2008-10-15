@@ -211,6 +211,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         
+         //build pledge block.
+        $session =& CRM_Core_Session::singleton( );
+        $this->_mid = null;
+        if ( $session->get('userID') ) {
+            $this->_mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
+        }
         //don't build membership block when pledge_id is passed
         if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->_separateMembershipPayment = false;
@@ -259,14 +265,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildHonorBlock( );
         }
         
-        //build pledge block.
-        $session =& CRM_Core_Session::singleton( );
-	$mid = null;
-        if ( $session->get('userID') ) {
-            $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-        }
         //don't build pledge block when mid is passed
-        if ( ! $mid ) {  
+        if ( ! $this->_mid ) {  
             $config =& CRM_Core_Config::singleton( );
             if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
                 require_once 'CRM/Pledge/BAO/PledgeBlock.php';

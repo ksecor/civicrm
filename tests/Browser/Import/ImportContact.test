@@ -393,8 +393,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
         $expected = array('id'                 => $contact_id,
                           'first_name'         => 'Mathew',
-                          'last_name'          => 'Morgan',
-                          'external_identifier'=> 'test'
+                          'last_name'          => 'Morgan'
                           );
         
         $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
@@ -428,8 +427,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
         
         $expected = array('id'                 => $contact_id,
-                          'display_name'       => 'TestUpdateImportHome',
-                          'external_identifier'=> 'testHousehold'
+                          'display_name'       => 'TestUpdateImportHome'
                           );
         
         $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
@@ -463,8 +461,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
          
         $expected = array('id'                 => $contact_id,
-                          'display_name'       => 'TestUpdateImportOrg',
-                          'external_identifier'=> 'testOrganization'
+                          'display_name'       => 'TestUpdateImportOrg'                          
                           );
         
         $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
