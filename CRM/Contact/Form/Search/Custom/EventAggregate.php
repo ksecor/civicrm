@@ -268,7 +268,7 @@ implements CRM_Contact_Form_Search_Interface {
         WHERE   $where
         ";
         
-        CRM_Core_Error::debug('sql',$sql);
+        //CRM_Core_Error::debug('sql',$sql);
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
         $totals = array();
