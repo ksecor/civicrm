@@ -61,7 +61,7 @@
    {foreach from=$loc.phone item=phone}
      {if $phone.phone}
         {if $phone.is_primary eq 1}<strong>{/if}
-        {if $phone.phone_type}{$phone.phone_type_display}:{/if} {$phone.phone}
+        {if $phone.phone}{$phone.phone_type}:{/if} {$phone.phone}
         {if $phone.is_primary eq 1}</strong>{/if}
         <br />
      {/if}

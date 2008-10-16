@@ -121,7 +121,7 @@ class CRM_GCD {
     private $preferredCommunicationMethod = array('1', '2', '3','4','5');
     private $greetingType = array('Formal', 'Informal', 'Honorific', 'Custom', 'Other');
     private $contactType = array('Individual', 'Household', 'Organization');
-    private $phoneType = array('Phone', 'Mobile', 'Fax', 'Pager');    
+    private $phoneType = array( '1', '2', '3', '4' );    
 
     // customizable enums (foreign keys)
     private $prefix = array(1 => 'Mrs', 2 => 'Ms', 3 => 'Mr', 4 => 'Dr');
@@ -852,8 +852,8 @@ class CRM_GCD {
         $this->_addAddress( $locationTypeId, $contactId, $isPrimary );
 
         // add two phones for each location
-        $this->_addPhone($locationTypeId, $contactId, 'Phone', $isPrimary);
-        $this->_addPhone($locationTypeId, $contactId, 'Mobile', false);
+        $this->_addPhone($locationTypeId, $contactId, '1', $isPrimary);
+        $this->_addPhone($locationTypeId, $contactId, '2', false);
 
         // need to get sort name to generate email id
         $contact =& new CRM_Contact_DAO_Contact();
@@ -913,7 +913,7 @@ class CRM_GCD {
             $phone->contact_id       = $contactId;
             $phone->is_primary = $isPrimary;
             $phone->phone = mt_rand(11111111, 99999999);
-            $phone->phone_type = $phoneType;
+            $phone->phone_type_id = $phoneType;
             $this->_insert($phone);
         }
     }
@@ -1363,11 +1363,11 @@ VALUES
         $sql = "SELECT id from civicrm_email where email = 'celebration@example.org'";
         $eventEmail3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
         
-        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type_id)
        VALUES
-       (NULL, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-       (NULL, 1, 0, 0, NULL,'204 223-1000', 'Phone'),
-       (NULL, 1, 0, 0, NULL,'303 323-1000', 'Phone')
+       (NULL, 1, 0, 0, NULL,'204 222-1000', '1'),
+       (NULL, 1, 0, 0, NULL,'204 223-1000', '1'),
+       (NULL, 1, 0, 0, NULL,'303 323-1000', '1')
        ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
         

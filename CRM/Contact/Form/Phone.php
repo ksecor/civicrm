@@ -61,10 +61,10 @@ class CRM_Contact_Form_Phone
                 $phoneType = CRM_Core_PseudoConstant::phoneType( );
             }
             
-            $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
-                                                                                  "location[$locationId][phone][$i][phone_type]",
-                                                                                  ts('Phone'),
-                                                                                  $phoneType,
+            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select',
+                                                                                  "location[$locationId][phone][$i][phone_type_id]",
+                                                                                  $label,
+                                                                                  array('' =>  ts('- select -'))+$phoneType,
                                                                                   null
                                                                                   );
 

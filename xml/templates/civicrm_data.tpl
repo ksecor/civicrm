@@ -25,9 +25,9 @@ INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_b
 
 SELECT @emailId := id from civicrm_email where email = 'domainemail@example.org';
 
-INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type_id)
       VALUES
-      (NULL, 1, 0, 0, NULL,'204 222-1001', 'Phone');
+      (NULL, 1, 0, 0, NULL,'204 222-1001', 1);
 
 SELECT @phoneId := id from civicrm_phone where phone = '204 222-1001';
 

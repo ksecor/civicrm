@@ -9,7 +9,7 @@
             <label>{$form.location.$index.phone.1.phone.label}</label>
         </span>
         <span class="fields">
-            {$form.location.$index.phone.1.phone_type.html}{$form.location.$index.phone.1.phone.html}
+            {$form.location.$index.phone.1.phone_type_id.html}{$form.location.$index.phone.1.phone.html}
             <!-- Link to add a field.-->
             <span id="id_location_{$index}_phone_2_show" class="add-remove-link">
                 {$form.location.$index.phone.2.show.html}
@@ -29,7 +29,7 @@
             <label>{$form.location.$index.phone.$innerIndex.phone.label}</label>
         </span>
         <span class="fields">
-            <span>{$form.location.$index.phone.$innerIndex.phone_type.html}</span><span>{$form.location.$index.phone.$innerIndex.phone.html}</span>
+            <span>{$form.location.$index.phone.$innerIndex.phone_type_id.html}</span><span>{$form.location.$index.phone.$innerIndex.phone.html}</span>
             {* Link to hide this field *}
             <span id="id_location_{$index}_phone_{$innerIndex}_hide" class="add-remove-link element-right">
             {$form.location.$index.phone.$innerIndex.hide.html}
