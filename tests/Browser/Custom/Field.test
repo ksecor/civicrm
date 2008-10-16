@@ -99,6 +99,7 @@ class Browser_Custom_Field extends CiviTestCase
 
     function tearDown()
     {
+        parent::tearDown( );
         // the below should take down any associated custom fields as well
         Custom::deleteGroup($this->group);
     }

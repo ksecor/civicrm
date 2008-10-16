@@ -94,6 +94,7 @@ class Browser_Custom_Group extends CiviTestCase
 
     function tearDown()
     {
+        parent::tearDown( );
         require_once 'CRM/Core/DAO/CustomGroup.php';
         $dao =& new CRM_Core_DAO_CustomGroup();
         $dao->title = $this->params['title'];
