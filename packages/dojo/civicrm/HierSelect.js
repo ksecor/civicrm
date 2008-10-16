@@ -292,17 +292,20 @@ dojo.declare(
 
 	getUrlNameValPairs : function( url ) {
 	    var urlNameValPairs = new Array();
-	    urlQueryVars = url.split("?")[1].split("&");
-	    for (var i in urlQueryVars) {
+	    var urlQueryVars = url.split("?")[1].split("&");
+	    for (var i=0; i < urlQueryVars.length; i++) {
 		urlNameValPairs[urlQueryVars[i].split("=")[0]] = urlQueryVars[i].split("=")[1];
 	    }
+
 	    return urlNameValPairs;
 	},
 
 	getUrlQuery : function( urlNameValPairs ) {
 	    urlQueryVars = new Array();
 	    for (var i in urlNameValPairs) {
-		urlQueryVars[urlQueryVars.length] = i + "=" + urlNameValPairs[i];
+		if ( typeof urlNameValPairs[i] == "string" ) {
+		    urlQueryVars[urlQueryVars.length] = i + "=" + urlNameValPairs[i];
+		}
 	    }
 	    return urlQueryVars.join('&');	
 	}
