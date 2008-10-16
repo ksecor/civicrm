@@ -275,7 +275,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     }
                 }
             }
-        } else { 
+            require_once 'CRM/Core/OptionGroup.php';
+            $defaults['greeting_type'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
+                                                                       null, ' AND v.is_default = 1' );
+        } else {
             // this is update mode
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;

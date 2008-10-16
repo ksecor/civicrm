@@ -110,6 +110,9 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
        } else {
             CRM_Utils_System::setTitle(ts('%1 Options', array(1 => self::$_GName)));
         }
+        if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
+            $this->assign( 'showIsDefault', true );
+        }
     }
 
     /**
@@ -207,7 +210,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         require_once 'CRM/Utils/Weight.php';
         CRM_Utils_Weight::addOrder( $optionValue, 'CRM_Core_DAO_OptionValue',
                                     'id', $returnURL, $filter );
-        
         $this->assign('rows', $optionValue);
     }
     

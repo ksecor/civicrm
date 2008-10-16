@@ -230,7 +230,7 @@
     showGreeting( );
     function showGreeting( )
     {
-        if (document.getElementById("greeting_type").value == "Custom") {
+        if (document.getElementById("greeting_type").value == 4) {
 	    show('greetingLabel');
 	    show('greetingHtml');	
         } else {

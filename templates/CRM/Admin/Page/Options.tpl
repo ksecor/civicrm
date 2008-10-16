@@ -52,7 +52,7 @@
             {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
             <th>{ts}Order{/ts}</th>
-	    {if $gName eq 'from_email_address'}<th>{ts}Default{/ts}</th>{/if}
+	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
             <th>{ts}Reserved{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
@@ -64,7 +64,7 @@
 	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
 	        <td>{$row.description}</td>	
 	        <td class="nowrap">{$row.weight}</td>
-                {if $gName eq 'from_email_address'}<td>{$row.default_value}</td>{/if}
+            {if $showIsDefault}<td>{$row.default_value}</td>{/if}
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>

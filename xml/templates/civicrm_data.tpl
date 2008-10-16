@@ -274,13 +274,6 @@ VALUES
   (@option_group_id_etype, '{ts escape="sql"}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
   (@option_group_id_etype, '{ts escape="sql"}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
 
---greeting type 
-
-  (@option_group_id_gr, '{ts escape="sql"}Dear [first]{/ts}',                 'Informal',  'Dear [first]',                 NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [first] [last]{/ts}', 'Formal',    'Dear [prefix] [first] [last]', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [last]{/ts}',         'Honorific', 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
-  (@option_group_id_gr, '{ts escape="sql"}Customized{/ts}',                   'Custom',    'Customized',                   NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
-
 -- note that these are not ts'ed since they are used for logic in most cases and not display
 -- they are used for display only in the prefernces field settings
   (@option_group_id_cvOpt, '{ts escape="sql"}Activities{/ts}'   ,   1, 'activity', NULL, 0, NULL,  1,  NULL, 0, 0, 1, NULL),
@@ -425,7 +418,13 @@ VALUES
   (@option_group_id_am, '{ts escape="sql"}Inbound Phone{/ts}', 'inbound phone',  'inbound phone', NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
   (@option_group_id_am, '{ts escape="sql"}Letter{/ts}'       , 'letter'       ,  'letter',        NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
   (@option_group_id_am, '{ts escape="sql"}Email{/ts}'        , 'email'        ,  'email',         NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL),
-  
+
+-- greeting types
+  (@option_group_id_gr, '{ts escape="sql"}Dear [first]{/ts}',                 1, 'Dear [first]',                 NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [first] [last]{/ts}', 2, 'Dear [prefix] [first] [last]', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [last]{/ts}',         3, 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_gr, '{ts escape="sql"}Customized{/ts}',                   4, 'Customized',                   NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+
   (@option_group_id_pht, '{ts escape="sql"}Phone{/ts}' , 1, 'Phone' , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_pht, '{ts escape="sql"}Mobile{/ts}', 2, 'Mobile', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
   (@option_group_id_pht, '{ts escape="sql"}Fax{/ts}'   , 3, 'Fax'   , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),

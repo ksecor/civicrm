@@ -153,7 +153,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $this->add('checkbox', 'is_active', ts('Enabled?'));
         
         //fix for CRM-3552
-        if ( $this->_gName == 'from_email_address' ) {
+        if ( $this->_gName == 'from_email_address' || $this->_gName == 'greeting_type' ) {
             $this->assign( 'showDefault', true );
             $this->add('checkbox', 'is_default', ts('Default Option?'));
         }
