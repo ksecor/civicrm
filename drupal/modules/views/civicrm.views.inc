@@ -282,8 +282,8 @@ function civicrm_views_data_activity    ( &$data, &$config ) {
                                             );
 
     $data['civicrm_activity']['source_contact_id'] = array(
-                                                           'title' => t('Contact ID'),
-                                                           'help'  => t('The contact who made this activity'),
+                                                           'title' => t('Source Contact'),
+                                                           'help'  => t('The contact who scheduled this activity'),
                                                            'relationship' => array(
                                                                                    'base' => 'civicrm_contact',
                                                                                    'field' => 'id',
@@ -293,7 +293,7 @@ function civicrm_views_data_activity    ( &$data, &$config ) {
                                                            );
 
     $data['civicrm_activity']['source_record_id'] = array(
-                                                          'title' => t('Contact ID'),
+                                                          'title' => t('Source Record ID'),
                                                           'help'  => t('The contact who made this activity'),
                                                           'relationship' => array(
                                                                                   'base' => 'civicrm_contact',
