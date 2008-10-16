@@ -772,6 +772,6 @@ function civicrm_admin_menu( ) {
 function civicrm_views_api() {
     return array(
                  'api' => 2,
-                 'path' => drupal_get_path('module', 'civicrm') . '/views',
+                 'path' => drupal_get_path('module', 'civicrm') . '/modules/views',
                  );
 }
