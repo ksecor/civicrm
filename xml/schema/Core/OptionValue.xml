@@ -133,4 +133,11 @@
        <fieldName>option_group_id</fieldName>
        <add>1.5</add>
   </index>
+  <index>
+    <name>UI_name_option_group_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>option_group_id</fieldName>
+    <unique>true</unique>
+    <add>2.2</add>
+  </index>
 </table>
