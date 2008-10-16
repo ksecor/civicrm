@@ -43,9 +43,10 @@ class CiviMailProcessor {
         $mails = $store->allMails();
 
         require_once 'api/Mailer.php';
-        foreach ($mails as $nr => $mail) {
+        foreach ($mails as $key => $mail) {
 
             // for every addressee: match address elements if it's to CiviMail
+            // FIXME: the regexen should be limited to the domain
             $matches = array();
             foreach ($mail->to as $address) {
                 if (preg_match('/^(b|confirm|o|r|re|u)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@/', $address->email, $matches)) {
@@ -59,7 +60,7 @@ class CiviMailProcessor {
 
             // if $matches is empty, this email is not CiviMail-bound
             if (!$matches) {
-                $store->markIgnored($nr);
+                $store->markIgnored($key);
                 continue;
             }
 
@@ -107,7 +108,7 @@ class CiviMailProcessor {
                 break;
             }
 
-            $store->markProcessed($nr);
+            $store->markProcessed($key);
         }
     }
 

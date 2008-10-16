@@ -33,38 +33,27 @@
  *
  */
 
-class CRM_Mailing_MailStore
+require_once 'ezc/Base/src/ezc_bootstrap.php';
+require_once 'ezc/autoload/mail_autoload.php';
+require_once 'CRM/Mailing/MailStore.php';
+
+class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
 {
     /**
-     * Return the proper mail store implementation, based on config settings
+     * Connect to the supplied dir and make sure the two mail dirs exist
      *
-     * @return object  mail store implementation for processing CiviMail-bound emails
+     * @param string $dir  dir to operate upon
+     * @return void
      */
-    function getStore()
+    function __construct($dir)
     {
-        // FIXME: get the params from the config
-        $class = 'IMAP';
+        $this->_dir = $dir;
 
-        switch ($class) {
-
-        case 'IMAP':
-            require_once 'CRM/Mailing/MailStore/Imap.php';
-            return new CRM_Mailing_MailStore_Imap('server', 'username', 'password');
-
-        case 'POP3':
-            require_once 'CRM/Mailing/MailStore/Pop3.php';
-            return new CRM_Mailing_MailStore_Pop3('server', 'username', 'password');
-
-        case 'Maildir':
-            require_once 'CRM/Mailing/MailStore/Maildir.php';
-            return new CRM_Mailing_MailStore_Maildir('dir');
-
-        // DO NOT USE the mbox transport for anything other than testing
-        // in particular, it does not clear the mbox afterwards
-        case 'mbox':
-            require_once 'CRM/Mailing/MailStore/Mbox.php';
-            return new CRM_Mailing_MailStore_Mbox('file');
-        }
+        $config =& CRM_Core_Config::singleton();
+        $this->_ignored   = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.ignored';
+        $this->_processed = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed';
+        if (!file_exists($this->_ignored))   mkdir($this->_ignored,   0700, true);
+        if (!file_exists($this->_processed)) mkdir($this->_processed, 0700, true);
     }
 
     /**
@@ -74,14 +63,41 @@ class CRM_Mailing_MailStore
      */
     function allMails()
     {
-        $set = $this->_transport->fetchAll();
-        print_r($set->getMessageNumbers());
         $mails = array();
         $parser = new ezcMailParser;
-        foreach ($set->getMessageNumbers() as $nr) {
-            $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
-            $mails[$nr] = $single[0];
+        foreach (array('cur', 'new') as $subdir) {
+            $dir = $this->_dir . DIRECTORY_SEPARATOR . $subdir;
+            foreach (scandir($dir) as $file) {
+                if ($file == '.' or $file == '..') continue;
+                $path = $dir . DIRECTORY_SEPARATOR . $file;
+
+                $set = new ezcMailFileSet(array($path));
+                $single = $parser->parseMail($set);
+                $mails[$path] = $single[0];
+            }
         }
         return $mails;
+    }
+
+    /**
+     * Fetch the specified message to the local ignore folder
+     *
+     * @param integer $file  file location of the message to fetch
+     * @return void
+     */
+    function markIgnored($file)
+    {
+        rename($file, $this->_ignored . DIRECTORY_SEPARATOR . basename($file));
+    }
+
+    /**
+     * Fetch the specified message to the local processed folder
+     *
+     * @param integer $file  file location of the message to fetch
+     * @return void
+     */
+    function markProcessed($file)
+    {
+        rename($file, $this->_processed . DIRECTORY_SEPARATOR . basename($file));
     }
 }
