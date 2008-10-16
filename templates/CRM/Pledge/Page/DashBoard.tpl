@@ -59,7 +59,7 @@
 
 {if $pager->_totalItems}
     <h3>{ts}Recent Pledges{/ts}</h3>
-    <div class="form-item">
+    <div>
         {include file="CRM/Pledge/Form/Selector.tpl" context="dashboard"}
     </div>
 {/if}

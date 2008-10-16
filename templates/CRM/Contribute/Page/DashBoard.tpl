@@ -44,7 +44,7 @@
 
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
-    <div class="form-item">
+    <div>
         {include file="CRM/Contribute/Form/Selector.tpl" context="dashboard"}
     </div>
 {/if}
