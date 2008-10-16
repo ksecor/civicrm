@@ -48,7 +48,7 @@ class CiviMailProcessor {
             // for every addressee: match address elements if it's to CiviMail
             $matches = array();
             foreach ($mail->to as $address) {
-                if (preg_match('/^civimail\+(b|confirm|o|r|re|u)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@/', $address->email, $matches)) {
+                if (preg_match('/^(b|confirm|o|r|re|u)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@/', $address->email, $matches)) {
                     list($match, $action, $domain, $job, $queue, $hash) = $matches;
                     break;
                 } elseif (preg_match('/^civimail\+(subscribe)\.(\d+).(\d+)@/', $address->email, $matches)) {
