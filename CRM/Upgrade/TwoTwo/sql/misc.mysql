@@ -134,3 +134,8 @@ ALTER TABLE `civicrm_custom_group`
 
 ALTER TABLE `civicrm_menu`
   ADD `skipBreadcrumb` tinyint(4) default '0' COMMENT 'skip this url being exposed to breadcrumb';
+  
+-- add UNIQUE constraint on civicrm_option_value
+ALTER TABLE `civicrm_option_value`
+  ADD UNIQUE `UI_option_group_id_name` ( `option_group_id` , `name` );
+
