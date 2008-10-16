@@ -21,6 +21,7 @@
 */
 div#crm-container {
     line-height: 135%;
+    overflow: auto;
 }
 
 /*
@@ -917,9 +918,6 @@ div.crm-pager a {
 #crm-container div#searchForm {
 	height: auto;
 	width: 100%;
-    /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
-    	overflow: hidden;
-    */
 }
 
 #crm-container div#searchForm table.form-layout td {
