@@ -286,6 +286,10 @@ class CRM_Contact_Form_Search_Custom_DateAdded
         
                 $smartSql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ssId );
   
+                $smartSql .= " AND contact_a.id IN (
+                               SELECT id AS contact_id
+                               FROM dates_{$this->_tableName} )";
+  
                 $smartSql .= " AND contact_a.id NOT IN ( 
                                SELECT contact_id FROM civicrm_group_contact
                                WHERE civicrm_group_contact.group_id = {$values} AND civicrm_group_contact.status = 'Removed')";
@@ -295,10 +299,16 @@ class CRM_Contact_Form_Search_Custom_DateAdded
                     $smartSql .= " AND contact_a.id NOT IN (SELECT contact_id FROM  Xg_{$this->_tableName})";
                 }
        
-                $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
+                $smartGroupQuery = " INSERT IGNORE INTO
+                    Ig_{$this->_tableName}(contact_id) 
                     $smartSql";
         
                 CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
+                if ($this->_debug > 0) {
+                    print "-- Smart group query: <pre>";
+                    print "$smartGroupQuery;";
+                    print "</pre>";
+                }
                 $insertGroupNameQuery = 
                    "UPDATE IGNORE Ig_{$this->_tableName}
                     SET group_names = (SELECT title FROM civicrm_group
@@ -306,17 +316,23 @@ class CRM_Contact_Form_Search_Custom_DateAdded
                     WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
                         AND Ig_{$this->_tableName}.group_names IS NULL";
                 CRM_Core_DAO::executeQuery( $insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
+                if ($this->_debug > 0) {
+                    print "-- Smart group query: <pre>";
+                    print "$insertGroupNameQuery;";
+                    print "</pre>";
+                }
             }
         }
         
         $from = "FROM civicrm_contact contact_a";
         
+        /* We need to join to this again to get the date_added value */
         $from .= " INNER JOIN dates_{$this->_tableName} d ON (contact_a.id = d.id)";
         
         $from .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
         
         //this makes smart groups using this search compatible w/ CiviMail
-        $from .= " INNER JOIN civicrm_email ON (contact_a.id = civicrm_email.contact_id)";
+        $from .= " LEFT JOIN civicrm_email ON (contact_a.id = civicrm_email.contact_id)";
         
         return $from;
     }
