@@ -37,8 +37,8 @@ INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, em
 
 SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
 
-INSERT INTO civicrm_domain( name, email_name, email_address, email_domain, version, loc_block_id ) 
-    VALUES ( @domain_name, 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.2', @locBlockId);
+INSERT INTO civicrm_domain( name, email_domain, version, loc_block_id ) 
+    VALUES ( @domain_name, 'FIXME.ORG', '2.2', @locBlockId);
 
 -- Sample location types
 INSERT INTO civicrm_location_type( name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( '{ts escape="sql"}Home{/ts}', 'HOME', '{ts escape="sql"}Place of residence{/ts}', 0, 1, 1 );
@@ -179,6 +179,7 @@ SELECT @option_group_id_fu             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_am             := max(id) from civicrm_option_group where name = 'activity_medium';
 SELECT @option_group_id_gr             := max(id) from civicrm_option_group where name = 'greeting_type';
 SELECT @option_group_id_pht	       := max(id) from civicrm_option_group where name = 'phone_type';
+SELECT @option_group_id_fma	       := max(id) from civicrm_option_group where name = 'from_email_address';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -425,11 +426,14 @@ VALUES
   (@option_group_id_gr, '{ts escape="sql"}Dear [prefix] [last]{/ts}',         3, 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
   (@option_group_id_gr, '{ts escape="sql"}Customized{/ts}',                   4, 'Customized',                   NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
 
+-- phone types.
   (@option_group_id_pht, '{ts escape="sql"}Phone{/ts}' , 1, 'Phone' , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_pht, '{ts escape="sql"}Mobile{/ts}', 2, 'Mobile', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
   (@option_group_id_pht, '{ts escape="sql"}Fax{/ts}'   , 3, 'Fax'   , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
-  (@option_group_id_pht, '{ts escape="sql"}Pager{/ts}' , 4, 'Pager' , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL);
+  (@option_group_id_pht, '{ts escape="sql"}Pager{/ts}' , 4, 'Pager' , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
 
+-- from email address.
+  (@option_group_id_fma, '"FIXME"<info@FIXME.ORG>', '1', '"FIXME"<info@FIXME.ORG>', NULL, 0, 1, 1, '{ts escape="sql"}Default domain email address and from name.{/ts}', 0, 0, 1, NULL );
 
 
 -- sample membership status entries

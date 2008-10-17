@@ -63,10 +63,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->set('skipHtmlFile', false);
        
         $defaults = array( );
-
-        require_once 'CRM/Core/BAO/Domain.php';
-        list( $defaults['from_name' ],
-              $defaults['from_email'] ) = CRM_Core_BAO_Domain::getNameAndEmail( );
         
         $htmlMessage = null;
         if ( $mailingID  ) {
@@ -102,6 +98,20 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
                 $this->set('skipHtmlFile', true);
+            }
+
+            //set default from email address.
+            require_once 'CRM/Core/OptionGroup.php';
+            if ( CRM_Utils_Array::value( 'from_name', $defaults ) && CRM_Utils_Array::value( 'from_email', $defaults ) ) {
+                
+                $defaults['from_email_address'] = array_search( '"' . $defaults['from_name'] . '"<' . $defaults['from_email'] . '>', 
+                                                                CRM_Core_OptionGroup::values( 'from_email_address' ) );                
+            } else {
+                //get the default from email address.
+                $defaultAddress = CRM_Core_OptionGroup::values( 'from_email_address', null, null, null, ' AND is_default = 1' );
+                foreach ( $defaultAddress as $id => $value ) {
+                    $defaults['from_email_address'] = $id;
+                }
             }
         } else {
             $textFilePath = $this->get( 'textFilePath' );
