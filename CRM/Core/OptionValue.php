@@ -180,7 +180,9 @@ class CRM_Core_OptionValue
         if ( ! $params['label'] && $params['name'] ) {
             $params['label'] = $params['name'];
         }
-        if ( !CRM_Utils_Array::value( 'name', $params ) && $params['label'] ) {
+
+        // set name to label if it's not set - but *only* for ADD action (CRM-3522)
+        if (($action & CRM_Core_Action::ADD) && !CRM_Utils_Array::value( 'name', $params ) && $params['label'] ) {
             $params['name'] = $params['label'];
         }
         if ( $action & CRM_Core_Action::UPDATE ) {
