@@ -84,7 +84,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
 	
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         
-        $profile = array( '' => '-select-' );
+        $profile = array( );
         CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 1, $profiles, array ( 'title' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
@@ -92,8 +92,8 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             }
             $this->assign('profile',$profile);
         } 
-        
-        $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), $profile ); 
+
+        $this->add('select', 'supporter_profile_id', ts( 'Supporter profile' ), array( '' => ts( '- select -' ) ) + $profile ); 
         
         $this->addElement( 'checkbox', 'is_tellfriend_enabled', ts("Allow 'Tell a friend' functionality") );
         
