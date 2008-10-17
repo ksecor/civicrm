@@ -188,7 +188,7 @@ SELECT     civicrm_email.id as email_id
         
         require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
-                                                    array( 'confirm',
+                                                    array( 'c',
                                                            1,
                                                            $this->contact_id,
                                                            $this->id,
