@@ -493,7 +493,7 @@ class CRM_Contact_BAO_Query
                         
                         if ($tableName == 'gender' || $tableName == 'individual_prefix' 
                             || $tableName == 'individual_suffix' || $tableName == 'im_provider' ) {
-
+                            
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                         } else {
@@ -509,8 +509,8 @@ class CRM_Contact_BAO_Query
                             
                             //special case for phone
                             if ($name == 'phone') {
-                                $this->_select ['phone_type'] = "civicrm_phone.phone_type as phone_type";
-                                $this->_element['phone_type'] = 1;
+                                $this->_select ['phone_type_id'] = "civicrm_phone.phone_type_id as phone_type_id";
+                                $this->_element['phone_type_id'] = 1;
                             }
                            
                             if ( $name == 'state_province' ) {

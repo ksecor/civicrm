@@ -70,14 +70,6 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     static function &getValues( $entityBlock ) 
     {
         $getValues =& CRM_Core_BAO_Block::getValues('phone', $entityBlock );
-
-        if ( ! empty( $getValues ) ) {
-            foreach ($getValues as $key => $values ) {
-                foreach ( $values as $k => $v ) {
-                    CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key][$k] );
-                }
-            }
-        }
         return $getValues;
     }
 
@@ -95,10 +87,14 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         if ( ! $id ) {
             return null;
         }
-
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
 
         $query = "
@@ -139,10 +135,14 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         if ( empty($entityElements) ) {
             return null;
         }
-      
+        
         $cond = null;
         if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
+            require_once 'CRM/Core/PseudoConstant.php';
+            $phoneTypeId = array_search( $type, CRM_Core_PseudoConstant::phoneType( ) );
+            if ( $phoneTypeId ) {
+                $cond = " AND civicrm_phone.phone_type_id = $phoneTypeId";
+            }
         }
         
         $entityId    = $entityElements['entity_id'];

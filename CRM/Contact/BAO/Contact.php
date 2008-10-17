@@ -1182,9 +1182,9 @@ WHERE  civicrm_contact.id = %1 ";
                         $phoneLoc++;
                     }
                     if ( $typeId ) {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $typeId;
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type_id'] = $typeId;
                     } else {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = '';
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type_id'] = '';
                         $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
                     }
                     $data['location'][$loc]['phone'][$phoneLoc]['phone'] = $value;

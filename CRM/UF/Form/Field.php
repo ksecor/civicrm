@@ -197,7 +197,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $defaults[ 'field_name' ] = array ( $defaults['field_type'],
                                                 $defaults['field_name'],
                                                 $defaults['location_type_id'],
-                                                CRM_Utils_Array::value( 'phone_type'      , $defaults ) );
+                                                CRM_Utils_Array::value( 'phone_type_id', $defaults ) );
             $this->_gid = $defaults['uf_group_id'];
             
         } else {
@@ -376,7 +376,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             }
         } 
         $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         asort($phoneTypes);
              
         foreach ($sel1 as $k=>$sel ) {
