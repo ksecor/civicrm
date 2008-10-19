@@ -282,7 +282,6 @@ LEFT JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.id
     }
 
     function where( $includeContactIDs = false ) {
-        return ' contact_a.id IN ( 3299, 3368 ) ';
         return ' ( 1 ) ';
     }
 
