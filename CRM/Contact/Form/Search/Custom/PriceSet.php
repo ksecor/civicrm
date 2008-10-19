@@ -277,7 +277,7 @@ contact_a.display_name   as display_name";
     function from( ) {
         return "
 FROM       civicrm_contact contact_a
-LEFT JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.id )
+INNER JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.id )
 ";
     }
 
