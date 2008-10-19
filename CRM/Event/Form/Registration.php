@@ -538,7 +538,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-      
+
         //setting register_by_id field and primaryContactId
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
@@ -645,6 +645,11 @@ WHERE  contact_id = $contactID
             if ( $pID ) {
                 $participantParams['id'] = $pID;
             }
+        }
+        require_once 'CRM/Core/BAO/Discount.php';
+        $participantParams['discount_id'] = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+        if ( !$participantParams['discount_id'] ) {
+            $participantParams['discount_id'] = "null";            
         }
 
         require_once 'CRM/Event/BAO/Participant.php';
