@@ -67,7 +67,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {        
         $this->_caseAction = CRM_Utils_Array::value( 'caseaction', $_GET );
         $this->assign( 'caseAction', $this->_caseAction );
-        
+
         if ( !$this->_caseAction ) {
             $this->_caseAction = $this->get('caseAction');
         } else {
@@ -106,11 +106,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
-        if ( $this->_caseAction ) {
-            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::buildQuickForm( \$this );");
-            return;
-        }
-
         // FIXME: hardcoded for now. We can move them to actual activity types.
         $activityAction = array('OpenCase'   => ts('Open Case'),
                                 'ChangeCase' => ts('Change Case Type'),
@@ -121,12 +116,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                    true,
                    array('onchange' => "buildCaseBlock( this.value );") );
 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ) ) );
+        if ( isset($this->_caseAction) ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::buildQuickForm( \$this );");
+        }
     }
 
     /**
@@ -140,7 +132,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("Ymd");
-
+        
         // 1. call begin post process
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
@@ -162,6 +154,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
 
         // 4. auto populate activites
+
+        // 5. set status
         require_once "CRM/Core/Session.php";
         CRM_Core_Session::setStatus( "{$params['statusMsg']}" );
     }

@@ -31,4 +31,5 @@
    </fieldset>
    </td></tr> 
 {/if}        
+   <tr><td">&nbsp;</td><td>{$form.buttons.html}</td></tr>
 </table>

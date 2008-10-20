@@ -78,6 +78,13 @@ class CRM_Case_Form_Activity_OpenCase
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                          'email'));
         }
+
+        $form->addButtons( array(
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => ts('Cancel') ) ) );
     }
 
     /**

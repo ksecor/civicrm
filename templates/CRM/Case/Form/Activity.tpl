@@ -1,28 +1,30 @@
 {if $caseAction }
    {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
 {else}
-<fieldset><legend>{ts}Case Action{/ts}</legend>
+<fieldset><legend id="caseBlockTitle">{ts}Case Action{/ts}</legend>
 <table class="form-layout">
    <tr><td class="label" width="30%">{$form.case_action.label}</td><td>{$form.case_action.html}</td>        
 </table>
 
 {* case block is injected here when an case action is selected. *}
 <div id="caseBlock"></div>
-<br/>
-<table class="form-layout">
-   <tr><td width="30%">&nbsp;</td><td>{$form.buttons.html}</td></tr>
-</table>
 </fieldset>
 
 {literal}
 <script type="text/javascript">
+var val = document.getElementById('case_action').options[document.getElementById('case_action').selectedIndex].value;
+buildCaseBlock( val );
+
 function buildCaseBlock( caseAction )
 {
 	if ( caseAction ) {
     	var dataUrl = {/literal}"{crmURL p='civicrm/case/activity' q='caseaction=case_action&snippet=4'}"{literal};
         dataUrl = dataUrl.replace('case_action', caseAction);
         dataUrl = dataUrl.replace('&amp;', '&');
+
+  	    dojo.byId('caseBlockTitle').innerHTML = document.getElementById('case_action').options[document.getElementById('case_action').selectedIndex].text;
 	} else {
+        dojo.byId('caseBlockTitle').innerHTML = 'Case Activity';
   	    dojo.byId('caseBlock').innerHTML = '';
         return;
 	}
