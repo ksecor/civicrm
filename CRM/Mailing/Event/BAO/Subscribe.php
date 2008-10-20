@@ -189,9 +189,11 @@ SELECT     civicrm_email.id as email_id
         //get the default domain email address.
         list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
         
+        // FIXME: get localpart+ from the database if specified
+        $localpart = '';
         require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
-                                                    array( 'c',
+                                                    array( $localpart . 'c',
                                                            1,
                                                            $this->contact_id,
                                                            $this->id,

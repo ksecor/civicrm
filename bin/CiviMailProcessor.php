@@ -36,8 +36,12 @@
 class CiviMailProcessor {
 
     function process() {
+        // FIXME: make it depend on the configuration set passed as a param
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain();
+        $localpart = '';
+        $commonRegex = '/^' . preg_quote($localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?' . preg_quote($domain->email_domain) . '$/';
+        $subscrRegex = '/^' . preg_quote($localpart) . '(s|subscribe)\.(\d+).(\d+)@' . preg_quote($domain->email_domain) . '$/';
 
         // retrieve the emails
         require_once 'CRM/Mailing/MailStore.php';
@@ -50,10 +54,10 @@ class CiviMailProcessor {
             // for every addressee: match address elements if it's to CiviMail
             $matches = array();
             foreach ($mail->to as $address) {
-                if (preg_match("/^(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@{$domain->email_domain}$/", $address->email, $matches)) {
+                if (preg_match($commonRegex, $address->email, $matches)) {
                     list($match, $action, $domain, $job, $queue, $hash) = $matches;
                     break;
-                } elseif (preg_match("/^(s|subscribe)\.(\d+).(\d+)@{$domain->email_domain}$/", $address->email, $matches)) {
+                } elseif (preg_match($subscrRegex, $address->email, $matches)) {
                     list($match, $action, $domain, $group) = $matches;
                     break;
                 }
@@ -82,6 +86,7 @@ class CiviMailProcessor {
             }
 
             // get $replyTo from either the Reply-To header or from From
+            // FIXME: make sure it works with Reply-Tos containing non-email stuff
             $replyTo = $mail->getHeader('Reply-To') ? $mail->getHeader('Reply-To') : $mail->from->email;
 
             // handle the action by passing it to the proper API call

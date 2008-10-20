@@ -835,6 +835,9 @@ AND civicrm_contact.is_opt_out =0";
                              'resubscribe' => 'e',
                              'optOut'      => 'o'  );
         foreach ($verpTokens as $key => $value ) {
+            // FIXME: get localpart+ from the database if specified
+            $localpart = '';
+            $value = $localpart . $value;
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $value,

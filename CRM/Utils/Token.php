@@ -617,7 +617,9 @@ class CRM_Utils_Token
                 $config =& CRM_Core_Config::singleton();
                 require_once 'CRM/Core/BAO/Domain.php';
                 $domain = CRM_Core_BAO_Domain::getDomain( );
-                $str = preg_replace('/'.preg_quote($value).'/','mailto:s.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
+                // FIXME: get localpart+ from the database if specified
+                $localpart = '';
+                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$domain->id}.{$gid}@{$domain->email_domain}", $str);
             }
         }
         return $str;
