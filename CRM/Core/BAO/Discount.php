@@ -120,11 +120,18 @@ class CRM_Core_BAO_Discount extends CRM_Core_DAO_Discount
      * @return integer  $dao->id       discount id of the set which matches
      *                                 the date criteria
      */
-    static function findSet( $entityId, $entityTable ) 
+    static function findSet( $entityID, $entityTable ) 
     {
+        if ( empty( $entityID ) ||
+             empty( $entityTable ) ) {
+            // adding this here, to trap errors if values are not sent
+            CRM_Core_Error::fatal( );
+            return null;
+        }
+        
         require_once 'CRM/Core/DAO/Discount.php';
         $dao =& new CRM_Core_DAO_Discount( );
-        $dao->entity_id    = $entityId;
+        $dao->entity_id    = $entityID;
         $dao->entity_table = $entityTable;
         $dao->find( );
 

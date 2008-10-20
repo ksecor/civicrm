@@ -114,6 +114,8 @@ class CRM_Core_Block {
                                                                    'region'     => 'left' ),
                                        self::LANGSWITCH  => array( 'template'   => 'LangSwitch.tpl',
                                                                    'info'       => ts('CiviCRM Language Switcher'),
+                                                                   'subject'    => '',
+                                                                   'templateValues' => array(),
                                                                    'active'     => true,
                                                                    'cache'      => BLOCK_CACHE_GLOBAL,
                                                                    'visibility' => 1,

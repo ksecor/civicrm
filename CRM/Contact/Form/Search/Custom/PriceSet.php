@@ -88,8 +88,7 @@ CREATE TEMPORARY TABLE {$this->_tableName} (
         
         $sql .= "
 PRIMARY KEY ( id ),
-UNIQUE INDEX unique_contact_id     ( contact_id ),
-UNIQUE INDEX unique_participatn_id ( participant_id )
+UNIQUE INDEX unique_participant_id ( participant_id )
 ) ENGINE=HEAP
 ";
         
@@ -141,20 +140,21 @@ ORDER BY c.id, v.id;
         // first store all the information by option value id
         $rows = array( );
         while ( $dao->fetch( ) ) {
-            $contactID = $dao->contact_id;
-            if ( ! isset( $rows[$contactID] ) ) {
-                $rows[$contactID] = array( );
+            $contactID     = $dao->contact_id;
+            $participantID = $dao->participant_id;
+            if ( ! isset( $rows[$participantID] ) ) {
+                $rows[$participantID] = array( );
             }
 
-            $rows[$contactID][] = "price_field_{$dao->option_value_id} = {$dao->qty}";
+            $rows[$participantID][] = "price_field_{$dao->option_value_id} = {$dao->qty}";
         }
 
-        foreach ( array_keys( $rows ) as $contactID ) {
-            $values = implode( ',', $rows[$contactID] );
+        foreach ( array_keys( $rows ) as $participantID ) {
+            $values = implode( ',', $rows[$participantID] );
             $sql = "
 UPDATE {$this->_tableName}
 SET $values
-WHERE contact_id = $contactID;
+WHERE participant_id = $participantID;
 ";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );
@@ -280,7 +280,7 @@ INNER JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.i
     }
 
     function where( $includeContactIDs = false ) {
-        return ' (1) ';
+        return ' ( 1 ) ';
     }
 
     function templateFile( ) {

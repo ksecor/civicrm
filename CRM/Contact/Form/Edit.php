@@ -681,7 +681,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
                
         if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) &&
-             CRM_Utils_Array::value( 'shared_household',$params ) ) {
+             CRM_Utils_Array::value( 'mail_to_household_id',$params ) ) {
             // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
             CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
         }

@@ -1251,9 +1251,12 @@ WHERE  civicrm_contact.id = %1 ";
                 } else if ($key === 'gender') { 
                     $data['gender_id'] = $value;
                 } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $data['custom'], 
-                                                                 $value, $data['contact_type'],
-                                                                 null, $contactID );
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
+                                                                 $data['custom'], 
+                                                                 $value,
+                                                                 $data['contact_type'],
+                                                                 null,
+                                                                 $contactID );
                 } else if ($key == 'edit') {
                     continue;
                 } else {
@@ -1319,8 +1322,12 @@ WHERE  civicrm_contact.id = %1 ";
                 
                 $str = "custom_value_{$cfID}_id";
                 $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
-                CRM_Core_BAO_CustomField::formatCustomField( $cfID, $data['custom'], 
-                                                             '', $data['contact_type'], $customOptionValueId);
+                CRM_Core_BAO_CustomField::formatCustomField( $cfID,
+                                                             $data['custom'], 
+                                                             '',
+                                                             $data['contact_type'],
+                                                             $customOptionValueId,
+                                                             $contactID );
             }
         }
        

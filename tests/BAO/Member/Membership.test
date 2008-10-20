@@ -465,9 +465,8 @@ class BAO_Member_Membership extends CiviTestCase
     function testdeleteRelatedMemberships( ) 
     {
         $contactId = Contact::createIndividual( );
-        $orgId     = Contact::createOrganisation( );
-
         $membershipType = Membership::createMembershipType( );
+        
         $params = array(
                         'contact_id'         => $contactId,  
                         'membership_type_id' => $membershipType->id,
