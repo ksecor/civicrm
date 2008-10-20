@@ -127,17 +127,30 @@ WHERE  id IN ( $groupIDs )
             $invoked = true;
         }
 
+        $config = CRM_Core_Config::singleton( );
+        $smartGroupCacheTimeout = $config->smartGroupCacheTimeout;
+
         if ( ! isset( $groupID ) ) {
             $query = "
 DELETE     g
 FROM       civicrm_group_contact_cache g
 INNER JOIN civicrm_contact c ON c.id = g.contact_id
+WHERE      g.group_id IN (
+    SELECT id
+    FROM   civicrm_group
+    WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout   
+)
 ";
 
             $update = "
 UPDATE civicrm_group g
 SET    cache_date = null
+WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout
 ";
+
+print "Query: $query<br/>Update: $update<br/>";
+exit;
+
             $params = array( );
         } else if ( is_array( $groupID ) ) {
             $query = "

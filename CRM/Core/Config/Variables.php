@@ -372,9 +372,10 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     /**
      * Some search settings
      */
-    public $includeWildCardInName = 1;
-    public $includeEmailInName    = 1;
-    public $includeNickNameInName = 0;
+    public $includeWildCardInName  = 1;
+    public $includeEmailInName     = 1;
+    public $includeNickNameInName  = 0;
+    public $smartGroupCacheTimeout = 0;
 
     /**
      * Optimization related variables
