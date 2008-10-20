@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-10-16 00:16+0100\n"
+"PO-Revision-Date: 2008-10-19 14:53-0700\n"
 "Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -7201,23 +7201,23 @@ msgstr ""
 
 #: CRM/Utils/Pager.php
 msgid "Page %1 of %2"
-msgstr ""
+msgstr "Oldal %1 / %2"
 
 #: CRM/Utils/Pager.php
 msgid "&lt; Previous"
-msgstr ""
+msgstr "&lt; Előző"
 
 #: CRM/Utils/Pager.php
 msgid "Next &gt;"
-msgstr ""
+msgstr "Következő &gt;"
 
 #: CRM/Utils/Pager.php
 msgid "&lt;&lt; First"
-msgstr ""
+msgstr "&lt;&lt; Első"
 
 #: CRM/Utils/Pager.php
 msgid "Last &gt;&gt;"
-msgstr ""
+msgstr "Utolsó &gt;&gt;"
 
 #: CRM/Utils/REST.php
 msgid "Could not authenticate user, invalid name / password"
@@ -7273,19 +7273,19 @@ msgstr ""
 
 #: CRM/Utils/Weight.php
 msgid "Move to top"
-msgstr ""
+msgstr "Mozgatás a tetejére"
 
 #: CRM/Utils/Weight.php
 msgid "Move up one row"
-msgstr ""
+msgstr "Egy sorral feljebb"
 
 #: CRM/Utils/Weight.php
 msgid "Move down one row"
-msgstr ""
+msgstr "Egy sorral lejjebb"
 
 #: CRM/Utils/Weight.php
 msgid "Move to bottom"
-msgstr ""
+msgstr "Mozgatás az aljára"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
@@ -9234,22 +9234,22 @@ msgstr ""
 
 #: templates/CRM/Block/Add.tpl
 msgid "First Name:"
-msgstr ""
+msgstr "Keresztnév:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
-msgstr ""
+msgstr "Vezetéknév:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Email:"
-msgstr ""
+msgstr "Email:"
 
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Go to Advanced Search"
-msgstr ""
+msgstr "Haladó Keresés"
 
 #: templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Regarding"
@@ -9294,15 +9294,15 @@ msgstr ""
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
-msgstr ""
+msgstr "Naptár"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date from calendar."
-msgstr ""
+msgstr "Dátum kiválasztása naptárból."
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
-msgstr ""
+msgstr "Dátum/idő kiválasztása naptárból."
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
@@ -9558,33 +9558,33 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
-msgstr ""
+msgstr "Kezdő Időpont:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "End Date:"
-msgstr ""
+msgstr "Befejezés Időpontja:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Note:"
-msgstr ""
+msgstr "Megjegyzés:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Status:"
-msgstr ""
+msgstr "Állapot:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Enabled"
-msgstr ""
+msgstr "Engedélyezve"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Disabled"
-msgstr ""
+msgstr "Letiltva"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "New Relationship"
-msgstr ""
+msgstr "Új Kapcsolat"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid ""
@@ -9726,7 +9726,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "VAGY"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid ""
@@ -10087,7 +10087,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Job Title"
-msgstr ""
+msgstr "Munkakör"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -10116,13 +10116,13 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "Azonnali üzenetküldő:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Map this Address"
-msgstr ""
+msgstr "Térkép"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -10161,19 +10161,19 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Contact is Deceased"
-msgstr ""
+msgstr "Elhunyt"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Date of Birth:"
-msgstr ""
+msgstr "Születési időpont:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Date Deceased:"
-msgstr ""
+msgstr "Halál időpontja:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
@@ -10280,11 +10280,11 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Kapcsolat"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Relationships..."
-msgstr ""
+msgstr "Összes Kapcsolat Megtekintése"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
@@ -10402,15 +10402,15 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Quick Search"
-msgstr ""
+msgstr "Gyors Keresés"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
-msgstr ""
+msgstr "Parancsikonok"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 msgid ""
@@ -10559,20 +10559,20 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
-msgstr ""
+msgstr "Aktív Tagságok"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Membership"
-msgstr ""
+msgstr "Tagság"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Inactive Memberships"
-msgstr ""
+msgstr "Inaktív Tagságok"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Membership Types"
-msgstr ""
+msgstr "Tagság Típusok"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid ""
@@ -10584,7 +10584,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Period"
-msgstr ""
+msgstr "Időtartam"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Fixed Start"
@@ -10592,11 +10592,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Minimum Díj"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date:"
-msgstr ""
+msgstr "Dátum:"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #, fuzzy
@@ -10756,7 +10756,7 @@ msgstr "Hozzájárulások"
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 #, fuzzy
 msgid "Terms:"
-msgstr "Teszt"
+msgstr "Feltételek:"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Change Recurring Contribution"
@@ -10772,12 +10772,12 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Leíratkozás"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Pending Subscriptions"
-msgstr "Leírás"
+msgstr "Függőben lévő leíratkozások"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
@@ -10791,7 +10791,7 @@ msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "Confirm"
-msgstr "Konfiguráció"
+msgstr "Megerősít"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribed Groups"
@@ -10809,7 +10809,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Renew Now"
-msgstr ""
+msgstr "Megújítás Most"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 #, fuzzy
@@ -10822,12 +10822,12 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "Click on the event name for more information."
-msgstr ""
+msgstr "Kattintson az esemény nevén további információért."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #, fuzzy
 msgid "Event Date(s)"
-msgstr "Befejezése"
+msgstr "Esemény Időpontja"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "You are not registered for any current or upcoming Events."
@@ -11077,21 +11077,21 @@ msgstr ""
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Status?"
-msgstr ""
+msgstr "Állapot?"
 
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Active"
-msgstr ""
+msgstr "Aktív"
 
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktív"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "New Custom Field"
@@ -11158,27 +11158,27 @@ msgstr ""
 
 #: templates/CRM/error.tpl
 msgid "Error Code:"
-msgstr ""
+msgstr "Hiba kód:"
 
 #: templates/CRM/error.tpl
 msgid "Database Error Code:"
-msgstr ""
+msgstr "Adatbázis Hiba Kód:"
 
 #: templates/CRM/error.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "Fő menü"
 
 #: templates/CRM/error.tpl
 msgid "Return to home page."
-msgstr ""
+msgstr "Vissza a kezdő oldalra."
 
 #: templates/CRM/Form/body.tpl
 msgid "Please correct the following errors in the form fields below:"
-msgstr ""
+msgstr "Kérem javítsa a következő hibákat  az űrlapon alul:"
 
 #: templates/CRM/Form/label.tpl
 msgid "This field is required."
-msgstr ""
+msgstr "Ezt a mezőt ki kell tölteni."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -11234,7 +11234,7 @@ msgstr ""
 #: templates/CRM/Friend/Form.tpl
 #, fuzzy
 msgid "Email Address"
-msgstr "Cím"
+msgstr "Email Cím"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status of this grant."
@@ -11913,7 +11913,7 @@ msgstr ""
 
 #: templates/CRM/Profile/Form/Search.tpl
 msgid "New Search"
-msgstr ""
+msgstr "Új Keresés"
 
 #: templates/CRM/Profile/Form/Search.tpl
 msgid ""
@@ -12199,11 +12199,11 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr ""
+msgstr "Szükséges"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
+msgstr "Csak Olvasható"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
@@ -12250,15 +12250,15 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
-msgstr ""
+msgstr "Otthon"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Lakhely"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work"
-msgstr ""
+msgstr "Munkahely"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
@@ -12283,39 +12283,39 @@ msgstr "Cím formázás"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Gyermeke"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Szülője"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent/child relationship."
-msgstr ""
+msgstr "Szülő/gyermek rokonság."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Házastársa"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spousal relationship."
-msgstr ""
+msgstr "Házastársi kapcsolat."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Testvére"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling relationship."
-msgstr ""
+msgstr "Testvéri kapcsolat."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Alkalmazottja"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Munkaadója"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employment relationship."
@@ -12323,7 +12323,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Gyakornok"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer is"
@@ -12486,11 +12486,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Individual contact prefixes"
-msgstr ""
+msgstr "Egyén contact előtagok"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Individual contact suffixes"
-msgstr ""
+msgstr "Egyén contact utótagok"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Accepted Credit Cards"
@@ -12503,7 +12503,7 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Event Type"
-msgstr "Kapcsolat típus"
+msgstr "Esemény Típus"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -12518,7 +12518,7 @@ msgstr "Beállítások szerkesztése"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Advanced Search Options"
-msgstr "Általános beállítások"
+msgstr "Haladó Keresés Beállítások"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "User Dashboard Options"
@@ -12544,27 +12544,27 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Postal Mail"
-msgstr "Irányítószám"
+msgstr "Posta Levél"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Email sent."
-msgstr ""
+msgstr "Email elküldve."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Message (SMS)"
-msgstr ""
+msgstr "Szöveges Üzenet (SMS)"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text message (SMS) sent."
-msgstr ""
+msgstr "Szöveges Üzenet (SMS) elküldve."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Registration"
-msgstr ""
+msgstr "Esemény Regisztráció"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline event registration."
-msgstr ""
+msgstr "Online vagy offline regisztráció"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Contribution"
@@ -12572,7 +12572,7 @@ msgstr "Hozzájárulás "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline contribution."
-msgstr ""
+msgstr "Online vagy offline hozzájárulás"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Signup"
@@ -12584,11 +12584,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Renewal"
-msgstr ""
+msgstr "Tagság Megújítás"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership renewal."
-msgstr ""
+msgstr "Online vagy offline tagság megújítás"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Send information about a contribution campaign or event to a friend."
@@ -12596,12 +12596,12 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
-msgstr ""
+msgstr "Nő"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Male"
-msgstr "Érték"
+msgstr "Férfi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
@@ -12633,15 +12633,15 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Administrator"
-msgstr ""
+msgstr "Adminisztrátor"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Authenticated"
-msgstr ""
+msgstr "Hitelesített"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
-msgstr ""
+msgstr "Hitelkártya"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Debit Card"
@@ -12650,7 +12650,7 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Cash"
-msgstr "Hash"
+msgstr "Készpénz"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
