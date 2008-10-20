@@ -1069,13 +1069,20 @@ commented since it is overwiting simple td
 
 #crm-container table.campaign th, table.campaign td, #crm-container table.campaign { 
   font-size: 9pt;
-  font-family:Verdana,Arial,Helvetica,sans-serif;
   border: 0px;
   width: auto;
  }
 
 #crm-container table.campaign table{ 
   background: #F7F7F7;
+}
+
+#crm-container div.remaining {
+    background : url("../i/contribute/pcp_remain.gif");
+}
+
+#crm-container div.achieved {
+    background : url("../i/contribute/pcp_achieve.gif");
 }
 
 #crm-container .honor_roll {
