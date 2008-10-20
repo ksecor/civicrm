@@ -30,6 +30,11 @@
             <td>{$form.includeNickNameInName.html}<br />
                 <span class="description">{ts}If enabled, nicknames are automatically included when users search by Name.{/ts}</span></td>
         </tr>
+        <tr>
+            <td>{$form.smartGroupCacheTimeout.label}</td>
+            <td>{$form.smartGroupCacheTimeout.html}<br />
+                <span class="description">{ts}The number of minutes to cache smart group contacts. A value of '0' means the cache is emptied immediately when any contact is edited or a new one is added. If your contact data changes frequently, you may want to try setting this to a value of 5 minutes or so.{/ts}</span></td>
+        </tr>
     </table>
 </fieldset>
 <fieldset><legend>{ts}reCAPTCHA Keys{/ts}</legend>

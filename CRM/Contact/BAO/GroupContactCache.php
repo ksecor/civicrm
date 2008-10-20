@@ -147,10 +147,6 @@ UPDATE civicrm_group g
 SET    cache_date = null
 WHERE  TIMESTAMPDIFF(MINUTE, cache_date, NOW()) > $smartGroupCacheTimeout
 ";
-
-print "Query: $query<br/>Update: $update<br/>";
-exit;
-
             $params = array( );
         } else if ( is_array( $groupID ) ) {
             $query = "
