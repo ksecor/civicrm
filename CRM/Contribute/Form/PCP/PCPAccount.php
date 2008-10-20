@@ -99,6 +99,10 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     public function buildQuickForm( )  
     {
         $id = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $this->_pageId, 'supporter_profile_id', 'entity_id' );
+        require_once 'CRM/Contribute/BAO/PCP.php';
+        if ( CRM_Contribute_BAO_PCP::checkEmailProfile( $id ) ){
+            $this->assign('profileDisplay', true);
+        }
         $fields = null;
         require_once "CRM/Core/BAO/UFGroup.php";
         if ( $this->_contactID ) {

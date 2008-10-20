@@ -132,7 +132,12 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             }
             if ( ! CRM_Utils_Array::value( 'supporter_profile_id', $params ) ) {
                 $errors['supporter_profile_id'] = ts('Supporter profile is a required field.');
-            }
+            } else {
+                require_once 'CRM/Contribute/BAO/PCP.php';
+                if ( CRM_Contribute_BAO_PCP::checkEmailProfile( $params['supporter_profile_id'] ) ){
+                    $errors['supporter_profile_id'] = ts('Profile is not configured with Email address.');
+                }
+            } 
         }
         return empty($errors) ? true : $errors;
     }

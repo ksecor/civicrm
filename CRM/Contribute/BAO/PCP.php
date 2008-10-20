@@ -361,5 +361,28 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
+    /**
+     * Function to get email is enabled for supporter's profile 
+     * 
+     * @param int $id supporter's profile id
+     *
+     * @return boolean
+     * @access public
+     * @static
+     *
+     */
+    static function checkEmailProfile( $profileId ) 
+    {
+        $query="
+Select field_name
+From civicrm_uf_field
+Where field_name like 'email%' And is_active = 1 And uf_group_id = {$profileId};";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        if( ! $dao->fetch() ){
+            return true;
+        }
+        return false;
+    }
+
 }
 ?>
