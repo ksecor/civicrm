@@ -44,7 +44,8 @@ class CRM_Case_Form_Activity_ChangeCase
     
     static function buildQuickForm( &$form ) 
     {
-
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
+        $form->addElement( 'hidden', 'hidden_changeCase', 1 );
         $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                  'mode'           => 'remote',
                                  'store'          => 'caseStore');
@@ -54,12 +55,25 @@ class CRM_Case_Form_Activity_ChangeCase
                                           false, null, false );
         $form->assign('caseUrl',$caseUrl );
         
-        $subject = $form->add( 'text','case_id',ts('Case'), $caseAttributes );
+        $form->add( 'text','case_id',ts('Case'), $caseAttributes );
         
-        if ( $subject->getValue( ) ) {
+        /*if ( $subject->getValue( ) ) {
             $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
             $this->assign( 'subject_value',  $caseSbj );
         }
+        */
+        require_once 'CRM/Core/OptionGroup.php';        
+        $caseType = CRM_Core_OptionGroup::values('case_type');
+        $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
+                   $caseType , true, array("size"=>"5",  "multiple"));
+        
+        $form->addElement('checkbox','is_resetTimeline', ts('Reset Case Timeline?'), null, array('onclick' =>"return showHideByValue('is_resetTimeline','','TimelineDate','table-row','radio',false);",'checked' => 'true') );
+
+        $form->addElement('date', 'timeline_date', ts('Restart Timeline On'), CRM_Core_SelectValues::date('activityDate')); 
+        $form->addRule('timeline_date', ts('Select a valid date.'), 'qfDate');
+
+        $form->addElement('checkbox','is_resetCaseroles', ts('Reset Case Roles?'), null, array('checked' => 'true'));
+        
     }
 
     /**
