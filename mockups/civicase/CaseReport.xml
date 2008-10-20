@@ -11,7 +11,7 @@
     <Redact>false</Redact>
     <Activity>
       <ActivityType>Open Case</ActivityType>
-      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&id=13&cid=201&reset=1</EditURL>
+      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&amp;id=13&amp;cid=201&amp;reset=1</EditURL>
       <Fields>
           <Field>
             <Label>Created By</Label>
@@ -62,7 +62,7 @@
     </Activity>
     <Activity>
       <ActivityType>Presenting Problem</ActivityType>
-      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&id=14&cid=201&reset=1</EditURL>
+      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&amp;id=14&amp;cid=201&amp;reset=1</EditURL>
       <Fields>
           <Field>
             <Label>Created By</Label>
@@ -118,7 +118,7 @@
     </Activity>
     <Activity>
       <ActivityType>Medication and Drug Use</ActivityType>
-      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&id=15&cid=201&reset=1</EditURL>
+      <EditURL>http://drupal.demo.civicrm.org/civicrm/activity?action=update&amp;id=15&amp;cid=201&amp;reset=1</EditURL>
       <Fields>
           <Field>
             <Label>Created By</Label>
@@ -162,7 +162,7 @@
           </Field>
           <Field>
             <Label>Prescribed Medication Listing</Label>
-            <Value></Value>
+            <Value>http://drupal.demo.civicrm.org/civicrm/file?reset=1&amp;id=1&amp;eid=102</Value>
             <Type>File</Type>
           </Field>
           <CustomGroup>
