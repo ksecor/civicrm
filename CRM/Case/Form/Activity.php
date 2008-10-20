@@ -84,7 +84,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
         
         $session    =& CRM_Core_Session::singleton();
-        $this->_uid = $session->get('userID');    
+        $this->_currentlyViewedContactId = $this->_uid = $session->get('userID');    
     }
     
     /**
@@ -109,7 +109,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
         // FIXME: hardcoded for now. We can move them to actual activity types.
         $activityAction = array('OpenCase'       => ts('Open Case'),
-                                'ChangeCaseType' => ts('Change Case Type'),
+                                'ChangeCase' => ts('Change Case Type'),
                                 );
 
         $this->add('select', 'case_action',  ts( 'Activity Type' ),  
@@ -123,6 +123,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ) ) );
+        // when caseAction is included in form
+        if ( CRM_Utils_Array::value( 'hidden_openCase', $_POST ) ) {
+            require_once"CRM/Case/Form/Activity/OpenCase.php";
+            CRM_Case_Form_Activity_OpenCase::buildQuickForm( $this );
+        }
     }
 
     /**
@@ -135,12 +140,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        switch ( $this->_caseAction ) {
+        
+        switch ( $params['case_action'] ) {
         case "OpenCase"  :
+            require_once"CRM/Case/Form/Activity/OpenCase.php";
             CRM_Case_Form_Activity_OpenCase::postProcess( $this, $params );
             break;
         case "ChangeCase":
+            require_once"CRM/Case/Form/Activity/ChangeCase.php";
             CRM_Case_Form_Activity_ChangeCase::postProcess( $this, $params );
             break;
         }

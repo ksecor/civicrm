@@ -168,6 +168,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->is_permission_b_a    = $params['is_permission_b_a'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
+        $relationship->case_id              = CRM_Utils_Array::value( 'case_id', $params );  
         if ( ! $relationship->start_date ) {
             $relationship->start_date = 'NULL';
         }
