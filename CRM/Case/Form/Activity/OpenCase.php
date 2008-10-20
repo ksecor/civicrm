@@ -49,7 +49,6 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true, array("size"=>"5",  "multiple"));
         
-        $form->addElement( 'hidden', 'hidden_openCase', 1 );
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
         $form->add( 'text', 'subject', ts('Subject'), array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
@@ -87,67 +86,69 @@ class CRM_Case_Form_Activity_OpenCase
      * @access public
      * @return None
      */
-    public function postProcess( &$form, &$params ) 
+    public function beginPostProcess( &$form, &$params ) 
     {
-        // 1. create contact
+        // create contact if cid not present
+
+        $contactParams = $params;
         if ( !$form->_clientId ) {
-            $params['location'][1]['is_primary'] = 1;
-            $params['contact_type']              = 'Individual';
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
             
-            require_once 'CRM/Dedupe/Finder.php';
-            $params['email'] = $params['location'][1]['email'][1]['email'];
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
+
             //Dedupe couldn't recognize "email-Primary".So modify params temporary.
-            $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
+            
+            $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
             
             // if we find more than one contact, use the first one
             if ( is_array($ids) ) {
-                $params['contact_id']  = $ids[0];
+                $contactParams['contact_id']  = $ids[0];
             }
             
             require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
-
+            $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
             $form->_clientId = $contact->id;
+            
+            // unset contact params
+            unset($params['location'], $params['first_name'], $params['last_name'], $params['prefix_id']);
         }
+    }
 
-        // 2. create case
-        require_once 'CRM/Case/BAO/Case.php';
-        $params['contact_id'  ] = $form->_clientId;
-        $params['start_date'  ] = CRM_Utils_Date::format( date("Ymd") );
-        $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
-        
-        $caseObj = CRM_Case_BAO_Case::create( $params );
-        
-        $contactParams = array(
-                               'case_id'    => $caseObj->id,
-                               'contact_id' => $form->_uid
+    /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function endPostProcess( &$form, &$params ) 
+    {
+        // 1. create case-contact
+        $contactParams = array('case_id'    => $params['case_id'],
+                               'contact_id' => $form->_clientId
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
         
-        // 3. create activity
+        // 2. create activity
         
-        //set activity type id
-
         // *FIXME*: set activity type id to be the category id of
         //'OpenCase' activity type id 
         require_once 'CRM/Activity/BAO/Activity.php';
-        $params['activity_type_id'] = 1;//$form->_activityTypeId;
-
-        // store the date with proper format
-        $params['activity_date_time'] = CRM_Utils_Date::format( date("Ymd") );
-
-        // get ids for associated contacts
-        $params['subject'] = "Open Case";
-        $params['source_contact_id'] = $form->_uid;
+        $params['activity_type_id']   = 1;//$form->_activityTypeId;
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['now'] );
+        $params['source_contact_id']  = $form->_uid;
         $activity = CRM_Activity_BAO_Activity::create( $params );
-        $targetParams ['activity_id'] = $activity->id;
-        $targetParams['target_contact_id'] = $form->_uid;
+
+        // 3. add target/with contacts
+        $targetParams = array('activity_id'       => $activity->id,
+                              'target_contact_id' => $form->_clientId);
         CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
 
         // 4. create case activity
         $caseParams['activity_id'] = $activity->id;
-        $caseParams['case_id'    ] = $caseObj->id;
+        $caseParams['case_id'    ] = $params['case_id'];
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
 
         // 5. create relationship
@@ -155,11 +156,14 @@ class CRM_Case_Form_Activity_OpenCase
         $ids['contact'] = $form->_uid;
         $roleParams = array( 'relationship_type_id' => '3_a_b',
                              'is_active'            => 1,
-                             'case_id'              => $caseObj->id  );
+                             'case_id'              => $params['case_id']  );
         $roleParams['contact_check'][$form->_uid] = 1;
       
         require_once 'CRM/Contact/BAO/Relationship.php';
         CRM_Contact_BAO_Relationship::create( $roleParams, $ids );
+
+        // status msg
+        $params['statusMsg'] = ts('Case Opened Successfully');
     }
 }
 

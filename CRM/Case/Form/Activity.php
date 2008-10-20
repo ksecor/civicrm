@@ -68,6 +68,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->_caseAction = CRM_Utils_Array::value( 'caseaction', $_GET );
         $this->assign( 'caseAction', $this->_caseAction );
         
+        if ( !$this->_caseAction ) {
+            $this->_caseAction = $this->get('caseAction');
+        } else {
+            $this->set('caseAction', $this->_caseAction);
+        }
+
         if ( $this->_caseAction ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
         }
@@ -84,7 +90,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
         
         $session    =& CRM_Core_Session::singleton();
-        $this->_currentlyViewedContactId = $this->_uid = $session->get('userID');    
+        $this->_uid = $session->get('userID');    
     }
     
     /**
@@ -100,15 +106,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
-        switch ( $this->_caseAction ) {
-        case "OpenCase"  :
-            return CRM_Case_Form_Activity_OpenCase::buildQuickForm( $this );
-        case "ChangeCase":
-            return CRM_Case_Form_Activity_ChangeCase::buildQuickForm( $this );
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::buildQuickForm( \$this );");
+            return;
         }
 
         // FIXME: hardcoded for now. We can move them to actual activity types.
-        $activityAction = array('OpenCase'       => ts('Open Case'),
+        $activityAction = array('OpenCase'   => ts('Open Case'),
                                 'ChangeCase' => ts('Change Case Type'),
                                 );
 
@@ -118,16 +122,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                    array('onchange' => "buildCaseBlock( this.value );") );
 
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => 'submit',
                                          'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ) ) );
-        // when caseAction is included in form
-        if ( CRM_Utils_Array::value( 'hidden_openCase', $_POST ) ) {
-            require_once"CRM/Case/Form/Activity/OpenCase.php";
-            CRM_Case_Form_Activity_OpenCase::buildQuickForm( $this );
-        }
     }
 
     /**
@@ -140,20 +139,31 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
-        switch ( $params['case_action'] ) {
-        case "OpenCase"  :
-            require_once"CRM/Case/Form/Activity/OpenCase.php";
-            CRM_Case_Form_Activity_OpenCase::postProcess( $this, $params );
-            break;
-        case "ChangeCase":
-            require_once"CRM/Case/Form/Activity/ChangeCase.php";
-            CRM_Case_Form_Activity_ChangeCase::postProcess( $this, $params );
-            break;
+        $params['now'] = date("Ymd");
+
+        // 1. call begin post process
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
         }
 
-        // auto populate activites
+        // 2. create/edit case
+        require_once 'CRM/Case/BAO/Case.php';
+        $params['start_date'  ] = CRM_Utils_Date::format( $params['now'] );
+        $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+            implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ) .
+            CRM_Case_BAO_Case::VALUE_SEPERATOR;
         
+        $caseObj = CRM_Case_BAO_Case::create( $params );
+        $params['case_id'] = $caseObj->id;
+
+        // 3. call end post process
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::endPostProcess( \$this, \$params );");
+        }
+
+        // 4. auto populate activites
+        require_once "CRM/Core/Session.php";
+        CRM_Core_Session::setStatus( "{$params['statusMsg']}" );
     }
 }
 
