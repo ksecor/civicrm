@@ -39,41 +39,44 @@ require_once "CRM/Core/Form.php";
  * This class generates form components for OpenCase Activity
  * 
  */
-class CRM_Case_Form_Activity_ChangeCase
+class CRM_Case_Form_Activity_ChangeCaseType
 {
     
     static function buildQuickForm( &$form ) 
     {
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-        $form->addElement( 'hidden', 'hidden_changeCase', 1 );
+        require_once 'CRM/Core/OptionGroup.php';        
+        $caseType = CRM_Core_OptionGroup::values('case_type');
+        $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
+                   $caseType , true, array("size"=>"5",  "multiple"));
+
         $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                  'mode'           => 'remote',
                                  'store'          => 'caseStore');
           
         $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                          "c={$form->_currentlyViewedContactId}",
+                                          "c={$form->_uid}",
                                           false, null, false );
         $form->assign('caseUrl',$caseUrl );
         
-        $form->add( 'text','case_id',ts('Case'), $caseAttributes );
+        $subject = $form->add( 'text','case_id',ts('Case'), $caseAttributes );
         
-        /*if ( $subject->getValue( ) ) {
+        if ( $subject->getValue( ) ) {
             $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
             $this->assign( 'subject_value',  $caseSbj );
         }
-        */
-        require_once 'CRM/Core/OptionGroup.php';        
-        $caseType = CRM_Core_OptionGroup::values('case_type');
-        $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
-                   $caseType , true, array("size"=>"5",  "multiple"));
-        
-        $form->addElement('checkbox','is_resetTimeline', ts('Reset Case Timeline?'), null, array('onclick' =>"return showHideByValue('is_resetTimeline','','TimelineDate','table-row','radio',false);",'checked' => 'true') );
 
-        $form->addElement('date', 'timeline_date', ts('Restart Timeline On'), CRM_Core_SelectValues::date('activityDate')); 
-        $form->addRule('timeline_date', ts('Select a valid date.'), 'qfDate');
+        $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ) );
 
-        $form->addElement('checkbox','is_resetCaseroles', ts('Reset Case Roles?'), null, array('checked' => 'true'));
-        
+        $form->add( 'date', 'start_date', ts('Case Timeline'),
+                    CRM_Core_SelectValues::date('activityDate' ), false );   
+        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+
+        $form->addButtons( array(
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => ts('Cancel') ) ) );
     }
 
     /**
@@ -82,7 +85,20 @@ class CRM_Case_Form_Activity_ChangeCase
      * @access public
      * @return None
      */
-    public function postProcess( &$form, &$params ) 
+    public function beginPostProcess( &$form, &$params ) 
     {
+        $params['case_id'] = $form->_caseId;
+    }
+
+    /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function endPostProcess( &$form, &$params ) 
+    {
+        // status msg
+        $params['statusMsg'] = ts('Case Type changed successfully.');
     }
 }

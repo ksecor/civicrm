@@ -122,6 +122,9 @@ class CRM_Case_Form_Activity_OpenCase
             // unset contact params
             unset($params['location'], $params['first_name'], $params['last_name'], $params['prefix_id']);
         }
+
+        // for open case start date should be set to current date
+        $params['start_date'] = CRM_Utils_Date::format( $params['now'] );
     }
 
     /**
@@ -170,7 +173,7 @@ class CRM_Case_Form_Activity_OpenCase
         CRM_Contact_BAO_Relationship::create( $roleParams, $ids );
 
         // status msg
-        $params['statusMsg'] = ts('Case Opened Successfully');
+        $params['statusMsg'] = ts('Case opened successfully.');
     }
 }
 

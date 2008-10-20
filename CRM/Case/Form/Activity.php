@@ -78,6 +78,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
         }
 
+        // this is later going to be ajax field generated
+        $this->_caseId   = CRM_Utils_Array::value( 'caseid', $_GET );
+
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $this->_clientId ) {
@@ -107,8 +110,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // FIXME: hardcoded for now. We can move them to actual activity types.
-        $activityAction = array('OpenCase'   => ts('Open Case'),
-                                'ChangeCase' => ts('Change Case Type'),
+        $activityAction = array('OpenCase'       => ts('Open Case'),
+                                'ChangeCaseType' => ts('Change Case Type'),
                                 );
 
         $this->add('select', 'case_action',  ts( 'Activity Type' ),  
@@ -140,7 +143,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
         // 2. create/edit case
         require_once 'CRM/Case/BAO/Case.php';
-        $params['start_date'  ] = CRM_Utils_Date::format( $params['now'] );
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
             implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ) .
             CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -156,7 +158,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // 4. auto populate activites
 
         // 5. set status
-        require_once "CRM/Core/Session.php";
         CRM_Core_Session::setStatus( "{$params['statusMsg']}" );
     }
 }
