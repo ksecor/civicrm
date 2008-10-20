@@ -832,7 +832,7 @@ AND civicrm_contact.is_opt_out =0";
         $verpTokens = array( 'reply'       => 'r' ,
                              'bounce'      => 'b' ,
                              'unsubscribe' => 'u' ,
-                             'resubscribe' => 're',
+                             'resubscribe' => 'e',
                              'optOut'      => 'o'  );
         foreach ($verpTokens as $key => $value ) {
             $verp[$key] = implode($config->verpSeparator,
