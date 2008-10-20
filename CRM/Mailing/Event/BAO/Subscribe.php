@@ -186,6 +186,9 @@ SELECT     civicrm_email.id as email_id
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain();
         
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+        
         require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
                                                     array( 'confirm',
@@ -206,20 +209,20 @@ SELECT     civicrm_email.id as email_id
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Subscribe';
-
+        
         $component->find(true);
-
+        
         $headers = array(
-            'Subject'   => $component->subject,
-            'From'      => "\"{$domain->email_name}\" <{$domain->email_address}>",
-            'To'        => $email,
-            'Reply-To'  => $confirm,
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
-
+                         'Subject'   => $component->subject,
+                         'From'      => "\"{$domainEmailName}\" <{$domainEmailAddress}>",
+                         'To'        => $email,
+                         'Reply-To'  => $confirm,
+                         'Return-Path'   => "do-not-reply@{$domain->email_domain}"
+                         );
+        
         $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',
                                       "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
-
+        
         $html = $component->body_html;
 
         if ($component->body_text) {

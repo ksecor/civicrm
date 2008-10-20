@@ -1780,18 +1780,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
         
-        // lets get the stuff from domain to build the email address
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'id, email_name, email_address' );
-        $domain->find( true );
-
-        if ( ! $domain->email_address || $domain->email_address == 'info@FIXME.ORG') {
+        //get the default domain email address.
+        require_once 'CRM/Core/BAO/Domain.php';
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+        
+        if ( !$domainEmailAddress || $domainEmailAddress == 'info@FIXME.ORG') {
             CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
         }
-
-        $emailFrom = '"' . $domain->email_name . '" <' . $domain->email_address . '>';
-
+        
+        $emailFrom = '"' . $domainEmailName . '" <' . $domainEmailAddress . '>';
+        
         if($message) {
             foreach ( $emailList as $emailTo ) {
                 require_once 'CRM/Utils/Mail.php';

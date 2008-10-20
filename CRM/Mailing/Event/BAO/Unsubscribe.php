@@ -231,13 +231,16 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
     public static function send_unsub_response($queue_id, $groups, $is_domain = false, $job) {
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Core_BAO_Domain::getDomain( );
-
+        
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email = CRM_Core_DAO_Email::getTableName();
         $queue = CRM_Mailing_Event_BAO_Queue::getTableName();
         
+        //get the default domain email address.
+        list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
+
         $dao =& new CRM_Mailing_BAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
                         INNER JOIN $jobTable ON
@@ -308,19 +311,19 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $message->setTxtBody($text);
         }
         $headers = array(
-            'Subject'       => $component->subject,
-            'From'          => ts('\'%1\' <do-not-reply@%2>',
-                                   array(  1 => $domain->email_name,
-                                           2 => $domain->email_domain) ),
-            'To'            => $eq->email,
-            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
-        );
-
+                         'Subject'       => $component->subject,
+                         'From'          => ts('\'%1\' <do-not-reply@%2>',
+                                               array(  1 => $domainEmailName,
+                                                       2 => $domain->email_domain) ),
+                         'To'            => $eq->email,
+                         'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+                         'Return-Path'   => "do-not-reply@{$domain->email_domain}"
+                         );
+        
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-
+        
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
         if ( is_object( $mailer ) ) {
