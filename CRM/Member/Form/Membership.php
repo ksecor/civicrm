@@ -392,7 +392,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
               $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         
         $this->assign( 'emailExists', $this->_contributorEmail );
-        $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
+        $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'), $this );
         
         parent::buildQuickForm( );
     }
@@ -406,7 +406,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      * @access public
      * @static
      */
-    public function formRule( &$params ) 
+    public function formRule( &$params, &$files, $self ) 
     {
         $errors = array( );
         if (!$params['membership_type_id'][1]) {
@@ -432,7 +432,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( $joinDate ) {
             require_once 'CRM/Member/BAO/MembershipType.php';
             $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $params['membership_type_id'][1] );
-
+            
             $startDate = CRM_Utils_Date::format( $params['start_date'] );
             if ( $startDate && $membershipDetails['period_type'] == 'rolling' ) {
                 if ( $startDate < $joinDate ) {
@@ -457,6 +457,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     }
                 }
             }
+            
+            //CRM-3724, check for availability of valid membership status.
+            if ( !CRM_Utils_Array::value( 'is_override',  $params ) ) {
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, 
+                                                                                          $endDate, 
+                                                                                          $joinDate, 
+                                                                                          'today', 
+                                                                                          true );
+                if ( empty( $calcStatus ) ) {
+                    $url = CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', 'reset=1&action=browse' );
+                    $errors['_qf_default'] = ts( 'There is no valid Membership Status available for selected membership dates.' );
+                    $status = ts( "Oops it looks like there is no valid Membership status available for given Membership dates. You can configure Membership Status Rules here <a href='%1'>Configure Membership Status Rules.</a>",  array( 1 => $url ) );
+                    if ( !$self->_mode ) { 
+                        $status .= ts( ' OR You can sign up by selecting Status Override? equal to true.' );
+                    }
+                    CRM_Core_Session::setStatus( $status );
+                }
+            }
         } else {
             $errors['join_date'] = ts('Please enter the join date.');
         }
@@ -466,6 +485,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
              ! $params['status_id'] ) {
             $errors['status_id'] = ts('Please enter the status.');
         }
+        
         //total amount condition arise when membership type having no
         //minimum fee
         if ( isset( $params['record_contribution'] ) ) { 
@@ -473,7 +493,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $errors['contribution_type_id'] = ts('Please enter the contribution Type.');
             } 
             if ( !$params['total_amount'] ) {
-               $errors['total_amount'] = ts('Please enter the contribution.'); 
+                $errors['total_amount'] = ts('Please enter the contribution.'); 
             }
         }
         
@@ -516,8 +536,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
         
+        // fix for CRM-3724
+        // when is_override false ignore is_admin statuses during membership 
+        // status calculation. similarly we did fix for import in CRM-3570. 
+        if ( !CRM_Utils_Array::value( 'is_override', $params ) ) {
+            $params['exclude_is_admin'] = true;
+        }
+        
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
-                      
+        
         $joinDate  = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
         $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
