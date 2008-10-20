@@ -18,4 +18,10 @@
      <page_type>1</page_type>
      <weight>910</weight>
   </item>
+  <item>
+     <path>civicrm/case/activity</path>
+     <title>Case Activity</title>
+     <page_callback>CRM_Case_Form_Activity</page_callback>
+     <access_arguments>access CiviCase</access_arguments>
+  </item>
 </menu>
