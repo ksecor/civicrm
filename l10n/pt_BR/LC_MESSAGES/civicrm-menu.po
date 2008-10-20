@@ -6,24 +6,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-09-18 15:00+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2008-10-19 20:23-0700\n"
+"Last-Translator: Oseas Matos Soares <oseasm@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Accepted Credit Cards"
-msgstr "Cartões de Crédito Aceitos"
+msgstr "Cartões Crédito Aceitos"
 
 msgid "Access Control"
-msgstr "Controle de Acesso"
+msgstr "Controle Acesso"
 
 msgid "ACL"
-msgstr ""
+msgstr "Nível Acesso Controle"
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "Funções Nível Acesso Controle"
 
 msgid "Activities"
 msgstr "Atividades"
@@ -32,28 +33,28 @@ msgid "Activity"
 msgstr "Atividade"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Tipos Atividade"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Informação Adicional"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Formulário Informação Adicional"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Preferências Endereço"
 
 msgid "Administer CiviCRM"
-msgstr "Administrar CiviCRM"
+msgstr "Administrar CRM"
 
 msgid "Advanced Search"
 msgstr "Pesquisa Avançada"
 
 msgid "Assign Users to ACL Roles"
-msgstr ""
+msgstr "Permitir Usuários Funç. Nív.Contr.Acesso"
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Procurar arquivos enviados"
 
 msgid "Case"
 msgstr ""
@@ -62,37 +63,37 @@ msgid "Case Types"
 msgstr ""
 
 msgid "CiviContribute"
-msgstr ""
+msgstr "Contribuição"
 
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 msgid "CiviCRM Home"
-msgstr "Home do CiviCRM"
+msgstr "Início CRM"
 
 msgid "CiviCRM Profile"
-msgstr "Perfil CiviCRM"
+msgstr "Perfil CRM"
 
 msgid "CiviCRM Profile Create"
-msgstr ""
+msgstr "Criar Perfil CRM"
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Campos Perfil CRM"
 
 msgid "CiviEvent"
-msgstr ""
+msgstr "Evento"
 
 msgid "CiviGrant"
-msgstr ""
+msgstr "Subvenção"
 
 msgid "CiviMail"
-msgstr ""
+msgstr "Mail"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "Membro"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "Penhor"
 
 msgid "Components"
 msgstr "Componentes"
@@ -101,186 +102,186 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 msgid "Contact Dashboard"
-msgstr "Quadro de Contatos"
+msgstr "Painel de Contatos"
 
 msgid "Contacts"
 msgstr "Contatos"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Resumo Contatos"
 
 msgid "Contribution Chart"
-msgstr ""
+msgstr "Gráfico Contribuição"
 
 msgid "Contributions"
 msgstr "Contribuições"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tipos Contribuição"
 
 msgid "Create New Group"
 msgstr "Criar novo Grupo"
 
 msgid "Custom Data"
-msgstr "Dados Personalizados"
+msgstr "Dados Customizados"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Campos Dados Custom"
 
 msgid "Custom Field - Move"
-msgstr ""
+msgstr "Mover Campos Custom"
 
 msgid "Custom Field - Options"
-msgstr ""
+msgstr "Opções-Campos Custom"
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Pesquisas Customizadas"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formatação Dados"
 
 msgid "Debugging"
-msgstr "Depurar"
+msgstr "Depuração"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Apagar Contatos"
 
 msgid "Delete Location"
-msgstr "Deletar Localidade"
+msgstr "Apagar Localização"
 
 msgid "Domain Information"
-msgstr "Informações do Domínio"
+msgstr "Informações Domínio"
 
 msgid "Download Errors"
-msgstr "Erros de Download"
+msgstr "Erros Descarga"
 
 msgid "Draft and Unscheduled Mailings"
-msgstr ""
+msgstr "Rascunhos Emails Não Agendados"
 
 msgid "Edit Related Contact"
-msgstr ""
+msgstr "Editar Contatos Relacionados"
 
 msgid "Email a Contact"
-msgstr "Enviar Email a Contato"
+msgstr "Email a um Contato"
 
 msgid "Event Information"
-msgstr "Detalhes do Evento"
+msgstr "Detalhes Evento"
 
 msgid "Event Participants List"
-msgstr ""
+msgstr "Lista Participantes Evento"
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Registro Evento"
 
 msgid "Event Types"
-msgstr ""
+msgstr "Tipos Eventos"
 
 msgid "Export Contacts"
 msgstr "Exportar Contatos"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Caminho Sistema Arquivo"
 
 msgid "Find and Merge Duplicate Contacts"
-msgstr ""
+msgstr "Achar Mesclar Contatos Duplicados"
 
 msgid "Find Contacts"
 msgstr "Achar Contatos"
 
 msgid "Find Contributions"
-msgstr "Encontrar Contribuições"
+msgstr "Achar Contribuições"
 
 msgid "Find Grants"
-msgstr ""
+msgstr "Achar Subvenções"
 
 msgid "Find Members"
-msgstr "Encontrar Membros"
+msgstr "Achar Membros"
 
 msgid "Find Participants"
 msgstr "Achar Participantes"
 
 msgid "Find Pledges"
-msgstr ""
+msgstr "Achar Penhoras"
 
 #, fuzzy
 msgid "Find Signers"
-msgstr "Encontrar Membros"
+msgstr "Achar Membros"
 
 msgid "From Email Address"
-msgstr ""
+msgstr "De Endereço Email"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Opções Gênero"
 
 msgid "Global Settings"
 msgstr "Definições Globais"
 
 msgid "Grant Types"
-msgstr ""
+msgstr "Tipos Subvenção"
 
 msgid "Group Members"
-msgstr "Membros de Grupo"
+msgstr "Membros Grupo"
 
 msgid "Groups"
 msgstr "Grupos"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Cabeçalhos, Rodapés e Mensagens Automáticas"
 
 msgid "Import"
 msgstr "Importar"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importar Contribuições"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Importar/Exportar mapas"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importar Membros"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Importar Participantes"
 
 #, fuzzy
 msgid "Import Signers"
-msgstr "Importar Membros "
+msgstr "Importar signatários"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Prefixos Individuais (Sr, Srª...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Sufixos Individuais (Jr, ...) "
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Serviços de Mensagens Instatâneas"
 
 msgid "Localization"
 msgstr "Localização"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Tipos de Localização (Trabalho, Sindicato...)"
 
 msgid "Log out"
-msgstr ""
+msgstr "Sair"
 
 msgid "Mailer Settings"
-msgstr ""
+msgstr "Configuração Envio Maill"
 
 msgid "Mailing Event"
-msgstr ""
+msgstr "Envio Evento Maill"
 
 msgid "Mailing Report"
-msgstr ""
+msgstr "Envio Comunicado Maill"
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Gerenciar NCAs"
 
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "Gerenciar Páginas de Contribuição"
 
 msgid "Manage Custom Searches"
-msgstr ""
+msgstr "Gerenciar Pesquis. Customizados"
 
 msgid "Manage Events"
 msgstr "Gerenciar Eventos"
@@ -293,13 +294,13 @@ msgid "Manage Pledges"
 msgstr "Cancelado"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Gerenciar Prêmios"
 
 msgid "Manage Price Sets"
-msgstr ""
+msgstr "Gerenciar Grupos Preços"
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Localização Eventos Mapa"
 
 msgid "Map Location(s)"
 msgstr "Mapear Localidade(s)"
@@ -314,7 +315,7 @@ msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
+msgstr "Tipos de Afiliações"
 
 msgid "Merge Contact"
 msgstr ""
