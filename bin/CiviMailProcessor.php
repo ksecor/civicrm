@@ -36,6 +36,8 @@
 class CiviMailProcessor {
 
     function process() {
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domain =& CRM_Core_BAO_Domain::getDomain();
 
         // retrieve the emails
         require_once 'CRM/Mailing/MailStore.php';
@@ -46,13 +48,12 @@ class CiviMailProcessor {
         foreach ($mails as $key => $mail) {
 
             // for every addressee: match address elements if it's to CiviMail
-            // FIXME: the regexen should be limited to the domain
             $matches = array();
             foreach ($mail->to as $address) {
-                if (preg_match('/^(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@/', $address->email, $matches)) {
+                if (preg_match("/^(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+).(\d+).(\d+).([0-9a-f]{16})(-.*)?@{$domain->email_domain}$/", $address->email, $matches)) {
                     list($match, $action, $domain, $job, $queue, $hash) = $matches;
                     break;
-                } elseif (preg_match('/^(s|subscribe)\.(\d+).(\d+)@/', $address->email, $matches)) {
+                } elseif (preg_match("/^(s|subscribe)\.(\d+).(\d+)@{$domain->email_domain}$/", $address->email, $matches)) {
                     list($match, $action, $domain, $group) = $matches;
                     break;
                 }
