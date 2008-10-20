@@ -269,17 +269,30 @@ class CRM_Contact_Form_Search_Custom_RandomSegment
         
         $from = "FROM civicrm_contact contact_a";
         
-        $fromTail = "INNER JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 )";
+        $fromTail = "LEFT JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 )";
         
         $fromTail .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
         
         // now create a temp table to store the randomized contacts
+        $sql = "DROP TEMPORARY TABLE IF EXISTS random_{$this->_tableName}";
+        CRM_Core_DAO::executeQuery( $sql );
         $sql = "CREATE TEMPORARY TABLE random_{$this->_tableName} ( id int primary key ) ENGINE=HEAP";
         CRM_Core_DAO::executeQuery( $sql );
 
+        if (substr($this->_segmentSize, -1) == '%') {
+            $countSql = "SELECT DISTINCT contact_a.id $from $fromTail
+                         WHERE ".$this->where();
+            $dao = CRM_Core_DAO::executeQuery( $countSql );
+            $totalSize = $dao->N;
+            $multiplier = substr($this->_segmentSize, 0, strlen($this->_segmentSize)-1);
+            $multiplier /= 100;
+            //CRM_Core_Error::debug( "Total size: $totalSize<br/>Multiplier: $multiplier<br/>");
+            $this->_segmentSize = round( $totalSize * $multiplier );
+        }
+
         $sql = "INSERT INTO random_{$this->_tableName} ( id )
                 SELECT DISTINCT contact_a.id $from $fromTail
-                WHERE {$this->where()}
+                WHERE ".$this->where()."
                 ORDER BY RAND()
                 LIMIT {$this->_segmentSize}";
         CRM_Core_DAO::executeQuery( $sql );
