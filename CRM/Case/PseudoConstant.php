@@ -110,7 +110,6 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     public static function category( $onlyParent  = true,
                                      $returnValue = 'label',
                                      $inputCond   = null ) {
-    {
         if ( $onlyParent ) {
             $cond = '(parent_id IS NULL)';
             $index     = '1';
@@ -138,5 +137,3 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     }
 
 }
-
-
