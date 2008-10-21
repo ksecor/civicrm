@@ -176,5 +176,3 @@ class CRM_Case_Form_Activity_OpenCase
         $params['statusMsg'] = ts('Case opened successfully.');
     }
 }
-
-

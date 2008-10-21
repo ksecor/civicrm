@@ -50,6 +50,7 @@ function buildCaseBlock( caseAction )
      		           // on success
                        dojo.byId('caseBlock').innerHTML = response;
                        // this executes any javascript in the injected block
+                       dojo.parser.parse('caseBlock');
                        executeInnerHTML( 'caseBlock' );
                      }
                 }

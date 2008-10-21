@@ -78,9 +78,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
         }
 
-        // this is later going to be ajax field generated
-        $this->_caseId   = CRM_Utils_Array::value( 'caseid', $_GET );
-
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $this->_clientId ) {
@@ -149,6 +146,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         $caseObj = CRM_Case_BAO_Case::create( $params );
         $params['case_id'] = $caseObj->id;
+
+        // unset any ids
+        unset($params['id']);
 
         // 3. call end post process
         if ( $this->_caseAction ) {

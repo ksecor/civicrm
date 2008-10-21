@@ -49,28 +49,24 @@ class CRM_Case_Form_Activity_ChangeCaseType
         $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
                    $caseType , true, array("size"=>"5",  "multiple"));
 
+        // case selector
+        $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                  'mode'           => 'remote',
                                  'store'          => 'caseStore');
-          
         $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
                                           "c={$form->_uid}",
                                           false, null, false );
-        $form->assign('caseUrl',$caseUrl );
+        $form->assign( 'caseUrl', $caseUrl );
+        $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );
         
-        $subject = $form->add( 'text','case_id',ts('Case'), $caseAttributes );
-        
-        if ( $subject->getValue( ) ) {
-            $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
-            $this->assign( 'subject_value',  $caseSbj );
-        }
-
+        // timeline
         $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ) );
-
         $form->add( 'date', 'start_date', ts('Case Timeline'),
                     CRM_Core_SelectValues::date('activityDate' ), false );   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
+        // buttons
         $form->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Save'),
@@ -87,7 +83,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function beginPostProcess( &$form, &$params ) 
     {
-        $params['case_id'] = $form->_caseId;
+        $params['id'] = $params['case_id'];
     }
 
     /**
