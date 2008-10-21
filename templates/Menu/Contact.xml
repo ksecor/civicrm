@@ -151,12 +151,6 @@
      <page_callback>CRM_Contact_Page_View_Tag</page_callback>
   </item>
   <item>
-     <path>civicrm/contact/view/case</path>
-     <path_arguments>cid=%%cid%%</path_arguments>
-     <title>Case</title>
-     <page_callback>CRM_Contact_Page_View_Case</page_callback>
-  </item>
-  <item>
      <path>civicrm/contact/view/cd</path>
      <page_callback>CRM_Contact_Page_View_CustomData</page_callback>
   </item>
@@ -172,14 +166,6 @@
   <item>
      <path>civicrm/contact/view/print</path>
      <page_callback>CRM_Contact_Page_View_Print</page_callback>
-  </item>
-  <item>
-     <path>civicrm/contact/view/participant</path>
-     <page_callback>CRM_Event_Page_Tab</page_callback>
-  </item>
-  <item>
-     <path>civicrm/contact/view/grant</path>
-     <page_callback>CRM_Grant_Page_Tab</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/log</path>

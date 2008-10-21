@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates view mode for CiviCase
  * 
  */
-class CRM_Case_Form_CiviCaseView extends CRM_Core_Form
+class CRM_Case_Form_CaseView extends CRM_Core_Form
 {
     /**  
      * Function to set variables up before form is built  
