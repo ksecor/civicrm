@@ -23,12 +23,11 @@
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Roles</legend>
     <table class="report">
+        {foreach from=$caseRelationships item=row}
         <tr>
-            <td class="label">Case Coordinator</td><td><a href="" title="view contact record">Greenberg, Dave</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>(415) 244-1092</td><td><a href="" title="Send Email"><img src="{$config->resourceBase}i/EnvelopeIn.gif"></a></td>
+            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>{$row.phone}</td><td><a href="" title="Send Email"><img src="{$config->resourceBase}i/EnvelopeIn.gif"></a></td>
         </tr>
-        <tr>
-            <td class="label">Addiction Counselor</td><td><a href="" title="view contact record">Smith, Jane</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>(408) 552-3912</td><td><a href="" title="Send Email"><img src="{$config->resourceBase}i/EnvelopeIn.gif"></a></td>
-        </tr>
+        {/foreach}
         <tr>
             <td class="label">Primary Care Physician</td><td>(not assigned) <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td></td><td></td>
         </tr>
@@ -53,12 +52,8 @@ hide('caseRole');
         <td class="label" colspan="2"><label for="activity_category">{ts}Category{/ts}</label><br />
             {$form.category.html}
         </td>
-        <td class="label"><label for="reporter">Reporter/Role</label><br />
-            <select name="reporter" id="reporter" class="form-select">
-            <option value="" selected="selected">- any reporter -</option>
-            <option>Greenberg, David (Case Coordinator)</option>
-            <option>Smith, Jane (Addiction Counselor)</option>
-            </select>
+        <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
+            {$form.reporter_id.html}
         </td>
         <td class="label"><label for="status">{$form.status_id.label}</label><br />
             {$form.status_id.html}

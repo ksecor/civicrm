@@ -49,8 +49,11 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
      */
     public function preProcess( ) 
     {
+        $this->_contactID = $this->get('cid');
+        $this->_caseID    = $this->get('id');
+
         //retrieve details about case
-        $params = array( 'id' => $this->_id );
+        $params = array( 'id' => $this->_caseID );
 
         $returnProperties = array( 'case_type_id', 'subject', 'status_id' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $params, $values, $returnProperties );
@@ -77,6 +80,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                               );
         
         $this->assign ( 'caseDetails', $caseDetails );
+
     }
 
     /**
@@ -124,6 +128,21 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Completed' ) , '0' );
         
         $group =& $this->addGroup( $choice, 'date_range' );
+
+        //get case related relationships (Case Role)
+        $caseRelationships = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactID,
+                                                                            CRM_Contact_BAO_Relationship::CURRENT  ,
+                                                                            0, 0, 0,
+                                                                            null, null, false, $this->_caseID );
+        $this->assign('caseRelationships', $caseRelationships);
+
+        //build reporter select
+        $reporters = array( );
+        foreach( $caseRelationships as $key => $value ) {
+            $reporters[$value['cid']] = $value['name'];
+        }
+
+        $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
 
         $this->addButtons(array(  
                                 array ( 'type'      => 'cancel',  

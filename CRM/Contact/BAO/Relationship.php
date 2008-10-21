@@ -599,12 +599,13 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @param int $count get the no of relationships
      * $param int $relationshipId relationship id
      * @param string $direction   the direction we are interested in a_b or b_a
+     * $param int $caseID if relationship is associated with case
      *
      * return string the query for this diretion
      * @static
      * @access public
      */
-    static function makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, $direction ) 
+    static function makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, $direction, $caseID = null ) 
     {
         $select = $from = $where = '';
 
@@ -644,7 +645,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
                               civicrm_relationship_type.name_a_b as relation ';
             }
-
         }        
          
         $from = " FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact                       
@@ -664,6 +664,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $where .= ' AND civicrm_relationship.id = ' . CRM_Utils_Type::escape($relationshipId, 'Integer');
         }
 
+        if ( $caseID ) {
+            $where .= ' AND civicrm_relationship.case_id = ' . CRM_Utils_Type::escape( $caseID, 'Integer' );
+        }
+ 
         $date = date( 'Y-m-d' );
         if ( $status == self::PAST ) {
             //this case for showing past relationship
@@ -702,6 +706,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * $param array $links the list of links to display
      * $param int   $permissionMask  the permission mask to be applied for the actions
      * $param boolean $permissionedContact to return only permissioned Contact
+     * $param int $caseID get relationship associated with a case
      *
      * return array $values relationship records
      * @static
@@ -711,10 +716,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                                      $status = 0, $numRelationship = 0,
                                      $count = 0, $relationshipId = 0,
                                      $links = null, $permissionMask = null,
-                                     $permissionedContact = false)
+                                     $permissionedContact = false,
+                                     $caseID = null)
     {
-        list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
-        list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
+        list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b', $caseID );
+        list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a', $caseID );
        
         $order = $limit = '';
         if (! $count ) {
