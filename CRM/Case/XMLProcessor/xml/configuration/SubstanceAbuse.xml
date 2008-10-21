@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <keyname>Substance Abuse</keyname>
+  <ActivityTypes>
+    <ActivityType>
+      <keyname>Open Case</keyname>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <keyname>Presenting Problem</keyname>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <keyname>Medication and Drug Use</keyname>
+     </ActivityType>
+    <ActivityType>
+      <keyname>Current Prescribing Privileges</keyname>
+      <max_instances>1</max_instances>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <keyname>Standard Timeline</keyname>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <keyname>Open Case</keyname>
+        </ActivityType>
+        <ActivityType>
+          <keyname>Presenting Problem</keyname>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0d</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <keyname>Medication and Drug Use</keyname>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>5d</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <keyname>Current Prescribing Privileges</keyname>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>5d</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+    <ActivitySet>
+      <keyname>15 Day Review</keyname>
+      <label>15 Day Review</label>
+      <timeline>false</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <keyname>Medication and Drug Use</keyname>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>5d</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <keyname>Current Prescribing Privileges</keyname>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>5d</reference_offset>
+           <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <relationship_type>Case Coordinator</relationship_type>
+    <relationship_type>Addiction Counselor</relationship_type>
+    <relationship_type>Supervisor</relationship_type>
+  </CaseRoles>
+</CaseType>
