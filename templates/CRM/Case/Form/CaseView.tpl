@@ -101,4 +101,5 @@ show('activities_show');
 hide('activities');
 </script>
 
+{$form.buttons.html}
 </div>

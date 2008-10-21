@@ -57,7 +57,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      */
     function view( ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case',  
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_CaseView',
                                                        'View Case',  
                                                        $this->_action ); 
         $controller->setEmbedded( true ); 

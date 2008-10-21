@@ -49,21 +49,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
      */
     public function preProcess( ) 
     {
-        //retrieve case id
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        
-        //retrieve contact id
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
-        
-        //temporarily setting $displayname, this code should be removed once we have fixed flow through Contact summary
-        require_once "CRM/Contact/BAO/Contact.php";
-        list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
-        
-        $this->assign( 'displayName', $displayName );
-
         //retrieve details about case
         $params = array( 'id' => $this->_id );
-        //CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
+
         $returnProperties = array( 'case_type_id', 'subject', 'status_id' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $params, $values, $returnProperties );
         
@@ -79,7 +67,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                 if ( $caseType ) {
                     $caseType .= ", ";
                 }
-
                 $caseType .= $statuses[$value];
             }
         }
@@ -137,7 +124,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Completed' ) , '0' );
         
         $group =& $this->addGroup( $choice, 'date_range' );
-        
+
+        $this->addButtons(array(  
+                                array ( 'type'      => 'cancel',  
+                                        'name'      => ts('Done'),  
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
+                                        'isDefault' => true   )
+                                  )
+                          );
     }
 }
 
