@@ -122,6 +122,34 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     }
 
     /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        if ( isset($this->_caseAction) ) {
+            eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_caseAction}', 'formrule'), \$this);");
+        }
+        $this->addFormRule( array( 'CRM_Case_Form_Activity', 'formRule'), $this );
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $values posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values, $files, &$form ) 
+    {
+        return true;
+    }
+
+    /**
      * Function to process the form
      *
      * @access public

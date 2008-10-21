@@ -128,6 +128,20 @@ class CRM_Case_Form_Activity_OpenCase
     }
 
     /**
+     * global validation rules for the form
+     *
+     * @param array $values posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$values, $files, &$form ) 
+    {
+        return true;
+    }
+
+    /**
      * Function to process the form
      *
      * @access public
