@@ -1968,8 +1968,7 @@ WHERE  id IN ( $groupIDs )
    OR    saved_search_id IS NOT NULL
    OR    children IS NOT NULL )
 ";
-        $group = CRM_Core_DAO::executeQuery( $sql,
-                                             CRM_Core_DAO::$_nullArray );
+        $group = CRM_Core_DAO::executeQuery( $sql );
         $ssWhere = array(); 
         while ( $group->fetch( ) ) {
             $this->_useDistinct = true;
@@ -2825,7 +2824,7 @@ WHERE  id IN ( $groupIDs )
                               $sort = null,
                               $offset = 0,
                               $row_count = 25,
-                              $smartGroupCache = true ) 
+                              $smartGroupCache = true )
     {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties,
                                              null, true, false, 1,
@@ -2847,7 +2846,7 @@ WHERE  id IN ( $groupIDs )
             $sql .= " LIMIT $offset, $row_count ";
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
         
         $values = array( );
         while ( $dao->fetch( ) ) {
@@ -2991,7 +2990,7 @@ WHERE  id IN ( $groupIDs )
                                                                  $this->_primaryLocation, $this->_mode );
 
                     $limitQuery = "$limitSelect {$this->_simpleFromClause} $where $order $limit";
-                    $limitDAO   = CRM_Core_DAO::executeQuery( $limitQuery, CRM_Core_DAO::$_nullArray );
+                    $limitDAO   = CRM_Core_DAO::executeQuery( $limitQuery );
                     $limitIDs   = array( );
                     while ( $limitDAO->fetch( ) ) {
                         $limitIDs[] = $limitDAO->id;
@@ -3029,7 +3028,7 @@ WHERE  id IN ( $groupIDs )
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         if ( $groupContacts ) {
             $ids = array( );
             while ( $dao->fetch( ) ) {
