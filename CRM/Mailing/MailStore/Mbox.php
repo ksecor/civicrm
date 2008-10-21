@@ -52,11 +52,8 @@ class CRM_Mailing_MailStore_Mbox extends CRM_Mailing_MailStore
 
         $this->_leftToProcess = count($this->_transport->listMessages());
 
-        $config =& CRM_Core_Config::singleton();
-        $this->_ignored   = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.ignored';
-        $this->_processed = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed';
-        if (!file_exists($this->_ignored))   mkdir($this->_ignored,   0700, true);
-        if (!file_exists($this->_processed)) mkdir($this->_processed, 0700, true);
+        $this->_ignored   = $this->maildir('CiviMail.ignored')   . DIRECTORY_SEPARATOR . 'cur';
+        $this->_processed = $this->maildir('CiviMail.processed') . DIRECTORY_SEPARATOR . 'cur';
     }
 
     /**

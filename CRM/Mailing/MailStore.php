@@ -84,4 +84,22 @@ class CRM_Mailing_MailStore
         }
         return $mails;
     }
+
+    /**
+     * Point to (and create if needed) a local Maildir for storing retrieved mail
+     *
+     * @param string $name  name of the Maildir
+     * @return string       path to the Maildir
+     */
+    function maildir($name)
+    {
+        $config =& CRM_Core_Config::singleton();
+        $dir = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $name;
+        if (!file_exists($dir)) {
+            foreach (array('cur', 'new', 'tmp') as $sub) {
+                mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true);
+            }
+        }
+        return $dir;
+    }
 }
