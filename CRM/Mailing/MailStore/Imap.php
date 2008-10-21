@@ -71,6 +71,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
+        $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_ignored);
         $this->_transport->delete($nr);
     }
@@ -83,6 +84,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
+        $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_processed);
         $this->_transport->delete($nr);
     }
