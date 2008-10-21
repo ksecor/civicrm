@@ -34,13 +34,33 @@
  */
 
 require_once "CRM/Core/Form.php";
-
+require_once 'CRM/Custom/Form/CustomData.php';
 /**
  * This class generates form components for OpenCase Activity
  * 
  */
 class CRM_Case_Form_Activity_OpenCase
 {
+
+   /** Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    public function preProcess()  
+    {
+    }
+    
+   /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+    }
 
     static function buildQuickForm( &$form ) 
     {
@@ -79,6 +99,11 @@ class CRM_Case_Form_Activity_OpenCase
                                                          'email'));
         }
 
+        $form->add( 'date', 'start_date', ts('Start Date'),
+                    CRM_Core_SelectValues::date('activityDate' ),
+                    true);   
+        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        
         $form->addButtons( array(
                                  array ( 'type'      => 'submit',
                                          'name'      => ts('Save'),

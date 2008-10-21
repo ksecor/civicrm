@@ -1,11 +1,14 @@
-{if $caseAction }
+{if $cdType}
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $caseAction }
    {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
 {else}
 <fieldset><legend id="caseBlockTitle">{ts}Case Action{/ts}</legend>
 <table class="form-layout">
-   <tr><td class="label" width="30%">{$form.case_action.label}</td><td>{$form.case_action.html}</td>        
+   <tr><td class="label" width="30%">{$form.case_action.label}</td><td>{$form.case_action.html}</td>   
 </table>
-
+<div id="customData"></div>
+     {include file="CRM/common/customData.tpl"}
 {* case block is injected here when an case action is selected. *}
 <div id="caseBlock"></div>
 </fieldset>

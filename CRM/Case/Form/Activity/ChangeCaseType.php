@@ -41,9 +41,30 @@ require_once "CRM/Core/Form.php";
  */
 class CRM_Case_Form_Activity_ChangeCaseType
 {
-    
-    static function buildQuickForm( &$form ) 
+
+    /** Function to set variables up before form is built 
+     *                                                           
+     * @return void 
+     * @access public 
+     */ 
+    public function preProcess()  
     {
+        
+    }    
+  
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( &$form ) 
+    {
+    }
+
+    static function buildQuickForm( &$form ) 
+    { 
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
@@ -61,7 +82,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
         $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );
         
         // timeline
-        $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ) );
+        $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, null, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );
         $form->add( 'date', 'start_date', ts('Case Timeline'),
                     CRM_Core_SelectValues::date('activityDate' ), false );   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');

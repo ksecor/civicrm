@@ -34,7 +34,7 @@
  */
 
 require_once "CRM/Core/Form.php";
-
+require_once 'CRM/Custom/Form/CustomData.php';
 /**
  * This class generates form components for case activity
  * 
@@ -74,10 +74,21 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->set('caseAction', $this->_caseAction);
         }
 
+       
+
         if ( $this->_caseAction ) {
-            require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
+             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
+             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::preProcess();");
         }
 
+        //handle custom data.
+        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+        
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( $this->_clientId ) {
@@ -90,7 +101,18 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
         
         $session    =& CRM_Core_Session::singleton();
-        $this->_uid = $session->get('userID');    
+        $this->_uid = $session->get('userID');
+
+    
+        
+        //when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            $this->set( 'type'    , 'Activity' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        }
+
     }
     
     /**
@@ -102,11 +124,24 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( isset($this->_caseAction) ) {
+            return eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::setDefaultValues( \$this );");
+        }
     }
 
     public function buildQuickForm( ) 
     {
-        // FIXME: hardcoded for now. We can move them to actual activity types.
+   
+        //build custom data form.
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
+        // $activityAction =
+//             array( ''   => ' - select activity - ' ) + 
+//             CRM_Core_PseudoConstant::ActivityType( true );
+
+        //FIXME: hardcoded for now. We can move them to actual activity types.
         $activityAction = array('OpenCase'       => ts('Open Case'),
                                 'ChangeCaseType' => ts('Change Case Type'),
                                 );
@@ -114,11 +149,17 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->add('select', 'case_action',  ts( 'Activity Type' ),  
                    array( '' => ts( '- select case action -' ) ) + $activityAction,
                    true,
-                   array('onchange' => "buildCaseBlock( this.value );") );
+                   array('onchange' => "buildCaseBlock( this.value );buildCustomData( this.value );") );
 
         if ( isset($this->_caseAction) ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::buildQuickForm( \$this );");
         }
+                
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Activity');
+        $this->assign('customDataSubType',  $this->_activityTypeId );
+        $this->assign('entityId',  $this->_activityId );
+
     }
 
     /**
@@ -171,10 +212,18 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
             implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ) .
             CRM_Case_BAO_Case::VALUE_SEPERATOR;
+
+        if ( CRM_Utils_Array::value('is_reset_timeline', $params ) == 0 ) {
+            unset($params['start_date']);
+        } else if( CRM_Utils_System::isNull( $params['start_date'] ) ) {
+            $params['start_date'] = date("Y-m-d");
+        } else {
+            $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
+        }
         
         $caseObj = CRM_Case_BAO_Case::create( $params );
         $params['case_id'] = $caseObj->id;
-
+        
         // unset any ids
         unset($params['id']);
 

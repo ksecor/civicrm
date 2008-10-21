@@ -1,7 +1,12 @@
 <table class="form-layout">
    <tr><td class="label" width="30%">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td>        
    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td>        
-   <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td>
+   <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
+   <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
+                </td>
+   </tr>   
 {if $clientName}
    <tr><td class="label">{ts}Client{/ts}</td><td><strong>{$clientName}</strong></td>
 {else}
@@ -31,5 +36,7 @@
    </fieldset>
    </td></tr> 
 {/if}        
-   <tr><td">&nbsp;</td><td>{$form.buttons.html}</td></tr>
-</table>
+ </table>
+  <dl>    
+   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
+  </dl> 
