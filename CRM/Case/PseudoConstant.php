@@ -107,18 +107,37 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all categories if any
      * @static
      */
-    public static function category( $onlyParent = true, $returnValue = "label" )
+    public static function category( $onlyParent  = true,
+                                     $returnValue = 'label',
+                                     $componentID = null )
     {
-        $condition = "parent_id IS NULL";
-        if ( !$onlyParent ) {
-            $condition = "parent_id IS NOT NULL";
+        if ( $onlyParent ) {
+            $condition = '(parent_id IS NULL)';
+            $index     = '1_';
+        } else {
+            $condition = '(parent_id IS NOT NULL)';
+            $index     = '0_';
         }
 
-        if ( ! self::$category[$onlyParent][$returnValue] ) {
-            CRM_Core_PseudoConstant::populate( self::$category[$onlyParent][$returnValue],
+        if ( $componentID ) {
+            $condition .= " AND (component_id = $componentID)";
+            $index     .= "_$componentID";
+        } else {
+            $componentID = 'not set';
+            $index     .= "_0";
+        }
+        $index .= "_$label";
+
+        if ( ! self::$category ) {
+            self::$category = array( );
+        }
+
+        if ( ! CRM_Utils_Array::value( $index, self::$category ) ) {
+            self::$category[$index] = null;
+            CRM_Core_PseudoConstant::populate( self::$category[$index],
                                                'CRM_Core_DAO_Category', true, $returnValue, 'is_active', $condition );
         }
-        return self::$category[$onlyParent][$returnValue];
+        return self::$category[$index];
     }
 
 }
