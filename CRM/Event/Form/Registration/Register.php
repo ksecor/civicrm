@@ -149,7 +149,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //fix for CRM-3088, default value for discount set.      
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
-            $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
             
             $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
                                                         , 'weight', 'id' );
@@ -493,7 +493,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
             //added for discount
             require_once 'CRM/Core/BAO/Discount.php';
-            $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
 
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['discount_id'] = $discountId;
