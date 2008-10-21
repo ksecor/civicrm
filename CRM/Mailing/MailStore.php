@@ -95,8 +95,8 @@ class CRM_Mailing_MailStore
     {
         $config =& CRM_Core_Config::singleton();
         $dir = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $name;
-        if (!file_exists($dir)) {
-            foreach (array('cur', 'new', 'tmp') as $sub) {
+        foreach (array('cur', 'new', 'tmp') as $sub) {
+            if (!file_exists($dir . DIRECTORY_SEPARATOR . $sub)) {
                 mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true);
             }
         }
