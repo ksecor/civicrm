@@ -65,6 +65,10 @@ function civicrm_html_head()
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
+
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery-ui.js\"></script>";
+        $head .= "<script type=\"text/javascript\">var cj = jQuery.noConflict(); $ = cj;</script>";
     }
 
     return $head;
