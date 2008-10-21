@@ -346,6 +346,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function CiviCase( &$form ) {
+        //Looks like obsolete code, since CiviCase is a component, but might be used by HRD
         $form->add( 'hidden', 'hidden_CiviCase', 1 );
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );
