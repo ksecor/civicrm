@@ -75,7 +75,6 @@ class CRM_Mailing_MailStore
     function allMails()
     {
         $set = $this->_transport->fetchAll();
-        print_r($set->getMessageNumbers());
         $mails = array();
         $parser = new ezcMailParser;
         foreach ($set->getMessageNumbers() as $nr) {

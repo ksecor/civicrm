@@ -50,8 +50,7 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true)
     {
-        $options = new ezcMailPop3TransportOptions;
-        $options->ssl = $ssl;
+        $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailPop3Transport($host, null, $options);
         $this->_transport->authenticate($username, $password);
 

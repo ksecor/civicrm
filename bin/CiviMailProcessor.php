@@ -40,7 +40,7 @@ class CiviMailProcessor {
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain();
         $localpart = '';
-        $commonRegex = '/^' . preg_quote($localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?' . preg_quote($domain->email_domain) . '$/';
+        $commonRegex = '/^' . preg_quote($localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($domain->email_domain) . '$/';
         $subscrRegex = '/^' . preg_quote($localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($domain->email_domain) . '$/';
 
         // retrieve the emails
