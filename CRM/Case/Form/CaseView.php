@@ -139,7 +139,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         //build reporter select
         $reporters = array( );
         foreach( $caseRelationships as $key => $value ) {
-            $reporters[$value['cid']] = $value['name'];
+            $reporters[$value['cid']] = $value['name'] . " ( {$value['relation']} )";
         }
 
         $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
