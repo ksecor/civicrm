@@ -21,11 +21,11 @@
 
 <div id="caseRole" class="section-shown">
  <fieldset>
-  <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Roles</legend>
+  <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
     <table class="report">
         {foreach from=$caseRelationships item=row}
         <tr>
-            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>{$row.phone}</td><td><a href="" title="Send Email"><img src="{$config->resourceBase}i/EnvelopeIn.gif"></a></td>
+            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
         {/foreach}
         <tr>
