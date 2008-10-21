@@ -1067,10 +1067,11 @@ commented since it is overwiting simple td
 }
 /* class for personal campaign info page */
 
-#crm-container table.campaign th, table.campaign td, #crm-container table.campaign { 
+#crm-container table.campaign th, table.campaign td, #crm-container table.campaign,#crm-container table.campaign table.form-layout td{ 
   font-size: 9pt;
   border: 0px;
   width: auto;
+  vertical-align: top;
  }
 
 #crm-container table.campaign table{ 

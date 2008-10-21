@@ -70,10 +70,14 @@
 
 {/literal}
 {if $remaining}
-    document.getElementById("remain").style.height = "{$remaining}%";
+    document.getElementById("remain").style.height  = "{$remaining}%";
+{else}
+    document.getElementById('remain').style.display = "none";
 {/if}
 {if $achieved}
-    document.getElementById("achieve").style.height = "{$achieved}%";
+    document.getElementById("achieve").style.height  = "{$achieved}%";
+{else}
+    document.getElementById('achieve').style.display = "none";
 {/if}
 {literal}
 
