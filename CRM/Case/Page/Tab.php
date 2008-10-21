@@ -39,7 +39,7 @@ require_once 'CRM/Contact/Page/View.php';
  * This class handle case related functions
  *
  */
-class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View 
+class CRM_Case_Page_Tab extends CRM_Contact_Page_View 
 {
     /**
      * The action links that we need to display for the browse screen
