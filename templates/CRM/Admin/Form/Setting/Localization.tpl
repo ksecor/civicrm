@@ -22,8 +22,8 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Function name to use for translation inplace of the default CiviCRM translate function. {/ts}</dd>
             <dt>{$form.legacyEncoding.label}</dt><dd>{$form.legacyEncoding.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}If import files are NOT encoded as UTF-8, specify an alternate character encoding for these files. The default of <strong>Windows-1252</strong> will work for Excel-created .CSV files on many computers.{/ts}</dd>
-             <dt>{$form.fieldSeparator.label}</dt><dd>{$form.fieldSeparator.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}global CSV-Seperator to enable import and export of different kinds of CSV-files ( For example: ',' ';' ':' '|' ).{/ts}</dd>
+            <dt>{$form.fieldSeparator.label}</dt><dd>{$form.fieldSeparator.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Global CSV separator character. Modify this setting to enable import and export of different kinds of CSV files (for example: ',' ';' ':' '|' ).{/ts}</dd>
         </dl>
     </fieldset>
     <fieldset><legend>{ts}Contact Address Fields - Selection Values{/ts}</legend>
@@ -50,8 +50,8 @@
         {/if}
       </dl>
     </fieldset>
-        <dl>
-            <dt></dt><dd>{$form.buttons.html}</dd>
-        </dl>
+    <dl>
+        <dt></dt><dd>{$form.buttons.html}</dd>
+    </dl>
 <div class="spacer"></div>
 </div>
