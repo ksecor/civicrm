@@ -263,7 +263,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
     VALUES (@actId, @clientId2);
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-15-13', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-10-13', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId2, @actId);
