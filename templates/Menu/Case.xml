@@ -24,4 +24,10 @@
      <page_callback>CRM_Case_Form_Activity</page_callback>
      <access_arguments>access CiviCase</access_arguments>
   </item>
+  <item>
+     <path>civicrm/case/view</path>
+     <title>View Case</title>
+     <page_callback>CRM_Case_Form_CiviCaseView</page_callback>
+     <access_arguments>access CiviCase</access_arguments>
+  </item>
 </menu>
