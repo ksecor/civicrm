@@ -408,7 +408,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 if ( is_a( $result, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::displaySessionError( $result );
-                    CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', "id={$this->_id}&reset=1" ) );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', "id={$this->_eventId}&reset=1" ) );
                 }
                 
                 if ( $result ) {
@@ -430,7 +430,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending );
                 }
                 $value['contactID']          = $contactID;
-                $value['eventID']            = $this->_id;
+                $value['eventID']            = $this->_eventId;
                 $value['contributionID'    ] = $contribution->id;
                 $value['contributionTypeID'] = $contribution->contribution_type_id;
                 $value['item_name'         ] = $value['description'];
