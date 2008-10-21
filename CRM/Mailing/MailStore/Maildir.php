@@ -49,8 +49,8 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
     {
         $this->_dir = $dir;
 
-        $this->_ignored   = $this->maildir('CiviMail.ignored')   . DIRECTORY_SEPARATOR . 'cur';
-        $this->_processed = $this->maildir('CiviMail.processed') . DIRECTORY_SEPARATOR . 'cur';
+        $this->_ignored   = $this->maildir('CiviMail.ignored');
+        $this->_processed = $this->maildir('CiviMail.processed');
     }
 
     /**

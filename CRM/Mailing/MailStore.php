@@ -89,7 +89,7 @@ class CRM_Mailing_MailStore
      * Point to (and create if needed) a local Maildir for storing retrieved mail
      *
      * @param string $name  name of the Maildir
-     * @return string       path to the Maildir
+     * @return string       path to the Maildir's cur directory
      */
     function maildir($name)
     {
@@ -100,6 +100,6 @@ class CRM_Mailing_MailStore
                 mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true);
             }
         }
-        return $dir;
+        return $dir . DIRECTORY_SEPARATOR . 'cur';
     }
 }

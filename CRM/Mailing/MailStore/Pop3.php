@@ -55,8 +55,8 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
         $this->_transport = new ezcMailPop3Transport($host, null, $options);
         $this->_transport->authenticate($username, $password);
 
-        $this->_ignored   = $this->maildir('CiviMail.ignored')   . DIRECTORY_SEPARATOR . 'cur';
-        $this->_processed = $this->maildir('CiviMail.processed') . DIRECTORY_SEPARATOR . 'cur';
+        $this->_ignored   = $this->maildir('CiviMail.ignored');
+        $this->_processed = $this->maildir('CiviMail.processed');
     }
 
     /**
