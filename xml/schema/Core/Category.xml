@@ -28,6 +28,15 @@
     <add>2.2</add>
  </field>
  <field>
+    <name>name</name>
+    <type>varchar</type>
+    <title>Name</title>
+    <length>255</length>
+    <required>true</required>
+    <comment>Variable name/programmatic handle for this category.</comment>
+    <add>2.2</add>
+ </field>
+ <field>
     <name>weight</name>
     <type>int</type>
     <default>1</default>
