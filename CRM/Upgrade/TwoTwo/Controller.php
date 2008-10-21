@@ -41,6 +41,7 @@ class CRM_Upgrade_TwoTwo_Controller extends CRM_Upgrade_Controller {
         $pages = array( 'CRM_Upgrade_TwoTwo_Form_Step1' => null,
                         'CRM_Upgrade_TwoTwo_Form_Step2' => null,
                         'CRM_Upgrade_TwoTwo_Form_Step3' => null,
+                        'CRM_Upgrade_TwoTwo_Form_Step4' => null,
                         );
         return $pages;
     }

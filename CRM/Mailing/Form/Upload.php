@@ -171,7 +171,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         }
         
         $this->add( 'select', 'from_email_address', 
-                    ts( 'From Email Address' ), $formEmailAddress, true );
+                    ts( 'From Email Address' ), array( '' => '- select -' ) + $formEmailAddress, true );
         
         $this->add('text', 'subject', ts('Mailing Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
