@@ -20,8 +20,8 @@ DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-(@option_group_id_case_type, 'Substance Abuse',  1, 'substance_abuse', NULL, 0,  0, 1, 'Substance abuse case', 0, 0, 1),
-(@option_group_id_case_type, 'STD Claim',  2, 'std_claim', NULL, 0,  0, 2, 'Short term disability claim case', 0, 0, 1);
+    (@option_group_id_case_type, 'Substance Abuse',  1, 'substance_abuse', NULL, 0,  0, 1, 'Substance abuse case', 0, 0, 1),
+    (@option_group_id_case_type, 'STD Claim',  2, 'std_claim', NULL, 0,  0, 2, 'Short term disability claim case', 0, 0, 1);
 
 
 -- /*******************************************************
@@ -29,54 +29,70 @@ VALUES
 -- * Activity Categories and Activity Types  
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Case History', 1, 'Case history', 1, 0, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where label = 'Case History';
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Open Case', 1, '', 1, 0, @parentId, 7),
-    VALUES ('Presenting Problem', 2, '', 1, 0, @parentId, 7),
-    VALUES ('Type of Service', 3, '', 1, 0, @parentId, 7),
-    VALUES ('Inbound Referral Source', 4, '', 1, 0, @parentId, 7),
-    VALUES ('Regulatory Involvement', 5, '', 1, 0, @parentId, 7),
-    VALUES ('Outbound Referral', 6, '', 1, 0, @parentId, 7),
-    VALUES ('Close Case', 7, '', 1, 0, @parentId, 7);
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Case History', 'Case History', 1, 'Case history', 1, 0, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where name = 'Case History';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES  ('Open Case', 'Open Case', 1, '', 1, 0, @parentId, 7),
+            ('Presenting Problem', 'Presenting Problem', 2, '', 1, 0, @parentId, 7),
+            ('Type of Service', 'Type of Service', 3, '', 1, 0, @parentId, 7),
+            ('Inbound Referral Source', 'Inbound Referral Source', 4, '', 1, 0, @parentId, 7),
+            ('Regulatory Involvement', 'Regulatory Involvement', 5, '', 1, 0, @parentId, 7),
+            ('Outbound Referral', 'Outbound Referral', 6, '', 1, 0, @parentId, 7),
+            ('Change Case Type', 'Change Case Type', 7, '', 1, 0, @parentId, 7),
+            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7);
 
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Medications and Substance Use', 2, 'Medications and substance use', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where label = 'Medications and Substance Use';
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Medication and Drug Use', 1, '', 1, 0, @parentId, 7);
-
-
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Personal History', 3, 'Personal history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where label = 'Personal History';
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Last Contact with MD', 1, '', 1, 0, @parentId, 7),
-    VALUES ('Self-rated Health Status', 2, '', 1, 0, @parentId, 7),
-    VALUES ('Current Home Situation', 3, '', 1, 0, @parentId, 7),
-    VALUES ('Current Spiritual Practice', 4, '', 1, 0, @parentId, 7),
-    VALUES ('Regular Physical Activity', 5, '', 1, 0, @parentId, 7);
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Medications and Substance Use', 'Medications and Substance Use', 2, 'Medications and substance use', 1, 1, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where name = 'Medications and Substance Use';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Medication and Drug Use', 'Medication and Drug Use', 1, '', 1, 0, @parentId, 7);
 
 
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Occupational History', 4, 'Occupational history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where label = 'Occupational History';
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Current Work Status', 1, '', 1, 0, @parentId, 7),
-    VALUES ('Current Prescribing Privileges', 2, '', 1, 0, @parentId, 7),
-    VALUES ('Current MAIN Practice Setting', 3, '', 1, 0, @parentId, 7),
-    VALUES ('Current MAIN Practice Activity', 4, '', 1, 0, @parentId, 7),
-    VALUES ('Currently Weekly Work Hours', 5, '', 1, 0, @parentId, 7);
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Personal History', 'Personal History', 3, 'Personal history', 1, 1, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where `name` = 'Personal History';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES  ('Last Contact with MD', 'Last Contact with MD', 1, '', 1, 0, @parentId, 7),
+            ('Self-rated Health Status', 'Self-rated Health Status', 2, '', 1, 0, @parentId, 7),
+            ('Current Home Situation', 'Current Home Situation', 3, '', 1, 0, @parentId, 7),
+            ('Current Spiritual Practice', 'Current Spiritual Practice', 4, '', 1, 0, @parentId, 7),
+            ('Regular Physical Activity', 'Regular Physical Activity', 5, '', 1, 0, @parentId, 7);
 
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Educational History', 5, 'Educational history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where label = 'Educational History';
-INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Professional School', 1, '', 1, 0, @parentId, 7),
-    VALUES ('Residency Training', 2, '', 1, 0, @parentId, 7),
-    VALUES ('Other Degrees and Certifications', 3, '', 1, 0, @parentId, 7);
 
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Occupational History', 'Occupational History', 4, 'Occupational history', 1, 1, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where name = 'Occupational History';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES  ('Current Work Status', 'Current Work Status', 1, '', 1, 0, @parentId, 7),
+            ('Current Prescribing Privileges', 'Current Prescribing Privileges', 2, '', 1, 0, @parentId, 7),
+            ('Current MAIN Practice Setting', 'Current MAIN Practice Setting', 3, '', 1, 0, @parentId, 7),
+            ('Current MAIN Practice Activity', 'Current MAIN Practice Activity', 4, '', 1, 0, @parentId, 7),
+            ('Currently Weekly Work Hours', 'Currently Weekly Work Hours', 5, '', 1, 0, @parentId, 7);
+
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Educational History', 'Educational History', 5, 'Educational history', 1, 1, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where name = 'Educational History';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES  ('Professional School', 'Professional School', 1, '', 1, 0, @parentId, 7),
+            ('Residency Training', 'Residency Training', 2, '', 1, 0, @parentId, 7),
+            ('Other Degrees and Certifications', 'Other Degrees and Certifications', 3, '', 1, 0, @parentId, 7);
+
+SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
+SELECT @at2        := max(id) from civicrm_category where name = 'Presenting Problem';
+SELECT @at3        := max(id) from civicrm_category where name = 'Type of Service';
+SELECT @at4        := max(id) from civicrm_category where name = 'Outbound Referral';
+SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
+SELECT @at6        := max(id) from civicrm_category where name = 'Medication and Drug Use';
+SELECT @at7        := max(id) from civicrm_category where name = 'Last Contact with MD';
+SELECT @at8        := max(id) from civicrm_category where name = 'Self-rated Health Status';
+SELECT @at9        := max(id) from civicrm_category where name = 'Current Home Situation';
+SELECT @at10       := max(id) from civicrm_category where name = 'Current Spiritual Practice';
+SELECT @at11       := max(id) from civicrm_category where name = 'Regular Physical Activity';
+SELECT @at12       := max(id) from civicrm_category where name = 'Current Work Status';
+SELECT @at13       := max(id) from civicrm_category where name = 'Current Prescribing Privileges';
+SELECT @at14       := max(id) from civicrm_category where name = 'Professional School';
+SELECT @at15       := max(id) from civicrm_category where name = 'Residency Training';
 
 -- /*******************************************************
 -- *
@@ -84,15 +100,15 @@ INSERT INTO `civicrm_category` (`label`, `weight`, `description`, `is_active`, `
 -- *
 -- *******************************************************/
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Client', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
+    VALUES( 'Client of Coordinator', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
 SELECT @cR            := max(id) from civicrm_relationship_type where name_b_a = 'Case Coordinator';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Client', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
+    VALUES( 'Client of Addiction Counselor', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
 SELECT @aR            := max(id) from civicrm_relationship_type where name_b_a = 'Addiction Counselor';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Client', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
+    VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
 SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a = 'Supervisor';
 
 
@@ -102,9 +118,9 @@ SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a =
 -- *
 -- *******************************************************/
 INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Reynolds, Jason', 'Dr Jason G Reynolds', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133189', NULL, 'Jason', 'G', 'Reynolds', 4, NULL, 'Custom', NULL, NULL, 2, '1951-08-30');
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Jackson, Janet', 'Dr Janet A Jackson', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133155', NULL, 'Janet', 'A', 'Jackson', 4, NULL, 'Custom', NULL, NULL, 1, '1959-07-11');
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Parker, Peter', 'Dr Peter J Parker', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133114', NULL, 'Peter', 'James', 'Parker', 4, NULL, 'Custom', NULL, NULL, 2, '1969-03-12');
+    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Reynolds, Jason', 'Dr Jason G Reynolds', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133189', NULL, 'Jason', 'G', 'Reynolds', 4, NULL, 'Custom', NULL, NULL, 2, '1951-08-30'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Jackson, Janet', 'Dr Janet A Jackson', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133155', NULL, 'Janet', 'A', 'Jackson', 4, NULL, 'Custom', NULL, NULL, 1, '1959-07-11'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Parker, Peter', 'Dr Peter J Parker', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133114', NULL, 'Peter', 'James', 'Parker', 4, NULL, 'Custom', NULL, NULL, 2, '1969-03-12');
 
 SELECT @clientId1        := max(id) from civicrm_contact where sort_name = 'Reynolds, Jason';
 INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
@@ -128,32 +144,58 @@ INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId3, @clientId3);
 
 
-
 -- /*******************************************************
 -- *
 -- * Service Providers and Case Roles (relationships)  
 -- *
 -- *******************************************************/
 INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Green, Susan', 'Dr Susan Green', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133190', NULL, 'Susan', NULL, 'Green', 4, NULL, 'Custom', NULL, NULL, 1, '1959-06-30');
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Burke, Alice', 'Alice Burke', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133124', NULL, 'Alice', NULL, 'Burke', NULL, NULL, 'Custom', NULL, NULL, 1, '1966-02-19');
-    VALUES ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Dempsey, Stuart', 'Dr Stuart Dempsey', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133181', NULL, 'Stuart', 'Albert', 'Dempsey', 4, NULL, 'Custom', NULL, NULL, 2, '1968-05-12');
+    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Green, Susan', 'Dr Susan Green', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133190', NULL, 'Susan', NULL, 'Green', 4, NULL, 'Custom', NULL, NULL, 1, '1959-06-30'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Burke, Alice', 'Alice Burke', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133124', NULL, 'Alice', NULL, 'Burke', NULL, NULL, 'Custom', NULL, NULL, 1, '1966-02-19'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Dempsey, Stuart', 'Dr Stuart Dempsey', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133181', NULL, 'Stuart', 'Albert', 'Dempsey', 4, NULL, 'Custom', NULL, NULL, 2, '1968-05-12');
 
 SELECT @provId1        := max(id) from civicrm_contact where sort_name = 'Green, Susan';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES (@clientId1, @provId1, @cR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-    VALUES (@clientId2, @provId1, @cR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-    VALUES (@clientId3, @provId1, @cR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId1, @cR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId1, @cR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId1, @cR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId2        := max(id) from civicrm_contact where sort_name = 'Burke, Alice';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES (@clientId1, @provId2, @aR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-    VALUES (@clientId2, @provId2, @aR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-    VALUES (@clientId3, @provId2, @aR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId2, @aR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId2, @aR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId2, @aR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId3        := max(id) from civicrm_contact where sort_name = 'Dempsey, Stuart';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
     VALUES (@clientId3, @provId3, @sR, '2007-04-01', NULL, 1, NULL, 0, 0, @caseId3);
+
+-- Provider phone and emails
+INSERT INTO `civicrm_phone` (`contact_id`, `location_type_id`, `is_primary`, `is_billing`, `mobile_provider_id`, `phone`, `phone_type_id`)
+    VALUES  (@provId1, 2, 1, 0, NULL, '(502) 220-9411', 1),
+            (@provId2, 2, 1, 0, NULL, '(502) 220-9433', 1),
+            (@provId3, 2, 1, 0, NULL, '(502) 990-9000 ext 32', 1);
+
+INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
+    VALUES  (@provId1, 2, 'susan.green@physicianhealth.com', 1, 0, 0, 0, NULL, NULL),
+            (@provId2, 2, 'alice.burke@physicianhealth.com', 1, 0, 0, 0, NULL, NULL),
+            (@provId3, 2, 'stuart.dempsey@physicianhealth.com', 1, 0, 0, 0, NULL, NULL);
+
+
+-- /*******************************************************
+-- *
+-- * Encounter Medium Option Values  
+-- *
+-- *******************************************************/
+INSERT INTO `civicrm_option_group` (name, description, is_reserved, is_active) 
+    VALUES  ('Encounter Medium'   , 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
+SELECT @option_group_id_medium        := max(id) from civicrm_option_group where name = 'Encounter Medium';
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+    (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
+    (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  0, 2, NULL, 0, 1, 1),
+    (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1);
 
 
 -- /*******************************************************
@@ -161,5 +203,69 @@ INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationshi
 -- * Case Activities  
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_case_activity` (`id`, `case_id`, `activity_id`) VALUES (1, 1, 544);
-INSERT INTO `civicrm_activity_target` (`id`, `activity_id`, `target_contact_id`) VALUES (451, 544, 103);
+
+-- Case 1
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-10-01 14:30:00', '2008-10-01 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-10-01 14:30:00', '2008-10-01 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-10-05', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-10-05', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId1);
+
+-- Case 2
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-10-08 14:30:00', '2008-10-08 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-10-08 14:30:00', '2008-10-08 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-10-13', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-15-13', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @clientId2);
