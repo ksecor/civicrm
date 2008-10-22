@@ -39,25 +39,23 @@ class CRM_Case_XMLProcessor_Process {
 
     function run( $caseType,
                   &$params ) {
-        $xml = $this->getXML( $caseType );
+        $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
             return false;
         }
 
-        $xml = $xml->caseType;
         $this->process( $xml, $params );
     }
 
     function get( $caseType,
                   $fieldSet ) {
-        $xml = $this->getXML( $caseType );
+        $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
             return false;
         }
 
-        $xml = $xml->caseType;
         switch ( $fieldSet ) {
         case 'CaseRoles':
             return $this->caseRoles( $xml->CaseRoles );
@@ -69,6 +67,9 @@ class CRM_Case_XMLProcessor_Process {
     }
 
     function retrieve( $caseType ) {
+        require_once 'CRM/Utils/String.php';
+        require_once 'CRM/Utils/Array.php';
+
         // trim all spaces from $caseType
         $caseType = CRM_Utils_String::munge( $caseType, '', 0 );
 
@@ -92,9 +93,8 @@ class CRM_Case_XMLProcessor_Process {
             $dom = DomDocument::load( $fileName );
             $dom->xinclude( );
             self::$_xml[$caseType] = simplexml_import_dom( $dom );
-        
-            return self::$_xml[$caseType];
         }
+        return self::$_xml[$caseType];
     }
 
     function process( $xml,
@@ -135,9 +135,11 @@ class CRM_Case_XMLProcessor_Process {
         }
 
         foreach ( $caseRolesXML as $caseRoleXML ) {
-            if (! $this->createRelationships( (string ) $caseRoleXML->relationship_type,
-                                              $name ) ) {
-                return false;
+            foreach ( $caseRoleXML->relationship_type as $relationshipTypeXML ) {
+                if (! $this->createRelationships( (string ) $relationshipTypeXML,
+                                                  $name ) ) {
+                    return false;
+                }
             }
         }
     }
@@ -147,7 +149,12 @@ class CRM_Case_XMLProcessor_Process {
 
         if ( ! $relationshipTypes ) {
             require_once 'CRM/Core/PseudoConstant.php';
-            $relationshipTypes  = CRM_Core_PseudoConstant::relationshipType( );
+            $relationshipInfo  = CRM_Core_PseudoConstant::relationshipType( );
+
+            $relationshipTypes = array( );
+            foreach ( $relationshipInfo as $id => $info ) {
+                $relationshipTypes[$id] = $info['name_b_a'];
+            }
         }
 
         return $relationshipTypes;
@@ -158,13 +165,15 @@ class CRM_Case_XMLProcessor_Process {
 
         $result = array( );
         foreach ( $caseRolesXML as $caseRoleXML ) {
-            $relationshipTypeName = (string ) $caseRoleXML->relationship_type;
-            $relationshipTypeID   = array_search( $relationshipTypeName,
-                                                $relationshipTypes );
-            if ( $relationshipTypeID === false ) {
-                continue;
+            foreach ( $caseRoleXML->relationship_type as $relationshipTypeXML ) {
+                $relationshipTypeName = (string ) $relationshipTypeXML;
+                $relationshipTypeID   = array_search( $relationshipTypeName,
+                                                      $relationshipTypes );
+                if ( $relationshipTypeID === false ) {
+                    continue;
+                }
+                $result[$relationshipTypeID] = $relationshipTypeName;
             }
-            $result[$relationshipTypeID] = $relationshipTypeName;
         }
         return $result;
     }
@@ -213,14 +222,15 @@ class CRM_Case_XMLProcessor_Process {
 
     function activityTypes( $activityTypesXML ) {
         $activityTypes =& $this->getActivityTypes( );
-
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
-            $activityTypeName = (string ) $activityTypeXML->keyname;
-            $activityTypeID   = array_search( $activityTypeName,
-                                              $activityTypes );
-            if ( $activityTypeID ) {
-                $result[$activityTypeID] = $activityTypeName;
+            foreach ( $activityTypeXML as $recordXML ) {
+                $activityTypeName = (string ) $recordXML->keyname;
+                $activityTypeID   = array_search( $activityTypeName,
+                                                  $activityTypes );
+                if ( $activityTypeID ) {
+                    $result[$activityTypeID] = $activityTypeName;
+                }
             }
         }
         return $result;
