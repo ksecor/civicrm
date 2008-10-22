@@ -104,17 +104,24 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $sel =& $this->addElement('hierselect', "category", ts('Category') );
 
-        $sel1 = $parentCategories;
+        $sel1 = array( "0" => ts(' - any category - ') ) + $parentCategories;
         $sel2 = array( );
+        
         foreach( $childParentIds as $childId => $parentId ) {
+            if ( empty( $sel2[$parentId] ) ) {
+                $sel2[$parentId][0] = ts(' - any activity type - ');
+            }
+            
             $sel2[$parentId][$childId] = $childCategories[$childId];
         }
-
+        
+        $sel2 = array( "0" => array( "0" => ts(' - any activity type - ') ) ) + $sel2;
+        
         $sel->setOptions( array( $sel1, $sel2 ) );
 
         require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
-        $this->add('select', 'status_id',  ts( 'Status' ), $activityStatus );
+        $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
 
         // Date selects for date 
         $this->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative')); 
@@ -125,7 +132,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $choice   = array( );
         $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Due' ), '1' );
-        $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Completed' ) , '0' );
+        $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Actual' ) , '0' );
         
         $group =& $this->addGroup( $choice, 'date_range' );
 
@@ -137,7 +144,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->assign('caseRelationships', $caseRelationships);
 
         //build reporter select
-        $reporters = array( );
+        $reporters = array( "" => ts(' - any reporter - ') );
         foreach( $caseRelationships as $key => $value ) {
             $reporters[$value['cid']] = $value['name'] . " ( {$value['relation']} )";
         }

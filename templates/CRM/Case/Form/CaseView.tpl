@@ -49,7 +49,7 @@ hide('caseRole');
   <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Activities</legend>
   <table class="no-border">
     <tr>
-        <td class="label" colspan="2"><label for="activity_category">{ts}Category{/ts}</label><br />
+        <td class="label" colspan="2"><label for="activity_category">{ts}Category/Type{/ts}</label><br />
             {$form.category.html}
         </td>
         <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
