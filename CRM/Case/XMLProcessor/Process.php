@@ -279,7 +279,7 @@ class CRM_Case_XMLProcessor_Process {
 
         // create case activity record
         $caseParams = array( 'activity_id' => $activity->id,
-                             'case_id'     => $caseID );
+                             'case_id'     => $params['caseID'] );
         require_once 'CRM/Case/BAO/Case.php';
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
     }

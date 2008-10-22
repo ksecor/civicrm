@@ -66,7 +66,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
-                   $caseType , true, array("size"=>"5",  "multiple"));
+                   $caseType , true);
 
         // case selector
         $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
@@ -109,6 +109,10 @@ class CRM_Case_Form_Activity_ChangeCaseType
     public function beginPostProcess( &$form, &$params ) 
     {
         $params['id'] = $params['case_id'];
+
+        if ( CRM_Utils_Array::value('is_reset_timeline', $params ) == 0 ) {
+            unset($params['start_date']);
+        }
     }
 
     /**

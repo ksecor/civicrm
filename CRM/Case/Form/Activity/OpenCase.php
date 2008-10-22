@@ -65,10 +65,12 @@ class CRM_Case_Form_Activity_OpenCase
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
-                   $caseType , true, array("size"=>"5",  "multiple"));
+                   $caseType , true);
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
-        $form->add( 'text', 'subject', ts('Subject'), array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
+        $form->add( 'text', 'subject', ts('Subject'), 
+                    array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
+
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $form->add('select', 'status_id',  ts( 'Case Status' ),  
                    $caseStatus , true  );
@@ -172,36 +174,17 @@ class CRM_Case_Form_Activity_OpenCase
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
         
-        // 2. create activity
-        
-        // *FIXME*: set activity type id to be the category id of
-        //'OpenCase' activity type id 
-        require_once 'CRM/Activity/BAO/Activity.php';
-        $params['activity_type_id']   = 1;//$form->_activityTypeId;
-        $params['activity_date_time'] = CRM_Utils_Date::format( $params['now'] );
-        $params['source_contact_id']  = $form->_uid;
-        $activity = CRM_Activity_BAO_Activity::create( $params );
+        // 2. initiate xml processor
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
+                                     'creatorID'        => $form->_uid,
+                                     'standardTimeline' => 1,
+                                     'dueDateTime'      => time( ),
+                                     'caseID'           => $params['case_id'],
+                                     );
 
-        // 3. add target/with contacts
-        $targetParams = array('activity_id'       => $activity->id,
-                              'target_contact_id' => $form->_clientId);
-        CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
-
-        // 4. create case activity
-        $caseParams['activity_id'] = $activity->id;
-        $caseParams['case_id'    ] = $params['case_id'];
-        CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
-
-        // 5. create relationship
-        //*FIXME* for hardcode relationship_type_id and NULL contact_id_b which is same as contact_id_a
-        $ids['contact'] = $form->_uid;
-        $roleParams = array( 'relationship_type_id' => '3_a_b',
-                             'is_active'            => 1,
-                             'case_id'              => $params['case_id']  );
-        $roleParams['contact_check'][$form->_uid] = 1;
-      
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        CRM_Contact_BAO_Relationship::create( $roleParams, $ids );
+        CRM_Core_Error::debug('$xmlProcessorParams',$xmlProcessorParams);
+        $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
 
         // status msg
         $params['statusMsg'] = ts('Case opened successfully.');

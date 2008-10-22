@@ -60,7 +60,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     /**
      * activity type Id
      */
-    protected $_actTypeId = null;
+    public $_actTypeId = null;
     
     /**
      * Function to build the form
@@ -177,9 +177,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        //   CRM_Core_Error::debug( '$params', $params );exit;
         $params['now'] = date("Ymd");
         
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+
         // 1. call begin post process
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
@@ -219,14 +220,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // 3. create/edit case
         require_once 'CRM/Case/BAO/Case.php';
         if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
-            $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
-                implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ) .
-                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $caseType = CRM_Core_OptionGroup::values('case_type');
+            $params['case_type'] = $caseType[$params['case_type_id']];
         }
         
-        if ( CRM_Utils_Array::value('is_reset_timeline', $params ) == 0 ) {
-            unset($params['start_date']);
-        } elseif ( array_key_exists('start_date', $params) ) {
+        if ( array_key_exists('start_date', $params) ) {
             if( CRM_Utils_System::isNull( $params['start_date'] ) ) {
                 $params['start_date'] = $params['now'];
             } 
@@ -254,5 +252,3 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         CRM_Core_Session::setStatus( "{$params['statusMsg']}" );
     }
 }
-
-
