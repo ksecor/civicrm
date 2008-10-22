@@ -99,20 +99,16 @@ class CRM_Case_XMLProcessor_Process {
 
     function process( $xml,
                       &$params ) {
-        $standardTimeLine = CRM_Utils_Array::value( 'standardTimeLine', $params );
+        $standardTimeline = CRM_Utils_Array::value( 'standardTimeline', $params );
         $activitySetName  = CRM_Utils_Array::value( 'activitySetName' , $params );
-        $offsetDate       = CRM_Utils_Array::value( 'offsetDate'      , $params );
 
-        if ( ! $offsetDate ) {
-            $offsetDate = time( );
-        }
-
+        require_once 'CRM/Core/Error.php';
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
-                if ( $standardTimeLine ) {
+                if ( $standardTimeline ) {
                     $timeline = (boolean ) $activitySetXML->timeline;
                     if ( $timeline ) {
-                        return $this->processStandardTimeLine( $activitySetXML,
+                        return $this->processStandardTimeline( $activitySetXML,
                                                                $xml->CaseRoles,
                                                                $params );
                     }
@@ -127,7 +123,7 @@ class CRM_Case_XMLProcessor_Process {
         }
     }
 
-    function processStandardTimeLine( $activitySetXML,
+    function processStandardTimeline( $activitySetXML,
                                       $caseRolesXML,
                                       &$params ) {
         foreach ( $activitySetXML->ActivityTypes as $activityTypeXML ) {
@@ -137,7 +133,7 @@ class CRM_Case_XMLProcessor_Process {
         foreach ( $caseRolesXML as $caseRoleXML ) {
             foreach ( $caseRoleXML->relationship_type as $relationshipTypeXML ) {
                 if (! $this->createRelationships( (string ) $relationshipTypeXML,
-                                                  $name ) ) {
+                                                  $params ) ) {
                     return false;
                 }
             }
@@ -193,23 +189,29 @@ class CRM_Case_XMLProcessor_Process {
                                      'contact_id_a'         => $params['clientID'],
                                      'is_active'            => 1,
                                      'case_id'              => $params['caseID'] );
-
         if ( $relationshipTypeName == 'Case Coordinator' ) {
             $relationshipParams['contact_id_b'] = $params['creatorID'];
         }
+        $relationshipParams['contact_id_b'] = $params['creatorID'];
 
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        if ( ! CRM_Contact_BAO_Relationship::create( $relationshipParams ) ) {
+        if ( ! $this->createRelationship( $relationshipParams ) ) {
             return false;
         }
-
         return true;
-                                     
+    }
+
+    function createRelationship( $params ) {
+        require_once 'CRM/Contact/DAO/Relationship.php';
+
+        $dao =& new CRM_Contact_DAO_Relationship( );
+        $dao->copyValues( $params );
+        $dao->save( );
+        return true;
     }
 
     function &getActivityTypes( ) {
         static $activityTypes = null;
-
+        require_once 'CRM/Core/Component.php';
         if ( ! $activityTypes ) {
             $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
             require_once 'CRM/Case/PseudoConstant.php';
@@ -260,10 +262,10 @@ class CRM_Case_XMLProcessor_Process {
                                  'target_contact_id'   => $params['clientID'] );
 
         if ( (int ) $activityTypeXML->reference_offset ) {
-            $dueDateTime = $params['due_date_time'] + 
+            $dueDateTime = $params['dueDateTime'] + 
                 (int ) $activityTypeXML->reference_offset * 24 * 3600; // this might cause a DST issue
         } else {
-            $dueDateTime = $params['due_date_time'];
+            $dueDateTime = $params['dueDateTime'];
         }
         $activityParams['due_date_time'] = date( 'Ymd', $dueDateTime );
 
@@ -271,6 +273,18 @@ class CRM_Case_XMLProcessor_Process {
         if ( ! CRM_Activity_BAO_Activity::create( $params ) ) {
             return false;
         }
+    }
+
+    function activitySets( $activitySetsXML ) {
+        $result = array( );
+        foreach ( $activitySetsXML as $activitySetXML ) {
+            foreach ( $activitySetXML as $recordXML ) {
+                $activitySetName  = (string ) $recordXML->keyname;
+                $activitySetLabel = (string ) $recordXML->label;
+                $result[$activitySetName] = $activitySetLabel;
+            }
+        }
+        return $result;
     }
 
 }
