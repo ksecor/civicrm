@@ -31,19 +31,19 @@
         <ActivityType>
           <keyname>Presenting Problem</keyname>
           <reference_activity>Open Case</reference_activity>
-          <reference_offset>0d</reference_offset>
+          <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <keyname>Medication and Drug Use</keyname>
           <reference_activity>Open Case</reference_activity>
-          <reference_offset>5d</reference_offset>
+          <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <keyname>Current Prescribing Privileges</keyname>
           <reference_activity>Open Case</reference_activity>
-          <reference_offset>5d</reference_offset>
+          <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
@@ -56,14 +56,14 @@
         <ActivityType>
           <keyname>Medication and Drug Use</keyname>
           <reference_activity>Open Case</reference_activity>
-          <reference_offset>5d</reference_offset>
+          <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <keyname>Current Prescribing Privileges</keyname>
           <reference_activity>Open Case</reference_activity>
-          <reference_offset>5d</reference_offset>
-           <reference_select>newest</reference_select>
+          <reference_offset>5</reference_offset>
+          <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
     </ActivitySet>

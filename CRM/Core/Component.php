@@ -186,6 +186,12 @@ class CRM_Core_Component
         return;
     }
 
+    static function getComponentID( $componentName ) {
+        $info =& self::_info( );
+
+        return $info[$componentName]->componentID;
+    }
+
     static function &getQueryFields( ) 
     {
         $info =& self::_info( );
