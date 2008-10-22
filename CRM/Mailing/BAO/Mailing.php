@@ -1686,15 +1686,15 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date,
-                        contact_a.sort_name as created_by, 
-                        contact_b.sort_name as scheduled_by,
-                        contact_a.id as created_id, 
-                        contact_b.id as scheduled_id
-            FROM        civicrm_contact contact_a, civicrm_contact contact_b, $mailing
+                        createdContact.sort_name as created_by, 
+                        scheduledContact.sort_name as scheduled_by,
+                        $mailing.created_id as created_id, 
+                        $mailing.scheduled_id as scheduled_id
+            FROM        $mailing
             LEFT JOIN   $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
-            WHERE       civicrm_mailing.created_id = contact_a.id 
-            AND         civicrm_mailing.scheduled_id = contact_b.id
-            AND         $mailingACL $additionalClause 
+            LEFT JOIN   civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
+            LEFT JOIN   civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
+            WHERE       $mailingACL $additionalClause  
             GROUP BY    $mailing.id ";
         
         if ($sort) {

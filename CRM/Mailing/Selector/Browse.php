@@ -186,10 +186,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
 
         $query = "
 SELECT    count(civicrm_mailing.id)
-FROM      civicrm_contact contact_a, civicrm_contact contact_b, civicrm_mailing
+FROM      civicrm_mailing
 LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id AND civicrm_mailing_job.is_test = 0)
-WHERE     civicrm_mailing.created_id = contact_a.id 
-AND       civicrm_mailing.scheduled_id = contact_b.id      
+LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
+LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
 AND       $whereClause";
         
         return CRM_Core_DAO::singleValueQuery( $query, $params );
@@ -351,7 +351,7 @@ AND       $whereClause";
         
         $createOrSentBy = $this->_parent->get( 'sort_name' );
         if ( !CRM_Utils_System::isNull( $createOrSentBy ) ) {
-            $clauses[] = '(contact_a.sort_name LIKE %4 OR contact_b.sort_name LIKE %4)';
+            $clauses[] = '(createdContact.sort_name LIKE %4 OR scheduledContact.sort_name LIKE %4)';
             $params[4] = array( '%' . $createOrSentBy . '%', 'String' );
         }
         
@@ -370,10 +370,10 @@ AND       $whereClause";
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_contact contact_a, civicrm_contact contact_b, civicrm_mailing
-LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id )
-    WHERE civicrm_mailing.created_id = contact_a.id
-      AND civicrm_mailing.scheduled_id = contact_b.id
+     FROM civicrm_mailing
+LEFT JOIN civicrm_mailing_job ON (civicrm_mailing_job.mailing_id = civicrm_mailing.id)
+LEFT JOIN civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
+LEFT JOIN civicrm_contact scheduledContact ON ( civicrm_mailing.scheduled_id = scheduledContact.id ) 
       AND $whereClause
  ORDER BY LEFT(name, 1)
 ";
