@@ -39,7 +39,7 @@ require_once "CRM/Core/Form.php";
  * This class generates form components for OpenCase Activity
  * 
  */
-class CRM_Case_Form_Activity_ChangeCaseType
+class CRM_Case_Form_Activity_ChangeCaseStatus
 {
 
     /**
@@ -51,23 +51,12 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     function setDefaultValues( &$form ) 
     {
-        $defaults = array( );
-        $today_date = getDate();
-        $defaults['is_reset_timeline'] = 1;
-        $defaults['start_date']['M']             = $today_date['mon'];
-        $defaults['start_date']['d']             = $today_date['mday'];
-        $defaults['start_date']['Y']             = $today_date['year'];
-
-        return $defaults;
     }
 
     static function buildQuickForm( &$form ) 
     { 
         require_once 'CRM/Core/OptionGroup.php';        
-        $caseType = CRM_Core_OptionGroup::values('case_type');
-        $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
-                   $caseType , true, array("size"=>"5",  "multiple"));
-
+       
         // case selector
         $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
@@ -78,12 +67,10 @@ class CRM_Case_Form_Activity_ChangeCaseType
                                           false, null, false );
         $form->assign( 'caseUrl', $caseUrl );
         $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );
-        
-        // timeline
-        $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, true, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );
-        $form->add( 'date', 'start_date', ts('Case Timeline'),
-                    CRM_Core_SelectValues::date('activityDate' ), false );   
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+
+        $caseStatus  = CRM_Core_OptionGroup::values('case_status');
+        $form->add('select', 'status_id',  ts( 'Case Status' ),  
+                    $caseStatus , true  );
     }
 
     /**
@@ -120,6 +107,6 @@ class CRM_Case_Form_Activity_ChangeCaseType
     public function endPostProcess( &$form, &$params ) 
     {
         // status msg
-        $params['statusMsg'] = ts('Case Type changed successfully.');
+        $params['statusMsg'] = ts('Case Status changed successfully.');
     }
 }

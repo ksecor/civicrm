@@ -49,8 +49,15 @@ class CRM_Case_Form_Activity_OpenCase
      * @access public
      * @return None
      */
-    function setDefaultValues( ) 
+    function setDefaultValues( &$form ) 
     {
+        $defaults = array( );
+        $today_date = getDate();
+        $defaults['start_date']['M']             = $today_date['mon'];
+        $defaults['start_date']['d']             = $today_date['mday'];
+        $defaults['start_date']['Y']             = $today_date['year'];
+        
+        return $defaults;
     }
 
     static function buildQuickForm( &$form ) 
