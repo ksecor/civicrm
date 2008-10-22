@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-08-26 05:28-0700\n"
-"Last-Translator: Aurialie Jublin <ajublin@gmail.com>\n"
+"Last-Translator: Long Le Thanh <lethanhlong77@yahoo.fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,9 +161,8 @@ msgstr "acomptes"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
-msgstr "semaine(s)"
+msgstr "semaine"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -265,9 +264,8 @@ msgid "%1"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "(s)"
-msgstr "jour(s)"
+msgstr "(s)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
@@ -286,14 +284,12 @@ msgid "Please enter a valid Credit Card Verification Number"
 msgstr "Veuillez indiquer un numéro de vérification de carte de crédit valide"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Minimum Amount"
-msgstr "Pays"
+msgstr "Montant minimum"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Maximum Amount"
-msgstr "Pays"
+msgstr "Montant Maximum"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -649,9 +645,8 @@ msgstr "Suivant >>"
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
 #: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "Save & Continue Later"
-msgstr "Mettre à jour et continuer"
+msgstr "sauvegarder et continuer plus tard"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
 #: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
@@ -914,7 +909,6 @@ msgid "Find Recurring Contributions?"
 msgstr "Chercher seulement les contributions récurrentes ?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
 msgstr "Texte d'introduction"
 
@@ -1127,9 +1121,8 @@ msgid "Minimum Contribution"
 msgstr "Chercher contacts"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Hôte"
+msgstr "Coût"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
@@ -2320,9 +2313,8 @@ msgid "Event Description"
 msgstr "Description"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Type ID"
-msgstr "Type d'évènement"
+msgstr "ID du type d'évènement"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2354,14 +2346,12 @@ msgid "Event Registration Link Text"
 msgstr "Inscription à l'évènement"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Max Participants"
-msgstr "Participant"
+msgstr "Nb de Participants Max"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "show location"
-msgstr "Montrer la localisation ?"
+msgstr "Montrer l'emplacement"
 
 #: CRM/Event/DAO/Participant.php
 #, fuzzy
@@ -2468,14 +2458,12 @@ msgid "Discounts by Signup Date?"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#, fuzzy
 msgid "Discount Start Date"
-msgstr "Date de début d'inscription"
+msgstr "Date de début de la réduction"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#, fuzzy
 msgid "Discount End Date"
-msgstr "Date de clôture des inscriptions"
+msgstr "Date de clôture de la réduction"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Add Discount Set to Fee Table"
@@ -2978,9 +2966,8 @@ msgid "Delete Participation"
 msgstr "Effacer la participation"
 
 #: CRM/Event/Selector/Search.php templates/CRM/Event/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Event Date(s)"
-msgstr "Date de debut"
+msgstr "Date(s) de l'évènement"
 
 #: CRM/Event/Selector/Search.php
 msgid "CiviCRM Event Search"
@@ -3304,9 +3291,8 @@ msgid "Recipient Email"
 msgstr "Adresse courriel de l'émetteur du reçu"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Headers"
-msgstr "Sexe"
+msgstr "Entête de page"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -3376,11 +3362,11 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Name Your Mailing"
-msgstr ""
+msgstr "Donnez un nom à votre mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
-msgstr ""
+msgstr "Veuillez sélectioner un group destinataire du mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
@@ -3392,7 +3378,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Recipients"
-msgstr ""
+msgstr "Sélectionner les destinataires"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
@@ -3487,9 +3473,8 @@ msgid "Send to This Group"
 msgstr "Rue"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send a Test Mailing"
-msgstr "Envoyer un mailing"
+msgstr "Envoyer un mailing de test"
 
 #: CRM/Mailing/Form/Test.php
 msgid ""
@@ -3616,7 +3601,7 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Name"
-msgstr ""
+msgstr "Nom du mailing"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Completed Date"
@@ -3859,9 +3844,8 @@ msgid "Renewal Text"
 msgstr "Message de renouvellement"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Is Required"
-msgstr "Obligatoire"
+msgstr "Est obligatoire"
 
 #: CRM/Member/DAO/MembershipLog.php
 #, fuzzy
@@ -8315,14 +8299,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Find Mailings"
-msgstr "Sujet"
+msgstr "Rechercher un mailing"
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Complete OR partial name."
-msgstr "Titre complet ou partiel de la page de contribution"
+msgstr "Nom complet OU partiel"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -8463,7 +8445,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Header / Footer"
-msgstr ""
+msgstr "Entête / Pied de page"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -8536,7 +8518,7 @@ msgstr "Voulez vous desactiver ce groupe de donnees?"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
-msgstr ""
+msgstr "Résumé de l'envoi"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Spooled Mails"
@@ -8553,7 +8535,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataires"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Included"
@@ -8581,7 +8563,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
-msgstr ""
+msgstr "Contenu / Composants"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
@@ -8595,7 +8577,7 @@ msgstr "acomptes"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
-msgstr ""
+msgstr "Préférences du mailing"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Reply-to email"
@@ -8739,7 +8721,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Status of this membership."
-msgstr ""
+msgstr "Statut de cette adhésion"
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Renewal Payment and Receipt"
