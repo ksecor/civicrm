@@ -281,7 +281,7 @@ class CRM_Case_XMLProcessor_Process {
         $caseParams = array( 'activity_id' => $activity->id,
                              'case_id'     => $caseID );
         require_once 'CRM/Case/BAO/Case.php';
-        $CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+        CRM_Case_BAO_Case::processCaseActivity( $caseParams );
     }
 
     function activitySets( $activitySetsXML ) {
