@@ -76,7 +76,7 @@ class CRM_Utils_Request {
         // hack to detect stuff not yet converted to new style
         if ( ! is_string( $type ) ) {
             CRM_Core_Error::backtrace( );
-            CRM_Utils_Error::fatal( "Please convert retrieve call to use new function signature" );
+            CRM_Core_Error::fatal( "Please convert retrieve call to use new function signature" );
         }
 
         $value = null;
