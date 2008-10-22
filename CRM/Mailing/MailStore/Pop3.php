@@ -50,16 +50,12 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true)
     {
-        $options = new ezcMailPop3TransportOptions;
-        $options->ssl = $ssl;
+        $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailPop3Transport($host, null, $options);
         $this->_transport->authenticate($username, $password);
 
-        $config =& CRM_Core_Config::singleton();
-        $this->_ignored   = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.ignored';
-        $this->_processed = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed';
-        if (!file_exists($this->_ignored))   mkdir($this->_ignored,   0700, true);
-        if (!file_exists($this->_processed)) mkdir($this->_processed, 0700, true);
+        $this->_ignored   = $this->maildir('CiviMail.ignored');
+        $this->_processed = $this->maildir('CiviMail.processed');
     }
 
     /**

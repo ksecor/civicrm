@@ -316,7 +316,7 @@ class CRM_Event_Form_EventFees
                 if ( $path != 'civicrm/contact/search/basic' ) {
                     $form->add('text', 'trxn_id', ts('Transaction ID'));
                     $form->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
-                                    'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
+                                    'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_eventId, 'trxn_id' ) );
                     $form->assign('showTransactionId', true );
                 }
             

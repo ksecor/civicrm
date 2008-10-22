@@ -49,11 +49,8 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
     {
         $this->_dir = $dir;
 
-        $config =& CRM_Core_Config::singleton();
-        $this->_ignored   = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.ignored';
-        $this->_processed = $config->uploadDir . DIRECTORY_SEPARATOR . 'CiviMail.processed';
-        if (!file_exists($this->_ignored))   mkdir($this->_ignored,   0700, true);
-        if (!file_exists($this->_processed)) mkdir($this->_processed, 0700, true);
+        $this->_ignored   = $this->maildir('CiviMail.ignored');
+        $this->_processed = $this->maildir('CiviMail.processed');
     }
 
     /**
@@ -87,7 +84,10 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markIgnored($file)
     {
-        rename($file, $this->_ignored . DIRECTORY_SEPARATOR . basename($file));
+        $target = $this->_ignored . DIRECTORY_SEPARATOR . basename($file);
+        if (!rename($file, $target)) {
+            throw new Exception("Could not rename $file to $target");
+        }
     }
 
     /**
@@ -98,6 +98,9 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markProcessed($file)
     {
-        rename($file, $this->_processed . DIRECTORY_SEPARATOR . basename($file));
+        $target = $this->_processed . DIRECTORY_SEPARATOR . basename($file);
+        if (!rename($file, $target)) {
+            throw new Exception("Could not rename $file to $target");
+        }
     }
 }

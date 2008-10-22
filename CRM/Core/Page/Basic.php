@@ -315,7 +315,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
         }
-        if ($id) {
+        if ($id !== null) {
             $controller->set( 'id'   , $id );
         }
         $controller->set('BAOName', $this->getBAOName());

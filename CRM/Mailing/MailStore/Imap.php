@@ -51,9 +51,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true, $folder = 'Inbox')
     {
-        $options = new ezcMailImapTransportOptions;
-        $options->ssl = $ssl;
-        $options->uidReferencing = true;
+        $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailImapTransport($host, null, $options);
         $this->_transport->authenticate($username, $password);
         $this->_transport->selectMailbox($folder);
@@ -73,6 +71,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
+        $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_ignored);
         $this->_transport->delete($nr);
     }
@@ -85,6 +84,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
+        $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_processed);
         $this->_transport->delete($nr);
     }

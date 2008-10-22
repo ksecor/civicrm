@@ -121,7 +121,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 
         require_once 'CRM/Friend/BAO/Friend.php';
         
-        $params['entity_id']    = $this->_id;
+        $params['entity_id']    = $this->_eventId;
         $params['entity_table'] = 'civicrm_event';
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
@@ -130,10 +130,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
             $this->assign( 'friendText', $friendText );
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&action=preview&page=event" );
+                                             "eid={$this->_eventId}&reset=1&action=preview&page=event" );
             } else {
                 $url = CRM_Utils_System::url("civicrm/friend", 
-                                             "eid={$this->_id}&reset=1&page=event" );   
+                                             "eid={$this->_eventId}&reset=1&page=event" );   
             }                    
             $this->assign( 'friendURL', $url );
         }

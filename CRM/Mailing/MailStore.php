@@ -75,7 +75,6 @@ class CRM_Mailing_MailStore
     function allMails()
     {
         $set = $this->_transport->fetchAll();
-        print_r($set->getMessageNumbers());
         $mails = array();
         $parser = new ezcMailParser;
         foreach ($set->getMessageNumbers() as $nr) {
@@ -83,5 +82,25 @@ class CRM_Mailing_MailStore
             $mails[$nr] = $single[0];
         }
         return $mails;
+    }
+
+    /**
+     * Point to (and create if needed) a local Maildir for storing retrieved mail
+     *
+     * @param string $name  name of the Maildir
+     * @return string       path to the Maildir's cur directory
+     */
+    function maildir($name)
+    {
+        $config =& CRM_Core_Config::singleton();
+        $dir = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $name;
+        foreach (array('cur', 'new', 'tmp') as $sub) {
+            if (!file_exists($dir . DIRECTORY_SEPARATOR . $sub)) {
+                if (!mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true)) {
+                    throw new Exception('Could not create ' . $dir . DIRECTORY_SEPARATOR . $sub);
+                }
+            }
+        }
+        return $dir . DIRECTORY_SEPARATOR . 'cur';
     }
 }

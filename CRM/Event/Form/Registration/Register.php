@@ -149,8 +149,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         //fix for CRM-3088, default value for discount set.      
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
-            $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
-            
+            $discountId  = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
             $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
                                                         , 'weight', 'id' );
             
@@ -289,8 +288,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 if ( ! isset( $discountId ) &&
                      ( $form->_action != CRM_Core_Action::UPDATE )) {
                     require_once 'CRM/Core/BAO/Discount.php';
-                    $form->_discountId = $discountId = 
-                        CRM_Core_BAO_Discount::findSet( $form->_id, 'civicrm_event' );
+                    $form->_discountId = $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
                 }
 
                 if ( $discountId ) {
@@ -299,7 +297,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
 
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count(  $feeBlock['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count( $feeBlock['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
                                                     CRM_Utils_Money::format( $feeBlock['value'][$index]) . ' ' . 
                                                     $feeBlock['label'][$index], 
@@ -494,7 +492,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
             //added for discount
             require_once 'CRM/Core/BAO/Discount.php';
-            $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
 
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['discount_id'] = $discountId;

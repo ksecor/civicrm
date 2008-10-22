@@ -55,7 +55,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_id;
+    protected $_eventId;
     
     /**
      * the mode that we are in
@@ -129,7 +129,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function preProcess( ) 
     {
-        $this->_id     = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
+        $this->_eventId     = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
 
         // current mode
@@ -146,12 +146,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         if ( ! $this->_values ) {
             // create redirect URL to send folks back to event info page is registration not available
-            $infoUrl = CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
+            $infoUrl = CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_eventId}",
                                              false, null, false, true );
             
             // this is the first time we are hitting this, so check for permissions here
             if ( ! CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
-                                               $this->_id ) ) {
+                                               $this->_eventId ) ) {
                 CRM_Core_Error::statusBounce( ts( 'You do not have permission to register for this event' ), $infoUrl );
             }
 
@@ -160,11 +160,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $this->_fields = array( );
 
             //retrieve event information
-            $params = array( 'id' => $this->_id );
+            $params = array( 'id' => $this->_eventId );
             $ids = array();
 
+
             require_once 'CRM/Event/BAO/Participant.php';
-            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
+            $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
             if ( $eventFull ) {
                 CRM_Utils_System::redirect( $infoUrl );            
             }
@@ -217,7 +218,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
             
             //retrieve custom information
-            $eventID =  $this->_id;
+            $eventID =  $this->_eventId;
             
             $isPayLater  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventID, 'is_pay_later' );
             //check for variour combination for paylater, payment
@@ -276,12 +277,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
-                                   'entity_id'    => $this->_id );
+                                   'entity_id'    => $this->_eventId );
             list( $this->_values['custom_pre_id'],
                   $this->_values['custom_post_id'] ) =
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     
-            $params = array( 'id' => $this->_id );
+            $params = array( 'id' => $this->_eventId );
             
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -297,7 +298,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Payment_Form::setCreditCardFields( $this );
             }
             
-            $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+            $params = array( 'entity_id' => $this->_eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $this->_values, true );
 
@@ -606,7 +607,7 @@ WHERE  v.option_group_id = g.id
         }
         
         $participantParams = array('contact_id'    => $contactID,
-                                   'event_id'      => $this->_id ? $this->_id : $params['event_id'],
+                                   'event_id'      => $this->_eventId ? $this->_eventId : $params['event_id'],
                                    'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
                                                                               $params, 1 ),
                                    'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
@@ -637,12 +638,12 @@ WHERE  v.option_group_id = g.id
         
         // reuse id if one already exists for this one (can happen
         // with back button being hit etc)
-        if ( $this->_id ) {        
+        if ( $this->_eventId ) {        
             $sql = "
 SELECT id
 FROM   civicrm_participant
 WHERE  contact_id = $contactID
-  AND  event_id   = {$this->_id}
+  AND  event_id   = {$this->_eventId}
   AND  is_test    = {$participantParams['is_test']}
 ";
             $pID = CRM_Core_DAO::singleValueQuery( $sql,
@@ -652,7 +653,7 @@ WHERE  contact_id = $contactID
             }
         }
         require_once 'CRM/Core/BAO/Discount.php';
-        $participantParams['discount_id'] = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+        $participantParams['discount_id'] = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
         if ( !$participantParams['discount_id'] ) {
             $participantParams['discount_id'] = "null";            
         }
@@ -668,8 +669,8 @@ WHERE  contact_id = $contactID
 
     function getTemplateFileName() 
     {
-        if ( $this->_id ) {
-            $templateFile = "CRM/Event/Form/Registration/{$this->_id}/{$this->_name}.tpl";
+        if ( $this->_eventId ) {
+            $templateFile = "CRM/Event/Form/Registration/{$this->_eventId}/{$this->_name}.tpl";
             $template =& CRM_Core_Form::getTemplate( );
             if ( $template->template_exists( $templateFile ) ) {
                 return $templateFile;
