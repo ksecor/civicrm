@@ -272,9 +272,16 @@ class CRM_Case_XMLProcessor_Process {
         $activityParams['due_date_time'] = date( 'Ymd', $dueDateTime );
 
         require_once 'CRM/Activity/BAO/Activity.php';
-        if ( ! CRM_Activity_BAO_Activity::create( $activityParams ) ) {
+        $activity = CRM_Activity_BAO_Activity::create( $activityParams );
+        if ( ! $activity ) {
             return false;
         }
+
+        // create case activity record
+        $caseParams = array( 'activity_id' => $activity->id,
+                             'case_id'     => $caseID );
+        require_once 'CRM/Case/BAO/Case.php';
+        $CRM_Case_BAO_Case::processCaseActivity( $caseParams );
     }
 
     function activitySets( $activitySetsXML ) {
