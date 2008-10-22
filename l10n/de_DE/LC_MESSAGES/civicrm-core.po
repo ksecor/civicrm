@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-09-28 17:58-0700\n"
+"PO-Revision-Date: 2008-10-22 05:26-0700\n"
 "Last-Translator: Andreas Rudin <andreas.rudin@revamp-it.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "Operation"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -14518,20 +14518,20 @@ msgstr "Kontakte zu Organisation hinzufügen"
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Granted"
-msgstr "gewähren"
+msgstr "gewährt"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Rejected"
-msgstr "Geplant"
+msgstr "Abgewiesen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Emergency"
-msgstr ""
+msgstr "Notfall"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Family Support"
-msgstr ""
+msgstr "Familienunterstuetzung"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14549,12 +14549,12 @@ msgstr "Ehrend"
 
 #: xml/templates/civicrm_data.tpl
 msgid "In Memory of"
-msgstr ""
+msgstr "In Erinnerung an"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Household Name and State"
-msgstr "Haushaltsname"
+msgstr "Haushaltsname und Land"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy

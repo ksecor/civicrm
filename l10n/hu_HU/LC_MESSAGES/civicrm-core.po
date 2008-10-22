@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-19 14:53-0700\n"
-"Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
+"PO-Revision-Date: 2008-10-22 06:59-0700\n"
+"Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1256,7 +1256,7 @@ msgstr "Új %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Individual"
-msgstr ""
+msgstr "Új személy"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Household"
@@ -1264,7 +1264,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Organization"
-msgstr ""
+msgstr "Új szervezet"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/RelatedContact.php
 msgid "contact does not exist: %1"
@@ -7294,7 +7294,7 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
-msgstr ""
+msgstr "Új csoport neve"
 
 #: CRM/Import/Form/Preview.php
 msgid "Description of new group"
@@ -9070,7 +9070,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
-msgstr ""
+msgstr "Új aktivitás tipus"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
