@@ -66,7 +66,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
                                  'mode'           => 'remote',
                                  'store'          => 'caseStore');
         $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                          "c={$form->_uid}",
+                                          "c={$form->_clientId}",
                                           false, null, false );
         $form->assign( 'caseUrl', $caseUrl );
         $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );

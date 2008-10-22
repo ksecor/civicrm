@@ -13,7 +13,6 @@
    </tr>
 </table>
 
-{include file="CRM/common/showHide.tpl"}
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_reset_timeline"
 trigger_value       =""
@@ -22,12 +21,3 @@ target_element_type ="table-row"
 field_type          ="radio"
 invert              = 0
 }
-
-{literal}
-<script type="text/javascript">
-window.onload = function() {
-document.getElementsByName("is_reset_timeline")[0].checked = true;
-showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);
-}
-</script>
-{/literal}
