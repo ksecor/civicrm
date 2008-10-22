@@ -3,7 +3,6 @@
 
 /* @file
  * A simple module that adds a user to groups based on Role.
- * Internal Version identifier - 0.3-beta
  */
 
 /**
@@ -27,7 +26,7 @@ function civicrm_group_roles_help($section, $args = array() )
 function civicrm_group_roles_user($op, $edit, &$user, $category = NULL) 
 {
     
-    $debug_mode = FALSE;
+    //$debug_mode = TRUE;
     
     if ($op == 'login' OR $op == 'after_update' OR $op == 'insert') {
         
@@ -56,19 +55,17 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
             
             if ($contact && isset($contact['contact_id'])) {
                 
-                //loop over roles
-                foreach ($roles as $role) {
+                //loop over user's roles
+                foreach ($roles as $rid => $role) {
                     
-                    //find the group for the role
-                    $params = array('title' => $role);
-                    $groups =& civicrm_group_get($params);
+                    //find the group(s) for the role
+                    $query = db_query("SELECT group_id FROM {civicrm_group_roles_rules} WHERE role_id=%d", $rid);
                     
-                    if ($groups && count($groups) == 1) {
-                        
+                    while ($gid = db_result($query)) {    
                         //add the contact
-                        $group = current($groups);
+                        //$group = current($groups);
                         $contacts = array($contact);
-                        $gparams = array('group_id' => $group['id'], 'contact_id' => $contact_id);
+                        $gparams = array('group_id' => $gid, 'contact_id' => $contact_id);
                         $result = civicrm_group_contact_add($gparams);
                         
                         if ($result['is_error'] > 0) {
@@ -82,12 +79,8 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                             drupal_set_message("User $user->name NOT added to Group: $role");
                             drupal_set_message(var_export($result, TRUE));
                         }
-            
-                    } elseif ($debug_mode) {
-                        $msg = t('CiviCRM group not found for @id', array('@id' => $role));
-                        watchdog('civicrm', $msg);
-                        drupal_set_message($msg);
-                    } //end if $groups
+                    } //end while
+                    
                     
                 } //end foreach
                 
