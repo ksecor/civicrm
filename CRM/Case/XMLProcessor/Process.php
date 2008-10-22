@@ -126,8 +126,10 @@ class CRM_Case_XMLProcessor_Process {
     function processStandardTimeline( $activitySetXML,
                                       $caseRolesXML,
                                       &$params ) {
-        foreach ( $activitySetXML->ActivityTypes as $activityTypeXML ) {
-            $this->createActivity( $activityTypeXML, $params );
+        foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
+            foreach ( $activityTypesXML as $activityTypeXML ) {
+                $this->createActivity( $activityTypeXML, $params );
+            }
         }
 
         foreach ( $caseRolesXML as $caseRoleXML ) {
@@ -240,7 +242,7 @@ class CRM_Case_XMLProcessor_Process {
 
     function createActivity( $activityTypeXML,
                              &$params ) {
-        
+
         $activityTypeName = (string ) $activityTypeXML->keyname;
         $activityTypes =& $this->getActivityTypes( );
 
@@ -250,7 +252,7 @@ class CRM_Case_XMLProcessor_Process {
             return false;
         }
 
-
+        require_once 'CRM/Core/OptionGroup.php';
         $activityParams = array( 'activity_type_id'    => $activityTypeID,
                                  'source_contact_id'   => $params['creatorID'],
                                  'is_auto'             => true,
@@ -270,7 +272,7 @@ class CRM_Case_XMLProcessor_Process {
         $activityParams['due_date_time'] = date( 'Ymd', $dueDateTime );
 
         require_once 'CRM/Activity/BAO/Activity.php';
-        if ( ! CRM_Activity_BAO_Activity::create( $params ) ) {
+        if ( ! CRM_Activity_BAO_Activity::create( $activityParams ) ) {
             return false;
         }
     }
