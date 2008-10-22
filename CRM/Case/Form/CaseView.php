@@ -70,16 +70,16 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                 if ( $caseType ) {
                     $caseType .= ", ";
                 }
-                $caseType .= $statuses[$value];
+                $caseType .= $caseTypes[$value];
             }
         }
 
-        $caseDetails = array( 'case_type'    => $caseType,
-                              'case_status'  => $statuses[$values['case_status_id']],
-                              'case_subject' => $values['subject']
+        $this->_caseDetails = array( 'case_type'    => $caseType,
+                                     'case_status'  => $statuses[$values['case_status_id']],
+                                     'case_subject' => $values['subject']
                               );
         
-        $this->assign ( 'caseDetails', $caseDetails );
+        $this->assign ( 'caseDetails', $this->_caseDetails );
 
     }
 
@@ -91,7 +91,11 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $activities = array( 1 => "Presenting Problem", "Prescribing Privileges", "Medication and Drug Use" );
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $caseRoles    = $xmlProcessor->get( $this->_caseDetails['case_type'], 'CaseRoles' );
+
+        $activities = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivityTypes' );
         $this->add('select', 'activity_id',  ts( 'New Activity' ), $activities );
 
         $reports = array( 1 => "15-day Review", "Disability Application");
@@ -137,18 +141,22 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $group =& $this->addGroup( $choice, 'date_range' );
 
         //get case related relationships (Case Role)
-        $caseRelationships = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactID,
-                                                                            CRM_Contact_BAO_Relationship::CURRENT  ,
-                                                                            0, 0, 0,
-                                                                            null, null, false, $this->_caseID );
+        $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
         $this->assign('caseRelationships', $caseRelationships);
 
         //build reporter select
         $reporters = array( "" => ts(' - any reporter - ') );
         foreach( $caseRelationships as $key => $value ) {
             $reporters[$value['cid']] = $value['name'] . " ( {$value['relation']} )";
+
+            //calculate roles that don't have relationships
+            if ( $key = array_search( $value['relation'], $caseRoles ) ) {
+                unset( $caseRoles[$key] ) ;
+            }
         }
 
+        $this->assign( 'caseRoles', $caseRoles );
+        
         $this->add('select', 'reporter_id',  ts( 'Reporter/Role' ), $reporters );
 
         $this->addButtons(array(  

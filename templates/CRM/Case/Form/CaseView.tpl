@@ -28,9 +28,12 @@
             <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
         {/foreach}
+        
+        {foreach from=$caseRoles item=relName}
         <tr>
-            <td class="label">Primary Care Physician</td><td>(not assigned) <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td></td><td></td>
+            <td class="label">{$relName}</td><td>(not assigned) <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td></td><td></td>
         </tr>
+        {/foreach}
     </table>
  </fieldset>
 </div>
