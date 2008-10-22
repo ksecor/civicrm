@@ -37,6 +37,3 @@
    </td></tr> 
 {/if}        
  </table>
-  <dl>    
-   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
-  </dl> 

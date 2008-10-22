@@ -42,16 +42,6 @@ require_once "CRM/Core/Form.php";
 class CRM_Case_Form_Activity_ChangeCaseType
 {
 
-    /** Function to set variables up before form is built 
-     *                                                           
-     * @return void 
-     * @access public 
-     */ 
-    public function preProcess()  
-    {
-        
-    }    
-  
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -86,14 +76,6 @@ class CRM_Case_Form_Activity_ChangeCaseType
         $form->add( 'date', 'start_date', ts('Case Timeline'),
                     CRM_Core_SelectValues::date('activityDate' ), false );   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-
-        // buttons
-        $form->addButtons( array(
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ) ) );
     }
 
     /**

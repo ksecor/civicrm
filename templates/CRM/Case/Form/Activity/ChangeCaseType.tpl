@@ -11,7 +11,6 @@
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
     	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}</td>
    </tr>
-   <tr><td">&nbsp;</td><td>{$form.buttons.html}</td></tr>
 </table>
 
 {include file="CRM/common/showHide.tpl"}

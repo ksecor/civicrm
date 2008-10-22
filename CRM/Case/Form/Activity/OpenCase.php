@@ -42,15 +42,6 @@ require_once 'CRM/Custom/Form/CustomData.php';
 class CRM_Case_Form_Activity_OpenCase
 {
 
-   /** Function to set variables up before form is built 
-     *                                                           
-     * @return void 
-     * @access public 
-     */ 
-    public function preProcess()  
-    {
-    }
-    
    /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -104,12 +95,6 @@ class CRM_Case_Form_Activity_OpenCase
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
         
-        $form->addButtons( array(
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ) ) );
     }
 
     /**
