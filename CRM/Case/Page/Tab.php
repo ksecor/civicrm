@@ -49,6 +49,20 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      */
     static $_links = null;
     
+    function preProcess( )
+    {
+        parent::preProcess( );
+        $openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
+                                                          'id', 'name' );
+        $changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
+                                                          'id', 'name' );
+        $changeCaseSatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
+                                                          'id', 'name' );
+        $this->assign( 'openCaseId'       ,$openCaseId);
+        $this->assign( 'changeCaseTypeId' ,$changeCaseTypeId);
+        $this->assign( 'changeCaseSatusId',$changeCaseSatusId);
+    }
+
     /**
      * View details of a case
      *
@@ -138,8 +152,8 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $config =& CRM_Core_Config::singleton( );
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
-                                                       'Create Case', 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Activity', 
+                                                       'Open Case', 
                                                        $this->_action );
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
