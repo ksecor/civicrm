@@ -84,7 +84,10 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markIgnored($file)
     {
-        rename($file, $this->_ignored . DIRECTORY_SEPARATOR . basename($file));
+        $target = $this->_ignored . DIRECTORY_SEPARATOR . basename($file);
+        if (!rename($file, $target)) {
+            throw new Exception("Could not rename $file to $target");
+        }
     }
 
     /**
@@ -95,6 +98,9 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markProcessed($file)
     {
-        rename($file, $this->_processed . DIRECTORY_SEPARATOR . basename($file));
+        $target = $this->_processed . DIRECTORY_SEPARATOR . basename($file);
+        if (!rename($file, $target)) {
+            throw new Exception("Could not rename $file to $target");
+        }
     }
 }

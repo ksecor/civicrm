@@ -96,7 +96,9 @@ class CRM_Mailing_MailStore
         $dir = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $name;
         foreach (array('cur', 'new', 'tmp') as $sub) {
             if (!file_exists($dir . DIRECTORY_SEPARATOR . $sub)) {
-                mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true);
+                if (!mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true)) {
+                    throw new Exception('Could not create ' . $dir . DIRECTORY_SEPARATOR . $sub);
+                }
             }
         }
         return $dir . DIRECTORY_SEPARATOR . 'cur';
