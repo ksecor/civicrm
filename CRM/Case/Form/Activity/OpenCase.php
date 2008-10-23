@@ -190,6 +190,10 @@ class CRM_Case_Form_Activity_OpenCase
                                      'caseID'           => $params['case_id'],
                                      );
 
+        if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
+            $xmlProcessorParams['custom'] = $params['custom'];
+        }
+
         $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
 
         // status msg

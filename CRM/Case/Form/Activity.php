@@ -113,10 +113,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->_uid = $session->get('userID');
         
         //when custom data is included in this page
-        $this->set( 'type'    , 'Case' );
+        $this->set( 'type'    , 'Activity' );
+        $this->set( 'subType' , $this->_actTypeId );
         CRM_Custom_Form_Customdata::preProcess( $this );
-        CRM_Custom_Form_Customdata::buildQuickForm( $this );
-        CRM_Custom_Form_Customdata::setDefaultValues( $this );
 
         eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
     }
@@ -130,12 +129,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        CRM_Custom_Form_Customdata::setDefaultValues( $this );
         eval('$defaults = CRM_Case_Form_Activity_'. $this->_caseAction. '::setDefaultValues($this);');
         return $defaults;
     }
 
     public function buildQuickForm( ) 
     {
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
    
         eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
                 
@@ -195,38 +196,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
         }
 
-        // 2. format custom data
-        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            $params['hidden_custom'] = 1;
-                        
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    $params[$key] = $value;
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Case', null, $this->_id );
-                }
-            }
-           
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
-            
-            //special case to handle if all checkboxes are unchecked
-            $customFields = CRM_Core_BAO_CustomField::getFields( 'Case' );
-            
-            if ( !empty($customFields) ) {
-                foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                     '', 'Case', null, $this->_id );
-                    }
-                }
-            }
-        }
-
-        // 3. create/edit case
+        // 2. create/edit case
         require_once 'CRM/Case/BAO/Case.php';
         if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
             $caseType = CRM_Core_OptionGroup::values('case_type');
@@ -235,10 +205,38 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         $caseObj = CRM_Case_BAO_Case::create( $params );
         $params['case_id'] = $caseObj->id;
-        
-        // unset any ids
+        // unset any ids, custom data
         unset($params['id'], $params['custom']);
 
+        // 3. format activity custom data
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            $customData = array( );
+            foreach ( $params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
+                    $params[$key] = $value;
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Activity', null, $this->_actTypeId );
+                }
+            }
+           
+            if ( !empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Activity', null, $this->_actTypeId );
+                    }
+                }
+            }
+        }
+        
         // 4. call end post process
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::endPostProcess( \$this, \$params );");
