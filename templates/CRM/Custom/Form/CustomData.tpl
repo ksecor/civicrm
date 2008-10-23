@@ -8,7 +8,8 @@
     <a href="#" onclick="hide('{$cd_edit.name}_show'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
 
-{if $form.buttons.html }
+{* If there is no ajax call this button gets added on top of custom form. In such case $noPreCustomButton var could be used to skip showing this button. *}
+{if $form.buttons.html and !$noPreCustomButton}
 <dl>
   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>  

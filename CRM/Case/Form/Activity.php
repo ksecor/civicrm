@@ -137,6 +137,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
+        // we don't want to show button on top of custom form
+        $this->assign('noPreCustomButton', true);
    
         eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
                 

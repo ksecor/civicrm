@@ -247,6 +247,10 @@ AND    a.activity_type_id  = %2
                                                                                           'Scheduled',
                                                                                           'name' ),
                                  'target_contact_id'   => $params['clientID'] );
+        
+        if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
+            $activityParams['custom'] = $params['custom'];
+        }
 
         // if same activity is already there, skip and dont touch
         $params['activityTypeID'] = $activityTypeID;
