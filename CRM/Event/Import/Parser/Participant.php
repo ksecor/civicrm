@@ -116,8 +116,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             case 'event_title':
                 $this->_eventTitleIndex          = $index;
                 break;
-                $index++;
             }
+            $index++;
         }
     }
     
