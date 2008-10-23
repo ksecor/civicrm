@@ -151,7 +151,8 @@ function civicrm_contribution_delete( &$params ) {
 /**
  * Retrieve a set of contributions, given a set of input params
  *
- * @param  array   $params           (reference ) input parameters
+ * @param  array   $params           (reference ) input parameters. If EMPTY,
+ *                                   returns all contribution details
  * @param array    $returnProperties Which properties should be included in the
  *                                   returned Contribution object. If NULL, the default
  *                                   set of properties will be included.
@@ -165,7 +166,7 @@ function &civicrm_contribution_search( &$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
-    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    $otherVars = array( '', 'sort', 'offset', 'rowCount' );
     
     $sort     = null;
     $offset   = 0;
@@ -173,7 +174,7 @@ function &civicrm_contribution_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( array_search( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
@@ -182,14 +183,21 @@ function &civicrm_contribution_search( &$params ) {
     
     require_once 'CRM/Contribute/BAO/Query.php';
     require_once 'CRM/Contact/BAO/Query.php';
-    if ( empty( $returnProperties ) ) {
+    if ( empty( $returnProperties ) && ! empty( $params ) ) {
         $returnProperties = CRM_Contribute_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
+    } else {
+        $returnProperties = array( 'contribution_id' => 1 );
     }
-    
+
     $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
 
     $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
     list( $select, $from, $where ) = $query->query( );
+    
+    if( empty($params) ){
+        $sort  = 'contribution_id';
+        $where = 'Where civicrm_contribution.id is NOT NULL';
+    }  
     
     $sql = "$select $from $where";  
 
