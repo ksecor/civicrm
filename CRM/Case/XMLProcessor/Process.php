@@ -42,6 +42,7 @@ class CRM_Case_XMLProcessor_Process {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
 
@@ -53,6 +54,7 @@ class CRM_Case_XMLProcessor_Process {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
 
@@ -86,6 +88,7 @@ class CRM_Case_XMLProcessor_Process {
                                         'configuration',
                                         "$caseType.xml" ) );
             if ( ! file_exists( $fileName ) ) {
+                CRM_Core_Error::fatal( );
                 return false;
             }
 
@@ -101,14 +104,27 @@ class CRM_Case_XMLProcessor_Process {
                       &$params ) {
         $standardTimeline = CRM_Utils_Array::value( 'standardTimeline', $params );
         $activitySetName  = CRM_Utils_Array::value( 'activitySetName' , $params );
-        $cleanupDatabase  = CRM_Utils_Array::value( 'cleanupDatabase' , $params );
+        $activityTypeName = CRM_Utils_Array::value( 'activityTypeName', $params );
         
-        require_once 'CRM/Core/Error.php';
+        if ( $activityTypeName == 'Open Case' ) { 
+            // create relationships for the ones that are required
+            foreach ( $xml->CaseRoles as $caseRoleXML ) {
+                foreach ( $caseRoleXML->RelationshipType as $relationshipTypeXML ) {
+                    if ( (int ) $relationshipTypeXML->creator == 1 ) {
+                        if (! $this->createRelationships( (string ) $relationshipTypeXML->name,
+                                                          $params ) ) {
+                            CRM_Core_Error::fatal( );
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
                 if ( $standardTimeline ) {
-                    $timeline = (boolean ) $activitySetXML->timeline;
-                    if ( $timeline ) {
+                    if ( (boolean ) $activitySetXML->timeline ) {
                         return $this->processStandardTimeline( $activitySetXML,
                                                                $params );
                     }
@@ -117,21 +133,17 @@ class CRM_Case_XMLProcessor_Process {
                     if ( $name == $activitySetName ) {
                         return $this->processActivitySetReport( $activitySetXML,
                                                                 $params ); 
-                   }
+                    }
                 }
             }
         }
 
-        if ( CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
-            // delete all existing relationships which are non-empty
-            $this->deleteEmptyRelationships( $params );
-        }
     }
 
     function processStandardTimeline( $activitySetXML,
                                       &$params ) {
         if ( CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
-            // delete all existing relationships which are non-empty
+            // delete all existing activities which are non-empty
             $this->deleteEmptyActivity( $params );
         }
 
@@ -184,19 +196,18 @@ class CRM_Case_XMLProcessor_Process {
         $relationshipTypeID = array_search( $relationshipTypeName,
                                             $relationshipTypes );
         if ( $relationshipTypeID === false ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
 
         $relationshipParams = array( 'relationship_type_id' => $relationshipTypeID,
                                      'contact_id_a'         => $params['clientID'],
+                                     'contact_id_b'         => $params['creatorID'],
                                      'is_active'            => 1,
                                      'case_id'              => $params['caseID'] );
-        if ( $relationshipTypeName == 'Case Coordinator' ) {
-            $relationshipParams['contact_id_b'] = $params['creatorID'];
-        }
-        $relationshipParams['contact_id_b'] = $params['creatorID'];
 
         if ( ! $this->createRelationship( $relationshipParams ) ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
         return true;
@@ -283,14 +294,17 @@ AND    a.activity_type_id  = %2
     function createActivity( $activityTypeXML,
                              &$params ) {
 
-        $activityTypeName = (string ) $activityTypeXML->name;
-        $activityTypes =& $this->getActivityTypes( );
-
-        $activityTypeID = array_search( $activityTypeName,
-                                        $activityTypes );
-        if ( ! $activityTypeID ) {
+        $activityTypeName =  (string ) $activityTypeXML->name;
+        $categoryName     =  (string ) $activityTypeXML->category;
+        $activityTypes    =& $this->getActivityTypes( );
+        $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
+                                                    CRM_Utils_Array::value( $categoryName,
+                                                                            $activityTypes ) );
+        if ( ! $activityTypeInfo ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
+        $activityTypeID = $activityTypeInfo['id'];
 
         require_once 'CRM/Core/OptionGroup.php';
         $activityParams = array( 'activity_type_id'    => $activityTypeID,
@@ -320,6 +334,7 @@ AND    a.activity_type_id  = %2
         require_once 'CRM/Activity/BAO/Activity.php';
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );
         if ( ! $activity ) {
+            CRM_Core_Error::fatal( );
             return false;
         }
 
