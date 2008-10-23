@@ -48,22 +48,33 @@ class CRM_Mailing_MailStore
         switch ($class) {
 
         case 'IMAP':
+            $server = 'server';
+            $user   = 'username';
+            $pass   = 'password';
+            $ssl    = true;
+            $folder = 'Inbox';
             require_once 'CRM/Mailing/MailStore/Imap.php';
-            return new CRM_Mailing_MailStore_Imap('server', 'username', 'password');
+            return new CRM_Mailing_MailStore_Imap($server, $user, $pass, $ssl, $folder);
 
         case 'POP3':
+            $server = 'server';
+            $user   = 'username';
+            $pass   = 'password';
+            $ssl    = true;
             require_once 'CRM/Mailing/MailStore/Pop3.php';
-            return new CRM_Mailing_MailStore_Pop3('server', 'username', 'password');
+            return new CRM_Mailing_MailStore_Pop3($server, $user, $pass, $ssl);
 
         case 'Maildir':
+            $dir = '/proper/directory';
             require_once 'CRM/Mailing/MailStore/Maildir.php';
-            return new CRM_Mailing_MailStore_Maildir('dir');
+            return new CRM_Mailing_MailStore_Maildir($dir);
 
         // DO NOT USE the mbox transport for anything other than testing
         // in particular, it does not clear the mbox afterwards
         case 'mbox':
+            $file = '/proper/file';
             require_once 'CRM/Mailing/MailStore/Mbox.php';
-            return new CRM_Mailing_MailStore_Mbox('file');
+            return new CRM_Mailing_MailStore_Mbox($file);
         }
     }
 
