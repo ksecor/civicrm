@@ -104,6 +104,58 @@ SELECT @at13       := max(id) from civicrm_category where name = 'Current Prescr
 SELECT @at14       := max(id) from civicrm_category where name = 'Professional School';
 SELECT @at15       := max(id) from civicrm_category where name = 'Residency Training';
 
+
+-- /*******************************************************
+-- *
+-- * Custom Data Groups and Fields
+-- *
+-- *******************************************************/
+-- Open Case custom fields
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+    VALUES ('New_Client_Intake', 'New Client Intake', 'Activity', NULL, '13', 'Inline', 0, '', '', 2, 1, 'civicrm_value_new_client_intake_2', 0, 0, 0);
+SELECT @cgIntake            := max(id) from civicrm_custom_group where name = 'New_Client_Intake';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+    VALUES  (@cgIntake, 'Caller', 'String', 'Radio', '', 1, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'caller_4', 45),
+            (@cgIntake, 'Severity Rating', 'String', 'Radio', NULL, 1, 1, 0, 2, NULL, 'How urgent is the situation? (1 = not very, 5 = extremely urgent)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'severity_rating_5', 46);
+
+INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
+    VALUES  ('severity_rating_20081023115218', 'Severity Rating', NULL, NULL, 1),
+            ('caller_20081023114820', 'Caller', NULL, NULL, 1);
+
+SELECT @og1            := max(id) from civicrm_option_group where name = 'severity_rating_20081023115218';
+SELECT @og2            := max(id) from civicrm_option_group where name = 'caller_20081023114820';
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`)
+    VALUES  (@og1, 'Physician', 'Physician', NULL, NULL, NULL, 0, 1, NULL, 0, 0, 1, NULL),
+            (@og1, 'Resident', 'Resident', NULL, NULL, NULL, 0, 2, NULL, 0, 0, 1, NULL),
+            (@og1, 'Medical Student', 'Medical Student', NULL, NULL, NULL, 0, 3, NULL, 0, 0, 1, NULL),
+            (@og1, 'Spouse', 'Spouse', NULL, NULL, NULL, 0, 4, NULL, 0, 0, 1, NULL),
+            (@og1, 'Child', 'Child', NULL, NULL, NULL, 0, 5, NULL, 0, 0, 1, NULL),
+            (@og1, 'Colleague', 'Colleague', NULL, NULL, NULL, 0, 6, NULL, 0, 0, 1, NULL),
+            (@og1, 'Regulatory body', 'Regulatory body', NULL, NULL, NULL, 0, 7, NULL, 0, 0, 1, NULL),
+            (@og1, 'Treating clinician', 'Treating clinician', NULL, NULL, NULL, 0, 8, NULL, 0, 0, 1, NULL),
+            (@og1, 'Member of the public', 'Member of the public', NULL, NULL, NULL, 0, 9, NULL, 0, 0, 1, NULL),
+            (@og1, 'Other relationship', 'Other relationship', NULL, NULL, NULL, 0, 10, NULL, 0, 0, 1, NULL),
+            (@og2, '1', '1', NULL, NULL, NULL, 0, 1, NULL, 0, 0, 1, NULL),
+            (@og2, '2', '2', NULL, NULL, NULL, 0, 2, NULL, 0, 0, 1, NULL),
+            (@og2, '3', '3', NULL, NULL, NULL, 0, 3, NULL, 0, 0, 1, NULL),
+            (@og2, '4', '4', NULL, NULL, NULL, 0, 4, NULL, 0, 0, 1, NULL),
+            (@og2, '5', '5', NULL, NULL, NULL, 0, 5, NULL, 0, 0, 1, NULL);
+            
+CREATE TABLE `civicrm_value_new_client_intake_2` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `caller_4` varchar(255) collate utf8_unicode_ci default '',
+  `severity_rating_5` varchar(255) collate utf8_unicode_ci default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  KEY `INDEX_severity_rating_5` (`severity_rating_5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+ALTER TABLE `civicrm_value_new_client_intake_2`
+  ADD CONSTRAINT `FK_civicrm_value_new_client_intake_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
+
 -- /*******************************************************
 -- *
 -- * Relationship Types
