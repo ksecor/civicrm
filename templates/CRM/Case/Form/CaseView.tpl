@@ -1,9 +1,9 @@
 {* CiviCase -  view case screen*}
 <div class="form-item">
-<fieldset><legend>Case Summary</legend>
+<fieldset><legend>{ts}Case Summary{/ts}</legend>
     <table class="form-layout-compressed">
         <tr>
-            <td class="font-size12pt bold">&nbsp;Client: {$displayName}&nbsp;</td>
+            <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
             <td class="right"><label>{$form.activity_id.label}</label>&nbsp;{$form.activity_id.html}<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location=''"/></td>
             <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location=''"/></td> 
         </tr>
@@ -61,7 +61,7 @@ hide('caseRole');
         <td class="label"><label for="status">{$form.status_id.label}</label><br />
             {$form.status_id.html}
         </td>
-        <td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="submit" /></td>
+	<td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="button" onclick="search()"; /></td>
     </tr>
     <tr>
         <td colspan="2"> 
@@ -83,21 +83,72 @@ hide('caseRole');
         </td>
     </tr>
   </table>
+  <br />
+  <table id="activity" style="display:none"></table>
 
-  <form title="activity_pager" action="" method="post">
-  <table class="selector">
-    <tr class="columnheader"><th scope="col"><a href="" class="sort-none">Category</a></th><th scope="col"><a href="" class="sort-none">Type</a></th><th scope="col"><a href="" class="sort-none">Reporter</a></th><th scope="col"><a href="" class="sort-none">Due</a></th><th scope="col"><a href="" class="sort-none">Completed</a></th><th scope="col"><a href="" class="sort-none">Status</a></th><th scope="col"></th></tr>
-    <tr class="odd-row status-ontime"><td>Medical History</td><td><a href="">Complete Physical</a></td><td>(Primary Care Physician)</td><td>Oct 8th, 2008</td><td></td><td>Scheduled</td><td><a href="" >View</a>&nbsp;|&nbsp;<a href="" >Edit</a>&nbsp;|&nbsp;<a href="" >Delete</a></td></tr>
-    <tr class="odd-row status-ontime"><td>Case History</td><td><a href="">Intake Assessment</a></td><td><a href="">Greenberg, Dave</a><br />(Case Coordinator)</td><td>Sept 24th, 2008</td><td>Sept 24th, 2008  5:00 PM</td><td>Completed</td><td><a href="" >View</a>&nbsp;|&nbsp;<a href="" >Edit</a>&nbsp;|&nbsp;<a href="" >Delete</a></td></tr>
-  </table>
-  </form>
 </fieldset>
 </div> <!-- End Activities div -->
+
+
+{literal}
+<script type="text/javascript">
+cj(document).ready(function(){
+
+  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
+
+  cj("#activity").flexigrid
+  (
+    {
+	url: dataUrl,
+	    dataType: 'json',
+	    colModel : [
+			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
+			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
+			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
+			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
+			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
+			{display: 'Status', name : 'status', width : 90, sortable : true, align: 'left'},
+			{display: '', name : 'links', width : 90, align: 'left'},
+			],
+	    sortname: "due_date",
+	    sortorder: "desc",
+	    usepager: true,
+	    useRp: true,
+	    rp: 10,
+	    showTableToggleBtn: true,
+            width: 815,
+            height: 'auto',
+            nowrap: false
+	    }
+   );   
+  }
+ );
+
+function search(com)
+{   
+    /*
+    var activity_date_low = cj("select#activity_date_low[M]").val() + '-' + cj("select#activity_date_low[d]").val() + '-' + cj("select#activity_date_low[Y]").val();
+    */
+    cj('#activity').flexOptions({
+	    newp:1, 
+		params:[{name:'category_0', value: cj("select#category_0").val()},
+			{name:'category_1', value: cj("select#category_1").val()},
+			{name:'reporter_id', value: cj("select#reporter_id").val()},
+			{name:'status_id', value: cj("select#status_id").val()},
+			{name:'date_range', value: cj("*[name=date_range]:checked").val()}
+			]
+		});
+    
+    cj("#activity").flexReload(); 
+}
+
+</script>
+{/literal}
 
 <script type="text/javascript">
 show('activities_show');
 hide('activities');
 </script>
-
+<br/>
 {$form.buttons.html}
 </div>

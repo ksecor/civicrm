@@ -68,6 +68,8 @@ function civicrm_html_head()
 
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery-ui.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/flexigrid.js\"></script>";
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/jquery/css/flexigrid.css);</style>";
         $head .= "<script type=\"text/javascript\">var cj = jQuery.noConflict(); $ = cj;</script>";
     }
 

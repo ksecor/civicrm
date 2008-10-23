@@ -184,20 +184,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     }
 
     /**
-     * Get the values for pseudoconstants for name->value and reverse.
-     *
-     * @param array   $defaults (reference) the default values, some of which need to be resolved.
-     * @param boolean $reverse  true if we want to resolve the values in the reverse direction (value -> name)
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function resolveDefaults(&$defaults, $reverse = false)
-    {
-    
-    }
-    /**
      * This function is used to convert associative array names to values
      * and vice-versa.
      *
@@ -483,6 +469,92 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $dao->free( );
         return $values;
     }
+
+    /**
+     * Function to get Case Activities
+     *
+     * @param int    $caseID case id
+     * @param array  $params posted params 
+     *
+     * @return returns case activities
+     *
+     * @static
+     */
+    static function getCaseActivity( $caseID, $params )
+    {
+        $select = '
+SELECT ca.id as id, ca.activity_type_id as type, c.sort_name as reporter, ca.due_date_time as due_date, ca.activity_date_time actual_date, ca.status_id as status, cc2.label as category ';
+
+        $from  = 'FROM civicrm_case_activity cca, civicrm_activity ca, civicrm_contact c, civicrm_category cc1, civicrm_category cc2 ';
+
+        $where = 'WHERE ca.id = cca.activity_id 
+AND ca.activity_type_id = cc1.id
+AND cc1.parent_id = cc2.id
+AND ca.source_contact_id = c.id AND cca.case_id= %1';
+
+        if ( $params['category_0'] ) {
+            $where .= " AND cc1.parent_id = ".CRM_Utils_Type::escape( $params['category_0'], 'Integer' );
+        }
+
+        if ( $params['category_1'] ) {
+            $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['category_1'], 'Integer' );
+        }
+
+        if ( $params['reporter_id'] ) {
+            $where .= " AND ca.source_contact_id = ".CRM_Utils_Type::escape( $params['reporter_id'], 'Integer' );
+        }
+
+        if ( $params['status_id'] ) {
+            $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
+        }
+
+        $sortname  = $params['sortname'];
+        $sortorder = $params['sortorder'];
+        
+        if (!$sortname) $sortname = 'actual_date';
+        if (!$sortorder) $sortorder = 'desc';
+
+        $orderBy = " ORDER BY $sortname $sortorder";
+
+        $page = $params['page'];
+        $rp   = $params['rp'];
+        
+        if (!$page) $page = 1;
+        if (!$rp) $rp = 10;
+        
+        $start = (($page-1) * $rp);
+        
+        $limit = " LIMIT $start, $rp";
+
+        $query = $select . $from . $where . $orderBy . $limit;
+
+        $params = array( 1 => array( $caseID, 'Integer' ) );
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        require_once "CRM/Case/PseudoConstant.php";
+        $childCategories  = CRM_Case_PseudoConstant::category( false );
+
+        require_once "CRM/Utils/Date.php";
+        require_once "CRM/Core/PseudoConstant.php";
+        $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
+
+        $values = array( );
+        while ( $dao->fetch( ) ) {
+            $values[$dao->id]['id']          = $dao->id;
+            $values[$dao->id]['category']    = $dao->category;
+            $values[$dao->id]['type']        = $childCategories[$dao->type];
+            $values[$dao->id]['reporter']    = $dao->reporter;
+            $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
+            $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
+            $values[$dao->id]['status']      = $activityStatus[$dao->status];
+            $values[$dao->id]['links']       = "<a href='#'>Edit | Delete</a>";
+        }
+        
+        $dao->free( );
+        return $values;
+    }
+
 }
 
    

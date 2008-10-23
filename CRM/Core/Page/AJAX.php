@@ -123,7 +123,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'memType':
             return $this->getMemberTypeDefaults( $config );
-            
+
+        case 'activity':
+            require_once 'CRM/Core/Page/AJAX/Activity.php';
+            return CRM_Core_Page_AJAX_Activity::getCaseActivity( $config );
         default:
             return;
         }

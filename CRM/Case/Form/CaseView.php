@@ -51,6 +51,8 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         $this->_contactID = $this->get('cid');
         $this->_caseID    = $this->get('id');
+        
+        $this->assign( 'caseID', $this->_caseID );
 
         //retrieve details about case
         $params = array( 'id' => $this->_caseID );
@@ -106,7 +108,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $childCategories  = CRM_Case_PseudoConstant::category( false );
         $childParentIds   = CRM_Case_PseudoConstant::category( false, 'parent_id' );
 
-        $sel =& $this->addElement('hierselect', "category", ts('Category') );
+        $sel =& $this->addElement('hierselect', "category", ts('Category'), array( 'id' => 'category' ) );
 
         $sel1 = array( "0" => ts(' - any category - ') ) + $parentCategories;
         $sel2 = array( );
@@ -134,12 +136,12 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $choice   = array( );
-        $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Due' ), '1' );
-        $choice[] =& $this->createElement( 'radio', null, '11', ts( 'Actual' ) , '0' );
-        
-        $group =& $this->addGroup( $choice, 'date_range' );
+        $choices   = array( 1 => ts( 'Due' ),
+                            2 => ts( 'Actual' )
+                            );
 
+        $this->addRadio('date_range', null, $choices );
+        
         //get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
         $this->assign('caseRelationships', $caseRelationships);
