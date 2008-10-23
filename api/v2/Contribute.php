@@ -74,6 +74,9 @@ function &civicrm_contribution_add( &$params ) {
     $values["source"]     = $params["source"];
     
     $ids     = array( );
+    if ( CRM_Utils_Array::value( 'id', $params ) ) {
+        $ids['contribution'] = $params['id'];
+    }
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
     if ( is_a( $contribution, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( ts( $contribution->_errors[0]['message'] ) );
