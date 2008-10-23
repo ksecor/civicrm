@@ -122,7 +122,7 @@ class CRM_Case_XMLProcessor_Process {
             }
         }
 
-        if ( $CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
+        if ( CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
             // delete all existing relationships which are non-empty
             $this->deleteEmptyRelationships( $params );
         }
@@ -130,7 +130,7 @@ class CRM_Case_XMLProcessor_Process {
 
     function processStandardTimeline( $activitySetXML,
                                       &$params ) {
-        if ( $CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
+        if ( CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
             // delete all existing relationships which are non-empty
             $this->deleteEmptyActivity( $params );
         }
