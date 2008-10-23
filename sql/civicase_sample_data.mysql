@@ -9,7 +9,7 @@ UPDATE civicrm_preferences SET `contact_view_options`= '1234567891011
 
 -- /*******************************************************
 -- *
--- * Case Types  
+-- * Case Types
 -- *
 -- *******************************************************/
 SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'case_type';
@@ -23,6 +23,15 @@ VALUES
     (@option_group_id_case_type, 'Substance Abuse',  1, 'substance_abuse', NULL, 0,  0, 1, 'Substance abuse case', 0, 0, 1),
     (@option_group_id_case_type, 'STD Claim',  2, 'std_claim', NULL, 0,  0, 2, 'Short term disability claim case', 0, 0, 1);
 
+
+-- /*******************************************************
+-- *
+-- * Case Status - Set names for Open and Closed
+-- *
+-- *******************************************************/
+SELECT @csgId        := max(id) from civicrm_option_group where name = 'case_status';
+UPDATE civicrm_option_value SET name = 'Open' where option_group_id = @csgId AND label = 'Ongoing';
+UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId AND label = 'Resolved';
 
 -- /*******************************************************
 -- *
@@ -40,7 +49,8 @@ INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_ac
             ('Regulatory Involvement', 'Regulatory Involvement', 5, '', 1, 0, @parentId, 7),
             ('Outbound Referral', 'Outbound Referral', 6, '', 1, 0, @parentId, 7),
             ('Change Case Type', 'Change Case Type', 7, '', 1, 0, @parentId, 7),
-            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7);
+            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7),
+            ('Close Case', 'Close Case', 9, '', 1, 0, @parentId, 7);
 
 INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
     VALUES ('Medications and Substance Use', 'Medications and Substance Use', 2, 'Medications and substance use', 1, 1, NULL, 7);
@@ -82,7 +92,7 @@ SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
 SELECT @at2        := max(id) from civicrm_category where name = 'Presenting Problem';
 SELECT @at3        := max(id) from civicrm_category where name = 'Type of Service';
 SELECT @at4        := max(id) from civicrm_category where name = 'Outbound Referral';
-SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
+-- SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
 SELECT @at6        := max(id) from civicrm_category where name = 'Medication and Drug Use';
 SELECT @at7        := max(id) from civicrm_category where name = 'Last Contact with MD';
 SELECT @at8        := max(id) from civicrm_category where name = 'Self-rated Health Status';
@@ -100,16 +110,20 @@ SELECT @at15       := max(id) from civicrm_category where name = 'Residency Trai
 -- *
 -- *******************************************************/
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Client of Coordinator', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
+    VALUES( 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
 SELECT @cR            := max(id) from civicrm_relationship_type where name_b_a = 'Case Coordinator';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Client of Addiction Counselor', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
+    VALUES( 'Addiction Counselor is', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
 SELECT @aR            := max(id) from civicrm_relationship_type where name_b_a = 'Addiction Counselor';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
 SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a = 'Supervisor';
+
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0 );
+SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a = 'Intake Physician';
 
 
 -- /*******************************************************
@@ -156,19 +170,20 @@ INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email
 
 SELECT @provId1        := max(id) from civicrm_contact where sort_name = 'Green, Susan';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES  (@clientId1, @provId1, @cR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-            (@clientId2, @provId1, @cR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-            (@clientId3, @provId1, @cR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId1, @iR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId1, @iR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId1, @iR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId2        := max(id) from civicrm_contact where sort_name = 'Burke, Alice';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES  (@clientId1, @provId2, @aR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-            (@clientId2, @provId2, @aR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-            (@clientId3, @provId2, @aR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId2, @cR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId2, @cR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId2, @cR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId3        := max(id) from civicrm_contact where sort_name = 'Dempsey, Stuart';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES (@clientId3, @provId3, @sR, '2007-04-01', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES (@clientId3, @provId3, @aR, '2007-04-01', NULL, 1, NULL, 0, 0, @caseId3);
+    
 
 -- Provider phone and emails
 INSERT INTO `civicrm_phone` (`contact_id`, `location_type_id`, `is_primary`, `is_billing`, `mobile_provider_id`, `phone`, `phone_type_id`)

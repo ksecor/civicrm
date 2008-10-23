@@ -1,47 +1,87 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <CaseType>
-  <keyname>Substance Abuse</keyname>
+  <name>Substance Abuse</name>
   <ActivityTypes>
     <ActivityType>
-      <keyname>Open Case</keyname>
+      <name>Open Case</name>
+      <category>Case History</category>
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <keyname>Presenting Problem</keyname>
+      <name>Presenting Problem</name>
+      <category>Case History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
-      <keyname>Medication and Drug Use</keyname>
+      <name>Type of Service</name>
+      <category>Case History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Regulatory Involvement</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Type</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Outbound Referral</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Medication and Drug Use</name>
+      <category>Medications and Substance Use</category>
      </ActivityType>
     <ActivityType>
-      <keyname>Current Prescribing Privileges</keyname>
+      <name>Current Work Status</name>
+      <category>Occupational History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Current Prescribing Privileges</name>
+      <category>Occupational History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Current MAIN Practice Setting</name>
+      <category>Occupational History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Current MAIN Practice Activity</name>
+      <category>Occupational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>
     <ActivitySet>
-      <keyname>Standard Timeline</keyname>
+      <name>Standard Timeline</name>
       <label>Standard Timeline</label>
       <timeline>true</timeline>
       <ActivityTypes>
         <ActivityType>
-          <keyname>Open Case</keyname>
+          <name>Open Case</name>
         </ActivityType>
         <ActivityType>
-          <keyname>Presenting Problem</keyname>
+          <name>Presenting Problem</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <keyname>Medication and Drug Use</keyname>
+          <name>Medication and Drug Use</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <keyname>Current Prescribing Privileges</keyname>
+          <name>Current Prescribing Privileges</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
@@ -49,18 +89,18 @@
       </ActivityTypes>
     </ActivitySet>
     <ActivitySet>
-      <keyname>15 Day Review</keyname>
+      <name>15 Day Review</name>
       <label>15 Day Review</label>
       <timeline>false</timeline>
       <ActivityTypes>
         <ActivityType>
-          <keyname>Medication and Drug Use</keyname>
+          <name>Medication and Drug Use</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <keyname>Current Prescribing Privileges</keyname>
+          <name>Current Prescribing Privileges</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
@@ -69,8 +109,18 @@
     </ActivitySet>
   </ActivitySets>
   <CaseRoles>
-    <relationship_type>Case Coordinator</relationship_type>
-    <relationship_type>Addiction Counselor</relationship_type>
-    <relationship_type>Supervisor</relationship_type>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Case Coordinator</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Addiction Counselor</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Supervisor</name>
+    </RelationshipType>
   </CaseRoles>
 </CaseType>
