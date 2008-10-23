@@ -6,6 +6,7 @@ $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
 $params = array( 'clientID'         => 104,
                  'creatorID'        => 108,
                  'standardTimeline' => 1,
+                 'cleanupDatabase'  => 1,
                  'dueDateTime'      => time( ),
                  'caseID'           => 1,
                  );

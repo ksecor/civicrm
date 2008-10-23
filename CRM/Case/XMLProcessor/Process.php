@@ -101,7 +101,8 @@ class CRM_Case_XMLProcessor_Process {
                       &$params ) {
         $standardTimeline = CRM_Utils_Array::value( 'standardTimeline', $params );
         $activitySetName  = CRM_Utils_Array::value( 'activitySetName' , $params );
-
+        $cleanupDatabase  = CRM_Utils_Array::value( 'cleanupDatabase' , $params );
+        
         require_once 'CRM/Core/Error.php';
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
@@ -109,7 +110,6 @@ class CRM_Case_XMLProcessor_Process {
                     $timeline = (boolean ) $activitySetXML->timeline;
                     if ( $timeline ) {
                         return $this->processStandardTimeline( $activitySetXML,
-                                                               $xml->CaseRoles,
                                                                $params );
                     }
                 } else if ( $activitySetName ) {
@@ -121,23 +121,23 @@ class CRM_Case_XMLProcessor_Process {
                 }
             }
         }
+
+        if ( $CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
+            // delete all existing relationships which are non-empty
+            $this->deleteEmptyRelationships( $params );
+        }
     }
 
     function processStandardTimeline( $activitySetXML,
-                                      $caseRolesXML,
                                       &$params ) {
+        if ( $CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
+            // delete all existing relationships which are non-empty
+            $this->deleteEmptyActivity( $params );
+        }
+
         foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
             foreach ( $activityTypesXML as $activityTypeXML ) {
                 $this->createActivity( $activityTypeXML, $params );
-            }
-        }
-
-        foreach ( $caseRolesXML as $caseRoleXML ) {
-            foreach ( $caseRoleXML->relationship_type as $relationshipTypeXML ) {
-                if (! $this->createRelationships( (string ) $relationshipTypeXML,
-                                                  $params ) ) {
-                    return false;
-                }
             }
         }
     }
@@ -202,12 +202,28 @@ class CRM_Case_XMLProcessor_Process {
         return true;
     }
 
-    function createRelationship( $params ) {
+    function deleteEmptyRelationships( &$params ) {
+        $query = "
+DELETE
+FROM   civicrm_relationship
+WHERE  contact_id_a = %1
+AND    contact_id_b IS NULL
+AND    case_id = %2
+";
+        $sqlParams = array( 1 => array( $params['clientID'], 'Integer' ),
+                            2 => array( $params['caseID'  ], 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $sqlParams );
+    }
+
+    function createRelationship( &$params ) {
         require_once 'CRM/Contact/DAO/Relationship.php';
 
         $dao =& new CRM_Contact_DAO_Relationship( );
         $dao->copyValues( $params );
-        $dao->save( );
+        // only create a relationship if it does not exist
+        if ( ! $dao->find( true ) ) {
+            $dao->save( );
+        }
         return true;
     }
 
@@ -240,6 +256,31 @@ class CRM_Case_XMLProcessor_Process {
         return $result;
     }
 
+    function deleteEmptyActivity( &$params ) {
+        $query = "
+DELETE a
+FROM   civicrm_activity a
+INNER JOIN civicrm_activity_target t ON t.activity_id = a.id
+WHERE  t.target_contact_id = %1
+AND    a.is_auto = 1
+";
+        $sqlParams = array( 1 => array( $params['clientID'], 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $sqlParams );
+    }
+
+    function isActivityPresent( &$params ) {
+        $query = "
+SELECT a.id
+FROM   civicrm_activity a
+INNER JOIN civicrm_activity_target t ON t.activity_id = a.id
+WHERE  t.target_contact_id = %1
+AND    a.activity_type_id  = %2
+";
+        $sqlParams = array( 1 => array( $params['clientID']      , 'Integer' ),
+                            2 => array( $params['activityTypeID'], 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $sqlParams ) > 0 ? true : false;
+    }
+
     function createActivity( $activityTypeXML,
                              &$params ) {
 
@@ -263,6 +304,12 @@ class CRM_Case_XMLProcessor_Process {
                                                                                           'name' ),
                                  'target_contact_id'   => $params['clientID'] );
 
+        // if same activity is already there, skip and dont touch
+        $params['activityTypeID'] = $activityTypeID;
+        if ( $this->isActivityPresent( $params ) ) {
+            return true;
+        }
+
         if ( (int ) $activityTypeXML->reference_offset ) {
             $dueDateTime = $params['dueDateTime'] + 
                 (int ) $activityTypeXML->reference_offset * 24 * 3600; // this might cause a DST issue
@@ -282,6 +329,7 @@ class CRM_Case_XMLProcessor_Process {
                              'case_id'     => $params['caseID'] );
         require_once 'CRM/Case/BAO/Case.php';
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+             return true;
     }
 
     function activitySets( $activitySetsXML ) {

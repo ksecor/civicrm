@@ -1,4 +1,4 @@
-<?php
+?php
 
 /*
  +--------------------------------------------------------------------+
@@ -123,7 +123,7 @@ FROM       civicrm_acl_cache c
 INNER JOIN civicrm_acl       a ON c.acl_id = a.id
 ";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
     }
 
 }
