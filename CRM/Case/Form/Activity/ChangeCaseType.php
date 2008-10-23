@@ -128,6 +128,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
         $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
                                      'creatorID'        => $form->_uid,
                                      'standardTimeline' => 1,
+                                     'activityTypeName' => 'Change Case Type',
                                      'dueDateTime'      => $params['due_date_time'],
                                      'caseID'           => $params['case_id'],
                                      );

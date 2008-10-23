@@ -139,3 +139,9 @@ ALTER TABLE `civicrm_menu`
 ALTER TABLE `civicrm_option_value`
   ADD UNIQUE `UI_option_group_id_name` ( `option_group_id` , `name` );
 
+-- fix constraint
+ALTER TABLE `civicrm_group_nesting`
+    DROP FOREIGN KEY `FK_civicrm_group_nesting_child_group_id`;
+ALTER TABLE `civicrm_group_nesting`
+    ADD CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE;
+

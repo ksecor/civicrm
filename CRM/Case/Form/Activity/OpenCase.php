@@ -185,6 +185,7 @@ class CRM_Case_Form_Activity_OpenCase
         $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
                                      'creatorID'        => $form->_uid,
                                      'standardTimeline' => 1,
+                                     'activityTypeName' => 'Open Case',
                                      'dueDateTime'      => time( ),
                                      'caseID'           => $params['case_id'],
                                      );

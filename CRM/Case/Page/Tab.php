@@ -73,9 +73,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                                                  'id', 'name' );
         $this->_changeCaseSatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
                                                                  'id', 'name' );
-        $this->assign( 'openCaseId'       ,$openCaseId);
-        $this->assign( 'changeCaseTypeId' ,$changeCaseTypeId);
-        $this->assign( 'changeCaseSatusId',$changeCaseSatusId);
+        $this->assign( 'openCaseId'       ,$this->_openCaseId);
+        $this->assign( 'changeCaseTypeId' ,$this->_changeCaseTypeId);
+        $this->assign( 'changeCaseSatusId',$this->_changeCaseSatusId);
     }
 
     /**
