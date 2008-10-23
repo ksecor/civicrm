@@ -42,6 +42,10 @@ require_once 'CRM/Custom/Form/CustomData.php';
 class CRM_Case_Form_Activity_OpenCase
 {
 
+    static function preProcess( &$form ) 
+    {        
+    }
+
    /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -52,11 +56,13 @@ class CRM_Case_Form_Activity_OpenCase
     function setDefaultValues( &$form ) 
     {
         $defaults = array( );
-        $today_date = getDate();
-        $defaults['start_date']['M']             = $today_date['mon'];
-        $defaults['start_date']['d']             = $today_date['mday'];
-        $defaults['start_date']['Y']             = $today_date['year'];
+
+        $defaults['start_date'] = array();
+        CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
         
+        // set case status to 'ongoing'
+        $defaults['status_id'] = 1;
+
         return $defaults;
     }
 
@@ -99,7 +105,7 @@ class CRM_Case_Form_Activity_OpenCase
                                                          'email'));
         }
 
-        $form->add( 'date', 'start_date', ts('Start Date'),
+        $form->add( 'date', 'start_date', ts('Case Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');

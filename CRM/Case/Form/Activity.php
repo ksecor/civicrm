@@ -43,6 +43,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 {
 
     /**
+     * Case Id
+     */
+    public $_id = null;
+
+    /**
      * Client Id
      */
     public $_clientId = null;
@@ -102,6 +107,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
         }
         
+        $this->_id  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+
         $session    =& CRM_Core_Session::singleton();
         $this->_uid = $session->get('userID');
         
@@ -110,6 +117,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         CRM_Custom_Form_Customdata::preProcess( $this );
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
         CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
+        eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
     }
     
     /**
@@ -128,7 +137,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
    
-        eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::buildQuickForm( \$this );");
+        eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
                 
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
@@ -224,17 +233,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $params['case_type'] = $caseType[$params['case_type_id']];
         }
         
-        if ( array_key_exists('start_date', $params) ) {
-            if( CRM_Utils_System::isNull( $params['start_date'] ) ) {
-                $params['start_date'] = $params['now'];
-            } 
-            $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
-        }
-        
-        if ( CRM_Utils_Array::value('status_id', $params ) == 2 ) {
-            $params['end_date'] = CRM_Utils_Date::format( $params['now'] ); 
-        }
-
         $caseObj = CRM_Case_BAO_Case::create( $params );
         $params['case_id'] = $caseObj->id;
         

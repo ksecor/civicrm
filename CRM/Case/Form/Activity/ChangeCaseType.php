@@ -42,6 +42,13 @@ require_once "CRM/Core/Form.php";
 class CRM_Case_Form_Activity_ChangeCaseType
 {
 
+    static function preProcess( &$form ) 
+    {        
+        if ( !isset($form->_id) ) {
+            CRM_Core_Error::fatal(ts('Case Id not found.'));
+        }
+    }
+
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -52,11 +59,12 @@ class CRM_Case_Form_Activity_ChangeCaseType
     function setDefaultValues( &$form ) 
     {
         $defaults = array( );
-        $today_date = getDate();
+
         $defaults['is_reset_timeline'] = 1;
-        $defaults['start_date']['M']             = $today_date['mon'];
-        $defaults['start_date']['d']             = $today_date['mday'];
-        $defaults['start_date']['Y']             = $today_date['year'];
+        
+        $defaults['due_date_time'] = array( );
+        CRM_Utils_Date::getAllDefaultValues( $defaults['due_date_time'] );
+        $defaults['due_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
 
         return $defaults;
     }
@@ -68,22 +76,11 @@ class CRM_Case_Form_Activity_ChangeCaseType
         $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
                    $caseType , true);
 
-        // case selector
-        $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-        $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                 'mode'           => 'remote',
-                                 'store'          => 'caseStore');
-        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                          "c={$form->_clientId}",
-                                          false, null, false );
-        $form->assign( 'caseUrl', $caseUrl );
-        $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );
-        
         // timeline
         $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, true, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );
-        $form->add( 'date', 'start_date', ts('Case Timeline'),
-                    CRM_Core_SelectValues::date('activityDate' ), false );   
-        $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        $form->add( 'date', 'due_date_time', ts('Case Timeline'),
+                    CRM_Core_SelectValues::date('activityDatetime' ), false );   
+        $form->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
     }
 
     /**
@@ -108,10 +105,13 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function beginPostProcess( &$form, &$params ) 
     {
-        $params['id'] = $params['case_id'];
+        $params['id'] = $form->_id;
 
         if ( CRM_Utils_Array::value('is_reset_timeline', $params ) == 0 ) {
-            unset($params['start_date']);
+            unset($params['due_date_time']);
+        } else {
+            // store the date with proper format
+            $params['due_date_time'] = CRM_Utils_Date::format( $params['due_date_time'] );
         }
     }
 
@@ -123,6 +123,17 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function endPostProcess( &$form, &$params ) 
     {
+        // 1. initiate xml processor
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
+                                     'creatorID'        => $form->_uid,
+                                     'standardTimeline' => 1,
+                                     'dueDateTime'      => $params['due_date_time'],
+                                     'caseID'           => $params['case_id'],
+                                     );
+
+        $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
+
         // status msg
         $params['statusMsg'] = ts('Case Type changed successfully.');
     }

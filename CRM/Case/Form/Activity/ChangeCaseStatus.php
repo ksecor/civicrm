@@ -42,6 +42,10 @@ require_once "CRM/Core/Form.php";
 class CRM_Case_Form_Activity_ChangeCaseStatus
 {
 
+    static function preProcess( &$form ) 
+    {        
+    }
+
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
