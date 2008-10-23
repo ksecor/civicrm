@@ -136,4 +136,33 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
         return self::$category[$index];
     }
 
+    static function categoryTree( $componentID ) {
+        $query = "
+SELECT     c.id as id, c.label as label, c.name as name,
+           p.id as p_id 
+FROM       civicrm_category c
+LEFT JOIN  civicrm_category p ON c.parent_id = p.id 
+WHERE      c.component_id = %1
+ORDER BY   p.id
+";
+        $params = array( 1 => array( $componentID, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        $tree  = array( );
+        $names = array( );
+        while ( $dao->fetch( ) ) {
+            $names[$dao->id] = $dao->name;
+            $parentName = $dao->p_id ? $names[$dao->p_id] : 'Root Category';
+            if ( ! array_key_exists( $parentName, $tree ) ) {
+                $tree[$parentName] = array( );
+            }
+            $tree[$parentName][$dao->name] = array( 'id' => $dao->id,
+                                                    'label'  => $dao->label,
+                                                    'name'   => $dao->name ,
+                                                    'parent' => $dao->p_id );
+        }
+        $tree['Root Category']['All Names'] = $names;
+        return $tree;
+    }
+
 }

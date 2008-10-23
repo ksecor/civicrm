@@ -113,7 +113,7 @@ class CRM_Case_XMLProcessor_Process {
                                                                $params );
                     }
                 } else if ( $activitySetName ) {
-                    $name = (string ) $activitySetXML->keyname;
+                    $name = (string ) $activitySetXML->name;
                     if ( $name == $activitySetName ) {
                         return $this->processActivitySetReport( $activitySetXML,
                                                                 $params ); 
@@ -163,8 +163,8 @@ class CRM_Case_XMLProcessor_Process {
 
         $result = array( );
         foreach ( $caseRolesXML as $caseRoleXML ) {
-            foreach ( $caseRoleXML->relationship_type as $relationshipTypeXML ) {
-                $relationshipTypeName = (string ) $relationshipTypeXML;
+            foreach ( $caseRoleXML->RelationshipType as $relationshipTypeXML ) {
+                $relationshipTypeName = (string ) $relationshipTypeXML->name;
                 $relationshipTypeID   = array_search( $relationshipTypeName,
                                                       $relationshipTypes );
                 if ( $relationshipTypeID === false ) {
@@ -231,11 +231,8 @@ AND    case_id = %2
         static $activityTypes = null;
         require_once 'CRM/Core/Component.php';
         if ( ! $activityTypes ) {
-            $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
             require_once 'CRM/Case/PseudoConstant.php';
-            $activityTypes = CRM_Case_PseudoConstant::category( false,
-                                                                'label',
-                                                                $condition );
+            $activityTypes = CRM_Case_PseudoConstant::categoryTree( CRM_Core_Component::getComponentID( 'CiviCase' ) );
         }
         return $activityTypes; 
     }
@@ -245,11 +242,13 @@ AND    case_id = %2
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {
-                $activityTypeName = (string ) $recordXML->keyname;
-                $activityTypeID   = array_search( $activityTypeName,
-                                                  $activityTypes );
-                if ( $activityTypeID ) {
-                    $result[$activityTypeID] = $activityTypeName;
+                $activityTypeName = (string ) $recordXML->name;
+                $categoryName     = (string ) $recordXML->category;
+                $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
+                                                            CRM_Utils_Array::value( $categoryName,
+                                                                                    $activityTypes ) );
+                if ( $activityTypeInfo ) {
+                    $result[$activityTypeInfo['id']] = $activityTypeName;
                 }
             }
         }
@@ -284,7 +283,7 @@ AND    a.activity_type_id  = %2
     function createActivity( $activityTypeXML,
                              &$params ) {
 
-        $activityTypeName = (string ) $activityTypeXML->keyname;
+        $activityTypeName = (string ) $activityTypeXML->name;
         $activityTypes =& $this->getActivityTypes( );
 
         $activityTypeID = array_search( $activityTypeName,
@@ -336,7 +335,7 @@ AND    a.activity_type_id  = %2
         $result = array( );
         foreach ( $activitySetsXML as $activitySetXML ) {
             foreach ( $activitySetXML as $recordXML ) {
-                $activitySetName  = (string ) $recordXML->keyname;
+                $activitySetName  = (string ) $recordXML->name;
                 $activitySetLabel = (string ) $recordXML->label;
                 $result[$activitySetName] = $activitySetLabel;
             }
