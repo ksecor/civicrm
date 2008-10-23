@@ -179,6 +179,11 @@ WHERE  v.option_group_id = g.id
 
     static function getLabel( $groupName, $value ) 
     {
+        if ( empty( $groupName ) ||
+             empty( $value ) ) {
+            return null;
+        }
+
         $query = "
 SELECT  v.label as label ,v.value as value
 FROM   civicrm_option_value v, 

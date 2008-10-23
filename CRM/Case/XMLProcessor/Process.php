@@ -33,9 +33,9 @@
  *
  */
 
-class CRM_Case_XMLProcessor_Process {
+require_once 'CRM/Case/XMLProcessor.php';
 
-    static protected $_xml;
+class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
 
     function run( $caseType,
                   &$params ) {
@@ -66,38 +66,6 @@ class CRM_Case_XMLProcessor_Process {
         case 'ActivityTypes':
             return $this->activityTypes( $xml->ActivityTypes );
         }
-    }
-
-    function retrieve( $caseType ) {
-        require_once 'CRM/Utils/String.php';
-        require_once 'CRM/Utils/Array.php';
-
-        // trim all spaces from $caseType
-        $caseType = CRM_Utils_String::munge( $caseType, '', 0 );
-
-        if ( ! CRM_Utils_Array::value( $caseType, self::$_xml ) ) {
-
-            if ( ! self::$_xml ) {
-                self::$_xml = array( );
-            }
-
-            // ensure that the file exists
-            $fileName = implode( DIRECTORY_SEPARATOR,
-                                 array( dirname( __FILE__ ),
-                                        'xml',
-                                        'configuration',
-                                        "$caseType.xml" ) );
-            if ( ! file_exists( $fileName ) ) {
-                CRM_Core_Error::fatal( );
-                return false;
-            }
-
-            // read xml file
-            $dom = DomDocument::load( $fileName );
-            $dom->xinclude( );
-            self::$_xml[$caseType] = simplexml_import_dom( $dom );
-        }
-        return self::$_xml[$caseType];
     }
 
     function process( $xml,
@@ -156,24 +124,8 @@ class CRM_Case_XMLProcessor_Process {
         }
     }
 
-    function &getRelationshipTypes( ) {
-        static $relationshipTypes = null;
-
-        if ( ! $relationshipTypes ) {
-            require_once 'CRM/Core/PseudoConstant.php';
-            $relationshipInfo  = CRM_Core_PseudoConstant::relationshipType( );
-
-            $relationshipTypes = array( );
-            foreach ( $relationshipInfo as $id => $info ) {
-                $relationshipTypes[$id] = $info['name_b_a'];
-            }
-        }
-
-        return $relationshipTypes;
-    }
-
     function &caseRoles( $caseRolesXML ) {
-        $relationshipTypes =& self::getRelationshipTypes( );
+        $relationshipTypes =& $this->allRelationshipTypes( );
 
         $result = array( );
         foreach ( $caseRolesXML as $caseRoleXML ) {
@@ -192,7 +144,7 @@ class CRM_Case_XMLProcessor_Process {
 
     function createRelationships( $relationshipTypeName,
                                   &$params ) {
-        $relationshipTypes =& self::getRelationshipTypes( );
+        $relationshipTypes =& $this->allRelationshipTypes( );
 
         // get the relationship id
         $relationshipTypeID = array_search( $relationshipTypeName,
@@ -227,18 +179,8 @@ class CRM_Case_XMLProcessor_Process {
         return true;
     }
 
-    function &getActivityTypes( ) {
-        static $activityTypes = null;
-        require_once 'CRM/Core/Component.php';
-        if ( ! $activityTypes ) {
-            require_once 'CRM/Case/PseudoConstant.php';
-            $activityTypes = CRM_Case_PseudoConstant::categoryTree( CRM_Core_Component::getComponentID( 'CiviCase' ) );
-        }
-        return $activityTypes; 
-    }
-
     function activityTypes( $activityTypesXML ) {
-        $activityTypes =& $this->getActivityTypes( );
+        $activityTypes =& $this->allActivityTypes( );
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {
@@ -285,7 +227,7 @@ AND    a.activity_type_id  = %2
 
         $activityTypeName =  (string ) $activityTypeXML->name;
         $categoryName     =  (string ) $activityTypeXML->category;
-        $activityTypes    =& $this->getActivityTypes( );
+        $activityTypes    =& $this->allActivityTypes( );
         $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
                                                     CRM_Utils_Array::value( $categoryName,
                                                                             $activityTypes ) );

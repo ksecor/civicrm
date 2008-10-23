@@ -138,7 +138,7 @@
             <Type>String</Type>
           </Field>
           <Field>
-            <Label>Reporter</Label>
+            <Label>Reported By</Label>
             <Value>Jack Smith, M.D.</Value>
             <Type>String</Type>
           </Field>
@@ -148,14 +148,9 @@
             <Type>Date</Type>
           </Field>
           <Field>
-            <Label>Activity Date</Label>
+            <Label>Actual Date</Label>
             <Value>2008-09-17T10:00</Value>
             <Type>Date</Type>
-          </Field>
-          <Field>
-            <Label>Medium</Label>
-            <Value>In-Person</Value>
-            <Type>String</Type>
           </Field>
           <Field>
             <Label>Duration</Label>
