@@ -106,7 +106,8 @@ class CRM_Case_XMLProcessor_Process {
         $activitySetName  = CRM_Utils_Array::value( 'activitySetName' , $params );
         $activityTypeName = CRM_Utils_Array::value( 'activityTypeName', $params );
         
-        if ( $activityTypeName == 'Open Case' ) { 
+        if ( 'Open Case' ==
+             CRM_Utils_Array::value( 'activityTypeName', $params ) ) {
             // create relationships for the ones that are required
             foreach ( $xml->CaseRoles as $caseRoleXML ) {
                 foreach ( $caseRoleXML->RelationshipType as $relationshipTypeXML ) {
@@ -142,7 +143,8 @@ class CRM_Case_XMLProcessor_Process {
 
     function processStandardTimeline( $activitySetXML,
                                       &$params ) {
-        if ( CRM_Utils_Array::value( 'cleanupDatabase' , $params ) ) {
+        if ( 'Change Case Type' ==
+             CRM_Utils_Array::value( 'activityTypeName', $params ) ) {
             // delete all existing activities which are non-empty
             $this->deleteEmptyActivity( $params );
         }
@@ -211,19 +213,6 @@ class CRM_Case_XMLProcessor_Process {
             return false;
         }
         return true;
-    }
-
-    function deleteEmptyRelationships( &$params ) {
-        $query = "
-DELETE
-FROM   civicrm_relationship
-WHERE  contact_id_a = %1
-AND    contact_id_b IS NULL
-AND    case_id = %2
-";
-        $sqlParams = array( 1 => array( $params['clientID'], 'Integer' ),
-                            2 => array( $params['caseID'  ], 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $sqlParams );
     }
 
     function createRelationship( &$params ) {
