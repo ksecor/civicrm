@@ -48,16 +48,31 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      * @static
      */
     static $_links = null;
+
+    /**
+     * Open Case activity type id
+     */
+    protected $_openCaseId = null;
+
+    /**
+     * Change Case Type actvitity type id
+     */
+    protected $_changeCaseTypeId = null;
+
+    /**
+     * Change Case Status  actvitity type id
+     */
+    protected $changeCaseSatusId = null;
     
     function preProcess( )
     {
         parent::preProcess( );
-        $openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
-                                                          'id', 'name' );
-        $changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
-                                                          'id', 'name' );
-        $changeCaseSatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
-                                                          'id', 'name' );
+        $this->_openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
+                                                                 'id', 'name' );
+        $this->_changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
+                                                                 'id', 'name' );
+        $this->_changeCaseSatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
+                                                                 'id', 'name' );
         $this->assign( 'openCaseId'       ,$openCaseId);
         $this->assign( 'changeCaseTypeId' ,$changeCaseTypeId);
         $this->assign( 'changeCaseSatusId',$changeCaseSatusId);
@@ -122,8 +137,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
 
             $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                       $action,
-                                                                      array( 'id'  => $case->id,
-                                                                             'cid' => $this->_contactId ) );
+                                                                      array( 'id'    => $case->id,
+                                                                             'cid'   => $this->_contactId,
+                                                                             'atype' => $this->_changeCaseTypeId ) );
             $names = array( );
             $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $case->case_type_id );
             foreach ( $caseTypeIds as $id => $val ) {
@@ -229,9 +245,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             } else {
                 self::$_links = array(
                                       CRM_Core_Action::UPDATE  => array(
-                                                                        'name'  => ts('Edit'),
+                                                                        'name'  => ts('Change Case Type'),
                                                                         'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&atype=%%atype%%&selectedChild=case',
                                                                         'title' => ts('Edit Case')
                                                                         ),
                                                       
