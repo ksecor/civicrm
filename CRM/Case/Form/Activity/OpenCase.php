@@ -183,7 +183,6 @@ class CRM_Case_Form_Activity_OpenCase
                                      'caseID'           => $params['case_id'],
                                      );
 
-        CRM_Core_Error::debug('$xmlProcessorParams',$xmlProcessorParams);
         $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
 
         // status msg

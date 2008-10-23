@@ -93,7 +93,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
-        if ( $this->_clientId ) {
+        if ( isset($this->_clientId) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact =& new CRM_Contact_DAO_Contact( );
             $contact->id = $this->_clientId;
