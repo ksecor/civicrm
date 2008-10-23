@@ -525,13 +525,16 @@ class CRM_Contact_BAO_Query
                         }   
                     }
                 } else if ($name === 'tags') {
+                    $this->_useGroupBy  = true;
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
                     $this->_tables['civicrm_tag'       ] = 1;
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } else if ($name === 'groups') {
+                    $this->_useGroupBy  = true;
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
                     $this->_tables['civicrm_group'        ] = 1;
                 } else if ($name === 'notes') {
+                    $this->_useGroupBy  = true;
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
                 } else if ($name === 'current_employer') {
@@ -974,10 +977,18 @@ class CRM_Contact_BAO_Query
 
             $result = array( $id, 'IN', $values, 0, 0 );
         } else if ( $id == 'tag' ) {
+            if (! is_array( $values ) ) {
+                $tagIds = explode( ',', $values );
+                unset( $values );
+                foreach( $tagIds as $tagId ) {
+                    $values[$tagId] = 1;
+                }
+            }
             $result = array( $id, 'IN', $values, 0, 0 );
         } else {
             $result = array( $id, '=', $values, 0, $wildcard );
         }
+
         return $result;
     }
 
