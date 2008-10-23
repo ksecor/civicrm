@@ -67,22 +67,29 @@
       <ActivityTypes>
         <ActivityType>
           <name>Open Case</name>
+          <category>Case History</category>
         </ActivityType>
         <ActivityType>
           <name>Presenting Problem</name>
+          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Medication and Drug Use</name>
+          <category>Medications and Substance Use</category>
           <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Current Prescribing Privileges</name>
+          <category>Occupational History</category>
           <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
@@ -94,14 +101,26 @@
       <timeline>false</timeline>
       <ActivityTypes>
         <ActivityType>
-          <name>Medication and Drug Use</name>
+          <name>Presenting Problem</name>
+          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Medication and Drug Use</name>
+          <category>Medications and Substance Use</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Current Prescribing Privileges</name>
+          <category>Occupational History</category>
           <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
