@@ -97,7 +97,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $this->_participantRoleIndex   = -1;
         $this->_eventTitleIndex        = -1;
         
-        $index = 1;
+        $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
              
             switch ($key) {
