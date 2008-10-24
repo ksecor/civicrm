@@ -39,7 +39,7 @@ require_once 'CRM/Custom/Form/CustomData.php';
  * This class generates form components for case activity
  * 
  */
-class CRM_Case_Form_Activity extends CRM_Core_Form
+class CRM_Case_Form_CaseActivity extends CRM_Core_Form
 {
 
     /**
@@ -163,7 +163,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     function addRules( ) 
     {
         eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_caseAction}', 'formrule'), \$this);");
-        $this->addFormRule( array( 'CRM_Case_Form_Activity', 'formRule'), $this );
+        $this->addFormRule( array( 'CRM_Case_Form_CaseActivity', 'formRule'), $this );
     }
 
     /**

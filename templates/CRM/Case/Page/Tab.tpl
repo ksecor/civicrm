@@ -1,4 +1,4 @@
-{capture assign=newCaseURL}{crmURL p="civicrm/case/activity" q="reset=1&action=add&cid=`$contactId`&atype=`$openCaseId`&context=case"}{/capture}
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&atype=`$openCaseId`&context=case"}{/capture}
 
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update, delete*}            
     {include file="CRM/Case/Form/Activity.tpl"}

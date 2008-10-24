@@ -168,7 +168,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $config =& CRM_Core_Config::singleton( );
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Activity', 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_CaseActivity', 
                                                        'Open Case', 
                                                        $this->_action );
         $session =& CRM_Core_Session::singleton();
