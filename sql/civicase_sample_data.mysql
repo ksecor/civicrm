@@ -302,10 +302,10 @@ SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a =
 -- * Clients and Cases  
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
-    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Reynolds, Jason', 'Dr Jason G Reynolds', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133189', NULL, 'Jason', 'G', 'Reynolds', 4, NULL, 'Custom', NULL, NULL, 2, '1951-08-30'),
-            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Jackson, Janet', 'Dr Janet A Jackson', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133155', NULL, 'Janet', 'A', 'Jackson', 4, NULL, 'Custom', NULL, NULL, 1, '1959-07-11'),
-            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Parker, Peter', 'Dr Peter J Parker', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133114', NULL, 'Peter', 'James', 'Parker', 4, NULL, 'Custom', NULL, NULL, 2, '1969-03-12');
+INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
+    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Reynolds, Jason', 'Dr Jason G Reynolds', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133189', NULL, 'Jason', 'G', 'Reynolds', 4, NULL, NULL, NULL, NULL, 2, '1951-08-30'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Jackson, Janet', 'Dr Janet A Jackson', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133155', NULL, 'Janet', 'A', 'Jackson', 4, NULL, NULL, NULL, NULL, 1, '1959-07-11'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Parker, Peter', 'Dr Peter J Parker', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133114', NULL, 'Peter', 'James', 'Parker', 4, NULL, NULL, NULL, NULL, 2, '1969-03-12');
 
 SELECT @clientId1        := max(id) from civicrm_contact where sort_name = 'Reynolds, Jason';
 INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
@@ -334,10 +334,10 @@ INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
 -- * Service Providers and Case Roles (relationships)  
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
-    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Green, Susan', 'Dr Susan Green', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133190', NULL, 'Susan', NULL, 'Green', 4, NULL, 'Custom', NULL, NULL, 1, '1959-06-30'),
-            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Burke, Alice', 'Alice Burke', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133124', NULL, 'Alice', NULL, 'Burke', NULL, NULL, 'Custom', NULL, NULL, 1, '1966-02-19'),
-            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Dempsey, Stuart', 'Dr Stuart Dempsey', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133181', NULL, 'Stuart', 'Albert', 'Dempsey', 4, NULL, 'Custom', NULL, NULL, 2, '1968-05-12');
+INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
+    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Green, Susan', 'Dr Susan Green', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133190', NULL, 'Susan', NULL, 'Green', 4, NULL, NULL, NULL, NULL, 1, '1959-06-30'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Burke, Alice', 'Alice Burke', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133124', NULL, 'Alice', NULL, 'Burke', NULL, NULL, NULL, NULL, NULL, 1, '1966-02-19'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Dempsey, Stuart', 'Dr Stuart Dempsey', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133181', NULL, 'Stuart', 'Albert', 'Dempsey', 4, NULL, NULL, NULL, NULL, 2, '1968-05-12');
 
 SELECT @provId1        := max(id) from civicrm_contact where sort_name = 'Green, Susan';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
