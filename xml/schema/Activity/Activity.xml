@@ -235,8 +235,8 @@
        <add>2.2</add>
   </field>
   <index>
-       <name>index_medium</name>
-       <fieldName>medium</fieldName>       
+       <name>index_medium_id</name>
+       <fieldName>medium_id</fieldName>
        <add>2.2</add>
   </index>
   <field>
