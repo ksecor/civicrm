@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-09-18 14:48+0200\n"
-"PO-Revision-Date: 2008-06-20 06:35-0700\n"
-"Last-Translator: Robe Dosa <robe.dosa@t-online.hu>\n"
+"PO-Revision-Date: 2008-10-23 13:22-0700\n"
+"Last-Translator: Robe Dosa <crm@vaciwaldorf.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,28 +15,28 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 msgid "add contacts"
-msgstr "új kapcsolat felvétele"
+msgstr "új hozzáadása"
 
 msgid "view all contacts"
-msgstr "összes kapcsolat megtekintése"
+msgstr "összes megtekintése"
 
 msgid "edit all contacts"
-msgstr "összes kapcsolat szerkesztése"
+msgstr "összes szerkesztése"
 
 msgid "import contacts"
-msgstr "kapcsolat importálása"
+msgstr "importálás"
 
 msgid "edit groups"
 msgstr "csoport szerkesztése"
 
 msgid "administer CiviCRM"
-msgstr "CiviCRM adminisztráció"
+msgstr "CiviCRM vezérlőpult"
 
 msgid "access uploaded files"
 msgstr "hozzáférés a feltöltött fájlokhoz"
 
 msgid "profile listings and forms"
-msgstr "profil listázás és formázás"
+msgstr "profil listák és űrlapok"
 
 msgid "access all custom data"
 msgstr "az összes egyéni adat elérése"
@@ -45,7 +45,7 @@ msgid "access CiviCRM"
 msgstr "CiviCRM elérése"
 
 msgid "access Contact Dashboard"
-msgstr "Kapcsolati áttekintés elérése"
+msgstr "Névjegyek elérése"
 
 #: drupal/civicrm.module
 #, fuzzy
@@ -59,14 +59,14 @@ msgid ""
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
 msgstr ""
-"The CiviCRM module stores information on the universe of people associated "
-"with a community and on their interactions such as emails, donations, "
-"petitions, events, etc. It can act as a stand alone contact management "
-"system or it can be integrated with mass mailer, volunteer management, "
-"petition, and event finding. CiviCRM enables organizations to maintain all "
-"these activities in a single database, creating efficiencies and new "
-"opportunities for communities to better communicate and benefit from "
-"relationships with their community members."
+"A CiviCRM modul az egy közösséghez tartozó emberek és a köztük zajló "
+"kommunikáció - emailek, adományok, felhívások, események, stb. - "
+"nyilvántartására ad lehetőséget. Használhatod önállóan, mint kapcsolat "
+"nyilvántartó rendszert, de integrálható hírlevélküldő rendszerré, az "
+"önkénteseid kezelését is meg tudod oldani vele, felhívások és események "
+"támogatására is alkalmazhatod. A CiviCRM-el a civil szervezetek mindezt egy "
+"adatbázisban tudják megoldani, növelve ezáltal a hatékonyságot, és új "
+"lehetőséget biztosítva a közösségüknek a jobb kommunikációra."
 
 #: drupal/civicrm.module
 #, fuzzy
@@ -116,16 +116,16 @@ msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
-"engedélyezd a CiviCRM blokkot a <a href=\"!1\">Adminisztráció &raquo; "
-"Webhely építés &raquo; Blokkok</a>-nál."
+"engedélyezd a CiviCRM blokkot a <a href=\"!1\">Adminisztráció &raquo; Webhely "
+"építés &raquo; blokk</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
 "read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
-"nézd meg a <a href=\"!1\">CiviCRM hozzáférési engedélyeket</a> és állítsd be "
-"a jogosultságokat a <a href=\"!2\">CiviCRM adminisztráció &raquo; Hozzáférés "
+"nézd meg a <a href=\"!1\">CiviCRM hozzáférési engedélyeket</a> és állítsd be a "
+"jogosultságokat a <a href=\"!2\">CiviCRM vezérlőpult&raquo; Hozzáférés "
 "szabályozás</a>-nál."
 
 #: drupal/civicrm.module
@@ -133,38 +133,36 @@ msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"!1\">Find Contacts</a>."
 msgstr ""
-"keress a kapcsolatok között név, email, cím, csoporttagság és címszavak "
-"alapján a <a href=\"!1\">Kapcsolatok keresése</a>-nél."
+"keress a névjegyek között név, email, cím, csoporttagság és címszavak "
+"alapján a <a href=\"!1\">Névjegy keresése</a>-nél."
 
 #: drupal/civicrm.module
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at <a href=\"!1\">Advanced Search</a>."
 msgstr ""
-"végezz komplex kereséseket címszavak, csoporttagság, helyszín, tevékenység "
+"végezz összetett kereséseket címszavak, csoporttagság, helyszín, tevékenység "
 "és egyedi mezők szerint a <a href=\"!1\">Részletes keresés</a>-ben."
 
 #: drupal/civicrm.module
 msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
 msgstr ""
-"hozz létre vagy módosíts csoportokat a <a href=\"!1\">Csoportok kezelése</a>-"
-"nél."
+"hozz létre vagy módosíts csoportokat a <a href=\"!1\">Csoport "
+"kezelése</a>-nél."
 
 #: drupal/civicrm.module
 msgid ""
 "import contacts from other sources at <a href=\"!1\">Import Contacts</a>."
 msgstr ""
-"kapcsolatok importja más forrásból a <a href=\"!1\">Kapcsolatok importálása</"
-"a>-ban."
+"névjegyek importja más forrásból a <a href=\"!1\">Névjegy importálás</a>-ban."
 
 #: drupal/civicrm.module
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj címszavakat (pl. szervező, alapítvány, "
-"környezet, stb.) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció &raquo; "
-"Címszavak</a>-nál."
+"hozz létre vagy kezelj címszavakat (pl. szervező, alapítvány, környezet, "
+"stb.) a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Címszavak</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
@@ -172,17 +170,17 @@ msgid ""
 "member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; "
 "Relationship Types</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj kapcsolat típusokat (pl. háztartás tagja, "
-"csapattag, házastárs...) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció "
-"&raquo; Kapcsolat típusok</a>-nál."
+"hozz létre vagy kezelj kapcsolat típusokat (pl. háztartás tagja, csapattag, "
+"házastárs...) a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Kapcsolat "
+"típusok</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
 "create or administer location types (e.g. home, work, school...) <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj helyszín típusokat (pl. otthon, munkahely, "
-"iskola...) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció &raquo; Helyszín "
+"hozz létre vagy kezelj helyszín típusokat (pl. otthon, munkahely, iskola...) "
+"a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Helyszín "
 "típusok</a>-nál."
 
 #: drupal/civicrm.module
@@ -191,9 +189,9 @@ msgid ""
 "interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
 "Types</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj tevékenység típusokat (pl. találkozó, "
-"interjú...) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció &raquo; "
-"Tevékenység típusok</a>-nál."
+"hozz létre vagy kezelj tevékenység típusokat (pl. találkozó, interjú...) a "
+"<a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Tevékenység "
+"típusok</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
@@ -201,9 +199,9 @@ msgid ""
 "contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom "
 "Data</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj egyedi adatmezőket (pl. önkéntes képessége, "
-"sürgős esetben hívható...) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció "
-"&raquo; Egyedi adatok</a>-nál."
+"hozz létre vagy kezelj egyedi adatmezőket (pl. önkéntes képessége, sürgős "
+"esetben hívható...) a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; "
+"Egyedi adatok</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
@@ -211,10 +209,9 @@ msgid ""
 "during user registration and included in My Account) at <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
-"hozz létre vagy adminisztrálj CiviCRM profilokat (vagyis: milyen adatok "
-"gyűjtendők a felhasználó regisztrációja során és legyenek benne a Saját "
-"adatokban) a <a href=\"!1\">CiviCRM &raquo; Adminisztráció &raquo; CiviCRM "
-"Profilok</a>-nál."
+"hozz létre vagy kezelj CiviCRM profilokat (vagyis: milyen adatok gyűjtendők "
+"a felhasználó regisztrációja során és legyenek benne a Saját adatokban) a <a "
+"href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; CiviCRM Profilok</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
@@ -243,8 +240,8 @@ msgstr ""
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
-msgstr "Kapcsolati adatok megtekintése"
+msgstr "Névjegy megtekintése"
 
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
-msgstr "Kapcsolat munkaasztal megtekintése"
+msgstr "Névjegy adatainak megtekintése"

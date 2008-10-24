@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-19 14:53-0700\n"
-"Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
+"PO-Revision-Date: 2008-10-23 14:29-0700\n"
+"Last-Translator: Robe Dosa <crm@vaciwaldorf.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_data.tpl
 msgid "ACL Role"
-msgstr "ACL szabály"
+msgstr "Hozzáférés lista szerep"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Contact/Form/Search/Custom/PostalMailing.php
@@ -71,11 +71,11 @@ msgstr "Művelet"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Összes"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr "Készítés"
+msgstr "Létrehozás"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php
@@ -106,19 +106,18 @@ msgid "Grant"
 msgstr "Engedély"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Befejezése"
+msgstr "Módosított dátum"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
-msgstr "Csoport"
+msgstr "Szerep"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #, fuzzy
 msgid "- select role -"
-msgstr "- csoport választás -"
+msgstr "- szerep választás -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
@@ -138,12 +137,11 @@ msgstr "Mindenki"
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Enabled?"
-msgstr "Engedélyezi?"
+msgstr "Bekapcsolod?"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "A kiválasztott megbeszélés törölve."
+msgstr "A kiválasztott hozzáférés lista törölve."
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
@@ -192,7 +190,7 @@ msgstr "Leírás"
 #: CRM/Custom/Form/MoveField.php CRM/Import/Form/UploadFile.php
 #: CRM/UF/Form/AdvanceSetting.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr "-választás-"
+msgstr "- kiválasztás -"
 
 #: CRM/ACL/Form/ACL.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: xml/templates/civicrm_data.tpl
@@ -200,23 +198,20 @@ msgid "Events"
 msgstr "Események"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Groups"
-msgstr "Csoport(ok)"
+msgstr "Minden csoport"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Csoport(ok)"
+msgstr "Minden egyedi csoport"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Profil választás"
+msgstr "Minden profil"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr "Esemény(ek)"
+msgstr "Minden esemény"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
@@ -234,7 +229,7 @@ msgstr "Esemény"
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr "Kijelölt"
+msgstr "Hozzárendelve"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
@@ -245,17 +240,15 @@ msgstr "- csoport választás -"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr "Biztosan le akarja tiltani ezt a megbeszélést?"
+msgstr "Biztosan le akarod tiltani ezt a hozzáférés listát?"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Edit ACL"
 msgstr "Szerkesztés"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Delete ACL"
 msgstr "Törlés"
 
@@ -286,18 +279,18 @@ msgstr "Engedélyezés"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Egyedi csoport"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr "-nem importálható-"
+msgstr "- nem importálható -"
 
 #: CRM/Activity/BAO/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/Page/AJAX/Mapper.php
 msgid "Membership"
-msgstr ""
+msgstr "Tagság"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php
 msgid "or"
@@ -310,16 +303,17 @@ msgstr "vagy"
 #: templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl xml/templates/civicrm_data.tpl
 msgid "Activity Type"
-msgstr "Aktivitás típusa"
+msgstr "Tevékenység típus"
 
 #: CRM/Activity/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "Activity Medium"
-msgstr ""
+msgstr "Tevékenység közeg"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Violation Type"
-msgstr ""
+msgstr "Megsértés típus"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
@@ -338,7 +332,7 @@ msgstr "Tárgy"
 
 #: CRM/Activity/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "Content"
-msgstr ""
+msgstr "Tartalom"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
@@ -352,7 +346,7 @@ msgstr "Kezdő dátum"
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php CRM/Core/BAO/UFGroup.php
 msgid "Select a valid date."
-msgstr "Helyes időpont kiválasztás"
+msgstr "Válassz érvényes dátumot."
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
@@ -382,7 +376,7 @@ msgstr "Részletek"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr "Elkülönít"
+msgstr "Leválaszt"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -425,7 +419,7 @@ msgstr "Állapot"
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "Kitől: "
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
@@ -435,7 +429,7 @@ msgstr "Hozzáadta"
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
 msgid "Case Activity Type"
-msgstr "Aktivitás típusa"
+msgstr "Tevékenység típusa"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -519,12 +513,12 @@ msgstr "Név"
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "Térkép frissítése"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Mentés másként"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php
@@ -555,7 +549,7 @@ msgstr "Következő>>"
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
-msgstr "Aktivitás ideje"
+msgstr "Tevékenység dátuma"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
@@ -1256,7 +1250,7 @@ msgstr "Új %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Individual"
-msgstr ""
+msgstr "Új személy"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Household"
@@ -1264,7 +1258,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Organization"
-msgstr ""
+msgstr "Új szervezet"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/RelatedContact.php
 msgid "contact does not exist: %1"
@@ -7294,7 +7288,7 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
-msgstr ""
+msgstr "Új csoport neve"
 
 #: CRM/Import/Form/Preview.php
 msgid "Description of new group"
@@ -9070,7 +9064,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
-msgstr ""
+msgstr "Új aktivitás tipus"
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"

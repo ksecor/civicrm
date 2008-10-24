@@ -50,6 +50,8 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true)
     {
+        if ($this->_debug) print "connecting to $host and authenticating as $username\n";
+
         $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailPop3Transport($host, null, $options);
         $this->_transport->authenticate($username, $password);
@@ -66,6 +68,7 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
+        if ($this->_debug) print "fetching message $nr and putting it in the ignored mailbox\n";
         $set = new ezcMailStorageSet($this->_transport->fetchByMessageNr($nr), $this->_ignored);
         $parser = new ezcMailParser;
         $parser->parseMail($set);
@@ -80,6 +83,7 @@ class CRM_Mailing_MailStore_Pop3 extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
+        if ($this->_debug) print "fetching message $nr and putting it in the processed mailbox\n";
         $set = new ezcMailStorageSet($this->_transport->fetchByMessageNr($nr), $this->_processed);
         $parser = new ezcMailParser;
         $parser->parseMail($set);

@@ -2,8 +2,7 @@
 // $Id: civicrm_group_roles.module,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
 
 /* @file
- * A simple module that adds a user to groups based on Role.
- * Internal Version identifier - 0.3-beta
+ * A simple module to synchronize Drupal Roles with Specified CiviCRM Groups
  */
 
 /**
@@ -11,7 +10,11 @@
  */
 function civicrm_group_roles_install( ) 
 {
-    drupal_install_schema('civicrm_group_roles');
+    $result = drupal_install_schema('civicrm_group_roles');
+    
+    if ($result[0]['success']) {
+      drupal_set_message(t('CiviGroup Roles Sync installed. You will need to specify sync rules '. l('here.', 'admin/settings/civicrm_group_roles/add_rule')) );
+    }
 }
 
 /**
@@ -48,5 +51,5 @@ function civicrm_group_roles_schema( )
  */
 function civicrm_group_roles_uninstall( ) 
 {
-    drupal_uninstall_schema('civicrm_group_roles_rules');
+    drupal_uninstall_schema('civicrm_group_roles');
 }

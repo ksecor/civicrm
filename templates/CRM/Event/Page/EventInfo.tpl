@@ -92,8 +92,8 @@
 	</div>
     { if $event.is_public }
       <div class="action-link">
-         {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
-         {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
+         {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`" fe=1}{/capture}
+         {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`" fe=1}{/capture}
 
          <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}" /></a> 
       </div>

@@ -86,7 +86,7 @@ class CRM_Utils_PDF_Utils {
             $pdf->set_parameter( "licensefile", "/home/paras/bin/license/pdflib.txt");
 
             if ( $pdf->begin_document( '', '' ) == 0 ) {
-                CRM_Utils_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );
+                CRM_Core_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );
             }
 
             $config =& CRM_Core_Config::singleton( );
