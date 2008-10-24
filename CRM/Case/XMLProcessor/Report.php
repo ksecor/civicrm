@@ -70,7 +70,12 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
         // now run the template
         $contents = $template->fetch( 'CRM/Case/XMLProcessor/Report.tpl' );
-        echo $contents;
+
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::download( "{$case['clientName']} {$case['caseType']}",
+                                    'text/xml',
+                                    $contents,
+                                    'xml', true );
     }
 
     function &caseInfo( $clientID,

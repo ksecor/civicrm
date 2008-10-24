@@ -146,37 +146,17 @@ class CRM_Core_Report_Excel {
 
     function writeCSVFile( $fileName, &$header, &$rows, $titleHeader = null ) {
         
-        self::dumpCSVHeader( $fileName );
-        
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::download( CRM_Utils_String::munge( $fileName ),
+                                    'text/x-csv',
+                                    CRM_Core_DAO::$_nullObject,
+                                    'csv',
+                                    false );
+
         self::makeCSVTable( $header, $rows, $titleHeader, true );
 
         
     }
-
-    function dumpCSVHeader( $fileName ) {
-        $now       = gmdate('D, d M Y H:i:s') . ' GMT';
-        $mime_type = 'text/x-csv';
-        $ext       = 'csv';
-
-        $fileName = CRM_Utils_String::munge( $fileName );
-
-        $config =& CRM_Core_Config::singleton( );       
-        header('Content-Type: ' . $mime_type); 
-        header('Expires: ' . $now);
-        
-        // lem9 & loic1: IE need specific headers
-        $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
-        if ( $isIE ) {
-            header('Content-Disposition: inline; filename="' . $fileName . '.' . $ext . '"');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-        } else {
-            header('Content-Disposition: attachment; filename="' . $fileName . '.' . $ext . '"');
-            header('Pragma: no-cache');
-        }
-
-    }
-
 }
 
 
