@@ -276,7 +276,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
             }
             require_once 'CRM/Core/OptionGroup.php';
-            $defaults['greeting_type'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
+            $defaults['greeting_type_id'] = CRM_Core_OptionGroup::values( 'greeting_type', true, null, 
                                                                        null, ' AND v.is_default = 1' );
         } else {
             // this is update mode
@@ -514,7 +514,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         // greeting type
-        $this->addElement('select', 'greeting_type', ts('Greeting'), array('' => ts('- Greeting -')) + CRM_Core_PseudoConstant::greeting(), array( 'onchange' => " showGreeting();") );
+        $this->addElement('select', 'greeting_type_id', ts('Greeting'), array('' => ts('- Greeting -')) + CRM_Core_PseudoConstant::greeting(), array( 'onchange' => " showGreeting();") );
 
         // custom greeting
         $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));

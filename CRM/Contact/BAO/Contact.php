@@ -1250,6 +1250,8 @@ WHERE  civicrm_contact.id = %1 ";
                     $data['prefix_id'] = $value;
                 } else if ($key === 'gender') { 
                     $data['gender_id'] = $value;
+                } else if ($key === 'greeting_type') { 
+                    $data['greeting_type_id'] = $value;
                 } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
                                                                  $data['custom'], 

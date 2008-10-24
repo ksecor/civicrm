@@ -1292,6 +1292,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( $fieldName === 'individual_suffix' ){
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
+        } else if ( $fieldName === 'greeting_type' ){            
+            $form->add('select', $name, $title, 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required);
+            
         } else if ($fieldName === 'preferred_communication_method') {
             $communicationFields = CRM_Core_PseudoConstant::pcm();
             foreach ( $communicationFields as $key => $var ) {
@@ -1444,6 +1448,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
+                    } else if ($name == 'greeting_type') {
+                        $defaults[$fldName] = $details['greeting_type_id'];
                     } else if ($name == 'preferred_communication_method') {
                         $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                         foreach ( $v as $item ) {
@@ -1944,6 +1950,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $data['prefix_id'] = $value;
                     } else if ($key === 'gender') { 
                         $data['gender_id'] = $value;
+                    } else if ($key === 'greeting_type') { 
+                        $data['greeting_type_id'] = $value;
                     } else if (substr($key, 0, 6) === 'custom') {
                         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                             //fix checkbox

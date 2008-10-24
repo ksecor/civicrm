@@ -264,6 +264,9 @@ class CRM_Core_OptionValue
                                                                 'title'=> 'Individual Suffix',
                                                                 'headerPattern' => '/^suffix$/i'
                                                                 ),
+                                   'greeting_type' => array('name' => 'greeting_type',
+                                                            'title'=> 'Greeting Type'
+                                                                )                                     
                                    );
             }
 

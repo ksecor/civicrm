@@ -315,6 +315,14 @@
        <import>true</import>
        <comment>Preferred greeting format.</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
+  </field>
+  <field>
+       <name>greeting_type_id</name>
+       <title>Greeting Type</title>
+       <type>int unsigned</type>
+       <comment>FK to civicrm_option_value.id, that has to be valid, registered Greeting type.</comment>
+       <add>2.2</add>
   </field>
   <field>
        <name>custom_greeting</name>

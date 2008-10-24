@@ -492,7 +492,7 @@ class CRM_Contact_BAO_Query
                         }
                         
                         if ($tableName == 'gender' || $tableName == 'individual_prefix' 
-                            || $tableName == 'individual_suffix' || $tableName == 'im_provider' ) {
+                            || $tableName == 'individual_suffix' || $tableName == 'im_provider' || $tableName == 'greeting_type' ) {
                             
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
@@ -1346,6 +1346,14 @@ class CRM_Contact_BAO_Query
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Individual Suffix') . " $op '$value'";
+        } else if ( $name === 'greeting_type' ) {
+            $greetings =& CRM_Core_PseudoConstant::greeting( ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $greetings[(int ) $value];  
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
+            $this->_qill[$grouping][] = ts('Greeting Type') . " $op '$value'";
         } else if ( $name === 'gender' ) {
             $genders =& CRM_Core_PseudoConstant::gender( );  
             if ( is_numeric( $value ) ) {  
@@ -1789,6 +1797,11 @@ class CRM_Contact_BAO_Query
                 $from .= " $side JOIN civicrm_option_value individual_suffix ON (contact_a.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
                 continue;
                 
+            case 'greeting_type':
+                $from .= " $side JOIN civicrm_option_group option_group_greeting ON (option_group_greeting.name = 'greeting_type')";
+                $from .= " $side JOIN civicrm_option_value greeting_type ON (contact_a.greeting_type_id = greeting_type.value AND option_group_greeting.id = greeting_type.option_group_id ) ";
+                continue;   
+
             case 'gender':
                 $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')";
                 $from .= " $side JOIN civicrm_option_value gender ON (contact_a.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";

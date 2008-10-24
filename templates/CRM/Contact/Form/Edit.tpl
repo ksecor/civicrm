@@ -33,14 +33,14 @@
         <td>&nbsp;</td>
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
-        <td>{$form.greeting_type.label} &nbsp; </td>
+        <td>{$form.greeting_type_id.label} &nbsp; </td>
         <td id="greetingLabel">{$form.custom_greeting.label}</td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
-        <td>{$form.greeting_type.html}</td>
+        <td>{$form.greeting_type_id.html}</td>
         <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     <tr>
@@ -91,13 +91,13 @@
     <tr>
        	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
-        <td>{$form.greeting_type.label}</td>
+        <td>{$form.greeting_type_id.label}</td>
         <td id="greetingLabel">{$form.custom_greeting.label}</td>	
 	</tr>
     <tr>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
-        <td>{$form.greeting_type.html}</td>
+        <td>{$form.greeting_type_id.html}</td>
         <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     </table>
@@ -230,7 +230,7 @@
     showGreeting( );
     function showGreeting( )
     {
-        if (document.getElementById("greeting_type").value == 4) {
+        if (document.getElementById("greeting_type_id").value == 4) {
 	    show('greetingLabel');
 	    show('greetingHtml');	
         } else {
