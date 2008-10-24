@@ -96,7 +96,7 @@ class CRM_Utils_Request {
 
         require_once 'CRM/Utils/Type.php';
         if ( isset( $value ) &&
-             ( CRM_Utils_Type::validate( $value, $type, $abort ) === null ) ) {
+             ( CRM_Utils_Type::validate( $value, $type, $abort, $name ) === null ) ) {
             $value = null;
         }
         

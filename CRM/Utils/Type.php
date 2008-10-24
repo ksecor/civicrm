@@ -174,6 +174,7 @@ class CRM_Utils_Type
             break;
         }
 
+
         if ( $abort ) {
             CRM_Core_Error::fatal( "$data is not of the type $type" );
         }
@@ -186,11 +187,12 @@ class CRM_Utils_Type
      * @param mixed   $data         The variable
      * @param string  $type         The type
      * @param boolean $abort        Should we abort if invalid
+     * @name string   $name	    The name of the attribute
      * @return mixed                The data, escaped if necessary
      * @access public
      * @static
      */
-    public static function validate($data, $type, $abort = true) 
+    public static function validate($data, $type, $abort = true, $name = 'One of parameters ') 
     {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
@@ -257,7 +259,7 @@ class CRM_Utils_Type
         }
 
         if ( $abort ) {
-            CRM_Core_Error::fatal( "$data is not of the type $type" );
+            CRM_Core_Error::fatal( "$name is not of the type $type" );
         }
 
         return null;
