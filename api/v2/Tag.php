@@ -114,7 +114,7 @@ function civicrm_tag_delete( &$params )
  * @access public
  */
 
-function civicrm_get_tag($params) 
+function civicrm_tag_get($params) 
 {
     _civicrm_initialize( );
     require_once 'CRM/Core/BAO/Tag.php';
