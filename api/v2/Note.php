@@ -61,12 +61,16 @@ function &civicrm_note_create(&$params)
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
-    
-    if ( !isset($params['entity_table']) || 
-         !isset($params['entity_id'])    || 
-         !isset($params['note'])         || 
-         !isset($params['contact_id'] ) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        if ( !isset($params['entity_table']) || 
+             !isset($params['entity_id'])    || 
+             !isset($params['note'])         || 
+             !isset($params['contact_id'] ) ) {
+            return civicrm_create_error( 'Required parameter missing' );
+        }
+    } else if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
 
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
