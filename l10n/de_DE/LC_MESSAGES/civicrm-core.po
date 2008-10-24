@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-22 05:26-0700\n"
+"PO-Revision-Date: 2008-10-22 23:37-0700\n"
 "Last-Translator: Andreas Rudin <andreas.rudin@revamp-it.ch>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1836,7 +1836,7 @@ msgstr "Inline"
 #: CRM/Core/DAO/UFField.php
 #, fuzzy
 msgid "Phone Type"
-msgstr "Bouncetyp"
+msgstr "Telefontyp"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2280,14 +2280,12 @@ msgid "Activity Date Time"
 msgstr "Aktivitätsdatum"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Due Date Time"
-msgstr "End-Datum und -Zeit"
+msgstr "Faelligkeits -Datum -Zeit"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Zeilennummer"
+msgstr "Telefonnummer"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2300,7 +2298,7 @@ msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Kontakt ID (passend zum Kontakt)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2341,11 +2339,11 @@ msgstr "Zielkontakt existiert nicht!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "You cannot record scheduled email activity."
-msgstr ""
+msgstr "Geplante Email Aktivitaet kann nicht gespeichert werden"
 
 #: CRM/Activity/Form/Activity.php
 msgid "You cannot record scheduled SMS activity."
-msgstr ""
+msgstr "Geplante SMS Aktivitaet kann nicht gespeichert werden"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Plesase select valid Case."
@@ -2397,6 +2395,7 @@ msgstr "Bei doppelten Einträgen"
 #: CRM/Activity/Import/Parser/Activity.php
 msgid "Please select either Activity Type ID OR Activity Type Label."
 msgstr ""
+"Bitte entweder Aktivitaets Typ ID oder Aktivitaets Typ Kennzeichen waehlen."
 
 #: CRM/Activity/Import/Parser.php
 msgid "View Activity History URL"
@@ -2439,9 +2438,8 @@ msgid "OK"
 msgstr "OK"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "Rule Name"
-msgstr "Straßenname"
+msgstr "Vorschriftenname"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
@@ -2526,9 +2524,8 @@ msgstr ""
 "Datenbank. Bitte wählen Sie einen anderen Wert."
 
 #: CRM/Admin/Form/Options.php templates/CRM/Admin/Page/Options.tpl
-#, fuzzy
 msgid "Counted?"
-msgstr "Ort"
+msgstr "Gezaehlt?"
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has been deleted."
