@@ -39,7 +39,7 @@ require_once 'CRM/Contact/Page/View.php';
  * Main page for viewing activities
  *
  */
-class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View 
+class CRM_Activity_Page_Tab extends CRM_Contact_Page_View 
 {
     /**
      * Browse all activities for a particular contact
@@ -125,7 +125,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
      * @return void
      * @access public
      *
-     */
+v     */
     function preProcess()
     {
         parent::preProcess();

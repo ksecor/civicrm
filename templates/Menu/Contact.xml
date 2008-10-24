@@ -119,7 +119,7 @@
      <path>civicrm/contact/view/activity</path>
      <path_arguments>show=1,cid=%%cid%%</path_arguments>
      <title>Activities</title>
-     <page_callback>CRM_Contact_Page_View_Activity</page_callback>
+     <page_callback>CRM_Activity_Page_Tab</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/rel</path>
