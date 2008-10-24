@@ -75,13 +75,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      */
     function preProcess( ) 
     {        
-        $this->_actTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+        $this->_actTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
 
-        if ( $this->_actTypeId ) {
-            $actName  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'name' );
-            $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
-            CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
+        $actName  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'name' );
+        $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
+        if ( ! $actName ) {
+            CRM_Core_Error::fatal(ts('Wrong activity type id provided.'));
         }
+        CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
 
         if ( $actName ) {
             $this->_caseAction = trim(str_replace(' ', '', $actName));
