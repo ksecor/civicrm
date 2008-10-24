@@ -68,6 +68,8 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
                 if ($file == '.' or $file == '..') continue;
                 $path = $dir . DIRECTORY_SEPARATOR . $file;
 
+                if ($this->_debug) print "retrieving message $path\n";
+
                 $set = new ezcMailFileSet(array($path));
                 $single = $parser->parseMail($set);
                 $mails[$path] = $single[0];
@@ -84,6 +86,7 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markIgnored($file)
     {
+        if ($this->_debug) print "moving $file to ignored folder\n";
         $target = $this->_ignored . DIRECTORY_SEPARATOR . basename($file);
         if (!rename($file, $target)) {
             throw new Exception("Could not rename $file to $target");
@@ -98,6 +101,7 @@ class CRM_Mailing_MailStore_Maildir extends CRM_Mailing_MailStore
      */
     function markProcessed($file)
     {
+        if ($this->_debug) print "moving $file to processed folder\n";
         $target = $this->_processed . DIRECTORY_SEPARATOR . basename($file);
         if (!rename($file, $target)) {
             throw new Exception("Could not rename $file to $target");

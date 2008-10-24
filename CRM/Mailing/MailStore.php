@@ -35,6 +35,9 @@
 
 class CRM_Mailing_MailStore
 {
+    // flag to decide whether to print debug messages
+    var $_debug = true;
+
     /**
      * Return the proper mail store implementation, based on config settings
      *
@@ -65,9 +68,9 @@ class CRM_Mailing_MailStore
             return new CRM_Mailing_MailStore_Pop3($server, $user, $pass, $ssl);
 
         case 'Maildir':
-            $dir = '/proper/directory';
+            $path = '/proper/directory';
             require_once 'CRM/Mailing/MailStore/Maildir.php';
-            return new CRM_Mailing_MailStore_Maildir($dir);
+            return new CRM_Mailing_MailStore_Maildir($path);
 
         // DO NOT USE the mbox transport for anything other than testing
         // in particular, it does not clear the mbox afterwards
@@ -89,6 +92,7 @@ class CRM_Mailing_MailStore
         $mails = array();
         $parser = new ezcMailParser;
         foreach ($set->getMessageNumbers() as $nr) {
+            if ($this->_debug) print "retrieving message $nr\n";
             $single = $parser->parseMail($this->_transport->fetchByMessageNr($nr));
             $mails[$nr] = $single[0];
         }
@@ -107,6 +111,7 @@ class CRM_Mailing_MailStore
         $dir = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $name;
         foreach (array('cur', 'new', 'tmp') as $sub) {
             if (!file_exists($dir . DIRECTORY_SEPARATOR . $sub)) {
+                if ($this->_debug) print "creating $dir/$sub\n";
                 if (!mkdir($dir . DIRECTORY_SEPARATOR . $sub, 0700, true)) {
                     throw new Exception('Could not create ' . $dir . DIRECTORY_SEPARATOR . $sub);
                 }
