@@ -259,7 +259,7 @@ class CRM_Utils_Type
         }
 
         if ( $abort ) {
-            CRM_Core_Error::fatal( "$name is not of the type $type" );
+            CRM_Core_Error::fatal( "$name (value: $data) is not of the type $type" );
         }
 
         return null;
