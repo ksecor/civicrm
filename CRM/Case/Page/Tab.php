@@ -244,18 +244,18 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                       );
             } else {
                 self::$_links = array(
-                                      CRM_Core_Action::UPDATE  => array(
-                                                                        'name'  => ts('Change Case Type'),
+                                      CRM_Core_Action::VIEW    => array(
+                                                                        'name'  => ts('Manage Case'),
                                                                         'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&atype=%%atype%%&selectedChild=case',
-                                                                        'title' => ts('Edit Case')
+                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'title' => ts('Manage Case')
                                                                         ),
                                                       
                                       CRM_Core_Action::DELETE  => array(
-                                                                        'name'  => ts('Delete'),
+                                                                        'name'  => ts('Delete Case'),
                                                                         'url'   => 'civicrm/contact/view/case',
                                                                         'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                        'title' => ts('Delete Activity')
+                                                                        'title' => ts('Delete Case')
                                                                         ),
                                       
                                       );
