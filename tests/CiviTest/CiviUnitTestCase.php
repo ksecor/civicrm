@@ -1,8 +1,6 @@
 <?php
 
-require_once 'SimpleTest/unit_tester.php';
-
-class CiviUnitTestCase extends UnitTestCase {
+class CiviUnitTestCase extends DrupalTestCase {
 
 
     function __construct( ) {
