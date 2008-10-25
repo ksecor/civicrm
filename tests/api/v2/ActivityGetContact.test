@@ -11,6 +11,15 @@ class TestOfActivityGetContactAPIV2 extends CiviUnitTestCase
 
     protected $_individualSourceID;
     protected $_activityId;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Activity Get Contact',
+                     'description' => 'Test all Activity Get Contact API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp( ) 
     {

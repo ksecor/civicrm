@@ -12,6 +12,16 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
     protected $_individualTargetId;
     protected $_activityId;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Activity Update',
+                     'description' => 'Test all Activity Update API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
+
     function setUp() 
     {
         $activity = $this->activityCreate( );
