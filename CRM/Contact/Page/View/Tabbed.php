@@ -273,7 +273,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
 
-        if( ! $config->civiHRD ) {
+        if( $config->civiHRD ) {
             $hrdOrder = array(
                        'rel'           => 1,
                        'case'          => 2,
