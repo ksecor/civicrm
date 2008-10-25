@@ -220,9 +220,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 }
             }
         }
-        $weight += 10;
 
         $rest = array( 'activity'      => ts('Activities')    ,
+                       'case'          => ts('Cases')         ,
                        'rel'           => ts('Relationships') ,
                        'group'         => ts('Groups')        ,
                        'note'          => ts('Notes')         ,
@@ -250,8 +250,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $weight += 10;
         }
 
-        //CRM_Core_Error::debug( 's', $allTabs );
-        
         // now add all the custom tabs
         $activeGroups =&
             CRM_Core_BAO_CustomGroup::getActiveGroups( CRM_Contact_BAO_Contact::getContactType($this->_contactId),
@@ -273,6 +271,29 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         if ( is_array( $hookTabs ) ) {
             $allTabs = array_merge( $allTabs, $hookTabs );
         }
+
+
+        if( ! $config->civiHRD ) {
+            $hrdOrder = array(
+                       'rel'           => 1,
+                       'case'          => 2,
+                       'activity'      => 3,
+                       'participant'   => 4,
+                       'grant'         => 5,
+                       'contribute'    => 6,
+                       'group'         => 7,
+                       'note'          => 8,
+                       'tag'           => 9,
+                       'log'           => 10
+                       );
+
+            foreach( $allTabs as $i => $tab ) {
+                if( array_key_exists( $tab['id'],  $hrdOrder ) ) {
+                    $allTabs[$i]['weight'] = $hrdOrder[$tab['id']];                
+                }
+            }
+        }
+
 
         // now sort the tabs based on weight
         require_once 'CRM/Utils/Sort.php';
