@@ -237,6 +237,12 @@ AND    a.activity_type_id  = %2
         }
         $activityTypeID = $activityTypeInfo['id'];
 
+        if ( isset( $activityTypeXML->status ) ) {
+            $statusName = (string ) $activityTypeXML->status;
+        } else {
+            $statusName = 'Scheduled';
+        }
+
         require_once 'CRM/Core/OptionGroup.php';
         $activityParams = array( 'activity_type_id'    => $activityTypeID,
                                  'source_contact_id'   => $params['creatorID'],
@@ -244,7 +250,7 @@ AND    a.activity_type_id  = %2
                                  'is_current_revision' => 1,
                                  'subject'             => $activityTypeName,
                                  'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
-                                                                                          'Scheduled',
+                                                                                          $statusName,
                                                                                           'name' ),
                                  'target_contact_id'   => $params['clientID'] );
         
@@ -264,7 +270,7 @@ AND    a.activity_type_id  = %2
         } else {
             $dueDateTime = $params['dueDateTime'];
         }
-        $activityParams['due_date_time'] = date( 'Ymdhis', $dueDateTime );
+        $activityParams['due_date_time'] = date( 'YmdHis', $dueDateTime );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );

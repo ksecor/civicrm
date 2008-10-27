@@ -67,6 +67,7 @@
       <ActivityTypes>
         <ActivityType>
           <name>Open Case</name>
+          <status>Closed</status>
           <category>Case History</category>
         </ActivityType>
         <ActivityType>
