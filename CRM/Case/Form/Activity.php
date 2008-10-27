@@ -39,6 +39,8 @@ require_once 'CRM/Core/BAO/File.php';
 require_once "CRM/Core/BAO/CustomGroup.php";
 require_once "CRM/Custom/Form/CustomData.php";
 require_once "CRM/Contact/Form/AddContact.php";
+require_once 'CRM/Core/OptionGroup.php';        
+require_once 'CRM/Case/BAO/Case.php';
 
 /**
  * This class create activities for a case
@@ -150,6 +152,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
 
         CRM_Utils_System::setTitle( ts('%1 >> %2', array('1' => $caseSub,'2' => $activityTypeName)) );
+
+        //when custom data is included in this page
+        $this->set( 'type'    , 'Activity' );
+        $this->set( 'subType' , $this->_activityTypeId );
+        $this->set( 'entityId', $this->_activityId );
+        CRM_Custom_Form_Customdata::preProcess( $this );
     }
     
     /**
@@ -164,17 +172,27 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( isset($this->_activityId) ) {
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $this->_defaults );
+
+            // custom data defaults
+            $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
+ 
+            // duration
+            if ( CRM_Utils_Array::value('duration',$this->_defaults) ) {
+                require_once "CRM/Utils/Date.php";
+                list( $this->_defaults['duration_hours'], 
+                      $this->_defaults['duration_minutes'] ) = 
+                    CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
+            }
         } else {
-            $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
             $this->_defaults['due_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
 
-            $this->_defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
             $this->_defaults['activity_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
         }
+
         return $this->_defaults;
     }
 
@@ -187,6 +205,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
         }
+
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
+        // we don't want to show button on top of custom form
+        $this->assign('noPreCustomButton', true);
 
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
@@ -212,9 +234,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->add('text', 'subject', ts('Subject') , 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ));
         
-        require_once 'CRM/Core/OptionGroup.php';        
         $this->add('select', 'medium_id',  ts( 'Medium' ), 
-                   CRM_Core_OptionGroup::values('Encounter Medium'), true);
+                   CRM_Core_OptionGroup::values('encounter_medium'), true);
 
         $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
@@ -292,6 +313,39 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+        // store the date with proper format
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
+        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
+
+        // format activity custom data
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            $customData = array( );
+            foreach ( $params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
+                    $params[$key] = $value;
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Activity', null, $this->_activityTypeId );
+                }
+            }
+           
+            if ( !empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Activity', null, $this->_activityTypeId );
+                    }
+                }
+            }
+        }
+
         if ( isset($this->_activityId) ) { 
             $params['id'] = $this->_activityId;
 
@@ -303,13 +357,19 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             // activity which has been created or modified by a user
             if ( $this->_defaults['is_auto'] == 0 ) {
                 $newActParams = $params;
-                $params = array();
+                $params = array('id' => $this->_activityId);
                 $params['is_current_revision'] = 0;
             }
         }
-
+        
+        // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
+        // create case activity record
+        $caseParams = array( 'activity_id' => $activity->id,
+                             'case_id'     => $this->_id   );
+        CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {

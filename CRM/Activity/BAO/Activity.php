@@ -62,8 +62,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function dataExists( &$params ) 
     {
-        if ( CRM_Utils_Array::value( 'subject', $params) &&
-             CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
+        if ( (CRM_Utils_Array::value('subject', $params) &&
+              CRM_Utils_Array::value('source_contact_id', $params) ) || 
+             CRM_Utils_Array::value('id', $params) ) {
             return true;
         }
         return false;

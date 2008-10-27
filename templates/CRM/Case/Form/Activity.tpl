@@ -99,10 +99,9 @@
        <tr>
           <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
        </tr> 
-       <tr>
-          <td>&nbsp;</td><td>{$form.buttons.html}</td>
-       </tr> 
     </table>
+
+{include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
 {/if}
 
