@@ -4,7 +4,7 @@
     <table class="form-layout-compressed">
         <tr>
             <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
-            <td class="right"><label>{$form.activity_id.label}</label>&nbsp;{$form.activity_id.html}<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location=''"/></td>
+            <td class="right"><label>{$form.activity_id.label}</label>&nbsp;{$form.activity_id.html}<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
             <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location=''"/></td> 
         </tr>
         <tr>

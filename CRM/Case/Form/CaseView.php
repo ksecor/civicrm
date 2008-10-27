@@ -83,6 +83,11 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $this->assign ( 'caseDetails', $this->_caseDetails );
 
+        $newActivityUrl = 
+            CRM_Utils_System::url( 'civicrm/case/activity', 
+                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&selectedChild=activity&atype=", 
+                                   false, null, false ); 
+        $this->assign ( 'newActivityUrl', $newActivityUrl );
     }
 
     /**
