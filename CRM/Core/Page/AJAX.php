@@ -702,7 +702,7 @@ ORDER BY name";
                 }
             }
             $query = "
-SELECT civicrm_case.subject as subject, civicrm_case.id as id
+SELECT distinct(civicrm_case.subject) as subject, civicrm_case.id as id
 FROM civicrm_case
 LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
 WHERE {$whereclause} {$caseIdClause}
