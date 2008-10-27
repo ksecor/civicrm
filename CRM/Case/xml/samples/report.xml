@@ -5,6 +5,7 @@
   <CaseSubject>Acute morphine addiction</CaseSubject>
   <CaseStatus>Ongoing</CaseStatus>
   <CaseOpen>2008-09-12</CaseOpen>
+  <CaseClose></CaseClose>
   <ActivitySet>
     <Label>15 Day Review</Label>
     <IncludeActivities>All</IncludeActivities>
@@ -14,6 +15,7 @@
       <Fields>
           <Field>
             <Label>Activity Type</Label>
+            <Category>Case History</Category>
             <Value>Open Case</Value>
             <Type>String</Type>
           </Field>
@@ -38,7 +40,7 @@
             <Type>Date</Type>
           </Field>
           <Field>
-            <Label>Summary</Label>
+            <Label>Subject</Label>
             <Value>Opened the case during inbound phone call.</Value>
             <Type>String</Type>
           </Field>
@@ -69,6 +71,7 @@
       <Fields>
           <Field>
             <Label>Activity Type</Label>
+            <Category>Case History</Category>
             <Value>Presenting Problem</Value>
             <Type>String</Type>
           </Field>
@@ -129,6 +132,7 @@
       <Fields>
           <Field>
             <Label>Activity Type</Label>
+            <Category>Medications and Substance Use</Category>
             <Value>Medication and Drug Use</Value>
             <Type>String</Type>
           </Field>
