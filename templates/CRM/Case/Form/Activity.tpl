@@ -104,6 +104,12 @@
        </tr> 
     </table>
 
+{if $caseAction}
+   <fieldset><legend>{ts}{$activityTypeName} - Fields{/ts}</legend>
+       {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
+   </fieldset> 
+{/if}
+
 {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
 {/if}

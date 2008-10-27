@@ -54,43 +54,47 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      *
      * @var int
      */
-    protected $_id;
+    public $_id;
 
     /**
      * The id of activity type 
      *
      * @var int
      */
-    protected $_activityTypeId;
+    public $_activityTypeId;
 
     /**
      * The activity id 
      *
      * @var int
      */
-    protected $_activityId;
-
+    public $_activityId;
 
     /**
      * The id of logged in user
      * 
      * @var int
      */
-    protected $_uid;
+    public $_uid;
 
     /**
      * The id of contact being viewed
      * 
      * @var int
      */
-    protected $_currentlyViewedContactId;
+    public $_currentlyViewedContactId;
 
     /**
      * The default values of an activity
      *
      * @var array
      */
-    protected $_defaults = array();
+    public $_defaults = array();
+
+    /**
+     * Case Activity Action
+     */
+    public $_caseAction = null;
 
     /**
      * Function to build the form
@@ -103,6 +107,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->_id             = CRM_Utils_Request::retrieve( 'id',    'Positive', $this,  true );
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this,  true );
         $this->_activityId     = CRM_Utils_Request::retrieve( 'aid'  , 'Positive', $this );
+
+        if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
+            require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
+            $this->assign( 'caseAction', $this->_caseAction );
+        }
 
         $caseSub = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                 $this->_id,
@@ -158,6 +167,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->set( 'subType' , $this->_activityTypeId );
         $this->set( 'entityId', $this->_activityId );
         CRM_Custom_Form_Customdata::preProcess( $this );
+
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
+        }
     }
     
     /**
@@ -193,6 +206,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
         }
 
+        if ( $this->_caseAction ) {
+            eval('$this->_defaults = CRM_Case_Form_Activity_'. $this->_caseAction. '::setDefaultValues($this);');
+        }
         return $this->_defaults;
     }
 
@@ -252,6 +268,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->add('textarea', 'details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
 
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
+        }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -261,6 +281,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                      )
                            );
         
+        if ( $this->_caseAction ) {
+            eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_caseAction}', 'formrule'), \$this);");
+        }
         $this->addFormRule( array( 'CRM_Case_Form_Activity', 'formRule' ), $this );
     }
 
@@ -313,6 +336,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+        // call begin post process
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
+        }
+
         // store the date with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
         $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
@@ -362,6 +390,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
         }
         
+        // call end post process
+        if ( $this->_caseAction ) {
+            eval("CRM_Case_Form_Activity_{$this->_caseAction}" . 
+                 "::endPostProcess( \$this, \$params, \$newActParams );");
+        }
+
         // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
