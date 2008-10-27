@@ -1,5 +1,18 @@
 {* CiviCase DashBoard (launch page) *}
-<h3>{ts}Summary of Case Involvment{/ts}</h3>
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&atype=13&reset=1"}{/capture}
+
+<div class="float-right">
+<table class="form-layout-compressed">
+<tr>
+    <td>
+        {if $caseAdmin}<a href="">Show ALL Cases</a><br />{/if}
+        <a href="{$newCaseURL}" class="button"><span>&raquo; New Case</span></a>
+    </td>
+</tr>
+</table>
+</div>
+
+<h3>{ts}Summary of Case Involvement{/ts}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th>&nbsp;</th>
