@@ -67,7 +67,21 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     
     function preProcess( )
     {
-        parent::preProcess( );
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        // contact id is not mandatory for case form. If not found, don't call
+        // parent's pre-process and proceed further.
+        if ( $this->_contactId ) {
+            parent::preProcess( );
+        } else {
+            // we would need action to proceed further.
+            $this->_action = CRM_Utils_Request::retrieve('action', 'String',
+                                                         $this, false, 'add');
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                CRM_Core_Error::fatal('Contact Id is required for view action.');
+            }
+            $this->assign( 'action', $this->_action);
+        }
+
         $this->_openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
                                                                  'id', 'name' );
         $this->_changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
@@ -168,18 +182,11 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $config =& CRM_Core_Config::singleton( );
 
-        $this->_id         = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        $this->_actTypeId  = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true);
-        if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_actTypeId) ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
-                                                           'Open Case', 
-                                                           $this->_action );
-        } else {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Activity', 
-                                                           'Activity', 
-                                                           $this->_action );
-        }
-
+        $this->_id  = CRM_Utils_Request::retrieve('id', 'Integer', $this);
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
+                                                       'Open Case', 
+                                                       $this->_action );
+        
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
         $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
@@ -218,7 +225,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $this->edit( );
         }
                 
-        $this->browse( );
+        if ( $this->_contactId ) {
+            $this->browse( );
+        }
         return parent::run( );
     }
 
