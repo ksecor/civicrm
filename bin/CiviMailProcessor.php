@@ -136,5 +136,14 @@ $config =& CRM_Core_Config::singleton();
 
 CRM_Utils_System::authenticateScript(true);
 
-$processor = new CiviMailProcessor;
-$processor->process();
+require_once 'CRM/Core/Lock.php';
+$lock = new CRM_Core_Lock('CiviMailProcessor');
+
+if ($lock->isAcquired()) {
+    $processor = new CiviMailProcessor;
+    $processor->process();
+} else {
+    throw new Exception('Could not acquire lock, another CiviMailProcessor process is running');
+}
+
+$lock->release();

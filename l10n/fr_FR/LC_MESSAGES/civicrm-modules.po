@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-08-26 05:28-0700\n"
-"Last-Translator: Long Le Thanh <lethanhlong77@yahoo.fr>\n"
+"PO-Revision-Date: 2008-10-26 02:42-0700\n"
+"Last-Translator: Webmaster Onelse <webmaster@onelse.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2129,17 +2129,18 @@ msgstr "Effacer contacts"
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous desactiver cette page de contribution ?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Etes vous sure de vouloir effacer cette page de contribution ?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Are you sure you want to make a copy of this Contribution page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Etes vous sure de vouloir faire une copie de cette page de contribution ?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
@@ -2149,44 +2150,44 @@ msgstr "Page de donation"
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Make a Copy of CiviCRM Contribution Page"
-msgstr "Recherche Contact"
+msgstr "Faire une copie de la page de contribution"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
 msgid "Manage Contribution Page"
-msgstr "Page de donation"
+msgstr "Paramétrer la page de contribution"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Search Contribution"
-msgstr ""
+msgstr "Chercher une contribution"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Contribution %%StatusMessage%%"
-msgstr ""
+msgstr "Contribution %%Messaged'état%%"
 
 #: CRM/Contribute/Page/ContributionType.php
 #, fuzzy
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous desactiver ce type de contribution ?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Edit Contribution Type"
-msgstr ""
+msgstr "Editer le type de contribution"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Disable Contribution Type"
-msgstr ""
+msgstr "Desactiver le type de contribution"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Enable Contribution Type"
-msgstr ""
+msgstr "Activer le type de contibution"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #, fuzzy
 msgid "Delete Contribution Type"
-msgstr "Effacer contacts"
+msgstr "Effacer le type de contribution"
 
 #: CRM/Contribute/Page/ManagePremiums.php
 msgid ""
@@ -2195,21 +2196,25 @@ msgid ""
 "not delete the premium record - so you can re-enable it and add it back to "
 "your contribution page(s) at a later time."
 msgstr ""
+"Êtes-vous sûrs que vous voulez désactiver cette prime ? Cette action "
+"enlèvera la prime de n'importe quelles pages de contribution qui l'offrent "
+"actuellement. Cependant il ne supprimera pas le rapport de prime - donc vous "
+"pourrez à nouveau l'ajouter à votre page de contribution ultérieurement."
 
 #: CRM/Contribute/Page/ManagePremiums.php
 #, fuzzy
 msgid "Enable Premium"
-msgstr "Activer"
+msgstr "Activer la prime"
 
 #: CRM/Contribute/Page/ManagePremiums.php
 #, fuzzy
 msgid "Delete Premium"
-msgstr "Effacer contacts"
+msgstr "Effacer la prime"
 
 #: CRM/Contribute/Page/Premium.php
 #, fuzzy
 msgid "Are you sure you want to remove this product form this page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous desactiver ce produit de la page ?"
 
 #: CRM/Contribute/Task.php
 msgid "Export Contributions"
@@ -2217,7 +2222,7 @@ msgstr "Exporter des contributions"
 
 #: CRM/Contribute/Task.php
 msgid "Update Pending Contribution Status"
-msgstr ""
+msgstr "Mise à jour du statut de la contribution"
 
 #: CRM/Contribute/Task.php
 msgid "Batch Update Contributions Via Profile"
@@ -2238,7 +2243,7 @@ msgstr "Type d'événement - %1"
 #: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Find Test Participants"
-msgstr "Chercher contacts"
+msgstr "Chercher les participants aux test"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2260,7 +2265,7 @@ msgstr "Date de l'événement - du"
 #: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Find Test Participants?"
-msgstr "Chercher contacts"
+msgstr "Chercher les participants aux tests"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2390,6 +2395,10 @@ msgid ""
 "linked to this event and delete them. You can use use <a href='%1'> "
 "CiviEvent >> Find Participants page </a>."
 msgstr ""
+"Cet évenement ne paut pas être effacés parceque certains participants sont "
+"encore liés à cet évenement. Vous devez les identifier et ensuite les "
+"supprimer de cet évenement. Vous pouvez utiliser <a href='%1'> CiviEvent >> "
+"Chercher la page des participants page </a>."
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 #, fuzzy
@@ -2414,7 +2423,7 @@ msgstr "Nombre maximum de participants"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "is a positive field"
-msgstr ""
+msgstr "est un champ positif"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Message if Event is Full"
@@ -2443,15 +2452,15 @@ msgstr "Evénement payant"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Enable Pay Later option?"
-msgstr ""
+msgstr "Activer l'option \"payer plus tard\""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Pay Later Label"
-msgstr ""
+msgstr "libellé de l'option \"payer plus tard\""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Pay Later Instructions"
-msgstr ""
+msgstr "instructions de l'option \"payer plus tard\""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Discounts by Signup Date?"
@@ -2512,14 +2521,14 @@ msgstr "Merci de saisir le label de prix pour l'événement payant."
 #, fuzzy
 msgid ""
 "Please enter the Pay Later prompt to be displayed on the Registration form."
-msgstr ""
+msgstr "Entrez SVP le texte qui sera présenté à l'utilisateur"
 "Merci d'entrer le texte pour l'option 'je paye plus tard' affichée sur le "
 "formulaire de contribution"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
 msgid "Please enter the Pay Later instructions to be displayed to your users."
-msgstr ""
+msgstr "Entrez SVP le message qui sera envoyé à l'utilisateur"
 "Merci d'entrer les instructions qui seront envoyés à ceux qui choisissent "
 "l'option 'je paye plus tard'."
 
@@ -2545,7 +2554,7 @@ msgstr "Permettre une inscription en ligne ?"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Link Text"
-msgstr ""
+msgstr "Lien texte vers l'enregistrement"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2581,11 +2590,11 @@ msgstr "Merci de saisir un titre pour la page de remerciements d'inscription"
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Please enter Confirmation Email FROM Name."
-msgstr "Entrez un nom valide"
+msgstr "Entrez un nom valide pour la confirmation par email"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please enter Confirmation Email FROM Email Address."
-msgstr ""
+msgstr "Entrer une adresse valide pour la confirmation par email"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -2812,7 +2821,7 @@ msgstr "Rôle du participant"
 
 #: CRM/Event/Form/Search.php
 msgid "Please select valid event."
-msgstr "Merci de choisir une évènement valide."
+msgstr "Merci de choisir un évènement valide."
 
 #: CRM/Event/Form/Search.php
 msgid "Please select valid event type."
@@ -2844,7 +2853,6 @@ msgid "Total Selected Participation(s): %1"
 msgstr "Total des participations selectionnées: %1"
 
 #: CRM/Event/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Batch Update for Event Participants"
 msgstr "Mise à jour des participants à l'évènement"
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-10-14 13:40-0700\n"
-"Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
+"PO-Revision-Date: 2008-10-26 05:43-0700\n"
+"Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
-msgstr ""
+msgstr "Másolat"
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -25,12 +25,14 @@ msgid "No thank you"
 msgstr "Köszönöm nem"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#, fuzzy
 msgid "Contribution Type - %1"
-msgstr ""
+msgstr "Közlemény Típus - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
+#, fuzzy
 msgid "Contribution Page - %1"
-msgstr ""
+msgstr "Közlemény oldal - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Honor name like - '%1'"
@@ -44,14 +46,14 @@ msgstr "Hozzájárulási forrás "
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Valós összeget adj meg! (pl. 9.99)"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Valós összeget adj meg! (pl. 9.99)"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -91,7 +93,7 @@ msgstr "Nyugta emailből"
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Footer Text"
-msgstr ""
+msgstr "Lábjegyzet szöveg"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl

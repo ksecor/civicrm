@@ -13,6 +13,15 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
     protected $_individualTargetID;
     protected $_activityId;
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Activity Delete',
+                     'description' => 'Test all Activity Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp( ) 
     {
        $activity = $this->activityCreate( );

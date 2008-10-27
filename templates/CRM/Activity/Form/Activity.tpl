@@ -97,7 +97,7 @@
              {/if}
              </tr>
 
-             {if $context neq 'standalone' AND $hasCases}
+             {if $hasCases}
                 <tr>
                   <td class="label">{$form.case_id.label}</td>
                   <td class="view-value">
