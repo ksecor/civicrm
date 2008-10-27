@@ -101,7 +101,6 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         }
 
         return $case;
-
     }
 
     function getActivityTypes( $xml, $activitySetName ) {
@@ -161,12 +160,13 @@ AND    a.activity_type_id IN ( $activityTypeIDs )
 AND    c.id = ac.case_id
 AND    a.id = ac.activity_id
 ";
-        
+
         $dao = CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
+            $activityTypeInfo = $map[$dao->activity_type_id];
             $activities[] = $this->getActivity( $clientID,
                                                 $dao,
-                                                $map[$dao->id] );
+                                                $map[$dao->activity_type_id] );
         }
     }
 
@@ -180,9 +180,10 @@ AND    a.id = ac.activity_id
         $activity['fields'] = array( );
 
         // Activity Type info is a special field
-        $activity['fields'][] = array( 'label' => 'Activity Type',
-                                       'value' => $activityTypeInfo['label'],
-                                       'type'  => 'String' );
+        $activity['fields'][] = array( 'label'    => 'Activity Type',
+                                       'value'    => $activityTypeInfo['label'],
+                                       'category' => $activityTypeInfo['parentLabel'],
+                                       'type'     => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Created By',
                                        'value' => $this->getCreatedBy( $activityDAO->id ),

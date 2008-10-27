@@ -14,29 +14,32 @@
     <Activity>
        <EditURL>{$activity.editURL}</EditURL>
        <Fields>
-       {foreach from=$activity.fields item=field}
+{foreach from=$activity.fields item=field}
           <Field>
             <Label>{$field.label}</Label>
+{if $field.category}
+            <Category>{$field.category}</Category>
+{/if}
             <Value>{$field.value}</Value>
             <Type>{$field.type}</Type>
           </Field>
-       {/foreach}
-       {if $activity.customGroups}
+{/foreach}
+{if $activity.customGroups}
          <CustomGroups>
-         {foreach from=$activity.customGroups item=customGroup}
+{foreach from=$activity.customGroups item=customGroup}
             <CustomGroup>
                <GroupName>{$customGroup.name}</GroupName>
-               {foreach from=$customGroup.fields item=field}
+{foreach from=$customGroup.fields item=field}
                   <Field>
                     <Label>{$field.label}</Label>
                     <Value>{$field.value}</Value>
                     <Type>{$field.type}</Type>
                   </Field>
-               {/foreach}
+{/foreach}
             </CustomGroup>
-         {/foreach}
+{/foreach}
          </CustomGroups>
-       {/if}
+{/if}
        </Fields>
     </Activity>
 {/foreach}

@@ -148,18 +148,20 @@ ORDER BY   p.id
         $params = array( 1 => array( $componentID, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
 
-        $tree  = array( );
-        $names = array( );
+        $tree  = $names = $labels = array( );
         while ( $dao->fetch( ) ) {
-            $names[$dao->id] = $dao->name;
-            $parentName = $dao->p_id ? $names[$dao->p_id] : 'Root Category';
+            $names [$dao->id] = $dao->name;
+            $labels[$dao->id] = $dao->label;
+            $parentName  = $dao->p_id  ? $names[$dao->p_id]  : 'Root Category';
+            $parentLabel  = $dao->p_id ? $labels[$dao->p_id] : 'Root Category';
             if ( ! array_key_exists( $parentName, $tree ) ) {
                 $tree[$parentName] = array( );
             }
-            $tree[$parentName][$dao->name] = array( 'id' => $dao->id,
-                                                    'label'  => $dao->label,
-                                                    'name'   => $dao->name ,
-                                                    'parent' => $dao->p_id );
+            $tree[$parentName][$dao->name] = array( 'id'          => $dao->id,
+                                                    'label'       => $dao->label,
+                                                    'name'        => $dao->name ,
+                                                    'parent'      => $dao->p_id ,
+                                                    'parentLabel' => $parentLabel );
         }
         $tree['Root Category']['All Names'] = $names;
         return $tree;
