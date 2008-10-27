@@ -116,9 +116,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->add('select', 'report_id',  ts( 'Report' ), $reports );
 
         require_once "CRM/Case/PseudoConstant.php";
-        $parentCategories = CRM_Case_PseudoConstant::category( );
-        $childCategories  = CRM_Case_PseudoConstant::category( false );
-        $childParentIds   = CRM_Case_PseudoConstant::category( false, 'parent_id' );
+        require_once 'CRM/Core/Component.php';
+        $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
+        $parentCategories = CRM_Case_PseudoConstant::category( true, 'label',
+                                                               $condition );
+        $childCategories  = CRM_Case_PseudoConstant::category( false, 'label',
+                                                               $condition );
+        $childParentIds   = CRM_Case_PseudoConstant::category( false, 'parent_id',
+                                                               $condition );
 
         $sel =& $this->addElement('hierselect', "category", ts('Category'), array( 'id' => 'category' ) );
 

@@ -50,6 +50,18 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         $case = $this->caseInfo( $clientID, $caseID );
         $template->assign_by_ref( 'case', $case );
 
+        if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
+            $template->assign( 'isRedact', 'true' );
+        } else {
+            $template->assign( 'isRedact', 'false' );
+        }
+
+        if ( $params['include_activities'] == 1 ) {
+            $template->assign( 'includeActivities', 'All' );
+        } else {
+            $template->assign( 'includeActivities', 'Missing activities only' );
+        }
+
         $xml = $this->retrieve( $case['caseType'] );
 
         $activityTypes = $this->getActivityTypes( $xml, $activitySetName );

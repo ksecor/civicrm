@@ -8,8 +8,8 @@
   <CaseClose>{$case.end_date}</CaseClose>
   <ActivitySet>
     <Label>{$activitySet.label}</Label>
-    <IncludeActivities>All</IncludeActivities>
-    <Redact>false</Redact>
+    <IncludeActivities>{$includeActivities}</IncludeActivities>
+    <Redact>{$isRedact}</Redact>
 {foreach from=$activities item=activity}
     <Activity>
        <EditURL>{$activity.editURL}</EditURL>
