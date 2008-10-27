@@ -138,7 +138,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         if ( $fixAddress ) {
             CRM_Core_BAO_Address::fixAddress( $params );
         }
-        
+
         $address->copyValues($params);
 
         return $address->save( );
@@ -180,20 +180,24 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         // add state_id if state is set
         if ( ( ! isset( $params['state_province_id'] ) || ! is_numeric( $params['state_province_id'] ) )
              && isset( $params['state_province'] ) ) {
-            $state_province       = & new CRM_Core_DAO_StateProvince();
-            $state_province->name = $params['state_province'];
-
-            // add country id if present
-            if ( isset( $params['country_id'] ) ) {
-                $state_province->country_id = $params['country_id'];
+            if ( ! empty( $params['state_province'] ) ) {
+                $state_province       = & new CRM_Core_DAO_StateProvince();
+                $state_province->name = $params['state_province'];
+                
+                // add country id if present
+                if ( isset( $params['country_id'] ) ) {
+                    $state_province->country_id = $params['country_id'];
+                }
+                
+                if ( ! $state_province->find(true) ) {
+                    $state_province->name = null;
+                    $state_province->abbreviation = $params['state_province'];
+                    $state_province->find(true);
+                }
+                $params['state_province_id'] = $state_province->id;
+            } else {
+                $params['state_province_id'] = 'null';
             }
-
-            if ( ! $state_province->find(true) ) {
-                $state_province->name = null;
-                $state_province->abbreviation = $params['state_province'];
-                $state_province->find(true);
-            }
-            $params['state_province_id'] = $state_province->id;
         }
 
             
@@ -216,7 +220,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         } else if ( ! is_numeric( $params['state_province_id'] ) ||
                     ( (int ) $params['state_province_id'] < 1000 ) ) {
             // CRM-3393 ( the hacky 1000 check)
-            $params['state_province_id'] = null; 
+            $params['state_province_id'] = 'null'; 
         }
 
         if ( isset( $params['country_id'] ) && ! trim( $params['country_id'] ) ) {
@@ -224,7 +228,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         } else if ( ! is_numeric( $params['country_id'] ) ||
                     ( (int ) $params['country_id'] < 1000 ) ) {
             // CRM-3393 ( the hacky 1000 check)
-            $params['country_id'] = null;
+            $params['country_id'] = 'null';
         }
 
         // add state and country names from the ids
