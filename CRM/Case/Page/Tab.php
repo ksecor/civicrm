@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Contact/Page/View.php';
+require_once 'CRM/Case/BAO/Case.php';
 
 /**
  * This class handle case related functions
@@ -124,7 +125,6 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $caseStatus = CRM_Core_OptionGroup::values('case_status');
         $caseType   = CRM_Core_OptionGroup::values('case_type');
 
-        require_once 'CRM/Case/BAO/Case.php';
         $queryParams = array();
         $query = "SELECT civicrm_case.id, civicrm_case.case_type_id, civicrm_case.status_id,
                          civicrm_case.start_date, civicrm_case.subject 
@@ -167,10 +167,19 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     function edit( ) 
     {
         $config =& CRM_Core_Config::singleton( );
-        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
-                                                       'Open Case', 
-                                                       $this->_action );
+
+        $this->_id         = CRM_Utils_Request::retrieve('id', 'Integer', $this);
+        $this->_actTypeId  = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true);
+        if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_actTypeId) ) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
+                                                           'Open Case', 
+                                                           $this->_action );
+        } else {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Activity', 
+                                                           'Activity', 
+                                                           $this->_action );
+        }
+
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
         $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );

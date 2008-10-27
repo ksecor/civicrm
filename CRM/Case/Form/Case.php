@@ -77,24 +77,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     {        
         $this->_actTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
 
-        $actName  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'name' );
-        $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
-        if ( ! $actName ) {
-            CRM_Core_Error::fatal(ts('Wrong activity type id provided.'));
-        }
-        CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
-
-        if ( $actName ) {
-            $this->_caseAction = trim(str_replace(' ', '', $actName));
-        }
-
-        global $civicrm_root;
-        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/Case/Form/Activity/{$this->_caseAction}.php") ) {
-            CRM_Core_Error::fatal(ts('File not found to handle this activity type id.'));
-        } else {
+        if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_actTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
         }
 
+        $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
+        CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
+        
         $this->assign( 'caseAction', $this->_caseAction );
         
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );

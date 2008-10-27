@@ -74,7 +74,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'New Case Type' ),  
-                   $caseType , true);
+                   $caseType , true, array("size"=>"5",  "multiple"));
 
         // timeline
         $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, true, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );

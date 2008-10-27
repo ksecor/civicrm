@@ -71,7 +71,7 @@ class CRM_Case_Form_Activity_OpenCase
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
-                   $caseType , true);
+                   $caseType , true, array("size"=>"5",  "multiple"));
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
         $form->add( 'text', 'subject', ts('Subject'), 

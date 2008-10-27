@@ -555,6 +555,23 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
         return $values;
     }
 
+    static function getFileForActivityTypeId( $activityTypeId ) 
+    {
+        $actName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $activityTypeId, 'name' );
+
+        if ( $actName ) {
+            $caseAction = trim(str_replace(' ', '', $actName));
+        } else {
+            return false;
+        }
+
+        global $civicrm_root;
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/Case/Form/Activity/{$caseAction}.php") ) {
+            return false;
+        }
+
+        return $caseAction;
+    }
 }
 
    
