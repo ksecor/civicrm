@@ -106,8 +106,16 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
             $case['subject']    = $dao->subject;
             $case['start_date'] = $dao->start_date;
             $case['end_date']   = $dao->end_date;
+            // FIXME: when we resolve if case_type_is single or multi-select
+            if ( strpos( $dao->case_type_id, CRM_Core_DAO::VALUE_SEPARATOR ) !== false ) {
+                $caseTypeID = substr( $dao->case_type_id, 1, -1 );
+            } else {
+                $caseTypeID = $dao->case_type_id;
+            }
+            $caseTypeIDs = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                    $dao->case_type_id );
             $case['caseType']   = CRM_Core_OptionGroup::getLabel( 'case_type',
-                                                                  substr( $dao->case_type_id, 1, -1 ) );
+                                                                  $caseTypeID );
             $case['status']     = CRM_Core_OptionGroup::getLabel( 'case_status',
                                                                   $dao->status_id );
         }
