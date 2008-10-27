@@ -61,7 +61,7 @@
   </ActivityTypes>
   <ActivitySets>
     <ActivitySet>
-      <name>Standard Timeline</name>
+      <name>standard_timeline</name>
       <label>Standard Timeline</label>
       <timeline>true</timeline>
       <ActivityTypes>
@@ -96,7 +96,7 @@
       </ActivityTypes>
     </ActivitySet>
     <ActivitySet>
-      <name>15 Day Review</name>
+      <name>15_day_review</name>
       <label>15 Day Review</label>
       <timeline>false</timeline>
       <ActivityTypes>

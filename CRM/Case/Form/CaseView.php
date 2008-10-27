@@ -88,6 +88,13 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                    "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&selectedChild=activity&atype=", 
                                    false, null, false ); 
         $this->assign ( 'newActivityUrl', $newActivityUrl );
+
+        $reportUrl = 
+            CRM_Utils_System::url( 'civicrm/case/report', 
+                                   "reset=1&cid={$this->_contactID}&id={$this->_caseID}&asn=", 
+                                   false, null, false ); 
+        $this->assign ( 'reportUrl', $reportUrl );
+
     }
 
     /**
@@ -105,7 +112,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $activities = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivityTypes' );
         $this->add('select', 'activity_id',  ts( 'New Activity' ), $activities );
 
-        $reports = array( 1 => "15-day Review", "Disability Application");
+        $reports = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivitySets' );
         $this->add('select', 'report_id',  ts( 'Report' ), $reports );
 
         require_once "CRM/Case/PseudoConstant.php";

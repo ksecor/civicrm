@@ -39,23 +39,24 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
     function run( $clientID,
                   $caseID,
-                  $caseType,
-                  $activitySetName ) {
+                  $activitySetName,
+                  $params ) {
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Contact/BAO/Contact.php';
-
-        $xml = $this->retrieve( $caseType );
-
-        $activityTypes = $this->getActivityTypes( $xml, $activitySetName );
-        if ( ! $activityTypes ) {
-            return false;
-        }
 
         $template =& CRM_Core_Smarty::singleton( );
 
         // first get all case information
         $case = $this->caseInfo( $clientID, $caseID );
         $template->assign_by_ref( 'case', $case );
+
+        $xml = $this->retrieve( $case['caseType'] );
+
+        $activityTypes = $this->getActivityTypes( $xml, $activitySetName );
+        if ( ! $activityTypes ) {
+            return false;
+        }
+
 
         // next get activity set Informtion
         $activitySet = array( 'label'             => $this->getActivitySetLabel( $xml, $activitySetName ),

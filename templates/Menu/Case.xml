@@ -14,7 +14,6 @@
      <path>civicrm/case/search</path>
      <title>Find Cases</title>
      <page_callback>CRM_Case_Controller_Search</page_callback>
-     <access_arguments>access CiviCase</access_arguments>
      <page_type>1</page_type>
      <weight>910</weight>
   </item>
@@ -22,7 +21,11 @@
      <path>civicrm/case/activity</path>
      <title>Case Activity</title>
      <page_callback>CRM_Case_Form_Activity</page_callback>
-     <access_arguments>access CiviCase</access_arguments>
+  </item>  
+  <item>
+     <path>civicrm/case/report</path>
+     <title>Case Report</title>
+     <page_callback>CRM_Case_Form_Report</page_callback>
   </item>  
   <item>
      <path>civicrm/contact/view/case</path>
