@@ -264,7 +264,7 @@ AND    a.activity_type_id  = %2
         } else {
             $dueDateTime = $params['dueDateTime'];
         }
-        $activityParams['due_date_time'] = date( 'Ymd', $dueDateTime );
+        $activityParams['due_date_time'] = date( 'Ymdhis', $dueDateTime );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );
