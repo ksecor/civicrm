@@ -289,10 +289,12 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
             foreach( $allTabs as $i => $tab ) {
                 if( array_key_exists( $tab['id'],  $hrdOrder ) ) {
-                    $allTabs[$i]['weight'] = $hrdOrder[$tab['id']];                
+                    $allTabs[$i]['weight'] = $hrdOrder[$tab['id']];
                 }
             }
         }
+
+
 
 
         // now sort the tabs based on weight
