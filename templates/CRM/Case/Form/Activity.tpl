@@ -49,14 +49,17 @@
               </div>
           </td>
        </tr>
+       <tr>
        <td class="label">{ts}Assigned To {/ts}</td>
        <td class="tundra">                  
           <div id="assignee_contact_1"></div>
           {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
        </td>
+       </tr>
        <tr>
           <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
        </tr> 
+       
        <tr>
           <td class="label">{$form.medium_id.label}</td><td class="view-value">{$form.medium_id.html}</td>
        </tr> 
