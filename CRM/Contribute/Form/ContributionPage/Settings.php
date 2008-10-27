@@ -135,6 +135,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);
+        $params['is_for_organization']   = CRM_Utils_Array::value('is_for_organization', $params, false);
         $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'  ]            = CRM_Utils_Date::format( $params['end_date'] );
 
