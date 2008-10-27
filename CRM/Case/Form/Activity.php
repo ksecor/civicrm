@@ -38,6 +38,7 @@ require_once "CRM/Activity/BAO/Activity.php";
 require_once 'CRM/Core/BAO/File.php';
 require_once "CRM/Core/BAO/CustomGroup.php";
 require_once "CRM/Custom/Form/CustomData.php";
+require_once "CRM/Contact/Form/AddContact.php";
 
 /**
  * This class create activities for a case
@@ -129,7 +130,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->assign('addAssigneeContact', true);
         }
 
-        $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
+        $this->assign( 'urlPath', 'civicrm/case/activity' );
 
         // add attachments part
         CRM_Core_BAO_File::buildAttachment( $this,
