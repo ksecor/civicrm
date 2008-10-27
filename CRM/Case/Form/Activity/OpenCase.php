@@ -87,6 +87,8 @@ class CRM_Case_Form_Activity_OpenCase
         } else {
             $form->addElement('select', 'prefix_id', ts('Prefix'), 
                               array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+            $form->addElement('select', 'suffix_id', ts('Suffix'), 
+                              array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
             $form->addElement('text',   'first_name',  ts('First Name'),  
                               $attributes['first_name'] );
             $form->addElement('text',   'last_name',   ts('Last Name'),   
@@ -109,6 +111,9 @@ class CRM_Case_Form_Activity_OpenCase
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+        $form->add('textarea', 'details', ts('Details'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
+        
         
     }
 
@@ -145,7 +150,15 @@ class CRM_Case_Form_Activity_OpenCase
             $form->_clientId = $contact->id;
             
             // unset contact params
-            unset($params['location'], $params['first_name'], $params['last_name'], $params['prefix_id']);
+            unset($params['location'], $params['first_name'], $params['last_name'], $params['prefix_id'], $params['suffix_id']);
+
+            // override setContext so it gets the new contactId
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                         "reset=1&cid={$contact->id}&id={$this->_id}&action=view&selectedChild=case" );
+
+            $session =& CRM_Core_Session::singleton( ); 
+            $session->pushUserContext( $url );
+
         }
 
         // for open case start date should be set to current date

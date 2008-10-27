@@ -299,13 +299,13 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             break;
 
         default :
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=case" );
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                          "reset=1&cid={$this->_contactId}&id={$this->_id}&selectedChild=case" );
             break;
         }
         
-        $session =& CRM_Core_Session::singleton( ); 
-        if ( $url ) {
+        if ( $url && $this->_contactId ) {
+            $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( $url );
         }
     }
