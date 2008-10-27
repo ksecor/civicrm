@@ -684,7 +684,7 @@ ORDER BY name";
         if ( isset( $_GET['name'] ) ) {
             $name        = CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ;
             $name        = str_replace( '*', '%', $name );
-            $whereclause = "AND civicrm_case.subject LIKE '%$name'";
+            $whereclause = "civicrm_case.subject LIKE '%$name'";
         }
         
         if ( isset( $_GET['id'] ) ) {
@@ -694,15 +694,20 @@ ORDER BY name";
         
         $elements = array( );
         if ( $name || $caseIdClause ) {
-            $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
-            
+            if ( is_numeric( $_GET['c'] ) ) {
+                $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
+                if ( $contactID ) {
+                    $clause = "civicrm_case_contact.contact_id = $contactID";
+                    $whereclause = $whereclause ? ($whereclause . " AND " . $clause) : $clause;
+                }
+            }
             $query = "
 SELECT civicrm_case.subject as subject, civicrm_case.id as id
 FROM civicrm_case
 LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
-WHERE civicrm_case_contact.contact_id = $contactID  {$whereclause} {$caseIdClause}
+WHERE {$whereclause} {$caseIdClause}
 ORDER BY subject";
-            
+
             $dao = CRM_Core_DAO::executeQuery( $query );
             
             while ( $dao->fetch( ) ) {
