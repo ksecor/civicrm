@@ -309,10 +309,10 @@ class CRM_Case_Form_Search extends CRM_Core_Form
         
         // we don't show test contributions in Contact Summary / User Dashboard
         // in Search mode by default we hide test contributions
-        if ( ! CRM_Utils_Array::value( 'pledge_test',
-                                       $this->_formValues ) ) {
-            $this->_formValues["pledge_test"] = 0;
-        } 
+//        if ( ! CRM_Utils_Array::value( 'pledge_test',
+//                                       $this->_formValues ) ) {
+//            $this->_formValues["pledge_test"] = 0;
+//        } 
         
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted

@@ -70,7 +70,6 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
     static $_properties = array( 
                                 'contact_id',
                                 'sort_name',   
-                                'display_name',
                                 'case_id',   
                                 'case_status_id', 
                                 'case_type_id',
@@ -404,18 +403,18 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                           array('desc'      => ts('Actions') ),
                                           );
             
-            if ( ! $this->_single ) {
-                $pre = array( 
-                             array('desc'      => ts('Contact Id') ), 
-                             array( 
-                                   'name'      => ts('Name'), 
-                                   'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::DONTCARE,
-                                   )
-                             );
-                
-                self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
-            }
+//            if ( ! $this->_single ) {
+//                $pre = array( 
+//                             array('desc'      => ts('Contact Id') ), 
+//                             array( 
+//                                   'name'      => ts('Name'), 
+//                                   'sort'      => 'sort_name', 
+//                                   'direction' => CRM_Utils_Sort::DONTCARE,
+//                                   )
+//                             );
+//                
+//                self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
+//            }
         }
         return self::$_columnHeaders;
     }

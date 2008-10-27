@@ -71,6 +71,7 @@ class CRM_Case_BAO_Query
             $query->_select['relationshipType_id']  = "civicrm_relationship_type.name_a_b as relationshipType_id";
             $query->_element['relationshipType_id'] = 1;
             $query->_tables['civicrm_relationship_type'] = $query->_whereTables['civicrm_relationship_type'] = 1;
+            $query->_tables['civicrm_relationship'] = $query->_whereTables['civicrm_relationship'] = 1;
         }
 
         if ( CRM_Utils_Array::value( 'case_status_id', $query->_returnProperties ) ) {
@@ -168,7 +169,6 @@ class CRM_Case_BAO_Query
 
             $value = $caseStatus[$value];
             $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
             
@@ -280,7 +280,7 @@ class CRM_Case_BAO_Query
     static function from( $name, $mode, $side ) 
     {
         $from = null;
-                   
+
         switch ( $name ) {
             
          case 'civicrm_case':
@@ -303,9 +303,8 @@ class CRM_Case_BAO_Query
             $from .= " $side JOIN civicrm_category ON civicrm_category.id = civicrm_activity.activity_type_id LEFT JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id";
             break;
 
-        case 'case_relation_type':
-            
-            $from .="$side JOIN civicrm_relationship_type ON civicrm_relationship_type.id = civicrm_relationship.relationship_type_id WHERE civicrm_relationship.case_id = case_id";
+        case 'civicrm_relationship_type':
+            $from .= " $side JOIN civicrm_relationship_type ON civicrm_relationship_type.id = civicrm_relationship.relationship_type_id";
             break;
         }
         return $from;
