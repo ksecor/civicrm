@@ -112,8 +112,8 @@ SELECT @at15       := max(id) from civicrm_category where name = 'Residency Trai
 -- *******************************************************/
 -- Open Case custom fields
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES ('New_Client_Intake', 'New Client Intake', 'Activity', NULL, '13', 'Inline', 0, '', '', 2, 1, 'civicrm_value_new_client_intake_2', 0, 0, 0);
-SELECT @cg            := max(id) from civicrm_custom_group where name = 'New_Client_Intake';
+    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, '13', 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
+SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
     VALUES  ('caller_20081023114820', 'Caller', NULL, NULL, 1),
@@ -143,7 +143,7 @@ INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `ht
     VALUES  (@cg, 'Caller', 'String', 'Radio', '', 1, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'caller_4', @og1),
             (@cg, 'Severity Rating', 'String', 'Radio', NULL, 1, 1, 0, 2, NULL, 'How urgent is the situation? (1 = not very, 5 = extremely urgent)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'severity_rating_5', @og2);
 
-CREATE TABLE `civicrm_value_new_client_intake_2` (
+CREATE TABLE `civicrm_value_intake_questions_2` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
   `caller_4` varchar(255) collate utf8_unicode_ci default '',
@@ -153,8 +153,8 @@ CREATE TABLE `civicrm_value_new_client_intake_2` (
   KEY `INDEX_severity_rating_5` (`severity_rating_5`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-ALTER TABLE `civicrm_value_new_client_intake_2`
-  ADD CONSTRAINT `FK_civicrm_value_new_client_intake_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
+ALTER TABLE `civicrm_value_intake_questions_2`
+  ADD CONSTRAINT `FK_civicrm_value_intake_questions_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
 
 -- Presenting Problem
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
