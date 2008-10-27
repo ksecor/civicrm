@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2008-10-27 07:52-0700\n"
 "Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1710,28 +1710,6 @@ msgstr ""
 msgid "CheckBox"
 msgstr ""
 
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr "Tagság tipus"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
-msgid "Membership Status"
-msgstr "Tagságok"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr "Fizetve"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr "Hozzájárulás típus"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr "Hozzájárulás státusz"
-
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
 msgstr "Útvonal"
@@ -2136,6 +2114,11 @@ msgstr "Visszavon"
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr "ACL típus"
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "%1 kötelező mező"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -6961,6 +6944,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr "Összes összeg"
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr "Hozzájárulás státusz"
+
 #: CRM/Export/BAO/Export.php
 #, fuzzy
 msgid "Received Date"
@@ -7651,6 +7638,16 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7969,6 +7966,23 @@ msgid ""
 "Your CiviCRM Profile '%1' has been added. You can add fields to this profile "
 "now."
 msgstr "A kiválasztott megbeszélés törölve."
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr "Fizetve"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr "Tagság tipus"
+
+#: CRM/UF/Form/Preview.php
+#, fuzzy
+msgid "Membership Status"
+msgstr "Tagságok"
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
+msgstr "Hozzájárulás típus"
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -9788,6 +9802,17 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
+msgid "Views integration settings"
+msgstr "Kapcsolat Részletek Megtekintése"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2008-08-28 11:22-0700\n"
 "Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -4147,6 +4147,23 @@ msgstr "Startdatum muss eingestellt werden, wenn Enddatum eingestellt ist."
 #, fuzzy
 msgid "End date must be the same or later than start date."
 msgstr "Enddatum darf nicht vor dem Startdatum liegen."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid ""
+"There is no valid Membership Status available for selected membership dates."
+msgstr "Kein gültiger Mitgliedschaftsstatus für die angegebenen Daten."
+
+#: CRM/Member/Form/Membership.php
+msgid ""
+"Oops, it looks like there is no valid membership status available for the "
+"given membership dates. You can <a href=\"%1\">Configure Membership Status "
+"Rules</a>."
+msgstr ""
+
+#: CRM/Member/Form/Membership.php
+msgid "OR You can sign up by setting Status Override? to true."
+msgstr ""
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
