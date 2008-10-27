@@ -300,7 +300,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
 
         default :
             $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                          "reset=1&cid={$this->_contactId}&id={$this->_id}&selectedChild=case" );
+                                          "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&selectedChild=case" );
             break;
         }
         
