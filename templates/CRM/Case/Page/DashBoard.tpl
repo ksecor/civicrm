@@ -1,5 +1,5 @@
 {* CiviCase DashBoard (launch page) *}
-<h3>{ts}Case Summary{/ts}</h3>
+<h3>{ts}Summary of Case Involvment{/ts}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th>&nbsp;</th>
