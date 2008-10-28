@@ -200,14 +200,12 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_relationship'] = $query->_whereTables['civicrm_relationship'] = 1;
             return;
 
-        case 'completedActivity_start_date_low':
-        case 'completedActivity_start_date_low':
+        case 'case_completedActivity_start_date_low':
             // process to / from date
             $query->dateQueryBuilder( $values,
                                       'civicrm_activity', 'completedActivity_start_date', 'activity_date_time', 'Completed Activity Date' );
             return;
 
-        case 'case_scheduledActivity_start_date_low':
         case 'case_scheduledActivity_start_date_low':
             // process to / from date
             $query->dateQueryBuilder( $values,
