@@ -81,6 +81,7 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('select', 'status_id',  ts( 'Case Status' ),  
                    $caseStatus , true  );
 
+        require_once "CRM/Contact/BAO/Contact.php";
         if ( $form->_clientId ) {
             list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_clientId );
             $form->assign( 'clientName', $displayName );
