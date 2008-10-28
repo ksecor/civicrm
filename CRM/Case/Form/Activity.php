@@ -219,7 +219,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
 
         if ( $this->_caseAction ) {
-            eval('$this->_defaults = CRM_Case_Form_Activity_'. $this->_caseAction. '::setDefaultValues($this);');
+            eval('$this->_defaults += CRM_Case_Form_Activity_'. $this->_caseAction. '::setDefaultValues($this);');
         }
         return $this->_defaults;
     }
@@ -372,6 +372,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the date with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
         $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
+        $params['activity_type_id']   = $this->_activityTypeId;
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
@@ -427,11 +428,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
-        // create case activity record
-        $caseParams = array( 'activity_id' => $activity->id,
-                             'case_id'     => $this->_id   );
-        CRM_Case_BAO_Case::processCaseActivity( $caseParams );
-
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
@@ -443,9 +439,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 $newActParams['original_id'] = $activity->id;
             }
             //is_current_revision will be set to 1 by default.
- 
-            $newActivity = CRM_Activity_BAO_Activity::create( $newActParams );
+            
+            $activity = CRM_Activity_BAO_Activity::create( $newActParams );
         }
+
+        // create case activity record
+        $caseParams = array( 'activity_id' => $activity->id,
+                             'case_id'     => $this->_id   );
+        CRM_Case_BAO_Case::processCaseActivity( $caseParams );
 
         // Insert civicrm_log record for the activity (e.g. store the
         // created / edited by contact id and date for the activity)
