@@ -431,7 +431,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // call end post process
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . 
-                 "::endPostProcess( \$this, \$params, \$newActParams );");
+                 "::endPostProcess( \$this, \$params );");
         }
 
         // activity create
@@ -449,6 +449,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
             //is_current_revision will be set to 1 by default.
             
+            // call end post process
+            if ( $this->_caseAction ) {
+                eval("CRM_Case_Form_Activity_{$this->_caseAction}" . 
+                     "::endPostProcess( \$this, \$newActParams );");
+            }
+
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
         }
 

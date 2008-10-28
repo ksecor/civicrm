@@ -181,6 +181,18 @@ class CRM_Case_Form_Activity_OpenCase
      */
     public function endPostProcess( &$form, &$params ) 
     {
+        if ( !CRM_Utils_Array::value('case_id', $params) && $form->_context == 'activity' ) {
+            return;
+        }
+
+        if (!$form->_clientId   ||
+            !$form->_uid        ||
+            !$params['case_id'] ||
+            !$params['case_type']
+            ) {
+            CRM_Core_Error::fatal('Required parameter missing for OpenCase - end post processing');
+        }
+
         // 1. create case-contact
         $contactParams = array('case_id'    => $params['case_id'],
                                'contact_id' => $form->_clientId

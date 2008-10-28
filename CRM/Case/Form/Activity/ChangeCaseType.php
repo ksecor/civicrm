@@ -125,6 +125,10 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function endPostProcess( &$form, &$params ) 
     {
+        if ( !CRM_Utils_Array::value('case_id', $params) && $form->_context == 'activity' ) {
+            return;
+        }
+
         if (!$form->_clientId   ||
             !$form->_uid        ||
             !$params['case_id'] ||
