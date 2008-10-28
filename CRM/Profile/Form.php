@@ -159,7 +159,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                false, null,
                                                                $this->_skipPermission );
             //if civimail is enable and email field is absent show status
-            if ( CRM_Core_Permission::access( 'CiviMail' ) && CRM_Utils_Array::value( 'group', $this->_fields ) ) {
+            if ( CRM_Core_Permission::access( 'CiviMail' ) &&
+                 CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
                     if ( substr( $name, 0, 6 ) == 'email-' ) {
