@@ -485,7 +485,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     static function getCaseActivity( $caseID, $params, $contactID )
     {
         $select = '
-SELECT ca.id as id, ca.activity_type_id as type, c.sort_name as reporter, ca.due_date_time as due_date, ca.activity_date_time actual_date, ca.status_id as status, cc2.label as category ';
+SELECT ca.id as id, ca.activity_type_id as type, c.sort_name as reporter, ca.due_date_time as due_date, ca.activity_date_time actual_date, ca.status_id as status, cc2.label as category, ca.subject as subject ';
 
         $from  = 'FROM civicrm_case_activity cca, civicrm_activity ca, civicrm_contact c, civicrm_category cc1, civicrm_category cc2 ';
 
@@ -556,6 +556,7 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']      = $activityStatus[$dao->status];
+            $values[$dao->id]['subject']     = $dao->subject;
             
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
             

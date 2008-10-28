@@ -61,10 +61,11 @@ class CRM_Core_Page_AJAX_Activity
             if ($rc) $json .= ",";
             $json .= "\n{";
             $json .= "id:'".$value['id']."',";
-            $json .= "cell:['".$value['category']."','".$value['type']."'";
+            $json .= "cell:['".$value['due_date']."','".$value['actual_date']."'";
+            $json .= ",'".addslashes($value['subject'])."'";
+            $json .= ",'".addslashes($value['category'])."'";
+            $json .= ",'".addslashes($value['type'])."'";
             $json .= ",'".addslashes($value['reporter'])."'";
-            $json .= ",'".addslashes($value['due_date'])."'";
-            $json .= ",'".addslashes($value['actual_date'])."'";
             $json .= ",'".addslashes($value['status'])."','".addslashes($value['links'])."']";
             $json .= "}";
             $rc = true;
@@ -83,6 +84,9 @@ class CRM_Core_Page_AJAX_Activity
         require_once 'CRM/Case/XMLProcessor/Process.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $activities = $xmlProcessor->get( $caseType, 'ActivityTypes' );
+        
+        //unset Open Case
+        unset( $activities['13'] );
         
         foreach( $activities as $key => $value ) {
             if ( strtolower( $activityType ) == strtolower( substr( $value, 0, strlen( $activityType ) ) ) ) {

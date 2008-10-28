@@ -187,7 +187,7 @@ function showHideSearch( ) {
     </tr>
   </table>
   <br />
-  <table id="activities" style="display:none"></table>
+  <table id="activities-selector" style="display:none"></table>
 
 </fieldset>
 </div> <!-- End Activities div -->
@@ -201,17 +201,18 @@ cj(document).ready(function(){
 
   dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
   
-  cj("#activities").flexigrid
+  cj("#activities-selector").flexigrid
   (
     {
 	url: dataUrl,
 	    dataType: 'json',
 	    colModel : [
+			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
+			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
 			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
 			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
 			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
-			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
-			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
 			{display: 'Status', name : 'status', width : 90, sortable : true, align: 'left'},
 			{display: '', name : 'links', width : 90, align: 'left'},
 			],
@@ -234,7 +235,7 @@ function search(com)
     /*
     var activity_date_low = cj("select#activity_date_low[M]").val() + '-' + cj("select#activity_date_low[d]").val() + '-' + cj("select#activity_date_low[Y]").val();
     */
-    cj('#activities').flexOptions({
+    cj('#activities-selector').flexOptions({
 	    newp:1, 
 		params:[{name:'category_0', value: cj("select#category_0").val()},
 			{name:'category_1', value: cj("select#category_1").val()},
@@ -244,7 +245,7 @@ function search(com)
 			]
 		});
     
-    cj("#activities").flexReload(); 
+    cj("#activities-selector").flexReload(); 
 }
 
 </script>
