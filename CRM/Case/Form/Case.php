@@ -206,6 +206,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         // unset any ids, custom data
         unset($params['id'], $params['custom']);
 
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&cid={$this->_clientId}&action=view&id={$caseObj->id}&selectedChild=case" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
+
         // 3. format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             $customData = array( );

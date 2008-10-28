@@ -175,6 +175,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->set( 'entityId', $this->_activityId );
         CRM_Custom_Form_Customdata::preProcess( $this );
 
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&cid={$this->_clientId}&action=view&id={$this->_id}&selectedChild=case" );
+        $session->pushUserContext( $url );
+
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
@@ -255,7 +260,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // FIXME: Need to add fields for "Send Copy To" functionality as spec'd in CRM-3743
         
         $this->add('text', 'subject', ts('Subject') , 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ));
+                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true);
         
         $this->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);

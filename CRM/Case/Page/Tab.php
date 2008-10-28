@@ -67,7 +67,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     
     function preProcess( )
     {
+        $this->_id        = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this );
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
         // contact id is not mandatory for case form. If not found, don't call
         // parent's pre-process and proceed further.
         if ( $this->_contactId ) {
@@ -182,23 +184,10 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $config =& CRM_Core_Config::singleton( );
 
-        $this->_id  = CRM_Utils_Request::retrieve('id', 'Integer', $this);
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
                                                        'Open Case', 
                                                        $this->_action );
         
-        $session =& CRM_Core_Session::singleton();
-        $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
-        $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
-        if ($config->civiHRD){ 
-            if ( $edit && $this->_action != 8  ) {
-                $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
-            }else {
-            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
-            }
-        
-            $session->pushUserContext( $url );
-        }
         $controller->setEmbedded( true );
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
@@ -217,8 +206,6 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $this->preProcess( );
 
-        $this->setContext( );
-
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
@@ -228,6 +215,9 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         if ( $this->_contactId ) {
             $this->browse( );
         }
+
+        $this->setContext( );
+
         return parent::run( );
     }
 
@@ -284,27 +274,33 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     
     function setContext( ) 
     {
+        $this->_id        = CRM_Utils_Request::retrieve('id', 'Integer',   $this);
+        $this->_contactId = CRM_Utils_Request::retrieve('cid','Positive',  $this);
+
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $url = null;
 
         switch ( $context ) {
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
-
             break;
 
         case 'activity':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            }
             break;
 
         default :
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                          "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&selectedChild=case" );
+            if ( $this->_contactId && $this->_id ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                              "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&selectedChild=case" );
+            }
             break;
         }
         
-        if ( $url && $this->_contactId ) {
+        if ( $url ) {
             $session =& CRM_Core_Session::singleton( ); 
             $session->pushUserContext( $url );
         }

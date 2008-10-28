@@ -150,15 +150,8 @@ class CRM_Case_Form_Activity_OpenCase
             $form->_clientId = $contact->id;
             
             // unset contact params
-            unset($params['location'], $params['first_name'], $params['last_name'], $params['prefix_id'], $params['suffix_id']);
-
-            // override setContext so it gets the new contactId
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                         "reset=1&cid={$contact->id}&id={$this->_id}&action=view&selectedChild=case" );
-
-            $session =& CRM_Core_Session::singleton( ); 
-            $session->pushUserContext( $url );
-
+            unset($params['location'], $params['first_name'], $params['last_name'], 
+                  $params['prefix_id'], $params['suffix_id']);
         }
 
         // for open case start date should be set to current date
