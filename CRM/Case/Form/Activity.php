@@ -50,6 +50,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 {
 
     /**
+     * The context
+     *
+     * @var string
+     */
+    public $_context = 'activity';
+
+    /**
      * The case id 
      *
      * @var int
@@ -82,7 +89,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * 
      * @var int
      */
-    public $_currentlyViewedContactId;
+    public $_clientId;
 
     /**
      * The default values of an activity
@@ -122,13 +129,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->_uid = $session->get('userID');
 
         // contact being viewed
-        $this->_currentlyViewedContactId = $this->get('contactId');
-        if ( ! $this->_currentlyViewedContactId ) {
-            $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $this->_clientId = $this->get('contactId');
+        if ( ! $this->_clientId ) {
+            $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         }
 
         $clientName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                   $this->_currentlyViewedContactId,
+                                                   $this->_clientId,
                                                    'sort_name' );
         $this->assign( 'client_name', $clientName );
         
@@ -335,10 +342,26 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        $params['now'] = date("Ymd");
 
         // call begin post process
         if ( $this->_caseAction ) {
+            require_once 'CRM/Case/XMLProcessor/Process.php';
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
+        }
+
+        // edit existing case if needed
+        if ( $this->_caseAction ) {
+            $params['id'] = $this->_id;
+            require_once 'CRM/Case/BAO/Case.php';
+            if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
+                $caseType = CRM_Core_OptionGroup::values('case_type');
+                $params['case_type'] = $caseType[$params['case_type_id']];
+            }
+            $caseObj = CRM_Case_BAO_Case::create( $params );
+            $params['case_id'] = $caseObj->id;
+            // unset any ids, custom data
+            unset($params['id'], $params['custom']);
         }
 
         // store the date with proper format

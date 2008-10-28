@@ -62,9 +62,9 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
         $defaults['is_reset_timeline'] = 1;
         
-        $defaults['due_date_time'] = array( );
-        CRM_Utils_Date::getAllDefaultValues( $defaults['due_date_time'] );
-        $defaults['due_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
+        $defaults['reset_date_time'] = array( );
+        CRM_Utils_Date::getAllDefaultValues( $defaults['reset_date_time'] );
+        $defaults['reset_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
 
         return $defaults;
     }
@@ -78,9 +78,9 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
         // timeline
         $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, true, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );
-        $form->add( 'date', 'due_date_time', ts('Reset Start Date'),
+        $form->add( 'date', 'reset_date_time', ts('Reset Start Date'),
                     CRM_Core_SelectValues::date('activityDatetime' ), false );   
-        $form->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
+        $form->addRule('reset_date_time', ts('Select a valid date.'), 'qfDate');
     }
 
     /**
@@ -105,13 +105,15 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function beginPostProcess( &$form, &$params ) 
     {
-        $params['id'] = $form->_id;
+        if ( $form->_context == 'case' ) {
+            $params['id'] = $form->_id;
+        }
 
         if ( CRM_Utils_Array::value('is_reset_timeline', $params ) == 0 ) {
-            unset($params['due_date_time']);
+            unset($params['reset_date_time']);
         } else {
             // store the date with proper format
-            $params['due_date_time'] = CRM_Utils_Date::format( $params['due_date_time'] );
+            $params['reset_date_time'] = CRM_Utils_Date::format( $params['reset_date_time'] );
         }
     }
 
@@ -123,13 +125,21 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function endPostProcess( &$form, &$params ) 
     {
+        if (!$form->_clientId   ||
+            !$form->_uid        ||
+            !$params['case_id'] ||
+            !$params['case_type']
+            ) {
+            CRM_Core_Error::fatal('Required parameter missing for ChangeCaseType - end post processing');
+        }
+
         // 1. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
                                      'creatorID'        => $form->_uid,
                                      'standardTimeline' => 1,
                                      'activityTypeName' => 'Change Case Type',
-                                     'dueDateTime'      => $params['due_date_time'],
+                                     'dueDateTime'      => $params['reset_date_time'],
                                      'caseID'           => $params['case_id'],
                                      );
 
