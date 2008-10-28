@@ -250,10 +250,17 @@ function search(com)
 </script>
 {/literal}
 
+{literal}
 <script type="text/javascript">
-show('activities_show');
-hide('activities');
+{/literal}{if $show}{literal}
+    hide('activities_show');
+{/literal}{else}{literal}
+    hide('activities');
+{/literal}{/if}{literal}
 </script>
+{/literal}
+
+
 <br/>
 {$form.buttons.html}
 </div>

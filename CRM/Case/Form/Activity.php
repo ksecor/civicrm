@@ -71,6 +71,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     public $_activityTypeId;
 
     /**
+     * The id of activity type 
+     *
+     * @var int
+     */
+    public $_activityTypeName;
+
+    /**
      * The activity id 
      *
      * @var int
@@ -160,14 +167,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $categoryParams = array('id' => $this->_activityTypeId);
         CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_Category', $categoryParams, $details );
         
-        $activityTypeName           = $details['label'];
+        $this->_activityTypeName    = $details['label'];
         $activityTypeDescription    = $details['description'];
         $this->_defaults['subject'] = $details['label'];
 
-        $this->assign( 'activityTypeName', $activityTypeName );
+        $this->assign( 'activityTypeName',        $this->_activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
 
-        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSub,'2' => $activityTypeName)) );
+        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSub,'2' => $this->_activityTypeName)) );
 
         //when custom data is included in this page
         $this->set( 'type'    , 'Activity' );
@@ -177,7 +184,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
         // user context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&cid={$this->_clientId}&action=view&id={$this->_id}&selectedChild=case" );
+                                      "reset=1&cid={$this->_clientId}&action=view&id={$this->_id}&show=1&selectedChild=case" );
         $session->pushUserContext( $url );
 
         if ( $this->_caseAction ) {
@@ -356,6 +363,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("Ymd");
 
+        // required for status msg
+        $recordStatus = 'created';
+
         // call begin post process
         if ( $this->_caseAction ) {
             require_once 'CRM/Case/XMLProcessor/Process.php';
@@ -412,6 +422,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 $params = array('id' => $this->_activityId);
                 $params['is_current_revision'] = 0;
             }
+            $recordStatus = 'edited';
         }
         
         // call end post process
@@ -454,6 +465,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         // Note - civicrm_log is already created by CRM_Activity_BAO_Activity::create()
         
-        CRM_Core_Session::setStatus( ts("The activity has been successfully created.") );
+        CRM_Core_Session::setStatus( ts("The activity of type '%1' has been successfully %2.", 
+                                        array('1' => $this->_activityTypeName, '2' => $recordStatus)) );
     }
 }
