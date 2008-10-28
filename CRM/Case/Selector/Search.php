@@ -301,7 +301,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          cov2.label as case_type,
          max(ca1.activity_date_time) as case_recent_activity_date,
          cat1.label as case_recent_activity_type,
-         max(ca2.due_date_time) as case_scheduled_activity_date,
+         min(ca2.due_date_time) as case_scheduled_activity_date,
          cat2.label as case_scheduled_activity_type
          
          from civicrm_case 

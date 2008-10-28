@@ -5,10 +5,13 @@
 <table class="form-layout-compressed">
 <tr>
     <td>
-        {if $caseAdmin}<a href="">Show ALL Cases</a><br />{/if}
         <a href="{$newCaseURL}" class="button"><span>&raquo; New Case</span></a>
     </td>
 </tr>
+<tr>
+    <td>
+        <a href="{crmURL p="civicrm/case" q="reset=1"}" class="button"><span>&raquo; Toggle ALL Cases View</span></a><br />
+    </td></tr>
 </table>
 </div>
 
