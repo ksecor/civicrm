@@ -23,25 +23,81 @@
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
     <table class="report">
-        {foreach from=$caseRelationships item=row}
+        {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a> <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId} );"></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
         {/foreach}
         
-        {foreach from=$caseRoles item=relName}
+        {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label">{$relName}</td><td>(not assigned) <a href="" title="edit case role"><img src="{$config->resourceBase}i/edit.png"></a></td><td></td><td></td>
+            <td class="label">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null );"></td><td></td><td></td>
         </tr>
         {/foreach}
     </table>
  </fieldset>
 </div>
+<div id="dialog">
+     <input type="text" id="rel_contact"/>
+     <input type="hidden" id="rel_contact_id" value="">
+</div>
 
+{literal}
 <script type="text/javascript">
 show('caseRole_show');
 hide('caseRole');
+
+cj("#dialog").hide( );
+function createRelationship( relType, contactID, relID ) {
+    cj("#dialog").show( );
+
+    cj("#dialog").dialog({
+	    modal: true, 
+	    overlay: { 
+		       opacity: 0.5, 
+		        background: "black" 
+		    },
+
+	    open:function() {
+		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+
+		cj("#rel_contact").autocomplete("http://civicrm/civicrm/ajax/contactlist", {
+			width: 260,
+			selectFirst: false 
+                 });
+
+		cj("#rel_contact").result(function(event, data, formatted) {
+			cj("input[@id=rel_contact_id]").val(data[1]);
+		});		    
+
+	    },
+	    
+	    buttons: { 
+		"Ok": function() { 	    
+		    var sourceContact = {/literal}"{$contactID}"{literal}
+		    var caseID        = {/literal}"{$caseID}"{literal}
+
+		    var v1 = cj("#rel_contact_id").val( );
+		    cj.post("http://civicrm/civicrm/ajax/relation", { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID  } );
+		    
+		    alert("Relaionship has been saved, please reload the page.");
+
+		    cj(this).dialog("close"); 
+		    cj(this).dialog("destroy"); 
+		},
+
+		"Cancel": function() { 
+		    cj(this).dialog("close"); 
+		    cj(this).dialog("destroy"); 
+		} 
+	    } 
+
+     });
+}
+
+
 </script>
+{/literal}
 
 <div id="activities_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Activities</label><br />

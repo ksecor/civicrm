@@ -443,7 +443,7 @@ WHERE  $where
     static function getCaseRoles( $contactID, $caseID )
     {
         $query = '
-SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.name_b_a as relation 
+SELECT civicrm_relationship.id as civicrm_relationship_id, civicrm_contact.sort_name as sort_name, civicrm_email.email as email, civicrm_phone.phone as phone, civicrm_relationship.contact_id_b as civicrm_contact_id, civicrm_relationship_type.name_b_a as relation, civicrm_relationship_type.id as relation_type 
 FROM civicrm_relationship, civicrm_relationship_type, civicrm_contact 
 LEFT OUTER JOIN civicrm_phone ON (civicrm_phone.contact_id = civicrm_contact.id AND civicrm_phone.is_primary = 1) 
 LEFT JOIN civicrm_email ON (civicrm_email.contact_id = civicrm_contact.id ) 
@@ -464,6 +464,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$rid]['name']       = $dao->sort_name;
             $values[$rid]['email']      = $dao->email;
             $values[$rid]['phone']      = $dao->phone;
+            $values[$rid]['relation_type']   = $dao->relation_type;
         }
         
         $dao->free( );

@@ -127,6 +127,15 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'activity':
             require_once 'CRM/Core/Page/AJAX/Activity.php';
             return CRM_Core_Page_AJAX_Activity::getCaseActivity( $config );
+
+        case 'contactlist':
+            require_once 'CRM/Core/Page/AJAX/Contact.php';
+            return CRM_Core_Page_AJAX_Contact::getContactList( $config );
+            
+        case 'relation':
+            require_once 'CRM/Core/Page/AJAX/Contact.php';
+            return CRM_Core_Page_AJAX_Contact::relationship( $config );
+
         default:
             return;
         }
