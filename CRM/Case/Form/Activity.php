@@ -160,7 +160,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->assign( 'activityTypeName', $activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
 
-        CRM_Utils_System::setTitle( ts('%1 >> %2', array('1' => $caseSub,'2' => $activityTypeName)) );
+        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSub,'2' => $activityTypeName)) );
 
         //when custom data is included in this page
         $this->set( 'type'    , 'Activity' );

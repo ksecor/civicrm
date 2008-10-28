@@ -14,11 +14,7 @@
 
 <fieldset>
     <legend>
-       {if $action eq 1}
-          {ts}New{/ts} 
-       {elseif $action eq 2}
-          {ts}Edit{/ts} 
-       {elseif $action eq 8}
+       {if $action eq 8}
           {ts}Delete{/ts}
        {elseif $action eq 4}
           {ts}View{/ts}
@@ -38,8 +34,8 @@
           <td class="view-value font-size12pt bold">{$client_name|escape}</td>
        </tr>
        <tr>
-          <td class="label font-size12pt">{ts}Activity Type{/ts}</td>
-          <td class="view-value font-size12pt bold">{$activityTypeName|escape}</td>
+          <td class="label">{ts}Activity Type{/ts}</td>
+          <td class="view-value bold">{$activityTypeName|escape}</td>
        </tr>
        <tr>
           <td class="label">{$form.source_contact_id.label}</td>
@@ -48,18 +44,25 @@
                   {if $admin}{$form.source_contact_id.html}{/if}
               </div>
           </td>
-       </tr>
-       <tr>
-       <td class="label">{ts}Assigned To {/ts}</td>
-       <td class="tundra">                  
-          <div id="assignee_contact_1"></div>
-          {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
-       </td>
-       </tr>
-       <tr>
+        </tr>
+        <tr>
+            <td class="label">{ts}Assigned To {/ts}</td>
+            <td class="tundra">                  
+                <div id="assignee_contact_1"></div>
+                {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
+            </td>
+        </tr>
+
+        {* Include special processing fields if any are defined for this activity type. *}
+        {if $caseAction}
+            <tr><td colspan="2"><hr /></td></tr>
+            {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
+            <tr><td colspan="2"><hr /></td></tr>
+        {/if}
+
+        <tr>
           <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
-       </tr> 
-       
+        </tr>
        <tr>
           <td class="label">{$form.medium_id.label}</td><td class="view-value">{$form.medium_id.html}</td>
        </tr> 
@@ -104,13 +107,7 @@
        </tr> 
     </table>
 
-{if $caseAction}
-   <fieldset><legend>{ts}{$activityTypeName} - Fields{/ts}</legend>
-       {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
-   </fieldset> 
-{/if}
-
-{include file="CRM/Custom/Form/CustomData.tpl"}
+    {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
 {/if}
 
