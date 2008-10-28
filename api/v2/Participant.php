@@ -162,6 +162,12 @@ function &civicrm_participant_search( &$params ) {
             $inputParams[$n] = $v;
         }
     }
+
+    // add is_test to the clause if not present
+    if ( ! array_key_exists( 'participant_test', $inputParams ) ) {
+        $inputParams['participant_test'] = 0;
+    }
+
     require_once 'CRM/Contact/BAO/Query.php';
     require_once 'CRM/Event/BAO/Query.php';  
     if ( empty( $returnProperties ) ) {
