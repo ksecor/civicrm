@@ -25,7 +25,7 @@
     <table class="report">
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId} );"></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td><td><a id="relName_{$row.cid}" href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId} );"></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
         {/foreach}
         
@@ -60,8 +60,18 @@ function createRelationship( relType, contactID, relID ) {
 
 	    open:function() {
 		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+		
+		/* set defaults if editing */
+		cj("#rel_contact").val( "" );
+		cj("#rel_contact_id").val( null );
+		if ( contactID ) {
+		    cj("#rel_contact_id").val( contactID );
+		    cj("#rel_contact").val( cj("#relName_" + contactID).text( ) );
+		}
+		
+		var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
 
-		cj("#rel_contact").autocomplete("http://civicrm/civicrm/ajax/contactlist", {
+		cj("#rel_contact").autocomplete( contactUrl, {
 			width: 260,
 			selectFirst: false 
                  });
@@ -78,7 +88,8 @@ function createRelationship( relType, contactID, relID ) {
 		    var caseID        = {/literal}"{$caseID}"{literal}
 
 		    var v1 = cj("#rel_contact_id").val( );
-		    cj.post("http://civicrm/civicrm/ajax/relation", { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID  } );
+		    var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
+		    cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
 		    
 		    alert("Relaionship has been saved, please reload the page.");
 
