@@ -84,10 +84,21 @@ function createRelationship( relType, contactID, relID ) {
 	    
 	    buttons: { 
 		"Ok": function() { 	    
+		    if ( ! cj("#rel_contact").val( ) ) {
+			alert('Select valid contact from the list.');
+			return false;
+		    }
+
 		    var sourceContact = {/literal}"{$contactID}"{literal}
 		    var caseID        = {/literal}"{$caseID}"{literal}
 
 		    var v1 = cj("#rel_contact_id").val( );
+
+		    if ( ! v1 ) {
+			alert('Select valid contact from the list.');
+			return false;
+		    }
+
 		    var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
 		    cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
 		    
