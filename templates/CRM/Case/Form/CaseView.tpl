@@ -38,6 +38,7 @@
  </fieldset>
 </div>
 <div id="dialog">
+     {ts}Begin typing to select contact.{/ts}<br/>
      <input type="text" id="rel_contact"/>
      <input type="hidden" id="rel_contact_id" value="">
 </div>
@@ -52,6 +53,7 @@ function createRelationship( relType, contactID, relID ) {
     cj("#dialog").show( );
 
     cj("#dialog").dialog({
+        title: "Assign Case Role",
 	    modal: true, 
 	    overlay: { 
 		       opacity: 0.5, 
