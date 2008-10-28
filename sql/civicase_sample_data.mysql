@@ -112,7 +112,7 @@ SELECT @at15       := max(id) from civicrm_category where name = 'Residency Trai
 -- *******************************************************/
 -- Open Case custom fields
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, '13', 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
+    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
@@ -211,7 +211,7 @@ ALTER TABLE `civicrm_value_presenting_problem_3`
 
 -- Problem Drugs
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES  ('Problem_Drug_s_', 'Problem Drug(s)', 'Activity', NULL, '23', 'Inline', 0, '', '', 4, 1, 'civicrm_value_problem_drug_s__4', 1, 0, 0);
+    VALUES  ('Problem_Drug_s_', 'Problem Drug(s)', 'Activity', NULL, @at6, 'Inline', 0, '', '', 4, 1, 'civicrm_value_problem_drug_s__4', 1, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Problem_Drug_s_';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
