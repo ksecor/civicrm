@@ -121,18 +121,25 @@ function createRelationship( relType, contactID, relID ) {
      });
 }
 
+cj(document).ready(function(){
+   cj("#searchOptions").hide( );
+});
 
+function showHideSearch( ) {
+    cj("#searchOptions").toggle( );
+}
 </script>
 {/literal}
 
 <div id="activities_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Activities</label><br />
+  <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Case Activities{/ts}</label><br />
 </div>
 
 <div id="activities" class="section-shown">
 <fieldset>
-  <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>Case Activities</legend>
-  <table class="no-border">
+  <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
+  <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
+  <table class="no-border" id="searchOptions">
     <tr>
         <td class="label" colspan="2"><label for="activity_category">{ts}Category/Type{/ts}</label><br />
             {$form.category.html}
