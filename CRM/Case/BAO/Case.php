@@ -475,12 +475,13 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @param int    $caseID case id
      * @param array  $params posted params 
+     * @param int    $contactID contact id
      *
      * @return returns case activities
      *
      * @static
      */
-    static function getCaseActivity( $caseID, $params )
+    static function getCaseActivity( $caseID, $params, $contactID )
     {
         $select = '
 SELECT ca.id as id, ca.activity_type_id as type, c.sort_name as reporter, ca.due_date_time as due_date, ca.activity_date_time actual_date, ca.status_id as status, cc2.label as category ';
@@ -540,6 +541,12 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
 
         $values = array( );
+        $url = CRM_Utils_System::url( "civicrm/case/activity?reset=1&cid={$contactID}&id={$caseID}",
+                                      null, false, null, false ); 
+        
+        $editUrl   = "{$url}&action=add";
+        $deleteUrl = "{$url}&action=delete";
+              
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
             $values[$dao->id]['category']    = $dao->category;
@@ -548,7 +555,10 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']      = $activityStatus[$dao->status];
-            $values[$dao->id]['links']       = "<a href='#'>Edit | Delete</a>";
+            
+            $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
+            
+            $values[$dao->id]['links']       = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
         }
         
         $dao->free( );
@@ -572,6 +582,7 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
 
         return $caseAction;
     }
+
 }
 
    
