@@ -388,27 +388,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $customData = array( );
             foreach ( $params as $key => $value ) {
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    $params[$key] = $value;
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null, $this->_activityTypeId );
+                                                                 $value, 'Activity', null, $this->_activityId );
                 }
             }
-           
+            
             if ( !empty($customData) ) {
                 $params['custom'] = $customData;
-            }
-            
-            //special case to handle if all checkboxes are unchecked
-            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
-            
-            if ( !empty($customFields) ) {
-                foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                     '', 'Activity', null, $this->_activityTypeId );
-                    }
-                }
             }
         }
 
@@ -468,5 +454,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         // Note - civicrm_log is already created by CRM_Activity_BAO_Activity::create()
         
+        CRM_Core_Session::setStatus( ts("The activity has been successfully created.") );
     }
 }
