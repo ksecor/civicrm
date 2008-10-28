@@ -5,9 +5,9 @@ class Audit
 {
 	private $auditConfig;
 	
-	public function __construct($filename, $confFilename)
+	public function __construct($xmlString, $confFilename)
 	{
-		$this->filename = $filename;
+		$this->xmlString = $xmlString;
 		$this->auditConfig = new AuditConfig($confFilename);
 	}
 		
@@ -19,7 +19,7 @@ class Audit
 		 * Loop through the activities in the file and add them to the appropriate region array.
 		 */
 		$doc = new DOMDocument();
-		if ($doc->load($this->filename))
+		if ($doc->loadXML($this->xmlString))
 		{
 			$regionList = $this->auditConfig->getRegions();
 			
@@ -79,12 +79,15 @@ class Audit
 				$activityindex++;
 			}
 		}		
-		
+            
 		return $retval;
 	}
 
-    static function run( ) {
-        $audit = new Audit( 'CaseReport.xml',
+    static function run( $xmlString ) {
+        //require_once '../../../civicrm.config.php';
+        //require_once 'CRM/Core/Config.php';
+        //$config =& CRM_Core_Config::singleton( );
+        $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
         $activities = $audit->getActivities();
 
@@ -92,8 +95,9 @@ class Audit
         $template->assign_by_ref( 'activities', $activities );
 
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
-        return $contents;
+        echo $contents;
+        exit( );
     }
-
 }
-?>
+
+// Audit::run( file_get_contents( 'CaseReport.xml' ) );

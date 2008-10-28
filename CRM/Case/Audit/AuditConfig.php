@@ -35,7 +35,7 @@ class AuditConfig
 		$this->includeRules = array();
 				
 		$doc = new DOMDocument();
-		if ($doc->load($this->filename))
+		if ($doc->load(dirname( __FILE__ ) . '/' . $this->filename))
 		{
 			$regions = $doc->getElementsByTagName("region"); 
 			foreach($regions as $region) 

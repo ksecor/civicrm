@@ -6,8 +6,8 @@ There's the potential for collisions (two different labels having the same short
 *}
 <html>
 <head>
-<script src="audit.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="style.audit.css" />
+<script src="{$config->resourceBase}js/Audit/audit.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{$config->resourceBase}css/Audit/style.css" />
 </head>
 <body>
 <form><input type="hidden" name="currentSelection" value="1" /></form>
