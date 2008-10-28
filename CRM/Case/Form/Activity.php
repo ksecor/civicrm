@@ -219,7 +219,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
 
         if ( $this->_caseAction ) {
-            eval('$this->_defaults += CRM_Case_Form_Activity_'. $this->_caseAction. '::setDefaultValues($this);');
+            eval('$this->_defaults =+ CRM_Case_Form_Activity_'. $this->_caseAction . '::setDefaultValues($this);');
         }
         return $this->_defaults;
     }
