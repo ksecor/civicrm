@@ -78,7 +78,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
         // timeline
         $form->addYesNo( 'is_reset_timeline', ts( 'Reset Case Timeline?' ),null, true, array('onclick' =>"return showHideByValue('is_reset_timeline','','resetTimeline','table-row','radio',false);") );
-        $form->add( 'date', 'due_date_time', ts('Reset Starting'),
+        $form->add( 'date', 'due_date_time', ts('Reset Start Date'),
                     CRM_Core_SelectValues::date('activityDatetime' ), false );   
         $form->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
     }
