@@ -170,7 +170,7 @@ function &civicrm_contribution_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
