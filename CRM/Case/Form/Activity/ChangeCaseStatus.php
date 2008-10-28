@@ -55,6 +55,8 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
      */
     function setDefaultValues( &$form ) 
     {
+        $defaults = array();
+        return $defaults;
     }
 
     static function buildQuickForm( &$form ) 

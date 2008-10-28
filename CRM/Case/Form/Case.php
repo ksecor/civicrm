@@ -199,7 +199,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         require_once 'CRM/Case/BAO/Case.php';
         if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
             $caseType = CRM_Core_OptionGroup::values('case_type');
-            $params['case_type'] = $caseType[$params['case_type_id']];
+            $params['case_type']    = $caseType[$params['case_type_id']];
+            $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                $params['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
         }
         $caseObj = CRM_Case_BAO_Case::create( $params );
         $params['case_id'] = $caseObj->id;

@@ -198,6 +198,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $this->_defaults );
 
+            //set the assigneed contact count to template
+            if ( !empty( $defaults['assignee_contact'] ) ) {
+                $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            } else {
+                $this->assign( 'assigneeContactCount', 1 );
+            }
+
             // custom data defaults
             $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
  
@@ -362,6 +369,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
                 $caseType = CRM_Core_OptionGroup::values('case_type');
                 $params['case_type'] = $caseType[$params['case_type_id']];
+                $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                    $params['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
             }
             $caseObj = CRM_Case_BAO_Case::create( $params );
             $params['case_id'] = $caseObj->id;
