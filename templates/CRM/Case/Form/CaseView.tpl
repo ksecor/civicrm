@@ -91,10 +91,12 @@ function createRelationship( relType, contactID, relID ) {
 		    var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
 		    cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
 		    
-		    alert("Relaionship has been saved, please reload the page.");
+		    alert("Relationship record has been updated.");
 
 		    cj(this).dialog("close"); 
 		    cj(this).dialog("destroy"); 
+		    
+		    window.location.reload();
 		},
 
 		"Cancel": function() { 
