@@ -158,7 +158,7 @@ ALTER TABLE `civicrm_value_intake_questions_2`
 
 -- Presenting Problem
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES  ('Presenting_Problem', 'Presenting Problem', 'Activity', NULL, '14', 'Inline', 0, '', '', 3, 1, 'civicrm_value_presenting_problem_3', 0, 0, 0);
+    VALUES  ('Presenting_Problem', 'Presenting Problem', 'Activity', NULL, @at2, 'Inline', 0, '', '', 3, 1, 'civicrm_value_presenting_problem_3', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Presenting_Problem';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
@@ -249,7 +249,7 @@ ALTER TABLE `civicrm_value_problem_drug_s__4`
 
 -- Prof School
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES  ('Professional_School', 'Professional School', 'Activity', NULL, '14', 'Inline', 0, '', '', 5, 1, 'civicrm_value_professional_school_5', 0, 0, 0);
+    VALUES  ('Professional_School', 'Professional School', 'Activity', NULL, @at14, 'Inline', 0, '', '', 5, 1, 'civicrm_value_professional_school_5', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Professional_School';
 
 INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)

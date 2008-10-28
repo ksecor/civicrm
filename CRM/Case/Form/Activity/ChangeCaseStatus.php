@@ -61,17 +61,6 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
     { 
         require_once 'CRM/Core/OptionGroup.php';        
        
-        // case selector
-        $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-        $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                 'mode'           => 'remote',
-                                 'store'          => 'caseStore');
-        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                          "c={$form->_clientId}",
-                                          false, null, false );
-        $form->assign( 'caseUrl', $caseUrl );
-        $form->add( 'text','case_id', ts('Case'), $caseAttributes, true );
-
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $form->add('select', 'status_id',  ts( 'Case Status' ),  
                     $caseStatus , true  );
