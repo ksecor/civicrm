@@ -211,14 +211,17 @@ AND    a.is_auto = 1
 
     function isActivityPresent( &$params ) {
         $query = "
-SELECT a.id
-FROM   civicrm_activity a
+SELECT     a.id
+FROM       civicrm_activity a
 INNER JOIN civicrm_activity_target t ON t.activity_id = a.id
-WHERE  t.target_contact_id = %1
-AND    a.activity_type_id  = %2
+INNER JOIN civicrm_case_activity ca on ca.activity_id = a.id
+WHERE      t.target_contact_id = %1
+AND        a.activity_type_id  = %2
+AND        ca.case_id = %3
 ";
         $sqlParams = array( 1 => array( $params['clientID']      , 'Integer' ),
-                            2 => array( $params['activityTypeID'], 'Integer' ) );
+                            2 => array( $params['activityTypeID'], 'Integer' ),
+                            3 => array( $params['caseID']        , 'Integer' ) );
         return CRM_Core_DAO::singleValueQuery( $query, $sqlParams ) > 0 ? true : false;
     }
 

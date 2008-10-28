@@ -26,10 +26,10 @@
 {/foreach}
 {if $activity.customGroups}
          <CustomGroups>
-{foreach from=$activity.customGroups item=customGroup}
+{foreach from=$activity.customGroups key=customGroupName item=customGroup}
             <CustomGroup>
-               <GroupName>{$customGroup.name}</GroupName>
-{foreach from=$customGroup.fields item=field}
+               <GroupName>{$customGroupName}</GroupName>
+{foreach from=$customGroup item=field}
                   <Field>
                     <Label>{$field.label}</Label>
                     <Value>{$field.value}</Value>

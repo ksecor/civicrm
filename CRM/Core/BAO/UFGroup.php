@@ -734,7 +734,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     }
 
                                     $params[$index] = $customVal;
-                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
+                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal,
+                                                                                                 $cfID,
+                                                                                                 $options );
                                     if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
                                                                       $cfID, 'is_search_range' ) ) {
                                         $customFieldName = "{$name}_from";

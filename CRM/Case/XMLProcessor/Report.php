@@ -43,6 +43,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                   $params ) {
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Core/BAO/CustomField.php';
 
         $template =& CRM_Core_Smarty::singleton( );
 
@@ -79,7 +80,6 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         //now collect all the information about activities
         $activities = array( );
         $this->getActivities( $clientID, $caseID, $activityTypes, $activities );
-
         $template->assign_by_ref( 'activities', $activities );
 
         // now run the template
@@ -230,7 +230,7 @@ AND    ac.case_id = %1
                                        'type'  => 'Date' );
 
         $activity['fields'][] = array( 'label' => 'Medium',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'Encounter Medium',
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
                                                                                   $activityDAO->medium ),
                                        'type'  => 'String' );
 
@@ -250,10 +250,115 @@ AND    ac.case_id = %1
         $activity['fields'][] = array( 'label' => 'Details',
                                        'value' => $activityDAO->details,
                                        'type'  => 'Memo' );
+
         
         // for now empty custom groups
-        $activity['customGroups'] = null;
+        $activity['customGroups'] = $this->getCustomData( $clientID,
+                                                          $activityDAO,
+                                                          $activityTypeInfo );
+
         return $activity;
+    }
+
+    function getCustomData( $clientID,
+                            $activityDAO,
+                            &$activityTypeInfo ) {
+        list( $typeValues, $options, $sql ) = $this->getActivityTypeCustomSQL( $activityTypeInfo['id'] );
+
+        $params = array( 1 => array( $activityDAO->id, 'Integer' ) );
+
+        $customGroups = array( );
+        foreach ( $sql as $tableName => $sqlClause ) {
+            $dao = CRM_Core_DAO::executeQuery( $sqlClause, $params );
+            if ( $dao->fetch( ) ) {
+                $customGroup = array( );
+                foreach ( $typeValues[$tableName] as $columnName => $typeValue ) {
+                    $value = CRM_Core_BAO_CustomField::getDisplayValue( $dao->$columnName,
+                                                                        $typeValue['fieldID'],
+                                                                        $options );
+                    $customGroup[] = array( 'label'  => $typeValue['label'],
+                                            'value'  => $value,
+                                            'type'   => $typeValue['type'] );
+                }
+                $customGroups[$dao->groupTitle] = $customGroup;
+            }
+        }
+
+        return empty( $customGroups ) ? null : $customGroups;
+    }
+
+    function getActivityTypeCustomSQL( $activityTypeID ) {
+        static $cache = array( );
+
+        if ( ! isset( $cache[$activityTypeID] ) ) {
+            $query = "
+SELECT cg.title           as groupTitle, 
+       cg.table_name      as tableName ,
+       cf.column_name     as columnName,
+       cf.label           as label     ,
+       cg.id              as groupID   ,
+       cf.id              as fieldID   ,
+       cf.data_type       as dataType  ,
+       cf.html_type       as htmlType  ,
+       cf.option_group_id as optionGroupID
+FROM   civicrm_custom_group cg,
+       civicrm_custom_field cf
+WHERE  cf.custom_group_id = cg.id
+AND    cg.extends = 'Activity'
+AND    cg.extends_entity_column_value = %1
+";
+            $params = array( 1 => array( $activityTypeID,
+                                         'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+            $result = $options = $sql = array( );
+            while ( $dao->fetch( ) ) {
+                if ( ! array_key_exists( $dao->tableName, $result ) ) {
+                    $result [$dao->tableName] = array( );
+                    $sql    [$dao->tableName] = array( );
+                }
+                $result[$dao->tableName][$dao->columnName] = array( 'label'   => $dao->label,
+                                                                    'type'    => $dao->dataType,
+                                                                    'fieldID' => $dao->fieldID );
+                
+                $options[$dao->fieldID  ] = array( );
+                $options[$dao->fieldID]['attributes'] = array( 'label'     => $dao->label,
+                                                               'data_type' => $dao->dataType, 
+                                                               'html_type' => $dao->htmlType );
+                if ( $dao->optionGroupID ) {
+                    $query = "
+SELECT label, value
+  FROM civicrm_option_value
+ WHERE option_group_id = {$dao->optionGroupID}
+";
+
+                    $option =& CRM_Core_DAO::executeQuery( $query );
+                    while ( $option->fetch( ) ) {
+                        $dataType = $dao->dataType;
+                        if ( $dataType == 'Int' || $dataType == 'Float' ) {
+                            $num = round($option->value, 2);
+                            $options[$dao->fieldID]["$num"] = $option->label;
+                        } else {
+                            $options[$dao->fieldID][$option->value] = $option->label;
+                        }
+                    }
+                }
+
+                $sql[$dao->tableName][] = $dao->columnName;
+            }
+            
+            foreach ( $sql as $tableName => $values ) {
+                $columnNames = implode( ',', $values );
+                $sql[$dao->tableName] = "
+SELECT '{$dao->groupTitle}' as groupTitle, $columnNames
+FROM   {$dao->tableName}
+WHERE  entity_id = %1
+";
+            }
+            
+            $cache[$activityTypeID] = array( $result, $options, $sql );
+        }
+        return $cache[$activityTypeID];
     }
 
     function getCreatedBy( $activityID ) {
