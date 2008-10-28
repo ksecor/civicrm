@@ -4,7 +4,7 @@
     <table class="form-layout-compressed">
         <tr>
             <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
-            <td class="right"><label>{$form.activity_id.label}</label>&nbsp;{$form.activity_id.html}&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
+		<td class="right"><label>{ts}New Activity{/ts}</label>&nbsp;<input type="text" id="activity"/><input type="hidden" id="activity_id" value="">&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
             <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location='{$reportUrl}' + document.getElementById('report_id').value"/></td> 
         </tr>
         <tr>
@@ -14,7 +14,22 @@
         </tr>
     </table>
 </fieldset>
+{literal}
+<script type="text/javascript">
+	
+var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseDetails.case_type}"{literal};
 
+cj("#activity").autocomplete( activityUrl, {
+	width: 260,
+	selectFirst: false 
+});
+
+cj("#activity").result(function(event, data, formatted) {
+	cj("input[@id=activity_id]").val(data[1]);
+});		    
+
+</script>
+{/literal}
 <div id="caseRole_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Roles</label><br />
 </div>
@@ -81,7 +96,6 @@ function createRelationship( relType, contactID, relID ) {
 		cj("#rel_contact").result(function(event, data, formatted) {
 			cj("input[@id=rel_contact_id]").val(data[1]);
 		});		    
-
 	    },
 	    
 	    buttons: { 
@@ -173,7 +187,7 @@ function showHideSearch( ) {
     </tr>
   </table>
   <br />
-  <table id="activity" style="display:none"></table>
+  <table id="activities" style="display:none"></table>
 
 </fieldset>
 </div> <!-- End Activities div -->
@@ -187,7 +201,7 @@ cj(document).ready(function(){
 
   dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
   
-  cj("#activity").flexigrid
+  cj("#activities").flexigrid
   (
     {
 	url: dataUrl,
@@ -220,7 +234,7 @@ function search(com)
     /*
     var activity_date_low = cj("select#activity_date_low[M]").val() + '-' + cj("select#activity_date_low[d]").val() + '-' + cj("select#activity_date_low[Y]").val();
     */
-    cj('#activity').flexOptions({
+    cj('#activities').flexOptions({
 	    newp:1, 
 		params:[{name:'category_0', value: cj("select#category_0").val()},
 			{name:'category_1', value: cj("select#category_1").val()},
@@ -230,7 +244,7 @@ function search(com)
 			]
 		});
     
-    cj("#activity").flexReload(); 
+    cj("#activities").flexReload(); 
 }
 
 </script>

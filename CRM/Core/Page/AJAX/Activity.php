@@ -74,4 +74,20 @@ class CRM_Core_Page_AJAX_Activity
         $json .= "}";
         echo $json;
     }
+
+    static function getActivityTypeList( )
+    {
+        $caseType     = CRM_Utils_Type::escape( $_GET['caseType'], 'String' );
+        $activityType = CRM_Utils_Type::escape( $_GET['s'], 'String' );
+
+        require_once 'CRM/Case/XMLProcessor/Process.php';
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $activities = $xmlProcessor->get( $caseType, 'ActivityTypes' );
+        
+        foreach( $activities as $key => $value ) {
+            if ( strtolower( $activityType ) == strtolower( substr( $value, 0, strlen( $activityType ) ) ) ) {
+                echo "{$value}|{$key}\n";
+            }
+        }
+    }
 }
