@@ -79,6 +79,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         //now collect all the information about activities
         $activities = array( );
         $this->getActivities( $clientID, $caseID, $activityTypes, $activities );
+
         $template->assign_by_ref( 'activities', $activities );
 
         // now run the template
@@ -179,9 +180,11 @@ WHERE  a.is_current_revision = 1
 AND    a.activity_type_id IN ( $activityTypeIDs )
 AND    c.id = ac.case_id
 AND    a.id = ac.activity_id
+AND    ac.case_id = %1
 ";
 
-        $dao = CRM_Core_DAO::executeQuery( $query );
+        $params = array( 1 => array( $caseID, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
             $activityTypeInfo = $map[$dao->activity_type_id];
             $activities[] = $this->getActivity( $clientID,
@@ -227,17 +230,26 @@ AND    a.id = ac.activity_id
                                        'value' => CRM_Core_OptionGroup::getLabel( 'Encounter Medium',
                                                                                   $activityDAO->medium ),
                                        'type'  => 'String' );
+
+        $activity['fields'][] = array( 'label' => 'Status',
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'case_status',
+                                                                                  $activityDAO->status_id ),
+                                       'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Duration',
                                        'value' => $activityDAO->duration,
                                        'type'  => 'Int' );
         
+        $activity['fields'][] = array( 'label' => 'Subject',
+                                       'value' => $activityDAO->subject,
+                                       'type'  => 'Memo' );
+
         $activity['fields'][] = array( 'label' => 'Details',
                                        'value' => $activityDAO->details,
                                        'type'  => 'Memo' );
         
         // for now empty custom groups
-        $activity['fields']['customGroups'] = null;
+        $activity['customGroups'] = null;
         return $activity;
     }
 
