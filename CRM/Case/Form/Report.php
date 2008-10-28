@@ -87,7 +87,7 @@ class CRM_Case_Form_Report extends CRM_Core_Form
                          
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Download Report'), 
+                                        'name'      => ts('Generate Report'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 
