@@ -63,7 +63,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     /**
      * Change Case Status  actvitity type id
      */
-    protected $changeCaseSatusId = null;
+    protected $changeCaseStatusId = null;
     
     function preProcess( )
     {
@@ -86,11 +86,11 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                                                  'id', 'name' );
         $this->_changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
                                                                  'id', 'name' );
-        $this->_changeCaseSatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
+        $this->_changeCaseStatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
                                                                  'id', 'name' );
         $this->assign( 'openCaseId'       ,$this->_openCaseId);
         $this->assign( 'changeCaseTypeId' ,$this->_changeCaseTypeId);
-        $this->assign( 'changeCaseSatusId',$this->_changeCaseSatusId);
+        $this->assign( 'changeCaseStatusId',$this->_changeCaseStatusId);
     }
 
     /**
