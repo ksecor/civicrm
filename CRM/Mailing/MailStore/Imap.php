@@ -51,6 +51,8 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true, $folder = 'Inbox')
     {
+        if ($this->_debug) print "connecting to $host, authenticating as $username and selecting $folder\n";
+
         $options = array('ssl' => $ssl);
         $this->_transport = new ezcMailImapTransport($host, null, $options);
         $this->_transport->authenticate($username, $password);
@@ -59,6 +61,9 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
         $this->_ignored   = 'CiviMail.ignored';
         $this->_processed = 'CiviMail.processed';
         $boxes = $this->_transport->listMailboxes();
+
+        if ($this->_debug) print 'mailboxes found: ' . implode(', ', $boxes) . "\n";
+
         if (!in_array($this->_ignored,   $boxes)) $this->_transport->createMailbox($this->_ignored);
         if (!in_array($this->_processed, $boxes)) $this->_transport->createMailbox($this->_processed);
     }
@@ -71,6 +76,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
+        if ($this->_debug) print "setting $nr as seen and moving to the ignored mailbox\n";
         $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_ignored);
         $this->_transport->delete($nr);
@@ -84,6 +90,7 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
+        if ($this->_debug) print "setting $nr as seen and moving to the processed mailbox\n";
         $this->_transport->setFlag($nr, 'SEEN');
         $this->_transport->copyMessages($nr, $this->_processed);
         $this->_transport->delete($nr);

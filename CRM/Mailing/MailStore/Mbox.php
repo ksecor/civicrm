@@ -65,6 +65,7 @@ class CRM_Mailing_MailStore_Mbox extends CRM_Mailing_MailStore
     {
         if ($this->_leftToProcess === 0) {
             // FIXME: the ftruncate() call does not work for some reason
+            if ($this->_debug) print "trying to delete the mailbox\n";
             ftruncate($this->_transport->fh, 0);
         }
         flock($this->_transport->fh, LOCK_UN);
@@ -78,6 +79,7 @@ class CRM_Mailing_MailStore_Mbox extends CRM_Mailing_MailStore
      */
     function markIgnored($nr)
     {
+        if ($this->_debug) print "copying message $nr to ignored folder\n";
         $set = new ezcMailStorageSet($this->_transport->fetchByMessageNr($nr), $this->_ignored);
         $parser = new ezcMailParser;
         $parser->parseMail($set);
@@ -92,6 +94,7 @@ class CRM_Mailing_MailStore_Mbox extends CRM_Mailing_MailStore
      */
     function markProcessed($nr)
     {
+        if ($this->_debug) print "copying message $nr to processed folder\n";
         $set = new ezcMailStorageSet($this->_transport->fetchByMessageNr($nr), $this->_processed);
         $parser = new ezcMailParser;
         $parser->parseMail($set);

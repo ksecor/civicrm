@@ -92,7 +92,7 @@ class CRM_Contact_Form_GroupTag
                                                                     $id,
                                                                     'visibility' );
                     if ( $visibilityValue == 'User and User Admin Only' ) {
-			                continue;
+                        continue;
                     }
 		        }
 		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );

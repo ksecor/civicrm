@@ -8,6 +8,15 @@ class TestOfConstantAPIV2 extends CiviUnitTestCase
     {
         // make sure this is just _41 and _generated
     }
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Constant Get',
+                     'description' => 'Test all Constant Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function tearDown() 
     {

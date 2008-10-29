@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2008-08-13 23:03-0700\n"
 "Last-Translator: Kenzo Fujii <fujii.kenzo@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1749,27 +1749,6 @@ msgstr "ラジオ"
 msgid "CheckBox"
 msgstr "チェックボックス"
 
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Status"
-msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr ""
-
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
 msgstr ""
@@ -2180,6 +2159,11 @@ msgstr "削除"
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr ""
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "フィールド %1 は必須項目です。"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -6917,6 +6901,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr ""
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr ""
+
 #: CRM/Export/BAO/Export.php
 msgid "Received Date"
 msgstr "受信日"
@@ -7579,6 +7567,16 @@ msgstr "Eメール %1"
 msgid "Forward"
 msgstr "転送"
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7889,6 +7887,22 @@ msgstr ""
 msgid ""
 "Your CiviCRM Profile '%1' has been added. You can add fields to this profile "
 "now."
+msgstr ""
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr ""
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr ""
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Status"
+msgstr ""
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
 msgstr ""
 
 #: CRM/UF/Page/Field.php
@@ -9695,6 +9709,17 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
+msgid "Views integration settings"
+msgstr "コンタクトの詳細表示"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl

@@ -243,6 +243,11 @@ class CRM_Core_Payment_BaseIPN {
         if ( $membership ) {
             $membership->status_id = 4;
             $membership->save( );
+            
+            //update related Memberships.
+            require_once 'CRM/Member/BAO/Membership.php';
+            $params = array( 'status_id' => 4 );
+            CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $params );
         }
 
         if ( $participant ) {
@@ -276,8 +281,13 @@ class CRM_Core_Payment_BaseIPN {
         if ( $membership ) {
             $membership->status_id = 6;
             $membership->save( );
+            
+            //update related Memberships.
+            require_once 'CRM/Member/BAO/Membership.php';
+            $params = array( 'status_id' => 6 );
+            CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $params );
         }
-
+        
         if ( $participant ) {
             $participant->status_id = 4;
             $participant->save( );
@@ -318,17 +328,18 @@ class CRM_Core_Payment_BaseIPN {
                 require_once 'CRM/Member/BAO/MembershipType.php';  
                 $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
                 
-                $membership->join_date     = 
-                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-                $membership->start_date    = 
-                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-                $membership->end_date      = 
-                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-                $membership->reminder_date = 
-                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
-
-                $membership->status_id = 2;
+                $formatedParams = array( 'status_id'     => 2,
+                                         'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
+                                         'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
+                                         'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),
+                                         'reminder_date' => CRM_Utils_Date::customFormat( $dates['reminder_date'], $format ) ); 
+                
+                $membership->copyValues( $formatedParams );
                 $membership->save( );
+                
+                //update related Memberships.
+                require_once 'CRM/Member/BAO/Membership.php';
+                CRM_Member_BAO_Membership::updateRelatedMemberships( $membership->id, $formatedParams );
             }
         } else {
             // event

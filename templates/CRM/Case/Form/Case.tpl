@@ -92,6 +92,11 @@ function buildContact( count, pref )
     {literal}
     }
 
+    // do not recreate if combo widget is already created
+    if ( dijit.byId( pref + '[' + count + ']' ) ) {
+	return;
+    }
+
     var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
 
     var result = dojo.xhrGet({

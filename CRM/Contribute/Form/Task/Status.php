@@ -113,6 +113,7 @@ WHERE  {$this->_componentClause}";
         $status = CRM_Contribute_PseudoConstant::contributionStatus( );
         unset( $status[2] );
         unset( $status[5] );
+        unset( $status[6] );
         $this->add('select', 'contribution_status_id',
                    ts('Contribution Status'), 
                    $status,

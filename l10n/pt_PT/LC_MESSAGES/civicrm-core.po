@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2007-12-07 09:46-0800\n"
 "Last-Translator: José Gaspar <jad.gaspar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1710,27 +1710,6 @@ msgstr ""
 msgid "CheckBox"
 msgstr ""
 
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr "Tipo de Membro"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Status"
-msgstr "Estado do Membro"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr "Pago por"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr "Tipo de Contribuição"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr ""
-
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
 msgstr ""
@@ -2137,6 +2116,11 @@ msgstr "Removido"
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr ""
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "%1 é um campo obrigatório."
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -6892,6 +6876,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr ""
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr ""
+
 #: CRM/Export/BAO/Export.php
 msgid "Received Date"
 msgstr ""
@@ -7567,6 +7555,18 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7882,6 +7882,22 @@ msgid ""
 msgstr ""
 "Ainda nenhum Perfil CiviCRM foi criado. Pode criar um <a href=\"%1\">agora</"
 "a>."
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr "Pago por"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr "Tipo de Membro"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Status"
+msgstr "Estado do Membro"
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
+msgstr "Tipo de Contribuição"
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -9712,6 +9728,16 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid "Views integration settings"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl

@@ -168,6 +168,15 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
      */ 
     public function buildQuickForm( )
     {
+        if ( $this->_addCaseContact ) {
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
+            $this->assign('contactFieldName', 'case_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$contactCount}]" );
+        }
+
         if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
             $contactIds = implode(',',$this->_contactIds);
             $query = "SELECT id, sort_name 
@@ -230,15 +239,6 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                                           "reset=1",
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
-
-        if ( $this->_addCaseContact ) {
-            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
-            $nextContactCount = $contactCount + 1;
-            $this->assign('contactCount', $contactCount );
-            $this->assign('nextContactCount', $nextContactCount );
-            $this->assign('contactFieldName', 'case_contact' );
-            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$contactCount}]" );
-        }
 
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
