@@ -510,10 +510,24 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
+        $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
+        $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
+
+        if ( $params['date_range'] == 1 ) {
+            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+        } else if ( $params['date_range'] == 2 ) {
+            $where .= " AND ( ca.activity_date_time >= '{$fromDueDate}' AND ca.activity_date_time <= '{$toDueDate}' ) ";
+        } else {
+            $fromDueDate = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")-14, date("Y")) );
+            $toDueDate   = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")+14, date("Y")) );
+
+            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+        }
+
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
         
-        if (!$sortname) $sortname = 'actual_date';
+        if (!$sortname) $sortname = 'due_date_time';
         if (!$sortorder) $sortorder = 'desc';
 
         $orderBy = " ORDER BY $sortname $sortorder";
@@ -529,7 +543,7 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
         $limit = " LIMIT $start, $rp";
 
         $query = $select . $from . $where . $orderBy . $limit;
-
+        
         $params = array( 1 => array( $caseID, 'Integer' ) );
         
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );

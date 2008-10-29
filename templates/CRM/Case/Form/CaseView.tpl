@@ -222,7 +222,7 @@ cj(document).ready(function(){
 	    useRp: true,
 	    rp: 10,
 	    showTableToggleBtn: true,
-            width: 815,
+            width: 915,
             height: 'auto',
             nowrap: false
 	    }
@@ -232,16 +232,31 @@ cj(document).ready(function(){
 
 function search(com)
 {   
-    /*
-    var activity_date_low = cj("select#activity_date_low[M]").val() + '-' + cj("select#activity_date_low[d]").val() + '-' + cj("select#activity_date_low[Y]").val();
-    */
+    var month  = cj("select#activity_date_low\\[M\\]").val( );
+    if ( month.length == 1 ) month = "0" + month;
+
+    var day  = cj("select#activity_date_low\\[d\\]").val( );
+    if ( day.length == 1 ) day = "0" + day;
+
+    var activity_date_low  = cj("select#activity_date_low\\[Y\\]").val() + month + day;
+
+    var month  = cj("select#activity_date_high\\[M\\]").val( );
+    if ( month.length == 1 ) month = "0" + month;
+
+    var day  = cj("select#activity_date_high\\[d\\]").val( );
+    if ( day.length == 1 ) day = "0" + day;
+
+    var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
+
     cj('#activities-selector').flexOptions({
 	    newp:1, 
 		params:[{name:'category_0', value: cj("select#category_0").val()},
 			{name:'category_1', value: cj("select#category_1").val()},
 			{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
-			{name:'date_range', value: cj("*[name=date_range]:checked").val()}
+			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
+			{name:'activity_date_low', value: activity_date_low },
+			{name:'activity_date_high', value: activity_date_high}
 			]
 		});
     
