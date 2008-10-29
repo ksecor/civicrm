@@ -70,9 +70,10 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
     static $_properties = array( 
                                 'contact_id',
                                 'sort_name',   
+                                'display_name',
                                 'case_id',   
-                                'case_status', 
-                                'case_type',
+                                'case_status_id', 
+                                'case_type_id',
                                 'relationshipType_id',
                                 'case_recent_activity_date',
                                 'case_recent_activity_type', 
@@ -154,7 +155,6 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                           $limit = null,
                           $context = 'search' ) 
     {
-
         // submitted form values
         $this->_queryParams =& $queryParams;
 
@@ -276,51 +276,11 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
-
-
-    static $_properties = array( 
-                                'contact_id',
-                                'sort_name',   
-                                'case_id',   
-                                'case_status', 
-                                'case_type',
-                                'relationshipType_id',
-                                'case_recent_activity_date',
-                                'case_recent_activity_type', 
-                                'case_scheduled_activity_date',
-                                'case_scheduled_activity_type'
-                                 );
-
-         $query = "select 
-         civicrm_contact.id as contact_id,          
-         civicrm_contact.contact_type as contact_type,
-         civicrm_contact.sort_name as sort_name,
-         civicrm_case.id as case_id,
-         cov1.label as case_status,
-         civicrm_case.subject as subject,
-         cov2.label as case_type,
-         max(ca1.activity_date_time) as case_recent_activity_date,
-         cat1.label as case_recent_activity_type,
-         min(ca2.due_date_time) as case_scheduled_activity_date,
-         cat2.label as case_scheduled_activity_type
-         
-         from civicrm_case 
-         
-         LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id 
-         LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
-         LEFT JOIN civicrm_option_value as cov1 ON (civicrm_case.status_id=cov1.value AND cov1.option_group_id=28)
-         LEFT JOIN civicrm_option_value as cov2 ON (civicrm_case.status_id=cov2.value AND cov2.option_group_id=27)
-         LEFT JOIN civicrm_case_activity ON civicrm_case.id=civicrm_case_activity.case_id
-         LEFT JOIN (civicrm_activity ca1, civicrm_category cat1)
-         ON (civicrm_case_activity.activity_id=ca1.id AND cat1.id=ca1.activity_type_id)
-         LEFT JOIN (civicrm_activity ca2, civicrm_category cat2)
-         ON (civicrm_case_activity.activity_id=ca2.id AND cat2.id=ca2.activity_type_id)
-         
-         GROUP BY civicrm_case.id";
-
-         $params = array();
-         $result =& CRM_Core_DAO::executeQuery( $query, $params );
-
+         $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
+                                               false, false, 
+                                               false, false, 
+                                               false, 
+                                               $this->_additionalClause );
          // process the result of the query
          $rows = array( );
          
@@ -339,8 +299,6 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
-
-//         CRM_Core_Error::debug( 'rows', $result);
                                        
              $hideOption = array();
              if ( CRM_Utils_Array::key( 'Cancelled', $row ) ||
@@ -373,9 +331,6 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              
              $rows[] = $row;
          }
-
-
-
          return $rows;
      }
      
@@ -424,15 +379,15 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                           array(
                                                 'name'      => ts('Role'),
                                                 'sort'      => 'relationshipType_id',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
                                                 'name'      => ts('Date of Most Recent Activity'),
                                                 'sort'      => 'case_recent_activity_date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Activity (most recent activity)'),
+                                                'name'      => ts('Activity(most recent activity)'),
                                                 'sort'      => 'case_recent_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -442,25 +397,25 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Activity (next scheduled activity)'),
+                                                'name'      => ts('Activity(next scheduled activity)'),
                                                 'sort'      => 'case_scheduled_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('Actions') ),
+                                          array('desc'      => ts('Actions') ),
                                           );
             
-//            if ( ! $this->_single ) {
-//                $pre = array( 
-//                             array('desc'      => ts('Contact Id') ), 
-//                             array( 
-//                                   'name'      => ts('Name'), 
-//                                   'sort'      => 'sort_name', 
-//                                   'direction' => CRM_Utils_Sort::DONTCARE,
-//                                   )
-//                             );
-//                
-//                self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
-//            }
+            if ( ! $this->_single ) {
+                $pre = array( 
+                             array('desc'      => ts('Contact Id') ), 
+                             array( 
+                                   'name'      => ts('Name'), 
+                                   'sort'      => 'sort_name', 
+                                   'direction' => CRM_Utils_Sort::DONTCARE,
+                                   )
+                             );
+                
+                self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
+            }
         }
         return self::$_columnHeaders;
     }
