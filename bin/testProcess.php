@@ -7,8 +7,11 @@ $config = CRM_Core_Config::singleton( );
 
 require_once 'CRM/Case/XMLProcessor/Report.php';
 $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-$xmlProcessor->run( 104, 1, 'Substance Abuse', '15 Day Review' );
+$report = $xmlProcessor->getActivityInfo( 108, 546 );
+CRM_Core_Error::debug( $report );
+exit( );
 
+$xmlProcessor->run( 104, 1, 'Substance Abuse', '15 Day Review' );
 $params = array( 'clientID'         => 104,
                  'creatorID'        => 108,
                  'standardTimeline' => 1,
