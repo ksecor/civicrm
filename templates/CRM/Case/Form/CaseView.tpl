@@ -142,11 +142,47 @@ cj(document).ready(function(){
 function showHideSearch( ) {
     cj("#searchOptions").toggle( );
 }
+
+cj(document).ready(function(){
+   cj("#view-activity").hide( );
+});
+function viewActivity( activityId ) {
+    cj("#view-activity").show( );
+
+    cj("#view-activity").dialog({
+        title: "View Activity",
+	    modal: true, 
+	    width : 700,
+            height : 450, 
+	    overlay: { 
+		       opacity: 0.5, 
+		       background: "black" 
+		    },
+	    open:function() {
+		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+		cj("#activity-content").html("");
+		var cid= {/literal}"{$contactID}"{literal};
+		cj("#activity-content").load("/civicrm/case/activity/view?snippet=4&cid="+cid + "&aid=" + activityId);
+	    },
+	    
+	    buttons: { 
+		"Done": function() { 	    
+		    cj(this).dialog("close"); 
+		    cj(this).dialog("destroy"); 
+		}
+	    } 
+     });
+}
+
 </script>
 {/literal}
 
 <div id="activities_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Case Activities{/ts}</label><br />
+
+<div id="view-activity">
+     <div id="activity-content"></div>
+</div>
 </div>
 
 <div id="activities" class="section-shown">

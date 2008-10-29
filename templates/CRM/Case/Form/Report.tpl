@@ -1,4 +1,4 @@
-{* Search form and results for Event Participants *}
+{* template to display reports *}
 <div id="reportForm" class="form-item">
 <fieldset><legend>{ts}Report Parameters{/ts}</legend>
     {strip} 

@@ -295,6 +295,7 @@ WHERE  a.id = %1
 
         $params = array( 1 => array( $activityDAO->id, 'Integer' ) );
 
+        require_once "CRM/Core/BAO/CustomField.php";
         $customGroups = array( );
         foreach ( $sql as $tableName => $sqlClause ) {
             $dao = CRM_Core_DAO::executeQuery( $sqlClause, $params );

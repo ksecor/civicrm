@@ -570,7 +570,7 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']      = $activityStatus[$dao->status];
-            $values[$dao->id]['subject']     = $dao->subject;
+            $values[$dao->id]['subject']     = "<a href='javascript:viewActivity( {$dao->id} );'>{$dao->subject}</a>";
             
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
             
