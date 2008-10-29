@@ -267,6 +267,11 @@
        <import>true</import>
        <add>2.2</add>
   </field>
+  <index>
+       <name>index_is_current_revision</name>
+       <fieldName>is_current_revision</fieldName>
+       <add>2.2</add>
+  </index> 
   <field>
       <name>original_id</name>
       <type>int unsigned</type>
@@ -285,6 +290,19 @@
        <fieldName>original_id</fieldName>
        <add>2.2</add>
   </index>    
+  <field>
+       <name>is_deleted</name>
+       <title>Activity is in the Trash</title>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <add>2.2</add>
+  </field>
+  <index>
+       <name>index_is_deleted</name>
+       <fieldName>is_deleted</fieldName>
+       <add>2.2</add>
+  </index> 
   <field>
        <name>activity_tag1_id</name>
        <type>int unsigned</type>
@@ -328,5 +346,4 @@
        <add>2.1</add>
        <hrd>1</hrd>
   </index>
-
 </table>

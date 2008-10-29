@@ -309,21 +309,21 @@ INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email
 
 SELECT @clientId1        := max(id) from civicrm_contact where sort_name = 'Reynolds, Jason';
 INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Possible morphine addiction', '2008-10-01', NULL, 'Based on initial call, client is dealing with possible severe morphine addiction.', 1);
+    VALUES ('1', 'Possible morphine addiction', '2008-10-29', NULL, 'Based on initial call, client is dealing with possible severe morphine addiction.', 1);
 SELECT @caseId1        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId1, @clientId1);
 
 SELECT @clientId2        := max(id) from civicrm_contact where sort_name = 'Jackson, Janet';
 INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Moderate to severe cocaine abuse', '2008-10-08', NULL, 'Based on initial call, client is dealing with moderate or severe cocaine abuse leading to work interruptions.', 1);
+    VALUES ('1', 'Moderate to severe cocaine abuse', '2008-11-07', NULL, 'Based on initial call, client is dealing with moderate or severe cocaine abuse leading to work interruptions.', 1);
 SELECT @caseId2        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId2, @clientId2);
 
 SELECT @clientId3        := max(id) from civicrm_contact where sort_name = 'Parker, Peter';
 INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Testosterone abuse leading to emotional instability', '2008-10-11', NULL, 'Based on initial call, client is using large does of testosterone resulting in anger management problems at work.', 1);
+    VALUES ('1', 'Testosterone abuse leading to emotional instability', '2008-11-01', NULL, 'Based on initial call, client is using large does of testosterone resulting in anger management problems at work.', 1);
 SELECT @caseId3        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId3, @clientId3);
@@ -341,15 +341,15 @@ INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email
 
 SELECT @provId1        := max(id) from civicrm_contact where sort_name = 'Green, Susan';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES  (@clientId1, @provId1, @iR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-            (@clientId2, @provId1, @iR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-            (@clientId3, @provId1, @iR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId1, @iR, '2008-10-29', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId1, @iR, '2008-11-07', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId1, @iR, '2008-11-01', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId2        := max(id) from civicrm_contact where sort_name = 'Burke, Alice';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
-    VALUES  (@clientId1, @provId2, @cR, '2008-10-01', NULL, 1, NULL, 0, 0, @caseId1),
-            (@clientId2, @provId2, @cR, '2008-10-08', NULL, 1, NULL, 0, 0, @caseId2),
-            (@clientId3, @provId2, @cR, '2008-10-11', NULL, 1, NULL, 0, 0, @caseId3);
+    VALUES  (@clientId1, @provId2, @cR, '2008-10-29', NULL, 1, NULL, 0, 0, @caseId1),
+            (@clientId2, @provId2, @cR, '2008-11-07', NULL, 1, NULL, 0, 0, @caseId2),
+            (@clientId3, @provId2, @cR, '2008-11-01', NULL, 1, NULL, 0, 0, @caseId3);
 
 SELECT @provId3        := max(id) from civicrm_contact where sort_name = 'Dempsey, Stuart';
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
@@ -392,7 +392,7 @@ VALUES
 
 -- Case 1
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-10-01 14:30:00', '2008-10-01 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-10-29 14:30:00', '2008-10-29 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId1, @actId);
@@ -400,7 +400,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
     VALUES (@actId, @clientId1);
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-10-01 14:30:00', '2008-10-01 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-10-29 14:30:00', '2008-10-29 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId1, @actId);
@@ -408,7 +408,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
     VALUES (@actId, @clientId1);
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-10-05', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-11-04', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId1, @actId);
@@ -416,7 +416,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
     VALUES (@actId, @clientId1);
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-10-05', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at13, NULL, NULL, '2008-11-04', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId1, @actId);
@@ -425,7 +425,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
 
 -- Case 2
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-10-08 14:30:00', '2008-10-08 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-11-07 14:30:00', '2008-11-07 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId2, @actId);
@@ -433,7 +433,7 @@ INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
     VALUES (@actId, @clientId2);
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
-    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-10-08 14:30:00', '2008-10-08 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-11-07 14:30:00', '2008-11-07 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
 SELECT @actId        := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
     VALUES (@caseId2, @actId);

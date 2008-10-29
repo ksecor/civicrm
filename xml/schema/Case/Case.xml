@@ -134,6 +134,19 @@
        <hrd>1</hrd>
   </index>
   <field>
+       <name>is_deleted</name>
+       <title>Case is in the Trash</title>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <add>2.2</add>
+  </field>
+  <index>
+       <name>index_is_deleted</name>
+       <fieldName>is_deleted</fieldName>
+       <add>2.2</add>
+  </index> 
+  <field>
        <name>casetag1_id</name>
        <type>varchar</type>
        <length>128</length>
