@@ -444,8 +444,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( ! isset($newActParams) ) {
             CRM_Core_BAO_File::formatAttachment( $params,
                                                  $params,
-                                                 'civicrm_activity',
-                                                 $this->_activityId );
+                                                 'civicrm_activity' );
         }
 
         // activity create
@@ -472,10 +471,16 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             // add attachments if any
             CRM_Core_BAO_File::formatAttachment( $newActParams,
                                                  $newActParams,
-                                                 'civicrm_activity',
-                                                 $this->_activityId );
+                                                 'civicrm_activity' );
 
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
+
+            // copy files attached to old activity if any, to new one,
+            // as long as users have not selected the 'delete attachment' option.  
+            if ( ! CRM_Utils_Array::value( 'is_delete_attachment', $newActParams ) ) {
+                CRM_Core_BAO_File::copyEntityFile( 'civicrm_activity', $this->_activityId, 
+                                                   'civicrm_activity', $activity->id );
+            }
         }
 
         // create case activity record

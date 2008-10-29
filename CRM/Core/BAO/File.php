@@ -388,5 +388,25 @@ AND       CEF.entity_id    = %2";
         }
         return $names;
     }
+
+    /*
+     * Function to copy/attach an existing file to a different entity
+     * table and id.
+     */
+    static function copyEntityFile( $oldEntityTable, $oldEntityId, $newEntityTable, $newEntityId ) {
+        require_once "CRM/Core/DAO/EntityFile.php";
+        $oldEntityFile =& new CRM_Core_DAO_EntityFile();
+        $oldEntityFile->entity_id    = $oldEntityId;
+        $oldEntityFile->entity_table = $oldEntityTable;
+        $oldEntityFile->find( );
+
+        while ( $oldEntityFile->fetch( ) ) {
+            $newEntityFile =& new CRM_Core_DAO_EntityFile();
+            $newEntityFile->entity_id    = $newEntityId;
+            $newEntityFile->entity_table = $newEntityTable;
+            $newEntityFile->file_id      = $oldEntityFile->file_id;
+            $newEntityFile->save( );
+        }
+    }
 }
 
