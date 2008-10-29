@@ -71,7 +71,9 @@ class CRM_Core_TableHierarchy {
                          'civicrm_event'                => '26',
                          'civicrm_worldregion'          => '27',
                          'civicrm_case_contact'         => '28',
-                         'civicrm_case'                 => '29'
+                         'civicrm_case'                 => '29',
+                         'case_relationship'            => '30',
+                         'case_relation_type'           => '31'
                          );
 
     static function &info( ) {

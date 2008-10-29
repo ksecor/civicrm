@@ -41,7 +41,6 @@ class CRM_Case_BAO_Query
         $fields = array( );
         require_once 'CRM/Case/DAO/Case.php';
         $fields = array_merge( $fields, CRM_Case_DAO_Case::import( ) );
-        
         return $fields;  
     }
 
@@ -61,50 +60,50 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
         }
         
-//         if ( CRM_Utils_Array::value( 'case_type_id', $query->_returnProperties ) ) {
-//             $query->_select['case_type_id']  = "case_type.name as case_type_id";
-//             $query->_element['case_type'] = 1;
-//             $query->_tables['case_type']  = $query->_whereTables['case_type'] = 1;
-//             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_type', $query->_returnProperties ) ) {
+            $query->_select['case_type']  = "case_type.label as case_type";
+            $query->_element['case_type'] = 1;
+            $query->_tables['case_type']  = $query->_whereTables['case_type'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+        }
         
-//         if ( CRM_Utils_Array::value( 'case_relationshipType_id', $query->_returnProperties ) ) {
-//             $query->_select['case_relationshipType_id']  = "case_relation_type.name_a_b as case_relationshipType_id";
-//             $query->_element['case_relationshipType_id'] = 1;
-//             $query->_tables['case_relationship']  = $query->_whereTables['case_relationship'] = 1;
-//             $query->_tables['case_relation_type'] = $query->_whereTables['case_relation_type'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_role', $query->_returnProperties ) ) {
+            $query->_select['case_role']  = "case_relation_type.name_a_b as case_role";
+            $query->_element['case_role'] = 1;
+            $query->_tables['case_relationship'] = $query->_whereTables['case_relationship'] = 1;
+            $query->_tables['case_relation_type'] = $query->_whereTables['case_relation_type'] = 1;
+        }
 
-//         if ( CRM_Utils_Array::value( 'case_status_id', $query->_returnProperties ) ) {
-//             $query->_select['case_status_id']  = "case_status.name as case_status_id";
-//             $query->_element['case_status'] = 1;
-//             $query->_tables['case_status']  = $query->_whereTables['case_status'] = 1;
-//             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_status', $query->_returnProperties ) ) {
+            $query->_select['case_status']  = "case_status.name as case_status";
+            $query->_element['case_status'] = 1;
+            $query->_tables['case_status']  = $query->_whereTables['case_status'] = 1;
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+        }
 
-//         if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
-//             $query->_select['case_recent_activity_date']  = "civicrm_activity.activity_date_time as case_recent_activity_date";
-//             $query->_element['case_recent_activity_date'] = 1;
-//             $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
+            $query->_select['case_recent_activity_date']  = "civicrm_activity.activity_date_time as case_recent_activity_date";
+            $query->_element['case_recent_activity_date'] = 1;
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        }
 
-//         if ( CRM_Utils_Array::value( 'case_recent_activity_type', $query->_returnProperties ) ) {
-//             $query->_select['case_recent_activity_type']  = "civicrm_category.label as case_recent_activity_type";
-//             $query->_element['case_recent_activity_type'] = 1;
-//             $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_recent_activity_type', $query->_returnProperties ) ) {
+            $query->_select['case_recent_activity_type']  = "civicrm_category.label as case_recent_activity_type";
+            $query->_element['case_recent_activity_type'] = 1;
+            $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
+        }
 
-//         if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
-//             $query->_select['case_scheduled_activity_date']  = "civicrm_activity.activity_date_time as case_scheduled_activity_date";
-//             $query->_element['case_scheduled_activity_date'] = 1;
-//             $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
+            $query->_select['case_scheduled_activity_date']  = "civicrm_activity.activity_date_time as case_scheduled_activity_date";
+            $query->_element['case_scheduled_activity_date'] = 1;
+            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        }
 
-//         if ( CRM_Utils_Array::value( 'case_scheduled_activity_type', $query->_returnProperties ) ) {
-//             $query->_select['case_scheduled_activity_type']  = "civicrm_category.label as case_scheduled_activity_type";
-//             $query->_element['case_scheduled_activity_type'] = 1;
-//             $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
-//         }
+        if ( CRM_Utils_Array::value( 'case_scheduled_activity_type', $query->_returnProperties ) ) {
+            $query->_select['case_scheduled_activity_type']  = "civicrm_category.label as case_scheduled_activity_type";
+            $query->_element['case_scheduled_activity_type'] = 1;
+            $query->_tables['civicrm_category'] = $query->_whereTables['civicrm_category'] = 1;
+        }
     }
 
      /** 
@@ -243,16 +242,16 @@ case_relation_type.id = case_relationship.relationship_type_id )";
         if ( $mode & CRM_Contact_BAO_Query::MODE_CASE ) {
             $properties = array(  
                                 'contact_id'                  =>      1,
-                                'sort_name'                   =>      2,   
-                                'display_name'                =>      3,
-                                'case_id'                     =>      4,   
-                                'case_status_id'              =>      5, 
-                                'case_type_id'                =>      6,
-                                'case_relationshipType_id'    =>      7,
-                                'case_recent_activity_date'   =>      8,
-                                'case_recent_activity_type'   =>      9, 
-                                'case_scheduled_activity_date'=>      10,
-                                'case_scheduled_activity_type'=>      11
+                                'sort_name'                   =>      1,   
+                                'display_name'                =>      1,
+                                'case_id'                     =>      1,   
+                                'case_status'                 =>      1, 
+                                'case_type'                   =>      1,
+                                'case_role'                   =>      1,
+                                'case_recent_activity_date'   =>      1,
+                                'case_recent_activity_type'   =>      1, 
+                                'case_scheduled_activity_date'=>      1,
+                                'case_scheduled_activity_type'=>      1
 
                             );
         }

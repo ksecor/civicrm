@@ -72,9 +72,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                 'sort_name',   
                                 'display_name',
                                 'case_id',   
-                                'case_status_id', 
-                                'case_type_id',
-                                'relationshipType_id',
+                                'case_status', 
+                                'case_type',
+                                'case_role',
                                 'case_recent_activity_date',
                                 'case_recent_activity_type', 
                                 'case_scheduled_activity_date',
@@ -185,28 +185,14 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      * @access public
      *
      */
-    static function &links( $hideOption )
+    static function &links( )
     {
-        $cancelExtra = ts('Do you want to continue?');
         self::$_links = array(
                               CRM_Core_Action::VIEW   => array(
                                                                'name'     => ts('View'),
                                                                'url'      => 'civicrm/contact/view/case',
                                                                'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case',
                                                                'title'    => ts('View Case'),
-                                                               ),
-                              CRM_Core_Action::UPDATE => array(
-                                                               'name'     => ts('Edit'),
-                                                               'url'      => 'civicrm/contact/view/case',
-                                                               'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                               'title'    => ts('Edit Case'),
-                                                               ),
-                              CRM_Core_Action::DETACH => array(
-                                                               'name'     => ts('Cancel'),
-                                                               'url'      => 'civicrm/contact/view/case',
-                                                               'qs'       => 'reset=1&action=detach&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                               'extra'    => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
-                                                               'title'    => ts('Cancel Case'),
                                                                ),
                               CRM_Core_Action::DELETE => array(
                                                                'name'     => ts('Delete'),
@@ -215,11 +201,6 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                                'title'    => ts('Delete Case'),
                                                                ),
                               ); 
-        
-        
-        if ( in_array('Cancel', $hideOption ) ) {
-            unset( self::$_links[CRM_Core_Action::DETACH] );
-        }
         
         return self::$_links;
     } //end of function
@@ -300,15 +281,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                  }
              }
                                        
-             $hideOption = array();
-             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ||
-                  CRM_Utils_Array::key('Completed', $row ) ) {
-                 $hideOption[] = 'Cancel';
-             }
-             
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
-             $row['action']   = CRM_Core_Action::formLink( self::links( $hideOption ), $mask,
+             $row['action']   = CRM_Core_Action::formLink( self::links( ), $mask,
                                                            array( 'id'  => $result->case_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
@@ -362,23 +337,18 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Client\'s Name'),
-                                                'sort'      => 'sort_name',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
                                                 'name'      => ts('Case Status'),
-                                                'sort'      => 'case_status_id',
+                                                'sort'      => 'case_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Case Type'),
-                                                'sort'      => 'case_type_id',
+                                                'sort'      => 'case_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Role'),
-                                                'sort'      => 'relationshipType_id',
+                                                'sort'      => 'case_role',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
@@ -406,13 +376,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
             
             if ( ! $this->_single ) {
                 $pre = array( 
-                             array('desc'      => ts('Contact Id') ), 
                              array( 
-                                   'name'      => ts('Name'), 
+                                   'name'      => ts('Client\'s Name'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::DONTCARE,
-                                   )
-                             );
+                                    )
+                              );
                 
                 self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
             }

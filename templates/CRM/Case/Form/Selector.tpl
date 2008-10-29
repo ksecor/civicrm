@@ -66,9 +66,9 @@ white-space:normal;
 
     <td class="right">{$row.case_status}</td>
     <td class="right">{$row.case_type}</td>
-    <td></td>
+    <td class="right">{$row.case_role}</td>
     <td class="right">{$row.case_recent_activity_date|crmDate}</td>
-    <td>{$row.case_recent_activity_type}</td>
+    <td class="right">{$row.case_recent_activity_type}</td>
     <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
     <td class="right">{$row.case_scheduled_activity_type}</td>
     <td>{$row.action}</td>
