@@ -104,9 +104,11 @@
        </tr> 
        <tr>
           <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
-       </tr> 
+       </tr>
+       <tr>
+          <td colspan="2">{include file="CRM/Form/attachment.tpl"}</td>
+       </tr>
     </table>
-
     {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
 {/if}
@@ -114,6 +116,8 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
+hide('attachments');
+show('attachments_show');
 buildContact( 1, 'assignee_contact' );
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}

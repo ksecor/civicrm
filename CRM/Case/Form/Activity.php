@@ -187,6 +187,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                       "reset=1&cid={$this->_clientId}&action=view&id={$this->_id}&show=1&selectedChild=case" );
         $session->pushUserContext( $url );
 
+        // add 2 attachments
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_activity',
+                                            $this->_activityId, 2 );
+        
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
@@ -298,13 +304,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
         }
 
+        $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $this->buttonType( ),
                                          'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
-                                     )
+                                 )
                            );
         
         if ( $this->_caseAction ) {
@@ -422,6 +429,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 $params = array('id' => $this->_activityId);
                 $params['is_current_revision'] = 0;
             }
+            
+            // record status for status msg
             $recordStatus = 'edited';
         }
         
@@ -429,6 +438,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . 
                  "::endPostProcess( \$this, \$params );");
+        }
+
+        // add attachments as needed (for more old activity)
+        if ( ! isset($newActParams) ) {
+            CRM_Core_BAO_File::formatAttachment( $params,
+                                                 $params,
+                                                 'civicrm_activity',
+                                                 $this->_activityId );
         }
 
         // activity create
@@ -451,6 +468,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 eval("CRM_Case_Form_Activity_{$this->_caseAction}" . 
                      "::endPostProcess( \$this, \$newActParams );");
             }
+
+            // add attachments if any
+            CRM_Core_BAO_File::formatAttachment( $newActParams,
+                                                 $newActParams,
+                                                 'civicrm_activity',
+                                                 $this->_activityId );
 
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
         }
