@@ -75,7 +75,7 @@ class CRM_Case_BAO_Query
         }
 
         if ( CRM_Utils_Array::value( 'case_role', $query->_returnProperties ) ) {
-            $query->_select['case_role']  = "case_relation_type.name_a_b as case_role";
+            $query->_select['case_role']  = "case_relation_type.name_b_a as case_role";
             $query->_element['case_role'] = 1;
             $query->_tables['case_relationship'] = $query->_whereTables['case_relationship'] = 1;
             $query->_tables['case_relation_type'] = $query->_whereTables['case_relation_type'] = 1;
@@ -212,7 +212,7 @@ class CRM_Case_BAO_Query
             break;
 
         case 'case_relationship':
-            $from .=" $side JOIN civicrm_relationship case_relationship ON case_relationship.contact_id_b = civicrm_case_contact.contact_id ";
+            $from .=" $side JOIN civicrm_relationship case_relationship ON case_relationship.contact_id_a = civicrm_case_contact.contact_id ";
             break;
 
         case 'case_relation_type':
