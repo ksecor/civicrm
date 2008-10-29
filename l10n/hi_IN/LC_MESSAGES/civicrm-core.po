@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-09-26 00:08-0700\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"PO-Revision-Date: 2008-10-22 08:45-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1697,27 +1697,6 @@ msgstr "रेडियाे"
 msgid "CheckBox"
 msgstr "चेक बाँक्स"
 
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr "सदस्यता का प्रकार"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Status"
-msgstr "सदस्यता की स्थिती"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr "सशुल्क द्वारा"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr "याेगदान का प्रकार"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr "योगदान स्थिति"
-
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
 msgstr ""
@@ -2125,6 +2104,11 @@ msgstr "हटाएँ"
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr "ACL प्रकार"
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "%1 क्षेत्र जरूरी है।"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -2748,33 +2732,31 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Display Backtrace"
-msgstr ""
+msgstr "प्रदर्शन Backtrace"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "घातक त्रुटि टेम्पलेट"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Handler"
-msgstr ""
+msgstr "घातक त्रुटि हेन्डलर"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Settings - Localization"
-msgstr ""
+msgstr "सेटिंग्स - स्थानीकरण"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Language"
-msgstr "मूल मान"
+msgstr "डिफ़ॉल्ट भाषा"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available Languages"
-msgstr "उपलब्ध देश"
+msgstr "उपलब्ध भाषाएँ"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Add Language"
-msgstr ""
+msgstr "भाषा जोड़ें"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid ""
@@ -2786,22 +2768,19 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Enable Multiple Languages"
-msgstr ""
+msgstr "एकाधिक भाषाओं काे सक्षम करे"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Locale"
 msgstr "मुद्रा स्थान"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Amount Display"
-msgstr "मुद्रा प्रदर्शित"
+msgstr "मौद्रिक राशि प्रदर्शन"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Monetary Value Display"
-msgstr "मुद्रा प्रदर्शित"
+msgstr "मौद्रिक मूल्य का प्रदर्शन"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available Countries"
@@ -2825,11 +2804,11 @@ msgstr "Legacy कूटबन्धन"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Custom Translate Function"
-msgstr ""
+msgstr "कस्टम अनुवाद समारोह"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Import / Export Field Separator"
-msgstr ""
+msgstr "आयात / निर्यात क्षेत्र विभाजक"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Please define the custom translation function first"
@@ -2837,11 +2816,11 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "सेटिंग्स - सिवीमेल"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "मेलर स्पूल अवधि"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "VERP Separator"
@@ -2861,51 +2840,47 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Map Provider"
-msgstr ""
+msgstr "मानचित्र प्रदाता"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Provider Key"
-msgstr ""
+msgstr "प्रदाता कुंजी"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Mapping features require PHP version 5 or greater"
-msgstr ""
+msgstr "मानचित्रण सुविधाएँ के लिऐ PHP संस्करण 5 या अधिक की आवश्यकता होती है"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "सेटिंग्स - विविध"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Version Check & Statistics Reporting"
-msgstr ""
+msgstr "संस्करण की जाँच और सांख्यिकी रिपोर्टिंग"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Automatic Wildcard"
 msgstr ""
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "Include Email"
-msgstr "शामिल प्रोफाइल"
+msgstr "शामिल ईमेल"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "Include Nickname"
-msgstr "शामिल प्रोफाइल"
+msgstr "शामिल उपनाम"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Maximum Attachments"
-msgstr ""
+msgstr "अधिकतम संलग्नक"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "Public Key"
-msgstr "सार्वजनिक"
+msgstr "सार्वजनिक कुंजी"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "Private Key"
-msgstr "गोपनीयता"
+msgstr "निजी कुंजी"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
@@ -2913,64 +2888,59 @@ msgstr "याेजना - अपलाेड निर्देशिका"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Temporary Files"
-msgstr ""
+msgstr "अस्थायी फाईल"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
-msgstr ""
+msgstr "छवियाँ"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Custom Files"
-msgstr ""
+msgstr "कस्टम फ़ाइलें"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Custom Templates"
-msgstr ""
+msgstr "कस्टम टेम्पलेट"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Custom PHP Path Directory"
-msgstr ""
+msgstr "कस्टम PHP मार्ग निर्देशिका"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "'%1' directory does not exist"
-msgstr ""
+msgstr "'%1' निर्देशिका मौजूद नहीं है"
 
 #: CRM/Admin/Form/Setting.php
 msgid "Your changes have been saved."
+msgstr "अपने परिवर्तनों को सहेज ले गया हैं।"
+
+#: CRM/Admin/Form/Setting/Smtp.php
+msgid "SMTP"
 msgstr ""
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
-msgid "SMTP"
-msgstr "SMTP पोर्ट"
-
-#: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Sendmail"
-msgstr "ईमेल भेजिये"
+msgstr "सेंडमेल"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Disable Outbound Email"
-msgstr "आउटबाउंड ईमेल ( SMTP )"
+msgstr "आउटबाउंड ईमेल असमर्थ करे"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Select Mailer"
-msgstr "फ़ाइल चुनें"
+msgstr "मेलर चुनें"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - Outbound Mail"
-msgstr ""
+msgstr "सेटिंग्स - आउटबाउंड मेल"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Sendmail Path"
-msgstr "संपर्कों काे ईमेल भेजें"
+msgstr "सेंडमेल मार्ग"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Sendmail Argument"
-msgstr ""
+msgstr "सेंडमेल तर्क"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Server"
@@ -6876,6 +6846,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr "कुल राशि"
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr "योगदान स्थिति"
+
 #: CRM/Export/BAO/Export.php
 msgid "Received Date"
 msgstr "प्राप्त तिथि"
@@ -7545,6 +7519,18 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7856,6 +7842,22 @@ msgid ""
 "Your CiviCRM Profile '%1' has been added. You can add fields to this profile "
 "now."
 msgstr ""
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr "सशुल्क द्वारा"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr "सदस्यता का प्रकार"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Status"
+msgstr "सदस्यता की स्थिती"
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
+msgstr "याेगदान का प्रकार"
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -9662,6 +9664,17 @@ msgstr ""
 msgid "CMS Settings"
 msgstr ""
 
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
+msgid "Views integration settings"
+msgstr "%1 एकीकरण सेटिंग्स"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
+msgstr ""
+
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""
 "Use this form if you need to reset the Base Directory Path and Base URL "
@@ -10213,9 +10226,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Outbound Email (SMTP/Sendmail)"
-msgstr "आउटबाउंड ईमेल ( SMTP )"
+msgstr "आउटबाउंड ईमेल ( SMTP/Sendmail)"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10265,7 +10277,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "%1 Integration Settings"
-msgstr ""
+msgstr "%1 एकीकरण सेटिंग्स"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "%1 version and user table name."
@@ -10589,7 +10601,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl xml/templates/civicrm_data.tpl
 msgid "Communication Preferences"
-msgstr ""
+msgstr "संचार वरीयताएँ"
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Select the preferred method of communicating with this contact."
@@ -13404,9 +13416,8 @@ msgid "Change"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "My Contacts / Organizations"
-msgstr "संगठन के लिए जोड़ें संपर्क"
+msgstr "मेरे संपर्क / संगठन"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Granted"

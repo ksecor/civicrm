@@ -1277,6 +1277,30 @@ SELECT c.contribution_page_id as pageID
     }
     
     /**
+     * Function to updated related memberships
+     *
+     * @param int   $ownerMembershipId owner Membership Id
+     * @param array $params            formatted array of key => value..
+     * @static
+     */
+    static function  updateRelatedMemberships( $ownerMembershipId, $params )
+    {
+        $membership = & new CRM_Member_DAO_Membership( );
+        $membership->owner_membership_id = $ownerMembershipId;
+        $membership->find( );
+        
+        while ( $membership->fetch( ) ) {
+            $relatedMembership = & new CRM_Member_DAO_Membership( );
+            $relatedMembership->id = $membership->id;
+            $relatedMembership->copyValues( $params );
+            $relatedMembership->save( );
+            $relatedMembership->free( );
+        }
+        
+        $membership->free( );
+    }
+    
+    /**
      * Function to get list of membership fields for profile
      * For now we only allow custom membership fields to be in
      * profile

@@ -3,7 +3,6 @@
 
 /* @file
  * A simple module that adds a user to groups based on Role.
- * Internal Version identifier - 0.3-beta
  */
 
 /**
@@ -23,11 +22,12 @@ function civicrm_group_roles_help($section, $args = array() )
 /**
  * Implementation of hook_user().
  * This provides sync from Drupal -> CiviCRM
+ * TO DO: Remove User From Group when role is removed
  */
 function civicrm_group_roles_user($op, $edit, &$user, $category = NULL) 
 {
     
-    $debug_mode = FALSE;
+    //$debug_mode = TRUE;
     
     if ($op == 'login' OR $op == 'after_update' OR $op == 'insert') {
         
@@ -56,19 +56,16 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
             
             if ($contact && isset($contact['contact_id'])) {
                 
-                //loop over roles
-                foreach ($roles as $role) {
+                //loop over user's roles
+                foreach ($roles as $rid => $role) {
                     
-                    //find the group for the role
-                    $params = array('title' => $role);
-                    $groups =& civicrm_group_get($params);
+                    //find the group(s) for the role
+                    $query = db_query("SELECT group_id FROM {civicrm_group_roles_rules} WHERE role_id=%d", $rid);
                     
-                    if ($groups && count($groups) == 1) {
-                        
+                    while ($gid = db_result($query)) {    
                         //add the contact
-                        $group = current($groups);
                         $contacts = array($contact);
-                        $gparams = array('group_id' => $group['id'], 'contact_id' => $contact_id);
+                        $gparams = array('group_id' => $gid, 'contact_id' => $contact_id);
                         $result = civicrm_group_contact_add($gparams);
                         
                         if ($result['is_error'] > 0) {
@@ -82,12 +79,8 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
                             drupal_set_message("User $user->name NOT added to Group: $role");
                             drupal_set_message(var_export($result, TRUE));
                         }
-            
-                    } elseif ($debug_mode) {
-                        $msg = t('CiviCRM group not found for @id', array('@id' => $role));
-                        watchdog('civicrm', $msg);
-                        drupal_set_message($msg);
-                    } //end if $groups
+                    } //end while
+                    
                     
                 } //end foreach
                 
@@ -108,42 +101,73 @@ function civicrm_group_roles_user($op, $edit, &$user, $category = NULL)
 function civicrm_group_roles_civicrm_post( $op, $objectName, $objectId, &$objectRef )
 {
     if ($objectName != 'GroupContact') {
-        return; // We only care about Group contacts, so bail on anythign else.
+        return; // We only care about Group contact operations, so bail on anything else.
     }
 
     $group_id = $objectId;
     
-    foreach ($objectRef AS $contact_id) {
+    //Do we have any Role sync rules for this group?
+    $query = db_query("SELECT role_id FROM {civicrm_group_roles_rules} WHERE group_id=%d", $group_id);   
+    while ($rid = db_result($query)) {
         
-        switch ($op) {
+        $role_name = db_result(db_query('SELECT name FROM {role} WHERE rid = %d', $rid)); //we need this to properly save the user account below.
+    
+        foreach ($objectRef AS $contact_id) {
             
-            case 'create':
-            case 'edit':
-                //Contact added or re-joined to group; add to corresponding role
-                //dsm("Adding Contact $contact_id to Group $group_id");
-                
-                //Do we have a Drupal Account?
-                require_once 'api/UFGroup.php';
-                $uid = crm_uf_get_uf_id($contact_id);
-                if (!$uid) {
-                    //dsm("No User found");
+                    //Do we have a Drupal Account?
+                    require_once 'api/UFGroup.php';
+                    $uid = crm_uf_get_uf_id($contact_id);
+                    if (!$uid) { //make sure we have an actual user account
+                        continue;
+                    }
+            
+            switch ($op) {
+                case 'create':
+                case 'edit':
+                    //Contact added or re-joined to group; add to corresponding role
+                    civicrm_group_roles_add_role($uid, $rid, $role_name);       
                     break;
-                }
                 
-                //Do we have a Role sync rule?
-                $role_id = db_result(db_query("SELECT role_id FROM {civicrm_group_roles_rules} WHERE group_id=%d", $group_id));
-                
-                //dsm("Adding Role $role_id to User $uid");
-                
-                break;
-            
-            case 'delete':
-                //Contact is removed from group; remove role
-                //dsm("Removing Contact $contact_id from Group $group_id");
-                break;
-        }
-    }
+                case 'delete':
+                    //Contact is removed from group; remove role
+                    //TO DO: We should really only remove from a role when contact is removed from ALL groups which grant the role.
+                    civicrm_group_roles_del_role($uid, $rid, $role_name);
+                    break;
+            } //end switch
+        } //end foreach
+    }//end while
+}
 
+/**
+ * Helper function to add a role to a given user
+ * Copied from user.module function user_multiple_role_edit()
+ * @param $uid The user id of the account to modify
+ * @param $rid The role id being added
+ */
+function civicrm_group_roles_add_role($uid, $rid, $role_name)
+{
+    $account = user_load(array('uid' => (int)$uid));
+    // Skip adding the role to the user if they already have it.
+    if ($account !== FALSE && !isset($account->roles[$rid])) {
+      $roles = $account->roles + array($rid => $role_name);
+      user_save($account, array('roles' => $roles));
+    }
+}
+
+/**
+ * Helper function to remove a role from a given user
+ * Copied from user.module function user_multiple_role_edit()
+ * @param $uid The user id of the account to modify
+ * @param $rid The role id being removd
+ */
+function civicrm_group_roles_del_role($uid, $rid, $role_name)
+{
+    $account = user_load(array('uid' => (int)$uid));
+    // Skip removing the role from the user if they already don't have it.
+    if ($account !== FALSE && isset($account->roles[$rid])) {
+      $roles = array_diff($account->roles, array($rid => $role_name));
+      user_save($account, array('roles' => $roles));
+    }
 }
 
 

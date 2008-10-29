@@ -2,12 +2,21 @@
 
 require_once 'api/v2/Contact.php';
 
-class TestOfContactAPIV2 extends CiviUnitTestCase 
+class TestOfContactAddAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
      */
     protected $_contacts   = array();
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Contact Add',
+                     'description' => 'Test all Activity Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {

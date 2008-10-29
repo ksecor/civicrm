@@ -514,7 +514,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         // Should we include Case Subject field (cases are enabled, we in a Contact's context - not standalone, and contact has one or more cases)
-        if ( $this->_viewOptions['CiviCase'] && $this->_context != 'standalone' ) {
+        if ( $this->_viewOptions['CiviCase'] ) {
             $this->assign('caseEnabled', 1);
             require_once 'CRM/Case/BAO/Case.php';
             $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );

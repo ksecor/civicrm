@@ -170,13 +170,18 @@ function &civicrm_contribution_search( &$params ) {
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
-        } elseif ( array_key_exists( $n, $otherVars ) ) {
+        } elseif ( in_array( $n, $otherVars ) ) {
             $$n = $v;
         } else {
             $inputParams[$n] = $v;
         }
     }
     
+    // add is_test to the clause if not present
+    if ( ! array_key_exists( 'contribution_test', $inputParams ) ) {
+        $inputParams['contribution_test'] = 0;
+    }
+
     require_once 'CRM/Contribute/BAO/Query.php';
     require_once 'CRM/Contact/BAO/Query.php';
     if ( empty( $returnProperties ) ) {

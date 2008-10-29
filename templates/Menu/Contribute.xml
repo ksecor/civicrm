@@ -27,6 +27,18 @@
      <is_public>true</is_public>
   </item>
   <item>
+     <path>civicrm/ajax/employer</path>
+     <title></title>
+     <page_callback>CRM_Core_Page_AJAX</page_callback>
+     <access_arguments>make online contributions</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/ajax/permlocation</path>
+     <title></title>
+     <page_callback>CRM_Core_Page_AJAX</page_callback>
+     <access_arguments>make online contributions</access_arguments>
+  </item>
+  <item>
      <path>civicrm/admin/contribute</path>
      <title>Manage Contribution Pages</title>
      <page_callback>CRM_Contribute_Page_ContributionPage</page_callback>
