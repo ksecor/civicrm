@@ -119,21 +119,6 @@ class CRM_Activity_Import_Field
         if ( CRM_Utils_System::isNull( $this->_value ) ) {
             return true;
         }
-
-        /*switch ($this->_name) {
-        // check whether that's a valid custom field id
-        // and if so, check the contents' validity
-        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($this->_name)) {
-            static $customFields = null;
-            if (!$customFields) {
-                $customFields =& CRM_Core_BAO_CustomField::getFields('Activity');
-            }
-            if (!array_key_exists($customFieldID, $customFields)) {
-                return false;
-            }
-            return CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID][2], $this->_value);
-        }*/
-        
         return true;
     }
 

@@ -280,9 +280,9 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 unset($params['duration']);
             }
             if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                if ( $customFields[$customFieldID][2] == 'Date' ) {
+                if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                     CRM_Import_Parser_Contact::formatCustomDate( $params, $params, $dateType, $key );
-                } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
                     $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                 }
             }

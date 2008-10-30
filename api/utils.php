@@ -380,11 +380,11 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             // modified for CRM-1586
             // check data type for importing custom field (labels) with data type Integer/Float/Money
             /* validate the data against the CF type */
-            if( ( $customFields[$customFieldID][2] == "Int")    ||
-                ( $customFields[$customFieldID][2] == "Float" ) ||
-                ( $customFields[$customFieldID][2] == "Money" ) ) { 
-                if ( $customFields[$customFieldID][3] == "Text" ) {
-                    $fieldType = $customFields[$customFieldID][2];
+            if( ( $customFields[$customFieldID]['data_type'] == "Int")    ||
+                ( $customFields[$customFieldID]['data_type'] == "Float" ) ||
+                ( $customFields[$customFieldID]['data_type'] == "Money" ) ) { 
+                if ( $customFields[$customFieldID]['html_type'] == "Text" ) {
+                    $fieldType = $customFields[$customFieldID]['data_type'];
                 } else {
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
                     foreach( $customOption as $v1 ) {
@@ -393,13 +393,13 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                         if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
                             $fieldType = "String";
                         } else if ( ( strtolower($v1['value']) == strtolower( trim( $value ) ) ) ) {
-                            $fieldType = $customFields[$customFieldID][2];
+                            $fieldType = $customFields[$customFieldID]['data_type'];
                         }
                     }
                 }
             } else {
                 //set the Field type 
-                $fieldType = $customFields[$customFieldID][2];
+                $fieldType = $customFields[$customFieldID]['data_type'];
             }
             
             $valid = null;
@@ -414,13 +414,13 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             }
             
             // fix the date field if so
-            if ( $customFields[$customFieldID][2] == 'Date' ) {
+            if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                 $value = str_replace( '-', '', $value );
             }
             
             // fixed for checkbox and multiselect
             $newMulValues = array();
-            if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select') {
+            if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' || $customFields[$customFieldID]['html_type'] =='Multi-Select') {
                 $value = str_replace(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,',',trim($value,CRM_Core_BAO_CustomOption::VALUE_SEPERATOR));
                 $value = str_replace("|",",",$value);
                 $mulValues = explode( ',' , $value );
@@ -434,7 +434,7 @@ function _crm_format_custom_params( &$params, &$values, $extends )
                 }
                 $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                 
-            } else if ( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
+            } else if ( $customFields[$customFieldID]['html_type'] == 'Select' || $customFields[$customFieldID]['html_type'] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
                     if( ( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)))) {
@@ -445,8 +445,8 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             }
             $values['custom'][$customFieldID] = array(
                                                       'value'   => $value,
-                                                      'extends' => $customFields[$customFieldID][3],
-                                                      'type'    => $customFields[$customFieldID][2],
+                                                      'extends' => $customFields[$customFieldID]['extends'],
+                                                      'type'    => $customFields[$customFieldID]['data_type'],
                                                       'custom_field_id' => $customFieldID,
                                                       );
         }
