@@ -228,7 +228,11 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
         // does this group have multiple record?
-        $this->addElement('checkbox', 'is_multiple', ts('Does this Custom Data Group allow multiple records?') );
+        $this->addElement('checkbox', 
+                          'is_multiple', 
+                          ts('Does this Custom Data Group allow multiple records?'),
+                          null,
+                          array( 'onclick' => "showRange();"));
 
         $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
         $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');

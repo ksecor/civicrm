@@ -15,8 +15,10 @@
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which custom data groups are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label}</dd>
+    <div id="multiple">
     <dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>
     <dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html}</dd>
+    </div>
     </dl>
     <dl id="style">
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
@@ -55,6 +57,7 @@
 <script type="text/Javascript">
 
 showHideStyle();
+showRange();
 
 function showHideStyle()
 {
@@ -68,5 +71,11 @@ function showHideStyle()
 		hide("style");
 	}
 }
+
+function showRange()
+{
+  cj("#multiple").toggle();
+}
+
 </script>
 {/literal}
