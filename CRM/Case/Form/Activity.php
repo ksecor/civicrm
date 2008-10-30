@@ -528,7 +528,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $statusMsg = " Copy of this activity has been sent to {$mailCount} contact(s)";
         }
 
-        CRM_Core_Session::setStatus( ts("The activity of type '%1' has been successfully %2.".$statusMsg, 
+        CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2.".$statusMsg, 
                                         array('1' => $this->_activityTypeName, '2' => $recordStatus)) );
     }
 }
