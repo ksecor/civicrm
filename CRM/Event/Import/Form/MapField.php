@@ -167,7 +167,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
     {
         $this->_mapperFields = $this->get( 'fields' );
         asort($this->_mapperFields);
-        
+        unset( $this->_mapperFields['participant_is_test'] );
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
