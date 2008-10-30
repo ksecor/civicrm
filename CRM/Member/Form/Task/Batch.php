@@ -129,7 +129,8 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
                     $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
-                    if ( ( $typeId == $customValue[7] ) || CRM_Utils_System::isNull( $customValue[7] ) ) {
+                    if ( ( $typeId == $customValue['extends_entity_column_value'] ) ||
+                         CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
                         CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $memberId );
                     }
                 } else {
