@@ -49,19 +49,11 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
-        CRM_Utils_System::setTitle( ts('CiviCase') );
-        $this->_caseType = array();
-        $statuses   = array( 'Active', 'Closed', 'New', 'Inactive' );
-        require_once 'CRM/Core/OptionGroup.php';    
-        $caseTypes  = CRM_Core_OptionGroup::values('case_type');
+        CRM_Utils_System::setTitle( ts('CiviCase Dashboard') );
+        
         require_once 'CRM/Case/BAO/Case.php';
-        foreach ( $caseTypes as $typeId => $caseType ) {
-            $typeId = '%'.$typeId.'%';
-            foreach ( $statuses as $status ) {
-                $this->_caseType[$caseType][$status]  =  CRM_Case_BAO_Case::getCaseSummary( $status, $typeId );
-            }
-        }
-        $this->assign('caseType', $this->_caseType);
+        $caseSummary = CRM_Case_BAO_Case::getCasesSummary( );
+        $this->assign('caseSummary', $caseSummary);
     }
     
     /** 

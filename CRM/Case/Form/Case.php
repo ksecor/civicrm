@@ -100,7 +100,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $contact =& new CRM_Contact_DAO_Contact( );
             $contact->id = $this->_clientId;
             if ( ! $contact->find( true ) ) {
-                CRM_Core_Error::statusBounce( ts('client contact does not exist: %1', array(1 => $this->_clientId)) );
+                CRM_Core_Error::statusBounce( ts('Client contact does not exist: %1', array(1 => $this->_clientId)) );
             }
         }
         
