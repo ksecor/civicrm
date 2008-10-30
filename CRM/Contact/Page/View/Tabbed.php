@@ -191,7 +191,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         
         
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true );
-
+        $changeLog = $this->_viewOptions['log'];
+        $this->assign_by_ref( 'changeLog' , $changeLog );
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
