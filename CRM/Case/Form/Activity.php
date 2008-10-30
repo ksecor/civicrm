@@ -55,6 +55,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * @var string
      */
     public $_context = 'activity';
+
     /**
      * The case id 
      *
@@ -108,12 +109,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * Case Activity Action
      */
     public $_caseAction = null;
+
     /**
      * The array of releted contact info  
      *
      * @var array
      */
-    public $_searchRows;
+    public $_relatedContacts;
 
     /**
      * Function to build the form
@@ -132,10 +134,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->assign( 'caseAction', $this->_caseAction );
         }
 
-        $caseSub = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
+        $caseSubject = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                 $this->_id,
                                                 'subject' );
-        $this->assign( 'caseSub', $caseSub );
+        $this->assign( 'caseSubject', $caseSubject );
 
         $session    =& CRM_Core_Session::singleton();
         // logged in contact
@@ -180,7 +182,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->assign( 'activityTypeName',        $this->_activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
 
-        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSub,'2' => $this->_activityTypeName)) );
+        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSubject,'2' => $this->_activityTypeName)) );
 
         //when custom data is included in this page
         $this->set( 'type'    , 'Activity' );
@@ -202,9 +204,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
-
-        $this->_searchRows = array( );
-        $this->_searchRows = CRM_Case_BAO_Case::getReletedContacts( $this->_id );
     }
     
     /**
@@ -228,7 +227,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
             // custom data defaults
             $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
- 
+
             // duration
             if ( CRM_Utils_Array::value('duration',$this->_defaults) ) {
                 require_once "CRM/Utils/Date.php";
@@ -322,22 +321,24 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                  )
                            );
         
+        $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_id );
+        if ( ! empty($this->_relatedContacts) ) {
+            $checkBoxes = array( );
+            foreach ( $this->_relatedContacts as $id => $row ) {
+                $checkBoxes[$id] = $this->addElement('checkbox', $id, null, '' );
+            }
+
+            $this->addGroup  ( $checkBoxes, 'contact_check' );
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, 
+                               array( 'onclick' => "return toggleCheckboxVals('contact_check',this.form);" ) );
+            $this->assign    ('searchRows', $this->_relatedContacts );
+        }
+
         if ( $this->_caseAction ) {
             eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_caseAction}', 'formrule'), \$this);");
         }
+
         $this->addFormRule( array( 'CRM_Case_Form_Activity', 'formRule' ), $this );
-        
-        if ( $this->_searchRows ) {
-            $checkBoxes = array( );
-            foreach ( $this->_searchRows as $id => $row ) {
-                $checkBoxes[$id] = $this->addElement('checkbox', $id, null, '' );
-            }
-                
-            $this->addGroup($checkBoxes, 'contact_check');
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "return toggleCheckboxVals('contact_check',this.form);" ) );
-            
-            $this->assign('searchRows', $this->_searchRows );
-        }
     }
         
     
@@ -389,7 +390,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("Ymd");
-        $mailCount = 0;
+
         // required for status msg
         $recordStatus = 'created';
 
@@ -508,27 +509,26 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                              'case_id'     => $this->_id   );
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
 
+
         // Insert civicrm_log record for the activity (e.g. store the
         // created / edited by contact id and date for the activity)
-        
         // Note - civicrm_log is already created by CRM_Activity_BAO_Activity::create()
+
        
         //send copy to selected contacts.        
+        $mailStatus = '';
         if ( array_key_exists('contact_check', $params) ) {
-            foreach( $params['contact_check'] as $id => $val ) {
-                $result = CRM_Case_BAO_Case::sendCopy( $activity->id, $this->_searchRows[$id] );
-                
-                if ( $result ) {
-                    $mailCount ++;
-                }
+            $mailToContacts = array();
+            foreach( $params['contact_check'] as $cid => $dnc ) {
+                $mailToContacts[$cid] = $this->_relatedContacts[$cid];
             }
-        }
-        $statusMsg = '';
-        if ( $mailCount ) {
-            $statusMsg = " Copy of this activity has been sent to {$mailCount} contact(s)";
+            $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_clientId, $activity->id, $mailToContacts );
+            $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
         }
 
-        CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2.".$statusMsg, 
-                                        array('1' => $this->_activityTypeName, '2' => $recordStatus)) );
+        CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2. %3", 
+                                        array('1' => $this->_activityTypeName, 
+                                              '2' => $recordStatus, 
+                                              '3' => $mailStatus)) );
     }
 }

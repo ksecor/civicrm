@@ -110,30 +110,29 @@
        </tr>
     </table>
     {if $searchRows} {* we've got rows to display *}
-      <fieldset><legend>{ts}Send Copy To{/ts}</legend>
-                <div class="description">
-                  {ts}Mark the target contact(s) for sending a notification mail of this activity.{/ts}
-                </div>
-                {strip}
-                <table>
-                   <tr class="columnheader">
-                     <th>{$form.toggleSelect.html}&nbsp;</th>
-                     <th>{ts}Case Role{/ts}</th>
-                     <th>{ts}Name{/ts}</th>
-                     <th>{ts}Email{/ts}</th>
-                   </tr>
-                   {foreach from=$searchRows item=row}
-                   <tr class="{cycle values="odd-row,even-row"}">
-
-                      <td>{$form.contact_check[$row.id].html}</td>
-                      <td>{$row.role}</td>
-                      <td>{$row.name}</td>
-                      <td>{$row.email}</td>
-                   </tr>
-                   {/foreach}
-                </table>
-                {/strip}
-      </fieldset>
+       <fieldset><legend>{ts}Send Copy To{/ts}</legend>
+          <div class="description">
+              {ts}Select the contact(s) whom you would like to mail a copy of this activity.{/ts}
+          </div>
+          {strip}
+          <table>
+              <tr class="columnheader">
+                  <th>{$form.toggleSelect.html}&nbsp;</th>
+                  <th>{ts}Case Role{/ts}</th>
+                  <th>{ts}Name{/ts}</th>
+                  <th>{ts}Email{/ts}</th>
+               </tr>
+               {foreach from=$searchRows item=row}
+               <tr class="{cycle values="odd-row,even-row"}">
+                   <td>{$form.contact_check[$row.id].html}</td>
+                   <td>{$row.role}</td>
+                   <td>{$row.name}</td>
+                   <td>{$row.email}</td>
+               </tr>
+               {/foreach}
+          </table>
+          {/strip}
+       </fieldset>
     {/if}
     {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
