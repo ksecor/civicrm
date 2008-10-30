@@ -599,6 +599,107 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
 
         return $caseAction;
     }
+    
+    /**
+     * Function to get Case Related Contacts
+     *
+     * @param int    $caseID case id
+     *
+     * @return returns $searchRows array of returnproperties
+     *
+     * @static
+     */
+    static function getReletedContacts( $caseID )
+    {
+        $values = array( );
+        $query = '
+SELECT cc.display_name as name, cc.id, crt.name_b_a as role, ce.email FROM civicrm_relationship cr LEFT JOIN civicrm_relationship_type crt ON crt.id = cr.relationship_type_id LEFT JOIN civicrm_contact cc ON cc.id = cr.contact_id_b LEFT JOIN civicrm_email ce ON ce.contact_id = cc.id WHERE cr.case_id =  %1 AND ce.is_primary= 1';
+        
+        $params = array( 1 => array( $caseID, 'Integer' ) );
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+
+        while ( $dao->fetch( ) ) {
+            $values[$dao->id]['id']          = $dao->id;
+            $values[$dao->id]['name']        = $dao->name;
+            $values[$dao->id]['role']        = $dao->role;
+            $values[$dao->id]['email']       = $dao->email;
+        }
+        $dao->free( );
+        return $values;
+    }
+
+    /**
+     * Function that send e-mail copy of activity
+     * 
+     * @param int     $activityId activity Id
+     * @param array   $contactInfo array of related contact
+     *
+     * @return void
+     * @access public
+     */
+    static function sendCopy( $activityId, $contactInfo )
+    {   
+        $template =& CRM_Core_Smarty::singleton( );
+
+        $activityInfo = array( );
+        $params = array( 'id' => $activityId );
+        CRM_Activity_BAO_Activity::retrieve( $params, $activityInfo );
+       
+        require_once 'CRM/Core/OptionGroup.php';
+        $activityMedium = CRM_Core_OptionGroup::values('activity_medium');
+        $activityInfo['medium'] = CRM_Utils_Array::value( $activityInfo['medium_id'], $activityMedium );
+
+        $activityMedium = CRM_Core_OptionGroup::values('activity_status');
+        $activityInfo['status'] = CRM_Utils_Array::value( $activityInfo['status_id'], $activityMedium );
+
+        $template->assign('activity', $activityInfo );
+       
+        $displayName = $contactInfo['name'];
+        $email = $contactInfo['email'];
+        $template->assign( 'contact', $contactInfo );
+       
+        //handeling custom data in mail. 
+        //   require_once 'CRM/Core/BAO/CustomGroup.php';
+//         $extends   = array('activity');
+//         $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
+        
+//         // $activity = array( array( 'activity_id', '=', $activityId, 0, 0 ) );
+//          $customGroup = array(); 
+//          // retrieve custom data
+//          require_once "CRM/Core/BAO/UFGroup.php";
+//          foreach ( $groupTree as $groupID => $group ) {
+//              $customFields = $customValues = array( );
+//              if ( $groupID == 'info' ) {
+//                  continue;
+//              } 
+//              foreach ( $group['fields'] as $k => $field ) {
+//                  $field['title'] = $field['label'];
+//                  $customFields["custom_{$k}"] = $field;
+//              }
+//              //to build array of customgroup & customfields in it
+//              CRM_Core_BAO_UFGroup::getValues( $activityId, $customFields, $customValues , false, $activity );
+//              $customGroup[$group['title']] = $customValues;
+//          }
+//         $template->assign( 'customGroup', $customGroup );
+
+        $subject = trim( $template->fetch( 'CRM/Case/Form/ActivitySubject.tpl' ) );
+        $message = $template->fetch( 'CRM/Case/Form/ActivityMessage.tpl' );
+       
+        require_once 'CRM/Core/BAO/Domain.php';        
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
+        $receiptFrom = '"' .$domain->email_name . '" <' . $domain->email_domain . '>';
+
+        require_once 'CRM/Utils/Mail.php';
+        $result= CRM_Utils_Mail::send( $receiptFrom,
+                                       $displayName,
+                                       $email,
+                                       $subject,
+                                       $message
+                                       );
+        return $result;
+
+    }
 
 }
 

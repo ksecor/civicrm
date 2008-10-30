@@ -55,7 +55,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * @var string
      */
     public $_context = 'activity';
-
     /**
      * The case id 
      *
@@ -109,6 +108,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * Case Activity Action
      */
     public $_caseAction = null;
+    /**
+     * The array of releted contact info  
+     *
+     * @var array
+     */
+    public $_searchRows;
 
     /**
      * Function to build the form
@@ -130,6 +135,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $caseSub = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                 $this->_id,
                                                 'subject' );
+        $this->assign( 'caseSub', $caseSub );
 
         $session    =& CRM_Core_Session::singleton();
         // logged in contact
@@ -196,6 +202,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
+
+        $this->_searchRows = array( );
+        $this->_searchRows = CRM_Case_BAO_Case::getReletedContacts( $this->_id );
     }
     
     /**
@@ -210,7 +219,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( isset($this->_activityId) ) {
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $this->_defaults );
-
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
                 $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
@@ -318,8 +326,20 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_caseAction}', 'formrule'), \$this);");
         }
         $this->addFormRule( array( 'CRM_Case_Form_Activity', 'formRule' ), $this );
+        
+        if ( $this->_searchRows ) {
+            $checkBoxes = array( );
+            foreach ( $this->_searchRows as $id => $row ) {
+                $checkBoxes[$id] = $this->addElement('checkbox', $id, null, '' );
+            }
+                
+            $this->addGroup($checkBoxes, 'contact_check');
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "return toggleCheckboxVals('contact_check',this.form);" ) );
+            
+            $this->assign('searchRows', $this->_searchRows );
+        }
     }
-
+        
     
     /**  
      * global form rule  
@@ -369,7 +389,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("Ymd");
-
+        $mailCount = 0;
         // required for status msg
         $recordStatus = 'created';
 
@@ -492,8 +512,23 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // created / edited by contact id and date for the activity)
         
         // Note - civicrm_log is already created by CRM_Activity_BAO_Activity::create()
-        
-        CRM_Core_Session::setStatus( ts("The activity of type '%1' has been successfully %2.", 
+       
+        //send copy to selected contacts.        
+        if ( array_key_exists('contact_check', $params) ) {
+            foreach( $params['contact_check'] as $id => $val ) {
+                $result = CRM_Case_BAO_Case::sendCopy( $activity->id, $this->_searchRows[$id] );
+                
+                if ( $result ) {
+                    $mailCount ++;
+                }
+            }
+        }
+        $statusMsg = '';
+        if ( $mailCount ) {
+            $statusMsg = " Copy of this activity has been sent to {$mailCount} contact(s)";
+        }
+
+        CRM_Core_Session::setStatus( ts("The activity of type '%1' has been successfully %2.".$statusMsg, 
                                         array('1' => $this->_activityTypeName, '2' => $recordStatus)) );
     }
 }

@@ -81,9 +81,9 @@
           <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
               {if $action neq 4}
                   <span class="description">
-                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1 doTime=1}
                       {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
-                                     endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
+                                     endDate=endYear offset=10 doTime=1 trigger=trigger_activity_1 ampm=1}
                   </span>
               {/if}  
           </td>
@@ -109,10 +109,36 @@
           <td colspan="2">{include file="CRM/Form/attachment.tpl"}</td>
        </tr>
     </table>
+    {if $searchRows} {* we've got rows to display *}
+      <fieldset><legend>{ts}Send Copy To{/ts}</legend>
+                <div class="description">
+                  {ts}Mark the target contact(s) for sending a notification mail of this activity.{/ts}
+                </div>
+                {strip}
+                <table>
+                   <tr class="columnheader">
+                     <th>{$form.toggleSelect.html}&nbsp;</th>
+                     <th>{ts}Case Role{/ts}</th>
+                     <th>{ts}Name{/ts}</th>
+                     <th>{ts}Email{/ts}</th>
+                   </tr>
+                   {foreach from=$searchRows item=row}
+                   <tr class="{cycle values="odd-row,even-row"}">
+
+                      <td>{$form.contact_check[$row.id].html}</td>
+                      <td>{$row.role}</td>
+                      <td>{$row.name}</td>
+                      <td>{$row.email}</td>
+                   </tr>
+                   {/foreach}
+                </table>
+                {/strip}
+      </fieldset>
+    {/if}
     {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
 {/if}
-
+ 
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
