@@ -1470,7 +1470,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                                             CRM_Core_BAO_CustomField::getFieldsForImport($value));
                         }
                         
-                        switch( $customFields[substr($name,7,9)][3] ) {
+                        switch( $customFields[substr($name,7,9)]['html_type'] ) {
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
@@ -1957,11 +1957,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     } else if (substr($key, 0, 6) === 'custom') {
                         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                             //fix checkbox
-                            if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
+                            if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' ) {
                                 $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
                             }
                             // fix the date field 
-                            if ( $customFields[$customFieldID][2] == 'Date' ) {
+                            if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                                 $date =CRM_Utils_Date::format( $value );
                                 if ( ! $date ) {
                                     $date = '';
@@ -1972,8 +1972,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             $data['custom'][$customFieldID] = array( 
                                                                 'id'      => $id,
                                                                 'value'   => $value,
-                                                                'extends' => $customFields[$customFieldID][3],
-                                                                'type'    => $customFields[$customFieldID][2],
+                                                                'extends' => $customFields[$customFieldID]['extends'],
+                                                                'type'    => $customFields[$customFieldID]['data_type'],
                                                                 'custom_field_id' => $customFieldID,
                                                                 );
                         }

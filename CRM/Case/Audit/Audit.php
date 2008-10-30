@@ -84,9 +84,6 @@ class Audit
 	}
 
     static function run( $xmlString ) {
-        //require_once '../../../civicrm.config.php';
-        //require_once 'CRM/Core/Config.php';
-        //$config =& CRM_Core_Config::singleton( );
         $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
         $activities = $audit->getActivities();
@@ -96,7 +93,6 @@ class Audit
 
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
         echo $contents;
-        exit( );
     }
 }
 

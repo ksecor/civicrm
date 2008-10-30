@@ -1363,12 +1363,12 @@ ORDER BY weight ASC, label ASC";
                                                       $form );
 
                 if ( $value ) {
-                    if ( ! in_array( $customFields[$key][3], $htmlType ) ||
-                         $customFields[$key][2] =='Boolean' ) {
-                        $valid = CRM_Core_BAO_CustomValue::typecheck( $customFields[$key][2], $value);
+                    if ( ! in_array( $customFields[$key]['html_type'], $htmlType ) ||
+                         $customFields[$key]['data_type'] =='Boolean' ) {
+                        $valid = CRM_Core_BAO_CustomValue::typecheck( $customFields[$key]['data_type'], $value);
                     }
-                    if ( $customFields[$key][3] == 'CheckBox' ||
-                         $customFields[$key][3] =='Multi-Select' ) {
+                    if ( $customFields[$key]['html_type'] == 'CheckBox' ||
+                         $customFields[$key]['html_type'] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $key, true );
@@ -1386,9 +1386,9 @@ ORDER BY weight ASC, label ASC";
                         } else {
                             $value = null;
                         }
-                    } else if ($customFields[$key][3] == 'Select' || 
-                               ( $customFields[$key][3] =='Radio' &&
-                                 $customFields[$key][2] !='Boolean' ) ) {
+                    } else if ($customFields[$key]['html_type'] == 'Select' || 
+                               ( $customFields[$key]['html_type'] =='Radio' &&
+                                 $customFields[$key]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($key, true );
                         foreach( $customOption as $v2 ) {
                             if ( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) {
@@ -1396,7 +1396,7 @@ ORDER BY weight ASC, label ASC";
                                 $valid = true; 
                             }
                         }
-                    } else if ( $customFields[$key][2] == 'Date' ) {
+                    } else if ( $customFields[$key]['data_type'] == 'Date' ) {
                         require_once 'CRM/Utils/Date.php';
                         if( is_numeric( $value ) ){
                             $value = CRM_Utils_Date::unformat( $value , null );

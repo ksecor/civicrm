@@ -1011,42 +1011,28 @@ WHERE  civicrm_contact.id = %1 ";
         // check if the contact type
         $contactType =  self::getContactType( $id );
 
-        // if individual
-       if( $contactType == 'Individual') {
-           $sql = "
-   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
-     FROM civicrm_contact, civicrm_email 
-   WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
-          AND civicrm_contact.id = %1";
-           $params = array( 1 => array( $id, 'Integer' ) );
-       } else { // for household / organization
-           $sql = "
-   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
-     FROM civicrm_contact, civicrm_email 
-   WHERE civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
-      AND civicrm_contact.id = %1";
-           $params = array( 1 => array( $id, 'Integer' ) );
-        }
- 
+        $nameFields = ($contactType == 'Individual') ?
+            "civicrm_contact.first_name, civicrm_contact.last_name" :
+            "civicrm_contact.display_name";
+        
+       $sql = "
+SELECT $nameFields, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
+FROM   civicrm_contact, civicrm_email 
+WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
+AND    civicrm_contact.id = %1";
+       $params = array( 1 => array( $id, 'Integer' ) );
        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
-       $result = $dao->getDatabaseResult();
-       if ( $result ) {
-           $row  = $result->fetchRow();
-           
-           if ( $row ) {
-               if ($contactType == 'Individual') {
-                   $name       = $row[0] . ' ' . $row[1];
-                   $email      = $row[2];
-                   $doNotEmail = $row[3] ? true : false;
-                   $onHold     = $row[4] ? true : false;
-               } else {
-                   $name       = $row[0];
-                   $email      = $row[1];
-                   $doNotEmail = $row[2] ? true : false;
-                   $onHold     = $row[3] ? true : false;
-               }
-               return array( $name, $email, $doNotEmail, $onHold);
+
+       if ( $dao->fetch( ) ) {
+           if ($contactType == 'Individual') {
+               $name       = "{$dao->first_name} {$dao->last_name}";
+           } else {
+               $name       = $dao->display_name;
            }
+           $email      = $dao->email;
+           $doNotEmail = $dao->do_not_email ? true : false;
+           $onHold     = $dao->on_hold ? true : false;
+           return array( $name, $email, $doNotEmail, $onHold);
        }
        return array( null, null, null, null );
     }
@@ -1317,9 +1303,9 @@ WHERE  civicrm_contact.id = %1 ";
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
             if ( $cfID &&
-                 ( $customFields[$cfID][3] == 'CheckBox' || 
-                   $customFields[$cfID][3] == 'Multi-Select' || 
-                   $customFields[$cfID][3] == 'Radio' ) &&
+                 ( $customFields[$cfID]['html_type'] == 'CheckBox' || 
+                   $customFields[$cfID]['html_type'] == 'Multi-Select' || 
+                   $customFields[$cfID]['html_type'] == 'Radio' ) &&
                  !CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
                 
                 $str = "custom_value_{$cfID}_id";

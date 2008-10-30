@@ -42,6 +42,14 @@ class CRM_Contact_Form_Search_Custom_Sample
     function __construct( &$formValues ) {
         parent::__construct( $formValues );
 
+        if ( ! isset( $formValues['state_province_id'] ) ) {
+            $this->_stateID = CRM_Utils_Request::retrieve( 'stateID', 'Integer',
+                                                           CRM_Core_DAO::$_nullObject );
+            if ( $this->_stateID ) {
+                $formValues['state_province_id'] = $this->_stateID;
+            }
+        }
+
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
                                  ts('Name')         => 'sort_name',
@@ -49,6 +57,7 @@ class CRM_Contact_Form_Search_Custom_Sample
     }
 
     function buildForm( &$form ) {
+
         $form->add( 'text',
                     'household_name',
                     ts( 'Household Name' ),
@@ -119,6 +128,11 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
 
         $state = CRM_Utils_Array::value( 'state_province_id',
                                          $this->_formValues );
+        if ( ! $state &&
+             $this->_stateID ) {
+            $state = $this->_stateID;
+        }
+
         if ( $state ) {
             $params[$count] = array( $state, 'Integer' );
             $clause[] = "state_province.id = %{$count}";
@@ -127,7 +141,6 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
         if ( ! empty( $clause ) ) {
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
-
 
         return $this->whereClause( $where, $params );
     }

@@ -376,13 +376,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          
-                $crmDAO =& CRM_Core_DAO::executeQuery( $query );
-                $result = $crmDAO->getDatabaseResult();
+                $dao =& CRM_Core_DAO::executeQuery( $query );
         
                 $fields = array( );
-                while (($row = $result->fetchRow()) != null) {
-                    $id = array_shift($row);
-                    $fields[$id] = $row;
+                while (( $dao->fetch( ) ) != null) {
+                    $fields[$dao->id]['label']                       = $dao->label;
+                    $fields[$dao->id]['groupTitle']                  = $dao->title;
+                    $fields[$dao->id]['data_type']                   = $dao->data_type;
+                    $fields[$dao->id]['html_type']                   = $dao->html_type;
+                    $fields[$dao->id]['options_per_line']            = $dao->options_per_line;
+                    $fields[$dao->id]['extends']                     = $dao->extends;
+                    $fields[$dao->id]['is_search_range']             = $dao->is_search_range;
+                    $fields[$dao->id]['extends_entity_column_value'] = $dao->extends_entity_column_value;
+                    $fields[$dao->id]['is_view']                     = $dao->is_view;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
@@ -417,14 +423,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
             $importableFields[$key] = array(
                                             'name'             => $key,
-                                            'title'            => $values[0],
+                                            'title'            => $values['label'],
                                             'headerPattern'    => '/' . preg_quote($regexp, '/') . '/',
                                             'import'           => 1,
                                             'custom_field_id'  => $id,
-                                            'options_per_line' => $values[4],
-                                            'data_type'        => $values[2],
-                                            'html_type'        => $values[3],
-                                            'is_search_range'  => $values[6],
+                                            'options_per_line' => $values['options_per_line'],
+                                            'data_type'        => $values['data_type'],
+                                            'html_type'        => $values['html_type'],
+                                            'is_search_range'  => $values['is_search_range'],
                                             );
         }
          
@@ -439,12 +445,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function getKeyID($key) 
+    public static function getKeyID($key, $all = false) 
     {
         $match = array( );
-        if (preg_match('/^custom_(\d+)$/', $key, $match)) {
-            return $match[1];
-        } 
+        if (preg_match('/^custom_(\d+)_?(-\d+)?$/', $key, $match)) {
+            if ( ! $all ) {
+                return $match[1];
+            } else {
+                return array( $match[1],
+                              CRM_Utils_Array::value( 2, $match ) );
+            } 
+        }
         return null;
     }
     
@@ -1103,7 +1114,7 @@ SELECT id
         }
 
         //fix checkbox
-        if ( $customFields[$customFieldId][3] == 'CheckBox' ) {
+        if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {
             if ( $value ) {
                 $value =
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
@@ -1115,7 +1126,7 @@ SELECT id
             }
         } 
         
-        if ( $customFields[$customFieldId][3] == 'Multi-Select' ) {
+        if ( $customFields[$customFieldId]['html_type'] == 'Multi-Select' ) {
             if ( $value ) {
                 $value = 
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
@@ -1128,7 +1139,7 @@ SELECT id
         }
 
         // fix the date field 
-        if ( $customFields[$customFieldId][2] == 'Date' ) {
+        if ( $customFields[$customFieldId]['data_type'] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
                 if ( is_string( $value ) ) {
                     // it might be a string, so lets do an unformat
@@ -1165,21 +1176,21 @@ SELECT id
             $value = $date;
         }
 
-        if ( $customFields[$customFieldId][2] == 'Float' || 
-             $customFields[$customFieldId][2] == 'Money' || 
-             $customFields[$customFieldId][2] == 'Int' ) {
+        if ( $customFields[$customFieldId]['data_type'] == 'Float' || 
+             $customFields[$customFieldId]['data_type'] == 'Money' || 
+             $customFields[$customFieldId]['data_type'] == 'Int' ) {
             if ( !$value ) {
                 $value = 0;  
             }
 
-            if ( $customFields[$customFieldId][2] == 'Money' ) {
+            if ( $customFields[$customFieldId]['data_type'] == 'Money' ) {
                 require_once 'CRM/Utils/Rule.php';
                 $value = CRM_Utils_Rule::cleanMoney( $value );
             }
         }
                
-        if ( ( $customFields[$customFieldId][2] == 'StateProvince' || 
-               $customFields[$customFieldId][2] == 'Country') &&
+        if ( ( $customFields[$customFieldId]['data_type'] == 'StateProvince' || 
+               $customFields[$customFieldId]['data_type'] == 'Country') &&
              empty( $value ) ) {
             // CRM-3415
             $value = 0;
@@ -1187,7 +1198,7 @@ SELECT id
 
         $fileId = null;
 
-        if ( $customFields[$customFieldId][2] == 'File' ) {
+        if ( $customFields[$customFieldId]['data_type'] == 'File' ) {
             if ( empty($value) ) {
                 return;
             }
@@ -1229,10 +1240,10 @@ SELECT $columnName
             $fileId = $fileDAO->id;
             $value  =  $filename;
         }
-       
+
         $customFormatted[$customFieldId] = array('id'              => $customValueId,
                                                  'value'           => $value,
-                                                 'type'            => $customFields[$customFieldId][2],
+                                                 'type'            => $customFields[$customFieldId]['data_type'],
                                                  'custom_field_id' => $customFieldId, 
                                                  'custom_group_id' => $groupID,
                                                  'table_name'      => $tableName,

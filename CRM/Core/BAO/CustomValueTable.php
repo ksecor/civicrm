@@ -294,32 +294,27 @@ class CRM_Core_BAO_CustomValueTable
         $customData = array( );
         require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $params as $key => $value ) {
-            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldID,
+            if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
                                                              $customData,
                                                              $value,
                                                              $customFieldExtends,
-                                                             null,
+                                                             $customFieldInfo[1],
                                                              $entityID );
             }
         }
 
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    // this is buggy, since sometimes the html type is keyed well, and at other times
-                    // its legacy and numeric (3) CRM-3604
-                    $htmlType = CRM_Utils_Array::value( 'html_type', $val,
-                                                        CRM_Utils_Array::value( 3, $val ) );
-                    if ( in_array ( $htmlType,
-                                    array ('CheckBox','Multi-Select', 'Radio') ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k,
-                                                                     $customData,
-                                                                     '',
-                                                                     $customFieldExtends,
-                                                                     null,
-                                                                     $entityID );
-                    }
+                if ( ! CRM_Utils_Array::value( $k, $customData ) &&
+                     in_array ( $val['html_type'],
+                                array ('CheckBox','Multi-Select', 'Radio') ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                 $customData,
+                                                                 '',
+                                                                 $customFieldExtends,
+                                                                 null,
+                                                                 $entityID );
                 }
             }
         }

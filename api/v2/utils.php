@@ -603,7 +603,7 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -740,7 +740,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -926,7 +926,7 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -1045,7 +1045,7 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
         //Handling Custom Data
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
             $values[$key] = $value;
-            $type = $customFields[$customFieldID][3];
+            $type = $customFields[$customFieldID]['html_type'];
             if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                 $mulValues = explode( ',' , $value );
                 $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);

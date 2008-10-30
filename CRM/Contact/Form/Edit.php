@@ -639,7 +639,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ( 'CheckBox', 'Multi-Select', 'Radio' ) ) &&
+                if ( in_array ( $val['html_type'], array ( 'CheckBox', 'Multi-Select', 'Radio' ) ) &&
                      ! CRM_Utils_Array::value( $k, $customData ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
                                                                  '', $params['contact_type'], null, $this->_contactId);

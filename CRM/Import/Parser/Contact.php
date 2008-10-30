@@ -358,10 +358,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                                                                      $params ) );
         foreach ( $params  as $key => $val ) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                if ( $customFields[$customFieldID][2] == 'Date' ) {
+                if ( $customFields[$customFieldID]['data_type'] == 'Date' ) {
                     self::formatCustomDate( $params, $formatted, $dateType, $key );
                     unset( $params[$key] );
-                } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean' ) {
                     $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                 }
             }
@@ -428,7 +428,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             
             //Handling Custom Data
             if ( ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) && array_key_exists($customFieldID,$customFields) ) {
-                $type = $customFields[$customFieldID][3];
+                $type = $customFields[$customFieldID]['html_type'];
                 if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
                     $mulValues = explode( ',' , $field );
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -892,31 +892,32 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 /* validate the data against the CF type */
      
                 if ( $value ) {
-                    if ($customFields[$customFieldID][2] == 'Date') {
+                    if ($customFields[$customFieldID]['data_type'] == 'Date') {
                         if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                             $value = $params[$key];
                             
                         } else {
-                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                            self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
-                    } else if ( $customFields[$customFieldID][2] == 'Boolean') {
+                    } else if ( $customFields[$customFieldID]['label'] == 'Boolean') {
                         if (CRM_Utils_String::strtoboolstr($value) === false) {
-                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                            self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
                     }
                     // need not check for label filed import
                     $htmlType = array('CheckBox','Multi-Select','Select','Radio');
-                    if ( ! in_array( $customFields[$customFieldID][3], $htmlType ) || $customFields[$customFieldID][2] =='Boolean' ) {
+                    if ( ! in_array( $customFields[$customFieldID]['html_type'], $htmlType ) ||
+                         $customFields[$customFieldID]['data_type'] =='Boolean' ) {
 
                         $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                                     $customFields[$customFieldID][2], $value);
+                                                                     $customFields[$customFieldID]['data_type'], $value);
                         if (! $valid) {
-                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                            self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
                     }
                     
                     // check for values for custom fields for checkboxes and multiselect
-                    if ( $customFields[$customFieldID][3] == 'CheckBox' || $customFields[$customFieldID][3] =='Multi-Select' ) {
+                    if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' || $customFields[$customFieldID]['html_type'] =='Multi-Select' ) {
                         $value = str_replace("|",",",$value);
                         $mulValues = explode( ',' , $value );
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
@@ -928,11 +929,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 }
                             }
                             if (! $flag ) {
-                                self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                                self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                             }
                         }
-                    } else if ( $customFields[$customFieldID][3] == 'Select' || 
-                               ( $customFields[$customFieldID][3] =='Radio' && $customFields[$customFieldID][2] !='Boolean' ) ) {
+                    } else if ( $customFields[$customFieldID]['html_type'] == 'Select' || 
+                               ( $customFields[$customFieldID]['html_type'] =='Radio' && $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
                         foreach( $customOption as $v2 ) {
@@ -941,7 +942,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
                         }
                         if (! $flag ) {
-                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                            self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
                     }
                 }

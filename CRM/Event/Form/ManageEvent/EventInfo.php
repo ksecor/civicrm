@@ -256,7 +256,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
+                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
                      ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
                                                                  '', 'Event', null, $this->_id);
