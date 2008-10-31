@@ -175,7 +175,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
         $activityTypeIDs = implode( ',', array_keys( $map ) );
         $query = "
-SELECT a.*
+SELECT a.*, c.id as caseID
 FROM   civicrm_activity a,
        civicrm_case     c,
        civicrm_case_activity ac
@@ -198,9 +198,10 @@ AND    ac.case_id = %1
 
     function &getActivityInfo( $clientID, $activityID ) {
         $query = "
-SELECT a.*
-FROM   civicrm_activity a
-WHERE  a.id = %1
+SELECT     a.*, ca.case_id as caseID
+FROM       civicrm_activity a
+INNER JOIN civicrm_case_activity ca ON a.id = ca.activity_id
+WHERE      a.id = %1
 ";
         $params = array( 1 => array( $activityID, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
@@ -209,7 +210,7 @@ WHERE  a.id = %1
             $activityTypeInfo = null;
             foreach ( $activityTypes as $category ) {
                 foreach ( $category as $activityType ) {
-                    if ( $activityType['id'] = $dao->activity_type_id ) {
+                    if ( $activityType['id'] == $dao->activity_type_id ) {
                         $activityTypeInfo = $activityType;
                         break;
                     }
@@ -228,9 +229,8 @@ WHERE  a.id = %1
         require_once 'CRM/Core/OptionGroup.php';
         
         $activity = array( );
-
-        $activity['editURL'] = CRM_Utils_System::url( 'civicrm/activity',
-                                                      "action=update&reset=1&cid={$clientID}&id={$activityDAO->id}" );
+        $activity['editURL'] = CRM_Utils_System::url( 'civicrm/case/activity',
+                                                      "reset=1&cid={$clientID}&id={$activityDAO->caseID}&action=add&atype={$activityDAO->activity_type_id}&aid={$activityDAO->id}" );
         $activity['fields'] = array( );
 
         // Activity Type info is a special field

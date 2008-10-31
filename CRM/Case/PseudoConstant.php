@@ -163,6 +163,7 @@ ORDER BY   p.id
                                                     'parent'      => $dao->p_id ,
                                                     'parentLabel' => $parentLabel );
         }
+	$names['id'] = null;
         $tree['Root Category']['All Names'] = $names;
         return $tree;
     }
