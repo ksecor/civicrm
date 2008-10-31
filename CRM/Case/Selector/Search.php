@@ -69,6 +69,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      */
     static $_properties = array( 
                                 'contact_id',
+                                'contact_type',
                                 'sort_name',   
                                 'display_name',
                                 'case_id',   
@@ -170,7 +171,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_CASE);
 
-        $this->_query->_distinctComponentClause = " DISTINCT civicrm_case.id ";
+        $this->_query->_distinctComponentClause = " DISTINCT civicrm_case.id";
+        $this->_query->_useDistinct = true;
+        $this->_query->_useGroupBy = true;
     }//end of constructor
 
     
@@ -301,11 +304,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                  $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                  break;
              }
-             
+
              $row['contact_type' ] = $contact_type;
              
              $rows[] = $row;
          }
+         
          return $rows;
      }
      
@@ -364,7 +368,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                           array(
                                                 'name'      => ts('Date of next scheduled Activity'),
                                                 'sort'      => 'case_scheduled_activity_date',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
                                                 'name'      => ts('Activity(next scheduled activity)'),

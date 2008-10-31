@@ -282,7 +282,6 @@ class CRM_Core_Menu
                              ts( 'CiviMail'       ) => 1,
                              ts( 'Import'         ) => 1,
                              ts( 'CiviGrant'      ) => 1,
-                             ts( 'PledgeBank'     ) => 1,
                              ts( 'CiviPledge'     ) => 1,
                              ts( 'CiviCase'       ) => 1,
                              ts( 'Logout'         ) => 1);

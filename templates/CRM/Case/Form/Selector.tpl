@@ -1,9 +1,9 @@
 {literal}
 <style>
-#crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
-{
-white-space:normal;
-}
+  #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
+  {
+    white-space:normal;
+  }
 </style>
 {/literal}
 
@@ -11,31 +11,37 @@ white-space:normal;
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{capture assign=iconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$iconURL}Click %1 to view case details.{/ts}
+{capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
+{ts 1=$expandIconURL}Click %1 to view case details.{/ts}
+
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single and $context eq 'Search' }
-  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
-{/if}
-{if ! $single}
-  <th></th>
-{/if}
+
+  {if ! $single and $context eq 'Search' }
+    <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
+  {/if}
+
+  {if ! $single}
+    <th></th>
+  {/if}
+
   {foreach from=$columnHeaders item=header}
     <th scope="col">
-    {if $header.sort}
-      {assign var='key' value=$header.sort}
-      {$sort->_response.$key.link}
-    {else}
-      {$header.name}
-    {/if}
+      {if $header.sort}
+        {assign var='key' value=$header.sort}
+        {$sort->_response.$key.link}
+      {else}
+        {$header.name}
+      {/if}
     </th>
   {/foreach}
   </tr>
+
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
+
   <tr id='rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
@@ -118,7 +124,10 @@ white-space:normal;
 
 function buildCaseDetails( caseId, contactId )
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q="action=browse&snippet=4&context=`$context`&caseId="}"{literal} + caseId + '&cid=' + contactId;
+
+  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='} + caseId +"{literal};
+
+  dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
 	
     var result = dojo.xhrGet({
         url: dataUrl,

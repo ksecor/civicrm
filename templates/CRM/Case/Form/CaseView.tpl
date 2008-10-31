@@ -246,7 +246,7 @@ cj(document).ready(function(){
 	    colModel : [
 			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
 			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
+                        {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
 			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
 			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
 			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
