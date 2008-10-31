@@ -240,11 +240,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $activity =& new CRM_Activity_DAO_Activity( );
 
-        //convert duration hour/ minutes to minutes
-        require_once "CRM/Utils/Date.php";
-        $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
-                                                               CRM_Utils_Array::value( 'duration_minutes', $params )
-                                                               );
         if ( ! CRM_Utils_Array::value( 'status_id', $params ) ) {
             if ( isset( $params['activity_date_time'] ) &&
                  $params['activity_date_time'] < date('Ymd') ) {

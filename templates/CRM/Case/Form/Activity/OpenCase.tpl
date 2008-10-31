@@ -21,6 +21,12 @@
         <td>{$form.location.1.email.1.email.label}</td>
         <td>{$form.location.1.email.1.email.html}</td>
 	</tr>
+    {if $isDuplicate}
+    <tr>
+        <td>&nbsp;&nbsp;{$form._qf_Case_next_createNew.html}</td>
+        <td>&nbsp;&nbsp;{$form._qf_Case_next_assignExisting.html}</td>
+    </tr>
+    {/if}
     </table>
    </fieldset>
 {/if}
@@ -37,6 +43,6 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
         </td>
     </tr>
-    <tr><td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td></tr> 
+    <tr><td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td></tr>
     </table>
 </fieldset>

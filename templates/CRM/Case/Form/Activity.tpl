@@ -89,14 +89,10 @@
           </td>
        </tr> 
        <tr>
-          <td class="label">{$form.duration_hours.label}</td>
+          <td class="label">{$form.duration.label}</td>
           <td class="view-value">
-              {if $action eq 4}
-                 {if $form.duration_hours.value}{$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{/if}
-                 {if $form.duration_minutes.value}{$form.duration_minutes.html} {ts}Mins{/ts}{/if}
-                 {else}
-                     {$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{$form.duration_minutes.html} {ts}Mins{/ts}
-                 {/if}
+            {$form.duration.html} {ts}Mins{/ts}<br />
+             <span class="description">{ts}Duration in minutes for this activity.{/ts}
           </td>
        </tr> 
        <tr>
@@ -110,10 +106,15 @@
        </tr>
     </table>
     {if $searchRows} {* we've got rows to display *}
-       <fieldset><legend>{ts}Send Copy To{/ts}</legend>
-          <div class="description">
-              {ts}Select the contact(s) whom you would like to mail a copy of this activity.{/ts}
-          </div>
+       <div id="sendcopy_show" class="section-hidden section-hidden-border">
+       <a href="#" onclick="hide('sendcopy_show'); show('sendcopy'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Send Copy To{/ts}</label><br />
+       </div>
+
+        <div id="sendcopy" class="section-shown">
+         <fieldset><legend><a href="#" onclick="hide('sendcopy'); show('sendcopy_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Send Copy To{/ts}</legend>
+         <div class="description">
+             {ts}Select the contact(s) whom you would like to mail a copy of this activity.{/ts}
+         </div>
           {strip}
           <table>
               <tr class="columnheader">
@@ -132,7 +133,8 @@
                {/foreach}
           </table>
           {/strip}
-       </fieldset>
+         </fieldset>
+       </div>
     {/if}
     {include file="CRM/Custom/Form/CustomData.tpl"}
 </fieldset>
@@ -143,6 +145,8 @@
 <script type="text/javascript">
 hide('attachments');
 show('attachments_show');
+hide('sendcopy');
+show('sendcopy_show');
 buildContact( 1, 'assignee_contact' );
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}

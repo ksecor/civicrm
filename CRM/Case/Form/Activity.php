@@ -128,7 +128,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->_id             = CRM_Utils_Request::retrieve( 'id',    'Positive', $this,  true );
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this,  true );
         $this->_activityId     = CRM_Utils_Request::retrieve( 'aid'  , 'Positive', $this );
-
+        
         if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
             $this->assign( 'caseAction', $this->_caseAction );
@@ -224,33 +224,27 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             } else {
                 $this->assign( 'assigneeContactCount', 1 );
             }
-
+            
             // custom data defaults
             $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
-
-            // duration
-            if ( CRM_Utils_Array::value('duration',$this->_defaults) ) {
-                require_once "CRM/Utils/Date.php";
-                list( $this->_defaults['duration_hours'], 
-                      $this->_defaults['duration_minutes'] ) = 
-                    CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
-            }
+            
         } else {
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
             $this->_defaults['due_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
-
+            
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
             $this->_defaults['activity_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
+            $this->_defaults['medium_id'] = CRM_Utils_Array::key('Phone', CRM_Core_OptionGroup::values('encounter_medium'));
         }
-
+        
         if ( $this->_caseAction ) {
             eval('$this->_defaults += CRM_Case_Form_Activity_'. $this->_caseAction . '::setDefaultValues($this);');
         }
         return $this->_defaults;
     }
-
+    
     public function buildQuickForm( ) 
     {
         if ( $this->_addAssigneeContact ) {
@@ -296,12 +290,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
 
         $this->add('date', 'activity_date_time', ts('Actual Date'), 
-                   CRM_Core_SelectValues::date('activityDatetime'), true);
+                   CRM_Core_SelectValues::date('activityDatetime'));
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
-        $this->add('select','duration_hours',ts('Duration'), CRM_Core_SelectValues::getHours());
-        $this->add('select','duration_minutes', null, CRM_Core_SelectValues::getMinutes());
-        
+        $this->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $this->addRule('duration', ts('Please enter a valid duration for activity.'), 'positiveInteger');  
+
         $this->add('select','status_id',ts('Activity Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
         
         $this->add('textarea', 'details', ts('Details'), 
@@ -320,7 +314,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-        
+               
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_id );
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
@@ -375,7 +369,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
         }
         
-        
         return $errors;
     }
     
@@ -389,8 +382,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        $params['now'] = date("Ymd");
-
+        $params['now'] = date("YmdhisA");
+        
+        if( !CRM_Utils_Array::value( 'activity_date_time', $params ) ) {
+            $params['activity_date_time'] = $params['now'];
+        } 
         // required for status msg
         $recordStatus = 'created';
 

@@ -73,7 +73,28 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * activity type Id
      */
     public $_actTypeId = null;
-    
+    /**
+     * name of optional save duplicate button
+     *
+     * @var string
+     * @access protected
+     */
+    public $_createNewButtonName;
+    /**
+     * name of optional save existing contact button
+     *
+     * @var string
+     * @access protected
+     */
+    public $_assignExistingButtonName;
+    /**
+     * name of optional save existing contact button
+     *
+     * @var string
+     * @access protected
+     */
+    public $_ButtonName;
+
     /**
      * Function to build the form
      *
@@ -114,6 +135,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->set( 'subType' , $this->_actTypeId );
         CRM_Custom_Form_Customdata::preProcess( $this );
 
+        $this->_createNewButtonName      = $this->getButtonName( 'next'   , 'createNew' );
+        $this->_assignExistingButtonName = $this->getButtonName ( 'next'   , 'assignExisting' );
+    
         eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
     }
     
@@ -148,6 +172,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+        $this->addElement('submit', 
+                          $this->_createNewButtonName,
+                          ts( 'Create New Client' ) );
+        
+        $this->addElement('submit', 
+                          $this->_assignExistingButtonName,
+                          ts( 'Assign Existing Client' ) );
     }
 
     /**
@@ -173,7 +204,37 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     static function formRule( &$values, $files, &$form ) 
     {
-        return true;
+        $errors = array( );
+              
+        // if this is a forced save, ignore find duplicate rule
+        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) ) {
+            $contactParams = $values;
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
+
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($contactParams, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy');
+            if ( $ids ) {
+                $urls = array( );
+                foreach ($ids as $id) {
+                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                        '">' . $displayName . '</a>';
+                }
+                $url = implode( ', ',  $urls );
+                $errors['_qf_default'] = ts( 'One matching contact was found. You can view it here: %1, or click Create New Client button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can view them here: %1, or click Create New Client button below.' ) );
+                
+                // let smarty know that there are duplicates
+                $template =& CRM_Core_Smarty::singleton( );
+                $template->assign( 'isDuplicate', 1 );
+            } 
+        }
+        if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
+            return true;
+        }
+        return $errors;
     }
 
     /**
@@ -186,6 +247,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        $this->_buttonName = $this->controller->getButtonName( );
+       
         $params['now'] = date("Ymd");
         
         require_once 'CRM/Case/XMLProcessor/Process.php';

@@ -43,7 +43,7 @@ class CRM_Case_Form_Activity_OpenCase
 {
 
     static function preProcess( &$form ) 
-    {        
+    {   
     }
 
    /**
@@ -130,22 +130,25 @@ class CRM_Case_Form_Activity_OpenCase
 
         $contactParams = $params;
         if ( !$form->_clientId ) {
-            $contactParams['location'][1]['is_primary'] = 1;
-            $contactParams['contact_type']              = 'Individual';
-            
-            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-
-            //Dedupe couldn't recognize "email-Primary".So modify params temporary.
-            require_once 'CRM/Dedupe/Finder.php';
-            $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
-            
-            $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
-            
-            // if we find more than one contact, use the first one
-            if ( is_array($ids) ) {
-                $contactParams['contact_id']  = $ids[0];
-            }
-            
+            if ( $form->_buttonName == $form->_assignExistingButtonName ) {
+                
+                $contactParams['location'][1]['is_primary'] = 1;
+                $contactParams['contact_type']              = 'Individual';
+                
+                $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
+                
+                //Dedupe couldn't recognize "email-Primary".So modify params temporary.
+                require_once 'CRM/Dedupe/Finder.php';
+                $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
+                
+                $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
+                
+                // if we find more than one contact, use the first one
+                if ( is_array($ids) ) {
+                    $contactParams['contact_id']  = $ids[0];
+                }
+            } 
+   
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
             $form->_clientId = $contact->id;
