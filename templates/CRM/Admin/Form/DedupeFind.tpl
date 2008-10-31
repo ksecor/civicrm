@@ -1,5 +1,5 @@
 <div id="help">
-    {ts}You can use a perticular group to find duplicate contacts.{/ts} 
+    {ts}You can search All Contacts for duplicates, or search within a specific group (this will be faster).{/ts} 
 </div>
 <div class="form-item">
 <fieldset>
