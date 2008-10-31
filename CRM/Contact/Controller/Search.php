@@ -68,8 +68,7 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
 
         require_once 'CRM/Core/BAO/File.php';
 
-        $session =& CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( ! empty( $uploadNames ) ) {
             $uploadNames = array_merge( $uploadNames,
                                         CRM_Core_BAO_File::uploadNames( ) );

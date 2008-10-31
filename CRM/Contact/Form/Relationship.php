@@ -382,8 +382,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign('customDataSubType',  $this->_relationshipTypeId );
         $this->assign('entityId',  $this->_relationshipId );
        
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {

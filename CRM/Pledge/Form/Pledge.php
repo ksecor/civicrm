@@ -399,8 +399,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         $ele = $this->add('select', 'contribution_page_id', ts( 'Self-service Payments Page' ), 
                           array( '' => ts( '- select -' ) ) + $pledgePages );
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {

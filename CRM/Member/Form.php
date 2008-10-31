@@ -100,8 +100,7 @@ class CRM_Member_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {
