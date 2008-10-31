@@ -1,37 +1,37 @@
 <?php
 
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
- +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the GNU Affero General Public License           |
- | Version 3, 19 November 2007.                                       |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the GNU Affero General Public License for more details.        |
- |                                                                    |
- | You should have received a copy of the GNU Affero General Public   |
- | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org. If you have questions about the        |
- | GNU Affero General Public License or the licensing of CiviCRM,     |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
- +--------------------------------------------------------------------+
-*/
+  /*
+   +--------------------------------------------------------------------+
+   | CiviCRM version 2.1                                                |
+   +--------------------------------------------------------------------+
+   | Copyright CiviCRM LLC (c) 2004-2008                                |
+   +--------------------------------------------------------------------+
+   | This file is a part of CiviCRM.                                    |
+   |                                                                    |
+   | CiviCRM is free software; you can copy, modify, and distribute it  |
+   | under the terms of the GNU Affero General Public License           |
+   | Version 3, 19 November 2007.                                       |
+   |                                                                    |
+   | CiviCRM is distributed in the hope that it will be useful, but     |
+   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+   | See the GNU Affero General Public License for more details.        |
+   |                                                                    |
+   | You should have received a copy of the GNU Affero General Public   |
+   | License along with this program; if not, contact CiviCRM LLC       |
+   | at info[AT]civicrm[DOT]org. If you have questions about the        |
+   | GNU Affero General Public License or the licensing of CiviCRM,     |
+   | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+   +--------------------------------------------------------------------+
+  */
 
-/**
- *
- * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
- * $Id$
- *
- */
+  /**
+   *
+   * @package CRM
+   * @copyright CiviCRM LLC (c) 2004-2007
+   * $Id$
+   *
+   */
 
 class CRM_Core_BAO_CustomValueTable 
 {
@@ -263,36 +263,39 @@ class CRM_Core_BAO_CustomValueTable
     
     function store( &$params, $entityTable, $entityID ) 
     {
-        CRM_Core_Error::debug( $params );
-        exit( );
         $cvParams = array( );
-        foreach ($params as $customValue) {
-            $cvParam = array(
-                             'entity_table'    => $entityTable,
-                             'entity_id'       => $entityID,
-                             'value'           => $customValue['value'],
-                             'type'            => $customValue['type'],
-                             'custom_field_id' => $customValue['custom_field_id'],
-                             'custom_group_id' => $customValue['custom_group_id'],
-                             'table_name'      => $customValue['table_name'],
-                             'column_name'     => $customValue['column_name'],
-                             'file_id'         => $customValue['file_id'],
-                             );
+        foreach ($params as $fieldID => $param ) {
+            foreach ( $param as $index => $customValue ) {
+                $cvParam = array(
+                                 'entity_table'    => $entityTable,
+                                 'entity_id'       => $entityID,
+                                 'value'           => $customValue['value'],
+                                 'type'            => $customValue['type'],
+                                 'custom_field_id' => $customValue['custom_field_id'],
+                                 'custom_group_id' => $customValue['custom_group_id'],
+                                 'table_name'      => $customValue['table_name'],
+                                 'column_name'     => $customValue['column_name'],
+                                 'file_id'         => $customValue['file_id'],
+                                 );
             
-            // fix Date type to be timestamp, since that is how we store in db
-            if ( $cvParam['type'] == 'Date' ) {
-                $cvParam['type'] = 'Timestamp';
-            }
+                // fix Date type to be timestamp, since that is how we store in db
+                if ( $cvParam['type'] == 'Date' ) {
+                    $cvParam['type'] = 'Timestamp';
+                }
 
-            if ($customValue['id']) {
-                $cvParam['id'] = $customValue['id'];
-            }
-            if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
-                $cvParams[$customValue['table_name']] = array( );
-                $cvParams[$customValue['table_name']][-1] = array( );
-            }
+                if ($customValue['id']) {
+                    $cvParam['id'] = $customValue['id'];
+                }
+                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
+                    $cvParams[$customValue['table_name']] = array( );
+                }
 
-            $cvParams[$customValue['table_name']][-1][] = $cvParam;
+                if ( ! array_key_exists( $index, $cvParams[$customValue['table_name']] ) ) {
+                    $cvParams[$customValue['table_name']][$index] = array( );
+                }
+
+                $cvParams[$customValue['table_name']][$index][] = $cvParam;
+            }
         }
 
         if ( ! empty( $cvParams ) ) {
@@ -315,6 +318,7 @@ class CRM_Core_BAO_CustomValueTable
             }
         }
 
+        /***
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( ! CRM_Utils_Array::value( $k, $customData ) &&
@@ -329,6 +333,7 @@ class CRM_Core_BAO_CustomValueTable
                 }
             }
         }
+        ***/
 
         if ( ! empty( $customData ) ) {
             self::store( $customData, $entityTable, $entityID );

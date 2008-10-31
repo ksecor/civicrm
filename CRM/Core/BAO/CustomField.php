@@ -1102,7 +1102,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         list( $tableName, $columnName, $groupID ) = self::getTableColumnGroup( $customFieldId );
         
-        if ( ! $customValueId && $entityId ) {
+        if ( ! $customValueId &&
+             ! $customFields[$customFieldId]['is_multiple'] && // we always create new entites for is_multiple unless specified
+             $entityId ) {
             //get the entity table for the custom field
             require_once "CRM/Core/BAO/CustomQuery.php";
             $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$customFieldExtend];
@@ -1236,16 +1238,29 @@ SELECT $columnName
             $value  =  $filename;
         }
 
-        $customFormatted[$customFieldId] = array('id'              => $customValueId,
-                                                 'value'           => $value,
-                                                 'type'            => $customFields[$customFieldId]['data_type'],
-                                                 'custom_field_id' => $customFieldId, 
-                                                 'custom_group_id' => $groupID,
-                                                 'table_name'      => $tableName,
-                                                 'column_name'     => $columnName,
-                                                 'file_id'         => $fileId,
-                                                 'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
-                                                 );
+        if ( ! array_key_exists( $customFieldId, $customFormatted ) ) {
+            $customFormatted[$customFieldId] = array( );
+        }
+
+        $index = -1;
+        if ( $customFields[$customFieldId]['is_multiple'] &&
+             $customValueId ) {
+            $index = $customValueId;
+        }
+
+        if ( ! array_key_exists( $index, $customFormatted[$customFieldId] ) ) {
+            $customFormatted[$customFieldId][$index] = array( );
+        }
+        $customFormatted[$customFieldId][$index] = array('id'              => $customValueId > 0 ? $customValueId : null,
+                                                         'value'           => $value,
+                                                         'type'            => $customFields[$customFieldId]['data_type'],
+                                                         'custom_field_id' => $customFieldId, 
+                                                         'custom_group_id' => $groupID,
+                                                         'table_name'      => $tableName,
+                                                         'column_name'     => $columnName,
+                                                         'file_id'         => $fileId,
+                                                         'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
+                                                         );
 
         return $customFormatted;
     }
