@@ -89,6 +89,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
     static function formRule(&$fields, &$files, $self) 
     {
         $errors = array();
+        if ( empty( $fields['extends'][0] ) ) {
+            $errors['extends'] = ts("You need to select the type of record that this group of custom fields is applicable for.");
+        }
 
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
@@ -246,20 +249,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                                       null,
                                       array( 'onclick' => "showRange();"));
 
-        if ( $freeze ) {
-            $multiple->freeze();
-        }
-        
         $min_multiple = $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
         $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
-        if ( $freeze ) {
-            $min_multiple->freeze();
-        }
         
         $max_multiple = $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
         $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
         
         if ( $freeze ) {
+            $multiple->freeze();
+            $min_multiple->freeze();
             $max_multiple->freeze();
         }
        
