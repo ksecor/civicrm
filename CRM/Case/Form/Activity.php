@@ -126,17 +126,37 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
     function preProcess( ) 
     {        
         $this->_id             = CRM_Utils_Request::retrieve( 'id',    'Positive', $this,  true );
-        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this,  true );
         $this->_activityId     = CRM_Utils_Request::retrieve( 'aid'  , 'Positive', $this );
         
+        $isActTypeReqd = true;
+        if ( $this->_activityId ) {
+            $isActTypeReqd = false;
+        }
+        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, $isActTypeReqd );
+        
+        if ( !$this->_activityTypeId && $this->_activityId ) {
+            $this->_activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                                  $this->_activityId,
+                                                                  'activity_type_id' );
+        }
+
         if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
             $this->assign( 'caseAction', $this->_caseAction );
         }
 
-        $caseSubject = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
-                                                $this->_id,
-                                                'subject' );
+        //retrieve details about case
+        require_once "CRM/Case/PseudoConstant.php";
+        $caseParams       = array( 'id' => $this->_caseId );
+        $returnProperties = array( 'case_type_id', 'subject' );
+        CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $caseParams, $values, $returnProperties );
+        $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
+                                           trim(CRM_Utils_Array::value('case_type_id', $values), 
+                                                CRM_Case_BAO_Case::VALUE_SEPERATOR) );
+        $caseTypes   = CRM_Case_PseudoConstant::caseType( );
+        $caseType    = $caseTypes[$values['case_type_id'][0]];
+
+        $caseSubject = $values['subject'];
         $this->assign( 'caseSubject', $caseSubject );
 
         $session    =& CRM_Core_Session::singleton();
@@ -182,6 +202,18 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->assign( 'activityTypeName',        $this->_activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
 
+        if ( !$this->_activityId ) { 
+            // check if activity count is within the limit
+            require_once 'CRM/Case/XMLProcessor/Process.php';
+            $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
+            $activityInst  = $xmlProcessor->getMaxInstance($caseType, $this->_activityTypeName);
+            $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
+            if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
+                CRM_Core_Error::statusBounce( ts("No more instances of activity allowed for the type '%1'", 
+                                                 array(1 => $this->_activityTypeName)) );
+            }
+        }
+
         CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSubject,'2' => $this->_activityTypeName)) );
 
         //when custom data is included in this page
@@ -189,11 +221,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->set( 'subType' , $this->_activityTypeId );
         $this->set( 'entityId', $this->_activityId );
         CRM_Custom_Form_Customdata::preProcess( $this );
-
-        // user context
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&cid={$this->_clientId}&action=view&id={$this->_id}&show=1&selectedChild=case" );
-        $session->pushUserContext( $url );
 
         // add 2 attachments
         require_once 'CRM/Core/BAO/File.php';

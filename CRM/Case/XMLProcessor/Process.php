@@ -179,18 +179,25 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         return true;
     }
 
-    function activityTypes( $activityTypesXML ) {
+    function activityTypes( $activityTypesXML, $maxInst = false ) {
         $activityTypes =& $this->allActivityTypes( );
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {
                 $activityTypeName = (string ) $recordXML->name;
                 $categoryName     = (string ) $recordXML->category;
+                $maxInstances     = (string ) $recordXML->max_instances;
                 $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
                                                             CRM_Utils_Array::value( $categoryName,
                                                                                     $activityTypes ) );
                 if ( $activityTypeInfo ) {
-                    $result[$activityTypeInfo['id']] = $activityTypeName;
+                    if ( !$maxInst ) {
+                        $result[$activityTypeInfo['id']] = $activityTypeName;
+                    } else {
+                        if ( $maxInstances ) {
+                            $result[$activityTypeName] = $maxInstances;
+                        }
+                    }
                 }
             }
         }
@@ -301,5 +308,15 @@ AND        ca.case_id = %3
         }
         return $result;
     }
+    
+    function getMaxInstance( $caseType ) {
+        $xml = $this->retrieve( $caseType );
+        
+        if ( $xml === false ) {
+            CRM_Core_Error::fatal( );
+            return false;
+        }
 
+        return $this->activityTypes( $xml->ActivityTypes, true );
+    }
 }

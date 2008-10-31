@@ -682,6 +682,35 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         }
         return $result;
     }
+
+    /**
+     * Retrieve count of activities having a particular type, and
+     * associated with a particular case.
+     *
+     * @param int    $caseId          ID of the case
+     * @param int    $activityTypeId  ID of the activity type
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    static function getCaseActivityCount( $caseId, $activityTypeId ) 
+    {
+        $queryParam = array( 1 => array( $caseId, 'Integer' ),
+                             2 => array( $activityTypeId, 'Integer' ) );
+        $query = "SELECT count(ca.id) as countact 
+FROM civicrm_activity ca
+INNER JOIN civicrm_case_activity cca ON ca.id = cca.activity_id 
+WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
+        
+        $dao = CRM_Core_DAO::executeQuery($query, $queryParam);
+        if ( $dao->fetch() ) {
+            return $dao->countact;
+        }
+        
+        return false;
+    }
 }
 
    
