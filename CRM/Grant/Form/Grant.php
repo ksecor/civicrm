@@ -79,7 +79,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                 $this->_noteId = $noteDAO->id;
             }
         }
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this->_id, 0 );
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this, $this->_id, 0 );
     }
     
     function setDefaultValues( ) 

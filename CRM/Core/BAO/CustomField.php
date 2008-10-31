@@ -346,7 +346,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cfTable.options_per_line,
                             $cgTable.extends, $cfTable.is_search_range,
                             $cgTable.extends_entity_column_value,
-                            $cfTable.is_view
+                            $cfTable.is_view,
+                            $cgTable.is_multiple
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
@@ -379,7 +380,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $dao =& CRM_Core_DAO::executeQuery( $query );
         
                 $fields = array( );
-                while (( $dao->fetch( ) ) != null) {
+                while ( ( $dao->fetch( ) ) != null) {
                     $fields[$dao->id]['label']                       = $dao->label;
                     $fields[$dao->id]['groupTitle']                  = $dao->title;
                     $fields[$dao->id]['data_type']                   = $dao->data_type;
@@ -389,6 +390,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $fields[$dao->id]['is_search_range']             = $dao->is_search_range;
                     $fields[$dao->id]['extends_entity_column_value'] = $dao->extends_entity_column_value;
                     $fields[$dao->id]['is_view']                     = $dao->is_view;
+                    $fields[$dao->id]['is_multiple']                 = $dao->is_multiple;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
@@ -448,7 +450,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function getKeyID($key, $all = false) 
     {
         $match = array( );
-        if (preg_match('/^custom_(\d+)_?(-\d+)?$/', $key, $match)) {
+        if (preg_match('/^custom_(\d+)_?(-?\d+)?$/', $key, $match)) {
             if ( ! $all ) {
                 return $match[1];
             } else {
@@ -1151,13 +1153,6 @@ SELECT id
                     $unformat = CRM_Utils_Date::unformat( $value, $separator );
                     if ( $unformat ) {
                         $value = $unformat;
-
-
-
-
-
-
-
                     }
                 }
 
@@ -1248,7 +1243,8 @@ SELECT $columnName
                                                  'custom_group_id' => $groupID,
                                                  'table_name'      => $tableName,
                                                  'column_name'     => $columnName,
-                                                 'file_id'         => $fileId
+                                                 'file_id'         => $fileId,
+                                                 'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
                                                  );
 
         return $customFormatted;

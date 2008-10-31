@@ -99,7 +99,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $values['event']['event_type_id'] );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this, $this->_id, 0, $values['event']['event_type_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
         

@@ -199,6 +199,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
      *
      */
     public static function &getTree( $entityType,
+                                     &$form,
                                      $entityID = null,
                                      $groupID  = null,
                                      $subType  = null )
@@ -234,7 +235,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'title',
                         'help_pre',
                         'help_post',
-                        'collapse_display', ),
+                        'collapse_display',
+                        'is_multiple' ),
                   );
 
        // create select
@@ -494,9 +496,15 @@ SELECT $select
             }
         }
 
-        //hack for field type File
-        $session = & CRM_Core_Session::singleton( );
-        $session->set('uploadNames', $uploadNames);
+        if ( $form ) {
+            // hack for field type File
+            $formUploadNames = $form->get( 'uploadNames' );
+            if ( $formUploadNames ) {
+                $uploadNames = array_unique( array_merge( $formUploadName, $uploadNames ) );
+            }
+            $form->set('uploadNames', $uploadNames);
+        }
+
         return $groupTree;
     }
 
@@ -1089,7 +1097,6 @@ SELECT $select
             }
                 
         }
-    
         
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
@@ -1347,7 +1354,7 @@ ORDER BY weight ASC, label ASC";
             return;
         }
         
-        $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type );
+        $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type, $form );
         $customFields =& CRM_Core_BAO_CustomField::getFields( $type );
 
         $customValue  = array();

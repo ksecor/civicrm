@@ -192,7 +192,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             // get the tree of custom fields
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this,
+                                                                   $this->_activityId, 0, $this->_activityTypeId );
         }
 
         if ( ( isset( $this->_context) && ! in_array( $this->_context, array('standalone', 'case', 'search' ) ) )  || $this->_activityTypeId ) {
