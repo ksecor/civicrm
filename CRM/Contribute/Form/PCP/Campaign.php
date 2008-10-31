@@ -60,6 +60,11 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                 CRM_Core_DAO::storeValues( $dao, $defaults );
             }
         }
+
+        if ( $this->get('action') & CRM_Core_Action::ADD ) {
+            $defaults['is_active'] = 1;
+        }
+        
         return $defaults;
     }
     
@@ -87,10 +92,6 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Thermometer') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
-
-        if ( $this->get('action') & CRM_Core_Action::ADD ) {
-            $this->setDefaults(array('is_active' => 1));
-        }
         $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
         $buttonType = $this->buttonType( );
 
