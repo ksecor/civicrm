@@ -7,7 +7,7 @@ $config = CRM_Core_Config::singleton( );
 
 require_once 'CRM/Case/XMLProcessor/Report.php';
 $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-$report = $xmlProcessor->getActivityInfo( 108, 546 );
+$report = $xmlProcessor->getActivityInfo( 102, 552 );
 CRM_Core_Error::debug( $report );
 exit( );
 
