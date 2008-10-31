@@ -79,10 +79,10 @@ function run( ) {
 
     require_once 'CRM/Core/BAO/CustomValueTable.php';
 
-    // testCustomGroupOne( );
-    // testCustomGroupTwoSingle( );
-    // testCustomGroupTwoMultiple( );
-    // testCustomGroupTwoUpdate( );
+    testCustomGroupOne( );
+    testCustomGroupTwoSingle( );
+    testCustomGroupTwoMultiple( );
+    testCustomGroupTwoUpdate( );
     testCustomGroupTwoOldFormat( );
 }  
 

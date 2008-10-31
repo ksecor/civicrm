@@ -62,7 +62,7 @@ class CRM_Group_Controller extends CRM_Core_Controller {
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $uploadArray = $uploadNames;
             $this->addActions( $config->customFileUploadDir, $uploadArray );
-            $uploadNames = $form->set( 'uploadNames', null );
+            $uploadNames = $this->set( 'uploadNames', null );
         } else {
             $this->addActions( );
         }

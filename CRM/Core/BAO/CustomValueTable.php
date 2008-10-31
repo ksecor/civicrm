@@ -306,35 +306,12 @@ class CRM_Core_BAO_CustomValueTable
 
     function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) 
     {
-        $customData = array( );
         require_once "CRM/Core/BAO/CustomField.php";
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
-                                                             $customData,
-                                                             $value,
-                                                             $customFieldExtends,
-                                                             $customFieldInfo[1],
-                                                             $entityID );
-            }
-        }
-
-        /***
-        if ( ! empty( $customFields ) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( ! CRM_Utils_Array::value( $k, $customData ) &&
-                     in_array ( $val['html_type'],
-                                array ('CheckBox','Multi-Select', 'Radio') ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k,
-                                                                 $customData,
-                                                                 '',
-                                                                 $customFieldExtends,
-                                                                 null,
-                                                                 $entityID );
-                }
-            }
-        }
-        ***/
+        $customData = CRM_Core_BAO_CustomField( $params,
+                                                $customFields,
+                                                $entityTable,
+                                                $entityID,
+                                                $customFieldExtends );
 
         if ( ! empty( $customData ) ) {
             self::store( $customData, $entityTable, $entityID );

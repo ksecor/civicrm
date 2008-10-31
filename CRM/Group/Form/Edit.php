@@ -208,8 +208,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $this->add( 'select', 'visibility', ts('Visibility'),
                         CRM_Core_SelectValues::ufVisibility( ), true ); 
             
-            $session = & CRM_Core_Session::singleton( );
-            $uploadNames = $form->get( 'uploadNames' );
+            $uploadNames = $this->get( 'uploadNames' );
             if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
                 $buttonType = 'upload';
             } else {
