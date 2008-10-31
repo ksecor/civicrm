@@ -286,7 +286,7 @@ WHERE civicrm_custom_group.is_active = 1
             $params[1] = array( $groupID, 'Integer' );
         } else if ( ! $groupID ){
             // since groupID is false we need to show all Inline groups
-            $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
+            //$strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
 
         require_once 'CRM/Core/Permission.php';
@@ -305,7 +305,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-
+        //crm_core_error::debug('$queryString', $queryString );
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
         

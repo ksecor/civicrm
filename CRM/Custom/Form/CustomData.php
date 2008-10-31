@@ -48,6 +48,8 @@ class CRM_Custom_Form_CustomData
         $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
 
         $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form, $form->_entityId, 0, $form->_subType );
+
+        //crm_core_error::debug('$form->_groupTree',$form->_groupTree );
     }
 
     static function setDefaultValues( &$form ) 

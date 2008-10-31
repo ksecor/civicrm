@@ -1,3 +1,4 @@
+{if $cdType }
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
     {if $group_id ne 'info'}
@@ -114,3 +115,8 @@
   </script>
 {/if}
 
+{else}
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+{/if}
