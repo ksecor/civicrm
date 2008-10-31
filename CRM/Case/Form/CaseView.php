@@ -142,6 +142,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $reports = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivitySets' );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
+        $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
 
         require_once "CRM/Case/PseudoConstant.php";
         require_once 'CRM/Core/Component.php';
