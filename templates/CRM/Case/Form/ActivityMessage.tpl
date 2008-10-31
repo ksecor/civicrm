@@ -18,7 +18,7 @@
 {$customGroupName}
 ==========================================================
 {foreach from=$customGroup item=field}
-{$field.label}: {$field.value}
+{$field.label}=> {$field.value}
 {/foreach}
 
 {/foreach}

@@ -423,11 +423,16 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            if ( $this->_activityId && $this->_defaults['is_auto'] != 0 ) {
+                // since we want same custom data to be attached to
+                // new activity.
+                $activityId = $this->_activityId;
+            }
             $customData = array( );
             foreach ( $params as $key => $value ) {
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null, $this->_activityId );
+                                                                 $value, 'Activity', null, $activityId );
                 }
             }
             
@@ -502,6 +507,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 CRM_Core_BAO_File::copyEntityFile( 'civicrm_activity', $this->_activityId, 
                                                    'civicrm_activity', $activity->id );
             }
+
+            // copy back params to original var
+            $params = $newActParams;
         }
 
         // create case activity record
@@ -514,7 +522,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // created / edited by contact id and date for the activity)
         // Note - civicrm_log is already created by CRM_Activity_BAO_Activity::create()
 
-       
+
         //send copy to selected contacts.        
         $mailStatus = '';
         if ( array_key_exists('contact_check', $params) ) {
