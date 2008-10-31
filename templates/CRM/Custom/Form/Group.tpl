@@ -57,7 +57,13 @@
 <script type="text/Javascript">
 
 showHideStyle();
-showRange();
+
+var freeze = {/literal}"{$freeze}"{literal};
+
+if ( !freeze ) {
+     showRange();
+}	
+
 
 function showHideStyle()
 {
@@ -74,8 +80,14 @@ function showHideStyle()
 
 function showRange()
 {
-  cj("#multiple").toggle();
-}
+	var checkbox = document.getElementsByName("is_multiple");
+
+	if (checkbox[0].checked) {
+           show('multiple');
+        } else { 
+	   hide('multiple');
+  	} 
+  }
 
 </script>
 {/literal}

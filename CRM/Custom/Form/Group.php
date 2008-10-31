@@ -38,7 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Custom_Form_Group extends CRM_Core_Form {
+class CRM_Custom_Form_Group extends CRM_Core_Form 
+{
 
     /**
      * the group id saved to the session for an update
@@ -85,12 +86,18 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function formRule(&$fields, &$files, $self) {
+    static function formRule(&$fields, &$files, $self) 
+    {
         $errors = array();
 
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
-            $errors['style'] = 'Display Style should be Inline for this Class';
+            $errors['style'] = ts("Display Style should be Inline for this Class");
+        }
+
+        if ( $fields['is_multiple'] && isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
+             && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
+            $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
         }
 
         //checks the given custom group doesnot start with digit
@@ -179,7 +186,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
-        
+        $freeze = false;
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup', $this->_id, 'is_multiple' ) ) {
+            $freeze = true;
+        }
+        $this->assign( 'freeze', $freeze );
+
         if ( !empty( $cSubTypes ) ) {
             $contactSubTypes = array( );
             foreach($cSubTypes as $key => $value ) {
@@ -204,7 +216,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                                          'name'    => "extends[0]"
                                          ) );
         $sel->setOptions( array( $sel1, $sel2 ) );
-        
+       
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $sel->freeze();
             $this->assign('gid', $this->_id);
@@ -226,21 +238,31 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
-
+        
         // does this group have multiple record?
-        $this->addElement('checkbox', 
-                          'is_multiple', 
-                          ts('Does this Custom Data Group allow multiple records?'),
-                          null,
-                          array( 'onclick' => "showRange();"));
+        $multiple = $this->addElement('checkbox', 
+                                      'is_multiple', 
+                                      ts('Does this Custom Data Group allow multiple records?'),
+                                      null,
+                                      array( 'onclick' => "showRange();"));
 
-        $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
+        if ( $freeze ) {
+            $multiple->freeze();
+        }
+        
+        $min_multiple = $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
         $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
-
-        $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
+        if ( $freeze ) {
+            $min_multiple->freeze();
+        }
+        
+        $max_multiple = $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
         $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
-
-
+        
+        if ( $freeze ) {
+            $max_multiple->freeze();
+        }
+       
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -293,7 +315,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
                                                               $defaults );
         }
-        
         return $defaults;
         
     }
