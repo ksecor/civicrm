@@ -119,6 +119,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         $tableName = null;
         if ( isset( $params['id'] ) ) {
             $group->id = $params['id'] ;
+            //check whether custom group was changed from single-valued to multiple-valued
+            if ($params['is_multiple'] && $params['is_multiple'] != CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'is_multiple' ) ) {
+                $oldTableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'table_name' );
+            }
         } else {
             // lets create the table associated with the group and save it
             $tableName = $group->table_name = "civicrm_value_" .
@@ -142,6 +146,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
 
             // now create the table associated with this group
             self::createTable( $group );
+        } elseif ( $oldTableName ) {
+            require_once 'CRM/Core/BAO/SchemaHandler.php';
+            CRM_Core_BAO_SchemaHandler::changeUniqueToIndex( $oldTableName );
         }
         $transaction->commit( );
         return $group;
@@ -663,7 +670,8 @@ SELECT $select
     }
 
 
-    public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
+    public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) 
+    {
         // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
        
@@ -1070,7 +1078,8 @@ SELECT $select
                                     $showName = 'showBlocks',
                                     $hideName = 'hideBlocks',
                                     $inactiveNeeded = false,
-                                    $alwaysShow = false ) {
+                                    $alwaysShow = false ) 
+    {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
 
@@ -1165,7 +1174,8 @@ SELECT $select
     static function buildViewHTML( &$page, &$groupTree,
                                    $viewName = 'viewForm',
                                    $showName = 'showBlocks1',
-                                   $hideName = 'hideBlocks1' ) {
+                                   $hideName = 'hideBlocks1' ) 
+    {
         //showhide blocks for Custom Fields inline
         $sBlocks = array();
         $hBlocks = array();
@@ -1348,7 +1358,8 @@ ORDER BY weight ASC, label ASC";
      * @access public
      * @static
      */
-    static function extractGetParams( &$form, $type ) {
+    static function extractGetParams( &$form, $type ) 
+    {
         // if not GET params return
         if ( empty( $_GET ) ) {
             return;
@@ -1450,7 +1461,8 @@ ORDER BY weight ASC, label ASC";
         return true;
     }
 
-    static function mapTableName( $table ) {
+    static function mapTableName( $table ) 
+    {
         switch ( $table ) {
         case 'Contact':
         case 'Individual':
@@ -1493,7 +1505,8 @@ ORDER BY weight ASC, label ASC";
         }
     }
 
-    static function createTable( $group ) {
+    static function createTable( $group ) 
+    {
         $params = array(
                         'name'           => $group->table_name,
                         'is_multiple'    => $group->is_multiple ? 1 : 0,
