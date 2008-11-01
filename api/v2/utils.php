@@ -174,6 +174,17 @@ function _civicrm_add_formatted_param(&$values, &$params)
         }
         return true;
     }
+    
+    if ( isset($values['greeting_type']) ) {
+        if ( $params['greeting_type_id'] ) {
+            $greetings = array( );
+            $greetings = CRM_Core_PseudoConstant::greeting( );
+            $params['greeting'] = $greetings[$params['greeting_type_id']];
+        } else {
+            $params['greeting'] = $values['greeting_type'];
+        }
+        return true;
+    }
 
     if ( isset($values['gender']) ) {
         if ( $params['gender_id'] ) {

@@ -556,7 +556,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
-            
+            $formatted['greeting_type']     = CRM_Core_OptionGroup::getValue( 'greeting_type', (string)$formatted['greeting'] );
+
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
             
         }
@@ -1022,6 +1023,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Individual Suffix', $errorMessage);
                     }   
                     break;
+                case 'greeting_type':
+                    if ( !self::in_value($value,CRM_Core_PseudoConstant::greeting()) ) {
+                        self::addToErrorMsg('Greeting Type', $errorMessage);
+                    }   
+                    break;     
                 case 'state_province':
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {

@@ -373,6 +373,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'field_type'       => $field->field_type,
                           'field_id'         => $field->id
                           );
+                if( $name == 'greeting_type' && ( $action == 2 || $action == 4 ) )  {
+                    $fields['custom_greeting'] = array (
+                                                        'name'       => 'custom_greeting',
+                                                        'where'      => 'contact_a.custom_greeting',
+                                                        'title'      => 'Custom Greeting',
+                                                        'group_id'   => $group->id,
+                                                        'visibility' => $field->visibility
+                                                        );
+                }
 
                 //adding custom field property 
                 if ( substr($name, 0, 6) == 'custom' ) {
@@ -1296,7 +1305,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
         } else if ( $fieldName === 'greeting_type' ){            
             $form->add('select', $name, $title, 
-                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required);
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();") );
+            // custom greeting          
+             $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, $required);
             
         } else if ($fieldName === 'preferred_communication_method') {
             $communicationFields = CRM_Core_PseudoConstant::pcm();
@@ -1443,7 +1454,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
-                    // to handle gender / suffix / prefix
+                    // to handle gender / suffix / prefix / greeting_type
                     if ($name == 'gender') { 
                         $defaults[$fldName] = $details['gender_id'];
                     } else if ($name == 'individual_prefix') {

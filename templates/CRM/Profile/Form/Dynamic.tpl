@@ -96,7 +96,17 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {$form.$n.html}
+           {if $n eq 'greeting_type'}
+                <table class="form-layout-compressed">
+                    <tr>
+                        <td>{$form.$n.html}</td>
+                        <td id="greetingLabel" style="display:none;">{$form.custom_greeting.label}</td>
+                        <td id="greetingHtml" style="display:none;">{$form.custom_greeting.html|crmReplace:class:big}</td>
+                    </tr>
+                </table>
+            {else}        
+                {$form.$n.html}
+            {/if}
            </td>
            {if $field.html_type eq 'Radio' and $form.formName eq 'Edit'}
                 <td style="line-height: .75em; margin-top: 1px;">
@@ -180,3 +190,17 @@ field_type          ="radio"
 invert              = 0
 }
 {/if}
+
+{literal}
+<script type="text/javascript">
+    function showGreeting() {
+       if( document.getElementById("greeting_type").value == 4 ) {
+           show('greetingLabel');
+           show('greetingHtml');                   
+       } else {
+           hide('greetingLabel');
+           hide('greetingHtml');      
+       }     
+    }
+</script>
+{/literal}

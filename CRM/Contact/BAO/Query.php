@@ -496,6 +496,7 @@ class CRM_Contact_BAO_Query
                             
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
+                            $this->_select['custom_greeting']  = 'contact_a.custom_greeting as custom_greeting';
                         } else {
                             $this->_tables[$tableName]         = 1;
                             

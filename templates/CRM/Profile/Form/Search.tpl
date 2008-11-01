@@ -55,7 +55,13 @@
 	{else}
 	        <tr>
         	    <td class="label">{$form.$n.label}</td>
-	            <td class="description">{$form.$n.html}</td>
+                {if $n eq 'greeting_type'}             
+                    <td class="description">{$form.$n.html}</td>
+                    <td id="greetingLabel" style="display:none;">{$form.custom_greeting.label}</td>
+                    <td id="greetingHtml" style="display:none;">{$form.custom_greeting.html|crmReplace:class:big}</td>
+                {else}
+                    <td class="description">{$form.$n.html}</td>
+                {/if}
         	</tr>
 	{/if}
     {/foreach}
@@ -85,3 +91,18 @@
       </dl>
     </div>
 {/if}
+
+{literal}
+<script type="text/javascript">
+   
+    function showGreeting() {
+        if( document.getElementById("greeting_type").value == 4 ) {
+            show('greetingLabel');
+            show('greetingHtml');               
+        } else {
+            hide('greetingLabel');
+            hide('greetingHtml');    
+        }        
+    }
+</script>
+{/literal}
