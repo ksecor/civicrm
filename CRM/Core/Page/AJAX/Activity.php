@@ -42,11 +42,14 @@ class CRM_Core_Page_AJAX_Activity
         $caseID     = CRM_Utils_Type::escape( $_GET['caseID'], 'Integer' );
         $contactID  = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
         
+        $params     = $_POST;
+        $params['is_current_revision']   = 1;
+
         // get the activities related to given case
         require_once "CRM/Case/BAO/Case.php";
-        $activities = CRM_Case_BAO_Case::getCaseActivity( $caseID, $_POST, $contactID );
+        $activities = CRM_Case_BAO_Case::getCaseActivity( $caseID, $params, $contactID );
 
-        $page = $_POST['page'];
+        $page = $params['page'];
         if (!$page) $page = 1;
         $total = count($activities);
 

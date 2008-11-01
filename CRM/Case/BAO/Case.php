@@ -511,6 +511,14 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
+        if ( $params['is_current_revision'] ) {
+            $where .= " AND ca.is_current_revision = 1";
+        }
+
+        if ( $params['activity_type_id'] ) {
+            $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
+        }
+
         $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
         $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
 

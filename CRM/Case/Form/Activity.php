@@ -209,8 +209,21 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $activityInst  = $xmlProcessor->getMaxInstance($caseType, $this->_activityTypeName);
             $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
             if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
-                CRM_Core_Error::statusBounce( ts("No more instances of activity allowed for the type '%1'", 
-                                                 array(1 => $this->_activityTypeName)) );
+                if ( $activityInst[$this->_activityTypeName] == 1 ) {
+                    $activities = 
+                        CRM_Case_BAO_Case::getCaseActivity( $this->_id, 
+                                                            array('activity_type_id' => 
+                                                                  $this->_activityTypeId), 
+                                                            $this->_uid );
+                    $activities = array_keys($activities);
+                    $activities = $activities[0];
+                    $editUrl    = 
+                        CRM_Utils_System::url( 'civicrm/case/activity', 
+                                               "reset=1&cid={$this->_clientId}&id={$this->_id}&aid={$activities}" );
+                }
+                CRM_Core_Error::statusBounce( ts("You can not add more activities of '%1' to this case. %2", 
+                                                 array( 1 => $this->_activityTypeName,
+                                                        2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
             }
         }
 
