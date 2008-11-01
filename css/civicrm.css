@@ -501,6 +501,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   vertical-align: top;
 }
 
+#crm-container td.enclosingNested {
+  padding: 0px;
+}
+
 #crm-container .nowrap {
   white-space: nowrap;
 }

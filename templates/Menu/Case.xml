@@ -36,5 +36,10 @@
      <path>civicrm/case/activity/view</path>
      <title>Activity View</title>
      <page_callback>CRM_Case_Form_ActivityView</page_callback>
+  </item>
+  <item>
+     <path>civicrm/case/details</path>
+     <title>Case Details</title>
+     <page_callback>CRM_Case_Page_CaseDetails</page_callback>
   </item>  
 </menu>

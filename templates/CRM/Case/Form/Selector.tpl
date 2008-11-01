@@ -52,7 +52,7 @@
         &nbsp;{$row.contact_type}<br/>
     {/if}
 	<span id="{$row.case_id}_show">
-	    <a href="#" onclick="show('caseDetails$row.case_id}', 'table-row'); 
+	    <a href="#" onclick="show('caseDetails{$row.case_id}', 'table-row'); 
                              buildCaseDetails('{$row.case_id}','{$row.contact_id}'); 
                              hide('{$row.case_id}_show');
                              show('minus{$row.case_id}_hide');
@@ -60,7 +60,7 @@
                              return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
 	<span id="minus{$row.case_id}_hide">
-	    <a href="#" onclick="hide('caseDetails$row.case_id}'); 
+	    <a href="#" onclick="hide('caseDetails{$row.case_id}'); 
                              show('{$row.case_id}_show', 'table-row');
                              hide('{$row.case_id}_hide');
                              hide('minus{$row.case_id}_hide');
@@ -83,11 +83,11 @@
      <td style="border-right: none;">
      </td>
 {if $context EQ 'Search'}
-     <td colspan="10">
+     <td colspan="10" class="enclosingNested">
 {else}
-     <td colspan="9">
+     <td colspan="9" class="enclosingNested">
 {/if}
-        <div id="caseDetails$row.case_id}"></div>
+        <div id="caseDetails{$row.case_id}"></div>
      </td>
    </tr>
  <script type="text/javascript">
@@ -125,9 +125,9 @@
 function buildCaseDetails( caseId, contactId )
 {
 
-  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='} + caseId +"{literal};
+  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId;
 
-  dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
+  dataUrl = dataUrl + '&cid=' + contactId;
 	
     var result = dojo.xhrGet({
         url: dataUrl,
