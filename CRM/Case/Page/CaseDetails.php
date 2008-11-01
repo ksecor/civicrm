@@ -79,27 +79,6 @@ class CRM_Case_Page_CaseDetails extends CRM_Core_Page
         return parent::run();
     }
 
-    /** 
-     * This function is called when action is update or new 
-     *  
-     * return null 
-     * @access public 
-     */ 
-    function edit( ) 
-    { 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_CaseDetails', 
-                                                       'Update Case CaseDetails', 
-                                                       $this->_action );
-
-        $caseCaseDetailsId = CRM_Utils_Request::retrieve( 'ppId', 'Positive', $this );
-
-        $controller->setEmbedded( true ); 
-        $controller->set( 'id' , $caseCaseDetailsId ); 
-        
-        return $controller->run( );
-    }
-
-
 }
 
 
