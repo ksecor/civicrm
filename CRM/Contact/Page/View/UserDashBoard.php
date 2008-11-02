@@ -150,7 +150,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $sectionName = 'Permissioned Orgs';
         if ( $this->_userOptions[ $sectionName ] ) {
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
-                                          'sectionTitle' => 'My Contacts / Organizations',
+                                          'sectionTitle' => ts( 'My Contacts / Organizations' ),
                                           'weight'       => 40 );
          
             $links =& self::links( );
