@@ -623,3 +623,25 @@ ALTER TABLE `civicrm_group_nesting`
     DROP FOREIGN KEY `FK_civicrm_group_nesting_child_group_id`;
 ALTER TABLE `civicrm_group_nesting` 
     ADD CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE;
+
+-- CRM-3749
+UPDATE civicrm_uf_field SET field_type = 'Contact' 
+WHERE field_name IN ('address_name','city','contact_sub_type','contact_type','country','custom_greeting','display_name','do_not_email','do_not_mail','do_not_phone','do_not_trade','email','external_identifier','geo_code_1','geo_code_2','group','im','image_URL','id','nick_name','is_opt_out','on_hold','openid','phone','postal_code','postal_code_suffix','preferred_communication_method','preferred_mail_format','sort_name','contact_source','state_province','street_address','supplemental_address_1','supplemental_address_2','tag','user_unique_id','is_bulkmail','world_region');
+
+UPDATE civicrm_uf_field SET field_type = 'Individual'   
+WHERE field_name IN ('birth_date','current_employer','deceased_date','first_name','gender','greeting_type','home_URL','individual_prefix','individual_suffix','is_deceased','job_title','last_name','legal_identifier','middle_name');
+
+UPDATE civicrm_uf_field SET field_type = 'Household'    
+WHERE field_name IN ('household_name');
+
+UPDATE civicrm_uf_field SET field_type = 'Organization' 
+WHERE field_name IN ('home_URL','legal_identifier','legal_name','organization_name','sic_code');
+
+UPDATE civicrm_uf_field SET field_type = 'Participant'  
+WHERE field_name IN ('participant_fee_amount','participant_fee_level','participant_is_pay_later','participant_note','participant_role_id','participant_source','participant_status_id','participant_register_date');
+
+UPDATE civicrm_uf_field SET field_type = 'Contribution' 
+WHERE field_name IN ('contribution_type','amount_level','cancel_date','cancel_reason','contribution_source','contribution_status_id','currency','fee_amount','invoice_id','net_amount','non_deductible_amount','receipt_date','receive_date','thankyou_date','total_amount','trxn_id');
+
+UPDATE civicrm_uf_field SET field_type = 'Membership'   
+WHERE field_name IN ('membership_source');
