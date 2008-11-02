@@ -616,11 +616,10 @@ ALTER TABLE `civicrm_line_item`
   DROP FOREIGN KEY FK_civicrm_line_item_price_field_id;
 
 ALTER TABLE `civicrm_line_item`
-  ADD CONSTRAINT `FK_civicrm_line_item_price_field_id` FOREIGN KEY (`price_field_id`) REFERENCES `civicrm_price_field` (`id`) ON DELETE CASCADE
+  ADD CONSTRAINT `FK_civicrm_line_item_price_field_id` FOREIGN KEY (`price_field_id`) REFERENCES `civicrm_price_field` (`id`) ON DELETE CASCADE;
 
 -- fix constraint
-ALTER TABLE `civicrm_group_nesting`
+ALTER TABLE `civicrm_group_nesting` 
     DROP FOREIGN KEY `FK_civicrm_group_nesting_child_group_id`;
-ALTER TABLE `civicrm_group_nesting`
+ALTER TABLE `civicrm_group_nesting` 
     ADD CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE;
-
