@@ -177,6 +177,8 @@
       <title>Details</title>
       <import>true</import> 
       <type>text</type>
+      <rows>8</rows>
+      <cols>60</cols>
       <comment>Details about the activity (agenda, notes, etc).</comment>
       <add>1.1</add>
   </field>

@@ -77,7 +77,7 @@
             {/if} 
           {/if}
           {if $element.data_type eq 'Date' && $element.skip_calendar NEQ true } 
-              <br />
+              &nbsp;
               {if $element.skip_ampm NEQ true }
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_customdata_$field_id doTime=1}
                 {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_customdata_$field_id ampm=1}
@@ -102,7 +102,7 @@
 {/foreach}
 {/strip}
 
-{if $form.buttons.html }
+{if $form.buttons.html and !$noPostCustomButton}
 <dl>
   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>  

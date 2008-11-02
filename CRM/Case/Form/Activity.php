@@ -334,7 +334,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
-        $this->addRule('duration', ts('Please enter a valid duration for activity.'), 'positiveInteger');  
+        $this->addRule('duration', ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
+
+        $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
 
         $this->add('select','status_id',ts('Activity Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
         

@@ -64,7 +64,8 @@
           <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
         </tr>
        <tr>
-          <td class="label">{$form.medium_id.label}</td><td class="view-value">{$form.medium_id.html}</td>
+          <td class="label">{$form.medium_id.label}</td>
+          <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.location.label} &nbsp;{$form.location.html}</td>
        </tr> 
        <tr>
           <td class="label">{$form.due_date_time.label}</td>
@@ -87,33 +88,27 @@
                   </span>
               {/if}  
           </td>
-       </tr> 
-       <tr>
-          <td class="label">{$form.duration.label}</td>
-          <td class="view-value">
-            {$form.duration.html} {ts}Mins{/ts}<br />
-             <span class="description">{ts}Duration in minutes for this activity.{/ts}
-          </td>
-       </tr> 
-       <tr>
-          <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
-       </tr> 
+       </tr>
        <tr>
           <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
        </tr>
        <tr>
+          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
+       </tr>
+       <tr>
           <td colspan="2">{include file="CRM/Form/attachment.tpl"}</td>
        </tr>
-    </table>
-    {if $searchRows} {* we've got rows to display *}
-       <div id="sendcopy_show" class="section-hidden section-hidden-border">
-       <a href="#" onclick="hide('sendcopy_show'); show('sendcopy'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Send Copy To{/ts}</label><br />
-       </div>
+    {if $searchRows} {* We've got case role rows to display for "Send Copy To" feature *}
+        <tr>
+            <td colspan="2">
+        <div id="sendcopy_show" class="section-hidden section-hidden-border">
+        <a href="#" onclick="hide('sendcopy_show'); show('sendcopy'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Send a Copy{/ts}</label><br />
+        </div>
 
         <div id="sendcopy" class="section-shown">
-         <fieldset><legend><a href="#" onclick="hide('sendcopy'); show('sendcopy_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Send Copy To{/ts}</legend>
+         <fieldset><legend><a href="#" onclick="hide('sendcopy'); show('sendcopy_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Send a Copy{/ts}</legend>
          <div class="description">
-             {ts}Select the contact(s) whom you would like to mail a copy of this activity.{/ts}
+             {ts}Email a complete copy of this activity record to other people involved with the case. Click the top left box to select all.{/ts}
          </div>
           {strip}
           <table>
@@ -134,9 +129,24 @@
           </table>
           {/strip}
          </fieldset>
-       </div>
+        </div>
+            </td>
+        </tr>
     {/if}
-    {include file="CRM/Custom/Form/CustomData.tpl"}
+       <tr>
+          <td class="label">{$form.duration.label}</td>
+          <td class="view-value">
+            {$form.duration.html}
+             <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
+          </td>
+       </tr> 
+       <tr>
+          <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
+       </tr>
+       <tr>
+          <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
+        </tr>
+    </table>
 </fieldset>
 {/if}
  
