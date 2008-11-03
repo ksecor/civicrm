@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-26 01:56-0700\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"PO-Revision-Date: 2008-10-30 07:29-0700\n"
 "Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1392,7 +1392,7 @@ msgstr "Telefon"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Relationship Type"
-msgstr "Kapcsolat típus"
+msgstr "Viszony típus"
 
 #: CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
@@ -1532,19 +1532,19 @@ msgstr "Összes kiválasztott kapcsolat(ok): %1"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "New relationship record(s) created: %1."
-msgstr "Új kapcsolatrekord(ok): %1."
+msgstr "Új viszonyrekord(ok): %1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr "Kapcsolatrekord nem jött létre, érvénytelen kapcsolat típus: %1."
+msgstr "Viszonyrekord nem jött létre, érvénytelen kapcsolat típus: %1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
-msgstr "Kapcsolatrekord nem jött létre, ilyen kapcsolatrekord már létezik: %1."
+msgstr "Viszonyrekord nem jött létre, ilyen kapcsolatrekord már létezik: %1."
 
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
@@ -1600,34 +1600,34 @@ msgstr "Keresőeredmények "
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Are you sure you want to delete this relationship?"
-msgstr "Valóban törlöd ezt a kapcsolatot?"
+msgstr "Valóban törlöd ezt a viszonyt?"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Are you sure you want to disable this relationship?"
-msgstr "Biztos, hogy letiltod ezt a kapcsolatot?"
+msgstr "Biztos, hogy letiltod ezt a viszonyt?"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Are you sure you want to re-enable this relationship?"
-msgstr "Biztos, hogy engedélyezed ezt a kapcsolatot?"
+msgstr "Biztos, hogy engedélyezed ezt a viszonyt?"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
-msgstr "Kapcsolat megtekintése"
+msgstr "Viszony megtekintése"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Edit Relationship"
-msgstr "Kapcsolat szerkesztése"
+msgstr "Viszony szerkesztése"
 
 #: CRM/Contact/Page/View/Relationship.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Disable Relationship"
-msgstr "Kapcsolat felfüggesztése"
+msgstr "Viszony tiltása"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
@@ -1709,28 +1709,6 @@ msgstr ""
 #: CRM/Core/DAO/PriceField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
 msgstr ""
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr "Tagság tipus"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
-msgid "Membership Status"
-msgstr "Tagságok"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr "Fizetve"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr "Hozzájárulás típus"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr "Hozzájárulás státusz"
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
@@ -2137,6 +2115,11 @@ msgstr "Visszavon"
 msgid "ACL Type"
 msgstr "ACL típus"
 
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "%1 kötelező mező"
+
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
 msgstr "Kapcsolatok egy csoportja"
@@ -2433,7 +2416,7 @@ msgstr ""
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr "Név csak betűket é számokat tartalmazhat."
+msgstr "Név csak betűket és számokat tartalmazhat."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
@@ -2627,16 +2610,16 @@ msgstr ""
 #: CRM/Admin/Form/Preferences/Address.php
 #, fuzzy
 msgid "Settings - Addresses"
-msgstr "Utca"
+msgstr "Beállítások - Címek"
 
 #: CRM/Admin/Form/Preferences/Address.php
 #, fuzzy
 msgid "Number of Locations"
-msgstr "Helyszín"
+msgstr "Helyszín száma"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr ""
+msgstr "Helyszín szám csak pozitív egész lehet (pl. 1 vagy 2 vagy ...)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -2706,19 +2689,19 @@ msgstr "WYSIWYG Editor"
 #: CRM/Admin/Form/RelationshipType.php
 #, fuzzy
 msgid "Relationship Label-A to B"
-msgstr "Kapcsolatcimke A-ból B-be"
+msgstr "Viszony cimke A-ból B-be"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
-msgstr "Kapcsolatcimke B-ből A-ba"
+msgstr "Viszony cimke B-ből A-ba"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Selected Relationship type has been deleted."
-msgstr ""
+msgstr "A kijelölt Viszony típus törölve."
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "The Relationship Type has been saved."
-msgstr ""
+msgstr "Viszony típus mentése sikeres."
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
@@ -2727,12 +2710,12 @@ msgstr ""
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
 msgid "Enable >>"
-msgstr "Engedélyezés"
+msgstr "Engedélyezés >>"
 
 #: CRM/Admin/Form/Setting/Component.php
 #, fuzzy
 msgid "<< Disable"
-msgstr "Tiltás"
+msgstr "<< Tiltás"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "You need to enable CiviContribute before enabling CiviPledge."
@@ -2741,21 +2724,21 @@ msgstr ""
 #: CRM/Admin/Form/Setting/Date.php
 #, fuzzy
 msgid "Settings - Date"
-msgstr "Utca"
+msgstr "Beállítások - Dátum"
 
 #: CRM/Admin/Form/Setting/Date.php
 #, fuzzy
 msgid "Complete Date and Time"
-msgstr "Időpont"
+msgstr "Töltsd ki a dátumot és időt!"
 
 #: CRM/Admin/Form/Setting/Date.php
 #, fuzzy
 msgid "Complete Date"
-msgstr "Készen van"
+msgstr "Dátum kész"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
-msgstr ""
+msgstr "Hónap és év"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Year Only"
@@ -2767,15 +2750,17 @@ msgstr "Csak Idő"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Fiscal Year Start"
-msgstr ""
+msgstr "Költségvetési év kezdete"
 
 #: CRM/Admin/Form/Setting/Debugging.php
+#, fuzzy
 msgid "Settings - Debugging"
-msgstr ""
+msgstr "Beállítások - Hibakeresés"
 
 #: CRM/Admin/Form/Setting/Debugging.php
+#, fuzzy
 msgid "Enable Debugging"
-msgstr ""
+msgstr "Hibakeresés engedélyezése"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -2784,212 +2769,230 @@ msgstr "Látható név"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "Végzetes hiba sablon"
 
 #: CRM/Admin/Form/Setting/Debugging.php
+#, fuzzy
 msgid "Fatal Error Handler"
-msgstr ""
+msgstr "Végzetes hiba a perifériakezelőnél"
 
 #: CRM/Admin/Form/Setting/Localization.php
 #, fuzzy
 msgid "Settings - Localization"
-msgstr "Honosítás"
+msgstr "Beállítások - Helymeghatározás"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Default Language"
-msgstr ""
+msgstr "Alapértelmezett nyelv"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available Languages"
-msgstr ""
+msgstr "Elérhető nyelvek"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Add Language"
-msgstr ""
+msgstr "Nyelv hozzáadása"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid ""
 "WARNING: As of CiviCRM 2.1, this is still an experimental functionality. "
 "Enabling multiple languages irreversibly changes the schema of your "
 "database, so make sure you know what you are doing when enabling this "
 "function; making a database backup is strongly recommended."
 msgstr ""
+"FIGYELEM: A CiviCRM 2.1 -nek ez a funkciója még mindig kísérleti stádiumban "
+"van. A többszörös nyelvek lehetővé tétele visszafordíthatatlanul "
+"megváltoztatja az adatbázisod sémáját, győződj meg arról, hogy tudod, mit "
+"teszel mikor lehetővé teszed ennek a működését; erősen ajánlott egy adatb"
+"ázis-biztonsági mentést csinálni."
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Enable Multiple Languages"
-msgstr ""
+msgstr "Többszörös nyelv engedélyezése"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid "Monetary Locale"
-msgstr ""
+msgstr "Pénzügyi helyszín"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid "Monetary Amount Display"
-msgstr ""
+msgstr "Pénzügyi összeg kijelző"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid "Monetary Value Display"
-msgstr ""
+msgstr "Pénzügyi érték kijelző"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available Countries"
-msgstr ""
+msgstr "Elérhető országok"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available States and Provinces"
-msgstr "Megye"
+msgstr "Elérhető államok és megyék"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Ország"
+msgstr "Alapértelmezett Ország"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Default Currency"
-msgstr ""
+msgstr "Alapértelmezett pénznem"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid "Legacy Encoding"
-msgstr ""
+msgstr "Öröklött kódolás"
 
 #: CRM/Admin/Form/Setting/Localization.php
+#, fuzzy
 msgid "Custom Translate Function"
-msgstr ""
+msgstr "Szokás fordító funkció"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Import / Export Field Separator"
-msgstr ""
+msgstr "Import / Export Mezőválasztó"
 
 #: CRM/Admin/Form/Setting/Localization.php
 #, fuzzy
 msgid "Please define the custom translation function first"
-msgstr "Válasszon kapcsolat típust"
+msgstr "Előbb határozd meg az egyedi fordítási funkciót!"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
 msgstr "Beállítások - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
+#, fuzzy
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "Postázás ismétlési periódusa"
 
 #: CRM/Admin/Form/Setting/Mail.php
+#, fuzzy
 msgid "VERP Separator"
-msgstr ""
+msgstr "Válaszcím választás"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr ""
+msgstr "Emailkézbesítési határ"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Limit"
-msgstr ""
+msgstr "Postázás ismétlési határ"
 
 #: CRM/Admin/Form/Setting/Mapping.php
+#, fuzzy
 msgid "Settings - Mapping Provider"
-msgstr ""
+msgstr "Beállítások -Mappázás ellátó"
 
 #: CRM/Admin/Form/Setting/Mapping.php
+#, fuzzy
 msgid "Map Provider"
-msgstr ""
+msgstr "Térkép ellátó"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Provider Key"
 msgstr ""
 
 #: CRM/Admin/Form/Setting/Mapping.php
+#, fuzzy
 msgid "Mapping features require PHP version 5 or greater"
-msgstr ""
+msgstr "A feltérképező jellemző PHP 5 vagy magasabb verziót igényel."
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "Beállítások - Vegyes"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Version Check & Statistics Reporting"
-msgstr ""
+msgstr "Verzió ellenőrzés - Statisztikai jelentés"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
+#, fuzzy
 msgid "Automatic Wildcard"
-msgstr ""
+msgstr "Automatikus helyettesítő"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
+#, fuzzy
 msgid "Include Email"
-msgstr ""
+msgstr "Tartalmazzon emailt"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Include Nickname"
-msgstr ""
+msgstr "Tartalmazzon becenevet"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Maximum Attachments"
-msgstr ""
+msgstr "Maximum Melléklet"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Public Key"
-msgstr ""
+msgstr "Nyilvános kulcs"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 #, fuzzy
 msgid "Private Key"
-msgstr "Személyes"
+msgstr "Privát kulcs"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr ""
+msgstr "Beállítások - Könyvtárak feltöltése"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Temporary Files"
-msgstr ""
+msgstr "Ideiglenes fájlok"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
 msgstr "Képek"
 
 #: CRM/Admin/Form/Setting/Path.php
+#, fuzzy
 msgid "Custom Files"
-msgstr ""
+msgstr "Szokásos fájlok"
 
 #: CRM/Admin/Form/Setting/Path.php
 #, fuzzy
 msgid "Custom Templates"
-msgstr "Egyedi mezők "
+msgstr "Szokásos Sablonok"
 
 #: CRM/Admin/Form/Setting/Path.php
+#, fuzzy
 msgid "Custom PHP Path Directory"
-msgstr ""
+msgstr "Szokásos PHP útvonaljegyzék"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "'%1' directory does not exist"
-msgstr ""
+msgstr "'%1' könyvtár nem létezik"
 
 #: CRM/Admin/Form/Setting.php
 msgid "Your changes have been saved."
-msgstr ""
+msgstr "A változtatások mentése sikeres."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Sendmail"
-msgstr "Email"
+msgstr "Email küldése"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Disable Outbound Email"
-msgstr ""
+msgstr "Kimenő email tiltása"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 #, fuzzy
 msgid "Select Mailer"
-msgstr "Profil választás"
+msgstr "Postázó választás"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 #, fuzzy
 msgid "Settings - Outbound Mail"
-msgstr "Utca"
+msgstr "Beállítások - Kimenő levél"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Sendmail Path"
@@ -3005,7 +3008,7 @@ msgstr "SMTP szerver"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr ""
+msgstr "SMTP Port"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
@@ -3021,79 +3024,86 @@ msgstr "SMTP Jelszó"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Save & Send Test Email"
-msgstr ""
+msgstr "Mentés és Teszt email küldése"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
 "You have selected \"Disable Outbound Email\". A test email can not be sent."
-msgstr ""
+msgstr "Kimenő levél tiltását választottad. A teszt email nem küldhető el."
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid ""
 "Cannot send a test email because your user record does not have a valid "
 "email address."
-msgstr "A felhasználói rekordodnak nincs egy érvényes email címe "
+msgstr ""
+"A teszt email nem küldhető el, mert a felhasználói rekordodnak nincs "
+"érvényes email címe."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
 "Your %1 settings are correct. A test email has been sent to your email "
 "address."
 msgstr ""
+"A %1 beállítás megfelelő. A teszt email elküldése megtörtént a te email "
+"címedre."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Oops. Your %1 settings are incorrect. No test mail has been sent."
-msgstr ""
+msgstr "Hoppá! A %1 beállítás helytelen. A teszt email küldése meghiúsult."
 
 #: CRM/Admin/Form/Setting/Smtp.php
-#, fuzzy
 msgid "Error message"
-msgstr "Üzenet"
+msgstr "Hibaüzenet"
 
 #: CRM/Admin/Form/Setting/UF.php
 #, fuzzy
 msgid "Settings - %1 Integration"
-msgstr "Honosítás"
+msgstr "Beállítások - %1 integrálása"
 
 #: CRM/Admin/Form/Setting/UF.php
 msgid "%1 Version"
-msgstr ""
+msgstr "%1 Verzió"
 
 #: CRM/Admin/Form/Setting/UF.php
 msgid "%1 Users Table Name"
-msgstr ""
+msgstr "%1 Felhasználó Tábla Neve"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
+#, fuzzy
 msgid "Settings - Update Directory Path and URL"
-msgstr ""
+msgstr "Beállítások - Útvonal és URL felülírása"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "This function only works when CiviCRM is installed in sites/all/modules"
 msgstr ""
+"Ez a funkció csak akkor működik, ha a CiviCRM a sites/all/modules "
+"könyvtárban helyezik el"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "New Base URL"
-msgstr ""
+msgstr "Új Alap URP"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "New Base Directory"
-msgstr ""
+msgstr "Új Alap könyvtár"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "%1 directory does not exist or cannot be written by webserver"
-msgstr ""
+msgstr "%1 könyvtár nem létezik vagy a webszerver nem tud bele írni"
 
 #: CRM/Admin/Form/Setting/Url.php
+#, fuzzy
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Beállítások - Erőforrás URL-ek"
 
 #: CRM/Admin/Form/Setting/Url.php
+#, fuzzy
 msgid "CiviCRM Resource URL"
-msgstr ""
+msgstr "CiviCRM Erőforrás URL"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr ""
+msgstr "Képfeltöltés URL"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Force Secure URLs (SSL)"
@@ -3102,20 +3112,20 @@ msgstr ""
 #: CRM/Admin/Form/Setting/Url.php
 msgid "You need to set up a secure server before you can enable SSL"
 msgstr ""
+"Neked be kell állítanod egy biztonságos szervert, mielőtt engedélyezed az "
+"SSL-t"
 
 #: CRM/Admin/Page/DedupeRules.php
-#, fuzzy
 msgid "Are you sure you want to delete this Rule?"
-msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+msgstr "Biztosan eltávolítod ezt a szabályt?"
 
 #: CRM/Admin/Page/DedupeRules.php
-#, fuzzy
 msgid "Are you sure you want to make this Rule default?"
-msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+msgstr "Biztos, hogy alapértelmezetté teszed ezt a Szabályt?"
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Use Rule"
-msgstr ""
+msgstr "Használati szabály"
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Use DedupeRule"
@@ -3123,16 +3133,15 @@ msgstr ""
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Edit Rule"
-msgstr ""
+msgstr "Szabály szerkesztése"
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Edit DedupeRule"
 msgstr ""
 
 #: CRM/Admin/Page/DedupeRules.php
-#, fuzzy
 msgid "Make Default"
-msgstr "Alapértelmezett?"
+msgstr "Legyen alapértelmezett"
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Default DedupeRule"
@@ -3144,36 +3153,38 @@ msgstr ""
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr ""
+msgstr "Biztosan le akarod tiltani ezt a helyszín típust?"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
 msgstr ""
+"A felhasználók már nem fogják tudni kiválasztani ezt az értéket mikor "
+"hozzáadnak vagy szerkesztenek egy kapcsolati helyszínt."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr ""
+msgstr "Helyszín típus szerkesztése"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr ""
+msgstr "Helyszín típus tiltása"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr ""
+msgstr "Helyszín típus engedélyezése"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr ""
+msgstr "Helyszín típus törlése"
 
 #: CRM/Admin/Page/Mapping.php
 #, fuzzy
 msgid ""
 "Are you sure you want to delete this mapping? This operation cannot be "
 "undone."
-msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+msgstr "Biztosan eltávolítod ezt a mapping-ot? Ez a művelet nem vonható vissza."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
@@ -3184,523 +3195,498 @@ msgid "Delete Mapping"
 msgstr ""
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Are you sure you want to disable this message tempate?"
-msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+msgstr "Biztosan letiltod ezt az üzenet sablont?"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Edit Message Templates"
-msgstr "Smart csoport frissítés"
+msgstr "Üzenet Sablon szerkesztése"
 
 #: CRM/Admin/Page/MessageTemplates.php
 msgid "Disable Message Templates"
-msgstr ""
+msgstr "Üzenet Sablon tiltása"
 
 #: CRM/Admin/Page/MessageTemplates.php
 msgid "Enable Message Templates"
-msgstr ""
+msgstr "Üzenet Sablon engedélyezése"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Delete Message Templates"
-msgstr "Helyes időpont kiválasztás"
+msgstr "Üzenet Sablon törlése"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Are you sure you want to disable this Option?"
-msgstr ""
+msgstr "Biztosan letiltod ezt az opciót?"
 
 #: CRM/Admin/Page/OptionGroup.php templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
+#, fuzzy
 msgid "Multiple Choice Options"
-msgstr ""
+msgstr "Többszörös választható opciók"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "View and Edit Multiple Choice Options"
-msgstr ""
+msgstr "Többszörös választható opciók megtekintése és szerkesztése"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Disable Option"
-msgstr ""
+msgstr "Opció tiltása"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Enable Option"
-msgstr ""
+msgstr "Opció engedélyezése"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Delete Option"
-msgstr ""
+msgstr "Opció törlése"
 
 #: CRM/Admin/Page/Options.php
+#, fuzzy
 msgid "Manage ACL Roles"
-msgstr ""
+msgstr "ACL szabályok kezelése"
 
 #: CRM/Admin/Page/Options.php
 msgid "%1 Options"
-msgstr ""
+msgstr "%1 Opciók"
 
 #: CRM/Admin/Page/Options.php
 msgid "Are you sure you want to disable this %1?"
-msgstr ""
+msgstr "Valóban engedélyezni akarod ezt: %1 ?"
 
 #: CRM/Admin/Page/Options.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
 msgstr ""
+"A felhasználók már nem lesznek képesek, hogy kiválasszák ezt az értéket "
+"mikor hozzáadnak vagy szerkesztik %1 -t."
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Disable %1"
-msgstr "Tiltás"
+msgstr "%1 tiltása"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Enable %1"
-msgstr "Engedélyezés"
+msgstr "%1 engedélyezése"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Delete %1 Type"
-msgstr "Törlés"
+msgstr "%1 típus törlése"
 
 #: CRM/Admin/Page/Options.php
 msgid "Run"
-msgstr ""
+msgstr "Futtatás"
 
 #: CRM/Admin/Page/Options.php
 msgid "Run %1"
-msgstr ""
+msgstr "%1 futtatása"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Are you sure you want to disable this Option Value?"
-msgstr ""
+msgstr "Biztosan letiltod ezt az opció értéket?"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Edit Option Value"
-msgstr ""
+msgstr "Opció érték módosítása"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Disable Option Value"
-msgstr ""
+msgstr "Opció érték tiltása"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Enable Option Value"
-msgstr ""
+msgstr "Opció érték engedélyezése"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Delete Option Value"
-msgstr ""
+msgstr "Opció érték törlése"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "%1 - Option Values"
-msgstr ""
+msgstr "%1 - opció érték"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Are you sure you want to disable this payment processor?"
-msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+msgstr "Biztosan letiltod ezt a fizetés feldolgozót?"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "transaction pages."
 msgstr ""
+"A továbbiakban a felhasználók nem választhatják ezt az értéket mikor "
+"tranzakcióoldalakat szerkesztenek vagy adnak hozzá."
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Edit Payment Processor"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul módosítása"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Disable Payment Processor"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul tiltása"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Enable Payment Processor"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul engedélyezése"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Delete Payment Processor"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul törlése"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Edit Payment ProcessorType"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul típus módosítása"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Disable Payment ProcessorType"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul típus tiltása"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Enable Payment ProcessorType"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul típus engedélyezése"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Delete Payment ProcessorType"
-msgstr "Fizetési modul"
+msgstr "Fizetési modul típus törlése"
 
 #: CRM/Admin/Page/PreferencesDate.php
 msgid "Edit Date Type"
-msgstr ""
+msgstr "Dátum típus módosítása"
 
 #: CRM/Admin/Page/PreferencesDate.php
 msgid "Settings - Date Preferences"
-msgstr ""
+msgstr "Beállítások - Dátum beállítások"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
-msgstr ""
+msgstr "Biztosan tiltani akarod ezt a viszony típust?"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
 msgstr ""
+"A továbbiakban a felhasználók nem választhatják ezt az értéket mikor "
+"kapcsolatok közötti viszonyokat szerkesztenek vagy adnak hozzá."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "View Relationship Type"
-msgstr ""
+msgstr "Viszony típus megtekintése"
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
-msgstr ""
+msgstr "Viszony típus módosítása"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Disable Relationship Type"
-msgstr ""
+msgstr "Viszony típus tiltása"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Enable Relationship Type"
-msgstr ""
+msgstr "Viszony típus engedélyezése"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Delete Reletionship Type"
-msgstr ""
+msgstr "Viszony típus törlése"
 
 #: CRM/Admin/Page/Tag.php
 msgid "Are you sure you want to delete this tag?"
-msgstr ""
+msgstr "Biztos törölni akarod ezt a cimkét?"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
+"Ez a címke el lesz távolítva bármilyen jelenleg megcímkézett kapcsolatból, "
+"és a felhasználók már nem tudnak kapcsolatokat kijelölni ehhez a címkéhez."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
-msgstr ""
+msgstr "Cimke módosítása"
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
-msgstr ""
+msgstr "Cimke törlése"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Subject %2 %1"
-msgstr ""
+msgstr "Eset téma %2 %1"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Status %2 %1"
-msgstr ""
+msgstr "Eset státusz %2 %1"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Type %1"
-msgstr ""
+msgstr "Eset típus %1"
 
 #: CRM/Case/BAO/Query.php
 #, fuzzy
 msgid "Case SubType %1"
-msgstr "Eset típus"
+msgstr "Eset főtípus %1"
 
 #: CRM/Case/BAO/Query.php
 #, fuzzy
 msgid "Case Voilation %1"
-msgstr "Helyszín"
+msgstr "Eset megszegése %1"
 
 #: CRM/Case/Form/Case.php
+#, fuzzy
 msgid "A case with this subject already exists."
-msgstr ""
+msgstr "Egy est ezzel a témával már létezik."
 
 #: CRM/Case/Form/Case.php
 msgid "End date should be later than Start date"
-msgstr ""
+msgstr "A határidőnek a kezdő időpontnál későbbinek kell lennie"
 
 #: CRM/Case/Form/Case.php
 msgid "Selected Case has been deleted."
-msgstr ""
+msgstr "A kijelölt Eset törölve"
 
 #: CRM/Case/Form/Case.php
 #, fuzzy
 msgid "Case '%1' has been saved."
-msgstr "A kiválasztott megbeszélés törölve."
+msgstr "%1 eset törölve."
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
-msgstr ""
-
-#: CRM/Contact/BAO/Contact.php
-msgid "IM Provider"
-msgstr ""
+msgstr "- Kapcsolat mező -"
 
 #: CRM/Contact/BAO/Contact.php
 #, fuzzy
+msgid "IM Provider"
+msgstr "IM ellátó"
+
+#: CRM/Contact/BAO/Contact.php
 msgid "Note(s)"
 msgstr "Jegyzet"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "Could not find location type id"
-msgstr ""
+msgstr "Helyszín típus ID nem található"
 
 #: CRM/Contact/BAO/Contact/Utils.php
 msgid "Contact Information"
-msgstr ""
+msgstr "Kapcsolat információ"
 
 #: CRM/Contact/BAO/Contact/Utils.php
 msgid "Select an existing related Organization OR Enter a new one"
-msgstr ""
+msgstr "Válassz ki egy létező Kapcsolódó szervezetet VAGY lépj be egy újba"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Create new organization"
-msgstr "Szervezet"
+msgstr "Új szervezet létrehozása"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Select existing organization"
-msgstr "Honosítás"
+msgstr "Válassz szervezetet"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "options"
-msgstr "Beállítások"
+msgstr "beállítások"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Country - State"
-msgstr "Ország"
+msgstr "Ország - Állam"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Primary Phone"
-msgstr "Elsődleges"
+msgstr "Elsődleges Telefon"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Primary Email"
-msgstr "Elsődleges"
+msgstr "Elsődleges Email"
 
 #: CRM/Contact/BAO/GroupNestingCache.php
 msgid "We detected a cycle which we cant handle. aborting"
-msgstr ""
+msgstr "Észleltünk egy ciklust, amit nem tudunk kezelni. Elvetés"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix"
-msgstr "Egyén "
+msgstr "Egyén előtag"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "Egyén "
+msgstr "Egyén utótag"
 
 #: CRM/Contact/BAO/Query.php
 msgid "phone"
-msgstr ""
+msgstr "telefon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
-msgstr ""
+msgstr "Csoporttag %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
-msgstr ""
+msgstr "CMS Felhasználó"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Not a CMS User"
-msgstr ""
+msgstr "Nem CMS Felhasználó"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Tagged %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Name or Email "
 msgstr "Név vagy email"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
 msgid "Name like"
-msgstr "Név"
+msgstr "Név mint"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Postal code"
 msgstr "Irányítószám"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code greater than or equal to '%1'"
-msgstr ""
+msgstr "Irányítószám nagyobb vagy egyenlő mint %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code less than or equal to '%1'"
-msgstr ""
+msgstr "Irányítószám kisebb vagy egyenlő mint %1"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Changed by"
-msgstr "Változásnapló "
+msgstr "Változtatta"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Activity with"
-msgstr "Aktivitás ideje"
+msgstr "Tevékenység vele:"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Activity created by"
-msgstr "Aktivitás ideje"
+msgstr "Tevékenység készítője"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
 msgid "Activity assigned to"
-msgstr "Aktivitás ideje"
+msgstr "Tevékenység kijelölve"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Find Test Activities"
-msgstr "Kapcsolatok keresése"
+msgstr "Teszt Tevékenység keresése"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Relationship - Active"
-msgstr "Kapcsolat típus"
+msgstr "Viszony - Aktív"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Relationship - Inactive"
-msgstr "Kapcsolat típus"
+msgstr "Viszony - Inaktív"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
-msgstr ""
+msgstr "A kiválasztott viszony törlése sikeres."
 
 #: CRM/Contact/BAO/RelationshipType.php
-#, fuzzy
 msgid "Invalid relationship type"
-msgstr "Kapcsolat típus"
+msgstr "Helytelen viszony típus"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Tépkép kapcsolat"
+msgstr "Belső kapcsolat ID"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Kapcsolat típus"
+msgstr "Kapcsolat főtípus"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Nyugta emailből"
+msgstr "Email nem"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Telefon nem"
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Do Not Mail"
+msgstr "Levél nem"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
-msgid "Do Not Mail"
-msgstr "Irányítószám"
-
-#: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Kereskedelem nem"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Tömeges levél nem (kikapcsolva)"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Jog azonosító"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "External Identifier"
-msgstr ""
+msgstr "Külső azonosító"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
-msgstr "Fajta név"
+msgstr "Rövid név"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Vezetéknév"
+msgstr "Megjelenített Név"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Web URL"
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Image Url"
-msgstr ""
+msgstr "Kép URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Email küldés"
+msgstr "Ajánlott levél formátum"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Hash"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Source of Contact Data"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
+msgid "Source of Contact Data"
+msgstr "Kapcsolat dátum keresés"
+
+#: CRM/Contact/DAO/Contact.php
 msgid "Greeting Type"
-msgstr "Mappa típus"
+msgstr ""
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Job Title"
-msgstr ""
+msgstr "Munka címe"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Kezdete"
+msgstr "Kezdő dátum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Is Deceased"
-msgstr ""
+msgstr "Befejezve"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Befejezése"
+msgstr "Befejezés dátuma"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sic Code"
@@ -3708,49 +3694,48 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Unique ID (OpenID)"
-msgstr ""
+msgstr "Egyedi azonosító (OpenID)"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Formal"
-msgstr ""
+msgstr "Formális (Hivatalos)"
 
 #: CRM/Contact/DAO/Contact.php
+#, fuzzy
 msgid "Informal"
-msgstr ""
+msgstr "Informális (Nem hivatalos)"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
 msgid "Honorific"
-msgstr "Előtag"
+msgstr "Megtisztelő (Díszítő)"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Egyedi adat "
+msgstr "Szokásos"
 
 #: CRM/Contact/DAO/Group.php
-#, fuzzy
 msgid "Cache Date"
-msgstr "Dátum törlés"
+msgstr "Dátum elrejtése"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
 msgid "Parents"
-msgstr "Nyomtatás"
+msgstr "Szülő"
 
 #: CRM/Contact/DAO/Group.php
+#, fuzzy
 msgid "Children"
-msgstr ""
+msgstr "Gyermek"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Név"
+msgstr "Név A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Név"
+msgstr "Név B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
@@ -3758,21 +3743,19 @@ msgstr ""
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Követés"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Weboldal"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
-#, fuzzy
 msgid "Select Contact"
-msgstr "Kapcsolatok törlése"
+msgstr "Kapcsolat kijelölése"
 
 #: CRM/Contact/Form/Address.php xml/templates/civicrm_data.tpl
 msgid "Addt'l Address 1"
@@ -3791,144 +3774,137 @@ msgid "Longitude"
 msgstr "Hosszúság"
 
 #: CRM/Contact/Form/Address.php
-#, fuzzy
 msgid "Enter a valid country name."
-msgstr "Írjon be valós webcímet"
+msgstr "Érvényes országnevet írj be!"
 
 #: CRM/Contact/Form/Create.php
-#, fuzzy
 msgid "Select Existing Organization"
-msgstr "Honosítás"
+msgstr "Válassz létező Szervezetet"
 
 #: CRM/Contact/Form/DeleteLocation.php
-#, fuzzy
 msgid "The location has been deleted."
-msgstr "A kiválasztott megbeszélés törölve."
+msgstr "Helyszín törölve."
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain Name"
-msgstr "Helyszín név"
+msgstr "Domain név"
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
 msgid "FROM Name"
-msgstr "Vezetéknév"
+msgstr "Feladóként megjelenő név"
 
 #: CRM/Contact/Form/Domain.php templates/CRM/Admin/Form/Options.tpl
+#, fuzzy
 msgid "FROM Email Address"
-msgstr ""
+msgstr "Feladóként megjelenő Email cím"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
-msgstr "Írja be a valódi nevét"
+msgstr ""
+"A Domain Email címhez érvényes formátumot használj (pl. 'info@minta.hu')!"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
 "Email domain must use a valid internet domain format (e.g. 'example.org')."
-msgstr ""
+msgstr "Email dominhez érvényes domain formátumot használj (pl. 'minta.hu')!"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Return-Path"
-msgstr ""
+msgstr "Válaszcím"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Return-Path must use a valid email address format."
-msgstr "Írja be a valódi nevét"
+msgstr "Válaszcímként érvényes email címet adj meg!"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain information for '%1' has been saved."
-msgstr "A kiválasztott megbeszélés törölve."
+msgstr "Domain információ mentése a(z) '%1'-hez sikeres."
 
 #: CRM/Contact/Form/Edit.php
+#, fuzzy
 msgid "Greeting"
-msgstr ""
+msgstr "Üdvözlés"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Save Matching Contact"
-msgstr "Tépkép kapcsolat"
+msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save With Duplicate Household"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Email Format"
-msgstr "Email küldés"
+msgstr "Email formátum"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Please select at least one tag."
-msgstr "Válasszon kapcsolat típust"
+msgstr "Válassz legalább egy cimkét!"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
-msgstr ""
+msgstr "Csak egy helyszín jelölhető ki elsődlegesként."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information."
 msgstr ""
+"A Helyszín típust be kellene állítani, ha van bármilyen helyszín információ."
 
 #: CRM/Contact/Form/Edit.php
+#, fuzzy
 msgid "Two locations cannot have same location type."
-msgstr ""
+msgstr "Két helyszín típusa nem lehet azonos."
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr ""
+msgstr "Egy helyszínt ki kell jelölni elsődlegesként."
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
-msgstr ""
+msgstr "Email (ajánlott)"
 
 #: CRM/Contact/Form/Email.php
 msgid "another email"
-msgstr ""
+msgstr "egyéb email"
 
 #: CRM/Contact/Form/Email.php
 msgid "hide this email"
-msgstr ""
+msgstr "Email elrejtése"
 
 #: CRM/Contact/Form/Email.php
 msgid "Use for Bulk Mailings"
-msgstr ""
+msgstr "Használd tömeges levélhez"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Join a Group"
-msgstr "Kapcsolat típus"
+msgstr "Csatlakozz egy csoporthoz!"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
-msgstr "Kapcsolat típus"
+msgstr "Hozzáadás egy csoporthoz"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Contact has been added to the selected group."
-msgstr ""
+msgstr "A kapcsolat hozzáadása a kijelölt csoporthoz sikeres."
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
-msgstr "Azonnali Üzenetküldő (preferált)"
+msgstr "Azonnali Üzenetküldő (ajánlott)"
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
@@ -3936,27 +3912,28 @@ msgstr "Azonnali Üzenetküldő"
 
 #: CRM/Contact/Form/IM.php
 msgid "another IM"
-msgstr ""
+msgstr "másik IM (azonnali üzenetküldő)"
 
 #: CRM/Contact/Form/IM.php
 msgid "hide this IM"
-msgstr ""
+msgstr "IM (azonnali üzenetküldő) elrejtése"
 
 #: CRM/Contact/Form/IM.php
+#, fuzzy
 msgid "- select service -"
-msgstr ""
+msgstr "- válassz szolgáltatást - "
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
-msgstr ""
+msgstr "Munka címe"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
-msgstr "Elhunyt"
+msgstr "Kapcsolat lezárult."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Deceased date"
-msgstr "Elhalálozás Dátuma"
+msgstr "Lezárás Dátuma"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Date of birth"
@@ -3965,85 +3942,86 @@ msgstr "Születési idő"
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
 msgid "Use Household Address"
-msgstr "Közismert név "
+msgstr "Használja a Háztartás Címet"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Select Household"
-msgstr "Háztartás"
+msgstr "Háztartás kiválasztása"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "Enter a valid web location beginning with 'http://' or 'https://'. EXAMPLE: "
 "http://www.mysite.org/"
 msgstr ""
-"Kérem adjon meg egy valós web címet 'http://' vagy 'https://' kezdettel. "
-"Például: http://oldalam.org"
+"Adj meg egy valós web címet 'http://' vagy 'https://' kezdettel. Például: "
+"http://oldalam.org"
 
 #: CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid ""
 "First Name and Last Name OR an email OR an OpenID in the Primary Location "
 "should be set."
 msgstr ""
+"Vezetéknév és keresztnév, VAGY email, VAGY OpenID beálítása az Elsődleges "
+"helyszínnél szükséges."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
-msgstr "Válasszon ki egy háztartást a 'Háztartások Listájáról'"
+msgstr "Válassz ki egy háztartást a 'Háztartások Listájáról'"
 
 #: CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid "Shared Household-ID not found."
-msgstr ""
+msgstr "Megosztott Háztartás-ID nem található."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr ""
+msgstr "Elsődleges helyszín ehhez a kapcsolathoz."
 
 #: CRM/Contact/Form/Location.php
+#, fuzzy
 msgid "Billing location for this contact"
-msgstr ""
+msgstr "Számlázás helyszín ehhez a kapcsolathoz."
 
 #: CRM/Contact/Form/Merge.php
 msgid "You do not have access to this page"
-msgstr "Nincs jogosultságod, az oldal megtekintéséhez"
+msgstr "Nincs jogosultságod az oldal megtekintéséhez"
 
 #: CRM/Contact/Form/Merge.php
-#, fuzzy
 msgid "Location %1:%2"
-msgstr "Helyszín"
+msgstr "Helyszín %1:%2"
 
 #: CRM/Contact/Form/Merge.php
-#, fuzzy
 msgid "Merge Contacts"
-msgstr "Kapcsolatok törlése"
+msgstr "Kapcsolatok fúziója"
 
 #: CRM/Contact/Form/Merge.php
-#, fuzzy
 msgid "Merge"
-msgstr "Üzenet"
+msgstr "Fúzió"
 
 #: CRM/Contact/Form/Merge.php
 msgid "The contacts have been merged."
-msgstr ""
+msgstr "Kapcsolatok egyesítve."
 
 #: CRM/Contact/Form/OpenID.php
 msgid "OpenID (preferred)"
-msgstr ""
+msgstr "OpenID (ajánlott)"
 
 #: CRM/Contact/Form/OpenID.php
 msgid "another OpenID"
-msgstr ""
+msgstr "más OpenID"
 
 #: CRM/Contact/Form/OpenID.php
 msgid "hide this OpenID"
-msgstr ""
+msgstr "OpenID elrejtése"
 
 #: CRM/Contact/Form/OpenID.php
 msgid "OpenID is not a valid URL."
-msgstr ""
+msgstr "Az OpenID nem valós URL."
 
 #: CRM/Contact/Form/OpenID.php
 msgid "Allowed to Login"
-msgstr ""
+msgstr "Bejelentkezés engedélyezve"
 
 #: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
@@ -4051,39 +4029,45 @@ msgstr ""
 
 #: CRM/Contact/Form/Phone.php
 msgid "Phone (preferred)"
-msgstr ""
+msgstr "Telefon (ajánlott)"
 
 #: CRM/Contact/Form/Phone.php
 msgid "another phone"
-msgstr ""
+msgstr "másik telefon"
 
 #: CRM/Contact/Form/Phone.php
 msgid "hide this phone"
-msgstr ""
+msgstr "Telefon elrejtése"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select a relationship type."
-msgstr "Válasszon kapcsolat típust"
+msgstr "Válassz viszony típust!"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Start date is not valid."
-msgstr "Kezdő dátum nem érvényes"
+msgstr "Kezdő dátum érvénytelen."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "End date is not valid."
-msgstr ""
+msgstr "Záró dátum érvénytelen."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Find Target Contact"
-msgstr ""
+msgstr "Viszonyrekord keresés"
 
 #: CRM/Contact/Form/Relationship.php
+#, fuzzy
 msgid "Permission for contact a to view and update information for contact b"
 msgstr ""
+"Engedély Kapcsolat A számára, hogy láthassa és módosíthassa Kapcsolat B "
+"információit"
 
 #: CRM/Contact/Form/Relationship.php
+#, fuzzy
 msgid "permission for contact b to view and update information for contact a"
 msgstr ""
+"Engedély Kapcsolat B számára, hogy láthassa és módosíthassa Kapcsolat A "
+"információit"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Search Again"
@@ -4091,12 +4075,14 @@ msgstr "Ismételt keresés"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr ""
+msgstr "Viszony mentése"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] ""
+"Singular  %count új viszony rekord elkészült.Plural  %count új viszony "
+"rekord elkészült."
 
 #: CRM/Contact/Form/Relationship.php
 msgid ""
@@ -4114,29 +4100,29 @@ msgstr[0] ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Relationship record has been updated."
-msgstr ""
+msgstr "Viszony rekord felülírása sikeres."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select at least one contact."
-msgstr ""
+msgstr "Válassz legalább egy kapcsolatot!"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "The relationship end date cannot be prior to the start date."
-msgstr ""
+msgstr "A viszony befejezése nem lehet korábban mint a kezdete."
 
 #: CRM/Contact/Form/Search/Advanced.php xml/templates/civicrm_data.tpl
 msgid "Custom Fields"
-msgstr "Egyedi mezők "
+msgstr "Szokásos mezők "
 
 #: CRM/Contact/Form/Search/Advanced.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "Demographics"
-msgstr ""
+msgstr "Demográfia"
 
 #: CRM/Contact/Form/Search/Basic.php
-#, fuzzy
 msgid "Name or Email"
 msgstr "Név vagy email"
 
@@ -4152,61 +4138,58 @@ msgstr ""
 #: CRM/Contact/Form/Search/Builder.php
 #, fuzzy
 msgid "Please enter the operator."
-msgstr "Írja be a valódi nevét"
+msgstr "Írd be az operátor nevét!"
 
 #: CRM/Contact/Form/Search/Builder.php
 msgid "Please clear your value if you want to use %1 operator."
-msgstr ""
+msgstr "Tisztázd az értéket, ha használni akarod %1 operátort."
 
 #: CRM/Contact/Form/Search/Builder.php
-#, fuzzy
 msgid "Please enter the value."
-msgstr "Írja be a valódi nevét"
+msgstr "Írj be értéket!"
 
 #: CRM/Contact/Form/Search/Builder.php
-#, fuzzy
 msgid "Please enter the valid value."
-msgstr "Írja be a valódi nevét"
+msgstr "Írd be az érvényes értéket!"
 
 #: CRM/Contact/Form/Search/Builder.php
-#, fuzzy
 msgid "Please enter valid value."
-msgstr "Írja be a valódi nevét"
+msgstr "Írj be érvényes értéket!"
 
 #: CRM/Contact/Form/Search/Builder.php
-#, fuzzy
 msgid "Please enter valid %1 id."
-msgstr "Írja be a valódi nevét"
+msgstr "Irj be érvényes %1 ID-t!"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Contact Type(s)"
-msgstr ""
+msgstr "Kapcsolat típus(ok)"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Contact Email"
-msgstr ""
+msgstr "Kapcsolat Email"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Source"
-msgstr "Kapcsolat típus"
+msgstr "Kapcsolat forrás"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "CMS User?"
-msgstr ""
+msgstr "CMS Felhasználó?"
 
 #: CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "Search Views"
-msgstr ""
+msgstr "Nézet keresés"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- default view -"
-msgstr ""
+msgstr "- alapértelmezett nézet -"
 
 #: CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "Include contacts who have these privacy option(s)."
-msgstr ""
+msgstr "Kapcsolatokat tartalmaz, kiknek van ilyen magánélet opciójuk."
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
@@ -4214,115 +4197,106 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
-msgstr ""
+msgstr "- bármelyik régió -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
-msgstr ""
+msgstr "Helyszín típusok"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select case activity-"
-msgstr "Aktivitás törlése"
+msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Dates - From"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Created by"
-msgstr "Készítés"
+msgstr "Készítette"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Assigned to"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Role and Name"
-msgstr "Kapcsolat oldal"
+msgstr "Kapcsolat Szabály és Név"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Kapcsolat oldal"
+msgstr "Kapcsolat neve"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Find Test Activities?"
-msgstr "Kapcsolatok keresése"
+msgstr "Keressek Teszt Tevékenységet?"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Modified By"
-msgstr ""
+msgstr "Módosította"
 
 #: CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "Modified Between"
-msgstr ""
+msgstr "Módosítva ezek között"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Target Contact"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Active "
-msgstr "Aktivitás"
+msgstr "Aktív_"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Inactive "
-msgstr "Aktivitás"
+msgstr "Inaktív_"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Relationship Status"
-msgstr "Kapcsolatok"
+msgstr "Viszony státusz"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
 msgid "Birth Dates - From"
-msgstr "Kezdő dátum"
+msgstr "Kezdő dátum - From"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
 msgid "Deceased Dates - From"
-msgstr "Befejezése"
+msgstr "Befejezés - From"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Note Text"
-msgstr "Szöveg"
+msgstr "Jegyzet"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
-#, fuzzy
 msgid "Activity Subject"
-msgstr "Aktivitás típusa"
+msgstr "Tevékenység tárgya"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
-#, fuzzy
 msgid "Scheduled By"
-msgstr "Menetrend"
+msgstr "Bejegyezte"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Scheduled Date"
-msgstr ""
+msgstr "Bejegyzés dátuma"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #, fuzzy
 msgid "Activity Date From"
-msgstr "Aktivitás ideje"
+msgstr "Tevékenység dátuma From"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
 #, fuzzy
 msgid "Could not find '%1' string in SQL clause."
-msgstr "A kapcsolat ID nem található."
+msgstr "Nem található '%1' string az SQL feltételben."
 
 #: CRM/Contact/Form/Search/Custom/Base.php
+#, fuzzy
 msgid "Found illegal '%1' string in SQL clause."
-msgstr ""
+msgstr "Illegális '%1' string az SQL feltételben."
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Tagged"
@@ -4330,27 +4304,27 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Min Összeg"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Max Összeg"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
-msgstr ""
+msgstr "Min Összeg kizárása"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Max Amount"
-msgstr ""
+msgstr "Max Összeg kizárása"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Date Start"
-msgstr ""
+msgstr "Kezdő dátum kizárása"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Date End"
-msgstr ""
+msgstr "Befejező dátum kizárása"
 
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Aggregate Total Between $"
@@ -4365,27 +4339,25 @@ msgid "Contribution Date From"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
-#, fuzzy
 msgid "Individual Name"
-msgstr "Egyén "
+msgstr "Egyén neve"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
-#, fuzzy
 msgid "Individual State"
-msgstr "Egyén "
+msgstr "Egyén Állam"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 msgid "Employer"
-msgstr ""
+msgstr "Munkáltató"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 msgid "Employer State"
-msgstr ""
+msgstr "Munkáltató State"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #, fuzzy
 msgid "Individual's Name (last, first)"
-msgstr "Egyén "
+msgstr "Egyén Egyén Neve (vezetéknév, keresztnév)"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #, fuzzy
@@ -4395,76 +4367,77 @@ msgstr "Egyén "
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 #, fuzzy
 msgid "Number of<br />Participant"
-msgstr "Nyomtatás"
+msgstr "Szám<br />Résztvevő"
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
-#, fuzzy
 msgid "Total Payment"
-msgstr "Összes összeg"
+msgstr "Összes fizetendő"
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 msgid "Fee"
-msgstr ""
+msgstr "Fizetés"
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
-#, fuzzy
 msgid "Net Payment"
-msgstr "Nettó összeg"
+msgstr "Nettó fizetendő"
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 msgid "Only show Credit Card Payments"
-msgstr ""
+msgstr "Csak a bankkártyás fizetést mutassa"
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
+#, fuzzy
 msgid "Show payees"
+msgstr "Fizetés elfogadóját mutassa"
+
+#: CRM/Contact/Form/Search/Custom/EventAggregate.php
+msgid "Event Name"
+msgstr "Esemény név"
+
+#: CRM/Contact/Form/Search/Custom/EventAggregate.php
+msgid "Payments Date From"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/EventAggregate.php
-#, fuzzy
-msgid "Event Name"
-msgstr "Fajta név"
-
-#: CRM/Contact/Form/Search/Custom/EventAggregate.php
-#, fuzzy
-msgid "Payments Date From"
-msgstr "Kezdő dátum"
-
 #: CRM/Contact/Form/Search/Custom/Group.php
-#, fuzzy
 msgid "Tag Name"
-msgstr "Keresztnév"
+msgstr "Cimke név"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
+#, fuzzy
 msgid ""
 "Atleast one Group and Tag must be present, for Custom Group / Tag search."
 msgstr ""
+"Legalább egy Csoportnak és Cimkének jelen kell lennie Szokás csoport / Cimke "
+"keresés esetén."
 
 #: CRM/Contact/Form/Search/Custom/Group.php
+#, fuzzy
 msgid "Include Group(s)"
-msgstr ""
+msgstr "Csoport beillesztése"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
+#, fuzzy
 msgid "Exclude Group(s)"
-msgstr ""
+msgstr "Csoport kizárása"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
 #, fuzzy
 msgid "Include Tag(s)"
-msgstr "Címke(ék)"
+msgstr "Címke beillesztése"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
 #, fuzzy
 msgid "Exclude Tag(s)"
-msgstr "Címke(ék)"
-
-#: CRM/Contact/Form/Search/Custom/PriceSet.php
-msgid "There are no events with Price Sets"
-msgstr ""
+msgstr "Címke kizárása"
 
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 #, fuzzy
+msgid "There are no events with Price Sets"
+msgstr "Nincs esemény az Árbeállításhoz"
+
+#: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "Participant Id"
-msgstr "Kapcsolatok keresése"
+msgstr "Résztvevő ID"
 
 #: CRM/Contact/Form/Search/Custom/PriceSet.php
 msgid "Export Price Set Info for an Event"
@@ -4475,39 +4448,36 @@ msgid "Could not geocode input"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "Distance"
-msgstr "Tiltás"
+msgstr "Eltávolítás"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "-más csoportok-"
+msgstr "- bármelyik ország -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
-msgstr ""
+msgstr "Szomszéd keresés sugara (km)"
 
 #: CRM/Contact/Form/Search.php
 msgid "- more actions -"
 msgstr "-további műveletek-"
 
 #: CRM/Contact/Form/Search.php
-#, fuzzy
 msgid "Please select at least Group Status value."
-msgstr "Válasszon kapcsolat típust"
+msgstr "Válassz legalább egy Csoport állapot értéket!"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
-msgstr ""
+msgstr "Csoport tag: %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Members: %1"
-msgstr "Tagok hozzáadása:%1"
+msgstr "Tag hozzáadása:%1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
-msgstr ""
+msgstr "Kapcsolat hozzáadása %1-hez."
 
 #: CRM/Contact/Form/Search.php
 msgid "Actions:"
@@ -4524,19 +4494,16 @@ msgid "Print"
 msgstr "Nyomtatás"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Add Contact To Existing Group"
-msgstr "Kapcsolat típus"
+msgstr "Kapcsolat hozzáadása létező csoporthoz"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Group Options"
-msgstr "Beállítások"
+msgstr "Csoport beállítások"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Group Name:"
-msgstr "Csoport"
+msgstr "Csoport név:"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -4544,30 +4511,28 @@ msgid "Description:"
 msgstr "Leírás:"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Add Contacts: %1"
-msgstr "Kapcsolatok keresése"
+msgstr "Kapcsolatok hozzáadása: %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
-#, fuzzy
 msgid "Add Contacts to A Group"
-msgstr "Kapcsolat típus"
+msgstr "Kapcsolatok hozzáadása az A Csoporthoz"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add to Group"
-msgstr ""
+msgstr "Hozzáadás a csoporthoz"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Added Contact(s) to %1"
-msgstr ""
+msgstr "Kapcsolat hozzáadva %1-hoz"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) added to group: %1"
-msgstr ""
+msgstr "Minden kapcsolat hozzáadva %1 csoporthoz"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) already in group: %1"
-msgstr ""
+msgstr "Minden kapcsolat benne van a(z) %1 csoportban"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 msgid "Add Members to Household"
@@ -6961,6 +6926,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr "Összes összeg"
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr "Hozzájárulás státusz"
+
 #: CRM/Export/BAO/Export.php
 #, fuzzy
 msgid "Received Date"
@@ -7651,6 +7620,16 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7969,6 +7948,23 @@ msgid ""
 "Your CiviCRM Profile '%1' has been added. You can add fields to this profile "
 "now."
 msgstr "A kiválasztott megbeszélés törölve."
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr "Fizetve"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr "Tagság tipus"
+
+#: CRM/UF/Form/Preview.php
+#, fuzzy
+msgid "Membership Status"
+msgstr "Tagságok"
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
+msgstr "Hozzájárulás típus"
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -9788,6 +9784,17 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
+msgid "Views integration settings"
+msgstr "Kapcsolat Részletek Megtekintése"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl

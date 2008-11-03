@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-09-24 13:32+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2008-07-07 09:20-0700\n"
 "Last-Translator: Aurialie <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1035,6 +1035,21 @@ msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu, and then click Go."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
+msgid ""
+"Contacts with any of the checked privacy options are EXCLUDED from your "
+"search results by default. EXAMPLE: If you check 'Do not phone', and search "
+"for contacts with an address in a specific city - then contacts in that city "
+"who have 'Do not phone' selected as a privacy option will be excluded from "
+"the search results."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Advanced.hlp
+msgid ""
+"If you want to FIND (include) contacts with a particular privacy option set, "
+"then check 'Include contacts who have these privacy option(s)'."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Basic.hlp

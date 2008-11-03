@@ -158,8 +158,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                null, null,
                                                                false, null,
                                                                $this->_skipPermission );
-            //if civimail is enable and email field is absent show status
-            if ( CRM_Core_Permission::access( 'CiviMail' ) && CRM_Utils_Array::value( 'group', $this->_fields ) ) {
+
+	    //if civimail is enable and email field is absent show status
+            if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())&&
+                 CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
                     if ( substr( $name, 0, 6 ) == 'email-' ) {
@@ -550,7 +552,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         //used to send subcribe mail to the group which user want.
         //if the civimail component is enable.
         $mailingType = array( );
-        if ( CRM_Core_Permission::access( 'CiviMail' )  && CRM_Utils_Array::value( 'group', $params ) ) {
+        
+	if ( CRM_Utils_Array::value( 'CiviMail', CRM_Core_Component::getEnabledComponents())
+	     && CRM_Utils_Array::value( 'group', $params ) ) {
             $result = null;
             foreach ( $params as $name => $values ) {
                 if ( substr( $name, 0, 6 ) == 'email-' ) {

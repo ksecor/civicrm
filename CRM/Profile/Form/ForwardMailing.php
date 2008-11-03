@@ -146,9 +146,9 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
             }
         }
         
-        $status = ts( 'Mailing is not forwarded to given email address(es).' );
+        $status = ts( 'Mailing is not forwarded to the given email address.', array( 'count' => count($emails), 'plural' => 'Mailing is not forwarded to the given email addresses.' ) );
         if ( $forwarded ) {
-            $status = ts( "Mailing is forwarded successfully to %1 email address(es).", array( 1 => $forwarded ) );
+            $status = ts( 'Mailing is forwarded successfully to %count email address.', array( 'count' => $forwarded, 'plural' => 'Mailing is forwarded successfully to %count email addresses.' ) );
         }
         
         require_once 'CRM/Utils/System.php';

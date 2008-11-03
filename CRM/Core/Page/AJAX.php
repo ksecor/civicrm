@@ -293,7 +293,7 @@ ORDER BY sort_name ";
                 }
             } else {  
                 while ( $dao->fetch( ) ) {
-                    $elements[] = array( 'name' => $dao->sort_name,
+                    $elements[] = array( 'name' => addslashes( $dao->sort_name ),
                                          'id'   => $dao->id );
                 }
             }
