@@ -464,15 +464,26 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->assign('onBehalfEmail', $this->_params['location'][1]['email'][1]['email']);
             $this->assign('onBehalfAddress', CRM_Utils_Address::format($this->_params['location'][1]['address']));
         }
-
-        if ( $this->_contributeMode == 'direct' && $this->_amount > 0.0 ) {
+        
+        //fix for CRM-3767
+        $assignCCInfo = false;
+        if ( $this->_amount > 0.0 ) {
+            $assignCCInfo = true;
+        } else if ( CRM_Utils_array::value( 'selectMembership', $this->_params ) ) {
+            $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_params['selectMembership'], 'minimum_fee' );
+            if (  $memFee > 0.0  ) {
+                $assignCCInfo = true; 
+            }
+        }
+        
+        if ( $this->_contributeMode == 'direct' && $assignCCInfo ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );
             $this->assign( 'credit_card_number',
                            CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
         }
-
+        
         $this->assign( 'email',
                        $this->controller->exportValue( 'Main', "email-{$this->_bltID}" ) );
         

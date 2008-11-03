@@ -90,7 +90,6 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     static function sendMail( $contactID, &$values, $isTest = false, $returnMessageText = false ) 
     { 
         require_once "CRM/Core/BAO/UFField.php";
-
         $gIds = array( );
         $params = array( );
         if ( isset( $values['custom_pre_id'] ) ) {
@@ -141,19 +140,24 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                  ! empty( $params['custom_post_id'] ) ) {
                 $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
             }
+            
+            //for display profile need to get individual contact id,  
+            //hence get it from related_contact if on behalf of org true CRM-3767.
+            $cid = CRM_Utils_Array::value( 'related_contact', $values, $contactID );
+            
             self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_pre_id',
                                                               $values ),
                                       'customPre',
-                                      $contactID ,
+                                      $cid,
                                       $template  ,
                                       $params['custom_pre_id'] );
             self::buildCustomDisplay( CRM_Utils_Array::value( 'custom_post_id',
                                                               $values ),
                                       'customPost',
-                                      $contactID  ,
+                                      $cid,
                                       $template   ,
                                       $params['custom_post_id'] );
-
+            
             // set email in the template here
             $template->assign( 'email', $email );
 
