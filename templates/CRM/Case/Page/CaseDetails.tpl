@@ -4,14 +4,12 @@
   {
     margin: 0px;
     width: 100%;
-    border-bottom: 0px;
-    border: 0px;;
+    border: 2px solid darkgrey;
   }
 
   #crm-container table.nestedSelector tr.columnheader
   {
-    background-color: #FAFAFA;
-    border: 0px;
+    background-color: darkgrey;
   }
 
   #crm-container table.nestedSelector tr.columnheader th

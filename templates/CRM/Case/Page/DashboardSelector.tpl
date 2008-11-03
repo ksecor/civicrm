@@ -7,35 +7,22 @@
 </style>
 {/literal}
 
-{if $context EQ 'Search'}
-    {include file="CRM/common/pager.tpl" location="top"}
-{/if}
-
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
 {ts 1=$expandIconURL}Click %1 to view case details.{/ts}
 
 {strip}
 <table class="selector">
   <tr class="columnheader">
-
-  {if ! $single and $context eq 'Search' }
-    <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
-  {/if}
-
-  {if ! $single}
     <th></th>
-  {/if}
+    <th>{ts}Client{/ts}</th>
+    <th class="right">{ts}Status{/ts}</th>
+    <th class="right">{ts}Type{/ts}</th>
+    <th class="right">{ts}My Role{/ts}</th>
 
-  {foreach from=$columnHeaders item=header}
-    <th scope="col">
-      {if $header.sort}
-        {assign var='key' value=$header.sort}
-        {$sort->_response.$key.link}
-      {else}
-        {$header.name}
-      {/if}
-    </th>
-  {/foreach}
+    <th class="right">Activity Date</th>
+    <th class="right">Activity Type</th>
+
+    <th></th>
   </tr>
 
   {counter start=0 skip=1 print=false}
@@ -43,14 +30,8 @@
   {cycle values="odd-row,even-row" assign=rowClass}
 
   <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
-    {if $context eq 'Search' }
-        {assign var=cbName value=$row.checkbox}
-        <td>{$form.$cbName.html}</td> 
-    {/if}
 	<td>
-    {if ! $single }	
         &nbsp;{$row.contact_type}<br/>
-    {/if}
 	<span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
                              buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
@@ -66,27 +47,26 @@
                              hide('minus{$list}{$row.case_id}_hide');
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
-    {if ! $single }	
-    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    {/if}
 
+    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td class="right">{$row.case_status}</td>
     <td class="right">{$row.case_type}</td>
     <td class="right">{$row.case_role}</td>
-    <td class="right">{$row.case_recent_activity_date|crmDate}</td>
-    <td class="right">{$row.case_recent_activity_type}</td>
+
+    {if $list eq 'upcoming'}
     <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
     <td class="right">{$row.case_scheduled_activity_type}</td>
+    {elseif $list eq 'recent'}
+    <td class="right">{$row.case_recent_activity_date|crmDate}</td>
+    <td class="right">{$row.case_recent_activity_type}</td>
+    {/if}
+
     <td>{$row.action}</td>
    </tr>
    <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
      <td>
      </td>
-{if $context EQ 'Search'}
-     <td colspan="10" class="enclosingNested">
-{else}
-     <td colspan="9" class="enclosingNested">
-{/if}
+     <td colspan="7" width="97%" class="enclosingNested">
         <div id="caseDetails{$list}{$row.case_id}"></div>
      </td>
    </tr>
@@ -112,10 +92,6 @@
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);
  </script>
-{/if}
-
-{if $context EQ 'Search'}
-    {include file="CRM/common/pager.tpl" location="bottom"}
 {/if}
 
 {* Build case details*}

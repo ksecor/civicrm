@@ -37,8 +37,15 @@
 <div class="spacer"></div>
 
 {if $pager->_totalItems}
-    <h3>{ts}Recent Cases{/ts}</h3>
+
+    <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Case/Form/Selector.tpl" context="dashboard"}
+        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming"}
     </div>
+
+    <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
+    <div class="form-item">
+        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent"}
+    </div>
+
 {/if}
