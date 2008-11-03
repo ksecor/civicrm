@@ -270,32 +270,16 @@ class CRM_Contribute_Form_AdditionalInfo
             $formatted["honor_contact_id"] = 'null';
         }
 
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Contribution', null, $params['id'] );
-            }
-        }
-        
-        if ( ! empty($customData) ) {
-            $formatted['custom'] = $customData;
-        }
-                
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, 
-                                                             CRM_Utils_Array::value('contribution_type_id', $params ) );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $formatted['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formatted['custom'],
-                                                                 '', 'Contribution', null, $params['id'] );
-                }
-            }
-        }
-        
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution',
+                                                             false,
+                                                             false, 
+                                                             CRM_Utils_Array::value('contribution_type_id',
+                                                                                    $params ) );
+        $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                      $customFields,
+                                                                      $params['id'],
+                                                                      'Contribution' );
     }
     
     /** 

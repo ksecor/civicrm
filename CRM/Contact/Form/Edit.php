@@ -625,32 +625,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
         
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $params['contact_type'], null,
-                                                             $this->_contactId, true);
-            }
-        }
-
-        //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ( 'CheckBox', 'Multi-Select', 'Radio' ) ) &&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-                                                                 '', $params['contact_type'], null, $this->_contactId);
-                }
-            }
-        }
-    
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_contactId,
+                                                                   $params['contact_type'],
+                                                                   true );
+ 
         if ( $this->_showCommBlock ) {
             // this is a chekbox, so mark false if we dont get a POST value
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );

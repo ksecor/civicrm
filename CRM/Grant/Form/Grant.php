@@ -231,30 +231,12 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $ids['note']['id']   = $this->_noteId;
         }
         
-        $customData = array( );
-        foreach ( $formValues as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Grant', null, $this->_id);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $formValues['custom'] = $customData;
-        }
-
-        //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Grant' );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $formValues['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formValues['custom'],
-                                                                 '', 'Grant', null, $this->_id);
-                }
-            }
-        }
+
+        $formValues['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       $customFields,
+                                                                       $this->_id,
+                                                                       'Grant' );
 
         require_once 'CRM/Grant/BAO/Grant.php';
         CRM_Grant_BAO_Grant::create($formValues ,$ids);

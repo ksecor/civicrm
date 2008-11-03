@@ -307,11 +307,10 @@ class CRM_Core_BAO_CustomValueTable
     function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) 
     {
         require_once "CRM/Core/BAO/CustomField.php";
-        $customData = CRM_Core_BAO_CustomField( $params,
-                                                $customFields,
-                                                $entityTable,
-                                                $entityID,
-                                                $customFieldExtends );
+        $customData = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                             $customFields,
+                                                             $entityID,
+                                                             $customFieldExtends );
 
         if ( ! empty( $customData ) ) {
             self::store( $customData, $entityTable, $entityID );

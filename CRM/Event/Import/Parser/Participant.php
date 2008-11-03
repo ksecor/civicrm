@@ -324,27 +324,21 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             return CRM_Event_Import_Parser::ERROR;
         }
         if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
-            foreach ( $formatted as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                 $value, 'Participant', null, null );
-                }
-            }
-        }
-        
-        if ( $onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Participant' );
+        } else {
             if ( $values['participant_id'] ) {
                 require_once 'CRM/Event/BAO/Participant.php';
                 $dao =  new CRM_Event_BAO_Participant();
                 $dao->id = $values['participant_id'];
                 
-                foreach ( $formatted as $key => $value ) {
-                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                     $value, 'Participant', null, $values['participant_id'] );
-                    }
-                }
-                
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                              CRM_Core_DAO::$_nullObject,
+                                                                              $values['participant_id'],
+                                                                              'Participant' );
+
                 if ( $dao->find( true ) ) { 
                     $ids = array(
                                  'participant' => $values['participant_id'],

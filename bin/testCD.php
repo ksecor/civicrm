@@ -5,7 +5,7 @@ function testCustomGroupOne( ) {
                      'custom_1'  => 'Env',
                      'custom_2'  => 'S'  ,
                      'custom_3'  => '19680612',
-                     'custom_4'  => '^AEdu^A' );
+                     'custom_4'  => 'Edu' );
   
     $error  = CRM_Core_BAO_CustomValueTable::setValues( $params );
     CRM_Core_Error::debug( $error );

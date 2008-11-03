@@ -307,16 +307,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
         if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
-            foreach ( $formatted as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                 $value, 'Contribution', null, null );
-                }
-            }
-        }
-
-        //fix for CRM-2219 - Update Contribution
-        if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Contribution' );
+        } else {
+            //fix for CRM-2219 - Update Contribution
+            // onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE
             if ( $values['invoice_id'] || $values['trxn_id'] || $values['contribution_id'] ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $dupeIds = array(
@@ -328,13 +325,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
                 if ( $ids['contribution'] ) {     
                     $formatted['id'] = $ids['contribution'];
-                    foreach ( $formatted as $key => $value ) {
-                        if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                            CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                         $value, 'Contribution', null, $formatted['id'] );
-                        }
-                    }
-
+                    $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                                  CRM_Core_DAO::$_nullObject,
+                                                                                  $formatted['id'],
+                                                                                  'Contribution' );
                      //process note
                     if ( $values['note'] ) {
                         $noteID = array();

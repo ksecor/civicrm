@@ -1469,10 +1469,13 @@ ORDER BY html_type";
         return $defaultValue;
     }
 
-    function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) 
+    function postProcess( &$params,
+                          &$customFields,
+                          $entityID,
+                          $customFieldExtends,
+                          $inline = false ) 
     {
         $customData = array( );
-        require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
@@ -1480,7 +1483,8 @@ ORDER BY html_type";
                                                              $value,
                                                              $customFieldExtends,
                                                              $customFieldInfo[1],
-                                                             $entityID );
+                                                             $entityID,
+                                                             $inline );
             }
         }
 

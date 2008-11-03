@@ -730,32 +730,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         //custom data block common for offline as well as credit card
         //(online) mode
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Participant', null, $this->_participantId);
-            }
-        }
-
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
                                                              CRM_Utils_Array::value( 'role_id', $params ) );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Participant', null, $this->_participantId);
-                }
-            }
-        }
-              
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_participantId,
+                                                                   'Participant' );
+
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
