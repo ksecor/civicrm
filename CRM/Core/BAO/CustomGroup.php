@@ -199,6 +199,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
      *
      */
     public static function &getTree( $entityType,
+                                     &$form,
                                      $entityID = null,
                                      $groupID  = null,
                                      $subType  = null )
