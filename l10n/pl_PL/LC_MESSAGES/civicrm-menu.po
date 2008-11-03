@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
 "PO-Revision-Date: 2008-10-29 04:54-0700\n"
-"Last-Translator: Mariusz Królikowski <mariuszkrolikowski@gmail.com>\n"
+"Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,10 +57,10 @@ msgid "Browse Uploaded files"
 msgstr ""
 
 msgid "Case"
-msgstr "Sprawa"
+msgstr ""
 
 msgid "Case Types"
-msgstr "Typ sprawy"
+msgstr ""
 
 msgid "CiviContribute"
 msgstr "CiviContribute"
@@ -138,13 +138,13 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr "Format daty"
+msgstr "Formatowanie daty"
 
 msgid "Debugging"
 msgstr "Debugowanie"
 
 msgid "Delete Contact"
-msgstr "Uusn kontakt"
+msgstr "Usuń kontakt"
 
 msgid "Delete Location"
 msgstr ""
@@ -208,7 +208,7 @@ msgid "Find Signers"
 msgstr "Wysyłki"
 
 msgid "From Email Address"
-msgstr "Adres Email - Od:"
+msgstr "Adres email nadawcy"
 
 msgid "Gender Options"
 msgstr ""
@@ -226,7 +226,7 @@ msgid "Groups"
 msgstr "Grupy"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr "Nagłówki, Stopki i Automatyczne wiadomości"
+msgstr "Nagłówki, stopki i wiadomości automatyczne"
 
 msgid "Import"
 msgstr "Importuj"
@@ -248,10 +248,10 @@ msgid "Import Signers"
 msgstr "Importuj członków"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr "Zwrot grzecznościowy (Pan, Pani)"
+msgstr "Zwrot grzecznościowy (pan, pani…)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Tytył (Prof,dr,mgr)"
+msgstr ""
 
 msgid "Instant Messenger Services"
 msgstr "Komunikatory"
@@ -260,7 +260,7 @@ msgid "Localization"
 msgstr "Lokalizacja"
 
 msgid "Location Types (Home, Work...)"
-msgstr "Typ lokalizacji (Dom, Praca.. )"
+msgstr "Rodzaje lokalizacji (dom, praca…)"
 
 msgid "Log out"
 msgstr "Wyloguj"
@@ -321,7 +321,7 @@ msgid "Merge Contact"
 msgstr "Połącz kontakt"
 
 msgid "Message Templates"
-msgstr "Szablon wiadomości"
+msgstr "Szablony wiadomości"
 
 msgid "Miscellaneous"
 msgstr ""
@@ -406,7 +406,7 @@ msgid "Relationships"
 msgstr "Powiązania"
 
 msgid "Relationship Types"
-msgstr "Typ powiązań"
+msgstr "Rodzaje powiązań"
 
 msgid "Resubscribe"
 msgstr "Odnów"
@@ -444,7 +444,6 @@ msgstr ""
 msgid "System Preferences"
 msgstr "Ustawienia systemu"
 
-# Nie tłumaczył bym tego
 msgid "Tags"
 msgstr "Tagi"
 
