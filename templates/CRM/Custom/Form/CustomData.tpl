@@ -96,17 +96,12 @@
     </dl>
     <div class="spacer"></div>
     {if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
+    <div id="add-more-{$group_id}"></div>
     </fieldset>
     </div>
   {/if}
 {/foreach}
 {/strip}
-
-{if $form.buttons.html }
-<dl>
-  <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
-</dl>  
-{/if}
 
 {if $addJsCode eq 1 }
 <script type="text/javascript">  

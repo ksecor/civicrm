@@ -140,8 +140,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         //check if group has multiple values
         $isMultiValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                      $this->_groupID, 'is_multiple' );
-
+        
         $this->assign( 'isMultiValue', $isMultiValue );
+        $this->assign('groupID', $this->_groupID);
 
 //         $this->_tableId       = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
 //         $this->_entityType    = CRM_Utils_Request::retrieve( 'entityType', 'String'  , CRM_Core_DAO::$_nullArray );
@@ -208,22 +209,22 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 //                                                   'showBlocks', 'hideBlocks',
 //                                                   false, true );
 
-//         $session = & CRM_Core_Session::singleton( );
-//         $uploadNames = $this->get( 'uploadNames' );
-//         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-//             $buttonType = 'upload';
-//         } else {
-//             $buttonType = 'next';
-//         }
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $this->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
         
-//         $this->addButtons(array(
-//                                 array ( 'type'      => $buttonType,
-//                                         'name'      => ts('Save'),
-//                                         'isDefault' => true   ),
-//                                 array ( 'type'       => 'cancel',
-//                                         'name'      => ts('Cancel') ),
-//                                 )
-//                           );
+        $this->addButtons(array(
+                                array ( 'type'      => $buttonType,
+                                        'name'      => ts('Save'),
+                                        'isDefault' => true   ),
+                                array ( 'type'       => 'cancel',
+                                        'name'      => ts('Cancel') ),
+                                )
+                          );
         
 
 //         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {

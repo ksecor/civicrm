@@ -14,6 +14,9 @@ function buildCustomData( subType )
 {if $urlPathVar}
 	dataUrl = dataUrl + '&' + '{$urlPathVar}'
 {/if}
+{if $groupID}
+	dataUrl = dataUrl + '&groupID=' + '{$groupID}'
+{/if}
 {literal}
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
@@ -53,13 +56,14 @@ function buildCustomData( subType )
                 } else {
 		   // on success
                    dojo.byId('customData').innerHTML = response;
-		   executeInnerHTML( 'customData' );
 
 		   {/literal}
 		   {if $isMultiValue }
 		        createMultiValueLink( ); 
 		   {/if}
 		   {literal}
+
+		   executeInnerHTML( 'customData' );
 	       }
         }
      });
@@ -68,7 +72,13 @@ function buildCustomData( subType )
 }
 
 function createMultiValueLink( ) {
-    cj("#add-more").html('<a href="javascript:createMultipleValues( );">Add More</a>');
+{/literal}
+{if $groupID}
+	groupID = '{$groupID}';
+{/if}
+{literal}
+
+    cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues( );">Add More</a>');
 }
 
 function createMultipleValues( subType )
