@@ -308,22 +308,22 @@ INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email
             ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Parker, Peter', 'Dr Peter J Parker', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133114', NULL, 'Peter', 'James', 'Parker', 4, NULL, NULL, NULL, NULL, 2, '1969-03-12');
 
 SELECT @clientId1        := max(id) from civicrm_contact where sort_name = 'Reynolds, Jason';
-INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Possible morphine addiction', '2008-10-29', NULL, 'Based on initial call, client is dealing with possible severe morphine addiction.', 1);
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-10-29', NULL, 'Based on initial call, client is dealing with possible severe morphine addiction.', 1);
 SELECT @caseId1        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId1, @clientId1);
 
 SELECT @clientId2        := max(id) from civicrm_contact where sort_name = 'Jackson, Janet';
-INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Moderate to severe cocaine abuse', '2008-11-07', NULL, 'Based on initial call, client is dealing with moderate or severe cocaine abuse leading to work interruptions.', 1);
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-11-07', NULL, 'Based on initial call, client is dealing with moderate or severe cocaine abuse leading to work interruptions.', 1);
 SELECT @caseId2        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId2, @clientId2);
 
 SELECT @clientId3        := max(id) from civicrm_contact where sort_name = 'Parker, Peter';
-INSERT INTO `civicrm_case` (`case_type_id`, `subject`, `start_date`, `end_date`, `details`, `status_id`)
-    VALUES ('1', 'Testosterone abuse leading to emotional instability', '2008-11-01', NULL, 'Based on initial call, client is using large does of testosterone resulting in anger management problems at work.', 1);
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-11-01', NULL, 'Based on initial call, client is using large does of testosterone resulting in anger management problems at work.', 1);
 SELECT @caseId3        := max(id) from civicrm_case;
 INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
     VALUES (@caseId3, @clientId3);
@@ -380,7 +380,7 @@ INSERT INTO
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
     (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  0, 2, NULL, 0, 1, 1),
+    (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  1, 2, NULL, 0, 1, 1),
     (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1);
 
 

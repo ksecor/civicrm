@@ -54,8 +54,8 @@
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
-      <name>Current MAIN Practice Activity</name>
-      <category>Occupational History</category>
+      <name>Professional School</name>
+      <category>Educational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
   </ActivityTypes>

@@ -276,7 +276,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
             $this->_defaults['activity_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
-            $this->_defaults['medium_id'] = CRM_Utils_Array::key('Phone', CRM_Core_OptionGroup::values('encounter_medium'));
+
+            // set default encounter medium if an option_value default is set for that option_group
+            $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
+            if ( count($medium) == 1 ) {
+                $this->_defaults['medium_id'] = key($medium);
+            }
         }
         
         if ( $this->_caseAction ) {
