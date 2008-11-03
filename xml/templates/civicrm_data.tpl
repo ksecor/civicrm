@@ -367,6 +367,7 @@ VALUES
   (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Left Message{/ts}', 4, 'Left Message', NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Unreachable{/ts}', 5, 'Unreachable', NULL, 0, NULL, 5, NULL, 0, 1, 1, NULL),
+  (@option_group_id_acs, '{ts escape="sql"}Not Required{/ts}',  6, 'Not Required',  NULL, 0, NULL, 6, NULL, 0, 1, 1, NULL),
 
   (@option_group_id_ct, '{ts escape="sql"}Civil & Political{/ts}',            1, 'Civil & Political',  NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
   (@option_group_id_ct, '{ts escape="sql"}Economic, Social & Cultural{/ts}',  2, 'Economic, Social & Cultural',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),

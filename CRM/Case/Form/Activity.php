@@ -197,7 +197,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         $this->_activityTypeName    = $details['label'];
         $activityTypeDescription    = $details['description'];
-        $this->_defaults['subject'] = $details['label'];
 
         $this->assign( 'activityTypeName',        $this->_activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
@@ -227,7 +226,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
         }
 
-        CRM_Utils_System::setTitle( ts('%1 : %2', array('1' => $caseSubject,'2' => $this->_activityTypeName)) );
+        CRM_Utils_System::setTitle( $this->_activityTypeName );
 
         //when custom data is included in this page
         $this->set( 'type'    , 'Activity' );
