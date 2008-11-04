@@ -758,7 +758,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             } 
         }
         
-        return array( count($contactIds), $sent, $notSent );
+        return array( count($contactIds), $sent, $notSent, $activity->id );
     }
     
     /**

@@ -86,6 +86,9 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             parent::preProcess( );
         }
         $this->assign( 'single', $this->_single );
+
+        // store case id if present
+        CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
     }
     
     /**

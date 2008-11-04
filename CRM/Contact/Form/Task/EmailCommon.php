@@ -336,15 +336,16 @@ class CRM_Contact_Form_Task_EmailCommon
 
         // send the mail
         require_once 'CRM/Activity/BAO/Activity.php';
-        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds,
-                                                                                $subject,
-                                                                                $text,
-                                                                                $html,
-                                                                                $emailAddress,
-                                                                                null,
-                                                                                $from,
-                                                                                $attachments );
-        
+        list( $total, $sent, $notSent, $activityId ) = 
+            CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds,
+                                                  $subject,
+                                                  $text,
+                                                  $html,
+                                                  $emailAddress,
+                                                  null,
+                                                  $from,
+                                                  $attachments );
+
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
         }
@@ -364,6 +365,15 @@ class CRM_Contact_Form_Task_EmailCommon
             $status[] = $statusDisplay;
         }
         
+        $caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $form );
+        if ( $caseId ) {
+            // if case-id is found in the url, create case activity record
+            $caseParams = array( 'activity_id' => $activityId,
+                                 'case_id'     => $caseId      );
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+        }
+
         if ( strlen($statusOnHold) ) {
             $status[] = $statusOnHold;
         }
