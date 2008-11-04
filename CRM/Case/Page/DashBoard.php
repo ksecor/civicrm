@@ -52,8 +52,13 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
         CRM_Utils_System::setTitle( ts('CiviCase Dashboard') );
         
         require_once 'CRM/Case/BAO/Case.php';
-        $caseSummary = CRM_Case_BAO_Case::getCasesSummary( );
-        $this->assign('caseSummary', $caseSummary);
+        $summary  = CRM_Case_BAO_Case::getCasesSummary( );
+        $upcoming = CRM_Case_BAO_Case::getUpcomingCases( );
+        $recent   = CRM_Case_BAO_Case::getRecentCases( );
+
+        $this->assign('casesSummary',  $summary);
+        $this->assign('upcomingCases', $upcoming);
+        $this->assign('recentCases',   $recent);
     }
     
     /** 
@@ -66,17 +71,6 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
     function run( ) 
     {
         $this->preProcess( );
-        
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Search', 
-                                                        ts('Case'), 
-                                                        null );
-        $controller->setEmbedded( true ); 
-        $controller->reset( ); 
-        $controller->set( 'limit', 10 );
-        $controller->set( 'force', 1 );
-        $controller->set( 'context', 'dashboard' ); 
-        $controller->process( ); 
-        $controller->run( ); 
         
         return parent::run( );
     }

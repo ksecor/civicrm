@@ -19,12 +19,12 @@
 <table class="report">
   <tr class="columnheader-dark">
     <th>&nbsp;</th>
-    {foreach from=$caseSummary.headers item=header}
+    {foreach from=$casesSummary.headers item=header}
     <th scope="col" class="right" style="padding-right: 10px;">{$header}</th>
     {/foreach}
   </tr>
 
-  {foreach from=$caseSummary.rows item=row}
+  {foreach from=$casesSummary.rows item=row}
   <tr>
     <th><strong>{$row.case_type}</strong></td>
     {foreach from=$row.columns item=cell}
@@ -36,16 +36,12 @@
 
 <div class="spacer"></div>
 
-{if $pager->_totalItems}
-
     <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming"}
+        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming" rows=$upcomingCases}
     </div>
 
     <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent"}
+        {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent" rows=$recentCases}
     </div>
-
-{/if}
