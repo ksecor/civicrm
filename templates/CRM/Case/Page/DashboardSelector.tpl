@@ -29,19 +29,19 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+  <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
 	<td>
-        &nbsp;{$row.contact_type}<br/>
-	<span id="{$list}{$row.case_id}_show">
-	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
-                             buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
+        &nbsp;{$row.contact_type}<br />
+        <span id="{$list}{$row.case_id}_show">
+	    <a href="#" onclick="show('{$list}CaseDetails{$row.case_id}', 'table-row');
+                             {$list}CaseDetails('{$row.case_id}','{$row.contact_id}'); 
                              hide('{$list}{$row.case_id}_show');
                              show('minus{$list}{$row.case_id}_hide');
                              show('{$list}{$row.case_id}_hide','table-row');
                              return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
 	<span id="minus{$list}{$row.case_id}_hide">
-	    <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
+	    <a href="#" onclick="hide('{$list}CaseDetails{$row.case_id}');
                              show('{$list}{$row.case_id}_show', 'table-row');
                              hide('{$list}{$row.case_id}_hide');
                              hide('minus{$list}{$row.case_id}_hide');
@@ -66,8 +66,8 @@
    <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
      <td>
      </td>
-     <td colspan="7" width="97%" class="enclosingNested">
-        <div id="caseDetails{$list}{$row.case_id}"></div>
+     <td colspan="7" width="99%" class="enclosingNested">
+        <div id="{$list}CaseDetails{$row.case_id}"></div>
      </td>
    </tr>
  <script type="text/javascript">
@@ -86,25 +86,17 @@
 </table>
 {/strip}
 
-{if $context EQ 'Search'}
- <script type="text/javascript">
- {* this function is called to change the color of selected row(s) *}
-    var fname = "{$form.formName}";	
-    on_load_init_checkboxes(fname);
- </script>
-{/if}
-
 {* Build case details*}
 {literal}
 <script type="text/javascript">
 
-function buildCaseDetails( caseId, contactId )
+function {/literal}{$list}{literal}CaseDetails( caseId, contactId )
 {
 
   var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId;
 
   dataUrl = dataUrl + '&cid=' + contactId;
-	
+
     var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
@@ -123,7 +115,7 @@ function buildCaseDetails( caseId, contactId )
                         }
                 } else {
 		   // on success
-                   dojo.byId('caseDetails' + caseId).innerHTML = response;
+                   dojo.byId( '{/literal}{$list}{literal}CaseDetails' + caseId).innerHTML = response;
 	       }
         }
      });
@@ -131,5 +123,4 @@ function buildCaseDetails( caseId, contactId )
 
 }
 </script>
-
 {/literal}	
