@@ -17,6 +17,9 @@ function buildCustomData( subType )
 {if $groupID}
 	dataUrl = dataUrl + '&groupID=' + '{$groupID}'
 {/if}
+{if $qfKey}
+        dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
+{/if}
 {literal}
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";

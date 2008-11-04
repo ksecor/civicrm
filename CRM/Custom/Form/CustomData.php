@@ -47,12 +47,12 @@ class CRM_Custom_Form_CustomData
         $form->_subType  = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
         $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
-        
-        // Fix Me, for some problem type is not been stored in form session
-        $form->_type = "Contact";
-        $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form, $form->_entityId, $form->_groupID, $form->_subType );
 
-        //crm_core_error::debug('$form->_groupTree',$form->_groupTree );
+        $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
+                                                                $form,
+                                                                $form->_entityId,
+                                                                $form->_groupID,
+                                                                $form->_subType );
     }
 
     static function setDefaultValues( &$form ) 
