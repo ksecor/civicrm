@@ -4,6 +4,15 @@ require_once 'api/v2/CustomGroup.php';
 require_once 'tests/CiviTest/CiviUnitTestCase.php';
 class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase 
 {
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Custom Field Create',
+                     'description' => 'Test aof Custom Field Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {
