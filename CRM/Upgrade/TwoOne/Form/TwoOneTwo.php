@@ -100,6 +100,20 @@ class CRM_Upgrade_TwoOne_Form_TwoOneTwo extends CRM_Upgrade_Form {
             }
         }
 
+        // CRM-3796, fix null values of fee amount in participant table
+        $query ='
+UPDATE civicrm_participant,civicrm_option_group, civicrm_option_value, civicrm_event_page, civicrm_event
+SET civicrm_participant.fee_amount = civicrm_option_value.value
+WHERE civicrm_option_value.option_group_id = civicrm_option_group.id
+AND civicrm_event_page.id = substring( civicrm_option_group.name FROM 27 ) 
+AND civicrm_option_group.name LIKE "civicrm_event_page.amount.%"
+AND civicrm_participant.event_id = civicrm_event.id
+AND civicrm_event.id = civicrm_event_page.event_id
+AND civicrm_option_value.label = civicrm_participant.fee_level
+';
+        
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
         $this->setVersion( '2.1.2' );
     }
 
