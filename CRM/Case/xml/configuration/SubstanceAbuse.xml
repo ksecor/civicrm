@@ -130,11 +130,8 @@
   </ActivitySets>
   <CaseRoles>
     <RelationshipType>
-        <name>Intake Counselor</name>
+        <name>Intake Physician</name>
         <creator>1</creator>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Assessment Physician</name>
     </RelationshipType>
     <RelationshipType>
         <name>Case Coordinator</name>

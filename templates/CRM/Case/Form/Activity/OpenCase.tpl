@@ -52,9 +52,6 @@
     </tr>
     <tr><td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td></tr>
     <tr>
-        <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
-    </tr>
-    <tr>
       <td class="label">{$form.duration.label}</td>
       <td class="view-value">
         {$form.duration.html}
