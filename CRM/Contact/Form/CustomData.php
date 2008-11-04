@@ -144,7 +144,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign( 'isMultiValue', $isMultiValue );
         $this->assign('groupID', $this->_groupID);
 
-//         $this->_tableId       = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+        $this->_tableId       = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
 //         $this->_entityType    = CRM_Utils_Request::retrieve( 'entityType', 'String'  , CRM_Core_DAO::$_nullArray );
 //         if ( $this->_entityType == null ) {
 //             require_once 'CRM/Contact/BAO/Contact.php';

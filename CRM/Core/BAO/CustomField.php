@@ -1473,8 +1473,7 @@ ORDER BY html_type";
                           &$customFields,
                           $entityID,
                           $customFieldExtends,
-                          $inline = false ) 
-    {
+                          $inline = false ) {
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
@@ -1502,6 +1501,7 @@ ORDER BY html_type";
                 }
             }
         }
+        return $customData;
     }
 
 }
