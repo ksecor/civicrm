@@ -34,7 +34,7 @@
  */
 
 require_once "CRM/Core/Form.php";
-require_once 'CRM/Custom/Form/CustomData.php';
+require_once "CRM/Custom/Form/CustomData.php";
 /**
  * This class generates form components for OpenCase Activity
  * 
@@ -63,6 +63,13 @@ class CRM_Case_Form_Activity_OpenCase
         // set case status to 'ongoing'
         $defaults['status_id'] = 1;
 
+        // set default encounter medium if an option_value default is set for that option_group
+        require_once "CRM/Core/OptionGroup.php";
+        $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
+        if ( count($medium) == 1 ) {
+            $this->_defaults['medium_id'] = key($medium);
+        }
+        
         return $defaults;
     }
 
@@ -73,19 +80,19 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true);
         
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
-        $form->add( 'text', 'subject', ts('Subject'), 
-                    array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
-
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $form->add('select', 'status_id',  ts( 'Case Status' ),  
                    $caseStatus , true  );
+
+        $form->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $form->addRule('duration', ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
         require_once "CRM/Contact/BAO/Contact.php";
         if ( $form->_clientId ) {
             list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_clientId );
             $form->assign( 'clientName', $displayName );
         } else {
+            $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact' );
             $form->addElement('select', 'prefix_id', ts('Prefix'), 
                               array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
             $form->addElement('select', 'suffix_id', ts('Suffix'), 
@@ -100,6 +107,7 @@ class CRM_Case_Form_Activity_OpenCase
                               ts('Primary Phone'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                          'phone'));
+
             //Primary Email
             $form->addElement('text', 
                               "location[1][email][1][email]",
@@ -112,6 +120,16 @@ class CRM_Case_Form_Activity_OpenCase
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
+
+        $form->add( 'text', 'subject', ts('Subject'), 
+                   array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
+
+        $form->add('select', 'medium_id',  ts( 'Medium' ), 
+                   CRM_Core_OptionGroup::values('encounter_medium'), true);
+
+        // calling this field activity_location to prevent conflict with contact location fields
+        $form->add('text', 'activity_location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
+        
         $form->add('textarea', 'details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
@@ -160,6 +178,9 @@ class CRM_Case_Form_Activity_OpenCase
 
         // for open case start date should be set to current date
         $params['start_date'] = CRM_Utils_Date::format( $params['now'] );
+
+        // rename activity_location param to the correct column name for activity DAO
+        $params['location'] = $params['activity_location'];
     }
 
     /**
