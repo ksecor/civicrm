@@ -14,12 +14,17 @@
 		<td>{$form.suffix_id.html}</td>
 	</tr>
 	<tr>
-        <td>{$form.location.1.phone.1.phone.label}</td>
-        <td>{$form.location.1.phone.1.phone.html}</td>
+        <td colspan="2">{$form.location.1.phone.1.phone.label}<br />
+            {$form.location.1.location_type_id.html}&nbsp;{$form.location.1.phone.1.phone.html}
+        </td>
+        <td colspan="2">{$form.location.2.phone.1.phone.label}<br />
+            {$form.location.2.location_type_id.html}&nbsp;{$form.location.2.phone.1.phone.html}
+        </td>
     </tr>
     <tr>
         <td>{$form.location.1.email.1.email.label}</td>
         <td>{$form.location.1.email.1.email.html}</td>
+        <td colspan="2"></td>
 	</tr>
     {if $isDuplicate}
     <tr>
