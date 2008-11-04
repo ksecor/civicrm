@@ -1,6 +1,7 @@
 {* Custom Data form*}
 {strip}
 {assign var="addJsCode" value = 0}
+{assign var="elementCount" value="1"}
 {foreach from=$groupTree item=cd_edit key=group_id}
     {if $group_id ne 'info'}
     {assign var="addJsCode" value = 1}
@@ -54,7 +55,7 @@
         {/if}
 	 {else}
           {assign var="name" value=`$element.name`} 
-          {assign var="element_name" value="custom_"|cat:$field_id}			
+          {assign var="element_name" value="custom_"|cat:$field_id|cat:"_-"|cat:$elementCount}			
           <dt>{$form.$element_name.label}</dt>
           <dd class="html-adjust">{$form.$element_name.html}
           {if $element.html_type eq 'Radio'}
@@ -92,6 +93,7 @@
         {/if}
 	{/if}
       {/if}
+    {assign var="elementCount" value=`$elementCount+1`}
     {/foreach}
     </dl>
     <div class="spacer"></div>

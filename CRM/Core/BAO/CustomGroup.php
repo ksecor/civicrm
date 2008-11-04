@@ -1121,7 +1121,8 @@ SELECT $select
             }
 
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
-                 
+            
+            $count = 1;
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
                 // skip all view fields
@@ -1138,9 +1139,10 @@ SELECT $select
                 }
 
                 $fieldId = $field['id'];                 
-                $elementName = 'custom_' . $fieldId;
+                $elementName = "custom_{$fieldId}_-{$count}";
                 require_once "CRM/Core/BAO/CustomField.php";
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required); 
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required);
+                $count++;                
             } 
  
             if ( $group['collapse_display'] && ! $alwaysShow ) { 

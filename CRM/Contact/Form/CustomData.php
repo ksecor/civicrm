@@ -269,14 +269,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-//         // Get the form values and groupTree
-//         $params = $this->controller->exportValues( $this->_name );
-//         require_once 'CRM/Core/BAO/CustomValueTable.php';
-//         CRM_Core_BAO_CustomValueTable::postProcess( $params,
-//                                                     $this->_groupTree[$this->_groupId]['fields'],
-//                                                     'civicrm_contact',
-//                                                     $this->_tableId,
-//                                                     $this->_entityType );
+        // Get the form values and groupTree
+        $params = $this->controller->exportValues( $this->_name );
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::postProcess( $params,
+                                                    $this->_groupTree[$this->_groupId]['fields'],
+                                                    'civicrm_contact',
+                                                    $this->_tableId,
+                                                    $this->_entityType );
     }
 }
 
