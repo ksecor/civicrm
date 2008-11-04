@@ -6,18 +6,20 @@ class Custom extends DrupalTestCase
      *
      * @return object of created group
      */ 
-    function createGroup( $group, $extends =  null ) 
+    function createGroup( $group, $extends =  null, $isMultiple = false ) 
     {
         if ( empty( $group ) ) {
             $group = array(
-                           'title'      => 'Test_Group',
-                           'name'       => 'test_group',
-                           'extends'    => $extends,
-                           'style'      => 'Inline',
-                           'is_active'  => 1
+                           'title'       => 'Test_Group',
+                           'name'        => 'test_group',
+                           'extends'     => $extends,
+                           'style'       => 'Inline',
+                           'is_multiple' => $isMultiple,
+                           'is_active'   => 1
                            );
             
         }
+
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Utils/String.php';
         $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
@@ -26,7 +28,6 @@ class Custom extends DrupalTestCase
         $customGroup->table_name =  "civicrm_value_" .
             strtolower( CRM_Utils_String::munge( $group['title'], '_', 32 ) );
         $customGroup->table_name = $customGroup->table_name .'_'.$customGroup->id;
-        $customGroup->is_multiple = 0;
         $customGroup = $customGroupBAO->save();
         $customTable = CRM_Core_BAO_CustomGroup::createTable( $customGroup );
         

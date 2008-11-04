@@ -243,24 +243,29 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         Contact::delete( $contactID );
     }
 
-    function testCustomGroupOne( ) {
-        $params = array( 'entityID'  => 102,
-                         'custom_1'  => 'Edu',
-                         'custom_2'  => 'D'  ,
-                         'custom_3'  => '20040406',
-                         'custom_4'  => 'EnvSocJus' );
-        
+    function testCustomGroupMultiple( ) {
+        $params      = array();
+        $contactID   = Contact::createIndividual();
+        $customGroup = Custom::createGroup( $params ,'Individual' );
+        $fields      = array (
+                              'groupId'  => $customGroup->id,
+                              'dataType' => 'String',
+                              'htmlType' => 'Text'
+                              );
+        $customField = Custom::createField( $params, $fields );
+
+        $params = array( 'entityI'    => 102,
+                         'custom_5_-1' => 'First String',
+                         );
         $error = CRM_Core_BAO_CustomValueTable::setValues( $params );
+        CRM_Core_Error::debug( $error );
         
-        $result = CRM_Core_BAO_CustomValueTable::getValues( $params );
-        foreach ( $result as $key => $value ) {
-            $this->assertEqual( $value, $params[$key], 
-                                "Checking same for returned value $key" );
-        }
+        $newParams = array( 'entityID'    => $contactID,
+                            'custom_5'    => 1 );
+        $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
+        
+        $this->assertEqual( $params['custom_5_-1'], $result['custom_5_1'] );
+        $this->assertEqual( $params['entityID'], $result['entityID'] );
     }
     
-    function testCustomTwo( ) {
-        $params = array( );
-    }
-
 }
