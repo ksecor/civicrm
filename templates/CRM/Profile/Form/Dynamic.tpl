@@ -97,16 +97,16 @@
              {$form.$provider.html}&nbsp;
            {/if}
            {if $n eq 'greeting_type'}
-                <table class="form-layout-compressed">
-                    <tr>
-                        <td>{$form.$n.html}</td>
-                        <td id="greetingLabel" style="display:none;">{$form.custom_greeting.label}</td>
-                        <td id="greetingHtml" style="display:none;">{$form.custom_greeting.html|crmReplace:class:big}</td>
-                    </tr>
-                </table>
-            {else}        
-                {$form.$n.html}
-            {/if}
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html} </td>
+                     <td id="greeting">
+                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
+                     </tr>
+               </table> 
+           {else}        
+               {$form.$n.html}
+           {/if}
            </td>
            {if $field.html_type eq 'Radio' and $form.formName eq 'Edit'}
                 <td style="line-height: .75em; margin-top: 1px;">
@@ -191,15 +191,22 @@ invert              = 0
 }
 {/if}
 
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+  {/literal}
+    </script>
+{/if}
 {literal}
 <script type="text/javascript">
     function showGreeting() {
        if( document.getElementById("greeting_type").value == 4 ) {
-           show('greetingLabel');
-           show('greetingHtml');                   
+           show('greeting');                   
        } else {
-           hide('greetingLabel');
-           hide('greetingHtml');      
+           hide('greeting');      
        }     
     }
 </script>

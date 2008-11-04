@@ -885,6 +885,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $options = array( );                
 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
+        if ( $returnProperties['greeting_type'] ) {
+            $returnProperties['custom_greeting'] = 1;
+        }
 
         // we dont know the contents of return properties, but we need the lower level ids of the contact
         // so add a few fields

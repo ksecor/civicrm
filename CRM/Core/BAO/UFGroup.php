@@ -648,7 +648,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
-                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
+                if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix', 'greeting_type' ) ) ) {
                     $values[$index] = $details->$name;
                     $name = $name . '_id';
                     $params[$index] = $details->$name ;
@@ -848,6 +848,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $url &&
                      ! empty( $values[$index] ) &&
                      $searchable ) {
+                    if ( $temp != 'Customized' && $index == 'Custom Greeting' ) {
+                        array_pop($values);
+                        continue;
+                    }
+                    $temp = $values['Greeting Type'];
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }
@@ -1463,6 +1468,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details['individual_suffix_id'];
                     } else if ($name == 'greeting_type') {
                         $defaults[$fldName] = $details['greeting_type_id'];
+                        if ( $details['greeting_type'] == 'Customized' ) {
+                            $defaults['custom_greeting'] = $details['custom_greeting'];
+                        } 
                     } else if ($name == 'preferred_communication_method') {
                         $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                         foreach ( $v as $item ) {
