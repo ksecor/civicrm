@@ -424,7 +424,7 @@ SELECT $select
 
                     $dao = CRM_Core_DAO::executeQuery( $query );
                 
-                    if ( $dao->fetch( ) ) {
+                    while ( $dao->fetch( ) ) {
                         foreach ( $groupTree as $groupID => $group ) {
                             if ( $groupID === 'info' ) {
                                 continue;
@@ -490,7 +490,7 @@ SELECT $select
                 }
             }
         }
-        
+
         $uploadNames = array();
         foreach ($groupTree as $key1 => $group) { 
             if ( $key1 === 'info' ) {
