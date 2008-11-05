@@ -103,8 +103,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             foreach ( $optionValues as $Id => $value ) {
                 if ( $value['is_default'] ) {
                     $this->_fromEmailId        = $Id;
-                    $defaults['email_name']    = CRM_Utils_Array::value( 1, explode('"', $value['name'] ) );
-                    $defaults['email_address'] = CRM_Utils_Mail::pluckEmailFromHeader( $value['name'] );
+                    $defaults['email_name']    = CRM_Utils_Array::value( 1, explode('"', $value['label'] ) );
+                    $defaults['email_address'] = CRM_Utils_Mail::pluckEmailFromHeader( $value['label'] );
                     break;
                 }
             }
