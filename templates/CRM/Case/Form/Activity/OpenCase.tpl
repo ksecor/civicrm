@@ -29,7 +29,9 @@
     {if $isDuplicate}
     <tr>
         <td>&nbsp;&nbsp;{$form._qf_Case_next_createNew.html}</td>
+        {if $onlyOneDupe}
         <td>&nbsp;&nbsp;{$form._qf_Case_next_assignExisting.html}</td>
+        {/if}
     </tr>
     {/if}
     </table>

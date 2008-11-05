@@ -41,9 +41,10 @@ require_once "CRM/Custom/Form/CustomData.php";
  */
 class CRM_Case_Form_Activity_OpenCase
 {
-
     static function preProcess( &$form ) 
     {   
+        $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
+        $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
     }
 
    /**
@@ -142,7 +143,13 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('textarea', 'details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
+        $form->addElement('submit', 
+                          $form->_createNewButtonName,
+                          ts( 'Create New Client' ) );
         
+        $form->addElement('submit', 
+                          $form->_assignExistingButtonName,
+                          ts( 'Assign Existing Client' ) );
     }
 
     /**
@@ -157,28 +164,30 @@ class CRM_Case_Form_Activity_OpenCase
 
         $contactParams = $params;
         if ( !$form->_clientId ) {
-            if ( $form->_buttonName == $form->_assignExistingButtonName ) {
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
                 
-                $contactParams['location'][1]['is_primary'] = 1;
-                $contactParams['contact_type']              = 'Individual';
-                
-                $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-                
+            if ( $form->controller->getButtonName( ) == $form->_assignExistingButtonName ) {
                 //Dedupe couldn't recognize "email-Primary".So modify params temporary.
                 require_once 'CRM/Dedupe/Finder.php';
                 $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
-                
-                $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
+                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
                 
                 // if we find more than one contact, use the first one
                 if ( is_array($ids) ) {
-                    $contactParams['contact_id']  = $ids[0];
+                    $form->_clientId = $ids[0];
                 }
-            } 
-   
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
-            $form->_clientId = $contact->id;
+                if ( !$form->_clientId ) {
+                    CRM_Core_Error::fatal('Could not find existing client to link the case with.');
+                }
+            }
+
+            if ( !$form->_clientId ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
+                $form->_clientId = $contact->id;
+            }
             
             // unset contact params
             unset($params['location'], $params['first_name'], $params['last_name'], 
@@ -203,7 +212,44 @@ class CRM_Case_Form_Activity_OpenCase
      */
     static function formRule( &$values, $files, &$form ) 
     {
-        return true;
+        if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
+            return true;
+        }
+
+        $errors = array( );
+              
+        // if this is a forced save, ignore find duplicate rule
+        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) ) {
+            $contactParams = $values;
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
+
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($contactParams, 'Individual');
+            $ids          = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy');
+
+            if ( $ids ) {
+                $urls = array( );
+                foreach ($ids as $id) {
+                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                        '">' . $displayName . '</a>';
+                }
+                $url = implode( ', ',  $urls );
+                $errors['_qf_default'] = ts( "One matching client was found. You may choose to link the case with existing client '%1' by clicking 'Assign Existing Client', or click Create New Client button below.", 
+                                             array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can view them here: %1, or click Create New Client button below.' ) );
+                
+                // let smarty know that there are duplicates
+                $form->assign( 'isDuplicate', 1 );
+
+                if ( count($ids) == 1 ) {
+                    $form->assign( 'onlyOneDupe', 1 );
+                }
+            } 
+        }
+
+        return $errors;
     }
 
     /**
