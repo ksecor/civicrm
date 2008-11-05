@@ -15,12 +15,12 @@
   <tr class="columnheader">
     <th></th>
     <th>{ts}Client{/ts}</th>
-    <th class="right">{ts}Status{/ts}</th>
-    <th class="right">{ts}Type{/ts}</th>
-    <th class="right">{ts}My Role{/ts}</th>
+    <th>{ts}Status{/ts}</th>
+    <th>{ts}Type{/ts}</th>
+    <th>{ts}My Role{/ts}</th>
 
-    <th class="right">Activity Date</th>
-    <th class="right">Activity Type</th>
+    <th>Activity Date</th>
+    <th>Activity Type</th>
 
     <th></th>
   </tr>
@@ -31,7 +31,7 @@
 
   <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
 	<td>
-        &nbsp;{$row.contact_type}<br />
+        &nbsp;{$row.contact_type_icon}<br />
         <span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('{$list}CaseDetails{$row.case_id}', 'table-row');
                              {$list}CaseDetails('{$row.case_id}','{$row.contact_id}'); 
@@ -49,16 +49,16 @@
 	</td>
 
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    <td class="right">{$row.case_status}</td>
-    <td class="right">{$row.case_type}</td>
-    <td class="right">{$row.case_role}</td>
+    <td>{$row.case_status}</td>
+    <td>{$row.case_type}</td>
+    <td>{$row.case_role}</td>
 
     {if $list eq 'upcoming'}
     <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
-    <td class="right">{$row.case_scheduled_activity_type}</td>
+    <td>{$row.case_scheduled_activity_type}</td>
     {elseif $list eq 'recent'}
     <td class="right">{$row.case_recent_activity_date|crmDate}</td>
-    <td class="right">{$row.case_recent_activity_type}</td>
+    <td>{$row.case_recent_activity_type}</td>
     {/if}
 
     <td>{$row.action}</td>

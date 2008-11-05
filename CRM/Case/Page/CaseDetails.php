@@ -61,9 +61,7 @@ class CRM_Case_Page_CaseDetails extends CRM_Core_Page
         CRM_Case_Page_Tab::setContext( );
             
         require_once 'CRM/Case/BAO/Case.php';
-        $params = array( 'date_range' => 0 );
-
-        
+        $params = array( 'date_range' => 0 );        
                          
         $caseDetails = CRM_Case_BAO_Case::getCaseActivity( $caseId, $params, $this->contactId );
 

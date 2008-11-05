@@ -385,26 +385,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
              $caseArray[$count] = $caseContact->case_id;
              $count++;
          }
-         
          return $caseArray;
      }
 
-
-     function _getCasesList( $resultFields, $query ) {
-
-        $queryParams = array();
-        $result = CRM_Core_DAO::executeQuery( $query,$queryParams );
-
-        $casesList = array();
-        while ( $result->fetch() ) {
-            foreach( $resultFields as $donCare => $field ) {
-                $casesList[$result->case_id][$field] = $result->$field;
-            }
-        }
-
-        return $casesList;        
-        
-     }
 
     /**
      * Function to get the list of upcoming cases for CiviCase Dashboard.
@@ -898,6 +881,53 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         
         return false;
     }
+    
+    
+    /* * 
+     *
+     * Retrieve the list of cases given specific query and 
+     * result fields.
+     *
+     * @param array  $resultFields the list of return properties
+     * @param string $query the query
+     * 
+     * @return array
+     * @access private
+     * 
+     */
+     private static function _getCasesList( $resultFields, $query ) {
+
+        $queryParams = array();
+        $result = CRM_Core_DAO::executeQuery( $query,$queryParams );
+
+        // we're going to use the usual actions, so doesn't make sense to duplicate definitions
+        require_once( 'CRM/Case/Selector/Search.php');
+        $actions = CRM_Case_Selector_Search::links();
+
+        $filter = array();
+
+        require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+
+        $casesList = array();
+        while ( $result->fetch() ) {
+            foreach( $resultFields as $donCare => $field ) {
+                $casesList[$result->case_id][$field] = $result->$field;
+                if( $field = 'contact_type' ) {
+                    $casesList[$result->case_id]['contact_type_icon'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                    $casesList[$result->case_id]['action'] = CRM_Core_Action::formLink( $actions, $mask,
+                                                                                        array( 'id'  => $result->case_id,
+                                                                                        'cid' => $result->contact_id,
+                                                                                        'cxt' => 'dashboard' ) );
+                    
+                    
+                    
+                }
+            }
+        }
+        return $casesList;        
+        
+     }    
+    
 }
 
    

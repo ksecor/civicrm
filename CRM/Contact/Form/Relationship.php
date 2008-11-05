@@ -661,18 +661,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $searchRows[$contactID]['phone'] = $result->phone;
 
                 $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type ) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                    break;
-                }
-                $searchRows[$contactID]['type'] = $contact_type;
+
+                require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                $searchRows[$contactID]['type'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+
             }
 
             $this->set( 'searchRows' , $searchRows );
