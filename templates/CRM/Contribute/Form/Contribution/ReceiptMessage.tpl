@@ -90,7 +90,7 @@
 
 ===========================================================
 {$email}
-{elseif $amount}
+{elseif $amount GT 0 OR $membership_amount GT 0 }
 ===========================================================
 {ts}Billing Name and Address{/ts}
 
@@ -101,7 +101,7 @@
 {$email}
 {/if} {* End ! is_pay_later condition. *}
 {/if}
-{if $contributeMode eq 'direct' AND !$is_pay_later}
+{if $contributeMode eq 'direct' AND !$is_pay_later AND ( $amount GT 0 OR $membership_amount GT 0 ) }
 
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}

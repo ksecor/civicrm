@@ -52,7 +52,8 @@ class CRM_Utils_JSON
     {
         $buildObject = array( );
         foreach ( $params as $value ) {
-            $buildObject[] = '{ name: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" }';
+            $name = addslashes( $value['name'] );
+            $buildObject[] = "{ name: \"$name\", {$identifier}:\"{$value[$identifier]}\"}";
         }
 
         $jsonObject = '{ identifier: "'. $identifier .'", items: [' . implode( ',', $buildObject) . ' ]}';

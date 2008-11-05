@@ -104,7 +104,7 @@ class CRM_Event_Form_Task_PickProfile extends CRM_Event_Form_Task
         $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types, true ); 
 
         if ( empty( $profiles ) ) {
-            CRM_Core_Session::setStatus("The participant(s) selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
+            CRM_Core_Session::setStatus("To use Batch Update for event participants, you need to configure a profile containing only Participant fields (e.g. Participant Status, Participant Role, etc.). Configure a profile at 'Administer CiviCRM >> Customize >> CiviCRM Profile'." );
             CRM_Utils_System::redirect( $this->_userContext );
         }
 

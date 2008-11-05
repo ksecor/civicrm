@@ -448,6 +448,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
+            // added new parameter for cms user contact id, needed to distinguish behaviour for on behalf of sign-ups
+            if ( isset($this->_params['related_contact']) ) {
+                $membershipParams['cms_contactID'] = $this->_params['related_contact'];
+            } else {
+                $membershipParams['cms_contactID'] = $contactID;
+            } 
             require_once 'CRM/Member/BAO/Membership.php';
             CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,
                                                               $this, $premiumParams );                       
@@ -767,10 +773,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
-        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
-                                                              $contactID,
-                                                              'email-' . $form->_bltID );
 
+        if ( isset($params['related_contact']) ) {
+            $contactID = $params['related_contact'];
+        } 
+        
+        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
+                                                              $contactID, 
+                                                              'email-' . $form->_bltID ); 
+        
         // return if pending
         if ( $pending ) {
             return $contribution;
