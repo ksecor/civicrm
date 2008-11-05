@@ -125,6 +125,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign('cdType', false);
         if ( $this->_cdType ) {
             $this->assign('cdType', true);
+            //$this->assign('cgCount', 1 );
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
  
@@ -194,9 +195,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-
         if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+            $cgCount = CRM_Utils_Array::value( 'cgcount', $_GET );
+            $nextcgCount = $cgCount + 1;
+            $this->assign('cgCount', $cgCount );
+            $this->assign('nextcgCount', $nextcgCount );
+            //$this->assign('contactFieldName', 'assignee_contact' );
+
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this, $cgCount );
         }
 
         //need to assign custom data type and subtype to the template
@@ -271,6 +277,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     {
         // Get the form values and groupTree
         $params = $this->controller->exportValues( $this->_name );
+        
+        //crm_core_error::debug( '$params', $params ); exit();
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $params,
                                                     $this->_groupTree[$this->_groupId]['fields'],

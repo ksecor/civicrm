@@ -48,7 +48,8 @@ class CRM_Custom_Form_CustomData
         $form->_subName  = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
         $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
-
+        $form->_groupCount  = CRM_Utils_Request::retrieve( 'cgcount', 'Positive', $form );
+        $form->assign('cgCount', $form->_groupCount);
         $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
                                                                 $form,
                                                                 $form->_entityId,
@@ -60,6 +61,7 @@ class CRM_Custom_Form_CustomData
     static function setDefaultValues( &$form ) 
     {
         $defaults = array( );
+        //crm_core_error::debug('$form->_groupTree', $form->_groupTree);
         CRM_Core_BAO_CustomGroup::setDefaults( $form->_groupTree, $defaults);
         return $defaults;
     }
@@ -67,7 +69,7 @@ class CRM_Custom_Form_CustomData
     static function buildQuickForm( &$form )
     {
         $form->addElement( 'hidden', 'hidden_custom', 1 );
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, null, null, false, false, $form->_groupCount );
     }
 
 

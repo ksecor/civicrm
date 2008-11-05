@@ -1078,11 +1078,12 @@ SELECT $select
                                     $showName = 'showBlocks',
                                     $hideName = 'hideBlocks',
                                     $inactiveNeeded = false,
-                                    $alwaysShow = false ) 
+                                    $alwaysShow = false,
+                                    $groupCount = 1 ) 
     {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
-
+        
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
             if ( $key1 === 'info' ) {
@@ -1121,8 +1122,7 @@ SELECT $select
             }
 
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
-            
-            $count = 1;
+
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
                 // skip all view fields
@@ -1139,10 +1139,9 @@ SELECT $select
                 }
 
                 $fieldId = $field['id'];                 
-                $elementName = "custom_{$fieldId}_-{$count}";
+                $elementName = "custom_{$fieldId}_-{$groupCount}";
                 require_once "CRM/Core/BAO/CustomField.php";
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required);
-                $count++;                
             } 
  
             if ( $group['collapse_display'] && ! $alwaysShow ) { 

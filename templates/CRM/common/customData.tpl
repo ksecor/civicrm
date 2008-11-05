@@ -20,6 +20,12 @@ function buildCustomData( subType )
 {if $qfKey}
         dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
 {/if}
+{if $cgCount}
+        dataUrl = dataUrl + '&cgcount=' + '{$cgCount}'
+{else}
+        dataUrl = dataUrl + '&cgcount=1'
+{/if}
+
 {literal}
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
@@ -73,8 +79,6 @@ function buildCustomData( subType )
 	       }
         }
      });
-
-
 }
 
 function createMultiValueLink( ) {
@@ -82,12 +86,13 @@ function createMultiValueLink( ) {
 {if $groupID}
 	groupID = '{$groupID}';
 {/if}
+
 {literal}
 
     cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues( );">Add More</a>');
 }
 
-function createMultipleValues( subType )
+function createMultipleValues( cgCount )
 {
 	show('customData');
 	
@@ -98,6 +103,11 @@ function createMultipleValues( subType )
 {if $urlPathVar}
 	dataUrl = dataUrl + '&' + '{$urlPathVar}'
 {/if}
+{if $qfKey}
+        dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
+{/if}
+	dataUrl = dataUrl + '&cgcount=' + '{$cgCount}';
+
 {literal}
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
