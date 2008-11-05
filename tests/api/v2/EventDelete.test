@@ -5,6 +5,15 @@ require_once 'api/v2/Event.php';
 class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
 {
     protected $_eventId;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Event Delete',
+                     'description' => 'Test all Event Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }  
     
     function setUp( )
     {
