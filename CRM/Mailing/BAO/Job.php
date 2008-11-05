@@ -346,7 +346,7 @@ ORDER BY j.scheduled_date,
                                                               'Email',
                                                               'name' );
             $session = & CRM_Core_Session::singleton();
-            $activity = array('source_contact_id'    => $session->get('userID'),
+            $activity = array('source_contact_id'    => $mailing->scheduled_id,
                               'target_contact_id'    => $field['contact_id'],
                               'activity_type_id'     => $activityTypeID,
                               'source_record_id'     => $this->mailing_id,
