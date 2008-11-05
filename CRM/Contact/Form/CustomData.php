@@ -125,7 +125,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign('cdType', false);
         if ( $this->_cdType ) {
             $this->assign('cdType', true);
-            //$this->assign('cgCount', 1 );
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
  
@@ -196,13 +195,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         if ( $this->_cdType ) {
-            $cgCount = CRM_Utils_Array::value( 'cgcount', $_GET );
-            $nextcgCount = $cgCount + 1;
-            $this->assign('cgCount', $cgCount );
-            $this->assign('nextcgCount', $nextcgCount );
-            //$this->assign('contactFieldName', 'assignee_contact' );
-
-            return CRM_Custom_Form_CustomData::buildQuickForm( $this, $cgCount );
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
         //need to assign custom data type and subtype to the template

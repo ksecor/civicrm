@@ -21,10 +21,12 @@ function buildCustomData( subType )
         dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
 {/if}
 {if $cgCount}
-        dataUrl = dataUrl + '&cgcount=' + '{$cgCount}'
+        var cgcount = '{$cgCount}'
 {else}
-        dataUrl = dataUrl + '&cgcount=1'
+        var cgcount = 1
 {/if}
+
+	dataUrl = dataUrl + '&cgcount=' + cgcount;
 
 {literal}
 	if ( !subType ) {
@@ -71,7 +73,7 @@ function buildCustomData( subType )
 
 		   {/literal}
 		   {if $isMultiValue }
-		        createMultiValueLink( ); 
+		        createMultiValueLink( cgcount ); 
 		   {/if}
 		   {literal}
 
@@ -81,7 +83,7 @@ function buildCustomData( subType )
      });
 }
 
-function createMultiValueLink( ) {
+function createMultiValueLink( cgcount ) {
 {/literal}
 {if $groupID}
 	groupID = '{$groupID}';
@@ -89,10 +91,10 @@ function createMultiValueLink( ) {
 
 {literal}
 
-    cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues( );">Add More</a>');
+    cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues(' + cgcount + ' );">Add More</a>');
 }
 
-function createMultipleValues( cgCount )
+function createMultipleValues( cgcount )
 {
 	show('customData');
 	
@@ -106,7 +108,8 @@ function createMultipleValues( cgCount )
 {if $qfKey}
         dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
 {/if}
-	dataUrl = dataUrl + '&cgcount=' + '{$cgCount}';
+	cgcount++;
+	dataUrl = dataUrl + '&cgcount=' + cgcount;
 
 {literal}
 	if ( !subType ) {
@@ -150,7 +153,7 @@ function createMultipleValues( cgCount )
 		    // executeInnerHTML( 'customData' );
 		    {/literal}
 		    {if $isMultiValue }
-		        createMultiValueLink( ); 
+		        createMultiValueLink( cgcount ); 
 		    {/if}
 		    {literal}
 	       }
