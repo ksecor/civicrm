@@ -487,6 +487,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Participant');
         $this->assign('customDataSubType',  $this->_roleId );
+        $this->assign('customDataSubName',  'Role' );
+        
         $this->assign('entityId',  $this->_participantId );
 
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),

@@ -45,6 +45,7 @@ class CRM_Custom_Form_CustomData
         //Custom Group Inline Edit form
         $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
         $form->_subType  = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
+        $form->_subName  = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
         $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
 
@@ -52,7 +53,8 @@ class CRM_Custom_Form_CustomData
                                                                 $form,
                                                                 $form->_entityId,
                                                                 $form->_groupID,
-                                                                $form->_subType );
+                                                                $form->_subType,
+                                                                $form->_subName );
     }
 
     static function setDefaultValues( &$form ) 

@@ -8,7 +8,7 @@ function buildCustomData( subType )
 	show('customData');
 	
 	var type     = "{/literal}{$customDataType}{literal}";
-
+	
 	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type;
 {/literal}
 {if $urlPathVar}
@@ -24,14 +24,17 @@ function buildCustomData( subType )
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
 	}
-
+	if ( !subName ) {
+	   var subName  = "{/literal}{$customDataSubName}{literal}";
+	}
+	
 	if ( subType) {
 	    /* special case to handle relationship custom data*/
 	    if ( type == 'Relationship' ) {
 		subType = subType.replace( '_a_b', '' );
 		subType = subType.replace( '_b_a', '' );
 	    }
-	   dataUrl = dataUrl + '&subType=' + subType;	
+	   dataUrl = dataUrl + '&subType=' + subType + '&subName=' + subName ;	
 	}
 	
 	var entityId  = "{/literal}{$entityId}{literal}";
