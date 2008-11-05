@@ -128,7 +128,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
         }
         
-        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ), $this );
         
         parent::buildQuickForm( );
     }
@@ -179,7 +179,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      * @access public  
      * @static  
      */  
-    static function formRule( &$fields, &$files, $options ) 
+    static function formRule( &$fields, &$files, $self ) 
     {  
         $errors = array( );  
 
@@ -239,6 +239,22 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 }
             }
         
+        }
+        
+        //as for separate membership payment we has to have
+        //contribution amount section enabled, hence to disable it need to
+        //check if separate membership payment enabled, 
+        //if so disable first separate membership payment option  
+        //then disable contribution amount section. CRM-3801,
+        
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $membershipBlock =& new CRM_Member_DAO_MembershipBlock( );
+        $membershipBlock->entity_table = 'civicrm_contribution_page';
+        $membershipBlock->entity_id = $self->_id;
+        if ( $membershipBlock->find( true ) ) {
+            if ( $membershipBlock->is_separate_payment && !$fields['amount_block_is_active'] ) {
+                $errors['amount_block_is_active'] = ts( 'To disable Contribution Amounts section you need to first disable Separate Membership Payment option from Membership Settings.' );
+            }
         }
         
         return $errors;
