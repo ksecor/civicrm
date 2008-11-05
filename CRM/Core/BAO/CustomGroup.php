@@ -479,7 +479,10 @@ SELECT $select
                                         $customValue = array( 'id'   => $dao->$idName,
                                                               'data' => $dao->$fieldName );
                                     }
-                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = $customValue;
+                                    if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
+                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
+                                    }
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
                                 }
                             }
                         }
