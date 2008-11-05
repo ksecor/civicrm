@@ -841,7 +841,6 @@ AND civicrm_contact.is_opt_out =0";
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $value,
-                                        1,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
