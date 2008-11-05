@@ -9,6 +9,14 @@ class TestOfParticipantDeleteAPIV2 extends CiviUnitTestCase
     protected $_failureCase;
     protected $_eventID;
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Delete',
+                     'description' => 'Test all Participant Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {
