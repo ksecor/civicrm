@@ -900,7 +900,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $activities;
     }
 
- /**
+    /**
      * Function to add activity for Membership/Event/Contribution
      *
      * @param object  $activity   (reference) perticular component object
@@ -993,6 +993,27 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         require_once 'api/v2/Activity.php';
         if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
             CRM_Core_Error::fatal("Failed creating Activity for $component of id {$activity->id}");
+            return false;
+        }
+    }
+
+    /**
+     * Function to get Parent activity for currently viewd activity
+     *
+     * @param int  $activityId   current activity id
+     *
+     * @return int $parentId  Id of parent acyivity otherwise false.
+     * @access public
+     */
+    static function getParentActivity( $activityId )
+    {
+        if ( CRM_Utils_Type::escape($activityId, 'Integer') ) {
+            $parentId = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                     $activityId,
+                                                     'parent_id' );
+            if ( $parentId ) {
+                return $parentId;
+            }    
             return false;
         }
     }

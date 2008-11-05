@@ -50,10 +50,16 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
     {
         $contactID  = CRM_Utils_Request::retrieve( 'cid', 'Integer', CRM_Core_DAO::$_nullObject );
         $activityID = CRM_Utils_Request::retrieve( 'aid', 'Integer', CRM_Core_DAO::$_nullObject );
-
+       
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $report = $xmlProcessor->getActivityInfo( $contactID, $activityID );
         $this->assign('report', $report );
+        require_once "CRM/Activity/BAO/Activity.php";
+        $parentId =  CRM_Activity_BAO_Activity::getParentActivity( $activityID );
+        if ( $parentId ) { 
+            $parentURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid={$activityID}', false, null, false );
+            $this->assign( 'parentURL', $parentURL );
+        }
     }
 }

@@ -155,6 +155,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                                 CRM_Case_BAO_Case::VALUE_SEPERATOR) );
         $caseTypes   = CRM_Case_PseudoConstant::caseType( );
         $caseType    = $caseTypes[$values['case_type_id'][0]];
+        $this->assign('caseType', $caseType);
 
         $caseSubject = $values['subject'];
         $this->assign( 'caseSubject', $caseSubject );
@@ -239,7 +240,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_activity',
                                             $this->_activityId, 2 );
-        
+       
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
@@ -341,11 +342,21 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->addRule('duration', ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
         $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
-
+      
         $this->add('select','status_id',ts('Activity Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
         
         $this->add('textarea', 'details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
+
+        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 'positiveInteger');  
+       
+        require_once 'CRM/Core/OptionGroup.php';
+        $freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
+        $this->add( 'select', 'interval_unit', 
+                    null, 
+                    array(''=>ts( '- select -' )) + $freqUnits 
+                    );
 
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
@@ -394,7 +405,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    {  
+    { 
         // skip form rule if deleting
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
@@ -575,7 +586,20 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_clientId, $activity->id, $mailToContacts );
             $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
         }
+        //FIXME hardcoded follow up activity  
+        if ( CRM_Utils_Array::value('activity', $params) ) {
+            $followupParams = array( );
+            $followupParams['parent_id'] = $activity->id;
+            $followupParams['status_id'] = 1;
+            $followupParams['activity_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
+                                                                               $params['activity'],
+                                                                               'id', 'label' );
+            $followupParams['is_auto']  = 0;
+            $currentDate = CRM_Utils_Date::format( date("YmdHis") ); 
+            $followupParams['due_date'] = CRM_Utils_Date::intervalAdd($params['interval_unit'], $params['interval'], $currentDate); 
 
+            $followupActivity = CRM_Activity_BAO_Activity::create( $followupParams );
+        }
         CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2. %3", 
                                         array('1' => $this->_activityTypeName, 
                                               '2' => $recordStatus, 

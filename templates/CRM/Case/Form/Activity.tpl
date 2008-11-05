@@ -1,5 +1,4 @@
 {* this template is used for adding/editing activities for a case. *}
-
 {if $addAssigneeContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
@@ -144,6 +143,19 @@
           <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
        </tr>
        <tr>
+          <td colspan="2">
+            <div id="follow-up_show" class="section-hidden section-hidden-border">
+             <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+            </div>
+
+            <div id="follow-up" class="section-shown">
+            <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+             <label>{ts}Schedule Follow-up{/ts}</label>&nbsp;&nbsp;<input type="text" id="activity"/>&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}
+            </fieldset>
+            </div>
+          </td>
+       </tr>
+       <tr>
           <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
         </tr>
     </table>
@@ -157,7 +169,20 @@ hide('attachments');
 show('attachments_show');
 hide('sendcopy');
 show('sendcopy_show');
+hide('follow-up');
+show('follow-up_show');
 buildContact( 1, 'assignee_contact' );
+
+var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseType}"{literal};
+
+cj("#activity").autocomplete( activityUrl, {
+	width: 260,
+	selectFirst: false  
+});
+
+cj("#activity").result(function(event, data, formatted) {
+
+});		    
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {
