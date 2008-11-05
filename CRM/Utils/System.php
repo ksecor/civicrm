@@ -401,7 +401,7 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
-    static function authenticateScript( $abort = true, $name = null, $pass = null ) {
+    static function authenticateScript( $abort = true, $name = null, $pass = null, $storeInSession = true ) {
         // auth to make sure the user has a login/password to do a shell
         // operation
         // later on we'll link this to acl's
@@ -426,6 +426,16 @@ class CRM_Utils_System {
                 exit( 0 );
             } else {
                 return false;
+            }
+        } else if ( $storeInSession ) {
+            // lets store contact id and user id in session
+            list( $userID, $ufID, $randomNumber ) = $result;
+            if ( $userID && $ufID ) {
+                $session =& CRM_Core_Session::singleton( );
+                $session->set( 'ufID'  , $ufID );
+                $session->set( 'userID', $userID );
+            } else {
+                CRM_Core_Error::fatal( );
             }
         }
 
