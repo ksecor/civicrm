@@ -158,6 +158,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         require_once "CRM/Member/BAO/MembershipType.php";
         require_once 'CRM/Event/PseudoConstant.php';
         require_once "CRM/Contact/BAO/Relationship.php";
+        require_once 'CRM/Core/OptionGroup.php';
         
         $sel1 = array( "" => "-- Select --" ) + CRM_Core_SelectValues::customGroupExtends( );
         $sel2 = array( );

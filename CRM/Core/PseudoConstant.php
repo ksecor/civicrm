@@ -390,20 +390,27 @@ class CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function &activityType( $all = true )
+    public static function &activityType( $is_auto = null, $component = null, $returnValue = 'label' )
     {
-        // convert to integer for array index
-        $all = $all ? 1 : 0;
-        if ( ! array_key_exists( $all, self::$activityType ) ) {
-            require_once 'CRM/Core/OptionGroup.php';
-            $condition = null;
-            if ( !$all ) {
-                $condition = 'AND filter = 0';
-            }
-            self::$activityType[$all] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
-        }
+        $index = "{$is_null}_{$component}";
 
-        return self::$activityType[$all];
+        if ( ! array_key_exists( $index, self::$activityType ) ) {
+            $condition = 'parent_id IS NOT NULL';
+            if ( $is_auto ) {
+                $condition .= " AND is_auto = $is_auto";
+            }
+            if ( !$component ) {
+                $condition .= " AND component_id IS NULL";
+            } else {
+                $condition .= " AND component_id = $component";
+            }
+
+            self::$activityType[$index] = array();
+            CRM_Core_PseudoConstant::populate( self::$activityType[$index],
+                                               'CRM_Core_DAO_Category', true, 
+                                               $returnValue, 'is_active', $condition );
+        }
+        return self::$activityType[$index];
     }
 
     /**
