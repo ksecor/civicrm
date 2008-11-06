@@ -316,27 +316,27 @@ class CRM_Contact_Form_Search_Custom_Group
                     
                     $ssId = CRM_Utils_Array::key( $values, $smartGroup );
                 
-                $smartSql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ssId );
-          
-                $smartSql .= " AND contact_a.id NOT IN ( 
+                    $smartSql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ssId );
+                    
+                    $smartSql .= " AND contact_a.id NOT IN ( 
                               SELECT contact_id FROM civicrm_group_contact
                               WHERE civicrm_group_contact.group_id = {$values} AND civicrm_group_contact.status = 'Removed')";
-                
-                //used only when exclude group is selected
-                if( $xGroups != 0 ) {
-                    $smartSql .= " AND contact_a.id NOT IN (SELECT contact_id FROM  Xg_{$this->_tableName})";
-                }
-               
-                $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
+                    
+                    //used only when exclude group is selected
+                    if( $xGroups != 0 ) {
+                        $smartSql .= " AND contact_a.id NOT IN (SELECT contact_id FROM  Xg_{$this->_tableName})";
+                    }
+                    
+                    $smartGroupQuery = " INSERT IGNORE INTO Ig_{$this->_tableName}(contact_id) 
                                      $smartSql";
                 
-                CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
-                $insertGroupNameQuery = "UPDATE IGNORE Ig_{$this->_tableName}
+                    CRM_Core_DAO::executeQuery( $smartGroupQuery, CRM_Core_DAO::$_nullArray );
+                    $insertGroupNameQuery = "UPDATE IGNORE Ig_{$this->_tableName}
                                          SET group_names = (SELECT title FROM civicrm_group
                                                             WHERE civicrm_group.id = $values)
                                          WHERE Ig_{$this->_tableName}.contact_id IS NOT NULL 
                                          AND Ig_{$this->_tableName}.group_names IS NULL";
-                CRM_Core_DAO::executeQuery($insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
+                    CRM_Core_DAO::executeQuery($insertGroupNameQuery, CRM_Core_DAO::$_nullArray );
                 }
             }
         }//group contact search end here;
@@ -451,7 +451,7 @@ class CRM_Contact_Form_Search_Custom_Group
             return implode( ' AND ', $clauses );
         }
            
-         return ' (1) ' ;
+        return ' (1) ' ;
     }
 
     /* 
