@@ -6,6 +6,15 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Location Update',
+                     'description' => 'Test all Location Update API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setup( ) 
     {
         $this->_contactID = $this->organizationCreate( ) ;
