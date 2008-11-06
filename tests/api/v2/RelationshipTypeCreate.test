@@ -10,6 +10,16 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
     protected $_cId_a;
     protected $_cId_b;
     protected $_relTypeID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'RelationshipType Create',
+                     'description' => 'Test all RelationshipType Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp( ) 
     { 
         $this->_cId_a  = $this->individualCreate( );
@@ -83,7 +93,6 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
         $result = & civicrm_relationship_type_add( $relTypeParams ); 
        
 
-        $this->assertEqual( $result['is_error'], 0 );
         $this->assertNotNull( $result['id'] );
    
         // assertDBState compares expected values in $result to actual values in the DB          
@@ -106,7 +115,6 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
                                );
         $relationshiptype =& civicrm_relationship_type_add( $relTypeParams );
         
-        $this->assertEqual( $relationshiptype['is_error'], 0 );
         $this->assertNotNull( $relationshiptype['id'] );   
         
         // assertDBState compares expected values in $result to actual values in the DB          

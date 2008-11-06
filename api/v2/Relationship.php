@@ -154,10 +154,10 @@ function civicrm_relationship_type_add( $params ) {
     require_once 'CRM/Utils/Rule.php';
 
     $ids = array( );
-    if( $params['id'] != null && ! CRM_Utils_Rule::integer( $params['id'] ) ) {
+    if( isset( $params['id'] ) && ! CRM_Utils_Rule::integer(  $params['id'] ) ) {
         return civicrm_create_error( 'Invalid value for relationship type ID' );
     } else {
-        $ids['relationshipType'] = $params['id'];
+        $ids['relationshipType'] = CRM_Utils_Array::value( 'id', $params );
     }
     
     require_once 'CRM/Contact/BAO/RelationshipType.php';
