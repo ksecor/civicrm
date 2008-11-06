@@ -9,6 +9,15 @@ class TestOfMembershipGetAPIV2 extends CiviUnitTestCase
     protected $_membershipTypeID;
     protected $_membershipStatusID;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Membership Get',
+                     'description' => 'Test all Membership Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp() 
     {
         $this->_contactID           = $this->individualCreate( ) ;
