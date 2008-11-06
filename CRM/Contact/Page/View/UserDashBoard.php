@@ -150,7 +150,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $sectionName = 'Permissioned Orgs';
         if ( $this->_userOptions[ $sectionName ] ) {
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
-                                          'sectionTitle' => ts( 'My Contacts / Organizations' ),
+                                          'sectionTitle' => ts( 'Your Contacts / Organizations' ),
                                           'weight'       => 40 );
          
             $links =& self::links( );
@@ -164,7 +164,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         if ( $this->_userOptions['PCP'] ) {
             require_once 'CRM/Contribute/BAO/PCP.php';
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contribute/Page/PcpUserDashboard.tpl',
-                                          'sectionTitle' => 'Personal Campaign Page',
+                                          'sectionTitle' => ts( 'Your Personal Campaign Pages' ),
                                           'weight'       => 40 );
             list( $pcpBlock, $pcpInfo) = CRM_Contribute_BAO_PCP::getPcpDashboardInfo( $this->_contactId );
             $this->assign( 'pcpBlock', $pcpBlock );

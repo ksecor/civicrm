@@ -119,7 +119,8 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                   pg.end_date 
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
-        WHERE pcpblock.is_active = 1";
+        WHERE pcpblock.is_active = 1
+        ORDER BY pageTitle ASC";
 
         $pcpBlockDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $pcpBlock    = array();
@@ -138,28 +139,36 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         }
 
         $query = "
-        SELECT pg.start_date, pg.end_date, pg.title as pageTitle, pcp.id as pcpId, pcp.title as pcpTitle, pcp.status_id as pcpStatus, 
-               pcpblock.is_tellfriend_enabled as tellfriend, pcpblock.id as blockId, pcp.is_active as pcpActive
+        SELECT pg.start_date, pg.end_date, pg.title as pageTitle, pcp.id as pcpId, 
+               pcp.title as pcpTitle, pcp.status_id as pcpStatusId, cov_status.label as pcpStatus,
+               pcpblock.is_tellfriend_enabled as tellfriend, 
+               pcpblock.id as blockId, pcp.is_active as pcpActive
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
+        
+        LEFT JOIN civicrm_option_group cog_status ON cog_status.name = 'pcp_status'
+        LEFT JOIN civicrm_option_value cov_status
+               ON (pcp.status_id = cov_status.value
+               AND cog_status.id = cov_status.option_group_id )
+        
         INNER JOIN civicrm_contact as ct ON (ct.id = pcp.contact_id  AND pcp.contact_id = {$contactId})
-        WHERE pcpblock.is_active = 1";
+        WHERE pcpblock.is_active = 1
+        ORDER BY pcpStatus, pageTitle";
 
         $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $pcpInfo = array();
         $hide = $mask = array_sum( array_keys( $links['all'] ) );
         
-        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
         while ( $pcpInfoDao->fetch( ) ) {
 
             $mask = $hide;
             if ( $links ) {
                 $replace = array( 'pcpId'    => $pcpInfoDao->pcpId, 
-                                  'pcpBock'  => $pcpInfoDao->blockId);
+                                  'pcpBlock'  => $pcpInfoDao->blockId);
             }
             $pcpLink = $links['all'];
-            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatus != 2 ||  $pcpInfoDao->pcpActive != 1 ) {
+            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatusId != 2 ||  $pcpInfoDao->pcpActive != 1 ) {
                 $mask -= CRM_Core_Action::DETACH;
             }
             if ( $pcpInfoDao->pcpActive == 1 ) {
@@ -169,14 +178,14 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
             }
             $action  = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
             $pcpInfo[] = array ( 
-                                 'start_date' => $pcpInfoDao->start_date,
-                                 'end_date'   => $pcpInfoDao->end_date,
-                                 'pageTitle'  => $pcpInfoDao->pageTitle,
-                                 'pcpId'      => $pcpInfoDao->pcpId,
-                                 'pcpTitle'   => $pcpInfoDao->pcpTitle,
-                                 'pcpStatus'  => $pcpStatus[$pcpInfoDao->pcpStatus],
-                                 'status'     => $pcpInfoDao->pcpStatus,
-                                 'action'     => $action
+                                 'start_date'  => $pcpInfoDao->start_date,
+                                 'end_date'    => $pcpInfoDao->end_date,
+                                 'pageTitle'   => $pcpInfoDao->pageTitle,
+                                 'pcpId'       => $pcpInfoDao->pcpId,
+                                 'pcpTitle'    => $pcpInfoDao->pcpTitle,
+                                 'pcpStatus'   => $pcpInfoDao->pcpStatus,
+                                 'pcpStatusId' => $pcpInfoDao->pcpStatusId,
+                                 'action'      => $action
                                   );
         }
         return  array( $pcpBlock, $pcpInfo );
@@ -214,7 +223,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
             $deleteExtra = ts('Are you sure you want to delete this Campaign Page ?\n This Action is Undone !!!');
 
             self::$_pcpLinks['add']  = array (
-                                              CRM_Core_Action::ADD => array( 'name'  => ts('Configure'),
+                                              CRM_Core_Action::ADD => array( 'name'  => ts('Add New PCP'),
                                                                              'url'   => 'civicrm/contribute/campaign',
                                                                              'qs'    => 'action=add&reset=1&pageId=%%pageId%%',
                                                                              'title' => ts('Configure')
@@ -239,7 +248,7 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                                                                  ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
                                                                                 'url'   => 'civicrm/friend',
-                                                                                'qs'    => 'eid=%%pcpId%%&blockId=%%pcpBock%%&reset=1&page=pcp',
+                                                                                'qs'    => 'eid=%%pcpId%%&blockId=%%pcpBlock%%&reset=1&page=pcp',
                                                                                 'title' => ts('Tell a Friend')
                                                                                 ),
                                              CRM_Core_Action::DELETE => array ( 'name'  => ts('Delete'),

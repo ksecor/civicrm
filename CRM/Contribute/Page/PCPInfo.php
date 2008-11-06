@@ -76,7 +76,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         } else {
             $getStatus = CRM_Contribute_BAO_PCP::getStatus( $this->_id );
             if ( ! $getStatus ) {
-                CRM_Core_Error::fatal( ts('Personal Campaign Page Block not Active.') );
+                CRM_Core_Error::fatal( ts('Personal Campaign Pages Block not Active.') );
             }
         }
         $default = array();
