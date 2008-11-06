@@ -60,11 +60,13 @@ class CRM_Contact_Form_Search_Custom_PriceSet
     }
 
     function __destruct( ) {
+        /*
         if ( $this->_eventID ) {
             $sql = "DROP TEMPORARY TABLE {$this->_tableName}";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray ) ;
         }
+        */
     }
 
     function buildTempTable( ) {
