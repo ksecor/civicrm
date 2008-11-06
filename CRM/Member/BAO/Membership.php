@@ -849,7 +849,7 @@ AND civicrm_membership.is_test = %2";
         } else {
             // create the CMS contact here since we normally do this under processConfirm
             CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $membershipParams,
-                                                                  $contactID,
+                                                                  $membershipParams['cms_contactID'],
                                                                   'email-' . $form->_bltID );
         }
 

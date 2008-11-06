@@ -106,7 +106,7 @@
     </div>
     {/if}
 
-    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and $amount GT 0}    
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) }
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -124,7 +124,7 @@
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) }
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
