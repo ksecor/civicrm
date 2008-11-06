@@ -55,7 +55,8 @@ class CRM_Case_Form_Report extends CRM_Core_Form
      * activity set name
      */
     public $_activitySetName = null;
-    
+
+    public $_report = null;
     /**
      * Function to build the form
      *
@@ -67,10 +68,19 @@ class CRM_Case_Form_Report extends CRM_Core_Form
         $this->_caseID           = CRM_Utils_Request::retrieve( 'id'   , 'Integer', $this, true );
         $this->_clientID         = CRM_Utils_Request::retrieve( 'cid'  , 'Integer', $this, true );
         $this->_activitySetName  = CRM_Utils_Request::retrieve( 'asn', 'String' , $this, true );
+
+        $this->_report = $this->get( 'report' );
+        if ( $this->_report ) {
+            $this->assign_by_ref( 'report', $this->_report );
+        }
+
     }
     
     public function buildQuickForm( ) 
     {
+        if ( $this->_report ) {
+            return;
+        }
         
         $includeActivites = array( 1 => ts( 'Include All Activities' ),
                                    2 => ts( 'Include Missing Activities Only' ) );
@@ -86,7 +96,7 @@ class CRM_Case_Form_Report extends CRM_Core_Form
                    ts( 'Redact (hide) Client and Service Provider Data' ) );
                          
         $this->addButtons(array( 
-                                array ( 'type'      => 'next',
+                                array ( 'type'      => 'refresh',
                                         'name'      => ts('Generate Report'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
@@ -109,11 +119,11 @@ class CRM_Case_Form_Report extends CRM_Core_Form
 
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-        $xmlProcessor->run( $this->_clientID,
-                            $this->_caseID,
-                            $this->_activitySetName,
-                            $params );
-
+        $contents = $xmlProcessor->run( $this->_clientID,
+                                        $this->_caseID,
+                                        $this->_activitySetName,
+                                        $params );
+        $this->set( 'report', $contents );
     }
 
 }

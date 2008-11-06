@@ -92,7 +92,7 @@ class Audit
         $template->assign_by_ref( 'activities', $activities );
 
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
-        echo $contents;
+        return $contents;
     }
 }
 
