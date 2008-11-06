@@ -267,7 +267,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
   
         $elements = array( );
-        $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
@@ -282,8 +281,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
                 CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
-        } else if ( ! empty( $form->_values['custom']['label'] ) ) {
+        } else if ( ! empty( $form->_values['custom'] ) ) {
             $feeBlock = $form->_values['custom'];
+
             if ( isset( $form->_values['discount'] ) ) {
                 if ( ! isset( $discountId ) &&
                      ( $form->_action != CRM_Core_Action::UPDATE )) {
@@ -296,12 +296,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
 
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::buildAmount( 'event', $form, $feeBlock );
+            $form->_values['custom'] = $feeBlock;
+            $form->set( 'values', $form->_values );
+
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $feeBlock['label'] ); $index++ ) {
+            foreach ( $feeBlock as $fee ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format( $feeBlock['value'][$index]) . ' ' . 
-                                                    $feeBlock['label'][$index], 
-                                                    $feeBlock['amount_id'][$index] );
+                                                    CRM_Utils_Money::format( $fee['value'] ) . ' ' .
+                                                    $fee['label'],
+                                                    $fee['amount_id'] );
             }
 
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
@@ -504,12 +509,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
             }else if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] =
-                    $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                    $this->_values['custom']['amount_id'])];
-                
+                    $this->_values['custom'][$params['amount']]['label'];
                 $params['amount'] =
-                    $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                    $this->_values['custom']['amount_id'])];
+                    $this->_values['custom'][$params['amount']]['value'];
             } else {
                 $lineItem = array( );
                 self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );

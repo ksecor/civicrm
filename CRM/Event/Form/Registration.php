@@ -271,7 +271,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     $this->_values['custom'] = array( );
                 }
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['custom'] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['custom'], true );
             }
             
             // get the profile ids
