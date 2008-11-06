@@ -51,6 +51,9 @@ class CRM_Contact_Form_Address
      */
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
+        static $countryID = array( );
+        static $stateID = array( );
+
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
@@ -91,47 +94,33 @@ class CRM_Contact_Form_Address
             
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
-                    $onValueChanged = null;
-                    $countryUrl     = null;
-                    
-                    if ( $name == 'country_id') {
-                        $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, false, null, false );
-
-                        //when only country is enable, don't call function to build state province
-                        if ( $addressOptions['state_province'] ) {
-                            $onValueChanged = "getStateProvince{$locationId}( dijit.byId( 'location_{$locationId}_address_country_id' ), {$locationId}, null, true )";
-                        }
+                    if ( $name == 'country_id' ) {
+                        $countryID[$locationId] = "location_{$locationId}_address_{$name}";
+                        $form->assign_by_ref( 'countryID', $countryID );
+                        $form->assign( 'callbackURL',
+                                       CRM_Utils_System::url( 'civicrm/ajax/jqState' ) );
+                        $pcFunction = 'country';
                     } else {
-                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state", null, false, null, false );
-                        $form->assign( 'stateUrl', $stateUrl );
+                        $stateID[$locationId] = "location_{$locationId}_address_{$name}";
+                        $form->assign_by_ref( 'stateID', $stateID );
+                        $pcFunction = 'stateProvince';
+                    }
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'select',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::$pcFunction( ) );
+                } else {
+                    if ( $name == 'address_name' ) {
+                        $name = "name";
                     }
                     
-                    $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                         'mode'           => 'remote',
-                                         'store'          => "{$name}Store",
-                                         'style'          => 'width: 230px;',
-                                         'value'          => '',
-                                         '_onBlur'        => $onValueChanged,
-                                         'onChange'       => $onValueChanged,
-                                         'id'             => 'location_'.$locationId.'_address_'.$name );
-
-                    $form->assign( 'countryUrl', $countryUrl );
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'text',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           $attributes );
                 }
-
-                if ( $name == 'state_province_id' ) {
-                    unset( $attributes['onChange'] );
-                    unset( $attributes['_onBlur'] );
-                }
-                
-                if ( $name == 'address_name' ) {
-                    $name = "name";
-                }
-                
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'text',
-                                       "location[$locationId][address][$name]",
-                                       $title,
-                                       $attributes );
             } else {
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'select',

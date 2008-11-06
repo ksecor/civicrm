@@ -2,11 +2,14 @@
 <script language="JavaScript" type="text/javascript">
 cj(function()
 {
-	cj('#country_id').chainSelect('#state_province_id',
 {/literal}
-                                      '{$stateCountryURL}',
+        countryID       = '#country_id'
+	stateProvinceID = '#state_province_id'
+        callbackURL     = '{$stateCountryURL}'
 {literal}
-                                      null);
+	cj(countryID).chainSelect(stateProvinceID,
+                                  callbackURL,
+				  null);
 });
 </script>
 {/literal}

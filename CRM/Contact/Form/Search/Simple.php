@@ -52,7 +52,6 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
     public function buildQuickForm( ) { 
         $config   =& CRM_Core_Config::singleton( );
         
-                   
         $this->add('select',
                    'country_id',
                    ts('Country'), 
@@ -66,7 +65,7 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
             $this->add('select',
                        'state_province_id',
                        ts('State'), 
-                       array('' => ts('- select a state-')) + CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
+                       array('' => ts('- select a state -')) + CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
         } else {
             $this->add('select',
                        'state_province_id',

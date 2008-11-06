@@ -567,7 +567,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                           $this->getButtonName( 'next'   , 'sharedHouseholdDuplicate' ),
                           ts( 'Save With Duplicate Household' ) );
 
-        $uploadNames = $form->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {
