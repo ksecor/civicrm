@@ -258,14 +258,25 @@ AND        ca.case_id = %3
                                  'source_contact_id'   => $params['creatorID'],
                                  'is_auto'             => true,
                                  'is_current_revision' => 1,
-                                 'subject'             => $activityTypeName,
+                                 'subject'             => CRM_Utils_Array::value('subject', $params) ? $params['subject'] : $activityTypeName,
                                  'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
                                                                                           $statusName,
                                                                                           'name' ),
-                                 'target_contact_id'   => $params['clientID'] );
+                                 'target_contact_id'   => $params['clientID'],
+                                 'medium_id'           => CRM_Utils_Array::value('medium_id', $params),
+                                 'location'            => CRM_Utils_Array::value('location',  $params),
+                                 'details'             => CRM_Utils_Array::value('details',   $params),
+                                 'duration'            => CRM_Utils_Array::value('duration',  $params),
+                                 );
         
         if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
             $activityParams['custom'] = $params['custom'];
+        }
+
+        // we don't set activity_date_time for auto generated
+        // activities, but we want it to be set for open case.
+        if ( $activityTypeName == 'Open Case' && array_key_exists('activity_date_time', $params) ) {
+            $activityParams['activity_date_time'] = $params['activity_date_time'];
         }
 
         // if same activity is already there, skip and dont touch

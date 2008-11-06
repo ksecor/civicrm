@@ -131,7 +131,7 @@ class CRM_Case_Form_Activity_OpenCase
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
-        $form->add( 'text', 'subject', ts('Subject'), 
+        $form->add( 'text', 'activity_subject', ts('Subject'), 
                    array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
 
         $form->add('select', 'medium_id',  ts( 'Medium' ), 
@@ -140,7 +140,7 @@ class CRM_Case_Form_Activity_OpenCase
         // calling this field activity_location to prevent conflict with contact location fields
         $form->add('text', 'activity_location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
         
-        $form->add('textarea', 'details', ts('Details'), 
+        $form->add('textarea', 'activity_details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
         $form->addElement('submit', 
@@ -195,7 +195,7 @@ class CRM_Case_Form_Activity_OpenCase
         }
 
         // for open case start date should be set to current date
-        $params['start_date'] = CRM_Utils_Date::format( $params['now'] );
+        $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
 
         // rename activity_location param to the correct column name for activity DAO
         $params['location'] = $params['activity_location'];
@@ -280,12 +280,17 @@ class CRM_Case_Form_Activity_OpenCase
         
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
-                                     'creatorID'        => $form->_uid,
-                                     'standardTimeline' => 1,
-                                     'activityTypeName' => 'Open Case',
-                                     'dueDateTime'      => time( ),
-                                     'caseID'           => $params['case_id'],
+        $xmlProcessorParams = array( 'clientID'           => $form->_clientId,
+                                     'creatorID'          => $form->_uid,
+                                     'standardTimeline'   => 1,
+                                     'activityTypeName'   => 'Open Case',
+                                     'dueDateTime'        => time( ),
+                                     'caseID'             => $params['case_id'],
+                                     'subject'            => $params['activity_subject'],
+                                     'activity_date_time' => $params['start_date'],
+                                     'duration'           => $params['duration'],
+                                     'medium_id'          => $params['medium_id'],
+                                     'details'            => $params['activity_details'],
                                      );
 
         if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {

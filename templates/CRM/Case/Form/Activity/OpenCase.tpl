@@ -42,7 +42,7 @@
     {if $clientName}
         <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
     {/if}
-    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
+    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
     <tr>
         <td class="label">{$form.medium_id.label}</td>
         <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.activity_location.label} &nbsp;{$form.activity_location.html}</td>
@@ -52,7 +52,7 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
         </td>
     </tr>
-    <tr><td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td></tr>
+    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td></tr>
     <tr>
       <td class="label">{$form.duration.label}</td>
       <td class="view-value">
