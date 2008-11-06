@@ -69,6 +69,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'state':
             return $this->state( $config );
 
+        case 'jqState':
+            return $this->jqState( $config );
+
         case 'country':
             return $this->country( $config );
 
@@ -536,6 +539,26 @@ WHERE {$whereClause}
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
             echo $json->encode( array( 0, $status ) );
         }
+    }
+    
+    function jqState( &$config ) {
+        if ( ! isset( $_GET['_value'] ) ||
+             empty( $_GET['_value'] ) ) {
+            return null;
+        }
+
+        require_once 'CRM/Core/PseudoConstant.php';
+        $result =& CRM_Core_PseudoConstant::stateProvinceForCountry( $_GET['_value'] );
+
+        $elements = array( array( 'name'  => ts('- select a state-'),
+                                  'value' => '' ) );
+        foreach ( $result as $id => $name ) {
+            $elements[] = array( 'name'  => ts($name),
+                                 'value' => $id );
+        }
+        
+        require_once "CRM/Utils/JSON.php";
+        echo json_encode( $elements );
     }
 
     /**

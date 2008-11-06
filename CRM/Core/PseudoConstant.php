@@ -1235,6 +1235,24 @@ class CRM_Core_PseudoConstant
         return self::$mappingType;
     }
 
+    public static function &stateProvinceForCountry( $countryID ) {
+        $query = "
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
+  FROM civicrm_state_province
+WHERE country_id = %1
+ORDER BY name";
+        $params = array( 1 => array( $countryID, 'Integer' ) );
+
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        $result = array( );
+        while ( $dao->fetch( ) ) {
+            $result[$dao->id] = $dao->name;
+        }
+
+        return $result;
+    }
+
 }
 
 
