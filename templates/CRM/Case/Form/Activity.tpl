@@ -150,7 +150,7 @@
 
             <div id="follow-up" class="section-shown">
             <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
-             <label>{ts}Schedule Follow-up{/ts}</label>&nbsp;&nbsp;<input type="text" id="activity"/>&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}
+             <label>{ts}Schedule Follow-up{/ts}</label>&nbsp;&nbsp;{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}
             </fieldset>
             </div>
           </td>
@@ -175,12 +175,12 @@ buildContact( 1, 'assignee_contact' );
 
 var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseType}"{literal};
 
-cj("#activity").autocomplete( activityUrl, {
+cj("#followup_activity").autocomplete( activityUrl, {
 	width: 260,
 	selectFirst: false  
 });
 
-cj("#activity").result(function(event, data, formatted) {
+cj("#followup_activity").result(function(event, data, formatted) {
 
 });		    
 

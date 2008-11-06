@@ -349,14 +349,16 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
 
         $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
-        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 'positiveInteger');  
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+                       'positiveInteger');  
        
-        require_once 'CRM/Core/OptionGroup.php';
-        $freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
-        $this->add( 'select', 'interval_unit', 
-                    null, 
-                    array(''=>ts( '- select -' )) + $freqUnits 
-                    );
+        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
+
+        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
+        foreach ( $freqUnits as $name => $label ) {
+            $freqUnits[$name] = $label . '(s)';
+        }
+        $this->add( 'select', 'interval_unit', null, $freqUnits );
 
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::buildQuickForm( \$this );");
@@ -586,20 +588,28 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $result = CRM_Case_BAO_Case::sendActivityCopy( $this->_clientId, $activity->id, $mailToContacts );
             $mailStatus = "A copy of the activity has also been sent to selected contacts(s).";
         }
-        //FIXME hardcoded follow up activity  
-        if ( CRM_Utils_Array::value('activity', $params) ) {
-            $followupParams = array( );
-            $followupParams['parent_id'] = $activity->id;
-            $followupParams['status_id'] = 1;
-            $followupParams['activity_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
-                                                                               $params['activity'],
-                                                                               'id', 'label' );
-            $followupParams['is_auto']  = 0;
-            $currentDate = CRM_Utils_Date::format( date("YmdHis") ); 
-            $followupParams['due_date'] = CRM_Utils_Date::intervalAdd($params['interval_unit'], $params['interval'], $currentDate); 
+
+        // create follow up activity if needed
+        if ( CRM_Utils_Array::value('followup_activity', $params) ) {
+            $followupParams                      = array( );
+            $followupParams['parent_id']         = $activity->id;
+            $followupParams['source_contact_id'] = $params['source_contact_id'];
+            $followupParams['subject']           = $params['subject'];
+            $followupParams['status_id']         = 
+                CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
+            $followupParams['activity_type_id']  = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
+                                             $params['followup_activity'],
+                                             'id', 'label' );
+            CRM_Utils_Date::getAllDefaultValues( $currentDate );
+            $followupParams['due_date_time']        = 
+                CRM_Utils_Date::intervalAdd($params['interval_unit'], 
+                                            $params['interval'], $currentDate); 
+            $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
 
             $followupActivity = CRM_Activity_BAO_Activity::create( $followupParams );
         }
+
         CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2. %3", 
                                         array('1' => $this->_activityTypeName, 
                                               '2' => $recordStatus, 
