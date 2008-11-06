@@ -344,12 +344,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $elements = array( );
 
         // first build the radio boxes
-        if ( ! empty( $this->_values['label'] ) ) {
+        if ( ! empty( $this->_values['amount'] ) ) {
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::buildAmount( 'contribution', $this, $this->_values['amount'] );
+            $this->set( 'values', $this->_values );
+            
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
+            foreach ( $this->_values['amount'] as $amount ) {
                 $elements[] =& $this->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($this->_values['value'][$index]) . ' ' . $this->_values['label'][$index],
-                                                    $this->_values['amount_id'][$index],
+                                                    CRM_Utils_Money::format( $amount['value']) . ' ' . $amount['label'],
+                                                    $amount['amount_id'],
                                                     array('onclick'=>'clearAmountOther();'));
             }
         }
@@ -363,7 +367,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $title = ts('Contribution Amount');
         if ( $this->_values['is_allow_other_amount'] ) {
-            if ( ! empty($this->_values['label'] ) ) {
+            if ( ! empty($this->_values['amount'] ) ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     ts('Other Amount'), 'amount_other_radio');
 
@@ -387,7 +391,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
-            if ( ! empty($this->_values['label'] ) ) {
+            if ( ! empty($this->_values['amount'] ) ) {
                 if ( $separateMembershipPayment ) {
                     $title = ts('Additional Contribution');
                 }
@@ -763,17 +767,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $amount += CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
             } 
         } else {
-            if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
-                $amountID = array_search( CRM_Utils_Array::value('amount',$params),
-                                          CRM_Utils_Array::value('amount_id',$form->_values) );
-            }
-            
-            if ( ! empty( $form->_values['value'] ) &&
-                 $amountID ) {
-                $params['amount_level'] =
-                    $form->_values['label'][$amountID];
-                $amount = 
-                    $form->_values['value'][$amountID];
+            if ( CRM_Utils_Array::value( 'amount', $form->_values ) ) {
+                $amountID = $params['amount'];
+                
+                if ( $amountID ) {
+                    $params['amount_level'] =
+                        $form->_values['amount'][$amountID]['label'];
+                    $amount = 
+                        $form->_values['amount'][$amountID]['value'];
+                }
             }
         }
         return $amount;

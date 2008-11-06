@@ -65,7 +65,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
         // get the amounts and the label
         require_once 'CRM/Core/OptionGroup.php';  
-        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$id}", $values );
+        $values['amount'] = array( );
+        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$id}", $values['amount'], true );
 
         // get the profile ids
         require_once 'CRM/Core/BAO/UFJoin.php'; 
