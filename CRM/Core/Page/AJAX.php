@@ -91,27 +91,27 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventFee':
             return $this->eventFee( $config );
 
-        // civicrm/ajax/                       
+        // civicrm/ajax/pledgeName -> CRM/Pledge/Page/Ajax.php                       
         case 'pledgeName':
             return $this->pledgeName( $config );
 
-        // civicrm/ajax/                   
+        // civicrm/ajax/caseSubject -> CRM/HRDCase/Page/Ajax.php
         case 'caseSubject':
              return $this->caseSubject( $config );
 
-        // civicrm/ajax/           
+        // civicrm/ajax/template -> CRM/Mail/Page/Ajax.php
         case 'template':
             return $this->template( $config );
 
-        // civicrm/ajax/           
+        // civicrm/ajax/custom -> CRM/           
         case 'custom':
             return $this->customField( $config );
 
-        // civicrm/ajax/           
+        // civicrm/ajax/help
         case 'help':
             return $this->help( $config );
 
-        // civicrm/ajax/           
+        // civicrm/ajax/contact -> Core/Page/Ajax/Search.php
         case 'contact':
             return $this->contact( $config );
 
