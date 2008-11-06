@@ -8,6 +8,15 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
     protected $_participantID;
     protected $_eventID;
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Payment Create',
+                     'description' => 'Test all Participant Payment Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp( ) 
     { 
         $event = $this->eventCreate();
