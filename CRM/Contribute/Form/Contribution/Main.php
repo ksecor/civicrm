@@ -347,7 +347,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( ! empty( $this->_values['amount'] ) ) {
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::buildAmount( 'contribution', $this, $this->_values['amount'] );
-            $this->set( 'values', $this->_values );
             
             require_once 'CRM/Utils/Money.php';
             foreach ( $this->_values['amount'] as $amount ) {
