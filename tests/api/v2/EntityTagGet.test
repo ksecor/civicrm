@@ -12,6 +12,15 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
 
     protected $_tagID; 
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Get EntityTag',
+                     'description' => 'Test all Get EntityTag API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setUp() 
     { 
         $this->_individualID   = $this->individualCreate( );
@@ -40,9 +49,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $individualEntity['is_error'], 0 );
         $this->assertEqual( $individualEntity['added'], 1 );
         
-        $paramsEntity = array('contact_id' =>  $contactId );
+        $paramsEntity = array('contact_id' =>  $ContactId );
         $entity =& civicrm_entity_tag_get( $paramsEntity );
-        $this->assertEqual( $entity['is_error'], 0 );
     }
     
     function testHouseholdEntityGetWithoutContactID( )
@@ -66,9 +74,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $householdEntity['is_error'], 0 );
         $this->assertEqual( $householdEntity['added'], 1 );
         
-        $paramsEntity = array('contact_id' => $contactId ); 
+        $paramsEntity = array('contact_id' => $ContactId ); 
         $entity =& civicrm_entity_tag_get( $paramsEntity );
-        $this->assertEqual( $entity['is_error'], 0 );
     }
     
     function testOrganizationEntityGetWithoutContactID()
@@ -91,10 +98,8 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $organizationEntity['is_error'], 0 );
         $this->assertEqual( $organizationEntity['added'], 1 );
         
-        $paramsEntity = array('contact_id' => $contactId );
+        $paramsEntity = array('contact_id' => $ContactId );
         $entity =& civicrm_entity_tag_get( $paramsEntity ); 
-        $this->assertEqual( $entity['is_error'], 0 ); 
-        
     }
     
     function tearDown( ) 

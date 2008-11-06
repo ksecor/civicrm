@@ -12,6 +12,15 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
 
     protected $_tagID;
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'EntityTag Add',
+                     'description' => 'Test all EntityTag Add API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setup( ) 
     {
         $this->_individualID = $this->individualCreate( );
@@ -69,7 +78,7 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     
     function testHouseholdEntityTagAddWithoutTagID( ) 
     {
-        $ContactId = $_householdID;
+        $ContactId = $this->_householdID;
         $params = array('contact_id' =>  $ContactId);
         $householdEntity = civicrm_entity_tag_add( $params ); 
         $this->assertEqual( $householdEntity['is_error'], 1 );
