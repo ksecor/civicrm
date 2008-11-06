@@ -192,13 +192,12 @@ SELECT     civicrm_email.id as email_id
         // FIXME: get localpart+ from the database if specified
         $localpart = '';
         require_once 'CRM/Utils/Verp.php';
-        $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
-                                                    array( $localpart . 'c',
-                                                           $this->contact_id,
-                                                           $this->id,
-                                                           $this->hash )
-                                                    ) . "@{$domain->email_domain}",
-                                           $email);
+        $confirm = implode($config->verpSeparator,
+                           array($localpart . 'c',
+                                 $this->contact_id,
+                                 $this->id,
+                                 $this->hash)
+                          ) . "@{$domain->email_domain}";
         
         require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();

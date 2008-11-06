@@ -857,9 +857,7 @@ WHERE  civicrm_mailing_job.id = {$job_id}
 AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
         if( $job_id && CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) ) {
-            unset( $verp['reply'] );
             $verp['reply'] = "\"{$this->from_name}\" <{$this->from_email}>"; 
-            $skipEncode = true;
         }
         
         $urls = array(
@@ -880,22 +878,15 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                                                                  true, null, true, true )
                       );
 
-        if ( $skipEncode ) {
-            $headers = array( 'Reply-To'  => $verp['reply'] );
-        } else {
-            $headers = array( 'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email) );
-        }
+        $headers = array(
+            'Reply-To'         => $verp['reply'],
+            'Return-Path'      => $verp['bounce'],
+            'From'             => "\"{$this->from_name}\" <{$this->from_email}>",
+            'Subject'          => $this->subject,
+            'List-Unsubscribe' => "<mailto:{$verp['unsubscribe']}>",
+        );
 
-        $headerPart = array(
-                            'Return-Path'      => CRM_Utils_Verp::encode($verp['bounce'], $email),
-                            'From'             => "\"{$this->from_name}\" <{$this->from_email}>",
-                            'Subject'          => $this->subject,
-                            'List-Unsubscribe' => '<mailto:'.$verp['unsubscribe'].'>'
-                            );
-
-        $headers = array_merge( $headers, $headerPart ); 
         if( $isForward ) {
-            unset( $headers['Subject'] );
             $headers['Subject'] = "[Fwd:{$this->subject}]";
         } 
         return array( &$verp, &$urls, &$headers );
