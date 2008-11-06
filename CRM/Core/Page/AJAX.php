@@ -62,49 +62,64 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         }
         
         switch ( $args[2] ) {
-            
+
+        // civcrm/ajax/search -> CRM/Core/Page/Ajax/Search.php
         case 'search':
             return $this->search( $config );
-            
+
+        // civicrm/ajax/state -> CRM/Core/Page/Ajax/Location.php
         case 'state':
             return $this->state( $config );
 
+        // civicrm/ajax/state -> CRM/Core/Page/Ajax/Location.php
         case 'country':
             return $this->country( $config );
 
+        // civicrm/ajax/status -> CRM/Core/Page/Ajax/Import.php
         case 'status':
             return $this->status( $config );
 
+        // civicrm/ajax/event -> CRM/Event/Page/Ajax.php
         case 'event':
             return $this->event( $config );
-            
+
+        // civicrm/ajax/eventType -> CRM/Event/Page/Ajax.php
         case 'eventType':
             return $this->eventType( $config );
 
+        // civicrm/ajax/eventFee -> CRM/Event/Page/Ajax.php
         case 'eventFee':
             return $this->eventFee( $config );
-            
+
+        // civicrm/ajax/                       
         case 'pledgeName':
             return $this->pledgeName( $config );
-        
+
+        // civicrm/ajax/                   
         case 'caseSubject':
              return $this->caseSubject( $config );
 
+        // civicrm/ajax/           
         case 'template':
             return $this->template( $config );
 
+        // civicrm/ajax/           
         case 'custom':
             return $this->customField( $config );
 
+        // civicrm/ajax/           
         case 'help':
             return $this->help( $config );
 
+        // civicrm/ajax/           
         case 'contact':
             return $this->contact( $config );
 
+        // civicrm/ajax/           
         case 'employer':
             return $this->getPermissionedEmployer( $config );
 
+        // civicrm/ajax/           
         case 'mapper':
             require_once 'CRM/Core/Page/AJAX/Mapper.php';
             $method = array( 'CRM_Core_Page_AJAX_Mapper',
@@ -115,27 +130,34 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             exit( );
 
+        // civicrm/ajax/           
         case 'groupTree':
             return $this->groupTree( $config );
 
+        // civicrm/ajax/           
         case 'permlocation':
             return $this->getPermissionedLocation( $config );
 
+        // civicrm/ajax/           
         case 'memType':
             return $this->getMemberTypeDefaults( $config );
 
+        // civicrm/ajax/           
         case 'activity':
             require_once 'CRM/Core/Page/AJAX/Activity.php';
             return CRM_Core_Page_AJAX_Activity::getCaseActivity( $config );
 
+        // civicrm/ajax/           
         case 'activitytypelist':
             require_once 'CRM/Core/Page/AJAX/Activity.php';
             return CRM_Core_Page_AJAX_Activity::getActivityTypeList( $config );
 
+        // civicrm/ajax/           
         case 'contactlist':
             require_once 'CRM/Core/Page/AJAX/Contact.php';
             return CRM_Core_Page_AJAX_Contact::getContactList( $config );
-            
+
+        // civicrm/ajax/                       
         case 'relation':
             require_once 'CRM/Core/Page/AJAX/Contact.php';
             return CRM_Core_Page_AJAX_Contact::relationship( $config );
