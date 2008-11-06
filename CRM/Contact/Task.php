@@ -149,7 +149,19 @@ class CRM_Contact_Task {
                                            'class'  => 'CRM_Event_Form_Participant',
                                            'result' => true );
             }
-
+            
+            if ( CRM_Core_Permission::access( 'CiviMail' ) ) { 
+                self::$_tasks[20] = array( 'title'  => ts( 'Scheduled and Sent Mailing' ),
+                                           'class'  => array( 'CRM_Mailing_Form_Group',
+                                                              'CRM_Mailing_Form_Settings',
+                                                              'CRM_Mailing_Form_Upload',
+                                                              'CRM_Mailing_Form_Test',
+                                                              'CRM_Mailing_Form_Schedule'
+                                                              ),
+                                           'result' => false
+                                           );
+            }
+            
             self::$_tasks += CRM_Core_Component::taskList( );
             asort(self::$_tasks);
         }

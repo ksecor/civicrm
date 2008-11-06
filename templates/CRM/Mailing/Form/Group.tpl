@@ -17,10 +17,15 @@
   </dl>
 </fieldset>
 
-<fieldset>
-  <legend>{ts}Mailing Recipients{/ts}</legend>
+ <div id="id-additional-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-additional-show'); show('id-additional'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{if $context EQ 'search'}{ts}Additional Mailing Recipients{/ts}{else}{ts}Mailing Recipients{/ts}{/if}</label><br />
+ </div>
+
+ <div id="id-additional" class="form-item">
+  <fieldset>
+  <legend><a href="#" onclick="hide('id-additional'); show('id-additional-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $context EQ 'search'}{ts}Additional Mailing Recipients{/ts}{else}{ts}Mailing Recipients{/ts}{/if}</legend>
   {strip}
-   
+
   <table>
   {if $groupCount > 0}
     <tr><th class="label">{$form.includeGroups.label} {help id="include-groups"}</th></tr>
@@ -51,9 +56,12 @@
     </tr>
   </table>    
   {/strip}
-    <dl>
-    <dt></dt><dd>{$form.buttons.html}</dd>
-  </dl>
-</fieldset>
+  </fieldset>
+ </div>
+
+ <dl>
+ <dt></dt><dd>{$form.buttons.html}</dd>
+ </dl>
 </div>
+{include file="CRM/common/showHide.tpl"}
 {/if}
