@@ -200,8 +200,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Contact');
-        $this->assign('customDataSubType',  $this->_contributionType );
-        $this->assign('entityId',  $this->_id );
+        //$this->assign('customDataSubType',  $this->_contributionType );
+        $this->assign('entityId',  $this->_tableId );
 
 
 //         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree,
