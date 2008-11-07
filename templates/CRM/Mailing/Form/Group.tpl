@@ -14,6 +14,9 @@
 <fieldset>
   <dl>
     <dt>{$form.name.label}</dt><dd>{$form.name.html} {help id="mailing-name"}</dd>
+    {if $context EQ 'search'}
+    <dt>{$form.baseGroup.label}</dt><dd>{$form.baseGroup.html}</dd>
+    {/if}	
   </dl>
 </fieldset>
 

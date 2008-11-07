@@ -159,7 +159,16 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
         
-        $groups         =& CRM_Core_PseudoConstant::group('Mailing');
+        //get the mailing groups.
+        $groups =& CRM_Core_PseudoConstant::group('Mailing');
+        
+        //when the context is search add base group's.
+        if ( $context == 'search' ) {
+            $this->add( 'select', 'baseGroup',
+                        ts( 'Base Group' ), 
+                        array(''=>ts( '- select -' )) + $groups,
+                        true );
+        }
         
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', 
@@ -248,10 +257,15 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         
         //build hidden smart group. when user want to send  mailing
         //through search contact-> more action -> send Mailing. CRM-3711
+        $groups = array( );
         $context = $this->get( 'context' );
         if ( $context == 'search' && $this->_contactIds ) {
             //get the hidden smart group id.
             $values['includeGroups'][] = $this->getHiddenSmartGroup( );
+            
+            //FIXME:
+            //currently we consider base group as a include mailing group.
+            $values['includeGroups'][] = $values['baseGroup'];
         }
         
         foreach ( array( 'name', 'group_id', 'search_id', 'search_args' ) as $n ) {
@@ -266,7 +280,7 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         $outGroups   = $values['excludeGroups'  ];
         $inMailings  = $values['includeMailings'];
         $outMailings = $values['excludeMailings'];
-        $groups = array();
+        
         if (is_array($inGroups)) {
             foreach($inGroups as $key => $id) {
                 if ($id) {
