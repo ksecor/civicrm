@@ -63,11 +63,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         switch ( $args[2] ) {
 
-        // civcrm/ajax/search -> CRM/Core/Page/Ajax/Search.php
-        case 'search':
-	  require_once "CRM/Core/Page/AJAX/Search.php";
-	  return CRM_Core_Page_AJAX_Search::search( $config );
-	  
 	  // civicrm/ajax/state -> CRM/Core/Page/Ajax/Location.php
         case 'state':
 	    require_once "CRM/Core/Page/AJAX/Location.php";
@@ -148,10 +143,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         // civicrm/ajax/           
         case 'permlocation':
             return $this->getPermissionedLocation( $config );
-
-        // civicrm/ajax/           
-        case 'memType':
-            return $this->getMemberTypeDefaults( $config );
 
         // civicrm/ajax/           
         case 'activity':
@@ -257,22 +248,5 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         echo CRM_Contact_BAO_GroupNestingCache::json( $gids );
     }
 
-    /**
-     * Function to setDefaults according to membership type
-     */
-    function getMemberTypeDefaults( $config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $memType  = CRM_Utils_Type::escape( $_GET['mtype'], 'Integer') ; 
-        
-        $contributionType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                         $memType, 
-                                                         'contribution_type_id' );
-        
-        $totalAmount = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                    $memType, 
-                                                    'minimum_fee' );
 
-        echo $contributionType . "^A" . $totalAmount;
-    }
 }

@@ -185,4 +185,8 @@
      <page_callback>CRM_Contact_Form_Create</page_callback>
      <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
+  <item>
+     <path>civicrm/ajax/search</path>
+     <page_callback>CRM_Core_Page_AJAX_Search::search</page_callback>
+  </item>
 </menu>
