@@ -63,16 +63,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         switch ( $args[2] ) {
 
-	  // civicrm/ajax/state -> CRM/Core/Page/Ajax/Location.php
-        case 'state':
-	    require_once "CRM/Core/Page/AJAX/Location.php";
-            return CRM_Core_Page_AJAX_Location::state( $config );
-
-        // civicrm/ajax/state -> CRM/Core/Page/Ajax/Location.php
-        case 'country':
-	    require_once "CRM/Core/Page/AJAX/Location.php";
-	    return CRM_Core_Page_AJAX_Location::country( $config );
-            
         // civicrm/ajax/status -> CRM/Core/Page/Ajax/Import.php
         case 'status':
 	    require_once "CRM/Core/Page/AJAX/Import.php";
