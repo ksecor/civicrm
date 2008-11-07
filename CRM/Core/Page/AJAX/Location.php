@@ -40,6 +40,51 @@ require_once 'CRM/Core/Page/AJAX.php';
  */
 class CRM_Core_Page_AJAX_Location extends CRM_Core_Page_AJAX 
 {
+
+
+    /**
+     * Function to obtain the location of given contact-id. 
+     * This method is used by on-behalf-of form to dynamically generate poulate the 
+     * location field values for selected permissioned contact. 
+     */
+    function getPermissionedLocation( &$config ) 
+    {
+        $cid = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
+        
+        require_once 'CRM/Core/BAO/Location.php';
+        $entityBlock = array( 'contact_id' => $cid );
+        $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
+
+        $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
+        $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
+
+        $addressSequence = array_flip($config->addressSequence());
+
+        if ( array_key_exists( 'street_address', $addressSequence) ) {
+            $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_1', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_2', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
+        }
+        if ( array_key_exists( 'city', $addressSequence) ) {
+            $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
+        }
+        if ( array_key_exists( 'postal_code', $addressSequence) ) {
+            $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
+            $str .= "location_1_address_postal_code_suffix::" . $location['location'][1]['address']['postal_code_suffix'] . ';;';
+        }
+        if ( array_key_exists( 'country', $addressSequence) || array_key_exists( 'state_province', $addressSequence) ) {
+            $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
+
+        }
+        echo $str;
+    }
+
+
+
     /**
      * Function to build state province combo box
      */

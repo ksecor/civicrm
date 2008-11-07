@@ -87,4 +87,44 @@ ORDER BY sort_name ";
         CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
         
     }
+    
+    
+    /**
+     * Function to fetch the custom field help 
+     */
+    function customField( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+
+        $helpPost = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                 $fieldId,
+                                                 'help_post' );
+        echo $helpPost;
+    }
+
+    
+    /**
+     * Function to obtain list of permissioned employer for the given contact-id.
+     */
+    function getPermissionedEmployer( &$config ) 
+    {
+        $cid       = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
+        $name      = trim(CRM_Utils_Type::escape( $_GET['name'], 'String')); 
+        $name      = str_replace( '*', '%', $name );
+
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
+    }
+
+
+    function groupTree( $config ) 
+    {
+        $gids  = CRM_Utils_Type::escape( $_GET['gids'], 'String' ); 
+        require_once 'CRM/Contact/BAO/GroupNestingCache.php';
+        echo CRM_Contact_BAO_GroupNestingCache::json( $gids );
+    }    
 }

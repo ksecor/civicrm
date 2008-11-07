@@ -100,11 +100,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         // civicrm/ajax/custom -> CRM/           
         case 'custom':
-            return $this->customField( $config );
-
-        // civicrm/ajax/help
-        case 'help':
-            return $this->help( $config );
+            require_once "CRM/Core/Page/AJAX/Contact.php";
+            return CRM_Core_Page_AJAX_Contact::customField( $config );
 
         // civicrm/ajax/contact -> Core/Page/Ajax/Search.php
         case 'contact':
@@ -113,7 +110,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         // civicrm/ajax/           
         case 'employer':
-            return $this->getPermissionedEmployer( $config );
+            require_once "CRM/Core/Page/AJAX/Contact.php";
+            return CRM_Core_Page_AJAX_Contact::getPermissionedEmployer( $config );
 
         // civicrm/ajax/           
         case 'mapper':
@@ -128,11 +126,13 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         // civicrm/ajax/           
         case 'groupTree':
-            return $this->groupTree( $config );
+            require_once "CRM/Core/Page/AJAX/Contact.php";
+            return CRM_Core_Page_AJAX_Contact::groupTree( $config );
 
         // civicrm/ajax/           
         case 'permlocation':
-            return $this->getPermissionedLocation( $config );
+            require_once "CRM/Core/Page/AJAX/Location.php";        
+            return CRM_Core_Page_AJAX_Location::getPermissionedLocation( $config );
 
         // civicrm/ajax/           
         case 'activity':
@@ -159,84 +159,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 	}
     }
 
-    /**
-     * Function to fetch the custom field help 
-     */
-    function customField( &$config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
 
-        $helpPost = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                 $fieldId,
-                                                 'help_post' );
-        echo $helpPost;
-    }
-
-    
-    /**
-     * Function to obtain list of permissioned employer for the given contact-id.
-     */
-    function getPermissionedEmployer( &$config ) 
-    {
-        $cid       = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
-        $name      = trim(CRM_Utils_Type::escape( $_GET['name'], 'String')); 
-        $name      = str_replace( '*', '%', $name );
-
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
-    }
-
-    /**
-     * Function to obtain the location of given contact-id. 
-     * This method is used by on-behalf-of form to dynamically generate poulate the 
-     * location field values for selected permissioned contact. 
-     */
-    function getPermissionedLocation( &$config ) 
-    {
-        $cid = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
-        
-        require_once 'CRM/Core/BAO/Location.php';
-        $entityBlock = array( 'contact_id' => $cid );
-        $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
-
-        $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
-        $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
-
-        $addressSequence = array_flip($config->addressSequence());
-
-        if ( array_key_exists( 'street_address', $addressSequence) ) {
-            $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
-        }
-        if ( array_key_exists( 'supplemental_address_1', $addressSequence) ) {
-            $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
-        }
-        if ( array_key_exists( 'supplemental_address_2', $addressSequence) ) {
-            $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
-        }
-        if ( array_key_exists( 'city', $addressSequence) ) {
-            $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
-        }
-        if ( array_key_exists( 'postal_code', $addressSequence) ) {
-            $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
-            $str .= "location_1_address_postal_code_suffix::" . $location['location'][1]['address']['postal_code_suffix'] . ';;';
-        }
-        if ( array_key_exists( 'country', $addressSequence) || array_key_exists( 'state_province', $addressSequence) ) {
-            $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
-
-        }
-        echo $str;
-    }
-
-    function groupTree( $config ) 
-    {
-        $gids  = CRM_Utils_Type::escape( $_GET['gids'], 'String' ); 
-        require_once 'CRM/Contact/BAO/GroupNestingCache.php';
-        echo CRM_Contact_BAO_GroupNestingCache::json( $gids );
-    }
 
 
 }
