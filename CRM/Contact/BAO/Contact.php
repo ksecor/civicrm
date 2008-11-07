@@ -1116,6 +1116,10 @@ AND    civicrm_contact.id = %1";
             $defaultLocationId = $defaultLocation->id;
         }
         
+        // get the billing location type
+        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+        $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+
         $phoneLoc   = 0;
         $phoneReset = array( );
         $imLoc      = 0; 
@@ -1152,7 +1156,7 @@ AND    civicrm_contact.id = %1";
                 $data['location'][$loc]['location_type_id'] = $locTypeId;
                 
                 //set is_billing true, for location type "Billing" 
-                if ( $locTypeId == 5 ) {
+                if ( $locTypeId == $billingLocationTypeId ) {
                     $data['location'][$loc]['is_billing'] = 1;
                 }
 
@@ -1162,8 +1166,9 @@ AND    civicrm_contact.id = %1";
                         $data['location'][$loc]['is_primary'] = 1;
                     } 
                 } else {
-                    //if ( $loc == 1 ) {
                     if  ( $locTypeId == $defaultLocationId ) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    } elseif ( $locTypeId == $billingLocationTypeId ) {
                         $data['location'][$loc]['is_primary'] = 1;
                     }
                 }
