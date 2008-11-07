@@ -1,5 +1,5 @@
 {* CiviCase DashBoard (launch page) *}
-{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&atype=13&reset=1"}{/capture}
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1"}{/capture}
 
 <div class="float-right">
   <table class="form-layout-compressed">
@@ -28,7 +28,13 @@
   <tr>
     <th><strong>{$row.case_type}</strong></td>
     {foreach from=$row.columns item=cell}
-    <td class="label"><a href="{$cell.purl}">{$cell.case_count}</a></td>
+    <td class="label">
+    {if $cell}
+    <a href="{$cell.url}">{$cell.case_count}</a>
+    {else}
+    0
+    {/if}
+    </td>
     {/foreach}
   </tr>
 {/foreach}
