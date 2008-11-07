@@ -158,4 +158,16 @@
      <page_callback>CRM_Event_Page_Tab</page_callback>
      <weight>4</weight>
   </item>
+<item>
+     <path>civicrm/ajax/event</path>
+     <page_callback>CRM_Event_Page_AJAX::event</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/eventType</path>
+     <page_callback>CRM_Event_Page_AJAX::eventType</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/eventFee</path>
+     <page_callback>CRM_Event_Page_AJAX::eventFee</page_callback>
+</item>
 </menu>

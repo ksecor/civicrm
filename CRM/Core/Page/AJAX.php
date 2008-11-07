@@ -67,22 +67,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'status':
 	    require_once "CRM/Core/Page/AJAX/Import.php";
 	    return CRM_Core_Page_AJAX_Import::status( $config );
-            
-        // civicrm/ajax/event -> CRM/Event/Page/Ajax.php
-        case 'event':
-	    require_once "CRM/Event/Page/AJAX.php";
-	    return CRM_Event_Page_AJAX::event( $config );
-	   
-        // civicrm/ajax/eventType -> CRM/Event/Page/Ajax.php
-        case 'eventType':
-   	    require_once "CRM/Event/Page/AJAX.php";
-	    return CRM_Event_Page_AJAX::eventType( $config );
-
-        // civicrm/ajax/eventFee -> CRM/Event/Page/Ajax.php
-        case 'eventFee':
-	    require_once "CRM/Event/Page/AJAX.php";
-	    return CRM_Event_Page_AJAX::eventFee( $config );
-
+	    
         // civicrm/ajax/pledgeName -> CRM/Pledge/Page/Ajax.php                       
         case 'pledgeName':
 	    require_once "CRM/Pledge/Page/AJAX.php";
