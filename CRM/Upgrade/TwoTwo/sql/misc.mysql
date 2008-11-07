@@ -149,3 +149,18 @@ ALTER TABLE `civicrm_group_nesting`
 ALTER TABLE `civicrm_group_nesting`
     ADD CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE;
 
+-- New fields for Personal Campaign Pages and CRM-3494 (billing name and address for contributions)
+ALTER TABLE `civicrm_contribution`
+  ADD `pcp_made_through_id` int(10) unsigned default NULL,
+  ADD `pcp_display_in_roll` tinyint(4) default '0',
+  ADD `pcp_roll_nickname` varchar(255) collate utf8_unicode_ci default NULL,
+  ADD `pcp_personal_note` varchar(255) collate utf8_unicode_ci default NULL,
+  ADD `address_id` int(10) unsigned default NULL COMMENT 'Conditional foreign key to civicrm_address.id. We insert an address record for each contribution when we have associated billing name and address data.';
+
+CREATE INDEX `index_pcp_made_through_id` ON `civicrm_contribution` (`pcp_made_through_id`);
+
+-- Make sure is_billing flag is true for all address records where location type is Billing
+-- Using hard-coded location_type_id since we don't have a non-translatable name for location types
+UPDATE `civicrm_address`
+SET `is_billing` = 1
+WHERE `location_type_id` = 5;
