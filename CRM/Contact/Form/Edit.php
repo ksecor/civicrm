@@ -271,7 +271,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
-                        $defaults['location'][$i+1]['address']['state_province_id'] = ts('- type first letter(s) -');
+                        $locationID = $i+1;
+                        $this->addElement( 'select',
+                                           "location[$locationID][address][state_province_id]",
+                                           ts( 'State/Province' ),
+                                           array( '' => ts( '- select -' ) ) +
+                                           CRM_Core_PseudoConstant::stateProvinceForCountry( $config->defaultContactCountry ) );
                     }
                 }
             }
@@ -346,51 +351,23 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
         
-        //set defaults for country-state dojo widget
+        //set defaults for country-state widget
         if ( ! empty ( $defaults['location'] ) ) {
-            $countries      =& CRM_Core_PseudoConstant::country( );
-            $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-            
             foreach ( $defaults['location'] as $key => $value ) {
                 if ( isset( $value['address'] ) ) {
-                    
-                    // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
-                        
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
-                            
                         }
-                        
                         if ( $countryValue ) {
-                            //retrive country by using country code for assigning country name to template
-                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                    $countryValue, 
-                                                                    'name', 
-                                                                    'id' );
-                            $this->assign( "country_{$key}_value" ,  $countryValue );
+                            $this->addElement( 'select',
+                                               "location[$key][address][state_province_id]",
+                                               ts( 'State/Province' ),
+                                               array( '' => ts( '- select -' ) ) +
+                                               CRM_Core_PseudoConstant::stateProvinceForCountry( $config->defaultContactCountry ) );
                         }
                     }
-                    
-                    if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                        $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                        
-                        if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                            $stateValue = $value['address']['state_province_id'];
-                                                        
-                        }
-
-                        if ( $stateValue ) {
-                            //retrive country by using country code for assigning country name to template
-                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
-                                                                  $stateValue, 
-                                                                  'name', 
-                                                                  'id' );
-                            $this->assign( "state_province_{$key}_value", $stateValue );
-                        }
-                    }
-                    
                     if ( isset( $value['address']['display']) ) {
                         $this->assign( "location_{$key}_address_display", 
                                        str_replace("\n", "<br/>", $value['address']['display']) );

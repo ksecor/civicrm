@@ -99,17 +99,18 @@ class CRM_Contact_Form_Address
                         $form->assign_by_ref( 'countryID', $countryID );
                         $form->assign( 'callbackURL',
                                        CRM_Utils_System::url( 'civicrm/ajax/jqState' ) );
-                        $pcFunction = 'country';
+                        $selectOptions = array('' => ts('- select -')) + 
+                            CRM_Core_PseudoConstant::country( );
                     } else {
                         $stateID[$locationId] = "location_{$locationId}_address_{$name}";
                         $form->assign_by_ref( 'stateID', $stateID );
-                        $pcFunction = 'stateProvince';
+                        $selectOptions = array( '' => ts( '- select a country -' ) );
                     }
                     $location[$locationId]['address'][$name] =
                         $form->addElement( 'select',
                                            "location[$locationId][address][$name]",
                                            $title,
-                                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::$pcFunction( ) );
+                                           $selectOptions );
                 } else {
                     if ( $name == 'address_name' ) {
                         $name = "name";
