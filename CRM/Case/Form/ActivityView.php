@@ -63,9 +63,11 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
                 $this->assign( 'result', $prioerActivityInfo );
             }
         } else {
-            $currentRevisionId = CRM_Activity_BAO_Activity::getCurrentActivity( $activityID );
-            $currentURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid={$currentRevisionId}', false, null, false );
-            $this->assign( 'currentURL', $currentURL );
+            $currentRevisionID = CRM_Activity_BAO_Activity::getCurrentActivity( $activityID );
+
+            if ( $currentRevisionID != $activityID ) {
+                $this->assign( 'currentRevisionID', $currentRevisionID );
+            }
         }
 
         require_once 'CRM/Case/XMLProcessor/Report.php';
@@ -73,23 +75,26 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         $report = $xmlProcessor->getActivityInfo( $contactID, $activityID );
         $this->assign('report', $report );
        
-        $parentId =  CRM_Activity_BAO_Activity::getParentActivity( $activityID );
+        $parentID =  CRM_Activity_BAO_Activity::getParentActivity( $activityID );
     
-        if ( $parentId ) { 
-            $parentURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid={$activityID}', false, null, false );
-            $this->assign( 'parentURL', $parentURL );
+        if ( $parentID ) { 
+            $this->assign( 'parentID', $parentID );
         }
 
         $countPriorActivity = CRM_Activity_BAO_Activity::getPriorCount( $activityID );
-            
+                 
         if ( $countPriorActivity && !$cnt ) {
 
             if ( $countPriorActivity == 1 ) {
-                $revisionURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid={$activityID}&cnt=1', false, null, false );
+                $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                           $activityID,
+                                                           'original_id' );
+                $this->assign( 'originalID', $originalID ); 
+
             } else if ( $countPriorActivity > 1 ) {
-                $revisionURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid={$activityID}&cnt=2', false, null, false );
+                $revisionURL = CRM_Utils_System::url( 'civicrm/case/activity/view','reset=1&aid='.$activityID.'&cnt=2', false, null, true );
+                $this->assign( 'revisionURL', $revisionURL ); 
             }
-            $this->assign( 'revisionURL', $revisionURL ); 
         }
     }
 }
