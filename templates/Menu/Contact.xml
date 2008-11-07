@@ -196,28 +196,23 @@
     <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
-    <path>civicrm/ajax/status</path>
-    <page_callback>CRM_Core_Page_AJAX_Import::status</page_callback>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
-<item>
     <path>civicrm/ajax/search</path>
     <page_callback>CRM_Core_Page_AJAX_Search::search</page_callback>
     <access_arguments>access CiviCRM</access_arguments>
 </item>
 <item>
      <path>civicrm/ajax/relation</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::relationship</page_callback>
+     <page_callback>CRM_Contact_Page_AJAX::relationship</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
 <item>
      <path>civicrm/ajax/contactlist</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::getContactList</page_callback>
+     <page_callback>CRM_Contact_Page_AJAX::getContactList</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
 <item>
      <path>civicrm/ajax/groupTree</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::groupTree</page_callback>
+     <page_callback>CRM_Contact_Page_AJAX::groupTree</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
 <item>
@@ -227,7 +222,7 @@
 </item>
 <item>
      <path>civicrm/ajax/employer</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::getPermissionedEmployer</page_callback>
+     <page_callback>CRM_Contact_Page_AJAX::getPermissionedEmployer</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
 <item>
@@ -237,12 +232,7 @@
 </item>
 <item>
      <path>civicrm/ajax/custom</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::customField</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-</item>
-<item>
-     <path>civicrm/ajax/custom</path>
-     <page_callback>CRM_Core_Page_AJAX_Contact::customField</page_callback>
+     <page_callback>CRM_Contact_Page_AJAX::customField</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
 </item>
 </menu>

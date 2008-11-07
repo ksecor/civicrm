@@ -16,12 +16,12 @@
   </item>
   <item>
      <path>civicrm/ajax/activitytypelist</path>
-     <page_callback>CRM_Core_Page_AJAX_Activity::getActivityTypeList</page_callback>
+     <page_callback>CRM_Activity_Page_AJAX::getActivityTypeList</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
   </item>  
   <item>
      <path>civicrm/ajax/activity</path>
-     <page_callback>CRM_Core_Page_AJAX_Activity::getCaseActivity</page_callback>
+     <page_callback>CRM_Activity_Page_AJAX::getCaseActivity</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
   </item>    
 </menu>
