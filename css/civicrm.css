@@ -134,6 +134,7 @@ div.spacer, .spacer {
   font-weight: bold;
   padding: 5px 15px 5px 0px;
   font-size: .95em;
+  white-space: normal;
 }
 
 #crm-container .section-hidden dt {
