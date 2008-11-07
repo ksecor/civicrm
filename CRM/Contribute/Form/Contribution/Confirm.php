@@ -358,7 +358,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         // set email for primary location.
         $fields["email-Primary"] = 1;
-        $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        
+        // don't create primary email address, just add it to billing location
+        //$params["email-Primary"] = $params["email-{$this->_bltID}"];
         
         // get the add to groups
         $addToGroups = array( );
@@ -421,9 +423,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         }
         
-        //unset billing email address before contact creation
-        unset($params["email-{$this->_bltID}"] );
-
         if ( ! isset( $contactID ) ) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
