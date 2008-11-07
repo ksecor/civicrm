@@ -64,25 +64,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         switch ( $args[2] ) {
 
 
-        case 'template':
-	  require_once "CRM/Mailing/Page/AJAX.php";
-	  return CRM_Mailing_Page_AJAX::template( $config );
-
-        // civicrm/ajax/custom -> CRM/           
-        case 'custom':
-            require_once "CRM/Core/Page/AJAX/Contact.php";
-            return CRM_Core_Page_AJAX_Contact::customField( $config );
-
-        // civicrm/ajax/contact -> Core/Page/Ajax/Search.php
-        case 'contact':
-	    require_once "CRM/Core/Page/AJAX/Search.php";
-	    return CRM_Core_Page_AJAX_Search::contact( $config );
-
-        // civicrm/ajax/           
-        case 'employer':
-            require_once "CRM/Core/Page/AJAX/Contact.php";
-            return CRM_Core_Page_AJAX_Contact::getPermissionedEmployer( $config );
-
         // civicrm/ajax/           
         case 'mapper':
             require_once 'CRM/Core/Page/AJAX/Mapper.php';
@@ -93,36 +74,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
                 return eval( "return CRM_Core_Page_AJAX_Mapper::{$args[3]}( " . ' $config ); ' );
             }
             exit( );
-
-        // civicrm/ajax/           
-        case 'groupTree':
-            require_once "CRM/Core/Page/AJAX/Contact.php";
-            return CRM_Core_Page_AJAX_Contact::groupTree( $config );
-
-        // civicrm/ajax/           
-        case 'permlocation':
-            require_once "CRM/Core/Page/AJAX/Location.php";        
-            return CRM_Core_Page_AJAX_Location::getPermissionedLocation( $config );
-
-        // civicrm/ajax/           
-        case 'activity':
-            require_once 'CRM/Core/Page/AJAX/Activity.php';
-            return CRM_Core_Page_AJAX_Activity::getCaseActivity( $config );
-
-        // civicrm/ajax/           
-        case 'activitytypelist':
-            require_once 'CRM/Core/Page/AJAX/Activity.php';
-            return CRM_Core_Page_AJAX_Activity::getActivityTypeList( $config );
-
-        // civicrm/ajax/           
-        case 'contactlist':
-            require_once 'CRM/Core/Page/AJAX/Contact.php';
-            return CRM_Core_Page_AJAX_Contact::getContactList( $config );
-
-        // civicrm/ajax/                       
-        case 'relation':
-            require_once 'CRM/Core/Page/AJAX/Contact.php';
-            return CRM_Core_Page_AJAX_Contact::relationship( $config );
 
         default:
 	  return;

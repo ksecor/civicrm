@@ -140,4 +140,9 @@
      <access_arguments>access CiviMail</access_arguments>
      <weight>695</weight>
   </item>
+  <item>
+     <path>civicrm/ajax/template</path>
+     <page_callback>CRM_Mailing_Page_AJAX::template</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+  </item>  
 </menu>

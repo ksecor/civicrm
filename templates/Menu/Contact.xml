@@ -197,9 +197,40 @@
     <path>civicrm/ajax/status</path>
     <page_callback>CRM_Core_Page_AJAX_Import::status</page_callback>
   </item>
-
-  <item>
+<item>
     <path>civicrm/ajax/search</path>
     <page_callback>CRM_Core_Page_AJAX_Search::search</page_callback>
-  </item>
+</item>
+<item>
+     <path>civicrm/ajax/relation</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::relationship</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/contactlist</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::getContactList</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/groupTree</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::groupTree</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/permlocation</path>
+     <page_callback>CRM_Core_Page_AJAX_Location::getPermissionedLocation</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/employer</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::getPermissionedEmployer</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/contact</path>
+     <page_callback>CRM_Core_Page_AJAX_Search::contact</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/custom</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::customField</page_callback>
+</item>
+<item>
+     <path>civicrm/ajax/custom</path>
+     <page_callback>CRM_Core_Page_AJAX_Contact::customField</page_callback>
+</item>
 </menu>

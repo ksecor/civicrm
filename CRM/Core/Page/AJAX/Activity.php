@@ -37,7 +37,7 @@
  */
 class CRM_Core_Page_AJAX_Activity
 {
-    static function getCaseActivity( &$config ) 
+    static function getCaseActivity( ) 
     {
         $caseID     = CRM_Utils_Type::escape( $_GET['caseID'], 'Integer' );
         $contactID  = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
