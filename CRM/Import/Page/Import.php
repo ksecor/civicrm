@@ -36,7 +36,7 @@
 /**
  * This class contains all the function that are called using AJAX (dojo)
  */
-class CRM_Core_Page_AJAX_Import
+class CRM_Import_Page_AJAX
 {
  
     /**

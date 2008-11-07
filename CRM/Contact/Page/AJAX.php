@@ -35,7 +35,7 @@
 /**
  * This class contains all contact related functions that are called using AJAX (jQuery)
  */
-class CRM_Core_Page_AJAX_Contact
+class CRM_Contact_Page_AJAX
 {
     static function getContactList( &$config ) 
     {

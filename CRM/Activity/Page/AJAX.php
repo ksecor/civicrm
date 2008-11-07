@@ -35,7 +35,7 @@
 /**
  * This class contains all the function that are called using AJAX (jQuery)
  */
-class CRM_Core_Page_AJAX_Activity
+class CRM_Activity_Page_AJAX
 {
     static function getCaseActivity( ) 
     {
