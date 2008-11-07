@@ -143,6 +143,6 @@
   <item>
      <path>civicrm/ajax/template</path>
      <page_callback>CRM_Mailing_Page_AJAX::template</page_callback>
-     <access_arguments>access CiviMail</access_arguments>
+     <access_arguments>access CiviCRM,access CiviMail</access_arguments>
   </item>  
 </menu>

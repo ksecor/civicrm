@@ -54,7 +54,6 @@
   <item>
      <path>civicrm/ajax/memType</path>
      <page_callback>CRM_Member_Page_AJAX::getMemberTypeDefaults</page_callback>
-     <access_arguments>access CiviMember</access_arguments>
-     <weight>730</weight>
+     <access_arguments>access CiviCRM,access CiviMember</access_arguments>
   </item>  
 </menu>

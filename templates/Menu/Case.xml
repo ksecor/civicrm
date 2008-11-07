@@ -45,6 +45,6 @@
   <item>
     <path>civicrm/ajax/caseSubject</path>
     <page_callback>CRM_HRDCase_Page_AJAX::caseSubject</page_callback>
-    <access_arguments>access CiviCase</access_arguments>
+    <access_arguments>access CiviCRM,access CiviCase</access_arguments>  
   </item>
 </menu>
