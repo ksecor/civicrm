@@ -116,32 +116,13 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
             //set defaults for country-state dojo widget
             if ( ! empty ( $defaults['location'] ) ) {
-                $countries      =& CRM_Core_PseudoConstant::country( );
-                $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-                
                 foreach ( $defaults['location'] as $key => $value ) {
                     if ( isset( $value['address'] ) ) {
-                        
-                        // hack, check if we have created a country element
-                        if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                            $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
-                            
-                            if ( !$countryValue && isset($value['address']['country_id']) ) {
-                                $countryValue = $value['address']['country_id'];
-                            }
-                            
-                            $this->assign( "country_{$key}_value"   ,  $countryValue );
-                        }
-                        
-                        if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                            $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                            
-                            if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                                $stateValue = $value['address']['state_province_id'];
-                            }
-                            
-                            $this->assign( "state_province_{$key}_value", $stateValue );
-                        }
+                        CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                                  "location[$key][address][country_id]",
+                                                                  "location[$key][address][state_province_id]",
+                                                                  CRM_Utils_Array::value( 'country_id',
+                                                                                          $value['address'] ) );
                     }
                 }
             }

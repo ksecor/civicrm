@@ -214,6 +214,30 @@ class CRM_Contact_Form_Address
             }
         }             
     }
+
+    static function fixStateSelect( &$form,
+                                    $countryElementName,
+                                    $stateElementName,
+                                    $countryDefaultValue ) {
+        $countryID = null;
+        if ( isset( $form->_elementIndex[$countryElementName] ) ) {
+            $countryValue = $form->getElementValue( $countryElementName );
+            if ( $countryValue ) {
+                $countryID = $countryValue[0];
+            } else {
+                $countryID = $countryDefaultValue;
+            }
+        }
+        if ( $countryID &&
+             isset( $form->_elementIndex[$stateElementName] ) ) {
+            $form->addElement( 'select',
+                               $stateElementName,
+                               ts( 'State/Province' ),
+                               array( '' => ts( '- select -' ) ) +
+                               CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
+        }
+    }
+
 }
 
 

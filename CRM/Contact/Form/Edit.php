@@ -272,11 +272,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     if ( $config->defaultContactCountry ) {
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                         $locationID = $i+1;
-                        $this->addElement( 'select',
-                                           "location[$locationID][address][state_province_id]",
-                                           ts( 'State/Province' ),
-                                           array( '' => ts( '- select -' ) ) +
-                                           CRM_Core_PseudoConstant::stateProvinceForCountry( $config->defaultContactCountry ) );
+                        CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                                  "location[$locationID][address][country_id]",
+                                                                  "location[$locationID][address][state_province_id]",
+                                                                  $config->defaultContactCountry );
                     }
                 }
             }
@@ -355,21 +354,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( ! empty ( $defaults['location'] ) ) {
             foreach ( $defaults['location'] as $key => $value ) {
                 if ( isset( $value['address'] ) ) {
-                    if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
-                        if ( $countryValue ) {
-                            $countryValue = $countryValue[0];
-                        } else if ( isset($value['address']['country_id']) ) {
-                            $countryValue = $value['address']['country_id'];
-                        }
-                        if ( $countryValue ) {
-                            $this->addElement( 'select',
-                                               "location[$key][address][state_province_id]",
-                                               ts( 'State/Province' ),
-                                               array( '' => ts( '- select -' ) ) +
-                                               CRM_Core_PseudoConstant::stateProvinceForCountry( $countryValue ) );
-                        }
-                    }
+                    CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                              "location[$key][address][country_id]",
+                                                              "location[$key][address][state_province_id]",
+                                                              CRM_Utils_Array::value( 'country_id',
+                                                                                      $value['address'] ) );
+
                     if ( isset( $value['address']['display']) ) {
                         $this->assign( "location_{$key}_address_display", 
                                        str_replace("\n", "<br/>", $value['address']['display']) );
