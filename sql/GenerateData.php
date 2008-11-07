@@ -1119,7 +1119,7 @@ class CRM_GCD {
                 require_once 'CRM/Activity/DAO/Activity.php';
                 $activityDAO =& new CRM_Activity_DAO_Activity();
                 $activityDAO->source_contact_id     = $contactDAO->id;
-                $activityTypeID = mt_rand(1, 3);
+                $activityTypeID = mt_rand(7, 10);
                 require_once 'CRM/Core/PseudoConstant.php';
                 $activity = CRM_Core_PseudoConstant::activityType( ); 
                 $activityDAO->activity_type_id = $activityTypeID;
@@ -1129,7 +1129,7 @@ class CRM_GCD {
                 $activityDAO->status_id = 2;
                 $this->_insert($activityDAO);
                 
-                if ($activityTypeID < 4 ) { 
+                if ($activityTypeID == 6 ) { 
                     require_once 'CRM/Activity/DAO/ActivityTarget.php';
                     $activityTargetDAO =& new CRM_Activity_DAO_ActivityTarget();
                     $activityTargetDAO->activity_id = $activityDAO->id ;
@@ -1137,7 +1137,7 @@ class CRM_GCD {
                     $this->_insert($activityTargetDAO);
                 }
 
-                if ($activityTypeID <3 ) { 
+                if ($activityTypeID == 7 ) { 
                     require_once 'CRM/Activity/DAO/ActivityAssignment.php';
                     $activityAssignmentDAO =& new CRM_Activity_DAO_ActivityAssignment();
                     $activityAssignmentDAO->activity_id = $activityDAO->id ;
@@ -1466,51 +1466,51 @@ VALUES
         ( ". $randomContacts[1]  .", 2, 2, 2, '2005-05-07', 'Credit Card', 'Soprano', 0, 50),
         ( ". $randomContacts[2]  .", 3, 3, 3, '2005-05-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800) ,
         ( ". $randomContacts[3]  .", 1, 4, 4, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[4]  .", 1, 1, 1, '2005-01-10', 'Check', 'Soprano', 0, 50),
-        ( ". $randomContacts[5]  .", 2, 2, 2, '2005-03-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[6]  .", 3, 3, 3, '2006-07-21', 'Direct Transfer', 'Single', 0, 50),
-        ( ". $randomContacts[7]  .", 1, 4, 4, '2006-03-07', 'Credit Card', 'Soprano', 0, 50),
+        ( ". $randomContacts[4]  .", 2, 1, 1, '2005-01-10', 'Check', 'Soprano', 0, 50),
+        ( ". $randomContacts[5]  .", 3, 2, 2, '2005-03-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[6]  .", 1, 3, 3, '2006-07-21', 'Direct Transfer', 'Single', 0, 50),
+        ( ". $randomContacts[7]  .", 2, 4, 4, '2006-03-07', 'Credit Card', 'Soprano', 0, 50),
         ( ". $randomContacts[8]  .", 3, 1, 1, '2005-02-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[9]  .", 1, 2, 2, '2005-02-01', 'Check', 'Single', 0, 50),
         ( ". $randomContacts[10]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
         ( ". $randomContacts[11]  .", 3, 4, 4, '2006-03-06', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[12]  .", 1, 1, 2, '2005-06-04', 'Credit Card', 'Single', 0, 50),
         ( ". $randomContacts[13]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[14]  .", 2, 4, 1, '2005-07-04', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[14]  .", 3, 4, 1, '2005-07-04', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[15]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
         ( ". $randomContacts[16]  .", 2, 2, 3, '2005-01-10', 'Credit Card', 'Soprano', 0, 50),
         ( ". $randomContacts[17]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[18]  .", 1, 2, 1, '2005-10-21', 'Direct Transfer', 'Single', 0, 50),
         ( ". $randomContacts[19]  .", 2, 4, 1, '2006-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[20]  .", 2, 1, 4, '2005-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[20]  .", 3, 1, 4, '2005-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[21]  .", 1, 2, 3, '2006-10-21', 'Direct Transfer', 'Single', 0, 50),
         ( ". $randomContacts[22]  .", 2, 4, 1, '2005-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[23]  .", 2, 3, 1, '2005-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[23]  .", 3, 3, 1, '2005-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[24]  .", 3, 2, 2, '2005-04-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[25]  .", 1, 1, 1, '2006-01-21', 'Check', 'Single', 0, 50),
         ( ". $randomContacts[26]  .", 2, 2, 2, '2007-05-07', 'Credit Card', 'Soprano', 0, 50),
         ( ". $randomContacts[27]  .", 3, 3, 3, '2007-05-05', 'Direct Transfer', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[28]  .", 1, 4, 4, '2007-10-21', 'Credit Card', 'Single', 0, 50),
-        ( ". $randomContacts[29]  .", 1, 1, 1, '2007-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[30]  .", 2, 2, 2, '2007-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
-        ( ". $randomContacts[31]  .", 3, 3, 3, '2006-07-21', 'Check', 'Single', 0, 50),
-        ( ". $randomContacts[32]  .", 1, 4, 4, '2006-03-07', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[29]  .", 2, 1, 1, '2007-01-10', 'Direct Transfer', 'Soprano', 0, 50),
+        ( ". $randomContacts[30]  .", 3, 2, 2, '2007-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[31]  .", 1, 3, 3, '2006-07-21', 'Check', 'Single', 0, 50),
+        ( ". $randomContacts[32]  .", 2, 4, 4, '2006-03-07', 'Direct Transfer', 'Soprano', 0, 50),
         ( ". $randomContacts[33]  .", 3, 1, 1, '2007-02-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[34]  .", 1, 2, 2, '2007-02-01', 'Direct Transfer', 'Single', 0, 50),
         ( ". $randomContacts[35]  .", 2, 3, 3, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
         ( ". $randomContacts[36]  .", 3, 4, 4, '2006-03-06', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[37]  .", 1, 1, 2, '2007-06-04', 'Direct Transfer', 'Single', 0, 50),
         ( ". $randomContacts[38]  .", 2, 2, 3, '2004-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[39]  .", 2, 4, 1, '2007-07-04', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[39]  .", 3, 4, 1, '2007-07-04', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[40]  .", 1, 4, 2, '2006-01-21', 'Credit Card', 'Single', 0, 50),
         ( ". $randomContacts[41]  .", 2, 2, 3, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
         ( ". $randomContacts[42]  .", 3, 3, 1, '2006-03-05', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[43]  .", 1, 2, 1, '2007-10-21', 'Direct Transfer', 'Single', 0, 50),
         ( ". $randomContacts[44]  .", 2, 4, 1, '2006-01-10', 'Direct Transfer', 'Soprano', 0, 50),
-        ( ". $randomContacts[45]  .", 2, 1, 4, '2007-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[45]  .", 3, 1, 4, '2007-03-25', 'Check', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[46]  .", 1, 2, 3, '2006-10-21', 'Credit Card', 'Single', 0, 50),
         ( ". $randomContacts[47]  .", 2, 4, 1, '2007-01-10', 'Credit Card', 'Soprano', 0, 50),
-        ( ". $randomContacts[48]  .", 2, 3, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
+        ( ". $randomContacts[48]  .", 3, 3, 1, '2007-03-11', 'Credit Card', 'Tiny-tots (ages 5-8)', 0, 800),
         ( ". $randomContacts[49]  .", 3, 2, 2, '2007-04-05', 'Check', 'Tiny-tots (ages 5-8)', 0, 800);
 ";
         CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
