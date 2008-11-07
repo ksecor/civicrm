@@ -357,7 +357,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 if ( isset( $value['address'] ) ) {
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
-                        if ( !$countryValue && isset($value['address']['country_id']) ) {
+                        if ( $countryValue ) {
+                            $countryValue = $countryValue[0];
+                        } else if ( isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
                         }
                         if ( $countryValue ) {
@@ -365,7 +367,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                "location[$key][address][state_province_id]",
                                                ts( 'State/Province' ),
                                                array( '' => ts( '- select -' ) ) +
-                                               CRM_Core_PseudoConstant::stateProvinceForCountry( $config->defaultContactCountry ) );
+                                               CRM_Core_PseudoConstant::stateProvinceForCountry( $countryValue ) );
                         }
                     }
                     if ( isset( $value['address']['display']) ) {
