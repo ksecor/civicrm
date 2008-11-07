@@ -272,7 +272,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
             require_once 'CRM/Core/BAO/PriceField.php';                       
-            foreach ( $form->_values['custom']['fields'] as $field ) {
+            foreach ( $form->_values['fee']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
                 if ( $button == 'skip' ) {
@@ -282,8 +282,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
                 CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
-        } else if ( ! empty( $form->_values['custom'] ) ) {
-            $form->_feeBlock =& $form->_values['custom'];
+        } else if ( ! empty( $form->_values['fee'] ) ) {
+            $form->_feeBlock =& $form->_values['fee'];
 
             if ( isset( $form->_values['discount'] ) ) {
                 if ( ! isset( $discountId ) &&
@@ -510,12 +510,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
             } else if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] =
-                    $this->_values['custom'][$params['amount']]['label'];
+                    $this->_values['fee'][$params['amount']]['label'];
                 $params['amount'] =
-                    $this->_values['custom'][$params['amount']]['value'];
+                    $this->_values['fee'][$params['amount']]['value'];
             } else {
                 $lineItem = array( );
-                self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
+                self::processPriceSetAmount( $this->_values['fee']['fields'], $params, $lineItem );
                 $priceSet   = array();
                 $priceSet[] = $lineItem;
                 $this->set( 'lineItem', $priceSet );

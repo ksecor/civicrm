@@ -222,23 +222,18 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
                 
                 if ( ! empty( $this->_values['discount'][$discountId] ) ) {
-                    $params['discount_id'] = $discountId;
-                    $params['amount_level'] = $this->_values['discount'][$discountId]['label']
-                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    $params['discount_id']  = $discountId;
+                    $params['amount_level'] = $this->_values['discount'][$discountId][$params['amount']]['label'];
+                    $params['amount']       = $this->_values['discount'][$discountId][$params['amount']]['value'];
                     
-                    $params['amount'] = $this->_values['discount'][$discountId]['value']
-                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                    
-                }else if ( empty( $params['priceSetId'] ) ) {
-                    $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                                              $this->_values['custom']['amount_id'])];
-                    
-                    $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                                              $this->_values['custom']['amount_id'])];
+                } else if ( empty( $params['priceSetId'] ) ) {
+                    $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
+                    $params['amount']       = $this->_values['fee'][$params['amount']]['value'];
+
                 } else {
                     $lineItem = array( ); 
                     require_once 'CRM/Event/Form/Registration/Register.php';
-                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['fee']['fields'], 
                                                                                  $params, $lineItem );
                     //build the line item..
                     if ( array_key_exists( $addParticipantNum, $this->_lineItem ) ) {

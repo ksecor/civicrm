@@ -617,13 +617,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'amount_level', $params['amount_level'] );
 
             } else if ( ! isset( $params['priceSetId'] ) ) {
-                $params['amount_level'] = $this->_values['custom'][$params['amount']]['label'];
-                $params['amount']       = $this->_values['custom'][$params['amount']]['value'];
+                $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
+                $params['amount']       = $this->_values['fee'][$params['amount']]['value'];
                 $this->assign( 'amount_level', $params['amount_level'] );
 
             } else {
                 $lineItem = array( );
-                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['fee']['fields'], 
                                                                              $params, $lineItem[0] );
                 $this->set( 'lineItem', $lineItem );
                 $this->assign( 'lineItem', $lineItem );
