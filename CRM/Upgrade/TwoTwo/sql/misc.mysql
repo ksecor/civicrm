@@ -102,7 +102,7 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 -- CRM-3573 
 -- added column case_id in civicrm_relationship table.
 -- added columns medium, is_auto, relationship_id fileds in civicrm_activity.
--- create new table civicrm_activity_type.
+-- create new table civicrm_category.
 -- added value'Case' in civicrm_custom_group.
 
 ALTER TABLE `civicrm_relationship`
@@ -115,16 +115,20 @@ ALTER TABLE `civicrm_activity`
   ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
   ADD CONSTRAINT FK_civicrm_relationship_id FOREIGN KEY (relationship_id) REFERENCES civicrm_relationship(id) ON DELETE SET NULL;
 
-CREATE TABLE IF NOT EXISTS `civicrm_activity_type` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Activity type id',
-  `label` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Activity Type string as displayed to users.',
-  `weight` int(11) default '1' COMMENT 'Order in which the activity types should appear',
-  `description` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Optional verbose description for the activity type.',
-  `is_active` tinyint(4) default '1' COMMENT 'is the activity type active ?',
-  `is_reserved` tinyint(4) default '0' COMMENT 'is the activity type reserved ?',
-  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Activity Type ID (if this is a Category).for storing hierarchical categorisation',
+CREATE TABLE IF NOT EXISTS `civicrm_category` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'category id',
+  `label` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Category label string as displayed to users.',
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Variable name/programmatic handle for this category.',
+  `weight` int(11) default '1' COMMENT 'Order in which the subtypes should appear',
+  `description` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Optional verbose description for the category.',
+  `is_active` tinyint(4) default '1' COMMENT 'is the Category active ?',
+  `is_reserved` tinyint(4) default '0' COMMENT 'is the Category reserved ?',
+  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Category ID (if this is a Category).for storing hierarchical categorisation',
+  `component_id` int(10) unsigned default NULL COMMENT 'Component that this option value belongs/caters to.',
+  `is_auto` tinyint(4) default '0' COMMENT 'Is this activity type used by programmatically created activities?',
   PRIMARY KEY  (`id`),
-  KEY `FK_civicrm_activity_type_parent_id` (`parent_id`)
+  KEY `FK_civicrm_category_parent_id` (`parent_id`),
+  KEY `FK_civicrm_category_component_id` (`component_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 ALTER TABLE `civicrm_custom_group`
