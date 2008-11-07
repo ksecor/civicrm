@@ -844,11 +844,11 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                                 "country_id"
                                 );
 
-        // build address array 
+        //build address array 
         $addressParams = array( );
         $addressParams['location_type_id'] = 5;
         $addressParams['is_billing'] = 1;
-        $addressParams['address_name'] = "{$params['billing_first_name']} {$params['billing_middle_name']} {$params['billing_lastt_name']}";
+        $addressParams['address_name'] = "{$params['billing_first_name']} {$params['billing_middle_name']} {$params['billing_last_name']}";
         
         foreach ( $billingFields as $value ) {
             $addressParams[$value] = $params["{$value}-{$billingID}"];
