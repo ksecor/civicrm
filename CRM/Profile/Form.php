@@ -318,6 +318,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         $addCaptcha   = array();
         $emailPresent = false;
 
+        // cache the state country fields. based on the results, we could use our javascript solution
+        // in create or register mode
+        $stateCountryMatch = array( );
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -332,6 +336,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                  substr( $name, 0, 5 ) == 'email' ) {
                 unset( $this->_fields[$name] );
                 continue;
+            }
+
+            list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $name, 2 );
+            if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                if ( ! array_key_exists( $index, $stateCountryMatch ) ) {
+                    $stateCountryMatch[$index] = array( );
+                }
+                $stateCountryMatch[$index][$prefixName] = 1;
             }
             
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
@@ -403,6 +415,23 @@ class CRM_Profile_Form extends CRM_Core_Form
             
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
+
+            // also do state country js
+            if ( ! empty( $stateCountryMatch ) ) {
+                $stateID = $countryID = array( );
+                foreach ( $stateCountryMatch as $match ) {
+                    if ( array_key_exists( 'state_province', $match ) &&
+                         array_key_exists( 'country', $match ) ) {
+                        $countryID[] = "country-$index";
+                        $stateID[]   = "state_province-$index";
+                    }
+                }
+
+                if ( ! empty( $countryID ) ) {
+                    $this->assign_by_ref( 'countryID', $countryID );
+                    $this->assign_by_ref( 'stateID'  , $stateID   );
+                }
+            }
         }
 
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );

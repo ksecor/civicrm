@@ -97,8 +97,6 @@ class CRM_Contact_Form_Address
                     if ( $name == 'country_id' ) {
                         $countryID[$locationId] = "location_{$locationId}_address_{$name}";
                         $form->assign_by_ref( 'countryID', $countryID );
-                        $form->assign( 'callbackURL',
-                                       CRM_Utils_System::url( 'civicrm/ajax/jqState' ) );
                         $selectOptions = array('' => ts('- select -')) + 
                             CRM_Core_PseudoConstant::country( );
                     } else {

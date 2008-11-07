@@ -128,8 +128,10 @@ SELECT module
         $ufGroup =& new CRM_Core_DAO_UFGroup( );
         
         $ufGroup->id = $this->_gid;
-        $ufGroup->find(true);
-
+        if ( ! $ufGroup->find(true) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
         // set the title
         CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
@@ -183,7 +185,7 @@ SELECT module
         }
 
         parent::buildQuickForm( );
-        
+
         //get the value from session, this is set if there is any file
         //upload field
         $uploadNames = $this->get('uploadNames');
