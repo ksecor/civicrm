@@ -33,12 +33,10 @@
  *
  */
 
-require_once 'CRM/Core/Page/AJAX.php';
-
 /**
  * This class contains all the function that are called using AJAX (dojo)
  */
-class CRM_Core_Page_AJAX extends CRM_Core_Page_AJAX_Import 
+class CRM_Core_Page_AJAX_Import
 {
  
     /**
