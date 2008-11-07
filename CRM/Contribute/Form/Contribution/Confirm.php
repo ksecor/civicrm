@@ -421,6 +421,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         }
         
+        //unset billing email address before contact creation
+        unset($params["email-{$this->_bltID}"] );
+
         if ( ! isset( $contactID ) ) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
