@@ -380,31 +380,44 @@ class CRM_Core_PseudoConstant
     }
 
     /**
-     * Get all Activty types.
+     * Get Activity types from civicrm_category table.
      *
-     * The static array activityType is returned
-     * @param boolean $all - get All Activity  types - default is to get only active ones.
+     * The static array activityType is returned.
+     * Only Activity Type records are returned. Category records (where parent_id = NULL) are ignored.
+     *
+     * @param boolean   $is_auto - filter on is_auto column. Default ('both')  gets both is_auto and ! is_auto types
+     * @param int       $component - filter on component_id. Default ('core') gets Core activity types. Use null to get activities for ALL components.
+     * @param string    $returnValue - which column to return in array values
      *
      * @access public
      * @static
      *
-     * @return array - array reference of all activty types.
+     * @return array - array of activity types.
      */
-    public static function &activityType( $is_auto = null, $component = null, $returnValue = 'label' )
+    
+    public static function &activityType( $component = 'core', $is_auto = 'both', $category = array(), $returnValue = 'label' )
     {
-        $index = "{$is_null}_{$component}";
+        $index = "{$is_auto}_{$component}_{$returnValue})";
 
         if ( ! array_key_exists( $index, self::$activityType ) ) {
             $condition = 'parent_id IS NOT NULL';
-            if ( $is_auto ) {
+            if ( $is_auto != 'both' ) {
+                ( $is_auto ) ? $is_auto = 1 : $is_auto = 0;
                 $condition .= " AND is_auto = $is_auto";
             }
-            if ( !$component ) {
-                $condition .= " AND component_id IS NULL";
-            } else {
-                $condition .= " AND component_id = $component";
+            if ( $component ) {
+                if ( $component == 'core' ) {
+                    $condition .= " AND component_id IS NULL";
+                } else {
+                    $condition .= " AND component_id = $component";
+                }
             }
-
+            if ( count( $category ) ) {
+                // FIXME - need foreach loop on $category here
+                $condition .= " AND 1 = 1";
+            }
+                
+            // CRM_Core_Error::debug($condition);
             self::$activityType[$index] = array();
             CRM_Core_PseudoConstant::populate( self::$activityType[$index],
                                                'CRM_Core_DAO_Category', true, 

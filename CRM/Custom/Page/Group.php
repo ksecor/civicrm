@@ -256,10 +256,11 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         
         //fix for Displaying subTypes  
         $subTypes= array();
-        require_once "CRM/Contribute/PseudoConstant.php";
-        require_once "CRM/Member/BAO/MembershipType.php";
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once 'CRM/Core/OptionGroup.php';
         
-        $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType();
+        $subTypes['Activity']     = CRM_Core_PseudoConstant::activityType( null, false );
         $subTypes['Contribution'] = CRM_Contribute_PseudoConstant::contributionType( );
         $subTypes['Membership']   = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $subTypes['Event']        = CRM_Core_OptionGroup::values('event_type');

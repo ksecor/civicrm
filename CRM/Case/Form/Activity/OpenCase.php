@@ -103,14 +103,33 @@ class CRM_Case_Form_Activity_OpenCase
             $form->addElement('text',   'last_name',   ts('Last Name'),   
                               $attributes['last_name'] );
             //Primary Phone 
-            $form->addElement('select'  , "location[1][location_type_id]", null,  array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+            if ( ! $locType ) {
+                $locType = CRM_Core_PseudoConstant::locationType( );
+            }
+            $form->addElement('select',
+                              "location[1][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
+            if ( ! $phoneType ) {
+                $phoneType = CRM_Core_PseudoConstant::phoneType( );
+            }
+            $form->addElement('select',
+                              "location[1][phone][1][phone_type_id]",
+                              $label,
+                              array('' =>  ts('- type -'))+$phoneType,
+                              null
+                              );
             $form->addElement('text',
                               "location[1][phone][1][phone]", 
                               ts('Primary Phone'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                          'phone'));
             //Additional Phone 
-            $form->addElement('select'  , "location[2][location_type_id]", null,  array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+            $form->addElement('select'  , "location[2][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
+            $form->addElement('select',
+                              "location[2][phone][1][phone_type_id]",
+                              $label,
+                              array('' =>  ts('- type -'))+$phoneType,
+                              null
+                              );
             $form->addElement('text',
                               "location[2][phone][1][phone]", 
                               ts('Additional Phone'),

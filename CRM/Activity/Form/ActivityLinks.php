@@ -53,11 +53,8 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
                                       $urlParams, false, null, false ); 
 
-        $activityType = CRM_Core_PseudoConstant::activityType( false );
-        
-        //unset Phone and Meeting
-        unset( $activityType[1] );
-        unset( $activityType[2] );
+        // Exclude built-in core activities (Phone and Meeting) by specifiying Core Activities - Custom category
+        $activityType = CRM_Core_PseudoConstant::activityType( 'core', false, array( 'Core Activities - Custom' ) );
 
         $this->assign( 'emailSetting', false );
         require_once 'CRM/Utils/Mail.php';

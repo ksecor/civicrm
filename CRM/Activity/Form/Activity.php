@@ -492,7 +492,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $url = CRM_Utils_System::url( 'civicrm/activity', 
                                           $urlParams, false, null, false ); 
             
-            $activityType = CRM_Core_PseudoConstant::activityType( false );
+            $activityType = CRM_Core_PseudoConstant::activityType( 0, 'core' );
 
             $this->add( 'select', 'activity_type_id', ts('Activity Type'),
                         array('' => ts('- select activity -')) + $activityType,
