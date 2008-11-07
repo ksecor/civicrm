@@ -1,5 +1,4 @@
 {* This file provides the HTML for the on-behalf-of form. Can also be used for related contact edit form. *}
-
 <fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
 
@@ -63,6 +62,7 @@
 
 {* Display the address block *}
 {assign var=index value=1}
+{include file="CRM/common/stateCountry.tpl"}
 
 {if $contactEditMode}
   <fieldset><legend>{ts}Phone and Email{/ts}</legend>
@@ -137,15 +137,16 @@
             </td>
         </tr>
         {/if}
-        {if $addressSequenceCountry}
+        {if $addressSequence.country}
         <tr>
-            <td>{$form.location.$index.address.country_state.label}</td>
-            <td>{$form.location.$index.address.country_state.html}{if $addressSequenceState} - <span class="tundra"><span id="id_location[1][address][country_state]_1"></span></span>{/if}
-                <br class="spacer"/>
-                <span class="description font-italic">
-                    {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
-                </span>
-            </td>
+            <td>{$form.location.$index.address.country_id.label}</td>
+            <td>{$form.location.$index.address.country_id.html}</td>
+        </tr>
+        {/if}
+        {if $addressSequence.state_province}
+        <tr>
+            <td>{$form.location.$index.address.state_province_id.label}</td>
+            <td>{$form.location.$index.address.state_province_id.html}</td>
         </tr>
         {/if}
         {if $contactEditMode}

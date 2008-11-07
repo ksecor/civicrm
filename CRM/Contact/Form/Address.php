@@ -49,7 +49,7 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId)
+    static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
     {
         static $countryID = array( );
         static $stateID = array( );
@@ -104,7 +104,12 @@ class CRM_Contact_Form_Address
                     } else {
                         $stateID[$locationId] = "location_{$locationId}_address_{$name}";
                         $form->assign_by_ref( 'stateID', $stateID );
-                        $selectOptions = array( '' => ts( '- select a country -' ) );
+                        if ( $countryDefault ) {
+                            $selectOptions = array('' => ts('- select -')) +
+                                CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
+                        } else {
+                            $selectOptions = array( '' => ts( '- select a country -' ) );
+                        }
                     }
                     $location[$locationId]['address'][$name] =
                         $form->addElement( 'select',
