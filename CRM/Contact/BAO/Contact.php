@@ -1322,67 +1322,6 @@ AND    civicrm_contact.id = %1";
             }
         }
        
-        if ($contactID) {
-            $objects = array( 'contact_id'      => 'contact',
-                              'individual_id'   => 'individual',
-                              'household_id'    => 'household',
-                              'organization_id' => 'organization',
-                              'location_id'     => 'location',
-                              'address_id'      => 'address'
-                              );
-            $ids = array( ); 
-            if ( is_array($contactDetails) ) {
-                foreach ($contactDetails as $key => $value) {
-                    if ( array_key_exists($key, $objects) ) {
-                        //add non location ids
-                        $ids[$objects[$key]] = $value;
-                    } else if (is_array($value)) {
-                        
-                        $locNo = array_search( $value['location_type_id'], $locationType );
-                        if ( ! $locNo ) {
-                            if ( is_numeric( $key ) ) {
-                                $locNo = $key;
-                            } else {
-                                $locNo = array_search( $key, $locationType );
-                            }
-                        }
-                        
-                        if ( ! $locNo ) {
-                            CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
-                        }
-
-                        foreach ($value as $k => $v) {
-                            if ( array_key_exists($k, $objects)) {
-                                if ( ! isset( $ids['location'] ) ||
-                                     ! is_array( $ids['location'] ) ) {
-                                   $ids['location'] = array( );
-                                }
-                                if ($k == 'location_id') {
-                                    $ids['location'][$locNo]['id'] = $v;
-                                    //store location type id
-                                    $ids['location'][$locNo]['location_type_id'] = $value['location_type_id'];
-                                } else {
-                                    $ids['location'][$locNo][$objects[$k]] = $v;
-                                }
-                            } else if (is_array($v)) {
-                                //build phone/email/im/openid ids
-                                if ( in_array ($k, array('phone', 'email', 'im', 'openid')) ) {
-                                    $no = 1;
-                                    foreach ($v as $k1 => $v1) {
-                                        if (substr($k1, strlen($k1) - 2, strlen($k1)) == "id") {
-                                            $ids['location'][$locNo][$k][$no] = $v1;
-                                            $no++;
-                                        }                                    
-                                    }
-                                } 
-                            }
-                        }
-                    }
-                }
-            }
-            
-        }
-        
         //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
         $privacy = CRM_Core_SelectValues::privacy( );
         foreach ($privacy as $key => $value) {
@@ -1419,9 +1358,7 @@ AND    civicrm_contact.id = %1";
         // contact is null if the profile does not have any contact fields
         if ( $contact ) {
           $contactID = $contact->id;
-        } else if ( array_key_exists( 'contact', $ids ) ) {
-          $contactID = $ids['contact'];
-        } 
+        }
         
         if ( ! $contactID ) {
           CRM_Core_Error::fatal( 'Cannot proceed without a valid contact id' );
