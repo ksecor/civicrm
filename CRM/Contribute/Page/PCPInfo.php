@@ -55,6 +55,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
      */
     function run()
     {
+        $session =& CRM_Core_Session::singleton( );
         //get the pcp id.
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
 
@@ -65,13 +66,14 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
         CRM_Utils_System::setTitle(ts($pcpInfo['title']));
         $this->assign('pcp', $pcpInfo );
-        
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, die a fatal death
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
         } else if ( $pcpInfo['status_id'] != 2 ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
             CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
         } else {
             $getStatus = CRM_Contribute_BAO_PCP::getStatus( $this->_id );
@@ -84,7 +86,29 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
                                          $pcpInfo['contribution_page_id'], $default, array( 'start_date', 'end_date' ) );
 
-
+        if( $pcpInfo['contact_id'] == $session->get( 'userID' ) ) {
+            $owner = $default[$pcpInfo['contribution_page_id']];
+            $owner['status'] = CRM_Utils_Array::value( $pcpInfo['status_id'], $pcpStatus );
+            $this->assign('owner', $owner );
+            
+            require_once 'CRM/Contribute/BAO/PCP.php';
+            $link  = CRM_Contribute_BAO_PCP::pcpLinks( );
+            unset($link['all'][CRM_Core_Action::ENABLE]);
+            $hints = array(
+                           CRM_Core_Action::UPDATE  => 'Allows you to change the way your PCP works and your personal information',
+                           CRM_Core_Action::DISABLE => 'Inactivates the page',
+                           CRM_Core_Action::DELETE  => 'Removes the page (this cannot be undone!)',
+                           CRM_Core_Action::DETACH  => 'Inform your friends about your Personal Campaign!'
+                           );
+            $blockId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $pcpInfo['contribution_page_id'], 'entity_id' );
+            $replace = array( 'id'    => $this->_id,
+                              'block' => $blockId );
+            
+            $this->assign( 'links'  , $link['all'] );
+            $this->assign( 'hints'  , $hints       );
+            $this->assign( 'replace', $replace     );
+        }
+        
         $query="
 SELECT id, pcp_roll_nickname ,  total_amount
 FROM civicrm_contribution
