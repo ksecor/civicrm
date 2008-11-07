@@ -704,9 +704,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams[$val] = $params[$val];
             }
         }
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
+
+        //create an contribution address
+        $contribParams['address_id']  = CRM_Contribute_BAO_Contribution::createAddress( $params );
+
+        //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-        
+                
         //handle pledge stuff.
         if ( !CRM_Utils_Array::value( 'separate_membership_payment', $form->_params ) &&
              CRM_Utils_Array::value('pledge_block_id', $form->_values ) && 
