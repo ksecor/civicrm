@@ -63,22 +63,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         switch ( $args[2] ) {
 
-        // civicrm/ajax/status -> CRM/Core/Page/Ajax/Import.php
-        case 'status':
-	    require_once "CRM/Core/Page/AJAX/Import.php";
-	    return CRM_Core_Page_AJAX_Import::status( $config );
-	    
-        // civicrm/ajax/pledgeName -> CRM/Pledge/Page/Ajax.php                       
-        case 'pledgeName':
-	    require_once "CRM/Pledge/Page/AJAX.php";
-	    return CRM_Pledge_Page_AJAX::pledgeName( $config );
 
-        // civicrm/ajax/caseSubject -> CRM/HRDCase/Page/Ajax.php
-        case 'caseSubject':
-	    require_once "CRM/HRDCase/Page/AJAX.php";
-	    return CRM_HRDCase_Page_AJAX::caseSubject( $config );
-
-        // civicrm/ajax/template -> CRM/Mail/Page/Ajax.php
         case 'template':
 	  require_once "CRM/Mailing/Page/AJAX.php";
 	  return CRM_Mailing_Page_AJAX::template( $config );
