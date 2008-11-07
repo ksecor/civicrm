@@ -89,10 +89,10 @@
           </td>
        </tr>
        <tr>
-          <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
+          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
        </tr>
        <tr>
-          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
+          <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
        </tr>
        <tr>
           <td colspan="2">{include file="CRM/Form/attachment.tpl"}</td>
@@ -133,6 +133,25 @@
         </tr>
     {/if}
        <tr>
+          <td colspan="2">
+            <div id="follow-up_show" class="section-hidden section-hidden-border">
+             <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+            </div>
+
+            <div id="follow-up" class="section-shown">
+            <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+                <table class="form-layout-compressed">
+                    <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
+                        <td>{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}<br />
+                            <span class="description">Begin typing to select from a list of available activity types.</span>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            </div>
+          </td>
+       </tr>
+       <tr>
           <td class="label">{$form.duration.label}</td>
           <td class="view-value">
             {$form.duration.html}
@@ -141,19 +160,6 @@
        </tr> 
        <tr>
           <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
-       </tr>
-       <tr>
-          <td colspan="2">
-            <div id="follow-up_show" class="section-hidden section-hidden-border">
-             <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
-            </div>
-
-            <div id="follow-up" class="section-shown">
-            <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
-             <label>{ts}Schedule Follow-up{/ts}</label>&nbsp;&nbsp;{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}
-            </fieldset>
-            </div>
-          </td>
        </tr>
        <tr>
           <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>

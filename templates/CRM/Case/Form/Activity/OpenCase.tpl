@@ -2,20 +2,14 @@
    <fieldset><legend>{ts}New Client{/ts}</legend>
 	<table class="form-layout-compressed">
     <tr>
-		<td>{$form.prefix_id.label}</td>
-		<td>{$form.first_name.label}</td>
-		<td>{$form.last_name.label}</td>
-		<td>{$form.suffix_id.label}</td>
-	</tr>
-	<tr>
-		<td>{$form.prefix_id.html}</td>
-		<td>{$form.first_name.html}</td>
-		<td>{$form.last_name.html}</td>
-		<td>{$form.suffix_id.html}</td>
+		<td><br />{$form.prefix_id.html}</td>
+		<td>{$form.first_name.label}<br />{$form.first_name.html}</td>
+		<td>{$form.last_name.label}<br />{$form.last_name.html}</td>
+		<td><br />{$form.suffix_id.html}</td>
 	</tr>
 	<tr>
         <td colspan="2">{$form.location.1.phone.1.phone.label}<br />
-            {$form.location.1.location_type_id.html}&nbsp;{$form.location.1.phone.1.phone.html}
+            {$form.location.1.location_type_id.html}&nbsp;{$form.location.1.phone.1.phone_type_id.html}&nbsp;{$form.location.1.phone.1.phone.html}
         </td>
         <td colspan="2">{$form.location.2.phone.1.phone.label}<br />
             {$form.location.2.location_type_id.html}&nbsp;{$form.location.2.phone.1.phone.html}
