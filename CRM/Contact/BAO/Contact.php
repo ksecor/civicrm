@@ -1151,6 +1151,11 @@ AND    civicrm_contact.id = %1";
                                 
                 $data['location'][$loc]['location_type_id'] = $locTypeId;
                 
+                //set is_billing true, for location type "Billing" 
+                if ( $locTypeId == 5 ) {
+                    $data['location'][$loc]['is_billing'] = 1;
+                }
+
                 if ( $contactID ) {
                     //get the primary location type
                     if ($locTypeId == $primaryLocationType) {
@@ -1162,7 +1167,7 @@ AND    civicrm_contact.id = %1";
                         $data['location'][$loc]['is_primary'] = 1;
                     }
                 }
-                
+                                    
                 if ($fieldName == 'phone') {
                     if ( !in_array($loc, $phoneReset) ) {
                         $phoneReset[] = $loc;
