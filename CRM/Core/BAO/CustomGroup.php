@@ -86,15 +86,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             $group->extends_entity_column_value = null;
         } else {
             $group->extends_entity_column_value = $params['extends'][1];
-            if ( $params['extends'][0] == 'ParticipantRole' ) {
-                $group->extends_entity_column_name = 'civicrm_participant.role_id';
-            } else if ( $params['extends'][0] == 'ParticipantEventName' ) {
-                $group->extends_entity_column_name = 'civicrm_event.title';
-            } else if ( $params['extends'][0] == 'ParticipantEventType' ) {
-                $group->extends_entity_column_name = 'civicrm_event.event_type_id';
-            }
+            if ( $params['extends'][0] == 'ParticipantRole' ||
+                 $params['extends'][0] == 'ParticipantEventName' ||
+                 $params['extends'][0] == 'ParticipantEventType' ) {
+                $group->extends_entity_column_name  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $params['extends'][0], 'value', 'name' );
+            } 
         }
-        
+
         $group->style            = CRM_Utils_Array::value('style', $params, false);
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 
@@ -209,7 +207,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                                      &$form,
                                      $entityID = null,
                                      $groupID  = null,
-                                     $subType  = null )
+                                     $subType  = null,
+                                     $subName  = null )
     {
         // create a new tree
         $groupTree = array();
@@ -277,6 +276,9 @@ WHERE civicrm_custom_group.is_active = 1
   AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
    OR   civicrm_custom_group.extends_entity_column_value IS NULL )
 ";
+            if ( $subName ) {
+                $strWhere .= " AND civicrm_custom_group.extends_entity_column_name = {$subName} ";
+            }
         } else {
             $strWhere = "
 WHERE civicrm_custom_group.is_active = 1 
