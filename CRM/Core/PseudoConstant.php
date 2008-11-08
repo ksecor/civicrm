@@ -385,39 +385,66 @@ class CRM_Core_PseudoConstant
      * The static array activityType is returned.
      * Only Activity Type records are returned. Category records (where parent_id = NULL) are ignored.
      *
-     * @param boolean   $is_auto - filter on is_auto column. Default ('both')  gets both is_auto and ! is_auto types
-     * @param int       $component - filter on component_id. Default ('core') gets Core activity types. Use null to get activities for ALL components.
+     * @param boolean   $is_auto - filter on is_auto column. Default ('both')  gets both is_auto and ! is_auto types.
+     *                  Use 'true' or 'false' to filter by is_auto.
+     * @param int       $component - filter on component name. Default ('core') gets Core activity types. Use null to get activities for ALL components.
+     * @param array     $category - Limit return to one or more specific categories by passing array of
+     *                  category names (e.g. civicrm_category.name strings)
      * @param string    $returnValue - which column to return in array values
      *
      * @access public
      * @static
      *
-     * @return array - array of activity types.
+     * @return array - array of activity types from civicrm_category table ( id => label ).
      */
     
-    public static function &activityType( $component = 'core', $is_auto = 'both', $category = array(), $returnValue = 'label' )
+    public static function &activityType( $component = 'Core', $is_auto = 'both', $category = array(), $returnValue = 'label' )
     {
         $index = "{$is_auto}_{$component}_{$returnValue})";
 
         if ( ! array_key_exists( $index, self::$activityType ) ) {
             $condition = 'parent_id IS NOT NULL';
-            if ( $is_auto != 'both' ) {
-                ( $is_auto ) ? $is_auto = 1 : $is_auto = 0;
-                $condition .= " AND is_auto = $is_auto";
+            switch ( $is_auto ) {
+                case 'true':
+                    $is_auto = 1;
+                    $condition .= " AND is_auto = $is_auto";
+                    break;
+                case 'false':
+                    $is_auto = 0;
+                    $condition .= " AND is_auto = $is_auto";
+                    break;
             }
+
             if ( $component ) {
-                if ( $component == 'core' ) {
+                if ( strtolower($component) == 'core' ) {
                     $condition .= " AND component_id IS NULL";
                 } else {
-                    $condition .= " AND component_id = $component";
+                    $compId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
+                                                           $component,
+                                                           'id', 'name' );
+                    if ( $compId ) {
+                        $condition .= " AND component_id = $compId";
+                    }
                 }
             }
+            
             if ( count( $category ) ) {
-                // FIXME - need foreach loop on $category here
-                $condition .= " AND 1 = 1";
+                // add conditions to limit search by one or more categories 
+                $catIds = array( );
+                foreach ($category as $value) {
+                    $catId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
+                                                          $value,
+                                                         'id', 'name' );
+                    if ( $catId ) {
+                        $catIds[] = $catId;
+                    }
+                }
+                // make sure we got at least one valid category ID for filter
+                if ( count( $catIds ) ) {
+                    $condition .= " AND parent_id IN (" . implode(",", $catIds ) . ")";
+                }
             }
-                
-            // CRM_Core_Error::debug($condition);
+
             self::$activityType[$index] = array();
             CRM_Core_PseudoConstant::populate( self::$activityType[$index],
                                                'CRM_Core_DAO_Category', true, 
