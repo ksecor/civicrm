@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'CRM/Core/Config.php';
+
 /**
  * This class contains all the function that are called using AJAX (dojo)
  */
@@ -45,13 +47,16 @@ class CRM_Core_Page_AJAX_Location
      * This method is used by on-behalf-of form to dynamically generate poulate the 
      * location field values for selected permissioned contact. 
      */
-    function getPermissionedLocation( &$config ) 
+    function getPermissionedLocation( ) 
     {
         $cid = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
         
         require_once 'CRM/Core/BAO/Location.php';
         $entityBlock = array( 'contact_id' => $cid );
         $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
+
+
+        $config =& CRM_Core_Config::singleton();
 
         $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
         $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
@@ -86,7 +91,7 @@ class CRM_Core_Page_AJAX_Location
     /**
      * Function to build state province combo box
      */
-    function state( &$config ) 
+    function state( ) 
     {
         require_once 'CRM/Utils/Type.php';
         $countryName  = $stateName = null;
@@ -163,8 +168,10 @@ ORDER BY name";
     /**
      * Function to build country combo box
      */
-    function country( &$config ) 
+    function country( ) 
     {
+    
+        $config =& CRM_Core_Config::singleton();    
         //get the country limit and restrict the combo select options
         $limitCodes = $config->countryLimit( );
         if ( ! is_array( $limitCodes ) ) {
