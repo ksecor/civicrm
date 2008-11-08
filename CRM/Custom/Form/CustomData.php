@@ -52,7 +52,6 @@ class CRM_Custom_Form_CustomData
 
         $form->assign('cgCount', $form->_groupCount);
 
-        $form->_entityId = 108;
         $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
                                                                 $form,
                                                                 $form->_entityId,
@@ -64,7 +63,7 @@ class CRM_Custom_Form_CustomData
     static function setDefaultValues( &$form ) 
     {
         $defaults = array( );
-        crm_core_error::debug("F: $form->_entityId", $form->_groupTree);
+        //crm_core_error::debug("F: $form->_entityId", $form->_groupTree);
         CRM_Core_BAO_CustomGroup::setDefaults( $form->_groupTree, $defaults);
         return $defaults;
     }
