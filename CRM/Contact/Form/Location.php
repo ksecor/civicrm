@@ -70,10 +70,13 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                          ) 
     {
         $location = array();
-        
+        $config = CRM_Core_Config::singleton( );
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationType ) {
-                $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null,  array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                $location[$locationId]['location_type_id'] =& $form->addElement('select',
+                                                                                "location[$locationId][location_type_id]",
+                                                                                null,
+                                                                                array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::locationType( ) );
                 
                 $location[$locationId]['is_primary']       =& $form->addElement(
                                                                                 'checkbox', 

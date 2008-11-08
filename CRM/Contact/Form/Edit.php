@@ -272,10 +272,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     if ( $config->defaultContactCountry ) {
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                         $locationID = $i+1;
-                        CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                                  "location[$locationID][address][country_id]",
-                                                                  "location[$locationID][address][state_province_id]",
-                                                                  $config->defaultContactCountry );
                     }
                 }
             }

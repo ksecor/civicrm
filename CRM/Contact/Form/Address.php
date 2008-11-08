@@ -58,6 +58,9 @@ class CRM_Contact_Form_Address
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
         $config =& CRM_Core_Config::singleton( );
+        if ( $countryDefault == null ) {
+            $countryDefault = $config->defaultContactCountry;
+        }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
               
         $elements = array( 

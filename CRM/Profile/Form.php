@@ -118,6 +118,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     protected $_ctype = null;
 
+    protected $_defaults = null;
+
     /** 
      * pre processing work done here. 
      * 
@@ -198,9 +200,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function setDefaultsValues( ) 
     {
-        $defaults = array( );   
+        $this->_defaults = array( );   
         if ( $this->_id ) {
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $this->_defaults, true );
         }
         
         //set custom field defaults
@@ -213,10 +215,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                          'html_type',
                                                          'id' );
                 
-                if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
+                if ( !isset( $this->_defaults[$name] ) || $htmlType == 'File') {
                     CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID,
                                                                   $name,
-                                                                  $defaults,
+                                                                  $this->_defaults,
                                                                   $this->_id,
                                                                   $this->_mode );
                 }
@@ -240,7 +242,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( isset( $customFiles ) ) {
             $this->assign( 'customFiles', $customFiles ); 
         }
-        $this->setDefaults( $defaults );
+        $this->setDefaults( $this->_defaults );
     } 
     
     /**
@@ -419,11 +421,17 @@ class CRM_Profile_Form extends CRM_Core_Form
             // also do state country js
             if ( ! empty( $stateCountryMatch ) ) {
                 $stateID = $countryID = array( );
-                foreach ( $stateCountryMatch as $match ) {
+                foreach ( $stateCountryMatch as $index => $match ) {
                     if ( array_key_exists( 'state_province', $match ) &&
                          array_key_exists( 'country', $match ) ) {
+                        require_once 'CRM/Contact/Form/Address.php';
                         $countryID[] = "country-$index";
                         $stateID[]   = "state_province-$index";
+
+                        CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                                  "country-$index",
+                                                                  "state_province-$index",
+                                                                  CRM_Utils_Array::value( "country-$index", $this->_defaults ) );
                     }
                 }
 
