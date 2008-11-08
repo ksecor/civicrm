@@ -51,31 +51,10 @@ class CRM_Activity_Page_AJAX
 
         $page = $params['page'];
         if (!$page) $page = 1;
-        $total = count($activities);
-
-        $json = "";
-        $json .= "{\n";
-        $json .= "page: $page,\n";
-        $json .= "total: $total,\n";
-        $json .= "rows: [";
-        $rc = false;
-
-        foreach( $activities as $key => $value) {
-            if ($rc) $json .= ",";
-            $json .= "\n{";
-            $json .= "id:'".$value['id']."',";
-            $json .= "cell:['".$value['due_date']."','".$value['actual_date']."'";
-            $json .= ",'".addslashes($value['subject'])."'";
-            $json .= ",'".addslashes($value['category'])."'";
-            $json .= ",'".addslashes($value['type'])."'";
-            $json .= ",'".addslashes($value['reporter'])."'";
-            $json .= ",'".addslashes($value['status'])."','".addslashes($value['links'])."']";
-            $json .= "}";
-            $rc = true;
-        }
         
-        $json .= "]\n";
-        $json .= "}";
+        require_once "CRM/Utils/JSON.php";
+        $selectorElements = array( 'due_date', 'actual_date', 'subject', 'category', 'type', 'reporter', 'status', 'links' );
+        $json = CRM_Utils_JSON::encodeSelector( $activities, $page, $selectorElements );
         echo $json;
     }
 
