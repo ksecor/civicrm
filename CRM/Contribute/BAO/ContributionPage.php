@@ -138,8 +138,12 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( $values['is_email_receipt'] || $values['onbehalf_dupe_alert'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $billingLocationTypeId = array_search( 'Billing',  $locationTypes );
+
             require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, false, $billingLocationTypeId );
             if ( $isTest &&
                  ! empty( $params['custom_pre_id'] ) ) {
                 $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
