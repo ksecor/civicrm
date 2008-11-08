@@ -4,6 +4,7 @@ require_once('AuditConfig.php');
 class Audit
 {
 	private $auditConfig;
+	private $xmlString;
 	
 	public function __construct($xmlString, $confFilename)
 	{
@@ -42,7 +43,8 @@ class Audit
 				
 					$value_elements = $field->getElementsByTagName("Value");
 					$value = $value_elements->item(0)->nodeValue;
-	
+
+					// Based on the config file, does this field's label and value indicate a completed activity?							
 					if ($label == $this->auditConfig->getCompletionLabel() && $value == $this->auditConfig->getCompletionValue())
 					{
 						$completed = true;
