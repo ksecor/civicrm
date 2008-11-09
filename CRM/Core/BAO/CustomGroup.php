@@ -79,7 +79,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             $group->extends          = $params['extends'][0];
         }
 
-        $group->extends_entity_column_name = null;
+        $group->extends_entity_column_id = null;
         if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
             $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
         } elseif ( empty($params['extends'][1]) ) {
@@ -89,7 +89,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
             if ( $params['extends'][0] == 'ParticipantRole' ||
                  $params['extends'][0] == 'ParticipantEventName' ||
                  $params['extends'][0] == 'ParticipantEventType' ) {
-                $group->extends_entity_column_name  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $params['extends'][0], 'value', 'name' );
+                $group->extends_entity_column_id  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $params['extends'][0], 'value', 'name' );
             } 
         }
 
@@ -277,7 +277,7 @@ WHERE civicrm_custom_group.is_active = 1
    OR   civicrm_custom_group.extends_entity_column_value IS NULL )
 ";
             if ( $subName ) {
-                $strWhere .= " AND civicrm_custom_group.extends_entity_column_name = {$subName} ";
+                $strWhere .= " AND civicrm_custom_group.extends_entity_column_id = {$subName} ";
             }
         } else {
             $strWhere = "
@@ -314,7 +314,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-        //crm_core_error::debug('$queryString', $queryString );
+        // crm_core_error::debug('$queryString', $queryString );
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
         
@@ -350,7 +350,7 @@ ORDER BY civicrm_custom_group.weight,
             if ( ! array_key_exists( $fieldId, $groupTree[$groupID]['fields'] ) ) {
                 $groupTree[$groupID]['fields'][$fieldId] = array();
             }
-            $customValueTables[$crmDAO->civicrm_custom_group_table_name][$crmDAO->civicrm_custom_field_column_name] = 1;
+            $customValueTables[$crmDAO->civicrm_custom_group_table_name][$crmDAO->civicrm_custom_field_column_id] = 1;
             $groupTree[$groupID]['fields'][$fieldId]['id'] = $fieldId;
             // populate information for a custom field
             foreach ($tableData['civicrm_custom_field'] as $fieldName) {
