@@ -11,16 +11,16 @@ includeTime is true or false and says whether to include the time component of d
 <regions>
 	<region name="leftpane" includeRule="include" includeTime="false">
 		<fields>
-			<field>Activity Date</field>
-			<field>Activity Type</field>
+			<field>Actual Date</field>
+			<field>Subject</field>
 		</fields>
 	</region>
 
 	<region name="rightpaneheader" includeRule="include" includeTime="true">
 		<fields>
 			<field>Activity Type</field>
-			<field>Summary</field>
-			<field>Activity Date</field>
+			<field>Subject</field>
+			<field>Actual Date</field>
 			<field>Created By</field>
 			<field>Revision</field>
 		</fields>
@@ -44,7 +44,7 @@ includeTime is true or false and says whether to include the time component of d
 		This tells us which field has the semantic meaning of "status", and which value indicates "completed". -->
 	<completionStatus>
 		<label>Status</label>
-		<value>Completed</value>
+		<value>Resolved</value>
 	</completionStatus>
 
 </regions>

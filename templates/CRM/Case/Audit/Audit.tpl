@@ -10,6 +10,7 @@ There's the potential for collisions (two different labels having the same short
 <link rel="stylesheet" type="text/css" href="{$config->resourceBase}css/Audit/style.css" />
 <input type="hidden" name="currentSelection" value="1" />
 <div id="civicase-audit">
+<table><tr><td class="leftpane">
 <div class="leftpane">
 <ul>
 {foreach from=$activities item=activity name=activityloop}
@@ -17,7 +18,7 @@ There's the potential for collisions (two different labels having the same short
 	<li{if $activity.completed} class="completed"{/if}>
 	<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
 	{foreach from=$activity.leftpane item=field name=fieldloop}
-		<span class="{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''} {$field.datatype}">
+		<span class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''} {$field.datatype}">
 		{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 		{if $field.datatype == 'Date'}
 			{if $field.includeTime}
@@ -37,16 +38,17 @@ There's the potential for collisions (two different labels having the same short
 {/foreach}
 </ul>
 </div>
+</td><td class="rightpane">
 <div class="rightpane">
 	<div class="rightpaneheader">
 	{foreach from=$activities item=activity name=activityloop}
 		<div class="activityheader" id="civicase-audit-header-{$smarty.foreach.activityloop.iteration}">
 		<div class="auditmenu">
 			<label>{ts}Actions{/ts}</label>
-			<span class="editlink"><a target="something" href="{$activity.editurl}">{ts}Edit{/ts}</a></span>
+			<span class="editlink"><a target="editauditwin" href="{$activity.editurl}">{ts}Edit{/ts}</a></span>
 		</div>	
 		{foreach from=$activity.rightpaneheader item=field name=fieldloop}
-			<div class="{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
+			<div class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
 			<label>{$field.label|escape}</label>
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
@@ -69,7 +71,7 @@ There's the potential for collisions (two different labels having the same short
 	{foreach from=$activities item=activity name=activityloop}
 		<div class="activitybody" id="civicase-audit-body-{$smarty.foreach.activityloop.iteration}">
 		{foreach from=$activity.rightpanebody item=field name=fieldloop}
-			<div class="{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
+			<div class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
 			<label>{$field.label|escape}</label>
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
@@ -89,4 +91,5 @@ There's the potential for collisions (two different labels having the same short
 	{/foreach}
 	</div>
 </div>
+</td></tr></table>
 </div>
