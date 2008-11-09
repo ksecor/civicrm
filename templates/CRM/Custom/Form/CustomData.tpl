@@ -20,9 +20,10 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
+      {assign var="element_name" value=$element.element_name}
       {if $element.is_view eq 0}{* fix for CRM-3510 *}
 	{if $element.options_per_line != 0 }
-        {assign var="element_name" value="custom_"|cat:$field_id}			
+
         <dt>{$form.$element_name.label}</dt>
         <dd class="html-adjust">
         {assign var="count" value="1"}
@@ -53,8 +54,6 @@
             <dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
         {/if}
 	 {else}
-          {assign var="name" value=`$element.name`} 
-          {assign var="element_name" value="custom_"|cat:$field_id|cat:"_-"|cat:$cgCount}			
           <dt>{$form.$element_name.label}</dt>
           <dd class="html-adjust">{$form.$element_name.html}
           {if $element.html_type eq 'Radio'}

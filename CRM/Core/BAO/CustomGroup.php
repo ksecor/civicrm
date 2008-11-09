@@ -484,7 +484,11 @@ SELECT $select
                                     if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
                                         $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
                                     }
-                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
+                                    if (  empty( $groupTree[$groupID]['fields'][$fieldID]['customValue'] ) ) {
+                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( 1 => $customValue );
+                                    } else {
+                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
+                                    }                                     
                                 }
                             }
                         }
@@ -839,22 +843,18 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $groupTree as $id => $group ) {
-            if ( $id === 'info' ) {
-                continue;
-            }
-            
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
-                if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
-                    $value = $field['customValue']['data'];
+                if ( CRM_Utils_Array::value( 'element_value', $field ) !== null ) {
+                    $value = $field['element_value'];
                 } else if ( CRM_Utils_Array::value( 'default_value', $field ) !== null ) {
                     $value = $viewMode ? null : $field['default_value'];
                 } else {
                     continue;
                 }
 
-                $fieldId = $field['id'];
-                $elementName = 'custom_' . $fieldId;
+                $fieldId     = $field['id'];
+                $elementName = $field['element_name'];
                 switch($field['html_type']) {
 
                 case 'CheckBox':
@@ -1088,15 +1088,11 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
-        
-        //this is fix for calendar for date field
-        foreach ($groupTree as $key1 => $group) { 
-            if ( $key1 === 'info' ) {
-                continue;
-            }
 
-            foreach ($group['fields'] as $key2 => $field) {
-                if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
+        //this is fix for calendar for date field  
+        foreach ( $groupTree as $id => $group ) { 
+            foreach ( $group['fields'] as $key2 => $field ) {
+                if ( $field['data_type'] == 'Date' && $field['date_parts'] ) {
                     $datePart = explode( CRM_Core_DAO::VALUE_SEPARATOR , $field['date_parts']);
                     $datePart = array_flip( $datePart);
                     
@@ -1110,9 +1106,8 @@ SELECT $select
                     }
                 }
             }
-                
         }
-        
+
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
         $hBlocks = array( );
@@ -1122,9 +1117,6 @@ SELECT $select
        
         require_once 'CRM/Core/ShowHideBlocks.php'; 
         foreach ($groupTree as $id => $group) { 
-            if ( $id === 'info' ) {
-                continue;
-            }
 
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
 
@@ -1143,8 +1135,8 @@ SELECT $select
                     }
                 }
 
-                $fieldId = $field['id'];                 
-                $elementName = "custom_{$fieldId}_-{$groupCount}";
+                $fieldId     = $field['id'];                 
+                $elementName = $field['element_name'];
                 require_once "CRM/Core/BAO/CustomField.php";
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required);
             } 
@@ -1526,4 +1518,46 @@ ORDER BY weight ASC, label ASC";
         CRM_Core_BAO_SchemaHandler::createTable( $tableParams );
     }
 
+    /**
+     * Function returns formatted groupTree, sothat form can be easily build in template
+     *
+     * @param array $groupTree associated array
+     * @param int   $groupCount group count by default 1, but can varry for multiple value custom data 
+     *
+     * @return array $formattedGroupTree
+     */
+    static function formatGroupTree( &$groupTree, $groupCount = 1 ) 
+    {
+        $formattedGroupTree = array( );
+        
+        foreach ( $groupTree as $key => $value ) {
+            if ( $key === 'info' ) {
+                continue;
+            }
+            
+            // add group information
+            $formattedGroupTree[$key]['title'    ] = $value['title'];
+            $formattedGroupTree[$key]['help_pre' ] = $value['help_pre'];
+            $formattedGroupTree[$key]['help_post'] = $value['help_post'];
+            $formattedGroupTree[$key]['collapse_display'] = $value['collapse_display'];
+            
+            // add field information
+            foreach ( $value['fields'] as $k => $properties ) {
+                if ( !empty( $properties['customValue'] ) ) {
+                    if ( isset( $properties['customValue'][$groupCount] ) ) {
+                        $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
+                        $properties['element_value'] = $properties['customValue'][$groupCount]['data'];
+                        unset( $properties['customValue'] );
+                        $formattedGroupTree[$key]['fields'][$k] = $properties;
+                    } else {
+                        $formattedGroupTree[$key]['fields'][$groupCount]['element_name'] = "custom_{$k}_-{$groupCount}";
+                    }
+                } else {
+                    $formattedGroupTree[$key]['fields'][$groupCount]['element_name'] = "custom_{$k}_-{$groupCount}";
+                }
+            }
+        }
+
+        return $formattedGroupTree;
+    }
 }
