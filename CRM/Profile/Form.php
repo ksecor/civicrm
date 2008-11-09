@@ -420,13 +420,13 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             // also do state country js
             if ( ! empty( $stateCountryMatch ) ) {
-                $stateID = $countryID = array( );
+                $stateCountryMap = array( );
                 foreach ( $stateCountryMatch as $index => $match ) {
                     if ( array_key_exists( 'state_province', $match ) &&
                          array_key_exists( 'country', $match ) ) {
                         require_once 'CRM/Contact/Form/Address.php';
-                        $countryID[] = "country-$index";
-                        $stateID[]   = "state_province-$index";
+                        $stateCountryMap[] = array( 'country'        => "country-$index"       ,
+                                                    'state_province' => "state_province-$index" );
 
                         CRM_Contact_Form_Address::fixStateSelect( $this,
                                                                   "country-$index",
@@ -435,10 +435,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
 
-                if ( ! empty( $countryID ) ) {
-                    $this->assign_by_ref( 'countryID', $countryID );
-                    $this->assign_by_ref( 'stateID'  , $stateID   );
-                }
+                require_once 'CRM/Core/BAO/Address.php';
+                CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
             }
         }
 

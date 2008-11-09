@@ -1,3 +1,5 @@
+{include file="CRM/common/stateCountry.tpl"}
+
 {if $form.javascript}
   {$form.javascript}
 {/if}

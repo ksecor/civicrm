@@ -516,7 +516,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this,
                                                                $this->_contactId,0,$this->_contactSubType);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        
+
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
         }

@@ -51,9 +51,6 @@ class CRM_Contact_Form_Address
      */
     static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
     {
-        static $countryID = array( );
-        static $stateID = array( );
-
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
@@ -77,7 +74,8 @@ class CRM_Contact_Form_Address
                           'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
                           'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
                           );
-       
+
+        $stateCountryMap = array( );
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
 
@@ -98,13 +96,11 @@ class CRM_Contact_Form_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     if ( $name == 'country_id' ) {
-                        $countryID[$locationId] = "location_{$locationId}_address_{$name}";
-                        $form->assign_by_ref( 'countryID', $countryID );
+                        $stateCountryMap[$locationId]['country'] = "location_{$locationId}_address_{$name}";
                         $selectOptions = array('' => ts('- select -')) + 
                             CRM_Core_PseudoConstant::country( );
                     } else {
-                        $stateID[$locationId] = "location_{$locationId}_address_{$name}";
-                        $form->assign_by_ref( 'stateID', $stateID );
+                        $stateCountryMap[$locationId]['state_province'] = "location_{$locationId}_address_{$name}";
                         if ( $countryDefault ) {
                             $selectOptions = array('' => ts('- select -')) +
                                 CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
@@ -136,6 +132,9 @@ class CRM_Contact_Form_Address
                                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
+
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
     }
     
     /**

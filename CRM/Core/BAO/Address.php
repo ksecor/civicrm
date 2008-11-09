@@ -493,6 +493,17 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
         return $addresses;
     }
 
+    static function addStateCountryMap( &$stateCountryMap ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( ! isset( $config->stateCountryMap ) ) {
+            $config->stateCountryMap = array( );
+        }
+
+        $config->stateCountryMap = array_merge( $config->stateCountryMap,
+                                                $stateCountryMap );
+    }
+
 }
 
 

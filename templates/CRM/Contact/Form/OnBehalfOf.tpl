@@ -62,7 +62,6 @@
 
 {* Display the address block *}
 {assign var=index value=1}
-{include file="CRM/common/stateCountry.tpl"}
 
 {if $contactEditMode}
   <fieldset><legend>{ts}Phone and Email{/ts}</legend>

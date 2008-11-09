@@ -1,5 +1,3 @@
-{include file="CRM/common/stateCountry.tpl"}
-
 {if $form.location.$index.address.country_id}
 <div class="form-item">
     <span class="labels">

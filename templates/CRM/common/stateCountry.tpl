@@ -1,17 +1,19 @@
-{if $countryID && $stateID}
-{literal}
+{if $config->stateCountryMap}
 <script language="JavaScript" type="text/javascript">
+{foreach from=$config->stateCountryMap item=stateCountryMap}
+{literal}
 cj(function()
 {
 {/literal}
-        countryID       = '#{$countryID[$index]}',
-	stateProvinceID = '#{$stateID[$index]}'
-        callbackURL     = '{crmURL p="civicrm/ajax/jqState"}'
+        countryID       = "#{$stateCountryMap.country}"
+	stateProvinceID = "#{$stateCountryMap.state_province}"
+        callbackURL     = "{crmURL p='civicrm/ajax/jqState'}"
 {literal}
 	cj(countryID).chainSelect(stateProvinceID,
                                   callbackURL,
 				  null);
 });
-</script>
 {/literal}
+{/foreach}
+</script>
 {/if}
