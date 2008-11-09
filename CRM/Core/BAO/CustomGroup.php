@@ -1337,7 +1337,7 @@ ORDER BY weight ASC, label ASC";
         
         $showBlocks = implode(",",$sBlocks);
         $hideBlocks = implode(",",$hBlocks);
-        
+
         $page->assign( $viewName, $form );
         $page->assign( $showName, $showBlocks );
         $page->assign( $hideName, $hideBlocks );
@@ -1556,5 +1556,49 @@ ORDER BY weight ASC, label ASC";
         }
 
         return $formattedGroupTree;
+    }
+
+    /**
+     * Build custom data view
+     *
+     */
+    static function buildCustomDataView ( &$form, &$groupTree )
+    {
+        foreach ( $groupTree as $key => $group ) {
+            if ( $key === 'info' ) {
+                continue;
+            }
+
+            foreach ( $group['fields'] as $k => $properties ) {
+                if ( !empty( $properties['customValue'] ) ) {
+                    foreach ( $properties['customValue'] as $values ) {
+                        $details[$values['id']]['title'] = $group['title']; 
+                        $details[$values['id']]['name'] = $group['name']; 
+                        $details[$values['id']]['help_pre'] = $group['help_pre']; 
+                        $details[$values['id']]['help_post'] = $group['help_post']; 
+                        $details[$values['id']]['collapse_display']  = $group['collapse_display'];
+
+                        $details[$values['id']]['fields'][$k] = array( 'field_title'      => $properties['label'],
+                                                                       'field_value'      => self::formatCustomValues( $values['data'], 
+                                                                                                                       $properties['html_type'], 
+                                                                                                                       $properties['data_type'] ),
+                                                                       'options_per_line' => $properties['options_per_line'] );
+                    }
+                }
+            }
+
+            $form->assign_by_ref( 'viewCustomData', $details );
+            //crm_core_error::debug( 'ss', $details );
+        }
+    }
+
+    /** 
+     * Format custom value according to data, view mode
+     *
+     */
+    static function formatCustomValues( $value, $htmlType, $dataType )
+    {
+
+        return $value;
     }
 }
