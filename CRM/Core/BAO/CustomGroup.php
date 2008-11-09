@@ -1543,18 +1543,15 @@ ORDER BY weight ASC, label ASC";
             
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {
+                $properties['element_name']  = "custom_{$k}_-{$groupCount}";
                 if ( !empty( $properties['customValue'] ) ) {
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
                         $properties['element_value'] = $properties['customValue'][$groupCount]['data'];
-                        unset( $properties['customValue'] );
-                        $formattedGroupTree[$key]['fields'][$k] = $properties;
-                    } else {
-                        $formattedGroupTree[$key]['fields'][$groupCount]['element_name'] = "custom_{$k}_-{$groupCount}";
-                    }
-                } else {
-                    $formattedGroupTree[$key]['fields'][$groupCount]['element_name'] = "custom_{$k}_-{$groupCount}";
+                    }                    
                 }
+                unset( $properties['customValue'] );
+                $formattedGroupTree[$key]['fields'][$k] = $properties;
             }
         }
 

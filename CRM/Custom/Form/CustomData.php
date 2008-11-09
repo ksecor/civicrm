@@ -61,7 +61,7 @@ class CRM_Custom_Form_CustomData
         
         // we should use simplified formatted groupTree
         $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree );
-      }
+    }
 
     static function setDefaultValues( &$form ) 
     {
@@ -73,9 +73,7 @@ class CRM_Custom_Form_CustomData
     static function buildQuickForm( &$form )
     {
         $form->addElement( 'hidden', 'hidden_custom', 1 );
-        for ( $i = 1; $i <= $form->_groupCount; $i++ ) {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, null, null, false, false,  $i );
-        }
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, null, null, false, false,  $form->_groupCount );
     }
 
 
