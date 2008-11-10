@@ -524,10 +524,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                 }
             } else {
-                $paramsValues = array('contact_id'=>$params['id']);
-                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                            $params['id'],
-                                                            'contact_type' );
+                $contactType = null;
+                if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                    $paramsValues = array( 'contact_id' => $params['id'] );
+                    $contactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                 $params['id'],
+                                                                 'contact_type' );
+                }
                 if ( $contactType ) {
                     if ($formatted['contact_type'] == $contactType ) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
