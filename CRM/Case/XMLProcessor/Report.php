@@ -265,7 +265,7 @@ WHERE      a.id = %1
                                        'type'  => 'String' );
 
         $activity['fields'][] = array( 'label' => 'Status',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'case_status',
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'activity_status',
                                                                                   $activityDAO->status_id ),
                                        'type'  => 'String' );
         

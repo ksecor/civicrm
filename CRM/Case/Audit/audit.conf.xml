@@ -44,7 +44,7 @@ includeTime is true or false and says whether to include the time component of d
 		This tells us which field has the semantic meaning of "status", and which value indicates "completed". -->
 	<completionStatus>
 		<label>Status</label>
-		<value>Resolved</value>
+		<value>Completed</value>
 	</completionStatus>
 
 </regions>
