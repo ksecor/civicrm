@@ -648,10 +648,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     }
                 }
 
-                if ( ! empty( $stateCountryMap ) ) {
-                    require_once 'CRM/Core/BAO/Address.php';
-                    CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
-                }
+                require_once 'CRM/Core/BAO/Address.php';
+                CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
 
                 if ( $addCaptcha &&
                      ! $viewOnly ) {

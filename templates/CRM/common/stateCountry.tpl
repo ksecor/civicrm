@@ -1,6 +1,7 @@
 {if $config->stateCountryMap}
 <script language="JavaScript" type="text/javascript">
 {foreach from=$config->stateCountryMap item=stateCountryMap}
+{if $stateCountryMap.country && $stateCountryMap.state_province}
 {literal}
 cj(function()
 {
@@ -14,6 +15,7 @@ cj(function()
 				  null);
 });
 {/literal}
+{/if}
 {/foreach}
 </script>
 {/if}

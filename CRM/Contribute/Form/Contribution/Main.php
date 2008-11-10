@@ -47,7 +47,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      *
      */
     public $_defaultMemTypeId;
-    
+
+    protected $_defaults;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -75,6 +77,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
     function setDefaultValues( ) 
     {
+        // process defaults only once
+        if ( ! empty( $this->_defaults ) ) {
+            // return $this->_defaults;
+        }
+
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
@@ -195,7 +202,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             //set default to one time contribution.
             $this->_defaults['is_pledge'] = 0;  
         }
-        
+
+
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
         return $this->_defaults;
     }
 

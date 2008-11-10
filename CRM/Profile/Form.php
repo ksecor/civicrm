@@ -322,7 +322,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // cache the state country fields. based on the results, we could use our javascript solution
         // in create or register mode
-        $stateCountryMatch = array( );
+        $stateCountryMap = array( );
 
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
@@ -342,10 +342,10 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $name, 2 );
             if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
-                if ( ! array_key_exists( $index, $stateCountryMatch ) ) {
-                    $stateCountryMatch[$index] = array( );
+                if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                    $stateCountryMap[$index] = array( );
                 }
-                $stateCountryMatch[$index][$prefixName] = 1;
+                $stateCountryMap[$index][$prefixName] = $name;
             }
             
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
@@ -419,25 +419,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'hideBlocks', $hideBlocks ); 
 
             // also do state country js
-            if ( ! empty( $stateCountryMatch ) ) {
-                $stateCountryMap = array( );
-                foreach ( $stateCountryMatch as $index => $match ) {
-                    if ( array_key_exists( 'state_province', $match ) &&
-                         array_key_exists( 'country', $match ) ) {
-                        require_once 'CRM/Contact/Form/Address.php';
-                        $stateCountryMap[] = array( 'country'        => "country-$index"       ,
-                                                    'state_province' => "state_province-$index" );
-
-                        CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                                  "country-$index",
-                                                                  "state_province-$index",
-                                                                  CRM_Utils_Array::value( "country-$index", $this->_defaults ) );
-                    }
-                }
-
-                require_once 'CRM/Core/BAO/Address.php';
-                CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
-            }
+            require_once 'CRM/Core/BAO/Address.php';
+            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
+                                                      $this->_defaults );
         }
 
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
