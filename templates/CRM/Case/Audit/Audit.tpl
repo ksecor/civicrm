@@ -11,11 +11,15 @@ There's the potential for collisions (two different labels having the same short
 <input type="hidden" name="currentSelection" value="1" />
 <div id="civicase-audit">
 <table><tr><td class="leftpane">
-<div class="leftpane">
-<ul>
+<table class="report">
+<tr class="columnheader-dark">
+<th>&nbsp;</th>
+<th>Date &amp; Description</th>
+</tr>
 {foreach from=$activities item=activity name=activityloop}
-	<div class="activity{if $smarty.foreach.activityloop.first} selected{/if}" id="civicase-audit-activity-{$smarty.foreach.activityloop.iteration}">
-	<li{if $activity.completed} class="completed"{/if}>
+<tr class="activity{if $smarty.foreach.activityloop.first} selected{/if}" id="civicase-audit-activity-{$smarty.foreach.activityloop.iteration}">
+	<td class="indicator">{if $activity.completed}<img src="{$config->resourceBase}i/spacer.gif" width="20" height="20">{else}<img src="{$config->resourceBase}i/contribute/incomplete.gif" width="20" height="20">{/if}</td>
+	<td>
 	<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
 	{foreach from=$activity.leftpane item=field name=fieldloop}
 		<span class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''} {$field.datatype}">
@@ -30,16 +34,16 @@ There's the potential for collisions (two different labels having the same short
 			{$field.value|escape}
 		{/if}
 		{if $field.datatype == 'File'}</a>{/if}
-		</span>
+		</span><br>
 	{/foreach}
 	</a>
-	</li>
-	</div>
+	</td>
+</tr>
 {/foreach}
-</ul>
-</div>
-</td><td class="rightpane">
-<div class="rightpane">
+</table>
+</td>
+<td class="separator">&nbsp;</td>
+<td class="rightpane">
 	<div class="rightpaneheader">
 	{foreach from=$activities item=activity name=activityloop}
 		<div class="activityheader" id="civicase-audit-header-{$smarty.foreach.activityloop.iteration}">
@@ -90,6 +94,5 @@ There's the potential for collisions (two different labels having the same short
 		</div>
 	{/foreach}
 	</div>
-</div>
 </td></tr></table>
 </div>

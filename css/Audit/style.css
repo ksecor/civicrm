@@ -3,36 +3,42 @@
 #civicase-audit {
 }
 
-div.leftpane {
-	font-family: Arial, Helvetica, sans-serif;
-/*	width: 30%;
-	top: 5px;
-*/
-}
-
-div.rightpane {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	background-color: #CCE3F1;
-	border: #333333 solid 1px;
-/*	float: right;
-	width: 65%;
-	position: absolute; 
-	top: 5px;
-	left: 35%;
-*/
-	padding: 2%;
-}
-
 #civicase-audit table {
 	border: 0px;
 }
 
+#civicase-audit td {
+	margin: 0px;
+}
+
 #civicase-audit td.leftpane {
-	width: 30%;
+}
+
+#civicase-audit table.report{
+	width: 100%;
+	margin-top: -4px;
+}
+
+#civicase-audit tr.selected td a:link, tr.selected td a:visited, tr.selected td a:active {
+	color: #027AC6;
+	background-color: #FFFF99;
+	font-weight: bold;
+}
+
+#civicase-audit .indicator{
+	width: 30px;
+	text-align: center;
+}
+
+#civicase-audit .separator{
+	width: 10px;
 }
 
 #civicase-audit td.rightpane {
-	width: 65%;
+	background-color: #CCE3F1;
+	border: #333333 solid 1px;
+	padding: 2%;
+	width: 60%;
 }
 
 .rightpaneheader {
@@ -48,17 +54,12 @@ div.rightpane {
 .activity {
 }
 
-#civicase-audit .selected {
-	font-weight: bold;
-}
-
 #civicase-audit ul {
 	font-size: smaller;
 }
 
 #civicase-audit li {
 	list-style-type: disc;
-/*	list-style-image: url(../../i/check.gif);*/
 	color: #CC0000;
 	clear: both;
 	margin: 2px 0px 2px 0px;
