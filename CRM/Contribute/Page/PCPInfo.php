@@ -100,9 +100,15 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
                            CRM_Core_Action::DELETE  => 'Removes the page (this cannot be undone!)',
                            CRM_Core_Action::DETACH  => 'Inform your friends about your Personal Campaign!'
                            );
-            $blockId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', $pcpInfo['contribution_page_id'], 'entity_id' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', $pcpInfo['contribution_page_id'], 
+                                             'entity_id', $blockValues, array('is_tellfriend_enabled') );
+            
+            $blockId = array_pop( $blockValues );
             $replace = array( 'id'    => $this->_id,
-                              'block' => $blockId );
+                              'block' => $blockId['id'] );
+            if ( !CRM_Utils_Array::value( 'is_tellfriend_enabled', $blockId ) ) {
+                unset($link['all'][CRM_Core_Action::DETACH]);   
+            }
             
             $this->assign( 'links'  , $link['all'] );
             $this->assign( 'hints'  , $hints       );
