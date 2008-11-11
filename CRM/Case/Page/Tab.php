@@ -255,7 +255,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                       CRM_Core_Action::VIEW    => array(
                                                                         'name'  => ts('Manage Case'),
                                                                         'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case&context=case',
                                                                         'title' => ts('Manage Case')
                                                                         ),
                                                       
@@ -292,6 +292,13 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             }
             break;
 
+        case 'case':
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&cid={$this->_contactId}&action=view&selectedChild=case" );
+            }
+            break;
+            
         default :
             if ( $this->_contactId && $this->_id ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view/case',

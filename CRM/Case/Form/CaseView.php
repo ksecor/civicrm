@@ -55,11 +55,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->assign( 'caseID', $this->_caseID );
         $this->assign( 'contactID', $this->_contactID );
 
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $this->_contactID . '&selectedChild=case' );
-        $session->pushUserContext( $url );
-        
         //retrieve details about case
         $params = array( 'id' => $this->_caseID );
 
