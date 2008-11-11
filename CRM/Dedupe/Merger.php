@@ -94,6 +94,11 @@ class CRM_Dedupe_Merger
                     'tables' => array('civicrm_entity_tag'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
+                'rel_table_cases' => array(
+                    'title'  => ts('Cases'),
+                    'tables' => array('civicrm_case_contact'),
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),
+                )
             );
         }
         return $relTables;
@@ -168,6 +173,7 @@ class CRM_Dedupe_Merger
                 'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
                 'civicrm_subscription_history'    => array('contact_id'),
                 'civicrm_uf_match'                => array('contact_id'),
+                'civicrm_case_contact'            => array('contact_id'), 
             );
         }
         return $cidRefs;
@@ -209,7 +215,7 @@ class CRM_Dedupe_Merger
         if ($tables !== false) {
             // if there are specific tables, sanitize the list
             $affected = array_unique(array_intersect($affected, $tables));
-        } else {
+        } else { 
             // if there aren't any specific tables, don't affect the ones handled by relTables()
             $relTables =& self::relTables();
             $handled = array();
@@ -218,15 +224,22 @@ class CRM_Dedupe_Merger
             }
             $affected = array_diff($affected, $handled);
         }
-
+       
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
-
+                
         // use UPDATE IGNORE + DELETE query pair to skip on situations when 
         // there's a UNIQUE restriction on ($field, some_other_field) pair
         foreach ($affected as $table) {
             if (isset($cidRefs[$table])) {
                 foreach ($cidRefs[$table] as $field) {
+                    if ( $table == 'civicrm_case_contact' ) {
+                        $sqls[] = "UPDATE IGNORE civicrm_activity, civicrm_case_activity ,civicrm_activity_target, civicrm_activity_assignment SET 
+                                   civicrm_activity.source_contact_id = $mainId, 
+                                   civicrm_activity_target.target_contact_id = $mainId, 
+                                   civicrm_activity_assignment.assignee_contact_id = $mainId 
+                                   WHERE civicrm_case_activity.activity_id = civicrm_activity.id AND civicrm_activity.source_contact_id= $otherId";
+                    }
                     $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $field = $otherId";
                     $sqls[] = "DELETE FROM $table WHERE $field = $otherId";
                 }
