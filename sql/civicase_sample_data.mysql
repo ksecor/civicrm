@@ -7,6 +7,12 @@
 -- Enable Case Tab in Site Preferences
 UPDATE civicrm_preferences SET `contact_view_options`= '123456789101113';
 
+-- Set 'Work' as default location type and 'Voicemail' as default phone type 
+UPDATE civicrm_location_type SET `is_default` = 0 WHERE `name` = 'Home';
+UPDATE civicrm_location_type SET `is_default` = 1 WHERE `name` = 'Work';
+SELECT @ptId        := max(id) from civicrm_option_group where name = 'phone_type';
+UPDATE civicrm_option_value SET `is_default` = 1 WHERE `option_group_id` = @ptId AND `name` = 'Voicemail';
+
 -- /*******************************************************
 -- *
 -- * Case Types
