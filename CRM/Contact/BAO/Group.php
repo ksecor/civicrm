@@ -321,7 +321,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         } else {
             $params['group_type'] = '';
         }
-
+        
         $group =& new CRM_Contact_BAO_Group();
         $group->copyValues($params);
         $group->save( );
@@ -409,25 +409,77 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
     }
 
-    static function groupTypeCondition( $groupType = null ) {
+    static function groupTypeCondition( $groupType = null, $excludeHidden = true ) {
         $value = null;
         if ( $groupType == 'Mailing' ) {
             $value = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
         } else if ( $groupType == 'Access' ) {
             $value = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
         }
-        if ( $value ) {
-            $condition = "group_type LIKE '%$value%'";
-        } else {
-            $condition = null;
+        
+        $condition = null;
+        if ( $excludeHidden ) {
+            $condition = "is_hidden = 0";
         }
+        
+        if ( $value ) {
+            if ( $condition ) {
+                $condition .= " AND group_type LIKE '%$value%'";
+            } else {
+                $condition = "group_type LIKE '%$value%'";
+            }
+        }
+        
         return $condition;
     }
 
     public function __toString( ) {
         return $this->title;
     }
-
+    
+    /**
+     * This function create the hidden smart group when user perform
+     * contact seach and want to send mailing to search contacts.
+     *
+     * @param  array $params ( reference ) an assoc array of name/value pairs
+     * @return array ( smartGroupId, ssId ) smart group id and saved search id
+     * @access public
+     * @static
+     */
+    static function createHiddenSmartGroup( $params ) 
+    {
+        //create/update saved search record.
+        $savedSearch                   =& new CRM_Contact_BAO_SavedSearch();
+        $savedSearch->id               =  CRM_Utils_Array::value( 'saved_search_id',  $params );
+        $savedSearch->form_values      =  CRM_Utils_Array::value( 'form_values',      $params );
+        $savedSearch->search_custom_id =  CRM_Utils_Array::value( 'search_custom_id', $params );
+        $savedSearch->save( );
+        
+        $ssId = $savedSearch->id;
+        if ( !$ssId ) {
+            return null;
+        }
+        
+        $smartGroupId = null;
+        if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
+            $smartGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $ssId, 'id', 'saved_search_id' );
+        } else {
+            //create group only when new saved search. 
+            $groupParams = array( 'title'           => "Hidden Smart Group {$ssId}",
+                                  'is_active'       => CRM_Utils_Array::value( 'is_active',  $params, 1 ),
+                                  'is_hidden'       => CRM_Utils_Array::value( 'is_hidden',  $params, 1 ), 
+                                  'group_type'      => CRM_Utils_Array::value( 'group_type', $params    ),
+                                  'visibility'      => CRM_Utils_Array::value( 'visibility', $params    ),
+                                  'saved_search_id' => $ssId );
+            
+            require_once 'CRM/Contact/BAO/Group.php';
+            $smartGroup = self::create( $groupParams );
+            $smartGroupId = $smartGroup->id;
+        }
+        
+        return array( $smartGroupId, $ssId );
+    }
+    
 }
 
 

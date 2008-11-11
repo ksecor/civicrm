@@ -161,6 +161,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
         
+        /* Add all unsubscribe members of base group from this mailing to the temp
+         * table */ 
+        $unSubscribeBaseGroup =
+                    "INSERT INTO        X_$job_id (contact_id)
+                    SELECT  DISTINCT    $g2contact.contact_id
+                    FROM                $g2contact
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
+                    WHERE
+                                        $mg.mailing_id = {$mailing_id}
+                        AND             $g2contact.status = 'Removed'
+                        AND             $mg.group_type = 'Base'";
+        
+        
+        $mailingGroup->query($unSubscribeBaseGroup);
+        
         /* Add all the (intended) recipients of an excluded prior mailing to
          * the temp table */
         $excludeSubMailing = 
@@ -228,7 +244,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                        $mg.group_type = 'Include'
+                                       ($mg.group_type = 'Include' OR $mg.group_type = 'Base')
                         AND             $mg.search_id IS NULL
                         AND             $g2contact.status = 'Added'
                         AND             $g2contact.email_id IS null
@@ -260,7 +276,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE
-                                        $mg.group_type = 'Include'
+                                       ($mg.group_type = 'Include' OR $mg.group_type = 'Base')
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $contact.is_deceased = 0
@@ -1199,7 +1215,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
         foreach( array( 'groups', 'mailings' ) as $entity ) {
-            foreach( array( 'include', 'exclude' ) as $type ) {                
+            foreach( array( 'include', 'exclude', 'base' ) as $type ) {                
                 if( is_array( $params[$entity][$type] ) ) {                    
                     foreach( $params[$entity][$type] as $entityId ) {
                         $mg->reset( );

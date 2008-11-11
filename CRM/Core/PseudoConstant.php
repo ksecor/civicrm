@@ -849,10 +849,10 @@ class CRM_Core_PseudoConstant
     * @return array - array reference of all groups.
     *
     */
-    public static function &allGroup( $groupType = null )
+    public static function &allGroup( $groupType = null, $excludeHidden = true )
     {
         require_once 'CRM/Contact/BAO/Group.php';
-        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
+        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType, $excludeHidden );
 
         if (!self::$group) {
             self::$group = array( );
