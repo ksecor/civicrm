@@ -5,6 +5,7 @@ class Audit
 {
 	private $auditConfig;
 	private $xmlString;
+	private $sortBy;
 	
 	public function __construct($xmlString, $confFilename)
 	{
@@ -12,6 +13,11 @@ class Audit
 		$this->auditConfig = new AuditConfig($confFilename);
 	}
 		
+	public function getSortBy()
+	{
+		return $this->sortBy;
+	}
+	
 	public function getActivities()
 	{
 		$retval = array();
@@ -27,6 +33,9 @@ class Audit
 			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
 			$includeAll = ($includeAll == 'All');
 			
+			$this->sortBy = $doc->getElementsByTagName("SortBy")->item(0)->nodeValue;
+			
+			
 			$activityindex = 0;
 			$activityList = $doc->getElementsByTagName("Activity");
 			foreach($activityList as $activity)
@@ -34,6 +43,7 @@ class Audit
 				$retval[$activityindex] = array();
 				
 				$completed = false;
+				$category = '';
 				$fieldindex = 1;
 				$fields = $activity->getElementsByTagName("Field");
 				foreach($fields as $field)
@@ -47,6 +57,12 @@ class Audit
 					$value_elements = $field->getElementsByTagName("Value");
 					$value = $value_elements->item(0)->nodeValue;
 
+					$category_elements = $field->getElementsByTagName("Category");
+					if (! empty($category_elements))
+					{
+						$category = $category_elements->item(0)->nodeValue;
+					}
+					
 					// Based on the config file, does this field's label and value indicate a completed activity?							
 					if ($label == $this->auditConfig->getCompletionLabel() && $value == $this->auditConfig->getCompletionValue())
 					{
@@ -74,6 +90,7 @@ class Audit
 				if ($includeAll || !$completed)
 				{	
 					$retval[$activityindex]['completed'] = $completed;
+					$retval[$activityindex]['category'] = $category;
 		
 					// Now sort the fields based on the order in the config file.
 					foreach($regionList as $region)
@@ -94,6 +111,9 @@ class Audit
 					unset($retval[$activityindex]);
 				}
 			}
+			
+//TODO: Do activity sort here
+
 		}		
             
 		return $retval;
@@ -111,7 +131,8 @@ fclose($fh);
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
-
+		$template->assign( 'sortBy', $audit->getSortBy() );
+		
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
         return $contents;
     }

@@ -63,6 +63,8 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
             $template->assign( 'includeActivities', 'Missing activities only' );
         }
 
+		$template->assign( 'sortBy', $params['sort_by'] );
+		
         $xml = $this->retrieve( $case['caseType'] );
 
         $activityTypes = $this->getActivityTypes( $xml, $activitySetName );
