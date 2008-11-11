@@ -1,5 +1,5 @@
 {* CiviCase DashBoard (launch page) *}
-{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1"}{/capture}
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1&atype=`$openCaseId`"}{/capture}
 
 <div class="float-right">
   <table class="form-layout-compressed">
