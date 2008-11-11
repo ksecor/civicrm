@@ -64,11 +64,22 @@ class CRM_Case_Form_Activity_OpenCase
         // set case status to 'ongoing'
         $defaults['status_id'] = 1;
 
-        // set default encounter medium if an option_value default is set for that option_group
+        // set default encounter medium, location type and phone type defaults are set in DB
         require_once "CRM/Core/OptionGroup.php";
         $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
         if ( count($medium) == 1 ) {
-            $this->_defaults['medium_id'] = key($medium);
+            $defaults['medium_id'] = key($medium);
+        }
+        
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+        if ( $defaultLocationType->id ) {
+            $defaults['location[1][location_type_id]'] = $defaultLocationType->id;
+        }
+        
+        $phoneType = CRM_Core_OptionGroup::values('phone_type', false, false, false, 'AND is_default = 1');
+        if ( count($phoneType) == 1 ) {
+            $defaults['location[1][phone][1][phone_type_id]'] = key($phoneType);
         }
         
         return $defaults;
@@ -306,6 +317,7 @@ class CRM_Case_Form_Activity_OpenCase
                                      'dueDateTime'        => time( ),
                                      'caseID'             => $params['case_id'],
                                      'subject'            => $params['activity_subject'],
+                                     'location'           => $params['location'],
                                      'activity_date_time' => $params['start_date'],
                                      'duration'           => $params['duration'],
                                      'medium_id'          => $params['medium_id'],

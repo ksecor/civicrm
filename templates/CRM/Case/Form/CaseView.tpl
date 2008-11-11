@@ -313,7 +313,5 @@ function search(com)
 </script>
 {/literal}
 
-
-<br/>
 {$form.buttons.html}
 </div>
