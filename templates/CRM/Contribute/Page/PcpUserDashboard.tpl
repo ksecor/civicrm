@@ -16,16 +16,12 @@
 
 	{foreach from=$pcpInfo item=row}
 	<tr class="{cycle values="odd-row,even-row"}">
-		{ if $row.pcpStatusId eq 2}
-		<td class="bold"><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.pcpId`"}">{$row.pcpTitle}</a></td>
-		{else}
-		<td class="bold">{$row.pcpTitle}</strong></td>
-		{/if}
-		<td>{$row.pageTitle}</td>
-		<td>{$row.start_date|truncate:10:''|crmDate}</td>
-		<td>{$row.end_date|truncate:10:''|crmDate}</td>
-		<td>{$row.pcpStatus}</td>
-		<td class="nowrap">{$row.action}</td>
+	       <td class="bold"><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.pcpId`"}">{$row.pcpTitle}</a></td>
+	       <td>{$row.pageTitle}</td>
+	       <td>{$row.start_date|truncate:10:''|crmDate}</td>
+	       <td>{$row.end_date|truncate:10:''|crmDate}</td>
+	       <td>{$row.pcpStatus}</td>
+	       <td class="nowrap">{$row.action}</td>
 	</tr>
 	{/foreach}
 </table>

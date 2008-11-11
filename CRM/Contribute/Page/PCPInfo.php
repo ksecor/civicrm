@@ -73,8 +73,10 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, die a fatal death
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
-        } else if ( $pcpInfo['status_id'] != 2 ) {
-            CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
+        } else if ( $pcpInfo['status_id'] != 2 && ! CRM_Core_Permission::check('administer CiviCRM') ) {
+            if ( $pcpInfo['contact_id'] != $session->get( 'userID' ) ) {
+                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
+            }
         } else {
             $getStatus = CRM_Contribute_BAO_PCP::getStatus( $this->_id );
             if ( ! $getStatus ) {
@@ -106,7 +108,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $blockId = array_pop( $blockValues );
             $replace = array( 'id'    => $this->_id,
                               'block' => $blockId['id'] );
-            if ( !CRM_Utils_Array::value( 'is_tellfriend_enabled', $blockId ) ) {
+            if ( !CRM_Utils_Array::value( 'is_tellfriend_enabled', $blockId ) || CRM_Utils_Array::value( 'status_id', $pcpInfo )== 3 ){
                 unset($link['all'][CRM_Core_Action::DETACH]);   
             }
             
