@@ -242,6 +242,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( isset( $customFiles ) ) {
             $this->assign( 'customFiles', $customFiles ); 
         }
+
         $this->setDefaults( $this->_defaults );
     } 
     
@@ -433,6 +434,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         
         $this->assign( 'groupId', $this->_gid ); 
+        
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
         
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {

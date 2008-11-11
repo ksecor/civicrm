@@ -631,9 +631,18 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvinceAbbreviation($id = false, $limit = true )
     {
+        if ( $id > 1 ) {
+            $query = "
+SELECT abbreviation
+FROM   civicrm_state_province
+WHERE  id = %1";
+            $params = array( 1 => array( $id, 'Integer' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+
         if (!self::$stateProvinceAbbreviation || !$id ) {
 
-            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT, unless id is specified
             $whereClause = false;
 
             if ( $limit ) {

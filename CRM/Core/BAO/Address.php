@@ -511,19 +511,18 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
     }
 
     static function fixAllStateSelects( &$form, &$defaults ) {
-        if ( ! empty( $defaults ) ) {
-            $config =& CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( ! empty(  $config->stateCountryMap ) ) {
             foreach ( $config->stateCountryMap as $index => $match ) {
                 if ( array_key_exists( 'state_province', $match ) &&
                      array_key_exists( 'country', $match ) ) {
                     require_once 'CRM/Contact/Form/Address.php';
-                    if ( CRM_Utils_Array::value( $match['country'],
-                                                 $defaults ) ) {
-                        CRM_Contact_Form_Address::fixStateSelect( $form,
-                                                                  $match['country'],
-                                                                  $match['state_province'],
-                                                                  $defaults[$match['country']] );
-                    }
+                    CRM_Contact_Form_Address::fixStateSelect( $form,
+                                                              $match['country'],
+                                                              $match['state_province'],
+                                                              CRM_Utils_Array::value( $match['country'],
+                                                                                      $defaults ) );
                 } else {
                     unset( $config->stateCountryMap[$index] );
                 }

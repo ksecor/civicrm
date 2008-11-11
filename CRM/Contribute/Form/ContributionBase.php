@@ -651,6 +651,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 require_once 'CRM/Core/BAO/Address.php';
                 CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
 
+
                 if ( $addCaptcha &&
                      ! $viewOnly ) {
                     require_once 'CRM/Utils/ReCAPTCHA.php';

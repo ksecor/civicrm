@@ -177,7 +177,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
 
         //build set default for pledge overdue payment.
         if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
@@ -203,10 +203,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_defaults['is_pledge'] = 0;  
         }
 
-
         // now fix all state country selectors
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+
         return $this->_defaults;
     }
 
