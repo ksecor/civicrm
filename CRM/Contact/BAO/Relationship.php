@@ -62,7 +62,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function create( &$params, &$ids ) 
     {  
-        
+       
         $valid = $invalid = $duplicate = $saved = 0;
         require_once 'CRM/Utils/Array.php';
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
@@ -480,10 +480,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // get the string of relationship type
         $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
         list( $type, $first, $second ) = explode('_', $relationshipTypes);
-
         ${'contact_' . $first}  = CRM_Utils_Array::value( 'contact', $ids );
         ${'contact_' . $second} = $contactId;
-    
         // function to check if the relationship selected is correct
         // i.e. employer relationship can exit between Individual and Organization (not between Individual and Individual)
         if ( ! CRM_Contact_BAO_Relationship::checkRelationshipType( $contact_a, $contact_b, $type ) ) {
@@ -617,6 +615,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         } else {
             $select .= ' SELECT civicrm_relationship.id as civicrm_relationship_id,
                               civicrm_contact.sort_name as sort_name,
+                              civicrm_contact.employer_id as employer_id,
+                              civicrm_contact.organization_name as organization_name,
                               civicrm_address.street_address as street_address,
                               civicrm_address.city as city,
                               civicrm_address.postal_code as postal_code,
@@ -774,6 +774,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $values[$rid]['name']       = $relationship->sort_name;
                 $values[$rid]['email']      = $relationship->email;
                 $values[$rid]['phone']      = $relationship->phone;
+                $values[$rid]['employer_id']    = $relationship->employer_id;
+                $values[$rid]['organization_name']    = $relationship->organization_name;
+                $values[$rid]['country']    = $relationship->country;
                 $values[$rid]['city']       = $relationship->city;
                 $values[$rid]['state']      = $relationship->state;
                 $values[$rid]['start_date'] = $relationship->start_date;
