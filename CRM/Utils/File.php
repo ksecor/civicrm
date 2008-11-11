@@ -266,9 +266,11 @@ class CRM_Utils_File {
                            -( strlen( $info['extension'] ) + ( $info['extension'] == '' ? 0 : 1 ) ) );
         if ( ! self::isExtensionSafe( $info['extension'] ) ) {
             // munge extension so it cannot have an embbeded dot in it
-            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}" ) . ".unknown";
+            // The maximum length of a filename for most filesystems is 255 chars.  
+            // We'll truncate at 240 to give some room for the extension.
+            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}", '_',  240 ) . ".unknown";
         } else {
-            return CRM_Utils_String::munge( "{$basename}_{$uniqID}" ) . ".{$info['extension']}";
+            return CRM_Utils_String::munge( "{$basename}_{$uniqID}", '_',  240 ) . ".{$info['extension']}";
         }
     }
 
