@@ -24,6 +24,9 @@ class Audit
 		{
 			$regionList = $this->auditConfig->getRegions();
 			
+			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
+			$includeAll = ($includeAll == 'All');
+			
 			$activityindex = 0;
 			$activityList = $doc->getElementsByTagName("Activity");
 			foreach($activityList as $activity)
@@ -67,18 +70,29 @@ class Audit
 	
 					$fieldindex++;
 				}
-	
-				// Now sort the fields based on the order in the config file.
-				foreach($regionList as $region)
+
+				if ($includeAll || !$completed)
+				{	
+					$retval[$activityindex]['completed'] = $completed;
+		
+					// Now sort the fields based on the order in the config file.
+					foreach($regionList as $region)
+					{
+						$this->auditConfig->sort($retval[$activityindex][$region], $region);
+					}				
+						
+					$retval[$activityindex]['editurl'] = $activity->getElementsByTagName("EditURL")->item(0)->nodeValue;
+								
+					$activityindex++;
+				}
+				else
 				{
-					$this->auditConfig->sort($retval[$activityindex][$region], $region);
-				}				
-				
-				$retval[$activityindex]['completed'] = $completed;
-	
-				$retval[$activityindex]['editurl'] = $activity->getElementsByTagName("EditURL")->item(0)->nodeValue;
-							
-				$activityindex++;
+					/* This is a little bit inefficient, but the alternative is to do two passes
+					because we don't know until we've examined all the field values whether the activity
+					is completed, since the field that determines it and its value is configurable,
+					so either way isn't ideal. */
+					unset($retval[$activityindex]);
+				}
 			}
 		}		
             
