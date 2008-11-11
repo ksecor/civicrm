@@ -352,7 +352,7 @@
     <add>2.2</add> 
   </field> 
   <foreignKey> 
-    <name>contribution_address_id</name> 
+    <name>address_id</name> 
     <table>civicrm_address</table> 
     <key>id</key> 
     <add>2.2</add> 
