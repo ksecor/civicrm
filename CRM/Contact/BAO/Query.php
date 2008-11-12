@@ -1284,7 +1284,6 @@ class CRM_Contact_BAO_Query
             if ( is_numeric( $value ) ) {
                 $value  =  $states[(int ) $value];
             }
-            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('State') . " $op '$value'";
