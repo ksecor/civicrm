@@ -70,7 +70,18 @@
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
              {/if}
-             {$form.$n.html}
+             {if $n eq 'greeting_type'}
+               <table class="form-layout-compressed">
+                  <tr>
+                     <td>{$form.$n.html}</td>
+                     <td id='Custom Greeting'>
+                     {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}
+                     </td>
+                  </tr>
+               </table> 
+             {else} 
+               {$form.$n.html}
+             {/if}
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
              {if $field.help_post && $action neq 4 && $action neq 1028}
                 <br /><span class="description">{$field.help_post}</span> 
@@ -105,3 +116,23 @@
  
 {/if} {* fields array is not empty *} 
 
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+    </script>
+  {/literal}
+{/if}
+{literal}
+  <script type="text/javascript">
+    function showGreeting() {
+       if( document.getElementById("greeting_type").value == 4 ) {
+           show('Custom Greeting');                   
+       } else {
+           hide('Custom Greeting');      
+       }     
+    }
+  </script>
+{/literal}

@@ -167,6 +167,13 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $this->add('checkbox', 'is_default', ts('Default Option?'));
         }
         
+        //freeze the label if Greeting type is "Customized"
+        if ( $this->_gName == 'greeting_type' ) {
+            if ( $isReserved ) {
+                $this->freeze('label');
+            } 
+        }
+        
         if ($this->_gName == 'participant_status') {
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
             if ($isReserved) {

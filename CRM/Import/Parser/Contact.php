@@ -319,7 +319,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
         if ( $errorMessage ) {
-            $tempMsg = "Invalid value for field(s) : $errorMessage";
+            if ( $errorMessage != 'custom_greeting' ) { 
+                $tempMsg = "Invalid value for field(s) : $errorMessage";
+            } else {
+                $tempMsg = "Missing required field : Greeting Type";
+            }
             array_unshift($values, $tempMsg);
             $errorMessage = null;
             return CRM_Import_Parser::ERROR;
@@ -1103,6 +1107,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
                         }
                     }
+                    break;
+                case 'custom_greeting' :
+                    if (  CRM_Utils_Array::value( 'greeting_type', $params ) != "Customized"  ) {
+                        self::addToErrorMsg('custom_greeting', $errorMessage);
+                    }
+                    break;
                 default : 
                     if ( is_array( $params[$key] ) && 
                          isset( $params[$key]["contact_type"] ) ) {

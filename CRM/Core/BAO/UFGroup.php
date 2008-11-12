@@ -838,21 +838,32 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                       urlencode( $params[$index] ) );
                     }
                 } else {
+                    if( $fieldName == 'custom_greeting' ) {   
+                        if ( CRM_Utils_Array::value('Greeting Type', $params) != 4 ) { 
+                            array_pop($values); 
+                        } else {    
+                            $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                          'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                          urlencode( 'greeting_type' ) .
+                                                          '=' .
+                                                          urlencode( $params['Greeting Type'] ) . '&'.
+                                                          urlencode( $fieldName ) .
+                                                          '=' .
+                                                          urlencode( $params[$index] ) 
+                                                          );
+                        }
+                    } else {   
                     $url = CRM_Utils_System::url( 'civicrm/profile',
                                                   'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                   urlencode( $fieldName ) .
                                                   '=' .
                                                   urlencode( $params[$index] ) );
+                    }
                 }
                
                 if ( $url &&
                      ! empty( $values[$index] ) &&
                      $searchable ) {
-                    if ( $temp != 'Customized' && $index == 'Custom Greeting' ) {
-                        array_pop($values);
-                        continue;
-                    }
-                    $temp = $values['Greeting Type'];
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }
@@ -1310,7 +1321,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
         } else if ( $fieldName === 'greeting_type' ){            
             $form->add('select', $name, $title, 
-                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();") );
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();"));
             // custom greeting          
              $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, $required);
             
@@ -1468,9 +1479,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details['individual_suffix_id'];
                     } else if ($name == 'greeting_type') {
                         $defaults[$fldName] = $details['greeting_type_id'];
-                        if ( $details['greeting_type'] == 'Customized' ) {
-                            $defaults['custom_greeting'] = $details['custom_greeting'];
-                        } 
+                        $defaults['custom_greeting'] = $details['custom_greeting'];
                     } else if ($name == 'preferred_communication_method') {
                         $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                         foreach ( $v as $item ) {
