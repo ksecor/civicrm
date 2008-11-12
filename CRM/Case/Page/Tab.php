@@ -281,24 +281,32 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $url = null;
 
         switch ( $context ) {
+        case 'case':
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                             "reset=1&cid={$this->_contactId}&action=view&selectedChild=case" );
+            }
+            break;
+        
+        case 'activity':
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                             "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            }
+            break;
+            
+        case 'dashboard':           
+            $url = CRM_Utils_System::url( 'civicrm/case', 'reset=1' );
+            break;
+                
+        case 'search':
+                $url = CRM_Utils_System::url( 'civicrm/case/search', 'force=1' );
+                break;
+                
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
             break;
 
-        case 'activity':
-            if ( $this->_contactId ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
-            }
-            break;
-
-        case 'case':
-            if ( $this->_contactId ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&cid={$this->_contactId}&action=view&selectedChild=case" );
-            }
-            break;
-            
         default :
             if ( $this->_contactId && $this->_id ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
