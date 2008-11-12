@@ -1284,6 +1284,7 @@ class CRM_Contact_BAO_Query
             if ( is_numeric( $value ) ) {
                 $value  =  $states[(int ) $value];
             }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('State') . " $op '$value'";
@@ -1340,6 +1341,7 @@ class CRM_Contact_BAO_Query
             if ( is_numeric( $value ) ) { 
                 $value     =  $individualPrefixs[(int ) $value];  
             }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Individual Prefix') . " $op '$value'";
         } else if ( $name === 'individual_suffix' ) {
