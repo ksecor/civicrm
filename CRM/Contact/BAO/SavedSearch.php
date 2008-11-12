@@ -153,6 +153,9 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             } else {
                 $tables = $whereTables = array( $contact => 1 );
                 $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
+                if ( ! $where ) {
+                    $where = '( 1 )' ;
+                }
                 $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
                 return "
 SELECT contact_a.id
