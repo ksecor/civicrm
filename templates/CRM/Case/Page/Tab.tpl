@@ -24,7 +24,6 @@
          <tr class="columnheader">
             <th>{ts}Case Status{/ts}</th>
             <th>{ts}Case Type{/ts}</th>
-            <th>{ts}Subject{/ts}</th>
             <th>{ts}Start Date{/ts}</th>
             <th>&nbsp;</th>
         </tr>
@@ -32,7 +31,6 @@
         <tr class="{cycle values="odd-row,even-row"}">
             <td>{$case.status_id}</td>
             <td>{$case.case_type_id}</td>  
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject}</a></td>
             <td>{$case.start_date|crmDate}</td>
             <td>{$case.action}</td>
         </tr>
@@ -49,7 +47,7 @@
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
             {ts}There are no case records for this contact.{/ts}
-            {if $permission EQ 'edit'}{ts 1=$newCaseURL}You can <a href='%1'>enter one now</a>.{/ts}{/if}
+            {if $permission EQ 'edit'}{ts 1=$newCaseURL}You can <a href='%1'>open one now</a>.{/ts}{/if}
        </dd>
        </dl>
   </div>

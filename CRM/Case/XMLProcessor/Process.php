@@ -254,20 +254,33 @@ AND        ca.case_id = %3
         }
 
         require_once 'CRM/Core/OptionGroup.php';
-        $activityParams = array( 'activity_type_id'    => $activityTypeID,
-                                 'source_contact_id'   => $params['creatorID'],
-                                 'is_auto'             => true,
-                                 'is_current_revision' => 1,
-                                 'subject'             => CRM_Utils_Array::value('subject', $params) ? $params['subject'] : $activityTypeName,
-                                 'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
-                                                                                          $statusName,
-                                                                                          'name' ),
-                                 'target_contact_id'   => $params['clientID'],
-                                 'medium_id'           => CRM_Utils_Array::value('medium_id', $params),
-                                 'location'            => CRM_Utils_Array::value('location',  $params),
-                                 'details'             => CRM_Utils_Array::value('details',   $params),
-                                 'duration'            => CRM_Utils_Array::value('duration',  $params),
-                                 );
+        if ( $activityTypeName == 'Open Case' ) {
+            $activityParams = array( 'activity_type_id'    => $activityTypeID,
+                                     'source_contact_id'   => $params['creatorID'],
+                                     'is_auto'             => false,
+                                     'is_current_revision' => 1,
+                                     'subject'             => CRM_Utils_Array::value('subject', $params) ? $params['subject'] : $activityTypeName,
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                                                                              $statusName,
+                                                                                              'name' ),
+                                     'target_contact_id'   => $params['clientID'],
+                                     'medium_id'           => CRM_Utils_Array::value('medium_id', $params),
+                                     'location'            => CRM_Utils_Array::value('location',  $params),
+                                     'details'             => CRM_Utils_Array::value('details',   $params),
+                                     'duration'            => CRM_Utils_Array::value('duration',  $params),
+                                     );
+        } else {
+            $activityParams = array( 'activity_type_id'    => $activityTypeID,
+                                     'source_contact_id'   => $params['creatorID'],
+                                     'subject'             => ' ',
+                                     'is_auto'             => true,
+                                     'is_current_revision' => 1,
+                                     'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
+                                                                                            $statusName,
+                                                                                            'name' ),
+                                     'target_contact_id'   => $params['clientID'],
+                                    );
+        }
         
         if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
             $activityParams['custom'] = $params['custom'];
@@ -277,6 +290,15 @@ AND        ca.case_id = %3
         // activities, but we want it to be set for open case.
         if ( $activityTypeName == 'Open Case' && array_key_exists('activity_date_time', $params) ) {
             $activityParams['activity_date_time'] = $params['activity_date_time'];
+            $activityParams['due_date_time']      = $params['activity_date_time'];
+        } else {
+            if ( (int ) $activityTypeXML->reference_offset ) {
+                $dueDateTime = $params['dueDateTime'] + 
+                (int ) $activityTypeXML->reference_offset * 24 * 3600; // this might cause a DST issue
+            } else {
+                $dueDateTime = $params['dueDateTime'];
+            }
+            $activityParams['due_date_time'] = date( 'YmdHis', $dueDateTime );
         }
 
         // if same activity is already there, skip and dont touch
@@ -284,14 +306,6 @@ AND        ca.case_id = %3
         if ( $this->isActivityPresent( $params ) ) {
             return true;
         }
-
-        if ( (int ) $activityTypeXML->reference_offset ) {
-            $dueDateTime = $params['dueDateTime'] + 
-                (int ) $activityTypeXML->reference_offset * 24 * 3600; // this might cause a DST issue
-        } else {
-            $dueDateTime = $params['dueDateTime'];
-        }
-        $activityParams['due_date_time'] = date( 'YmdHis', $dueDateTime );
 
         require_once 'CRM/Activity/BAO/Activity.php';
         $activity = CRM_Activity_BAO_Activity::create( $activityParams );
