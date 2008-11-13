@@ -1,0 +1,178 @@
+-- /*******************************************************
+-- *
+-- * Sample Data for CiviCase Component
+-- *
+-- *******************************************************/
+
+-- Enable Case Tab in Site Preferences
+UPDATE civicrm_preferences SET `contact_view_options`= '123456789101113';
+
+-- Set 'Work' as default location type and 'Voicemail' as default phone type
+UPDATE civicrm_location_type SET `is_default` = 0 WHERE `name` = 'Home';
+UPDATE civicrm_location_type SET `is_default` = 1 WHERE `name` = 'Work';
+SELECT @ptId        := max(id) from civicrm_option_group where name = 'phone_type';
+UPDATE civicrm_option_value SET `is_default` = 1 WHERE `option_group_id` = @ptId AND `name` = 'Voicemail';
+
+-- /*******************************************************
+-- *
+-- * Case Types
+-- *
+-- *******************************************************/
+SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'case_type';
+
+-- get rid of HRD-related sample case types
+DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case_type;
+
+INSERT INTO
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
+VALUES
+    (@option_group_id_case_type, 'Inpatient treatment',  1, 'inpatient_treatment', NULL, 0,  0, 1, 'Inpatient treatment case', 0, 0, 1),
+    (@option_group_id_case_type, 'Intervention',  2, 'intervention', NULL, 0,  0, 2, 'Intervention case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to counselor',  3, 'referral_to_counselor', NULL, 0,  0, 3, 'Referral to counselor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to family doctor',  4, 'referral_to_family_doctor', NULL, 0,  0, 4, 'Referral to family doctor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to specialist',  5, 'referral_to_specialist', NULL, 0,  0, 5, 'Referral to specialist case', 0, 0, 1),
+    (@option_group_id_case_type, 'Relapse prevention',  6, 'relapse_prevention', NULL, 0,  0, 6, 'Relapse prevention case', 0, 0, 1),
+    (@option_group_id_case_type, 'Return to work',  7, 'return_to_work', NULL, 0,  0, 7, 'Return to work case', 0, 0, 1);
+
+-- /*******************************************************
+-- *
+-- * Case Status - Set names for Open and Closed
+-- *
+-- *******************************************************/
+SELECT @csgId        := max(id) from civicrm_option_group where name = 'case_status';
+UPDATE civicrm_option_value SET name = 'Open' where option_group_id = @csgId AND label = 'Ongoing';
+UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId AND label = 'Resolved';
+
+-- /*******************************************************
+-- *
+-- * Activity Categories and Activity Types
+-- *
+-- *******************************************************/
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES ('Case History', 'Case History', 1, 'Case history', 1, 0, NULL, 7);
+SELECT @parentId        := max(id) from civicrm_category where name = 'Case History';
+INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
+    VALUES  ('Open Case', 'Open Case', 1, '', 1, 0, @parentId, 7),
+            ('Follow up', 'Follow up', 2, '', 1, 0, @parentId, 7),
+            ('Assign principal classification - CPHN', 'Assign principal classification - CPHN', 3, '', 1, 0, @parentId, 7),
+            ('Assign principal classification - ICD', 'Assign principal classification - ICD', 4, '', 1, 0, @parentId, 7),
+            ('Assign principal classification - Presenting Problem', 'Assign principal classification - Presenting Problem', 5, '', 1, 0, @parentId, 7),
+            ('Assign principal classification - vocab', 'Assign principal classification - vocab', 6, '', 1, 0, @parentId, 7),
+            ('Change Case Type', 'Change Case Type', 7, '', 1, 0, @parentId, 7),
+            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7),
+            ('Close Case', 'Close Case', 9, '', 1, 0, @parentId, 7),
+            ('Assign secondary classification - CPHN', 'Assign secondary classification - CPHN', 10, '', 1, 0, @parentId, 7),
+            ('Assign secondary classification - ICD', 'Assign secondary classification - ICD', 11, '', 1, 0, @parentId, 7),
+            ('Assign secondary classification - Presenting Problem', 'Assign secondary classification - Presenting Problem', 12, '', 1, 0, @parentId, 7),
+            ('Assign secondary classification - vocab', 'Assign secondary classification - vocab', 13, '', 1, 0, @parentId, 7),
+            ('Plan inpatient admission', 'Plan inpatient admission', 14, '', 1, 0, @parentId, 7),
+            ('Confirm expected admission date', 'Confirm expected admission date', 15, '', 1, 0, @parentId, 7),
+            ('Confirm actual admission', 'Confirm actual admission', 16, '', 1, 0, @parentId, 7),
+            ('Confirm expected discharge date', 'Confirm expected discharge date', 17, '', 1, 0, @parentId, 7),
+            ('Confirm actual discharge date', 'Confirm actual discharge date', 18, '', 1, 0, @parentId, 7),
+            ('Receive report of early withdrawal from treatment', 'Receive report of early withdrawal from treatment', 19, '', 1, 0, @parentId, 7);
+
+SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
+SELECT @at2        := max(id) from civicrm_category where name = 'Follow up';
+SELECT @at3        := max(id) from civicrm_category where name = 'Assign principal classification - CPHN';
+SELECT @at4        := max(id) from civicrm_category where name = 'Assign principal classification - ICD';
+-- SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
+SELECT @at6        := max(id) from civicrm_category where name = 'Assign principal classification - Presenting Problem';
+SELECT @at7        := max(id) from civicrm_category where name = 'Assign principal classification - vocab';
+SELECT @at8        := max(id) from civicrm_category where name = 'Assign secondary classification - CPHN';
+SELECT @at9        := max(id) from civicrm_category where name = 'Assign secondary classification - ICD';
+SELECT @at10       := max(id) from civicrm_category where name = 'Assign secondary classification - Presenting Problem';
+SELECT @at11       := max(id) from civicrm_category where name = 'Assign secondary classification - vocab';
+
+
+-- /*******************************************************
+-- *
+-- * Custom Data Groups and Fields
+-- *
+-- *******************************************************/
+-- Open Case custom fields
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
+SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
+
+INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
+    VALUES  ('caller_20081023114820', 'Caller', NULL, NULL, 1),
+            ('severity_rating_20081023115218', 'Severity Rating', NULL, NULL, 1);
+
+SELECT @og1            := max(id) from civicrm_option_group where name = 'caller_20081023114820';
+SELECT @og2            := max(id) from civicrm_option_group where name = 'severity_rating_20081023115218';
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`)
+    VALUES  (@og1, 'Physician', 'Physician', NULL, NULL, NULL, 0, 1, NULL, 0, 0, 1, NULL),
+            (@og1, 'Resident', 'Resident', NULL, NULL, NULL, 0, 2, NULL, 0, 0, 1, NULL),
+            (@og1, 'Medical Student', 'Medical Student', NULL, NULL, NULL, 0, 3, NULL, 0, 0, 1, NULL),
+            (@og1, 'Spouse', 'Spouse', NULL, NULL, NULL, 0, 4, NULL, 0, 0, 1, NULL),
+            (@og1, 'Child', 'Child', NULL, NULL, NULL, 0, 5, NULL, 0, 0, 1, NULL),
+            (@og1, 'Colleague', 'Colleague', NULL, NULL, NULL, 0, 6, NULL, 0, 0, 1, NULL),
+            (@og1, 'Regulatory body', 'Regulatory body', NULL, NULL, NULL, 0, 7, NULL, 0, 0, 1, NULL),
+            (@og1, 'Treating clinician', 'Treating clinician', NULL, NULL, NULL, 0, 8, NULL, 0, 0, 1, NULL),
+            (@og1, 'Member of the public', 'Member of the public', NULL, NULL, NULL, 0, 9, NULL, 0, 0, 1, NULL),
+            (@og1, 'Other relationship', 'Other relationship', NULL, NULL, NULL, 0, 10, NULL, 0, 0, 1, NULL),
+            (@og2, '1', '1', NULL, NULL, NULL, 0, 1, NULL, 0, 0, 1, NULL),
+            (@og2, '2', '2', NULL, NULL, NULL, 0, 2, NULL, 0, 0, 1, NULL),
+            (@og2, '3', '3', NULL, NULL, NULL, 0, 3, NULL, 0, 0, 1, NULL),
+            (@og2, '4', '4', NULL, NULL, NULL, 0, 4, NULL, 0, 0, 1, NULL),
+            (@og2, '5', '5', NULL, NULL, NULL, 0, 5, NULL, 0, 0, 1, NULL);
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+    VALUES  (@cg, 'Caller', 'String', 'Radio', '', 1, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'caller_4', @og1),
+            (@cg, 'Severity Rating', 'String', 'Radio', NULL, 1, 1, 0, 2, NULL, 'How urgent is the situation? (1 = not very, 5 = extremely urgent)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'severity_rating_5', @og2);
+
+CREATE TABLE `civicrm_value_intake_questions_2` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `caller_4` varchar(255) collate utf8_unicode_ci default '',
+  `severity_rating_5` varchar(255) collate utf8_unicode_ci default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  KEY `INDEX_severity_rating_5` (`severity_rating_5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+ALTER TABLE `civicrm_value_intake_questions_2`
+  ADD CONSTRAINT `FK_civicrm_value_intake_questions_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Relationship Types
+-- *
+-- *******************************************************/
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
+SELECT @cR            := max(id) from civicrm_relationship_type where name_b_a = 'Case Coordinator';
+
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Addiction Counselor is', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
+SELECT @aR            := max(id) from civicrm_relationship_type where name_b_a = 'Addiction Counselor';
+
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
+SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a = 'Supervisor';
+
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0 );
+SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a = 'Intake Physician';
+
+
+
+
+-- /*******************************************************
+-- *
+-- * Encounter Medium Option Values
+-- *
+-- *******************************************************/
+INSERT INTO `civicrm_option_group` (name, label, description, is_reserved, is_active)
+    VALUES  ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
+SELECT @option_group_id_medium        := max(id) from civicrm_option_group where name = 'encounter_medium';
+INSERT INTO
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
+VALUES
+    (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
+    (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  1, 2, NULL, 0, 1, 1),
+    (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1);
+

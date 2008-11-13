@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Inpatient Treatment</name>
+  <ActivityTypes>
+    <ActivityType>
+      <name>Open Case</name>
+      <category>Case History</category>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <name>Plan inpatient admission</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Confirm expected admission date</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Confirm actual admission</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Confirm expected discharge date</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Confirm actual discharge date</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Receive report of early withdrawal from treatment</name>
+      <category>Case History</category>
+    </ActivityType>
+	<ActivityType>
+      <name>Change Case Type</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+      <category>Case History</category>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Closed</status>
+          <category>Case History</category>
+        </ActivityType>
+        <ActivityType>
+          <name>Plan inpatient admission</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Confirm expected admission date</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>7</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Confirm actual admission</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>14</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Confirm expected discharge date</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>28</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Confirm actual discharge date</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>56</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Case Coordinator</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Addiction Counselor</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Supervisor</name>
+    </RelationshipType>
+  </CaseRoles>
+</CaseType>
