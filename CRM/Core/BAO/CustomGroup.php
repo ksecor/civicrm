@@ -314,7 +314,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-        // crm_core_error::debug('$queryString', $queryString );
+        //crm_core_error::debug('$queryString', $queryString );
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
         
@@ -378,9 +378,11 @@ ORDER BY civicrm_custom_group.weight,
                 $from[]   = $table;
                 $select[] = "{$table}.id as {$table}_id";
                 $select[] = "{$table}.entity_id as {$table}_entity_id";
-                foreach ( $fields as $column => $dontCare ) {
-                    $select[] = "{$table}.{$column} as {$table}_{$column}";
+
+                foreach ( $groupTree[$groupID]['fields'] as $dontcare => $column ) {
+                    $select[] = "{$table}.{$column['column_name']} as {$table}_{$column['column_name']}";
                 }
+
                 if ( $entityID ) {
                     $where[]  = "{$table}.entity_id = $entityID";
                 }

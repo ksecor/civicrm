@@ -33,6 +33,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Custom/Form/CustomData.php';
 require_once 'CRM/Core/SelectValues.php';
 
 /**
@@ -85,7 +86,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_groupTree;    
+    public $_groupTree;    
 
     /**
      * what blocks should we show and hide.
@@ -124,6 +125,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
+        
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+ 
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            CRM_Custom_Form_CustomData::preProcess( $this );
+            CRM_Custom_Form_CustomData::buildQuickForm( $this );
+            CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         $session = & CRM_Core_Session::singleton( ); 
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
@@ -224,6 +240,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         $defaults = array( );
         $params   = array( );
 
@@ -364,7 +384,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
         }
 
-        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        //CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
 
@@ -450,7 +470,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
+        
+        //$this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
     /**
@@ -461,6 +482,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Contact');
+        $this->assign('customDataSubType',  $this->_contactType );
+        $this->assign('entityId',  $this->_contactId );
+
         require_once 'CRM/Contact/Form/Location.php';
 
         // assign a few constants used by all display elements
@@ -512,10 +542,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId, CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this,
-                                                               $this->_contactId,0,$this->_contactSubType);
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+/*         require_once 'CRM/Core/BAO/CustomGroup.php'; */
+/*         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, */
+/*                                                                $this->_contactId,0,$this->_contactSubType); */
+/*         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' ); */
 
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
