@@ -1,0 +1,162 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
+
+require_once 'CRM/Utils/Recent.php';
+
+/**
+ * Fix for bug CRM-392. Not sure if this is the best fix or it will impact
+ * other similar PEAR packages. doubt it
+ */
+if ( ! class_exists( 'Smarty' ) ) {
+    require_once 'Smarty/Smarty.class.php';
+}
+
+
+/**
+ *
+ */
+class CRM_Core_Smarty extends Smarty {
+
+    const
+        PRINT_PAGE    = 1,
+        PRINT_SNIPPET = 2,
+        PRINT_PDF     = 3,
+        PRINT_NOFORM  = 4;
+
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
+
+    /**
+     * class constructor
+     *
+     * @return CRM_Core_Smarty
+     * @access private
+     */
+    function __construct( ) {
+        parent::__construct( );
+
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( isset( $config->customTemplateDir ) && $config->customTemplateDir ) {
+            $this->template_dir = array( $config->customTemplateDir, $config->templateDir );
+        } else {
+            $this->template_dir = $config->templateDir;
+        }
+        $this->compile_dir  = $config->templateCompileDir;
+        
+        //Check for safe mode CRM-2207
+        if ( ini_get('safe_mode') ) {
+            $this->use_sub_dirs = false;
+        } else {
+            $this->use_sub_dirs = true;
+        }
+
+        $this->plugins_dir  = array ( $config->smartyDir . 'plugins', $config->pluginsDir );
+
+        // add the session and the config here
+        $config  =& CRM_Core_Config::singleton ();
+        $session =& CRM_Core_Session::singleton();
+        $recent  =& CRM_Utils_Recent::get( );
+
+        $this->assign_by_ref( 'config'        , $config  );
+        $this->assign_by_ref( 'session'       , $session );
+        $this->assign_by_ref( 'recentlyViewed', $recent  );
+        $this->assign       ( 'displayRecent' , true );
+
+        $this->assign('langSwitch', CRM_Core_I18n::languages(true));
+
+        $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
+
+        $printerFriendly = CRM_Utils_System::makeURL( 'snippet', false, false ) . '2';
+        $this->assign ( 'printerFriendly', $printerFriendly );
+    }
+
+    /**
+     * Static instance provider.
+     *
+     * Method providing static instance of SmartTemplate, as
+     * in Singleton pattern.
+     */
+    static function &singleton( ) {
+        if ( ! isset( self::$_singleton ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            self::$_singleton =& new CRM_Core_Smarty( $config->templateDir, $config->templateCompileDir );
+        }
+        return self::$_singleton;
+    }
+
+    /**
+     * executes & returns or displays the template results
+     *
+     * @param string $resource_name
+     * @param string $cache_id
+     * @param string $compile_id
+     * @param boolean $display
+     */
+    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    {
+        require_once 'CRM/Core/Menu.php';
+        return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
+    }
+
+    function appendValue( $name, $value ) {
+        $currentValue = $this->get_template_vars( $name );
+        if ( ! $currentValue ) {
+            $this->assign( $name, $value );
+        } else {
+            if ( strpos( $currentValue, $value ) === false ) {
+                $this->assign( $name, $currentValue . $value );
+            }
+        }
+    }
+
+    function clearTemplateVars( ) {
+        foreach ( array_keys( $this->_tpl_vars ) as $key ) {
+            if ( $key == 'config' || $key == 'session' ) {
+                continue;
+            }
+            unset( $this->_tpl_vars[$key] );
+        }
+    }
+
+}
+
+

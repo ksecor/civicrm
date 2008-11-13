@@ -1,0 +1,12 @@
+; $Id $
+name = "SimpleTest module"
+description = "Provides simpletest classes to developers as well as some standard tests for Drupal"
+package = Simpletest
+core = 7.x
+
+; Information added by drupal.org packaging script on 2008-03-17
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "simpletest"
+datestamp = "1205755945"
+

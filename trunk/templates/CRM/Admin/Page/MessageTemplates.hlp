@@ -1,0 +1,10 @@
+{htxt id="id-intro"}
+{ts 1="http://wiki.civicrm.org/confluence//x/gCY" 2="http://wiki.civicrm.org/confluence//x/2yk" 3=$docURLTitle}
+    <p>Message templates allow you to save and re-use messages with layouts.
+    You can use them when sending email to one or more contacts. If you are using the CiviMail component - you can use templates for your
+    messages. If you are using the CiviMember component, you will need to create one or more message templates for membership renewal reminders (<a href="%2" target="_blank" title="%3">read more...</a>).</p>
+    
+    <p>You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding
+    field in the outgoing message EXAMPLE: Dear {ldelim}contact.first_name{rdelim} (<a href="%1" target="_blank" title="%3">read more...</a>).</p>
+{/ts}
+{/htxt}

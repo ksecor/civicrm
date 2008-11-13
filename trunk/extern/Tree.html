@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Dijit Tree Programmatic Test</title>
+
+	<style type="text/css">
+		@import "/~lobo/svn/dojo/dojo/resources/dojo.css";
+		@import "/~lobo/svn/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+
+	<script type="text/javascript" src="../packages/dojo/dojo/dojo.js.uncompressed.js"
+		djConfig="parseOnLoad: true, isDebug: false"></script>
+	<script type="text/javascript" src="../packages/dojo/dojo/commonWidgets.js.uncompressed.js"></script>
+        <script type="text/javascript">
+           dojo.require("dijit.Dialog");
+	</script>
+	<script type="text/javascript">
+		dojo.require("dojo.data.ItemFileWriteStore");
+		dojo.require("dijit.Dialog");
+		dojo.require("civicrm.CheckableTree");
+		function displayGroupTree(){
+ 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://brahma/trunk/civicrm/ajax/groupTree'});
+			var myModel = new dijit.tree.ForestStoreModel({
+				store: myStore,
+				query: {type:'rootGroup'},
+                                rootId: 'allGroups',
+                                rootLabel: 'All Groups',
+				childrenAttrs: ["children"]
+			});
+			var tree = new civicrm.CheckableTree({
+				model: myModel
+			    });
+
+			var dd = dijit.byId('id-groupPicker');
+		        dd.containerNode.appendChild(tree.domNode);
+			tree.startup();
+		};
+
+	</script>
+
+</head>
+<body>
+        <h1 class="testTitle">Dijit Forest Store Programmatic Test</h1>
+  <h2><span class='crm_blocktitle'>New Individual</span></h2>
+
+  <div class="content"><div id="crm-quick-create">
+
+<form action="http://localhost/~lobo/drupal6/civicrm/contact/add?reset=1&amp;ct=Individual" method="post">
+
+<div class="form-item">
+    <div>
+        <label for="qa_first_name">First Name:</label>
+    </div>
+    <div>
+        <input type="text" name="first_name" id="qa_first_name" class="form-text" maxlength="64" />
+    </div>
+</div>
+
+<div class="form-item">
+    <div>
+        <label for="qa_last_name">Last Name:</label>
+    </div>
+    <div>
+        <input type="text" name="last_name" id="qa_last_name" class="form-text required" maxlength="64" />
+    </div>
+</div>
+
+<div class="form-item">
+    <div>
+        <label for="qa_email">Email:</label>
+    </div>
+    <div>
+        <input type="text" name="location[1][email][1][email]" id="qa_email" class="form-text" maxlength="64" />
+    </div>
+
+    <input type="hidden" name="location[1][location_type_id]" value="1" />
+
+    <input type="hidden" name="location[1][is_primary]" value="1" />
+    <input type="hidden" name="ct" value="Individual" />
+<br/>
+            <a href="javascript:dijit.byId('id-groupPicker').show()">Pick your groups</a>
+            <div dojoType="dijit.Dialog" id="id-groupPicker" refreshOnShow=false class="tundra" href="Group.html"}">
+            </div>
+        </div>
+
+<a href="javascript:displayGroupTree()">All Groups</a>
+
+<div class="form-item"><input type="submit" name="_qf_Edit_next" value="Save" class="form-submit" /></div>
+
+</form>
+</div></div>
+
+</body>
+</html>

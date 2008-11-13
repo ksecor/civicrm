@@ -1,0 +1,17 @@
+{htxt id='accesskeys'}
+<p>
+<strong>{ts}Use the following key combinations for:{/ts}</strong>
+</p>
+<p>
+<ul>
+<li> ALT+SHIFT+I -<em> New Individual</em></li>
+<li> ALT+SHIFT+O -<em> New Organization</em></li>
+<li> ALT+SHIFT+H -<em> New Household</em></li>
+<li> ALT+SHIFT+G -<em> New Group</em></li>
+<li> ALT+SHIFT+A -<em> New Activity</em></li>
+<li> ALT+SHIFT+E -<em> Edit Contact(View Contact Summary Page)</em></li>
+<li> ALT+SHIFT+S -<em> Save Button</em></li>
+<li> ALT+SHIFT+N -<em> Adding a new record in each tab (Contributions, Events,..etc)</em></li>
+</ul>
+</p>
+{/htxt}

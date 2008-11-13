@@ -1,0 +1,126 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
+
+require_once 'CRM/Core/Form.php';
+
+/**
+ * This class generates form components for Payment-Instrument
+ * 
+ */
+class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
+{
+    /**  
+     * Function to set variables up before form is built  
+     *                                                            
+     * @return void  
+     * @access public  
+     */
+    public function preProcess( ) {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+
+        $values = array( ); 
+        $ids    = array( ); 
+        $params = array( 'id' => $this->get( 'id' ) ); 
+        CRM_Contribute_BAO_Contribution::getValues( $params, 
+                                                    $values,  
+                                                    $ids );            
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
+        
+        if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
+            $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
+            $dao = &new CRM_Core_DAO();
+            $dao->query($sql);
+            if ( $dao->fetch() ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$values[honor_contact_id]" );
+                $values["honor_display"] = "<A href = $url>". $dao->display_name ."</A>"; 
+            }
+            $honor =CRM_Core_PseudoConstant::honor( );
+            $values['honor_type'] = $honor[$values['honor_type_id']]; 
+        }
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ),0,$values['contribution_type_id'] );
+        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+
+        $premiumId = null;
+        $id        = $this->get( 'id' );
+        if( $id ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->contribution_id = $id;
+            if ( $dao->find(true) ) {
+               $premiumId = $dao->id;
+               $productID = $dao->product_id; 
+            }
+            
+        }
+        
+        if( $premiumId ) {
+                       
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO = & new CRM_Contribute_DAO_Product();
+            $productDAO->id  = $productID;
+            $productDAO->find(true);
+           
+            $this->assign('premium' , $productDAO->name );
+            $this->assign('option',$dao->product_option);
+            $this->assign('fulfilled',$dao->fulfilled_date);
+                     
+        }
+        // Get Note
+        $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
+        $values['note'] =  array_values($noteValue);
+        $this->assign( $values ); 
+    }
+
+    /**
+     * Function to build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+        $this->addButtons(array(  
+                                array ( 'type'      => 'cancel',  
+                                        'name'      => ts('Done'),  
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
+                                        'isDefault' => true   )
+                                )
+                          );
+    }
+
+}
+
+

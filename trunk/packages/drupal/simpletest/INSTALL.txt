@@ -1,0 +1,19 @@
+$Id: INSTALL.txt,v 1.6 2008/01/21 09:00:37 rokZlender Exp $
+
+Installation
+------------
+1. Uncompress the SimpleTest module package to your sites/all/modules directory.
+2. Download the latest SimpleTest package from SourceForge.net:
+   https://sourceforge.net/project/showfiles.php?group_id=76550&package_id=77275
+   Note: At least version 1.0.1 beta2 is required (for upload tests).
+3. Uncompress it inside your SimpleTest module directory, so the official
+   SimpleTest files are located at:
+   sites/all/modules/simpletest/simpletest
+4. Go to Administer >> Site building >> Modules (admin/build/modules) and
+   enable the SimpleTest module.
+5. Go to Administer >> Site building >> SimpleTest (admin/build/simpletest) to
+   begin using the module.
+6. (Optional) Go to Administer >> Help >> SimpleTest (admin/help/simpletest)
+   for more information on how to use the SimpleTest module.
+7. (Optional) Go to Administer >> Site configuration >> SimpleTest settings
+   (admin/settings/simpletest) to configure advanced settings.

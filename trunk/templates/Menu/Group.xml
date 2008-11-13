@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/group</path>
+     <title>Manage Groups</title>
+     <page_type>1</page_type>
+     <page_callback>CRM_Group_Page_Group</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>30</weight>
+  </item>
+  <item>
+     <path>civicrm/group/search</path>
+     <title>Group Members</title>
+     <page_callback>CRM_Contact_Controller_Search</page_callback>
+     <page_arguments>mode=256</page_arguments>
+  </item>
+  <item>
+     <path>civicrm/group/add</path>
+     <title>Create New Group</title>
+     <page_callback>CRM_Group_Controller</page_callback>
+  </item>
+</menu>

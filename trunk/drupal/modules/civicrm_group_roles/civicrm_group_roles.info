@@ -1,0 +1,13 @@
+; $Id: civiroles.info,v 1.1.4.2 2008/10/14 00:20:36 matt2000 Exp $
+name = CiviGroup Roles Sync
+description = Sync Drupal Roles to CiviCRM Groups.
+dependencies[] = civicrm
+package = CiviCRM
+core = 6.x
+
+; Information added by drupal.org packaging script on 2008-10-14
+version = "6.x-3.x-dev"
+core = "6.x"
+project = "civimember_roles"
+datestamp = "1223985794"
+

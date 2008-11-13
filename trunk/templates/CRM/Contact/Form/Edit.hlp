@@ -1,0 +1,3 @@
+{htxt id="id-bulkmail"}
+{ts}If you are using the CiviMail component to send mailings to contacts, this field provides additional control over which email address is used. By default, CiviMail sends mail to each contact's preferred email address. If the contact has multiple locations, then the preferred email of the primary location is used. However, if the contact prefers to have CiviMail ('bulk') mailings set to an alternate email address - check the 'Use for Bulk Mailings' box next to that email address.{/ts}
+{/htxt} 

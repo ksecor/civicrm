@@ -1,0 +1,17 @@
+{htxt id="id-participant-role"}
+    <p>{ts}The Role you select here is automatically assigned to people when they register online for this event (usually the default 'Attendee' role).{/ts}</p>
+    <p>{ts}You can also allow people to choose a Role by creating a Profile with the Participant Role field. Then include that Profile when you configure the Online Registration page for this event.{/ts}</p>
+{/htxt}
+
+{htxt id="id-listing"}
+    {ts}To allow users to see a listing of participants, set this field to 'Name' (list names only), or 'Name and Email' (list names and emails).{/ts}
+    {if $config->userFramework EQ 'Drupal'}
+        {ts}You will need to set Drupal Access Control permissions to include 'view event participants' for any Roles you want to access this listing.{/ts}
+        {if $id}
+            {ts}Create links to the listing page by copying the following URL, and adding it to the Event Description below and / or as a menu item or links elsewhere on your site:{/ts}<br />
+            <strong>{crmURL p='civicrm/event/participant' q="reset=1&id=`$id`"}</strong>
+        {/if}
+    {elseif $config->userFramework EQ 'Joomla'}
+        {ts 1=$id}Then create front-end links to the Participant Listing page using the Menu Manager. Select <strong>Participant Listing Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}
+    {/if}
+{/htxt}

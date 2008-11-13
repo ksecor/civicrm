@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>EntityTag</class>
+  <name>civicrm_entity_tag</name>
+  <comment>Tag entities (Contacts, Groups, Actions) to categories.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>primary key</comment>
+       <add>1.1</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to contact table.</comment>
+       <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.0</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
+  <field>
+      <name>tag_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_tag</comment>
+       <add>1.1</add>
+  </field>
+  <foreignKey>
+       <name>tag_id</name>
+       <table>civicrm_tag</table>
+       <key>id</key>
+       <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
+</table>

@@ -1,0 +1,148 @@
+<?php
+
+function civitest_help( $section ) {
+	switch ($section) { 
+	case 'admin/help#civitest':
+        return t( 'CiviTest module v0.01' );
+
+    case 'admin/modules#description':
+        return t( 'CiviTest module v0.01' );
+
+    }
+}
+
+function civitest_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
+    // only interested in the profile object and create operation for now
+    if ( $objectName != 'Profile' || ( $op != 'create' && $op != 'edit' ) ) {
+        // send it to custom hook
+        return civitest_hook_custom( $op, $objectName, $objectId, &$objectRef );
+    }
+
+    // send an email to the user and cc administrator
+    // with a welcome message
+    civicrm_initialize( true );
+
+    require_once 'CRM/Utils/Mail.php';
+
+    $fromName  = 'My Org Administrator';
+    $fromEmail = 'from@myorg.org';
+    $from      = CRM_Utils_Mail::encodeAddressHeader( $fromName, $fromEmail );
+    
+    $toEmail   = $objectRef['email-1'];
+    $toName    = "{$objectRef['first_name']} {$objectRef['last_name']}";
+
+    $params    = print_r( $objectRef, true );
+    $subject   = "Thank you for supporting My Org";
+    $message   = "
+Dear $to:
+
+Thank you for your show of support. The details u signed up with are:
+
+$params
+
+Regards
+
+My Org Team
+";
+    $cc       = 'cc@myorg.org';
+
+    CRM_Utils_Mail::send( $from,
+                          $toName,
+                          $toEmail,
+                          $subject,
+                          $message,
+                          $cc );
+    
+}
+
+function civitest_civicrm_custom( $op, $groupID, $entityID, &$params ) {
+    if ( $op != 'create' && $op != 'edit' ) {
+        return;
+    }
+
+    $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                              $groupID,
+                                              'table_name' );
+    $sql = "
+UPDATE $tableName
+SET    random_code_data_3 = 23
+WHERE  entity_id = $entityID
+";
+    CRM_Core_DAO::executeQuery( $sql,
+                                CRM_Core_DAO::$_nullArray );
+}
+
+/**
+ * Get the permissioned where clause for the user
+ *
+ * @param int $type the type of permission needed
+ * @param  array $tables (reference ) add the tables that are needed for the select clause
+ * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+ * @param int    $contactID the contactID for whom the check is made
+ *
+ * @return string the group where clause for this user
+ * @access public
+ */
+function civitest_civicrm_aclWhereClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+    if ( ! $contactID ) {
+        return;
+    }
+
+    $permissionTable = 'civicrm_value_permission';
+    $regionTable     = 'civicrm_value_region';
+    $fields          = array( 'electorate' => 'Integer',
+                              'province'   => 'Integer',
+                              'branch'     => 'Integer' );
+
+    // get all the values from the permission table for this contact
+    $keys = implode( ', ', array_keys( $fields ) );
+    $sql = "
+SELECT $keys
+FROM   {$permissionTable}
+WHERE  entity_id = $contactID
+";
+    $dao = CRM_Core_DAO::executeQuery( $sql,
+                                       CRM_Core_DAO::$_nullArray );
+    if ( ! $dao->fetch( ) ) {
+        return;
+    }
+
+    $tables[$regionTable] = $whereTables[$regionTable] =
+        "LEFT JOIN {$regionTable} regionTable ON contact_a.id = regionTable.entity_id";
+
+    $clauses = array( );
+    foreach( $fields as $field => $fieldType ) {
+        if ( ! empty( $dao->$field ) ) {
+            if ( strpos( CRM_Core_DAO::VALUE_SEPARATOR, $dao->$field ) !== false ) {
+                $value = substr( $dao->$field, 1, -1 );
+                $values = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+                foreach ( $values as $v ) {
+                    $clauses[] = "regionTable.{$field} = $v";
+                }
+            } else {
+                if ( $fieldType == 'String' ) {
+                    $clauses[] = "regionTable.{$field} = '{$dao->$field}'";
+                } else {
+                    $clauses[] = "regionTable.{$field} = {$dao->$field}";
+                }
+            }
+        }
+    }
+
+    if ( ! empty( $clauses ) ) {
+        $where .= ' AND (' . implode( ' OR ', $clauses ) . ')';
+    }
+}
+
+function civitest_civicrm_dashboard( $contactID ) {
+    return array( 'Custom Content' => "Here is some custom content: $contactID",
+                  'Custom Table' => "
+<table>
+<tr><th>Contact Name</th><th>Date</th></tr>
+<tr><td>Foo</td><td>Bar</td></tr>
+<tr><td>Goo</td><td>Tar</td></tr>
+</table>
+",
+                  );
+
+}

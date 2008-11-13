@@ -1,0 +1,85 @@
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+DROP VIEW IF EXISTS civicrm_contact_view;
+
+CREATE
+VIEW              civicrm_contact_view
+AS
+SELECT            c.id as contact_id,
+                  c.contact_type,
+                  c.sort_name,
+                  c.display_name,
+                  c.first_name,
+                  c.middle_name,
+                  c.last_name,
+                  c.organization_name,
+                  c.household_name,
+                  c.do_not_email,
+                  c.do_not_phone,
+                  c.do_not_mail,
+                  c.do_not_trade,
+                  c.is_opt_out,
+                  c.legal_identifier,
+                  c.external_identifier,
+                  gender.name as gender,
+                  c.birth_date,
+                  c.is_deceased,
+                  c.deceased_date,
+                  a.street_address,
+                  a.supplemental_address_1,
+		  a.supplemental_address_2,
+		  a.city,
+		  a.postal_code,
+		  sp.name as state_province,
+		  sp.abbreviation as state_province_abbr,
+		  co.name as country,
+		  co.iso_code as country_abbr,
+                  alt.name as address_location_type,
+                  e.email,
+                  elt.name as email_location_type,
+                  p.phone as phone,
+                  plt.name as phone_location_type
+FROM              civicrm_contact c
+LEFT JOIN         civicrm_address a           ON ( c.id = a.contact_id AND a.is_primary = 1)
+LEFT JOIN         civicrm_email e             ON ( c.id = e.contact_id AND e.is_primary = 1)
+LEFT JOIN         civicrm_phone p             ON ( c.id = p.contact_id AND p.is_primary = 1)
+LEFT JOIN         civicrm_location_type alt   ON ( a.location_type_id = alt.id )
+LEFT JOIN         civicrm_location_type elt   ON ( e.location_type_id = elt.id )
+LEFT JOIN         civicrm_location_type plt   ON ( p.location_type_id = plt.id )
+LEFT JOIN         civicrm_state_province sp   ON (a.state_province_id = sp.id  )
+LEFT JOIN         civicrm_country co          ON ( a.country_id = co.id )
+LEFT JOIN         civicrm_option_group ggroup ON ( ggroup.name = 'gender' )
+LEFT JOIN         civicrm_option_value gender ON ( gender.option_group_id = ggroup.id AND c.gender_id = gender.value );
+
+select count(*) from civicrm_contact_view \G;
+
+SELECT * from civicrm_contact_view limit 5 \G;
+
+
+                  
+   
+
+

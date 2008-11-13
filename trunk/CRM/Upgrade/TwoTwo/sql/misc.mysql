@@ -1,0 +1,166 @@
+-- /************************************************************************
+-- *
+-- * MySQL Script for civicrm database/tables - upgradation from 2.1 -> 2.2
+-- *
+-- *************************************************************************/
+
+-- Please add script for all the schema / fixed-data related modifications to 
+-- this sql script as you resolve 2.2 issues. Include the issue number which 
+-- is the source of the change, as part of the comment.
+
+
+-- make the register_by_id cascade in civicrm_participant	
+
+ALTER TABLE `civicrm_participant`
+   DROP FOREIGN KEY `FK_civicrm_participant_registered_by_id`;
+ALTER TABLE `civicrm_participant`
+    ADD CONSTRAINT `FK_civicrm_participant_registered_by_id` FOREIGN KEY (`registered_by_id`) REFERENCES `civicrm_participant` (`id`) ON DELETE CASCADE;
+
+
+-- merge civicrm_event_page to civicrm_event
+
+ALTER TABLE `civicrm_event`
+   ADD `intro_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+   ADD `footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+   ADD `confirm_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for Confirmation page.',
+   ADD `confirm_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+   ADD `confirm_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+   ADD `is_email_confirm` tinyint(4) default '0' COMMENT 'If true, confirmation is automatically emailed to contact on successful registration.',
+   ADD `confirm_email_text` text collate utf8_unicode_ci COMMENT 'text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now',
+   ADD `confirm_from_name` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email name used for confirmation emails.',
+   ADD `confirm_from_email` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email address used for confirmation emails.',
+   ADD `cc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
+   ADD `bcc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
+   ADD `default_fee_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
+   ADD `default_discount_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
+   ADD `thankyou_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for ThankYou page.',
+   ADD `thankyou_text` text collate utf8_unicode_ci COMMENT 'ThankYou Text.',
+   ADD `thankyou_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message.',
+   ADD `is_pay_later` tinyint(4) default '0' COMMENT 'if true - allows the user to send payment directly to the org later',
+   ADD `pay_later_text` text collate utf8_unicode_ci COMMENT 'The text displayed to the user in the main form',
+   ADD `pay_later_receipt` text collate utf8_unicode_ci COMMENT 'The receipt sent to the user instead of the normal receipt text',
+   ADD `is_multiple_registrations` tinyint(4) default '0' COMMENT 'if true - allows the user to register multiple participants for event';
+
+UPDATE civicrm_event ce
+LEFT JOIN civicrm_event_page cp ON ce.id=cp.event_id
+SET ce.intro_text = cp.intro_text,
+    ce.footer_text = cp.footer_text,
+    ce.confirm_title = cp.confirm_title,	
+    ce.confirm_text = cp.confirm_text,
+    ce.confirm_footer_text = cp.confirm_footer_text,
+    ce.is_email_confirm = cp.is_email_confirm,
+    ce.confirm_email_text = cp.confirm_email_text,
+    ce.confirm_from_name = cp.confirm_from_name,
+    ce.confirm_from_email = cp.confirm_from_email,
+    ce.cc_confirm = cp.cc_confirm,
+    ce.bcc_confirm = cp.bcc_confirm,
+    ce.default_fee_id = cp.default_fee_id,
+    ce.default_discount_id = cp.default_discount_id,
+    ce.thankyou_title = cp.thankyou_title,
+    ce.thankyou_text = cp.thankyou_text,
+    ce.thankyou_footer_text = cp.thankyou_footer_text,
+    ce.is_pay_later = cp.is_pay_later,
+    ce.pay_later_text = cp.pay_later_text,
+    ce.pay_later_receipt = cp.pay_later_receipt,
+    ce.is_multiple_registrations = cp.is_multiple_registrations;
+
+-- /*******************************************************
+-- *
+-- * Drop civicrm_event_page table
+-- *
+-- *******************************************************/
+
+DROP TABLE civicrm_event_page;
+
+
+-- need to add update statement for site preference options to enable 
+-- preferences for contact_type / groups / tags, CRM-2794
+UPDATE civicrm_preferences SET advanced_search_options = CONCAT(advanced_search_options, '161718');
+
+-- /**
+--  * add new mailing fields
+--  * CRM-3599 (created_id, scheduled_id)
+--  * CRM-3598 (search_id, search_args)
+-- **/
+
+ALTER TABLE civicrm_mailing
+  ADD override_verp tinyint   DEFAULT 0 AFTER msg_template_id,
+  ADD created_id int unsigned NULL DEFAULT NULL AFTER override_verp,
+  ADD scheduled_id int unsigned NULL DEFAULT NULL AFTER created_id,
+  ADD CONSTRAINT FK_civicrm_mailing_created_id FOREIGN KEY (created_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,
+  ADD CONSTRAINT FK_civicrm_mailing_scheduled_id FOREIGN KEY (scheduled_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE;
+
+ALTER TABLE civicrm_mailing_group
+  ADD search_id int AFTER entity_id,
+  ADD search_args text AFTER search_id;
+
+
+-- CRM-3609 (used IGNORE as 2.1 post beta5 should have this already)
+ 
+INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5217, 1020, "BRU", "Brussels");
+
+-- CRM-3573 
+-- added column case_id in civicrm_relationship table.
+-- added columns medium, is_auto, relationship_id fileds in civicrm_activity.
+-- create new table civicrm_category.
+-- added value'Case' in civicrm_custom_group.
+
+ALTER TABLE `civicrm_relationship`
+  ADD `case_id` int(10) unsigned DEFAULT NULL COMMENT 'FK to civicrm_case' AFTER is_permission_b_a,
+  ADD CONSTRAINT FK_civicrm_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id) ON DELETE CASCADE;
+ 
+ALTER TABLE `civicrm_activity`
+  ADD `medium` int(10) unsigned default NULL COMMENT 'Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.',
+  ADD `is_auto` tinyint(4) default '0' COMMENT 'if true - activity is auto populated while case review',
+  ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
+  ADD CONSTRAINT FK_civicrm_relationship_id FOREIGN KEY (relationship_id) REFERENCES civicrm_relationship(id) ON DELETE SET NULL;
+
+CREATE TABLE IF NOT EXISTS `civicrm_category` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'category id',
+  `label` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Category label string as displayed to users.',
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Variable name/programmatic handle for this category.',
+  `weight` int(11) default '1' COMMENT 'Order in which the subtypes should appear',
+  `description` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Optional verbose description for the category.',
+  `is_active` tinyint(4) default '1' COMMENT 'is the Category active ?',
+  `is_reserved` tinyint(4) default '0' COMMENT 'is the Category reserved ?',
+  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Category ID (if this is a Category).for storing hierarchical categorisation',
+  `component_id` int(10) unsigned default NULL COMMENT 'Component that this option value belongs/caters to.',
+  `is_auto` tinyint(4) default '0' COMMENT 'Is this activity type used by programmatically created activities?',
+  PRIMARY KEY  (`id`),
+  KEY `FK_civicrm_category_parent_id` (`parent_id`),
+  KEY `FK_civicrm_category_component_id` (`component_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
+ALTER TABLE `civicrm_custom_group`
+  MODIFY `extends` enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Group','Membership','Participant','Event','Grant','Pledge','Case') collate utf8_unicode_ci default 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
+
+-- added new column 'skipBreadcrumb' to civicrm_menu. CRM-2699.
+
+ALTER TABLE `civicrm_menu`
+  ADD `skipBreadcrumb` tinyint(4) default '0' COMMENT 'skip this url being exposed to breadcrumb';
+  
+-- add UNIQUE constraint on civicrm_option_value
+ALTER TABLE `civicrm_option_value`
+  ADD UNIQUE `UI_option_group_id_name` ( `option_group_id` , `name` );
+
+-- fix constraint
+ALTER TABLE `civicrm_group_nesting`
+    DROP FOREIGN KEY `FK_civicrm_group_nesting_child_group_id`;
+ALTER TABLE `civicrm_group_nesting`
+    ADD CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE;
+
+-- New fields for Personal Campaign Pages and CRM-3494 (billing name and address for contributions)
+ALTER TABLE `civicrm_contribution`
+  ADD `pcp_made_through_id` int(10) unsigned default NULL,
+  ADD `pcp_display_in_roll` tinyint(4) default '0',
+  ADD `pcp_roll_nickname` varchar(255) collate utf8_unicode_ci default NULL,
+  ADD `pcp_personal_note` varchar(255) collate utf8_unicode_ci default NULL,
+  ADD `address_id` int(10) unsigned default NULL COMMENT 'Conditional foreign key to civicrm_address.id. We insert an address record for each contribution when we have associated billing name and address data.';
+
+CREATE INDEX `index_pcp_made_through_id` ON `civicrm_contribution` (`pcp_made_through_id`);
+
+-- Make sure is_billing flag is true for all address records where location type is Billing
+-- Using hard-coded location_type_id since we don't have a non-translatable name for location types
+UPDATE `civicrm_address`
+SET `is_billing` = 1
+WHERE `location_type_id` = 5;

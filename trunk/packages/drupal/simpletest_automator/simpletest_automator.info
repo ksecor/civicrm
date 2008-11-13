@@ -1,0 +1,12 @@
+; $Id $
+name = "SimpleTest Automator"
+description = "Helps in the creation of SimpleTest test files"
+package = Simpletest
+core = 6.x
+
+; Information added by drupal.org packaging script on 2007-12-25
+version = "6.x-1.0-beta2"
+core = "6.x"
+project = "simpletest_automator"
+datestamp = "1198581607"
+
