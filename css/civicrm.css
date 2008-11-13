@@ -518,10 +518,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
  
 #crm-container tr.columnheader {
-  /*background-color: #CCCCCC;*/
   background-color: #B3D1FF;
   color: #000000;
-  /*border: 1px solid #000000;*/
   border: 1px solid #5A8FDB;
 }
 #crm-container tr.columnheader a {

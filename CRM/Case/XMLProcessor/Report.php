@@ -237,11 +237,21 @@ WHERE      a.id = %1
                                                       "reset=1&cid={$clientID}&id={$activityDAO->caseID}&action=add&atype={$activityDAO->activity_type_id}&aid={$activityDAO->id}" );
         $activity['fields'] = array( );
 
+        $activity['fields'][] = array( 'label' => 'Client',
+                                       'value' => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                               $clientID,
+                                                                               'display_name' ),
+                                       'type'  => 'String' );
+
         // Activity Type info is a special field
         $activity['fields'][] = array( 'label'    => 'Activity Type',
                                        'value'    => $activityTypeInfo['label'],
                                        'category' => $activityTypeInfo['parentLabel'],
                                        'type'     => 'String' );
+        
+        $activity['fields'][] = array( 'label' => 'Subject',
+                                       'value' => $activityDAO->subject,
+                                       'type'  => 'Memo' );
         
         $activity['fields'][] = array( 'label' => 'Created By',
                                        'value' => $this->getCreatedBy( $activityDAO->id ),
@@ -253,6 +263,15 @@ WHERE      a.id = %1
                                                                                'display_name' ),
                                        'type'  => 'String' );
         
+        $activity['fields'][] = array( 'label' => 'Medium',
+                                      'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
+                                                                                $activityDAO->medium_id ),
+                                      'type'  => 'String' );
+        
+        $activity['fields'][] = array( 'label' => 'Location',
+                                      'value' => $activityDAO->location,
+                                      'type'  => 'String' );
+        
         $activity['fields'][] = array( 'label' => 'Due Date',
                                        'value' => $activityDAO->due_date_time,
                                        'type'  => 'Date' );
@@ -261,34 +280,26 @@ WHERE      a.id = %1
                                        'value' => $activityDAO->activity_date_time,
                                        'type'  => 'Date' );
 
-        $activity['fields'][] = array( 'label' => 'Medium',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
-                                                                                  $activityDAO->medium_id ),
-                                       'type'  => 'String' );
-
+        $activity['fields'][] = array( 'label' => 'Details',
+                                      'value' => $activityDAO->details,
+                                      'type'  => 'Memo' );
+        
+        $activity['fields'][] = array( 'label' => 'Duration',
+                                      'value' => $activityDAO->duration . ' ' . ts('minutes'),
+                                      'type'  => 'Int' );
+        
         $activity['fields'][] = array( 'label' => 'Status',
                                        'value' => CRM_Core_OptionGroup::getLabel( 'activity_status',
                                                                                   $activityDAO->status_id ),
                                        'type'  => 'String' );
         
-        $activity['fields'][] = array( 'label' => 'Duration',
-                                       'value' => $activityDAO->duration,
-                                       'type'  => 'Int' );
-        
-        $activity['fields'][] = array( 'label' => 'Subject',
-                                       'value' => $activityDAO->subject,
-                                       'type'  => 'Memo' );
-
-        $activity['fields'][] = array( 'label' => 'Details',
-                                       'value' => $activityDAO->details,
-                                       'type'  => 'Memo' );
-
         
         // for now empty custom groups
         $activity['customGroups'] = $this->getCustomData( $clientID,
                                                           $activityDAO,
                                                           $activityTypeInfo );
 
+//        CRM_Core_Error::debug($activity); exit();
         return $activity;
     }
 

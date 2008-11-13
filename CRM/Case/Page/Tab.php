@@ -56,12 +56,12 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     protected $_openCaseId = null;
 
     /**
-     * Change Case Type actvitity type id
+     * Change Case Type activity type id
      */
     protected $_changeCaseTypeId = null;
 
     /**
-     * Change Case Status  actvitity type id
+     * Change Case Status activity type id
      */
     protected $changeCaseStatusId = null;
     
@@ -276,10 +276,10 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $this->_id        = CRM_Utils_Request::retrieve('id', 'Integer',   $this);
         $this->_contactId = CRM_Utils_Request::retrieve('cid','Positive',  $this);
+//        CRM_Core_Error::debug('caseid', $this->_id);
 
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $url = null;
-
         switch ( $context ) {
         case 'case':
             if ( $this->_contactId ) {

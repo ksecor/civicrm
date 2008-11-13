@@ -153,7 +153,8 @@ function viewActivity( activityId ) {
         title: "View Activity",
 	    modal: true, 
 	    width : 700,
-            height : 450, 
+        height : 650,
+        resizable: true, 
 	    overlay: { 
 		       opacity: 0.5, 
 		       background: "black" 
