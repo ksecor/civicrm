@@ -9,27 +9,19 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <name>Plan inpatient admission</name>
+      <name>Plan intervention</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Confirm expected admission date</name>
+      <name>Rehearse intervention</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Confirm actual admission</name>
+      <name>Conduct intervention</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Confirm expected discharge date</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Confirm actual discharge date</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Receive report of early withdrawal from treatment</name>
+      <name>Debrief intervention</name>
       <category>Case History</category>
     </ActivityType>
 	<ActivityType>
@@ -40,7 +32,7 @@
       <name>Change Case Status</name>
       <category>Case History</category>
     </ActivityType>
-	<ActivityType>
+    <ActivityType>
       <name>Follow up</name>
       <category>Case History</category>
     </ActivityType>
@@ -89,15 +81,15 @@
           <category>Case History</category>
         </ActivityType>
         <ActivityType>
-          <name>Plan inpatient admission</name>
+          <name>Plan intervention</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>0</reference_offset>
+          <reference_offset>4</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Confirm expected admission date</name>
+          <name>Rehearse intervention</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
@@ -105,11 +97,19 @@
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Confirm actual admission</name>
+          <name>Conduct intervention</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>14</reference_offset>
+          <reference_offset>8</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Debrief intervention</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>9</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
@@ -118,22 +118,6 @@
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Confirm expected discharge date</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>28</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm actual discharge date</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>56</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>

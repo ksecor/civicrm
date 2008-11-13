@@ -9,27 +9,7 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <name>Plan inpatient admission</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Confirm expected admission date</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Confirm actual admission</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Confirm expected discharge date</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Confirm actual discharge date</name>
-      <category>Case History</category>
-    </ActivityType>
-    <ActivityType>
-      <name>Receive report of early withdrawal from treatment</name>
+      <name>Survey client satisfaction Referral to counselor</name>
       <category>Case History</category>
     </ActivityType>
 	<ActivityType>
@@ -89,27 +69,11 @@
           <category>Case History</category>
         </ActivityType>
         <ActivityType>
-          <name>Plan inpatient admission</name>
+          <name>Survey client satisfaction Referral to counselor</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>0</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm expected admission date</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>7</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm actual admission</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>14</reference_offset>
+          <reference_offset>21</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
@@ -118,22 +82,6 @@
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-		<ActivityType>
-          <name>Confirm expected discharge date</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>28</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
-          <name>Confirm actual discharge date</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>56</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>

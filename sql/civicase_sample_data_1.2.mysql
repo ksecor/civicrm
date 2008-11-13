@@ -70,7 +70,38 @@ INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_ac
             ('Confirm actual admission', 'Confirm actual admission', 16, '', 1, 0, @parentId, 7),
             ('Confirm expected discharge date', 'Confirm expected discharge date', 17, '', 1, 0, @parentId, 7),
             ('Confirm actual discharge date', 'Confirm actual discharge date', 18, '', 1, 0, @parentId, 7),
-            ('Receive report of early withdrawal from treatment', 'Receive report of early withdrawal from treatment', 19, '', 1, 0, @parentId, 7);
+            ('Receive report of early withdrawal from treatment', 'Receive report of early withdrawal from treatment', 19, '', 1, 0, @parentId, 7),
+            ('Plan intervention', 'Plan intervention', 20, '', 1, 0, @parentId, 7),
+            ('Rehearse intervention', 'Rehearse intervention', 21, '', 1, 0, @parentId, 7),
+            ('Conduct intervention', 'Conduct intervention', 22, '', 1, 0, @parentId, 7),
+            ('Debrief intervention', 'Debrief intervention', 23, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction', 'Survey client satisfaction Referral to counselor', 24, '', 1, 0, @parentId, 7),
+            ('Determine needs and preferences', 'Determine needs and preferences', 25, '', 1, 0, @parentId, 7),
+            ('Notify selected referral target', 'Notify selected referral target', 26, '', 1, 0, @parentId, 7),
+            ('Facilitate first appointment', 'Facilitate first appointment', 27, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction', 'Survey client satisfaction Referral to family doctor', 28, '', 1, 0, @parentId, 7),
+            ('Determine needs and preferences', 'Determine needs and preferences', 29, '', 1, 0, @parentId, 7),
+            ('Prescreen referral target', 'Prescreen referral target', 30, '', 1, 0, @parentId, 7),
+-- Not sure if there would be anything different with the family doctor vs specialist versions of these
+--            ('Facilitate first appointment', 'Facilitate first appointment', 31, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction', 'Survey client satisfaction Referral to specialist', 32, '', 1, 0, @parentId, 7),
+            ('Sign case coordination agreement', 'Sign case coordination agreement', 33, '', 1, 0, @parentId, 7),
+            ('Receive comphrensive plan for assessment and treatment', 'Receive comphrensive plan for assessment and treatment', 34, '', 1, 0, @parentId, 7),
+            ('Engage workplace supervisor', 'Engage workplace supervisor', 35, '', 1, 0, @parentId, 7),
+            ('Engage community mentor', 'Engage community mentor', 36, '', 1, 0, @parentId, 7),
+            ('Develop biological monitoring plan', 'Develop biological monitoring plan', 37, '', 1, 0, @parentId, 7),
+            ('Receive community mentor report', 'Receive community mentor report', 38, '', 1, 0, @parentId, 7),
+            ('Receive treating physician report', 'Receive treating physician report', 39, '', 1, 0, @parentId, 7),
+            ('Receive workplace supervisor report', 'Receive workplace supervisor report', 40, '', 1, 0, @parentId, 7),
+            ('Record biological monitoring results', 'Record biological monitoring results', 41, '', 1, 0, @parentId, 7),
+            ('Review prescribing privileges', 'Review prescribing privileges', 42, '', 1, 0, @parentId, 7),
+            ('Review hospital privileges', 'Review hospital privileges', 43, '', 1, 0, @parentId, 7),
+            ('Summarize case for discharge', 'Summarize case for discharge', 44, '', 1, 0, @parentId, 7),
+            ('Beginning of earliest period totally absent from work', 'Beginning of earliest period totally absent from work', 45, '', 1, 0, @parentId, 7),
+            ('Earliest return to any work activity', 'Earliest return to any work activity', 46, '', 1, 0, @parentId, 7),
+            ('Beginning of period of restricted duties', 'Beginning of period of restricted duties', 47, '', 1, 0, @parentId, 7),
+            ('Beginning of period of attempted full duties', 'Beginning of period of attempted full duties', 48, '', 1, 0, @parentId, 7),
+            ('Beginning of period totally absent from work', 'Beginning of period totally absent from work', 49, '', 1, 0, @parentId, 7);
 
 SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
 SELECT @at2        := max(id) from civicrm_category where name = 'Follow up';
@@ -175,4 +206,3 @@ VALUES
     (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
     (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  1, 2, NULL, 0, 1, 1),
     (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1);
-
