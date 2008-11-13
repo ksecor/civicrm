@@ -70,10 +70,5 @@
          
          // Set some session variables
          $this->set( 'importTableName', $importTableName );
-         
-         // See how many records we're importing
-         //$countQuery = "SELECT COUNT(*) FROM $importTableName";
-         //$count = $db->getOne($countQuery);
-         //print "Importing $count records<br/><br/>";
      }
  }

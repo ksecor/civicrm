@@ -199,12 +199,12 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
  
-            $onDuplicate      = $this->controller->exportValue( $this->_name,
-                                'onDuplicate' );
-            $contactType      = $this->controller->exportValue( $this->_name, 
-                                'contactType' );
-            $savedMapping     = $this->controller->exportValue( $this->_name, 
-                                'savedMapping' );
+            $onDuplicate  = $this->controller->exportValue( $this->_name,
+                             'onDuplicate' );
+            $contactType  = $this->controller->exportValue( $this->_name, 
+                             'contactType' );
+            $savedMapping = $this->controller->exportValue( $this->_name, 
+                             'savedMapping' );
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
             $this->set('savedMapping', $savedMapping);
@@ -218,19 +218,55 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             
             // We should have the data in the DB now, parse it
             $importTableName = $this->get( 'importTableName' );
+            $fieldNames = $this->_prepareImportTable( $db, $importTableName );
             $mapper = array( );
 
             $parser =& new CRM_NewImport_Parser_Contact( $mapper );
             $parser->setMaxLinesToProcess( 100 );
-            $parser->run( $importTableName,
-                          $mapper,
-                          CRM_NewImport_Parser::MODE_MAPFIELD, $contactType);
+            $parser->run( $importTableName, $mapper,
+                          CRM_NewImport_Parser::MODE_MAPFIELD, $contactType,
+                          $fieldNames['pk'], $fieldNames['status']);
                           
             // add all the necessary variables to the form
             $parser->set( $this );
         } else {
             CRM_Core_Error::fatal("Invalid DataSource on form post. This shouldn't happen!");
         }
+    }
+    
+    /**
+     * Add a PK and status column to the import table so we can track our progress
+     * Returns the name of the primary key and status columns
+     *
+     * @return array
+     * @access private
+     */
+    private function _prepareImportTable( $db, $importTableName ) {
+        /* TODO: Add a check for an existing _status field;
+         *  if it exists, create __status instead and return that
+         */
+        $statusFieldName = '_status';
+        $primaryKeyName  = '_id';
+        
+        $this->set( 'primaryKeyName', $primaryKeyName );
+        $this->set( 'statusFieldName', $statusFieldName );
+        
+        /* Make sure the PK is always last! We rely on this later.
+         * Should probably stop doing that at some point, but it
+         * would require moving to associative arrays rather than
+         * relying on numerical order of the fields. This could in
+         * turn complicate matters for some DataSources, which
+         * would also not be good. Decisions, decisions...
+         */
+        $alterQuery = "ALTER TABLE $importTableName
+                       ADD COLUMN $statusFieldName VARCHAR(32)
+                            DEFAULT 'NEW' NOT NULL,
+                       ADD COLUMN ${statusFieldName}Msg VARCHAR(255),
+                       ADD COLUMN $primaryKeyName INT PRIMARY KEY NOT NULL
+                               AUTO_INCREMENT";
+        $db->query( $alterQuery );
+        
+        return array('status' => $statusFieldName, 'pk' => $primaryKeyName);
     }
     
     /**
