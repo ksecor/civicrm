@@ -1109,7 +1109,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     break;
                 case 'custom_greeting' :
-                    if (  CRM_Utils_Array::value( 'greeting_type', $params ) != "Customized"  ) {
+                     $greetingTypeLabel = CRM_Core_DAO::getFieldValue( 
+                                                                         'CRM_Core_DAO_OptionValue', 
+                                                                         'Customized', 
+                                                                         'label', 
+                                                                         'name'
+                                                                          );
+                     
+                    if ( CRM_Utils_Array::value( 'greeting_type', $params ) != $greetingTypeLabel ) {
                         self::addToErrorMsg('custom_greeting', $errorMessage);
                     }
                     break;

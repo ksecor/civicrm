@@ -100,7 +100,7 @@
                <table class="form-layout-compressed">
                   <tr>
                      <td>{$form.$n.html} </td>
-                     <td id="greeting">
+                     <td id="customGreeting">
                      {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
                      </tr>
                </table> 
@@ -204,9 +204,9 @@ invert              = 0
 <script type="text/javascript">
     function showGreeting() {
        if( document.getElementById("greeting_type").value == 4 ) {
-           show('greeting');                   
+           show('customGreeting');                   
        } else {
-           hide('greeting');      
+           hide('customGreeting');      
        }     
     }
 </script>

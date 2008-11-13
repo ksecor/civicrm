@@ -154,6 +154,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @public
      */
     public $_pcpInfo;
+     
+    /**
+     * greeting type value
+     *
+     * @var int
+     * @public
+     */
+    public $_greetingTypeValue;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -464,6 +472,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_defaults = array( );
         
         $this->_amount   = $this->get( 'amount' );
+        
+        // get greeting type value
+        $this->_greetingTypeValue = CRM_Core_DAO::getFieldValue( 
+                                                               'CRM_Core_DAO_OptionValue', 
+                                                               'Customized', 
+                                                               'value', 
+                                                               'name'
+                                                                );
     }
 
     /** 

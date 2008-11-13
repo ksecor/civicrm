@@ -295,13 +295,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 } else {
                     $defaults[$name] = $contact[$name];
                     if ( $name == 'greeting_type' ) {   
-                        $greetingTypeValue = CRM_Core_DAO::getFieldValue( 
-                                                                         'CRM_Core_DAO_OptionValue', 
-                                                                         'Customized', 
-                                                                         'value', 
-                                                                         'label'
-                                                                          );
-                        if ( $defaults['greeting_type'] ==  $greetingTypeValue ) {
+                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
                             $defaults['custom_greeting'] = $contact['custom_greeting'];
                         }
                     }

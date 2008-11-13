@@ -121,6 +121,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */
     public $_priceSet;
           
+     /**
+     * 
+     *Greeting Type value
+     * @var int
+     * @protected
+     */
+    public $_greetingTypeValue;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -317,6 +325,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
+        
+        // get greeting type value
+        $this->_greetingTypeValue = CRM_Core_DAO::getFieldValue( 
+                                                               'CRM_Core_DAO_OptionValue', 
+                                                               'Customized', 
+                                                               'value', 
+                                                               'name'
+                                                                );
 
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  

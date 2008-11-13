@@ -56,9 +56,17 @@
 	        <tr>
         	    <td class="label">{$form.$n.label}</td>
                 {if $n eq 'greeting_type'}             
-                    <td class="description">{$form.$n.html}</td>
-                    <td id="greetingLabel" style="display:none;">{$form.custom_greeting.label}</td>
-                    <td id="greetingHtml" style="display:none;">{$form.custom_greeting.html|crmReplace:class:big}</td>
+                    <td> 
+                       <table class="form-layout-compressed">
+                         <tr>     
+                           <td class="description">{$form.$n.html}</td>
+                           <td id="customGreeting">
+                             {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;
+                             {$form.custom_greeting.html|crmReplace:class:big}
+                           </td>
+                         </tr>
+                       </table> 
+                    </td>
                 {else}
                     <td class="description">{$form.$n.html}</td>
                 {/if}
@@ -91,17 +99,24 @@
       </dl>
     </div>
 {/if}
+{if $form.greeting_type}
+  {literal}
+    <script type="text/javascript">
+      window.onload = function() {
+        showGreeting();
+      }
+    </script>
+  {/literal}
+{/if}
 
 {literal}
 <script type="text/javascript">
    
     function showGreeting() {
         if( document.getElementById("greeting_type").value == 4 ) {
-            show('greetingLabel');
-            show('greetingHtml');               
+            show('customGreeting');           
         } else {
-            hide('greetingLabel');
-            hide('greetingHtml');    
+            hide('customGreeting');  
         }        
     }
 </script>

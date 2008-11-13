@@ -1006,7 +1006,10 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
                         $suffix = CRM_Core_PseudoConstant::individualSuffix( );
                         $values[$index] = $suffix[$params[$name]];
-                    } else if ( $name === 'preferred_communication_method' ) {
+                    } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
+                        $greeting = CRM_Core_PseudoConstant::greeting( );
+                        $values[$index] = $greeting[$params[$name]];
+                    }else if ( $name === 'preferred_communication_method' ) {
                         $communicationFields = CRM_Core_PseudoConstant::pcm();
                         $pref = array();
                         $compref = array();
