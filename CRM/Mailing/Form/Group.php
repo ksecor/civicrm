@@ -164,9 +164,12 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
         
         //when the context is search add base group's.
         if ( $context == 'search' ) {
+            
+            //get the static groups
+            $staticGroups = CRM_Core_PseudoConstant::staticGroup( false, 'Mailing' );
             $this->add( 'select', 'baseGroup',
                         ts( 'Base Group' ), 
-                        array(''=>ts( '- select -' )) + $groups,
+                        array(''=>ts( '- select -' )) + $staticGroups,
                         true );
         }
         

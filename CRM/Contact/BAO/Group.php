@@ -396,7 +396,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return self::create( $params );
     }
     
-     /**
+    /**
      * update the is_active flag in the db
      *
      * @param int      $id        id of the database record
@@ -409,6 +409,15 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
     }
 
+    /**
+     * build the condition to retrieve groups.
+     *
+     * @param string  $groupType     type of group(Access/Mailing) 
+     * @param boolen  $excludeHidden exclude hidden groups.
+     *
+     * @return string $condition 
+     * @static
+     */
     static function groupTypeCondition( $groupType = null, $excludeHidden = true ) {
         $value = null;
         if ( $groupType == 'Mailing' ) {

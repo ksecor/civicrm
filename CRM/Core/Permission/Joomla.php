@@ -64,14 +64,17 @@ class CRM_Core_Permission_Joomla {
      * Get all groups from database, filtered by permissions
      * for this user
      *
+     * @param string $groupType     type of group(Access/Mailing) 
+     * @param boolen $excludeHidden exclude hidden groups.
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( $groupType = null ) {
-        return CRM_Core_PseudoConstant::allGroup( $groupType );
+    public static function &group( $groupType = null, $excludeHidden = true ) {
+        return CRM_Core_PseudoConstant::allGroup( $groupType, $excludeHidden );
     }
 
     /**
