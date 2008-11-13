@@ -113,41 +113,32 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
 
         $this->search( );
-
-        $config =& CRM_Core_Config::singleton( );
-
-        $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
-
+        
+        $session =& CRM_Core_Session::singleton();
+        $context = $session->readUserContext( );
+        
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Job.php';
                 CRM_Mailing_BAO_Job::cancel($this->_mailingId);
-                CRM_Utils_System::redirect($url);
+                CRM_Utils_System::redirect( $context );
             } else {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
                                                                ts('Cancel Mailing'),
                                                                $this->_action );
                 $controller->setEmbedded( true );
-                
-                // set the userContext stack
-                $session =& CRM_Core_Session::singleton();
-                $session->pushUserContext( $url );
                 $controller->run( );
             }
         } else if ($this->_action & CRM_Core_Action::DELETE) {
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Mailing.php';
                 CRM_Mailing_BAO_Mailing::del($this->_mailingId);
-                CRM_Utils_System::redirect($url);
+                CRM_Utils_System::redirect($context);
             } else {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
                                                                ts('Delete Mailing'),
                                                                $this->_action );
                 $controller->setEmbedded( true );
-                
-                // set the userContext stack
-                $session =& CRM_Core_Session::singleton();
-                $session->pushUserContext( $url );
                 $controller->run( );
             }
         }
@@ -174,6 +165,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $scheduled[] = $val;
             }
         }
+        
+        $unscheduled = false;
         if ( isset($newArgs[3]) && ($newArgs[3]== 'unscheduled') ) {
             $unscheduled = true;
             CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
@@ -183,6 +176,22 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
             $this->assign('rows', $scheduled);
         }
+        
+        //fixed for CRM-3834
+        $urlParams = 'reset=1';
+        $urlString = 'civicrm/mailing/browse';
+        if ( $unscheduled ) {
+            $urlString .= '/unscheduled';
+            $urlParams .= '&scheduled=false';
+        } else {
+            $urlString .= '/scheduled';
+            $urlParams .= '&scheduled=true';
+        }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $url = CRM_Utils_System::url( $urlString, $urlParams );
+        $session->pushUserContext( $url );
+        
         return parent::run( );
     }
 
