@@ -38,5 +38,12 @@
                 {$form.activity_status.html} 
             </td>
         </tr>
+       {if $activityGroupTree}
+        <tr>
+	    <td colspan="2">
+	   {include file="CRM/Custom/Form/Search.tpl" groupTree=$activityGroupTree showHideLinks=false}</td>
+        </tr>
+       {/if}
+
     </table>
 </div>

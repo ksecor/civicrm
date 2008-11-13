@@ -345,6 +345,7 @@ class CRM_Contact_BAO_Query
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
             $this->_fields = array_merge( $this->_fields, $fields );
            
         }
