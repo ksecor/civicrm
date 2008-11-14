@@ -92,7 +92,9 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
 
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
-                if ( $standardTimeline ) {
+                if ( ! $standardTimeline && $activitySetXML->name == $params['timeline_id'] ) {
+                    return $this->processOtherTimeline( $activitySetXML, $params );
+                } else if ( $standardTimeline ) {
                     if ( (boolean ) $activitySetXML->timeline ) {
                         return $this->processStandardTimeline( $activitySetXML,
                                                                $params );
@@ -103,7 +105,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
                         return $this->processActivitySetReport( $activitySetXML,
                                                                 $params ); 
                     }
-                }
+                } 
             }
         }
 
@@ -117,6 +119,14 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
             $this->deleteEmptyActivity( $params );
         }
 
+        foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
+            foreach ( $activityTypesXML as $activityTypeXML ) {
+                $this->createActivity( $activityTypeXML, $params );
+            }
+        }
+    }
+
+    function processOtherTimeline( $activitySetXML, &$params ) {
         foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
             foreach ( $activityTypesXML as $activityTypeXML ) {
                 $this->createActivity( $activityTypeXML, $params );
@@ -226,9 +236,29 @@ WHERE      t.target_contact_id = %1
 AND        a.activity_type_id  = %2
 AND        ca.case_id = %3
 ";
+        
         $sqlParams = array( 1 => array( $params['clientID']      , 'Integer' ),
                             2 => array( $params['activityTypeID'], 'Integer' ),
                             3 => array( $params['caseID']        , 'Integer' ) );
+
+        //if user want to added time line activity from case view form
+        if ( CRM_Utils_Array::value( 'caseType', $params ) ) {
+            $dao = CRM_Core_DAO::executeQuery( $query, $sqlParams );
+            while ( $dao->fetch( ) ) {
+                $activityCount[] =$dao->id;
+            }
+            
+            $maxInstance = self::getMaxInstance( $params['caseType'] );
+            if ( $max = $maxInstance[$params['activityTypeName']]  ) {
+                if ( count( $activityCount ) < $max ) {
+                    return false;
+                } else {
+                    return true;
+                }  
+            } else {
+                return false;
+            }
+        }
         return CRM_Core_DAO::singleValueQuery( $query, $sqlParams ) > 0 ? true : false;
     }
 
@@ -302,7 +332,8 @@ AND        ca.case_id = %3
         }
 
         // if same activity is already there, skip and dont touch
-        $params['activityTypeID'] = $activityTypeID;
+        $params['activityTypeID']   = $activityTypeID;
+        $params['activityTypeName'] = $activityTypeName;
         if ( $this->isActivityPresent( $params ) ) {
             return true;
         }

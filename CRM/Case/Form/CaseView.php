@@ -81,9 +81,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                      'case_status'  => $statuses[$values['case_status_id']],
                                      'case_subject' => $values['subject']
                               );
-        
+        $this->_caseType = $caseType;
         $this->assign ( 'caseDetails', $this->_caseDetails );
-
+        
         $newActivityUrl = 
             CRM_Utils_System::url( 'civicrm/case/activity', 
                                    "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&selectedChild=activity&atype=", 
@@ -143,7 +143,10 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $reports = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivitySets' );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
-
+        $this->addElement( 'submit', $this->getButtonName('submit'), ts('Go'), 
+                           array( 'class'   => 'form-submit',
+                                  'onclick' => "return confirm('Are you sure you want to add a set of scheduled activities to this case?');" ) ); 
+        
         require_once "CRM/Case/PseudoConstant.php";
         require_once 'CRM/Core/Component.php';
         $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
@@ -215,6 +218,35 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                   )
                           );
     }
+
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess()
+    {
+        $params = $this->controller->exportValues( $this->_name );
+        
+        if ( CRM_Utils_Array::value( 'timeline_id', $params ) && 
+             CRM_Utils_Array::value( '_qf_CaseView_submit', $_POST ) ) {
+            $session    =& CRM_Core_Session::singleton();
+            $this->_uid = $session->get('userID');
+            require_once 'CRM/Case/XMLProcessor/Process.php';
+            $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+            $xmlProcessorParams = array( 
+                                        'clientID'           => $this->_contactID,
+                                        'creatorID'          => $this->_uid,
+                                        'standardTimeline'   => 0,
+                                        'dueDateTime'        => time( ),
+                                        'caseID'             => $this->_caseID,
+                                        'caseType'           => $this->_caseType,
+                                        'timeline_id'        => $params['timeline_id'] 
+                                        );
+            $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
+            return;
+        }
+    }
 }
-
-
