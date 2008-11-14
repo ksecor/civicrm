@@ -13,8 +13,6 @@
   </div>
 {else}
   <dl>
-    <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}What type of operation (action) is being permitted?{/ts}</dd>
     <dt>{$form.object_type.label}</dt><dd>{$form.object_type.html}</dd>
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on.{/ts}</dd>
     {if $config->userFramework EQ 'Drupal'}
@@ -32,20 +30,25 @@
     <dt>{$form.uf_group_id.label}</dt><dd>{$form.uf_group_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a specific profile, OR apply this permission to ALL profiles.{/ts}</dd>
     </dl>
+    <div class="status message">{ts}NOTE: For Profile ACLS, the "View and "Edit" operations currently do the same thing. Either option grants users access to profile-based create, edit, view and listings screens. Neither option grants access to administration of profiles.{/ts}</div>
   </div>
   <div id="id-custom-acl">
     <dl>
     <dt>{$form.custom_group_id.label}</dt><dd>{$form.custom_group_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a specific group of custom fields, OR apply this permission to ALL custom fields.{/ts}</dd>
     </dl>
+    <div class="status message">{ts}NOTE: For Custom Data ACLS, the "View and "Edit" operations currently do the same thing. Either option grants the right to view AND / OR edit custom data fields (in all groups, or in a specific custom data group). Neither option grants access to administration of custom data fields.{/ts}</div>
   </div>
   <div id="id-event-acl">
     <dl>
     <dt>{$form.event_id.label}</dt><dd>{$form.event_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a event, OR apply this permission to ALL events.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select an event, OR apply this permission to ALL events.{/ts}</dt>
     </dl>
+    <div class="status message">{ts}NOTE: For Event ACLS, the "View" operation allows access to the event information screen. "Edit" allows users to register for the event if online registration is enabled.{/ts}</div>
   </div>
   <dl>
+    <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}What type of operation (action) is being permitted?{/ts}</dd>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role 'Everyone' if you want to grant this permission to ALL users. 'Everyone' includes anonymous (i.e. not logged in) users. Select the special role 'Authenticated' if you want to grant it to any logged in user.{/ts}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
