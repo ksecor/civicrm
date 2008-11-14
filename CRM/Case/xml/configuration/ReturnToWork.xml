@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CaseType>
+  <name>Return to work</name>
+  <ActivityTypes>
+    <ActivityType>
+      <name>Open Case</name>
+      <category>Case History</category>
+      <max_instances>1</max_instances>
+     </ActivityType>
+    <ActivityType>
+      <name>Beginning of earliest period totally absent from work</name>
+      <category>Case History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Earliest return to any work activity</name>
+      <category>Case History</category>
+      <max_instances>1</max_instances>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period of attempted full duties</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period of restricted duties</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Beginning of period totally absent from work</name>
+      <category>Case History</category>
+    </ActivityType>
+	<ActivityType>
+      <name>Change Case Type</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Change Case Status</name>
+      <category>Case History</category>
+    </ActivityType>
+	<ActivityType>
+      <name>Follow up</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign principal classification - CPHN</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign principal classification - ICD</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign principal classification - Presenting Problem</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign principal classification - vocab</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign secondary classification - CPHN</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign secondary classification - ICD</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign secondary classification - Presenting Problem</name>
+      <category>Case History</category>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign secondary classification - vocab</name>
+      <category>Case History</category>
+    </ActivityType>
+  </ActivityTypes>
+  <ActivitySets>
+    <ActivitySet>
+      <name>standard_timeline</name>
+      <label>Standard Timeline</label>
+      <timeline>true</timeline>
+      <ActivityTypes>
+        <ActivityType>
+          <name>Open Case</name>
+          <status>Closed</status>
+          <category>Case History</category>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of earliest period totally absent from work</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Earliest return to any work activity</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+		<ActivityType>
+          <name>Follow up</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>14</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of period of restricted duties</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Beginning of period of attempted full duties</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>30</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+      </ActivityTypes>
+    </ActivitySet>
+  </ActivitySets>
+  <CaseRoles>
+    <RelationshipType>
+        <name>Intake Physician</name>
+        <creator>1</creator>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Case Coordinator</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Addiction Counselor</name>
+    </RelationshipType>
+    <RelationshipType>
+        <name>Supervisor</name>
+    </RelationshipType>
+  </CaseRoles>
+</CaseType>
