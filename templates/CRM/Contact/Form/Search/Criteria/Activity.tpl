@@ -33,17 +33,17 @@
                 {$form.activity_subject.label}<br />
                 {$form.activity_subject.html} 
              </td>
-	     <td>
+	         <td>
                 {$form.activity_status.label}<br />
                 {$form.activity_status.html} 
-            </td>
+             </td>
         </tr>
-       {if $activityGroupTree}
+        {if $activityGroupTree}
         <tr>
-	    <td colspan="2">
-	   {include file="CRM/Custom/Form/Search.tpl" groupTree=$activityGroupTree showHideLinks=false}</td>
+	         <td colspan="2">
+	          {include file="CRM/Custom/Form/Search.tpl" groupTree=$activityGroupTree showHideLinks=false}
+             </td>
         </tr>
-       {/if}
-
+        {/if}
     </table>
 </div>

@@ -254,7 +254,10 @@ SELECT label, value
                 $joinTable = 'civicrm_case';
             } else  if ( $field['extends'] == 'civicrm_activity' ) {
                 $joinTable = 'civicrm_activity';
+            } else  if ( $field['extends'] == 'civicrm_relationship' ) {
+                $joinTable = 'civicrm_relationship';
             }
+
             if ( $joinTable ) {
                 $this->_tables[$name] = "\nLEFT JOIN $name ON $name.entity_id = $joinTable.id";
                 if ( $this->_ids[$id] ) {
