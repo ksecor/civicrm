@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class summarizes the import results
  */
-class CRM_NewImport_Form_Summary extends CRM_Core_Form {
+class CRM_Import_Form_Summary extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
@@ -70,13 +70,13 @@ class CRM_NewImport_Form_Summary extends CRM_Core_Form {
 
         $this->assign('dupeError', false);
         
-        if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_UPDATE) {
+        if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
             $dupeActionString = 
                 ts('These records have been updated with the imported data.');   
-        } else if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_REPLACE) {
+        } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
             $dupeActionString =
                 ts('These records have been replaced with the imported data.');
-        } else if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_FILL) {
+        } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
             $dupeActionString =
                 ts('These records have been filled in with the imported data.');
         } else {

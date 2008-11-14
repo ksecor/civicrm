@@ -12,7 +12,7 @@
     <p>{ts}If you think you may be importing additional data from the same data source, check 'Save this field mapping' at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is imported.{/ts}</p>
 </div>
  {* Table for mapping data to CRM fields *}
- {include file="CRM/NewImport/Form/MapTable.tpl}
+ {include file="CRM/Import/Form/MapTable.tpl}
  
 
  <div id="crm-submit-buttons">

@@ -39,24 +39,24 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the Import process.
  *
  */
-class CRM_NewImport_StateMachine extends CRM_Core_StateMachine {
+class CRM_Import_StateMachine extends CRM_Core_StateMachine {
 
     /**
      * class constructor
      *
-     * @param object  CRM_NewImport_Controller
+     * @param object  CRM_Import_Controller
      * @param int     $action
      *
-     * @return object CRM_NewImport_StateMachine
+     * @return object CRM_Import_StateMachine
      */
     function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_NewImport_Form_DataSource' => null,
-                              'CRM_NewImport_Form_MapField' => null,
-                              'CRM_NewImport_Form_Preview' => null,
-                              'CRM_NewImport_Form_Summary' => null,
+                              'CRM_Import_Form_DataSource' => null,
+                              'CRM_Import_Form_MapField' => null,
+                              'CRM_Import_Form_Preview' => null,
+                              'CRM_Import_Form_Summary' => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );

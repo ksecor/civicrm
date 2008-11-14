@@ -34,13 +34,13 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/NewImport/Parser/Contact.php';
+require_once 'CRM/Import/Parser/Contact.php';
 
 /**
  * This class previews the uploaded file and returns summary
  * statistics
  */
-class CRM_NewImport_Form_Preview extends CRM_Core_Form {
+class CRM_Import_Form_Preview extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built
@@ -136,7 +136,7 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
         //display new tag
         $this->addElement( 'text', 'newTagName', ts('Tag'));
         $this->addElement( 'text', 'newTagDesc', ts('Description'));
-        $this->addFormRule(array('CRM_NewImport_Form_Preview','newTagRule'));    
+        $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
     
         $tag =& $this->get('tag');
         if (! empty($tag) ) {
@@ -245,7 +245,7 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
             }
         }
         
-        $parser =& new CRM_NewImport_Parser_Contact( $mapperKeys, $mapperLocTypes,
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
                                                   $mapperPhoneTypes, $mapperRelated, $mapperRelatedContactType,
                                                   $mapperRelatedContactDetails, $mapperRelatedContactLocType, 
                                                   $mapperRelatedContactPhoneType);
@@ -290,7 +290,7 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
         $tableName = $this->get( 'importTableName' );
         //print "Running parser on table: $tableName<br/>";
         $parser->run( $tableName, $mapperFields,
-                      CRM_NewImport_Parser::MODE_IMPORT,
+                      CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
                       $this->get('primaryKeyName'),
                       $this->get('statusFieldName'),
@@ -394,7 +394,7 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
         }
                
         // add all the necessary variables to the form
-        $parser->set( $this, CRM_NewImport_Parser::MODE_IMPORT );
+        $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
         
         // check if there is any error occured
         

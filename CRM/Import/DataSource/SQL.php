@@ -33,9 +33,9 @@
  *
  */
  
- require_once 'CRM/NewImport/DataSource.php';
+ require_once 'CRM/Import/DataSource.php';
  
- class CRM_NewImport_DataSource_SQL extends CRM_NewImport_DataSource {
+ class CRM_Import_DataSource_SQL extends CRM_Import_DataSource {
      
      // docs inherited from parent
      public function getInfo() {
@@ -49,7 +49,7 @@
      
      // docs inherited from parent
      public function buildQuickForm( &$form ) {
-         $form->add( 'hidden', 'hidden_dataSource', 'CRM_NewImport_DataSource_SQL' );
+         $form->add( 'hidden', 'hidden_dataSource', 'CRM_Import_DataSource_SQL' );
          $form->add( 'textarea', 'sqlQuery', ts('Specify SQL Query' ),
              'rows=10 cols=45');
      }

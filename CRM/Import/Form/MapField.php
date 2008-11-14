@@ -41,12 +41,12 @@ require_once 'CRM/Contact/DAO/RelationshipType.php';
 
 require_once 'CRM/Core/BAO/LocationType.php';
 
-require_once 'CRM/NewImport/Parser/Contact.php';
+require_once 'CRM/Import/Parser/Contact.php';
 
 /**
  * This class gets the name of the file to upload
  */
-class CRM_NewImport_Form_MapField extends CRM_Core_Form 
+class CRM_Import_Form_MapField extends CRM_Core_Form 
 {
 
     /**
@@ -252,7 +252,7 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_NewImport_Form_MapField', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Import_Form_MapField', 'formRule' ) );
 
         //-------- end of saved mapping stuff ---------
 
@@ -360,13 +360,13 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
                         if ( isset($mappingRelation[$i]) ) {
                             // relationship mapping
                             switch ($this->get('contactType')) {
-                            case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
+                            case CRM_Import_Parser::CONTACT_INDIVIDUAL :
                                 $contactType = 'Individual';
                                 break;
-                            case CRM_NewImport_Parser::CONTACT_HOUSEHOLD :
+                            case CRM_Import_Parser::CONTACT_HOUSEHOLD :
                                 $contactType = 'Household';
                                 break;
-                            case CRM_NewImport_Parser::CONTACT_ORGANIZATION :
+                            case CRM_Import_Parser::CONTACT_ORGANIZATION :
                                 $contactType = 'Organization';
                             }
 
@@ -662,13 +662,13 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
             $contactType = $this->get('contactType');
             switch ($contactType) {
-            case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
+            case CRM_Import_Parser::CONTACT_INDIVIDUAL :
                 $cType = 'Individual';
                 break;
-            case CRM_NewImport_Parser::CONTACT_HOUSEHOLD :
+            case CRM_Import_Parser::CONTACT_HOUSEHOLD :
                 $cType = 'Household';
                 break;
-            case CRM_NewImport_Parser::CONTACT_ORGANIZATION :
+            case CRM_Import_Parser::CONTACT_ORGANIZATION :
                 $cType = 'Organization';
             }
 
@@ -696,14 +696,14 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
             }
         }
 
-        $parser =& new CRM_NewImport_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
+        $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
                                                    $related, $relatedContactType, $relatedContactDetails, 
                                                    $relatedContactLocType, $relatedContactPhoneType );
                                          
         $primaryKeyName = $this->get( 'primaryKeyName' );
         $statusFieldName = $this->get( 'statusFieldName' );
         $parser->run( $this->_importTableName, $mapper,
-                      CRM_NewImport_Parser::MODE_PREVIEW,
+                      CRM_Import_Parser::MODE_PREVIEW,
                       $this->get('contactType'),
                       $primaryKeyName, $statusFieldName
                     );

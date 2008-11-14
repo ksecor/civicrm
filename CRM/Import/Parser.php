@@ -36,9 +36,9 @@
 require_once 'CRM/Utils/String.php';
 require_once 'CRM/Utils/Type.php';
 
-require_once 'CRM/NewImport/Field.php';
+require_once 'CRM/Import/Field.php';
 
-abstract class CRM_NewImport_Parser {
+abstract class CRM_Import_Parser {
 
     const
         MAX_ERRORS      = 250,
@@ -259,13 +259,13 @@ abstract class CRM_NewImport_Parser {
                   $doGeocodeAddress = false ) {
 
         switch ($contactType) {
-        case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
+        case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
             break;
-        case CRM_NewImport_Parser::CONTACT_HOUSEHOLD :
+        case CRM_Import_Parser::CONTACT_HOUSEHOLD :
             $this->_contactType = 'Household';
             break;
-        case CRM_NewImport_Parser::CONTACT_ORGANIZATION :
+        case CRM_Import_Parser::CONTACT_ORGANIZATION :
             $this->_contactType = 'Organization';
         }
 
@@ -523,7 +523,7 @@ abstract class CRM_NewImport_Parser {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
             if ( empty( $this->_fields[$key] ) ) {
-                $this->_activeFields[] =& new CRM_NewImport_Field( '', ts( '- do not import -' ) );
+                $this->_activeFields[] =& new CRM_Import_Field( '', ts( '- do not import -' ) );
             } else {
                 $this->_activeFields[] = clone( $this->_fields[$key] );
             }
@@ -705,9 +705,9 @@ abstract class CRM_NewImport_Parser {
     function addField( $name, $title, $type = CRM_Utils_Type::T_INT,
                        $headerPattern = '//', $dataPattern = '//',
                        $hasLocationType = false) {
-        $this->_fields[$name] =& new CRM_NewImport_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
+        $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
         if ( empty( $name ) ) {
-            $this->_fields['doNotImport'] =& new CRM_NewImport_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
+            $this->_fields['doNotImport'] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
         }
     }
 
@@ -748,13 +748,13 @@ abstract class CRM_NewImport_Parser {
         
         switch ($this->_contactType) {
         case 'Individual':
-            $store->set( 'contactType', CRM_NewImport_Parser::CONTACT_INDIVIDUAL );    
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_INDIVIDUAL );    
             break;
         case 'Household' :
-            $store->set( 'contactType', CRM_NewImport_Parser::CONTACT_HOUSEHOLD );    
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_HOUSEHOLD );    
             break;
         case 'Organization':
-            $store->set( 'contactType', CRM_NewImport_Parser::CONTACT_ORGANIZATION );    
+            $store->set( 'contactType', CRM_Import_Parser::CONTACT_ORGANIZATION );    
         }
 
         if ($this->_invalidRowCount) {

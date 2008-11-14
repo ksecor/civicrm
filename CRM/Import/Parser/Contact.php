@@ -33,14 +33,14 @@
  *
  */
 
-require_once 'CRM/NewImport/Parser.php';
+require_once 'CRM/Import/Parser.php';
 
 require_once 'api/v2/utils.php';
 
 /**
  * class to parse contact csv files
  */
-class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser 
+class CRM_Import_Parser_Contact extends CRM_Import_Parser 
 {
     protected $_mapperKeys;
     protected $_mapperLocType;
@@ -205,7 +205,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
      */
     function mapField( &$values ) 
     {
-        return CRM_NewImport_Parser::VALID;
+        return CRM_Import_Parser::VALID;
     }
 
 
@@ -276,7 +276,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                     $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
 
-                    return CRM_NewImport_Parser::ERROR;
+                    return CRM_Import_Parser::ERROR;
                 }
             }
             
@@ -289,7 +289,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                     $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
                     
-                    return CRM_NewImport_Parser::ERROR;
+                    return CRM_Import_Parser::ERROR;
                 }
 
                 /* otherwise, count it and move on */
@@ -301,7 +301,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
             $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
             
-            return CRM_NewImport_Parser::ERROR;
+            return CRM_Import_Parser::ERROR;
         }
         
         //check for duplicate external Identifier
@@ -314,7 +314,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                 array_unshift($values, $errorMessage);
                 $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                 $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_NewImport_Parser::ERROR;
+                return CRM_Import_Parser::ERROR;
             }
             //otherwise, count it and move on
             $this->_allExternalIdentifiers[$externalID] = $this->_lineCount;
@@ -340,10 +340,10 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
             array_unshift($values, $tempMsg);
             $errorMessage = null;
-            return CRM_NewImport_Parser::ERROR;
+            return CRM_Import_Parser::ERROR;
         }
         
-        return CRM_NewImport_Parser::VALID;
+        return CRM_Import_Parser::VALID;
     }
 
     /**
@@ -363,7 +363,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
         
         $statusFieldName = $this->_statusFieldName;
         
-        if ( $response != CRM_NewImport_Parser::VALID ) {
+        if ( $response != CRM_Import_Parser::VALID ) {
             $importRecordParams = array($statusFieldName => 'INVALID', "${statusFieldName}Msg" => "Invalid (Error Code: $response)");
             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
             return $response;
@@ -490,7 +490,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                 array_unshift($values, $errorMessage);
                 $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                 $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_NewImport_Parser::ERROR;
+                return CRM_Import_Parser::ERROR;
             }
         }
 
@@ -512,19 +512,19 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                                     $newContact = $this->createContact( $formatted, $contactFields, 
                                                                         $onDuplicate, $contactId, false );
                                     $updateflag = false; 
-                                    $this->_retCode = CRM_NewImport_Parser::VALID;
+                                    $this->_retCode = CRM_Import_Parser::VALID;
                                 } else {
                                     $message = "Mismatched contact Types :";
                                     array_unshift($values, $message);
                                     $updateflag = false;
-                                    $this->_retCode = CRM_NewImport_Parser::NO_MATCH;
+                                    $this->_retCode = CRM_Import_Parser::NO_MATCH;
                                 }
                             } 
                         }
                         if ( $updateflag ) {
                             $message = "Mismatched contact IDs OR Mismatched contact Types :" ;
                             array_unshift($values, $message);
-                            $this->_retCode = CRM_NewImport_Parser::NO_MATCH;
+                            $this->_retCode = CRM_Import_Parser::NO_MATCH;
                         }
                 }
             } else {
@@ -537,16 +537,16 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                         $newContact = $this->createContact( $formatted, $contactFields, 
                                                             $onDuplicate, $params['id'], false );
                         
-                        $this->_retCode = CRM_NewImport_Parser::VALID;
+                        $this->_retCode = CRM_Import_Parser::VALID;
                     } else {
                         $message = "Mismatched contact Types :";
                         array_unshift($values, $message);
-                        $this->_retCode = CRM_NewImport_Parser::NO_MATCH;
+                        $this->_retCode = CRM_Import_Parser::NO_MATCH;
                     }
                 } else {
                     $message ="No contact found for this contact ID:".$params['id'] ;
                     array_unshift($values, $message);
-                    $this->_retCode = CRM_NewImport_Parser::NO_MATCH;  
+                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
                 }
             }
             
@@ -649,8 +649,8 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                         //fixed for CRM-3146
                         if ( ( $this->_contactType == 'Individual'   || 
                                $this->_contactType == 'Household'    ||
-                               $this->_contactType == 'Organization' ) && $onDuplicate == CRM_NewImport_Parser::DUPLICATE_NOCHECK ) {
-                            $onDuplicate = CRM_NewImport_Parser::DUPLICATE_FILL;
+                               $this->_contactType == 'Organization' ) && $onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK ) {
+                            $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
                         }
 
                         $relatedNewContact = $this->createContact( $formatting, $contactFields, 
@@ -666,8 +666,8 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                         if ( self::isDuplicate($relatedNewContact) ) {
                             $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
                             //update the relative contact if dupe 
-                            if ( $onDuplicate == CRM_NewImport_Parser::DUPLICATE_UPDATE || 
-                                 $onDuplicate == CRM_NewImport_Parser::DUPLICATE_FILL ) {
+                            if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE || 
+                                 $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
                                 $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
                             } 
                         } else {
@@ -675,7 +675,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                             array_unshift( $values, $errorMessage );
                             $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                            return CRM_NewImport_Parser::ERROR;
+                            return CRM_Import_Parser::ERROR;
                         }
                     } else {
                         $matchedIDs[] = $relatedNewContact->id;
@@ -762,7 +762,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                     array_unshift($values, $errorMessage);
                     $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                     $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                    return CRM_NewImport_Parser::ERROR;
+                    return CRM_Import_Parser::ERROR;
                 }
                 
                 // Params only had one id, so shift it out 
@@ -771,12 +771,12 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                                 
                 $vals = array( 'contact_id' => $contactId );
                
-                if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_REPLACE) {
+                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
                     $result = civicrm_replace_contact_formatted( $contactId, $formatted, $contactFields );
                     $cid    = $result['result'];
-                } else if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_UPDATE) {
+                } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
                     $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate, $contactId );
-                } else if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_FILL) {
+                } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
                     $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate, $contactId );
                 } // else skip does nothing and just returns an error code.
                 
@@ -790,29 +790,29 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
                     $this->_newContacts[] = $newContact['error_message']['params'][0];
                 }
                 //CRM-262 No Duplicate Checking  
-                if ($onDuplicate == CRM_NewImport_Parser::DUPLICATE_SKIP) {
+                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP) {
                     $importRecordParams = array($statusFieldName => 'DUPLICATE', "${statusFieldName}Msg" => "Skipping duplicate record");
                     $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                    return CRM_NewImport_Parser::DUPLICATE; 
+                    return CRM_Import_Parser::DUPLICATE; 
                 }
                 
                 $importRecordParams = array($statusFieldName => 'IMPORTED');
                 $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_NewImport_Parser::VALID;
+                return CRM_Import_Parser::VALID;
             } else { 
                 // Not a dupe, so we had an error
                 $errorMessage = $newContact['error_message'];
                 array_unshift( $values, $errorMessage );
                 $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $errorMessage);
                 $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-                return CRM_NewImport_Parser::ERROR;
+                return CRM_Import_Parser::ERROR;
             }
         }
         # this sleep is only for debugging, commenting out
         #sleep(3);
         $importRecordParams = array($statusFieldName => 'IMPORTED');
         $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
-        return CRM_NewImport_Parser::VALID;
+        return CRM_Import_Parser::VALID;
     }
 
     /**
@@ -1159,7 +1159,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
         
         $newContact = null;
         
-        if ( is_null( $contactId ) && ($onDuplicate != CRM_NewImport_Parser::DUPLICATE_NOCHECK) ) {
+        if ( is_null( $contactId ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) ) {
             $dupeCheck = (bool)($onDuplicate);
         }
         
@@ -1205,7 +1205,7 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
      */
     function formatParams( &$params, $onDuplicate, $cid )
     {
-        if ( $onDuplicate == CRM_NewImport_Parser::DUPLICATE_SKIP ) {
+        if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP ) {
             return;
         }
         
@@ -1216,11 +1216,11 @@ class CRM_NewImport_Parser_Contact extends CRM_NewImport_Parser
         
         $modeUpdate       = $modeFill   = false;
         
-        if ( $onDuplicate == CRM_NewImport_Parser::DUPLICATE_UPDATE ) {
+        if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
             $modeUpdate   = true;
         }
         
-        if ( $onDuplicate == CRM_NewImport_Parser::DUPLICATE_FILL ) {
+        if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
             $modeFill     = true;
         }
         

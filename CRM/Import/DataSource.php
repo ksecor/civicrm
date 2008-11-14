@@ -34,13 +34,13 @@
  */
 
 require_once 'CRM/Core/Form.php';
-#require_once 'CRM/NewImport/Parser/Contact.php';
+#require_once 'CRM/Import/Parser/Contact.php';
 
 /**
  * This class defines the DataSource interface but must be subclassed to be
  * useful.
  */
-abstract class CRM_NewImport_DataSource {
+abstract class CRM_Import_DataSource {
     
     /**
      * Provides information about the data source

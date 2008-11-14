@@ -34,13 +34,13 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/NewImport/Parser/Contact.php';
+require_once 'CRM/Import/Parser/Contact.php';
 
 /**
  * This class delegates to the chosen DataSource to grab the data to be
  *  imported.
  */
-class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
+class CRM_Import_Form_DataSource extends CRM_Core_Form {
     
     private $_dataSource;
     
@@ -70,11 +70,11 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             $this->assign( 'showOnlyDataSourceFormPane', true );
         }
         
-        if ( strpos( $this->_dataSource, 'CRM_NewImport_DataSource_' ) === 0 ) {
+        if ( strpos( $this->_dataSource, 'CRM_Import_DataSource_' ) === 0 ) {
             $this->_dataSourceIsValid = true;
             $this->assign( 'showDataSourceFormPane', true );
             $dataSourcePath = split( '_', $this->_dataSource );
-            $templateFile = "CRM/NewImport/Form/" . $dataSourcePath[3] . ".tpl";
+            $templateFile = "CRM/Import/Form/" . $dataSourcePath[3] . ".tpl";
             $this->assign( 'dataSourceFormTemplateFile', $templateFile );
         }
     }
@@ -99,7 +99,7 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
         // Get list of data sources and display them as options
         $dataSources = $this->_getDataSources();
         
-        $this->assign( 'urlPath'   , "civicrm/newimport" );
+        $this->assign( 'urlPath'   , "civicrm/import" );
         $this->assign( 'urlPathVar', 'snippet=4' );
         
         $this->add( 'select', 'dataSource', ts('Data Source'),
@@ -110,13 +110,13 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
         // duplicate handling options
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Skip'), CRM_NewImport_Parser::DUPLICATE_SKIP);
+            null, null, ts('Skip'), CRM_Import_Parser::DUPLICATE_SKIP);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_NewImport_Parser::DUPLICATE_UPDATE);
+            null, null, ts('Update'), CRM_Import_Parser::DUPLICATE_UPDATE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Fill'), CRM_NewImport_Parser::DUPLICATE_FILL);
+            null, null, ts('Fill'), CRM_Import_Parser::DUPLICATE_FILL);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('No Duplicate Checking'), CRM_NewImport_Parser::DUPLICATE_NOCHECK);
+            null, null, ts('No Duplicate Checking'), CRM_Import_Parser::DUPLICATE_NOCHECK);
 
         $this->addGroup($duplicateOptions, 'onDuplicate', 
                         ts('For Duplicate Contacts'));
@@ -131,22 +131,22 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
         $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
 
         $this->setDefaults(array('onDuplicate' =>
-                                    CRM_NewImport_Parser::DUPLICATE_SKIP));
+                                    CRM_Import_Parser::DUPLICATE_SKIP));
             
         // contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Individual'), CRM_NewImport_Parser::CONTACT_INDIVIDUAL);
+            null, null, ts('Individual'), CRM_Import_Parser::CONTACT_INDIVIDUAL);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Household'), CRM_NewImport_Parser::CONTACT_HOUSEHOLD);
+            null, null, ts('Household'), CRM_Import_Parser::CONTACT_HOUSEHOLD);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Organization'), CRM_NewImport_Parser::CONTACT_ORGANIZATION);
+            null, null, ts('Organization'), CRM_Import_Parser::CONTACT_ORGANIZATION);
 
         $this->addGroup($contactOptions, 'contactType', 
                         ts('Contact Type'));
 
         $this->setDefaults(array('contactType' =>
-                                 CRM_NewImport_Parser::CONTACT_INDIVIDUAL));
+                                 CRM_Import_Parser::CONTACT_INDIVIDUAL));
         
         $this->addButtons( array( 
                                  array ( 'type'         => 'next',
@@ -177,7 +177,7 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             $matches = array( );
             if (($fileType == 'file' || $fileType == 'link') &&
                 preg_match('/^(.+)\.php$/',$dataSourceFile,$matches)) {
-                $dataSourceClass = "CRM_NewImport_DataSource_" . $matches[1];
+                $dataSourceClass = "CRM_Import_DataSource_" . $matches[1];
                 $dataSourceName = $matches[1];
                 #print "Found DataSource: $dataSourceClass<br/>\n";
                 $dataSources[$dataSourceClass] = $dataSourceName;
@@ -221,10 +221,10 @@ class CRM_NewImport_Form_DataSource extends CRM_Core_Form {
             $fieldNames = $this->_prepareImportTable( $db, $importTableName );
             $mapper = array( );
 
-            $parser =& new CRM_NewImport_Parser_Contact( $mapper );
+            $parser =& new CRM_Import_Parser_Contact( $mapper );
             $parser->setMaxLinesToProcess( 100 );
             $parser->run( $importTableName, $mapper,
-                          CRM_NewImport_Parser::MODE_MAPFIELD, $contactType,
+                          CRM_Import_Parser::MODE_MAPFIELD, $contactType,
                           $fieldNames['pk'], $fieldNames['status']);
                           
             // add all the necessary variables to the form
