@@ -453,16 +453,20 @@ function checkPerformAction (fldPrefix, form, taskButton) {
     // taskButton TRUE means we don't need to check the 'task' field - it's a button-driven task
     if (taskButton == 1) {
         gotTask = 1;
-    }   
-    
-    else if (document.forms[form].task.selectedIndex) {
-        // Doesn't matter if any rows are checked for New/Update Saved Search tasks
-        if (document.forms[form].task.value == 13 || document.forms[form].task.value == 14) {
-            return true;
-        }
-        gotTask = 1;
+    } else if (document.forms[form].task.selectedIndex) {
+	//force user to select all search contacts, CRM-3711
+	if ( document.forms[form].task.value == 13 || document.forms[form].task.value == 14 || document.forms[form].task.value == 20 ) {
+	    var toggleSelect = document.getElementsByName('toggleSelect');
+	    if ( toggleSelect[0].checked || document.forms[form].radio_ts[0].checked ) {
+		return true;
+	    } else {
+		alert( "Please select all contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button." );
+		return false;
+	    }
+	}
+	gotTask = 1; 
     }
-
+    
     if (gotTask == 1) {
         // If user wants to perform action on ALL records and we have a task, return (no need to check further)
         if (document.forms[form].radio_ts[0].checked) {
