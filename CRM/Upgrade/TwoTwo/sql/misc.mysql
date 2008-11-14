@@ -164,3 +164,9 @@ CREATE INDEX `index_pcp_made_through_id` ON `civicrm_contribution` (`pcp_made_th
 UPDATE `civicrm_address`
 SET `is_billing` = 1
 WHERE `location_type_id` = 5;
+
+-- civicrm_note constraint fix
+ALTER TABLE civicrm_note 
+    DROP FOREIGN KEY `FK_civicrm_note_contact_id`;
+ALTER TABLE `civicrm_note`
+    ADD CONSTRAINT `FK_civicrm_note_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
