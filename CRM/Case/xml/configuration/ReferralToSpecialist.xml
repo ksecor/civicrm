@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <CaseType>
-  <name>Intervention</name>
+  <name>Referral to specialist</name>
   <ActivityTypes>
     <ActivityType>
       <name>Open Case</name>
@@ -9,19 +9,19 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <name>Plan intervention</name>
+      <name>Determine needs and preferences</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Rehearse intervention</name>
+      <name>Prescreen referral target</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Conduct intervention</name>
+      <name>Facilitate first appointment</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
-      <name>Debrief intervention</name>
+      <name>Survey client satisfaction Referral to specialist</name>
       <category>Case History</category>
     </ActivityType>
 	<ActivityType>
@@ -32,7 +32,7 @@
       <name>Change Case Status</name>
       <category>Case History</category>
     </ActivityType>
-    <ActivityType>
+	<ActivityType>
       <name>Follow up</name>
       <category>Case History</category>
     </ActivityType>
@@ -81,43 +81,43 @@
           <category>Case History</category>
         </ActivityType>
         <ActivityType>
-          <name>Plan intervention</name>
+          <name>Determine needs and preferences</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>4</reference_offset>
+          <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
-          <name>Rehearse intervention</name>
+          <name>Prescreen referral target</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>7</reference_offset>
+          <reference_offset>1</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
-        <ActivityType>
-          <name>Conduct intervention</name>
+		<ActivityType>
+          <name>Facilitate first appointment</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
-          <reference_offset>8</reference_offset>
+          <reference_offset>2</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
-        <ActivityType>
-          <name>Debrief intervention</name>
-          <category>Case History</category>
-          <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
-          <reference_offset>9</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-        <ActivityType>
+		<ActivityType>
           <name>Follow up</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+        <ActivityType>
+          <name>Survey client satisfaction Referral to specialist</name>
+          <category>Case History</category>
+          <reference_activity>Open Case</reference_activity>
+          <reference_category>Case History</reference_category>
+          <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
       </ActivityTypes>
