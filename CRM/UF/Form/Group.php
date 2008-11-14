@@ -248,8 +248,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                                'is_update_dupe', 'is_cms_user');
             foreach($advFields as $key) {
                 if ( !empty($defaults[$key]) ) {
-                     $showAdvanced = 1;
-                     break;
+                    $showAdvanced = 1;
+                    break;
                 }
             }
             
@@ -281,51 +281,51 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             
             CRM_Core_BAO_UFGroup::del($this->_id);
             CRM_Core_Session::setStatus(ts("Your CiviCRM Profile '%1' has been deleted.", array(1 => $title)));
-            return;
-        }
-        
-        if( $this->_action & CRM_Core_Action::DISABLE ) {
+        } else if( $this->_action & CRM_Core_Action::DISABLE ) {
             $ufJoinParams = array('uf_group_id' => $this->_id);
             CRM_Core_BAO_UFGroup::delUFJoin($ufJoinParams);
 
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setIsActive($this->_id, 0);
-            return;
-        }
-
-        // get the submitted form values.
-        $params = $ids = array( );
-        $params = $this->controller->exportValues( $this->_name );
+        } else {
+            // get the submitted form values.
+            $params = $ids = array( );
+            $params = $this->controller->exportValues( $this->_name );
         
-        if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
-            $ids['ufgroup'] = $this->_id;
+            if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
+                $ids['ufgroup'] = $this->_id;
             
-            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
-            $params['weight'] = 
-                CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
-        }
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFJoin', $this->_id, 'weight', 'uf_group_id' );
+                $params['weight'] = 
+                    CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
+            }
 
-        // create uf group
-        $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
+            // create uf group
+            $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
 
-        if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
-            //make entry in uf join table
-            CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
-        } else {
-            // this profile has been set to inactive, delete all corresponding UF Join's
-            $ufJoinParams = array('uf_group_id' => $this->_id);
-            CRM_Core_BAO_UFGroup::delUFJoin($ufJoinParams);
-        }
+            if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
+                //make entry in uf join table
+                CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
+            } else {
+                // this profile has been set to inactive, delete all corresponding UF Join's
+                $ufJoinParams = array('uf_group_id' => $this->_id);
+                CRM_Core_BAO_UFGroup::delUFJoin($ufJoinParams);
+            }
         
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            CRM_Core_Session::setStatus(ts("Your CiviCRM Profile '%1' has been saved.", array(1 => $ufGroup->title)));
-        } else {
-            $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field', 'reset=1&action=add&gid=' . $ufGroup->id);
-            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile \'%1\' has been added. You can add fields to this profile now.',
-                                           array(1 => $ufGroup->title)));
-            $session =& CRM_Core_Session::singleton( );
-            $session->replaceUserContext($url);
+            if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                CRM_Core_Session::setStatus(ts("Your CiviCRM Profile '%1' has been saved.", array(1 => $ufGroup->title)));
+            } else {
+                $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field', 'reset=1&action=add&gid=' . $ufGroup->id);
+                CRM_Core_Session::setStatus(ts('Your CiviCRM Profile \'%1\' has been added. You can add fields to this profile now.',
+                                               array(1 => $ufGroup->title)));
+                $session =& CRM_Core_Session::singleton( );
+                $session->replaceUserContext($url);
+            }
         }
+
+        // update cms integration with registration / my account
+        require_once 'CRM/Utils/System.php';
+        CRM_Utils_System::updateCategories( );
     }
 
 }

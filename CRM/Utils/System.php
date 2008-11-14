@@ -198,6 +198,15 @@ class CRM_Utils_System {
         return eval( "return {$config->userFrameworkClass}::logout( );" );
     }
 
+    // this is a very drupal specific function for now
+    static function updateCategories( ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Drupal' ) {
+            require_once 'CRM/Utils/System/Drupal.php';
+            CRM_Utils_System_Drupal::updateCategories( );
+        }
+    }
+
     /**
      * What menu path are we currently on. Called for the primary tpl
      *
