@@ -352,7 +352,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         //Display the name and number of contacts for those email is not sent.
         if ( $notSent ) {
-            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ':';
+            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased or Primary email address is On Hold): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ':';
             foreach($notSent as $cIds=>$cId) {
                 $name = new CRM_Contact_DAO_Contact();
                 $name->id = $cId;
@@ -377,7 +377,7 @@ class CRM_Contact_Form_Task_EmailCommon
         if ( strlen($statusOnHold) ) {
             $status[] = $statusOnHold;
         }
-               
+        
         CRM_Core_Session::setStatus( $status );
         
     }//end of function

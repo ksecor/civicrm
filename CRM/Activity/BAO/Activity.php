@@ -733,9 +733,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         require_once 'api/v2/Contact.php';
         foreach ( $contactIds as $contactId ) {
-            // replace contact tokens
-            $params  = array( 'contact_id' => $contactId, 'is_deceased' => 0 );
-
+            //fix for CRM-3798
+            $params  = array( 'contact_id'  => $contactId, 
+                              'is_deceased' => 0, 
+                              'on_hold'     => 0 );
+            
             //$contact =& crm_fetch_contact( $params );
             $contact = civicrm_contact_get( $params );
             

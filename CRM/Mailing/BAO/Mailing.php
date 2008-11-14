@@ -1845,6 +1845,9 @@ SELECT DISTINCT( m.id ) as id
         // fix for CRM-2613
         $params[] = array( 'is_deceased', '=', 0, 0, 1 );
         
+        //fix for CRM-3798
+        $params[] = array( 'on_hold', '=', 0, 0, 1 );
+        
         // if return properties are not passed then get all return properties
         if ( empty( $returnProperties ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
