@@ -16,14 +16,6 @@
         </tr>
         <tr>
            <td>
-               {$form.sort_by.label}
-           </td>       
-           <td>
-               {$form.sort_by.html}
-           </td>       
-        </tr>
-        <tr>
-           <td>
 	       &nbsp;
            </td>       
            <td>

@@ -41,10 +41,17 @@ includeTime is true or false and says whether to include the time component of d
 	</region>
 
 	<!-- Haven't decided if this one belongs in here. Probably belongs in yet another config file.
-		This tells us which field has the semantic meaning of "status", and which value indicates "completed". -->
+		This tells us which field has the semantic meaning of "status", and which value indicates "completed".
+	-->
 	<completionStatus>
 		<label>Status</label>
 		<value>Completed</value>
 	</completionStatus>
+	<!-- Similarly this probably doesn't belong in here. This tells what field(s) to sort by.
+	-->
+	<sortByLabels>
+		<label>Actual Date</label> <!-- Sort by this first -->
+		<label>Due Date</label> <!-- Then if equal sort by this -->
+	</sortByLabels>
 
 </regions>

@@ -11,9 +11,6 @@ There's the potential for collisions (two different labels having the same short
 <input type="hidden" name="currentSelection" value="1" />
 <div id="civicase-audit">
 <table><tr><td class="leftpane">
-********<br />
-DEBUG: Sort method {$sortBy} not implemented yet<br />
-********<br /><br />
 <table class="report">
 <tr class="columnheader-dark">
 <th>&nbsp;</th>

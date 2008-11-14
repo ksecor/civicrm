@@ -95,15 +95,6 @@ class CRM_Case_Form_Report extends CRM_Core_Form
                    'is_redact',
                    ts( 'Redact (hide) Client and Service Provider Data' ) );
 
-		$sortOptions = array(	1 => ts( 'Sort by Date' ),
-        						2 => ts( 'Sort by Category' ));
-        $this->addRadio('sort_by',
-        				null,
-        				$sortOptions,
-        				null,
-        				'&nbsp;',
-        				true );		
-                         
         $this->addButtons(array( 
                                 array ( 'type'      => 'refresh',
                                         'name'      => ts('Generate Report'), 

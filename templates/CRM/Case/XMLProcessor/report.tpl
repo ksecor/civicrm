@@ -9,7 +9,6 @@
   <ActivitySet>
     <Label>{$activitySet.label}</Label>
     <IncludeActivities>{$includeActivities}</IncludeActivities>
-    <SortBy>{$sortBy}</SortBy>
     <Redact>{$isRedact}</Redact>
 {foreach from=$activities item=activity}
     <Activity>

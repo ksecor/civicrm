@@ -43,6 +43,7 @@ class Audit
 				$retval[$activityindex] = array();
 				
 				$completed = false;
+				$sortValues = array('1970-01-01');
 				$category = '';
 				$fieldindex = 1;
 				$fields = $activity->getElementsByTagName("Field");
@@ -68,6 +69,12 @@ class Audit
 					{
 						$completed = true;
 					}
+
+					// Based on the config file, does this field's label match the one to use for sorting activities?							
+					if (in_array($label, $this->auditConfig->getSortByLabels()))
+					{
+						$sortValues[$label] = $value;
+					}
 					
 					foreach($regionList as $region)
 					{
@@ -91,6 +98,7 @@ class Audit
 				{	
 					$retval[$activityindex]['completed'] = $completed;
 					$retval[$activityindex]['category'] = $category;
+					$retval[$activityindex]['sortValues'] = $sortValues;
 		
 					// Now sort the fields based on the order in the config file.
 					foreach($regionList as $region)
@@ -112,19 +120,47 @@ class Audit
 				}
 			}
 			
-//TODO: Do activity sort here
-
+			uasort($retval, array(&$this, "compareActivities"));
 		}		
             
 		return $retval;
 	}
-
+	
+	/* compareActivities
+	 * 
+	 * This is intended to be called as a sort callback function, returning whether an activity's date is earlier or later than another's.
+	 * The type of date to use is specified in the config.
+	 * 
+	 */
+	public function compareActivities($a, $b)
+	{
+		// This should work
+		foreach ($this->auditConfig->getSortByLabels() as $label)
+		{
+			$aval .= empty($a['sortValues']) ? "" : (empty($a['sortValues'][$label]) ? "" : $a['sortValues'][$label]);
+			$bval .= empty($b['sortValues']) ? "" : (empty($b['sortValues'][$label]) ? "" : $b['sortValues'][$label]);
+		}
+		
+		if ($aval < $bval)
+		{
+			return -1;
+		}
+		elseif ($aval > $bval)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
     static function run( $xmlString ) {
-/*
+
 $fh = fopen('C:/temp/lasfj.xml', 'w');
 fwrite($fh, $xmlString);
 fclose($fh);
-*/
+
         $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
         $activities = $audit->getActivities();
