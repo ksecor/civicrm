@@ -37,8 +37,8 @@ function _civicrm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
-function &civicrm_create_error( $msg ) {
-    return CRM_Core_Error::createAPIError( $msg );
+function &civicrm_create_error( $msg, $data = null ) {
+    return CRM_Core_Error::createAPIError( $msg, $data );
 }
 
 function civicrm_create_success( $result = 1 ) {

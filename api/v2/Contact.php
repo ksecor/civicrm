@@ -320,8 +320,7 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
                 return civicrm_create_error( $error->pop( ) );
             }
             
-            return civicrm_create_error( "Found matching contacts: $ids", 8000, 'Fatal',
-                                         $ids );
+            return civicrm_create_error( "Found matching contacts: $ids", $ids );
         }
     }
     
