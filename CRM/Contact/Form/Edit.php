@@ -150,6 +150,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
+
+            // check for add contacts permissions
+            require_once 'CRM/Core/Permission.php';
+            if ( ! CRM_Core_Permission::check( 'add contacts' ) ) {
+                CRM_Utils_System::permissionDenied( );
+                return;
+            }
+
             $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
                                                                $this, true, null, 'REQUEST' );
             if ( ! in_array( $this->_contactType,

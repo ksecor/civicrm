@@ -183,7 +183,7 @@
      <path>civicrm/contact/create</path>
      <title>New Contact Dialog</title>
      <page_callback>CRM_Contact_Form_Create</page_callback>
-     <access_arguments>access CiviCRM,add contacts</access_arguments>
+     <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
     <path>civicrm/ajax/state</path>

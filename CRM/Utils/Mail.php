@@ -137,7 +137,6 @@ class CRM_Utils_Mail {
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
         $headers['Cc']                        = $cc;
-        $headers['Bcc']                       = $bcc;
         $headers['Subject']                   = self::encodeSubjectHeader($subject);  
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  
