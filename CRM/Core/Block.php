@@ -108,7 +108,7 @@ class CRM_Core_Block {
                                                                    'info'       => ts('CiviCRM Menu'),
                                                                    'subject'    => ts('CiviCRM'),
                                                                    'active'     => true,
-                                                                   'cache'      => BLOCK_CACHE_GLOBAL,
+                                                                   'cache'      => BLOCK_CACHE_PER_PAGE,
                                                                    'visibility' => 1,
                                                                    'pages'      => 'civicrm*',
                                                                    'region'     => 'left' ),
