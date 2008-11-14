@@ -147,7 +147,7 @@ function civicrm_relationship_type_add( $params ) {
     }
 
     if(! isset($params['name_a_b']) &&
-       ! isset($params['name_b_a']) || $params['name_a_b'] == null) {
+       ! isset($params['name_b_a']) || CRM_Utils_Array::value( 'name_a_b', $params ) == null) {
         return civicrm_create_error('Missing required parameters');
     }
 
