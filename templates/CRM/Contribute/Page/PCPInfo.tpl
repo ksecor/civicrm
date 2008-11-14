@@ -43,9 +43,9 @@
 	  {/if}
 	  <tr>
 	    {if $pcp.is_thermometer}
-            <td>&nbsp;</td>
-	    <td>
-	      <table class="">
+            <td style="width:10px">&nbsp;</td>
+	    <td style="width:150px">
+	      <table>
 		<tr>
 		  <td colspan="2" align="left"><strong>{$pcp.goal_amount|crmMoney}</strong></td><td>&nbsp;</td>
 		</tr>
@@ -64,7 +64,7 @@
 	    </td>
 	    {/if} 
 	    {if $pcp.is_honor_roll}
-	    <td><strong>{ts}HONOR ROLL{/ts}</strong><br />
+	    <td style="width:150px"><strong>{ts}HONOR ROLL{/ts}</strong><br />
 	      <div class="honor_roll">
 		<marquee behavior="scroll" direction="up" id="pcp_roll"	scrolldelay="200" bgcolor="#fafafa"> 
 		  {foreach from = $honor item = v} 
@@ -77,8 +77,11 @@
 		[<a href="javascript:roll_start_stop();" id="roll" title="Stop the Honor Roll">{ts}Stop{/ts}</a>]
 	      </center>
 	    </td>
-	    {/if}
-	  </tr>
+	   {/if}
+	   {if !$pcp.is_thermometer || !$pcp.is_honor_roll}
+	       <td style="width:150px">&nbsp;</td>
+	   {/if}
+	   </tr>
 	</table>
       </td>
     </tr>
