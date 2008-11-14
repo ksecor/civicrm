@@ -97,7 +97,8 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
                         );
 
         $result =& civicrm_activity_update($params);
-        $this->assertEqual( $result['source_contact_id'], null );
+        $this->assertEqual( $result['is_error'], 1 );
+        $this->assertEqual( $result['error_message'], 'Invalid Activity Name' );
     }
     
     /**
@@ -118,7 +119,6 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
                         );
 
         $result =& civicrm_activity_update( $params );
-        $this->assertEqual( $result['is_error'], 0 );
         $this->assertEqual( $result['id'] , $this->_activityId );
         $this->assertEqual( $result['activity_date_time'], date('Ymd') );
         $this->assertEqual( $result['subject'], 'Update Discussion on Apis for v2' );
@@ -142,7 +142,6 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
                         );
 
         $result =& civicrm_activity_update( $params );
-        $this->assertEqual( $result['is_error'], 0 );
         $this->assertEqual( $result['id'] , $this->_activityId );
         $this->assertEqual( $result['source_contact_id'] , $this->_individualSourceId );
         $this->assertEqual( $result['subject'], 'Hurry update works' );
