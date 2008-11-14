@@ -139,8 +139,8 @@
         {/if}
         {if $addressSequenceCountry}
         <tr>
-            <td>{$form.location.$index.address.country_state.label}</td>
-            <td>{$form.location.$index.address.country_state.html}{if $addressSequenceState} - <span class="tundra"><span id="id_location[1][address][country_state]_1"></span></span>{/if}
+            <td><strong>{ts}Country - State{/ts}</strong></td>
+            <td><div name="location[1][address][country_state]" dojoType="civicrm.HierSelect" url1="{$config->resourceBase}bin/ajax.php?return=countries" url2="{$config->resourceBase}bin/ajax.php?return=states" default1="{$countryDefault}" default2="{$stateDefault}" firstInList=true></div>{if $addressSequenceState} - <span class="tundra"><span id="id_location[1][address][country_state]_1"></span></span>{/if}
                 <br class="spacer"/>
                 <span class="description font-italic">
                     {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}

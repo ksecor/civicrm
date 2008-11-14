@@ -783,7 +783,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name );
-        
+
+        // CRM-3803
+        if ( isset($_POST['location'][1]['address']['country_state']) ) {
+            $this->set( 'country_state', $_POST['location'][1]['address']['country_state'] );
+        }
+
         $params['currencyID']     = $config->defaultCurrency;
 
         $params['amount'] = self::computeAmount( $params, $this );

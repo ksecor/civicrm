@@ -105,6 +105,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
+            if ( $this->get('country_state') ) {
+                $this->_params['location'][1]['address']['country_state'] = $this->get('country_state');
+            }
 
             if ( !empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
                 $this->_params["state_province-{$this->_bltID}"] =
