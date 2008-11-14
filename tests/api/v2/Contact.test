@@ -295,6 +295,10 @@ class TestOfContactAddAPIV2 extends CiviUnitTestCase
     }
     
     private function _assertAttributesEqual( $params, $target ) {
+        if( empty( $params['custom'] ) ){
+            unset( $params['custom'] );
+        }
+        
         foreach( $params as $paramName => $paramValue ) {
             if( isset( $target[$paramName] ) ) {
                 $this->assertEqual( $paramValue, $target[$paramName] );
