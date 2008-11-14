@@ -1695,7 +1695,8 @@ SELECT DISTINCT( m.id ) as id
                         createdContact.sort_name as created_by, 
                         scheduledContact.sort_name as scheduled_by,
                         $mailing.created_id as created_id, 
-                        $mailing.scheduled_id as scheduled_id
+                        $mailing.scheduled_id as scheduled_id,
+                        $mailing.is_archived as archived
             FROM        $mailing
             LEFT JOIN   $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
             LEFT JOIN   civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
@@ -1733,7 +1734,8 @@ SELECT DISTINCT( m.id ) as id
                             'created_by'    => $dao->created_by,
                             'scheduled_by'  => $dao->scheduled_by,
                             'created_id'    => $dao->created_id,
-                            'scheduled_id'  => $dao->scheduled_id
+                            'scheduled_id'  => $dao->scheduled_id,
+                            'archived'      => $dao->archived,
                             );
         }
         return $rows;

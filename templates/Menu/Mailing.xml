@@ -58,6 +58,14 @@
      <weight>620</weight>
   </item>
   <item>
+     <path>civicrm/mailing/browse/archived</path>
+     <title>Archived Mailings</title>
+     <page_callback>CRM_Mailing_Page_Browse</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <page_type>1</page_type>
+     <weight>625</weight>
+  </item>
+  <item>
      <path>civicrm/mailing/component</path>
      <title>Headers, Footers, and Automated Messages</title>
      <page_callback>CRM_Mailing_Page_Component</page_callback>

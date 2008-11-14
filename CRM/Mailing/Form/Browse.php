@@ -98,6 +98,9 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
             CRM_Mailing_BAO_Mailing::del($this->_mailingId);
         } elseif ( $this->_action & CRM_Core_Action::DISABLE ) {
             CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+        } elseif ( $this->_action & CRM_Core_Action::RENEW ) {
+            //set is_archived to 1
+            CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Mailing', $this->_mailingId, 'is_archived', true );
         }
     }//end of function
 
