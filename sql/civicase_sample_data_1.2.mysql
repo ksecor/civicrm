@@ -75,16 +75,16 @@ INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_ac
             ('Rehearse intervention', 'Rehearse intervention', 21, '', 1, 0, @parentId, 7),
             ('Conduct intervention', 'Conduct intervention', 22, '', 1, 0, @parentId, 7),
             ('Debrief intervention', 'Debrief intervention', 23, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction', 'Survey client satisfaction Referral to counselor', 24, '', 1, 0, @parentId, 7),
-            ('Determine needs and preferences', 'Determine needs and preferences', 25, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction (Counselor referral)', 'Survey client satisfaction Referral to counselor', 24, '', 1, 0, @parentId, 7),
+            ('Determine needs and preferences (Family doctor referral)', 'Determine needs and preferences Referral to family doctor', 25, '', 1, 0, @parentId, 7),
             ('Notify selected referral target', 'Notify selected referral target', 26, '', 1, 0, @parentId, 7),
             ('Facilitate first appointment', 'Facilitate first appointment', 27, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction', 'Survey client satisfaction Referral to family doctor', 28, '', 1, 0, @parentId, 7),
-            ('Determine needs and preferences', 'Determine needs and preferences', 29, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction (Family doctor referral)', 'Survey client satisfaction Referral to family doctor', 28, '', 1, 0, @parentId, 7),
+            ('Determine needs and preferences (Specialist referral)', 'Determine needs and preferences Referral to specialist', 29, '', 1, 0, @parentId, 7),
             ('Prescreen referral target', 'Prescreen referral target', 30, '', 1, 0, @parentId, 7),
 -- Not sure if there would be anything different with the family doctor vs specialist versions of these
 --            ('Facilitate first appointment', 'Facilitate first appointment', 31, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction', 'Survey client satisfaction Referral to specialist', 32, '', 1, 0, @parentId, 7),
+            ('Survey client satisfaction (Specialist referral)', 'Survey client satisfaction Referral to specialist', 32, '', 1, 0, @parentId, 7),
             ('Sign case coordination agreement', 'Sign case coordination agreement', 33, '', 1, 0, @parentId, 7),
             ('Receive comprehensive plan for assessment and treatment', 'Receive comprehensive plan for assessment and treatment', 34, '', 1, 0, @parentId, 7),
             ('Engage workplace supervisor', 'Engage workplace supervisor', 35, '', 1, 0, @parentId, 7),
@@ -167,6 +167,194 @@ CREATE TABLE `civicrm_value_intake_questions_2` (
 ALTER TABLE `civicrm_value_intake_questions_2`
   ADD CONSTRAINT `FK_civicrm_value_intake_questions_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
 
+-- CPHN Indicator
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Primary_Classifications_CPHN','Primary Classifications CPHN','Activity',NULL,@at3,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_cphn_3',0,0,0);
+SELECT @cg2 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_CPHN';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg2,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg2,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg2,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg2,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_primary_classifications_cphn_3` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_primary_classifications_cphn_3_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Secondary_Classifications_CPHN','Secondary Classifications CPHN','Activity',NULL,@at8,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_cphn_4',0,0,0);
+SELECT @cg3 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_CPHN';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg3,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg3,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg3,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg3,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_secondary_classifications_cphn_4` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_secondary_classifications_cphn_4_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+-- ICD Codes
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Primary_Classifications_ICD','Primary Classifications ICD','Activity',NULL,@at4,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_icd_5',0,0,0);
+SELECT @cg4 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_ICD';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg4,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg4,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg4,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg4,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_primary_classifications_icd_5` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_primary_classifications_icd_5_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Secondary_Classifications_ICD','Secondary Classifications ICD','Activity',NULL,@at9,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_icd_6',0,0,0);
+SELECT @cg5 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_ICD';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg5,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg5,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg5,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg5,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_secondary_classifications_icd_6` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_secondary_classifications_icd_6_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+-- Presenting Problem
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Primary_Classifications_PP','Primary Classifications PP','Activity',NULL,@at6,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_pp_7',0,0,0);
+SELECT @cg6 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_PP';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg6,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg6,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg6,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg6,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_primary_classifications_pp_7` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_primary_classifications_pp_7_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Secondary_Classifications_PP','Secondary Classifications PP','Activity',NULL,@at10,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_pp_8',0,0,0);
+SELECT @cg7 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_PP';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg7,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg7,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg7,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg7,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_secondary_classifications_pp_8` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_secondary_classifications_pp_8_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+-- vocab
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Primary_Classifications_Vocab','Primary Classifications Vocab','Activity',NULL,@at7,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_vocab_9',0,0,0);
+SELECT @cg8 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_Vocab';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg8,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg8,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg8,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg8,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_primary_classifications_vocab_9` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_primary_classifications_vocab_9_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Secondary_Classifications_Vocab','Secondary Classifications Vocab','Activity',NULL,@at11,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_vocab_10',0,0,0);
+SELECT @cg9 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_Vocab';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg9,'Assigned code','String','Text',NULL,0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_code_6',NULL),
+ (@cg9,'Assigned Description','String','Text',NULL,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'assigned_description_7',NULL),
+ (@cg9,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg9,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_secondary_classifications_vocab_10` (
+  `id` int(10) unsigned NOT NULL COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `assigned_code_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `assigned_description_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_secondary_classifications_vocab_10_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
 
 -- /*******************************************************
 -- *
@@ -206,3 +394,27 @@ VALUES
     (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
     (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  1, 2, NULL, 0, 1, 1),
     (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1);
+
+
+-- /*******************************************************
+-- *
+-- * Some users
+-- *
+-- *******************************************************/
+
+INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`, `is_deceased`, `deceased_date`, `mail_to_household_id`, `household_name`, `primary_contact_id`, `organization_name`, `sic_code`, `user_unique_id`, `employer_id`)
+VALUES
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Inigo, Ichabod','Ichabod Inigo',NULL,NULL,NULL,NULL,NULL,'Both','25e4742ec6bffd59a0f3f3d11b24b893',NULL,'Ichabod',NULL,'Inigo',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Leeman, Lori','Lori Leeman',NULL,NULL,NULL,NULL,NULL,'Both','5cd4c857af683c470bd77fc14e7d0a22',NULL,'Lori',NULL,'Leeman',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+SELECT @cid1 := id from civicrm_contact WHERE hash='25e4742ec6bffd59a0f3f3d11b24b893';
+SELECT @cid2 := id from civicrm_contact WHERE hash='5cd4c857af683c470bd77fc14e7d0a22';
+
+INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
+VALUES
+ (@cid1,2,'ichabod.inigo@physicianhealth.com',1,0,0,0,NULL,NULL),
+ (@cid2,2,'lori.leeman@physicianhealth.com',1,0,0,0,NULL,NULL);
+
+--
+-- Not sure if need uf_match table entries to keep something from breaking?
+--

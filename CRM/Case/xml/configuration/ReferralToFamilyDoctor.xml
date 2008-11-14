@@ -9,7 +9,7 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
-      <name>Determine needs and preferences</name>
+      <name>Determine needs and preferences Referral to family doctor</name>
       <category>Case History</category>
     </ActivityType>
     <ActivityType>
@@ -81,7 +81,7 @@
           <category>Case History</category>
         </ActivityType>
         <ActivityType>
-          <name>Determine needs and preferences</name>
+          <name>Determine needs and preferences Referral to family doctor</name>
           <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
           <reference_category>Case History</reference_category>
