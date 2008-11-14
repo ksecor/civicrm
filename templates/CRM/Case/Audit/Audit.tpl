@@ -21,7 +21,15 @@ DEBUG: Sort method {$sortBy} not implemented yet<br />
 </tr>
 {foreach from=$activities item=activity name=activityloop}
 <tr class="activity{if $smarty.foreach.activityloop.first} selected{/if}" id="civicase-audit-activity-{$smarty.foreach.activityloop.iteration}">
-	<td class="indicator">{if $activity.completed}<img src="{$config->resourceBase}i/spacer.gif" width="20" height="20">{else}<img src="{$config->resourceBase}i/contribute/incomplete.gif" width="20" height="20">{/if}</td>
+	<td class="indicator">
+		{if $activity.completed}
+		<img src="{$config->resourceBase}i/spacer.gif" width="20" height="20">
+		{else}
+		<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
+		<img src="{$config->resourceBase}i/contribute/incomplete.gif" width="20" height="20" alt="{ts}Incomplete{/ts}" title="{ts}Incomplete{/ts}">
+		</a>
+		{/if}
+	</td>
 	<td>
 	<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
 	{foreach from=$activity.leftpane item=field name=fieldloop}
