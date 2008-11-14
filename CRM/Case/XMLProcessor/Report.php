@@ -47,15 +47,17 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
         $template =& CRM_Core_Smarty::singleton( );
 
+        if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
+        	$this->isRedact = true;
+            $template->assign( 'isRedact', 'true' );
+        } else {
+        	$this->isRedact = false;
+            $template->assign( 'isRedact', 'false' );
+        }
+
         // first get all case information
         $case = $this->caseInfo( $clientID, $caseID );
         $template->assign_by_ref( 'case', $case );
-
-        if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
-            $template->assign( 'isRedact', 'true' );
-        } else {
-            $template->assign( 'isRedact', 'false' );
-        }
 
         if ( $params['include_activities'] == 1 ) {
             $template->assign( 'includeActivities', 'All' );
@@ -101,10 +103,10 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                        $caseID ) {
         $case = array( );
 
-        $case['clientName'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                           $clientID,
-                                                           'display_name' );
-        
+        $case['clientName'] = $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                         $clientID,
+                                                                         'display_name' ));
+                
         require_once 'CRM/Case/DAO/Case.php';
         $dao = new CRM_Case_DAO_Case( );
         $dao->id = $caseID;
@@ -236,9 +238,10 @@ WHERE      a.id = %1
         $activity['fields'] = array( );
 
         $activity['fields'][] = array( 'label' => 'Client',
-                                       'value' => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                               $clientID,
-                                                                               'display_name' ),
+                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                             $clientID,
+                                                                                             'display_name' )
+                                                               ),
                                        'type'  => 'String' );
 
         // Activity Type info is a special field
@@ -252,13 +255,14 @@ WHERE      a.id = %1
                                        'type'  => 'Memo' );
         
         $activity['fields'][] = array( 'label' => 'Created By',
-                                       'value' => $this->getCreatedBy( $activityDAO->id ),
+                                       'value' => $this->redact($this->getCreatedBy( $activityDAO->id )),
                                        'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Reported By',
-                                       'value' => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                               $activityDAO->source_contact_id,
-                                                                               'display_name' ),
+                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                             $activityDAO->source_contact_id,
+                                                                                             'display_name' )
+                                                               ),
                                        'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Medium',
@@ -417,6 +421,15 @@ LIMIT  1
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
+	private function redact($s)
+	{
+		if ($this->isRedact) {
+			// Pretty simple for now
+			return sha1($s);
+		} else {
+			return $s;
+		}
+	}
 }
 
 

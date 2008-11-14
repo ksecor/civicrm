@@ -156,11 +156,11 @@ class Audit
 	}
 	
     static function run( $xmlString ) {
-
-$fh = fopen('C:/temp/lasfj.xml', 'w');
+/*
+$fh = fopen('C:/temp/audit2.xml', 'w');
 fwrite($fh, $xmlString);
 fclose($fh);
-
+*/
         $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
         $activities = $audit->getActivities();
