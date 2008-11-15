@@ -17,6 +17,11 @@
     {/section}
     <tr class="columnheader"><th colspan="2" style="text-align: right;">{$form.threshold.label}</th><td>{$form.threshold.html}</td></tr>
   </table>
+  {capture assign=urlTitle}{ts}Opens documentation in a new window.{/ts}{/capture}  
+  <div class="message status">
+    <p>{ts 1="http://dev.mysql.com/doc/refman/5.0/en/create-index.html" 2=$urlTitle}IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify that there is an index on the corresponding column in the database. If not,
+    you can use the CREATE INDEX command in MySQL to add an index. (<a href="%1" target="_blank" title="%2">learn more ... </a>) {/ts}</p>
+  </div>
   <p>{$form.buttons.html}</p>
   </dl>
 </fieldset>

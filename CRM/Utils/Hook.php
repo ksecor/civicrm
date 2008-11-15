@@ -53,7 +53,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 4, $op, $objectName, $objectId, $objectRef, $op, \'civicrm_pre\' );' );  
+                  '::invoke( 4, $op, $objectName, $id, $params, $op, \'civicrm_pre\' );' );  
     }
 
     /** 
