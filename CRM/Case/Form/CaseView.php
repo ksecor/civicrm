@@ -51,7 +51,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         $this->_contactID = $this->get('cid');
         $this->_caseID    = $this->get('id');
-        
+
         $this->assign( 'caseID', $this->_caseID );
         $this->assign( 'contactID', $this->_contactID );
 
@@ -100,6 +100,12 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         if ( $show ) {
             $this->assign ( 'show', $show );
         }
+
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
 
     /**

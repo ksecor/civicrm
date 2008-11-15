@@ -2,16 +2,18 @@
 {if $cnt eq 2}
 <fieldset><legend>View Activity</legend>
 {/if}
+
+{if $report}
 <table style="width: 95%">
 {foreach from=$report.fields item=row name=report}
 <tr{if ! $smarty.foreach.report.last} style="border-bottom: 1px solid #F6F6F6;"{/if}>
     <td class="label">{$row.label}</td>
-    {if $smarty.foreach.report.first AND ( $revisionURL OR $parentID OR $currentRevisionID OR $originalID )} {* Add a cell to first row with links to prior revision listing and Prompted by (parent) as appropriate *}
+    {if $smarty.foreach.report.first AND ( $revisionURL OR $parentID OR $latestRevisionID OR $originalID )} {* Add a cell to first row with links to prior revision listing and Prompted by (parent) as appropriate *}
         <td class="label">{$row.value}</td>
         <td style="padding-right: 50px; text-align: right;">
             {if $revisionURL}<a href="{$revisionURL}">&raquo; {ts}Prior revisions{/ts}</a><br />{/if}
-            {if $originalID}<a href="javascript:viewActivity({$originalID}, 1);">&raquo; {ts}Prior revisions{/ts}</a><br />{/if} 
-            {if $currentRevisionID}<a href="javascript:viewActivity({$currentRevisionID}, 1);">&raquo; {ts}Current revision{/ts}</a><br />{/if}                   
+            {if $originalID}<a href="javascript:viewActivity({$originalID}, 1);">&raquo; {ts}Previous revision{/ts}</a><br />{/if} 
+            {if $latestRevisionID}<a href="javascript:viewActivity({$latestRevisionID}, 1);">&raquo; {ts}Latest revision{/ts}</a><br />{/if}                   
             {if $parentID}<a href="$javascript:viewActivity({$parentID}, 1);">&raquo; {ts}Prompted by{/ts}</a>{/if}
         </td>
     {else}
@@ -31,13 +33,16 @@
     {/foreach}
 {/if}
 </table>
+{else}
+    <div class="messages status">{ts}This activity is not attached to any case. Please investigate.{/ts}</div>
+{/if}
 
 {if $cnt eq 2}
 </fieldset>
 {/if}
 
 {if $cnt eq 2}
-  <fieldset><legend>List Revisions</legend>
+  <fieldset><legend>Prior Revisions</legend>
   {strip}
   <table>
       <tr style="background-color: #B3D1FF; color: #000000; border: 1px solid #5A8FDB;">
@@ -59,9 +64,13 @@
 
 
 {literal}
-<script>
+<script type="text/javascript">
 function viewActivity( activityId,  isPrior ) {
-   if ( isPrior != 1 ) {
+   if ( isPrior == 1 ) {
+      var cid= {/literal}"{$contactID}"{literal};
+      var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
+  	  cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
+   } else {
       cj("#view-activity").show( );
 
       cj("#view-activity").dialog({
@@ -90,16 +99,12 @@ function viewActivity( activityId,  isPrior ) {
      } 
    });
    }
-
-   if ( isPrior == 1 ) {
-      var cid= {/literal}"{$contactID}"{literal};
-      var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-  	  cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
-   }
 }
 </script>
 {/literal}
 
+{if $cnt eq 2}
 <div id="view-activity">
      <div id="activity-content"></div>
 </div>
+{/if}
