@@ -1043,7 +1043,7 @@ SELECT count( id ) AS cnt
 FROM civicrm_activity
 WHERE ( id = {$originalID} OR original_id = {$originalID} )
 AND is_current_revision = 0
-AND id != {$activityID} 
+AND id < {$activityID} 
 ";
             return CRM_Core_DAO::singleValueQuery( $query, $params );
         }
@@ -1120,5 +1120,3 @@ AND cl.modified_id = c.id
     }
 
 }
-
-

@@ -35,8 +35,9 @@
 
 require_once "CRM/Core/Form.php";
 require_once "CRM/Activity/BAO/Activity.php";
+
 /**
- * This class generates form components for case report
+ * This class does pre processing for viewing an activity or their revisions
  * 
  */
 class CRM_Case_Form_ActivityView extends CRM_Core_Form
@@ -55,6 +56,11 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
 
         $this->assign('contactID', $contactID );
        
+        require_once 'CRM/Case/XMLProcessor/Report.php';
+        $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
+        $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID );
+        $this->assign('report', $report );
+
         if ( $cnt ) {
             $this->assign('cnt',$cnt);
             
@@ -70,28 +76,20 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
             }
         }
 
-        require_once 'CRM/Case/XMLProcessor/Report.php';
-        $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-        $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID );
-        $this->assign('report', $report );
-       
         $parentID =  CRM_Activity_BAO_Activity::getParentActivity( $activityID );
-    
         if ( $parentID ) { 
             $this->assign( 'parentID', $parentID );
         }
 
-        $countPriorActivity = CRM_Activity_BAO_Activity::getPriorCount( $activityID );
-        
-        if ( $countPriorActivity && !$cnt ) {
+        if ( !$cnt ) {
+            $countPriorActivities = CRM_Activity_BAO_Activity::getPriorCount( $activityID );
 
-            if ( $countPriorActivity == 1 ) {
+            if ( $countPriorActivities == 1 ) {
                 $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
                                                            $activityID,
                                                            'original_id' );
                 $this->assign( 'originalID', $originalID ); 
-
-            } else if ( $countPriorActivity > 1 ) {
+            } else if ( $countPriorActivities > 1 ) {
                 $revisionURL = CRM_Utils_System::url( 'civicrm/case/activity/view', 
                                                       "reset=1&cid=$contactID&aid=$activityID&cnt=2", 
                                                       false, null, true );

@@ -6,6 +6,7 @@
 {if $report}
 <table style="width: 95%">
 {foreach from=$report.fields item=row name=report}
+{if $row.label eq 'Subject'}{assign var="activitySubject" value=$row.value"}{/if}
 <tr{if ! $smarty.foreach.report.last} style="border-bottom: 1px solid #F6F6F6;"{/if}>
     <td class="label">{$row.label}</td>
     {if $smarty.foreach.report.first AND ( $revisionURL OR $parentID OR $latestRevisionID OR $originalID )} {* Add a cell to first row with links to prior revision listing and Prompted by (parent) as appropriate *}
@@ -42,7 +43,7 @@
 {/if}
 
 {if $cnt eq 2}
-  <fieldset><legend>Prior Revisions</legend>
+  <fieldset><legend>Prior Revisions - {$activitySubject}</legend>
   {strip}
   <table>
       <tr style="background-color: #B3D1FF; color: #000000; border: 1px solid #5A8FDB;">
