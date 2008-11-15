@@ -52,24 +52,6 @@ function buildCustomData( type, subName, subType )
 	} else {
 		cj('#customData').load( dataUrl);
 	}
-
-	{/literal}
-	{if $isMultiValue }
-		createMultiValueLink( cgcount ); 
-	{/if}
-	{literal}
 }
-
-function createMultiValueLink( cgcount ) {
-	{/literal}
-	{if $groupID}
-		groupID = '{$groupID}';
-	{/if}
-
-	{literal}
-
-    cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues(' + cgcount + ' );">Add More</a>');
-}
-
 </script>
 {/literal}
