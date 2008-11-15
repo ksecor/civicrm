@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-27 20:46+0100\n"
-"PO-Revision-Date: 2008-09-30 05:18-0700\n"
-"Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
+"PO-Revision-Date: 2008-11-13 17:45-0800\n"
+"Last-Translator: delta <damir@sagi.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,7 @@ msgstr "Bewerking"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -311,7 +311,7 @@ msgstr "Activiteitmethode"
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Violation Type"
-msgstr ""
+msgstr "Overtreding"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
@@ -819,7 +819,7 @@ msgstr "Formaat persoonsnaam"
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Minute Increment"
-msgstr ""
+msgstr "Verhoging per minuut"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -876,7 +876,7 @@ msgstr "Zaak status"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 msgid "Case Sub Type"
-msgstr ""
+msgstr "Zaak Sub Categorie"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 msgid "Violation"
@@ -1440,7 +1440,7 @@ msgstr "en"
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 msgid "...through"
-msgstr ""
+msgstr "doorgaand ..."
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
@@ -1721,7 +1721,7 @@ msgstr ""
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Help bericht"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1730,7 +1730,7 @@ msgstr "Verberg"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1767,7 +1767,7 @@ msgstr "Selecteer 1 of meer Staat/Provincie"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr ""
+msgstr "Verberg Weergave"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1800,7 +1800,7 @@ msgstr "Optie waarde"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Achtervoegsel voor PHP class naam implementatie"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -2002,6 +2002,10 @@ msgid ""
 "requires InnoDB. You will need to convert any MyISAM tables in your database "
 "to InnoDB before proceeding."
 msgstr ""
+"U database is ingesteld om gebruik te maken van MyISAM opslag methode. "
+"CiviCRM heef echter de InnoDB opslag methode nodig.U zult handmatig alle "
+"tabellen die gebruik maken van de MyISAM opslag methode moeten omzetten naar "
+"InnoDB  voor dat u kun doorgaan. "
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php CRM/Upgrade/TwoOne/Form/Step2.php
 #: CRM/Upgrade/TwoOne/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step1.php
@@ -2043,7 +2047,7 @@ msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Thank you for using CiviCRM."
-msgstr ""
+msgstr "Wij  wensen u veel succes met CiviCRM."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2088,7 +2092,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Acl Tabel"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
@@ -2209,7 +2213,7 @@ msgstr "Datum en tijd activiteit"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Due Date Time"
-msgstr ""
+msgstr "t/m"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2440,6 +2444,8 @@ msgid ""
 "This Label already exists in the database for this option group. Please "
 "select a different Value."
 msgstr ""
+"Deze Categorie naam staat reeds  in de database voor dit keuzemenu.Kies een "
+"andere waarde"
 
 #: CRM/Admin/Form/Options.php templates/CRM/Admin/Page/Options.tpl
 msgid "Counted?"
