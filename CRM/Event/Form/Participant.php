@@ -378,6 +378,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'participant_is_pay_later', true );
             }
             $this->assign( 'participant_status_id', $defaults[$this->_participantId]['participant_status_id'] );
+			
+			//assign event and role id, this is needed for Custom data building
+			$this->assign( 'roleID', $defaults[$this->_participantId]['participant_role_id'] );
+			$this->assign( 'eventID', $defaults[$this->_participantId]['event_id'] );
         }
         
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_participantId]) );
@@ -477,24 +481,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
-                   array('onchange' => "buildFeeBlock( this.value );") );
+                   array('onchange' => "buildCustomData( 'Participant', 2, this.value );") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
                     true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
 
-        //need to assign custom data type and subtype to the template
-        $this->assign('customDataType', 'Participant');
-        $this->assign('customDataSubType',  $this->_roleId );
-        $this->assign('customDataSubName',  1 );
-        
-        $this->assign('entityId',  $this->_participantId );
-
+		if ( $this->_participantId ) {
+			$this->assign( 'entityID', $this->_participantId );
+		}
+		
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantRole( ),
                     true,
-                    array('onchange' => "buildCustomData( this.value );") );
+                    array('onchange' => "buildCustomData( 'Participant', 1, this.value );") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),

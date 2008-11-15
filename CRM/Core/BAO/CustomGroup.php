@@ -295,7 +295,7 @@ WHERE civicrm_custom_group.is_active = 1
             $params[1] = array( $groupID, 'Integer' );
         } else if ( ! $groupID ){
             // since groupID is false we need to show all Inline groups
-            //$strWhere .= " AND civicrm_custom_group.style = 'Inline'";
+            $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
 
         require_once 'CRM/Core/Permission.php';
@@ -1538,6 +1538,7 @@ ORDER BY weight ASC, label ASC";
             }
             
             // add group information
+            $formattedGroupTree[$key]['name'     ] = $value['name'];
             $formattedGroupTree[$key]['title'    ] = $value['title'];
             $formattedGroupTree[$key]['help_pre' ] = $value['help_pre'];
             $formattedGroupTree[$key]['help_post'] = $value['help_post'];
@@ -1586,7 +1587,15 @@ ORDER BY weight ASC, label ASC";
                                                                                                                        $properties['data_type'] ),
                                                                        'options_per_line' => $properties['options_per_line'] );
                     }
-                }
+				} else {
+                    $details[0]['title'] = $group['title']; 
+                    $details[0]['name'] = $group['name']; 
+                    $details[0]['help_pre'] = $group['help_pre']; 
+                    $details[0]['help_post'] = $group['help_post']; 
+                    $details[0]['collapse_display']  = $group['collapse_display'];					
+                    $details[0]['fields'][0] = array( 'field_title' => $properties['label'] );
+
+				}
             }
 
             $form->assign_by_ref( 'viewCustomData', $details );
