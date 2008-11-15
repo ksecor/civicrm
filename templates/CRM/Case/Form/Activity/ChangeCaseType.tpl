@@ -10,9 +10,6 @@
             <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
         </tr>
     {/if}
-    <tr>
-        <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
-    </tr>
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_reset_timeline"

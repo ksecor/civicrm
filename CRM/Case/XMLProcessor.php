@@ -56,7 +56,8 @@ class CRM_Case_XMLProcessor {
                                         'configuration',
                                         "$caseType.xml" ) );
             if ( ! file_exists( $fileName ) ) {
-                CRM_Core_Error::fatal( );
+                CRM_Core_Error::statusBounce( ts("Unable to locate configuration file for the referenced case type. Expecting: '%1'", 
+                                                 array( 1 => $fileName ) ) );
                 return false;
             }
 

@@ -207,23 +207,27 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             require_once 'CRM/Case/XMLProcessor/Process.php';
             $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
             $activityInst  = $xmlProcessor->getMaxInstance($caseType, $this->_activityTypeName);
-            $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
-            if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
-                if ( $activityInst[$this->_activityTypeName] == 1 ) {
-                    $activities = 
-                        CRM_Case_BAO_Case::getCaseActivity( $this->_id, 
-                                                            array('activity_type_id' => 
-                                                                  $this->_activityTypeId), 
-                                                            $this->_uid );
-                    $activities = array_keys($activities);
-                    $activities = $activities[0];
-                    $editUrl    = 
-                        CRM_Utils_System::url( 'civicrm/case/activity', 
-                                               "reset=1&cid={$this->_clientId}&id={$this->_id}&aid={$activities}" );
+            
+            // Activity type is only included in getMaxInstance array if a max_instance property is set. If not, no limit on that type.
+            if ( isset( $activityInst[$this->_activityTypeName] ) ) {
+                $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
+                if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
+                    if ( $activityInst[$this->_activityTypeName] == 1 ) {
+                        $activities = 
+                            CRM_Case_BAO_Case::getCaseActivity( $this->_id, 
+                                                                array('activity_type_id' => 
+                                                                      $this->_activityTypeId), 
+                                                                $this->_uid );
+                        $activities = array_keys($activities);
+                        $activities = $activities[0];
+                        $editUrl    = 
+                            CRM_Utils_System::url( 'civicrm/case/activity', 
+                                                   "reset=1&cid={$this->_clientId}&id={$this->_id}&aid={$activities}" );
+                    }
+                    CRM_Core_Error::statusBounce( ts("You can not add another '%1' activity to this case. %2", 
+                                                     array( 1 => $this->_activityTypeName,
+                                                            2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
                 }
-                CRM_Core_Error::statusBounce( ts("You can not add more activities of '%1' to this case. %2", 
-                                                 array( 1 => $this->_activityTypeName,
-                                                        2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
             }
         }
 
@@ -455,7 +459,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
         }
 
-        // edit existing case if needed
+        // store the dates with proper format
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
+        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
+        $params['activity_type_id']   = $this->_activityTypeId;
+        
+        // update existing case record if needed
         if ( $this->_caseAction ) {
             $params['id'] = $this->_id;
             require_once 'CRM/Case/BAO/Case.php';
@@ -465,16 +474,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
                     $params['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
             }
-            $caseObj = CRM_Case_BAO_Case::create( $params );
+            // unset activity's status_id, subject and details so they aren't written case record
+            $caseParams = $params;
+            unset( $caseParams['subject'], $caseParams['details'], $caseParams['status_id'] );
+            $caseObj = CRM_Case_BAO_Case::create( $caseParams );
             $params['case_id'] = $caseObj->id;
-            // unset any ids, custom data
+            // unset any ids belonging to case, custom data
             unset($params['id'], $params['custom']);
         }
-
-        // store the date with proper format
-        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
-        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
-        $params['activity_type_id']   = $this->_activityTypeId;
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {

@@ -54,7 +54,8 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
-            CRM_Core_Error::fatal( );
+            CRM_Core_Error::statusBounce( ts("Unable to load configuration file for the referenced case type: '%1'", 
+                                              array( 1 => $caseType ) ) );
             return false;
         }
 

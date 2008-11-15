@@ -56,6 +56,10 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
     function setDefaultValues( &$form ) 
     {
         $defaults = array();
+        // Retrieve current case status
+        $defaults['case_status_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
+                                                                  $this->_id,
+                                                                  'status_id', 'id' );
         return $defaults;
     }
 
@@ -64,7 +68,7 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
         require_once 'CRM/Core/OptionGroup.php';        
        
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
-        $form->add('select', 'status_id',  ts( 'Case Status' ),  
+        $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
                     $caseStatus , true  );
     }
 
@@ -101,7 +105,23 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
      */
     public function endPostProcess( &$form, &$params ) 
     {
-        // status msg
+        // Set case end_date if we're closing the case. Clear end_date if we're (re)opening it.
+        if ( $params['case_status_id'] == CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) ) {
+            CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', $params['activity_date_time'] );
+        }
+        switch ( $params['case_status_id'] ) {
+            case CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) :
+                CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', $params['activity_date_time'] );
+                break;
+            case CRM_Core_OptionGroup::getValue( 'case_status', 'Open', 'name' ) :
+                CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', null );
+                break;
+        }
+        
+        // user status msg
+        CRM_Core_Session::setStatus( ts('Case Status has been changed.') );
+        
+        // FIXME: does this do anything ?
         $params['statusMsg'] = ts('Case Status changed successfully.');
     }
 }
