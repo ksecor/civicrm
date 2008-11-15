@@ -1593,7 +1593,7 @@ ORDER BY weight ASC, label ASC";
                     $details[0]['help_pre'] = $group['help_pre']; 
                     $details[0]['help_post'] = $group['help_post']; 
                     $details[0]['collapse_display']  = $group['collapse_display'];					
-                    $details[0]['fields'][0] = array( 'field_title' => $properties['label'] );
+                    $details[0]['fields'][$k] = array( 'field_title' => $properties['label'] );
 
 				}
             }
