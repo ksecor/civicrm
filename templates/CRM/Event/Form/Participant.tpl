@@ -185,7 +185,7 @@
 	{/literal}
 
 	{*include custom data js file*}
-	{include file="CRM/common/newcustomData.tpl"}
+	{include file="CRM/common/customData.tpl"}
 	{literal}
 		<script type="text/javascript">
 			cj(document).ready(function() {
