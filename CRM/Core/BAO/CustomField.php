@@ -1475,7 +1475,7 @@ ORDER BY html_type";
                           $customFieldExtends,
                           $inline = false ) {
         $customData = array( );
-        foreach ( $params as $key => $value ) {
+        foreach ( $_POST as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
                                                              $customData,

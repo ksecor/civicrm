@@ -142,9 +142,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->_showFeeBlock = CRM_Utils_Array::value( 'eventId', $_GET );
         $this->assign( 'showFeeBlock', false );
 
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
-        $this->_mode      = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+        $this->_contactID 	   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $this->_mode           = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+		$this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
        
         if ( $this->_mode ) {
             $this->assign( 'participantMode', $this->_mode );
@@ -208,9 +208,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
-        
-        $this->_participantId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        }     
 
         //check the mode when this form is called either single or as
         //search task action
@@ -271,11 +269,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_Customdata::preProcess( $this );
-            CRM_Custom_Form_Customdata::buildQuickForm( $this );
-            CRM_Custom_Form_Customdata::setDefaultValues( $this );
-        }
+        // if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+        //     CRM_Custom_Form_Customdata::preProcess( $this );
+        //     CRM_Custom_Form_Customdata::buildQuickForm( $this );
+        //     CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        // }
     }
     
     /**
@@ -321,7 +319,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $viewMode = false;
             $inactiveNeeded = false;
         }
-        
+
         //setting default register date
         if ($this->_action == CRM_Core_Action::ADD) {
             $today_date = getDate();
@@ -731,7 +729,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
 
-        //custom data block common for offline as well as credit card
+      	//custom data block common for offline as well as credit card
         //(online) mode
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
                                                              CRM_Utils_Array::value( 'role_id', $params ) );
@@ -739,7 +737,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                    $customFields,
                                                                    $this->_participantId,
                                                                    'Participant' );
-
+		
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
