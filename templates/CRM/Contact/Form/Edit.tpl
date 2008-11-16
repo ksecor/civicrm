@@ -154,11 +154,16 @@
 {/if}
  
 {* Conditionally insert any inline custom data groups *} 
-{* {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} *}
     <div id="customData"></div>
     {*include custom data js file*}
     {include file="CRM/common/customData.tpl"}
-
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				buildCustomData( 'Contact' );
+			});
+		</script>
+	{/literal}
 
 {* Plugging the Location block *}
 {include file="CRM/Contact/Form/Location.tpl"}
