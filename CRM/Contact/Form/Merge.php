@@ -252,10 +252,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     public function postProcess()
     {
-        $formValues = $this->exportValues();
-                             
-        $relTables =& CRM_Dedupe_Merger::relTables();
-        $moveTables = array();
+        $formValues  = $this->exportValues();
+        $relTables   =& CRM_Dedupe_Merger::relTables();
+        $tableClause = array(); 
+        $moveTables  = array();
         foreach ($formValues as $key => $value) {
             if ($value == $this->_qfZeroBug) $value = '0';
             if ((in_array(substr($key, 5), CRM_Dedupe_Merger::$validFields) or substr($key, 0, 12) == 'move_custom_') and $value != null) {
@@ -350,9 +350,24 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $dao->free();
         }
        
+        // FIXME: hack for cases. Activites attached to the case only needs
+        // to be updated. Need to work on how to fit this approach with
+        // dedupe model. 
+        if ( $formValues['move_rel_table_cases'] == 1 ) {
+            $relCaseTables = array('civicrm_activity'            => 'id', 
+                                   'civicrm_activity_target'     => 'activity_id', 
+                                   'civicrm_activity_assignment' => 'activity_id');
+            foreach( $relCaseTables as $table => $fld ) {
+                $tableClause[$table] = "$table.$fld IN (SELECT civicrm_case_activity.activity_id FROM civicrm_case_activity WHERE civicrm_case_activity.case_id IN (SELECT civicrm_case_contact.case_id FROM civicrm_case_contact WHERE civicrm_case_contact.contact_id= {$this->_oid}))";
+            }
+            if ( $formValues["move_rel_table_activities"] == 1 ) {
+                unset($tableClause['civicrm_activity']);
+            }
+        }
+        
         // handle the related tables
         if (isset($moveTables)) {
-            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);
+            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables, $tableClause);
         }
 
         // move file custom fields

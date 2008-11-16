@@ -96,7 +96,8 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_cases' => array(
                     'title'  => ts('Cases'),
-                    'tables' => array('civicrm_case_contact'),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_target', 
+                                      'civicrm_activity_assignment', 'civicrm_case_contact'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),
                 )
             );
@@ -173,7 +174,6 @@ class CRM_Dedupe_Merger
                 'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
                 'civicrm_subscription_history'    => array('contact_id'),
                 'civicrm_uf_match'                => array('contact_id'),
-                'civicrm_case_contact'            => array('contact_id'), 
             );
         }
         return $cidRefs;
@@ -207,7 +207,7 @@ class CRM_Dedupe_Merger
      * Based on the provided two contact_ids and a set of tables, move the 
      * belongings of the other contact to the main one.
      */
-    function moveContactBelongings($mainId, $otherId, $tables = false)
+    function moveContactBelongings($mainId, $otherId, $tables = false, $tableSpecificClause = array())
     {
         $cidRefs =& self::cidRefs();
         $eidRefs =& self::eidRefs();
@@ -233,14 +233,15 @@ class CRM_Dedupe_Merger
         foreach ($affected as $table) {
             if (isset($cidRefs[$table])) {
                 foreach ($cidRefs[$table] as $field) {
-                    if ( $table == 'civicrm_case_contact' ) {
-                        $sqls[] = "UPDATE IGNORE civicrm_activity, civicrm_case_activity ,civicrm_activity_target, civicrm_activity_assignment SET 
-                                   civicrm_activity.source_contact_id = $mainId, 
-                                   civicrm_activity_target.target_contact_id = $mainId, 
-                                   civicrm_activity_assignment.assignee_contact_id = $mainId 
-                                   WHERE civicrm_case_activity.activity_id = civicrm_activity.id AND civicrm_activity.source_contact_id= $otherId";
+                    $where  = "$field = $otherId";
+                    if ( isset($tableSpecificClause[$table]) ) {
+                        // there could be some specific query for this
+                        // table that needs to be satisfied. Best
+                        // example is case-activities where only
+                        // activities attached to the case needs to be updated.
+                        $where .= " AND ({$tableSpecificClause[$table]})";
                     }
-                    $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $field = $otherId";
+                    $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $where";
                     $sqls[] = "DELETE FROM $table WHERE $field = $otherId";
                 }
             }
