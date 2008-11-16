@@ -1,8 +1,8 @@
 {* Custom Data form*}
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
-<div id="{$cd_edit.name}_show" class="section-hidden section-hidden-border">
-	<a href="#" onclick="hide('{$cd_edit.name}_show'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
+<div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
+	<a href="#" onclick="hide('{$cd_edit.name}_show_{$cgCount}'); show('{$cd_edit.name}_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
 </div>
 
 {* If there is no ajax call this button gets added on top of custom form. In such case $noPreCustomButton var could be used to skip showing this button. *}
@@ -12,8 +12,8 @@
 </dl>  
 {/if}
 
-<div id="{$cd_edit.name}" class="form-item">
-	<fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}'); show('{$cd_edit.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
+<div id="{$cd_edit.name}_{$cgCount}" class="form-item">
+	<fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$cgCount}'); show('{$cd_edit.name}_show_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
 
 		{if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
 		<dl>
@@ -103,9 +103,9 @@
 
 <script type="text/javascript">
 {if $cd_edit.collapse_display eq 0 }
-	hide("{$cd_edit.name}_show"); show("{$cd_edit.name}");
+	hide("{$cd_edit.name}_show_{$cgCount}"); show("{$cd_edit.name}_{$cgCount}");
 {else}
-	show("{$cd_edit.name}_show"); hide("{$cd_edit.name}");
+	show("{$cd_edit.name}_show_{$cgCount}"); hide("{$cd_edit.name}_{$cgCount}");
 {/if}
 </script>
 {/foreach}

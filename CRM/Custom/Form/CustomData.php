@@ -73,7 +73,7 @@ class CRM_Custom_Form_CustomData
     static function buildQuickForm( &$form )
     {
         $form->addElement( 'hidden', 'hidden_custom', 1 );
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, null, null, false, false,  $form->_groupCount );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, false, $form->_groupCount );
     }
 
 
