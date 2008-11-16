@@ -481,7 +481,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
-                   array('onchange' => "buildCustomData( 'Participant', 2, this.value );") );
+                   array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', 2, this.value );") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
