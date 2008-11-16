@@ -1,5 +1,4 @@
 {* Custom Data view mode*}
-
 {strip}
 {foreach from=$viewCustomData item=cd_edit key=group_id}
     <div id="{$cd_edit.name}_show" class="section-hidden section-hidden-border">
@@ -53,14 +52,13 @@
     {if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
     </fieldset>
     </div>
+
+	<script type="text/javascript">
+	{if $cd_edit.collapse_display eq 0 }
+		hide("{$cd_edit.name}_show"); show("{$cd_edit.name}");
+	{else}
+		show("{$cd_edit.name}_show"); hide("{$cd_edit.name}");
+	{/if}
+	</script>
 {/foreach}
 {/strip}
-
-<script type="text/javascript">  
-    var showBlocks = new Array({$showBlocks1});  
-    var hideBlocks = new Array({$hideBlocks1});  
-  
-{* hide and display the appropriate blocks as directed by the php code *}  
-    on_load_init_blocks( showBlocks, hideBlocks );  
- </script>  
-  

@@ -1,9 +1,9 @@
 {* Custom Data form*}
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
-<!--div id="{$cd_edit.name}_show" class="section-hidden section-hidden-border">
+<div id="{$cd_edit.name}_show" class="section-hidden section-hidden-border">
 	<a href="#" onclick="hide('{$cd_edit.name}_show'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
-</div-->
+</div>
 
 {* If there is no ajax call this button gets added on top of custom form. In such case $noPreCustomButton var could be used to skip showing this button. *}
 {if $form.buttons.html and !$noPreCustomButton}
@@ -12,8 +12,9 @@
 </dl>  
 {/if}
 
-<fieldset><legend><a href="#" onclick="cj('#{$cd_edit.name}').toggle();"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
-	<div id="{$cd_edit.name}" class="form-item">
+<div id="{$cd_edit.name}" class="form-item">
+	<fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}'); show('{$cd_edit.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
+
 		{if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
 		<dl>
 			{foreach from=$cd_edit.fields item=element key=field_id}
@@ -95,10 +96,18 @@
 		{if $cd_edit.is_multiple}
 		<div id="add-more-link-{$cgCount}"><a href="javascript:createMultipleValues('{$cd_edit.extends}','{$cd_edit.extends_entity_column_id}', '{$cd_edit.extends_entity_column_value}', {$cgCount}, {$group_id}, true );">{ts}Add More{/ts}</a></div>	
 		{/if}
-	</div>
-</fieldset>
 
+	</fieldset>
+</div>
 <div id="custom_group_{$group_id}_{$cgCount}"></div>
+
+<script type="text/javascript">
+{if $cd_edit.collapse_display eq 0 }
+	hide("{$cd_edit.name}_show"); show("{$cd_edit.name}");
+{else}
+	show("{$cd_edit.name}_show"); hide("{$cd_edit.name}");
+{/if}
+</script>
 {/foreach}
 {/strip}
 
