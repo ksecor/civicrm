@@ -190,8 +190,14 @@
 		<script type="text/javascript">
 			cj(document).ready(function() {
 				buildCustomData( 'Participant' );
-				buildCustomData( 'Participant', 1, {/literal}{$roleID}{literal} );
-				buildCustomData( 'Participant', 2, {/literal}{$eventID}{literal} );
+				{/literal}
+				{if $roleID}
+					buildCustomData( 'Participant', 1, {$roleID} );
+				{/if}
+				{if $eventID}
+					buildCustomData( 'Participant', 2, {$eventID} );
+				{/if}
+				{literal}
 			});
 		</script>
 	{/literal}	
