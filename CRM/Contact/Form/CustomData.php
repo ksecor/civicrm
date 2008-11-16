@@ -136,15 +136,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
  
         $this->_groupID = CRM_Utils_Request::retrieve( 'groupId', 'Positive', $this, true );
-        
-        //check if group has multiple values
-        $isMultiValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                     $this->_groupID, 'is_multiple' );
-        
-        $this->assign( 'isMultiValue', $isMultiValue );
-        $this->assign('groupID', $this->_groupID);
-
-        $this->_tableId       = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+        $this->_tableId  = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+		
 //         $this->_entityType    = CRM_Utils_Request::retrieve( 'entityType', 'String'  , CRM_Core_DAO::$_nullArray );
 //         if ( $this->_entityType == null ) {
 //             require_once 'CRM/Contact/BAO/Contact.php';
@@ -199,14 +192,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
 
         //need to assign custom data type and subtype to the template
-        $this->assign('customDataType', 'Contact');
-        //$this->assign('customDataSubType',  $this->_contributionType );
-        $this->assign('entityId',  $this->_tableId );
-
-
-//         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree,
-//                                                   'showBlocks', 'hideBlocks',
-//                                                   false, true );
+        $this->assign('entityID',  $this->_tableId );
+		$this->assign('groupID',   $this->_groupID );
 
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $this->get( 'uploadNames' );
@@ -223,12 +210,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 array ( 'type'       => 'cancel',
                                         'name'      => ts('Cancel') ),
                                 )
-                          );
-        
-
-//         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-//              $this->freeze();
-//         }
+                          );        
     }
     
     /**
@@ -238,25 +220,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @return array the default array reference
      */
     function &setDefaultValues()
-    {
- 
+    { 
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
         
         $defaults = array();
-        
-//         // do we need inactive options ?
-//         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-//             $inactiveNeeded = true;
-//             $viewMode = true;
-//         } else {
-//             $viewMode = false;
-//             $inactiveNeeded = false;
-//         }
-
-//         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
-
         return $defaults;
     }
     

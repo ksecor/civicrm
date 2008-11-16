@@ -221,8 +221,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
-
-                //get the no of locations for the contact
+				
+				// need this for custom data in edit mode	
+				$this->assign('entityID', $this->_contactId );
+                
+				//get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
                 return;

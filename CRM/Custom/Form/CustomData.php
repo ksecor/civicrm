@@ -46,19 +46,19 @@ class CRM_Custom_Form_CustomData
         $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
         $form->_subType  = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
         $form->_subName  = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
-        $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
+        $form->_entityId = CRM_Utils_Request::retrieve( 'entityID', 'Positive', $form );
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
         $form->_groupCount  = CRM_Utils_Request::retrieve( 'cgcount', 'Positive', $form );
 
         $form->assign('cgCount', $form->_groupCount);
 
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
+		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
                                                                 $form,
                                                                 $form->_entityId,
                                                                 $form->_groupID,
                                                                 $form->_subType,
                                                                 $form->_subName );
-        
+
         // we should use simplified formatted groupTree
         $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount );
     }
