@@ -1,9 +1,7 @@
 {literal}
 <script type="text/javascript">
-//cj('#customData').hide();
-//buildCustomData( );
 
-function buildCustomData( type, subName, subType )
+function buildCustomData( type, subName, subType, cgCount, groupID, isMultiple )
 {
 	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type; 
 
@@ -37,21 +35,33 @@ function buildCustomData( type, subName, subType )
 		{if $entityID}
 			dataUrl = dataUrl + '&entityID=' + '{$entityID}'
 		{/if}
-		{if $cgCount}
-			var cgcount = '{$cgCount}'
-		{else}
-			var cgcount = 1
-		{/if}
-
-		dataUrl = dataUrl + '&cgcount=' + cgcount;
-
 	{literal}
-	
-	if ( subName ) {		
-		cj('#customData' + subName ).load( dataUrl);
-	} else {
-		cj('#customData').load( dataUrl);
+
+	if ( !cgCount ) {
+		cgCount = 1;
+		var prevCount = 1;		
+	} else if ( cgCount >= 1 ) {
+		var prevCount = cgCount;	
+		cgCount++;
 	}
+
+	dataUrl = dataUrl + '&cgcount=' + cgCount;
+
+	if ( isMultiple ) {
+		cj("#custom_group_" + groupID + "_" + prevCount ).load( dataUrl);
+		cj("#add-more-link-"+prevCount).hide();
+	} else {
+		if ( subName ) {		
+			cj('#customData' + subName ).load( dataUrl);
+		} else {
+			cj('#customData').load( dataUrl);
+		}		
+	}
+}
+
+function createMultipleValues( type, subName, subType, cgcount, groupID )
+{
+	buildCustomData( type, subName, subType, cgcount, groupID, true );
 }
 </script>
 {/literal}

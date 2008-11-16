@@ -1,165 +1,67 @@
 {literal}
 <script type="text/javascript">
-hide('customData');
-buildCustomData( );
 
-function buildCustomData( subType )
+function buildCustomData( type, subName, subType, cgCount, groupID, isMultiple )
 {
-	show('customData');
-	
-	var type     = "{/literal}{$customDataType}{literal}";
-	
-	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type;
-{/literal}
-{if $urlPathVar}
-	dataUrl = dataUrl + '&' + '{$urlPathVar}'
-{/if}
-{if $groupID}
-	dataUrl = dataUrl + '&groupID=' + '{$groupID}'
-{/if}
-{if $qfKey}
-        dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
-{/if}
-{if $cgCount}
-        var cgcount = '{$cgCount}'
-{else}
-        var cgcount = 1
-{/if}
+	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type; 
 
-	dataUrl = dataUrl + '&cgcount=' + cgcount;
-
-{literal}
-	if ( !subType ) {
-	   var subType  = "{/literal}{$customDataSubType}{literal}";
-	}
-	if ( !subName ) {
-	   var subName  = "{/literal}{$customDataSubName}{literal}";
-	}
-	
-	if ( subType) {
-	    /* special case to handle relationship custom data*/
+	if ( subType ) {
+		// special case to handle relationship custom data
 	    if ( type == 'Relationship' ) {
-		subType = subType.replace( '_a_b', '' );
-		subType = subType.replace( '_b_a', '' );
+			subType = subType.replace( '_a_b', '' );
+			subType = subType.replace( '_b_a', '' );
 	    }
-	   dataUrl = dataUrl + '&subType=' + subType + '&subName=' + subName ;	
+	    
+		dataUrl = dataUrl + '&subType=' + subType;
+	}
+
+	if ( subName ) {
+		dataUrl = dataUrl + '&subName=' + subName;
+		cj('#customData' + subName ).show();
+	} else {
+		cj('#customData').show();		
 	}
 	
-	var entityId  = "{/literal}{$entityId}{literal}";
+	{/literal}
+		{if $urlPathVar}
+			dataUrl = dataUrl + '&' + '{$urlPathVar}'
+		{/if}
+		{if $groupID}
+			dataUrl = dataUrl + '&groupID=' + '{$groupID}'
+		{/if}
+		{if $qfKey}
+			dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
+		{/if}
+		{if $entityID}
+			dataUrl = dataUrl + '&entityID=' + '{$entityID}'
+		{/if}
+	{literal}
 
-	if ( entityId ) {
-	   dataUrl = dataUrl + '&entityId=' + entityId;	
+	if ( !cgCount ) {
+		cgCount = 1;
+		var prevCount = 1;		
+	} else if ( cgCount >= 1 ) {
+		var prevCount = cgCount;	
+		cgCount++;
 	}
 
-        var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-		   // on success
-                   dojo.byId('customData').innerHTML = response;
+	dataUrl = dataUrl + '&cgcount=' + cgCount;
 
-		   {/literal}
-		   {if $isMultiValue }
-		        createMultiValueLink( cgcount ); 
-		   {/if}
-		   {literal}
-
-		   executeInnerHTML( 'customData' );
-	       }
-        }
-     });
+	if ( isMultiple ) {
+		cj("#custom_group_" + groupID + "_" + prevCount ).load( dataUrl);
+		cj("#add-more-link-"+prevCount).hide();
+	} else {
+		if ( subName ) {		
+			cj('#customData' + subName ).load( dataUrl);
+		} else {
+			cj('#customData').load( dataUrl);
+		}		
+	}
 }
 
-function createMultiValueLink( cgcount ) {
-{/literal}
-{if $groupID}
-	groupID = '{$groupID}';
-{/if}
-
-{literal}
-
-    cj("#add-more-"+ groupID).html('<a href="javascript:createMultipleValues(' + cgcount + ' );">Add More</a>');
-}
-
-function createMultipleValues( cgcount )
+function createMultipleValues( type, subName, subType, cgcount, groupID )
 {
-	show('customData');
-	
-	var type     = "{/literal}{$customDataType}{literal}";
-
-	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type;
-{/literal}
-{if $urlPathVar}
-	dataUrl = dataUrl + '&' + '{$urlPathVar}'
-{/if}
-{if $qfKey}
-        dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
-{/if}
-	cgcount++;
-	dataUrl = dataUrl + '&cgcount=' + cgcount;
-
-{literal}
-	if ( !subType ) {
-	   var subType  = "{/literal}{$customDataSubType}{literal}";
-	}
-
-	if ( subType) {
-	    /* special case to handle relationship custom data*/
-	    if ( type == 'Relationship' ) {
-		subType = subType.replace( '_a_b', '' );
-		subType = subType.replace( '_b_a', '' );
-	    }
-	   dataUrl = dataUrl + '&subType=' + subType;	
-	}
-	
-	var entityId  = "{/literal}{$entityId}{literal}";
-
-	if ( entityId ) {
-	   dataUrl = dataUrl + '&entityId=' + entityId;	
-	}
-
-        var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-		   // on success
-		    cj('#customData').append( response );
-		    // executeInnerHTML( 'customData' );
-		    {/literal}
-		    {if $isMultiValue }
-		        createMultiValueLink( cgcount ); 
-		    {/if}
-		    {literal}
-	       }
-        }
-     });
+	buildCustomData( type, subName, subType, cgcount, groupID, true );
 }
-
 </script>
 {/literal}

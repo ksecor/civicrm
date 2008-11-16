@@ -242,7 +242,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'help_pre',
                         'help_post',
                         'collapse_display',
-                        'is_multiple' ),
+                        'is_multiple',
+ 						'extends',
+						'extends_entity_column_id',
+						'extends_entity_column_value'),
                   );
 
        // create select
@@ -1543,7 +1546,13 @@ ORDER BY weight ASC, label ASC";
             $formattedGroupTree[$key]['help_pre' ] = $value['help_pre'];
             $formattedGroupTree[$key]['help_post'] = $value['help_post'];
             $formattedGroupTree[$key]['collapse_display'] = $value['collapse_display'];
-            
+           			
+			// this params needed of bulding multiple values	
+			$formattedGroupTree[$key]['is_multiple'] = $value['is_multiple'];
+			$formattedGroupTree[$key]['extends'] = $value['extends'];
+			$formattedGroupTree[$key]['extends_entity_column_id'] = $value['extends_entity_column_id'];
+			$formattedGroupTree[$key]['extends_entity_column_value'] = $value['extends_entity_column_value'];
+			
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {
                 $properties['element_name']  = "custom_{$k}_-{$groupCount}";
@@ -1599,7 +1608,6 @@ ORDER BY weight ASC, label ASC";
             }
 
             $form->assign_by_ref( 'viewCustomData', $details );
-            //crm_core_error::debug( 'ss', $details );
         }
     }
 
