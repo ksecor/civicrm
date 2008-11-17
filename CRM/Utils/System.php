@@ -401,6 +401,40 @@ class CRM_Utils_System {
         return $config->userFrameworkBaseURL;
     }
 
+    static function authenticateAbort( $message, $abort ) {
+        if ( $abort ) {
+            echo $message;
+            exit( 0 );
+        } else {
+            return false;
+        }
+    }
+
+    static function authenticateKey( $abort = true ) {
+        // also make sure the key is sent and is valid
+        $key = trim( CRM_Utils_Array::value( 'key', $_REQUEST ) );
+
+        if ( ! $key ) {
+            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file\n",
+                                            $abort );
+        }
+
+        $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
+        if ( ! $siteKey ||
+             empty( $siteKey ) ||
+             strlen( $siteKey ) < 8 ) {
+            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php\n",
+                                            $abort );
+        }
+
+        if ( $key !== $siteKey ) {
+            return self::authenticateAbort( "ERROR: Invalid key sent\n",
+                                            $abort );
+        }
+
+        return true;
+    }
+
     static function authenticateScript( $abort = true, $name = null, $pass = null, $storeInSession = true ) {
         // auth to make sure the user has a login/password to do a shell
         // operation
@@ -411,22 +445,18 @@ class CRM_Utils_System {
         }
 
         if ( ! $name ) { // its ok to have an empty password
-            if ( $abort ) {
-                echo "ERROR: You need to send a valid user name and password to execute this file\n";
-                exit( 0 );
-            } else {
-                return false;
-            }
+            return self::authenticateAbort( "ERROR: You need to send a valid user name and password to execute this file\n",
+                                            $abort );
+        }
+
+        if ( ! self::authenticateKey( $abort ) ) {
+            return false;
         }
 
         $result = CRM_Utils_System::authenticate( $name, $pass );
         if ( ! $result ) {
-            if ( $abort ) {
-                echo "ERROR: Invalid username and/or password\n";
-                exit( 0 );
-            } else {
-                return false;
-            }
+            return self::authenticateAbort( "ERROR: Invalid username and/or password\n",
+                                            $abort );
         } else if ( $storeInSession ) {
             // lets store contact id and user id in session
             list( $userID, $ufID, $randomNumber ) = $result;
@@ -435,7 +465,8 @@ class CRM_Utils_System {
                 $session->set( 'ufID'  , $ufID );
                 $session->set( 'userID', $userID );
             } else {
-                CRM_Core_Error::fatal( );
+                return self::authenticateAbort( "ERROR: Unexpected error, could not match userID and contactID",
+                                                $abort );
             }
         }
 
