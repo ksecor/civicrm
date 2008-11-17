@@ -235,19 +235,16 @@ WHERE      t.target_contact_id = %1
 AND        a.activity_type_id  = %2
 AND        ca.case_id = %3
 ";
-        $sqlParams = array( 1 => array( $params['clientID']      , 'Integer' ),
-                            2 => array( $params['activityTypeID'], 'Integer' ),
-                            3 => array( $params['caseID']        , 'Integer' ) );
-        $count     = CRM_Core_DAO::singleValueQuery( $query, $sqlParams );
-
-        // also do a check for max instance
+        $sqlParams   = array( 1 => array( $params['clientID']      , 'Integer' ),
+                              2 => array( $params['activityTypeID'], 'Integer' ),
+                              3 => array( $params['caseID']        , 'Integer' ) );
+        $count       = CRM_Core_DAO::singleValueQuery( $query, $sqlParams );
+        
+        // check for max instance
         $caseType    = CRM_Case_PseudoConstant::caseTypeName( $params['caseID'] );
         $maxInstance = self::getMaxInstance( $caseType['name'], $params['activityTypeName'] );
-        if ( $maxInstance ) {
-            return $count < $maxInstance ? true : false;  
-        }
 
-        return $count > 0 ? true : false;
+        return $maxInstance ? ($count < $maxInstance ? false : true) : false;  
     }
 
     function createActivity( $activityTypeXML,
