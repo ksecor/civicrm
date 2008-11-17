@@ -1243,8 +1243,7 @@ SELECT $columnName
         }
 
         $index = -1;
-        if ( $customFields[$customFieldId]['is_multiple'] &&
-             $customValueId ) {
+        if ( $customValueId ) {
             $index = $customValueId;
         }
 
@@ -1475,7 +1474,7 @@ ORDER BY html_type";
                           $customFieldExtends,
                           $inline = false ) {
         $customData = array( );
-        foreach ( $_POST as $key => $value ) {
+        foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
                                                              $customData,

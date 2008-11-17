@@ -1340,7 +1340,7 @@ ORDER BY weight ASC, label ASC";
      *
      * @param CRM_Core_Form $form the form object
      * @param string        $type the type of custom group we are using
-
+	 *
      * @return void
      * @access public
      * @static

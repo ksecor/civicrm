@@ -269,11 +269,22 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         // when custom data is included in this page
-        // if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-        //     CRM_Custom_Form_Customdata::preProcess( $this );
-        //     CRM_Custom_Form_Customdata::buildQuickForm( $this );
-        //     CRM_Custom_Form_Customdata::setDefaultValues( $this );
-        // }
+		if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+			//custom data of type participant, ( we 'null' to reset subType and subName)
+			CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null' );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			
+			//custom data of type participant role
+			CRM_Custom_Form_Customdata::preProcess( $this, 1, $_POST['role_id'] );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			
+			//custom data of type participant event
+			CRM_Custom_Form_Customdata::preProcess( $this, 2, $_POST['event_id'] );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+		}
     }
     
     /**
@@ -733,11 +744,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         //(online) mode
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
                                                              CRM_Utils_Array::value( 'role_id', $params ) );
+
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                    $customFields,
                                                                    $this->_participantId,
                                                                    'Participant' );
-		
+
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =
