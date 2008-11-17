@@ -5,7 +5,6 @@ class Audit
 {
 	private $auditConfig;
 	private $xmlString;
-	private $sortBy;
 	
 	public function __construct($xmlString, $confFilename)
 	{
@@ -13,11 +12,6 @@ class Audit
 		$this->auditConfig = new AuditConfig($confFilename);
 	}
 		
-	public function getSortBy()
-	{
-		return $this->sortBy;
-	}
-	
 	public function getActivities()
 	{
 		$retval = array();
@@ -29,18 +23,20 @@ class Audit
 		if ($doc->loadXML($this->xmlString))
 		{
 			$regionList = $this->auditConfig->getRegions();
+
+//			$ifBlanks = $this->auditConfig->getIfBlanks();
+$ifBlanks = array('Actual Date' => 'Due Date');
 			
 			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
-			$includeAll = ($includeAll == 'All');
-			
-			$this->sortBy = $doc->getElementsByTagName("SortBy")->item(0)->nodeValue;
-			
+			$includeAll = ($includeAll == 'All');			
 			
 			$activityindex = 0;
 			$activityList = $doc->getElementsByTagName("Activity");
 			foreach($activityList as $activity)
 			{
 				$retval[$activityindex] = array();
+				
+				$ifBlankReplacements = array();
 				
 				$completed = false;
 				$sortValues = array('1970-01-01');
@@ -74,6 +70,12 @@ class Audit
 					if (in_array($label, $this->auditConfig->getSortByLabels()))
 					{
 						$sortValues[$label] = $value;
+					}
+					
+					// Based on the config file, is this field a potential replacement for another?
+					if (in_array($label, $ifBlanks))
+					{
+						$ifBlankReplacements[$label] = $value;
 					}
 					
 					foreach($regionList as $region)
@@ -121,6 +123,27 @@ class Audit
 			}
 			
 			uasort($retval, array(&$this, "compareActivities"));
+			
+			// If there are any fields with ifBlank specified, replace their values.
+			// We need to do this as a second pass because if we do it while looping we might not have come across the field we need yet.
+			foreach($retval as $v1)
+			{
+				foreach($regionList as $region)
+				{
+					foreach($v1[$region] as &$v2)
+					{
+						$v2label = $v2['label'];
+						if ($v2['value'] == '' && !empty($ifBlanks[$v2label]))
+						{
+							if (! empty($ifBlankReplacements[$ifBlanks[$v2label]]))
+							{
+								$v2['value'] = $ifBlankReplacements[$ifBlanks[$v2label]];
+							}
+						}
+					}
+					unset($v2);
+				}
+			}
 		}		
             
 		return $retval;
@@ -167,7 +190,6 @@ fclose($fh);
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
-		$template->assign( 'sortBy', $audit->getSortBy() );
 		
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
         return $contents;
