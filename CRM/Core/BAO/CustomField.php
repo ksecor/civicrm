@@ -291,7 +291,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @param boolean     $showAll             If true returns all fields (includes disabled fields)
      * @param boolean     $inline              If true returns all inline fields (includes disabled fields)
      * @param int         $customDataSubType   Custom Data sub type value
-     *
+	 * @param int         $customDataSubName   Custom Data sub name value
+     * @param boolean     $onlyParent          return only top level custom data, for eg, only Participant and ignore subname and subtype  
+	 *
      * @return array      $fields - an array of active custom fields.
      *
      * @access public
@@ -300,12 +302,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function &getFields( $customDataType = 'Individual',
                                        $showAll = false,
                                        $inline = false,
-                                       $customDataSubType = null ) 
+                                       $customDataSubType = null,
+ 									   $customDataSubName = null,
+ 									   $onlyParent = false ) 
     {
         $cacheKey  = $customDataType;
         $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
+		$cacheKey .= $customDataSubName ? "{$customDataSubName}_" : "_0";
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
+		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
 
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
@@ -338,6 +344,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "'";
                     }
                     $extends = "AND   $cgTable.extends IN ( $value ) ";
+
+					if ( $onlyParent ) {
+						$extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
+					}
                 }
                 
                 $query ="SELECT $cfTable.id, $cfTable.label,
@@ -368,6 +378,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                       OR $cgTable.extends_entity_column_value IS NULL )";
                 }
                 
+                if ( $customDataSubName ) {
+                    $query .= " AND ( $cgTable.extends_entity_column_id = $customDataSubName ) "; 
+                }
+
                 // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
                 $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,

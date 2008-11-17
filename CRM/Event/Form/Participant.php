@@ -740,10 +740,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
 
-      	//custom data block common for offline as well as credit card
-        //(online) mode
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
-                                                             CRM_Utils_Array::value( 'role_id', $params ) );
+		// build custom data getFields array
+		$customFieldsRole  = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
+																CRM_Utils_Array::value( 'role_id', $params ), 1 );
+		$customFieldsEvent = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
+														        CRM_Utils_Array::value( 'event_id', $params ), 2 );
+		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsRole, 
+															CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, null, true ) );
+		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsEvent, $customFields );
 
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                    $customFields,
