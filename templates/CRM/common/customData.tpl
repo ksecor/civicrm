@@ -61,8 +61,7 @@ function buildCustomData( type, subName, subType, cgCount, groupID, isMultiple )
 	
 	var response = cj.ajax({
 						url: dataUrl,
-						async: false,
-						cache: false	
+						async: false
 					}).responseText;
 
 	cj( fname ).html( response );
