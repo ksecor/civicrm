@@ -183,7 +183,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_addAssigneeContact ) {
             $this->assign('addAssigneeContact', true);
         }
-
+        
         $this->assign( 'urlPath', 'civicrm/case/activity' );
 
         // add attachments part
@@ -238,6 +238,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         $this->set( 'subType' , $this->_activityTypeId );
         $this->set( 'entityId', $this->_activityId );
         CRM_Custom_Form_Customdata::preProcess( $this );
+
+        // build assignee contact combo
+        if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
+            foreach ( $_POST['assignee_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
+            }
+            $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
+        }
 
         // add 2 attachments
         require_once 'CRM/Core/BAO/File.php';
@@ -411,7 +419,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    { 
+    {  
         // skip form rule if deleting
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;

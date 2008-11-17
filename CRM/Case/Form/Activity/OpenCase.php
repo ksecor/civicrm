@@ -43,6 +43,11 @@ class CRM_Case_Form_Activity_OpenCase
 {
     static function preProcess( &$form ) 
     {   
+        $activityID = CRM_Utils_Request::retrieve( 'aid', 'Integer', $form, false );
+        if ( $activityID ) {
+            CRM_Core_Error::fatal('Could not edit activity of type Open Case .');
+        }
+
         $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
         $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
     }
