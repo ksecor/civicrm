@@ -93,7 +93,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         // user context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}" );
+                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1" );
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }
@@ -139,9 +139,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
-        $this->addElement( 'submit', $this->getButtonName('submit'), ts('Go'), 
+        $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
                            array( 'class'   => 'form-submit',
-                                  'onclick' => "return confirm('Are you sure you want to add a set of scheduled activities to this case?');" ) ); 
+                                  'onclick' => "return verifyActivitySet( );") ); 
         
         require_once "CRM/Case/PseudoConstant.php";
         require_once 'CRM/Core/Component.php';
@@ -225,9 +225,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     public function postProcess()
     {
         $params = $this->controller->exportValues( $this->_name );
-        
+                      
         if ( CRM_Utils_Array::value( 'timeline_id', $params ) && 
-             CRM_Utils_Array::value( '_qf_CaseView_submit', $_POST ) ) {
+             CRM_Utils_Array::value( '_qf_CaseView_next', $_POST ) ) {
             $session    =& CRM_Core_Session::singleton();
             $this->_uid = $session->get('userID');
             require_once 'CRM/Case/XMLProcessor/Process.php';
@@ -242,6 +242,8 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                         'activitySetName'    => $params['timeline_id'] 
                                         );
             $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
+            $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
+            CRM_Core_Session::setStatus( ts('Activities has been added for %1 activity set', array( 1 => $reports[$params['timeline_id']] ) ) );
             return;
         }
     }
