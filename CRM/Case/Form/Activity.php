@@ -541,10 +541,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                                  $params,
                                                  'civicrm_activity' );
         }
-
+      
+        if (! empty($params['assignee_contact']) ) {
+            $params['assignee_contact_id'] = $params['assignee_contact'];
+        }
         // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
-        
+                
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
