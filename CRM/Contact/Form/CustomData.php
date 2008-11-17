@@ -104,7 +104,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @int
      * @access protected
      */
-    protected $_groupId;
+    public $_groupID;
 
     /**
      * pre processing work done here.
@@ -136,7 +136,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
  
         $this->_groupID = CRM_Utils_Request::retrieve( 'groupId', 'Positive', $this, true );
-        $this->_tableId  = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+        $this->_tableID  = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
 		
 //         $this->_entityType    = CRM_Utils_Request::retrieve( 'entityType', 'String'  , CRM_Core_DAO::$_nullArray );
 //         if ( $this->_entityType == null ) {
@@ -192,7 +192,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
 
         //need to assign custom data type and subtype to the template
-        $this->assign('entityID',  $this->_tableId );
+        $this->assign('entityID',  $this->_tableID );
 		$this->assign('groupID',   $this->_groupID );
 
         $session = & CRM_Core_Session::singleton( );
@@ -224,8 +224,22 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
-        
+
+		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contact',
+                                                         $this,
+                                                         $this->_tableID,
+                                                         $this->_groupID );
+
+		// custom data building in edit mode
+		require_once "CRM/Contact/BAO/Contact.php";
+		$entityType = CRM_Contact_BAO_Contact::getContactType($this->_tableID);
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_tableID, $this->_groupID);
+        $customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true );
+		
+		$this->assign('customValueCount', $customValueCount );
+		
         $defaults = array();
+
         return $defaults;
     }
     
@@ -243,9 +257,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         //crm_core_error::debug( '$params', $params ); exit();
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $params,
-                                                    $this->_groupTree[$this->_groupId]['fields'],
+                                                    $this->_groupTree[$this->_groupID]['fields'],
                                                     'civicrm_contact',
-                                                    $this->_tableId,
+                                                    $this->_tableID,
                                                     $this->_entityType );
     }
 }

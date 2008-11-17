@@ -47,21 +47,26 @@ function buildCustomData( type, subName, subType, cgCount, groupID, isMultiple )
 
 	dataUrl = dataUrl + '&cgcount=' + cgCount;
 
+
 	if ( isMultiple ) {
-		cj("#custom_group_" + groupID + "_" + prevCount ).load( dataUrl);
+		var fname = '#custom_group_' + groupID + '_' + prevCount;
 		cj("#add-more-link-"+prevCount).hide();
 	} else {
 		if ( subName ) {		
-			cj('#customData' + subName ).load( dataUrl);
+			var fname = '#customData' + subName ;
 		} else {
-			cj('#customData').load( dataUrl);
+			var fname = '#customData';
 		}		
 	}
+	
+	var response = cj.ajax({
+						url: dataUrl,
+						async: false,
+						cache: false	
+					}).responseText;
+
+	cj( fname ).html( response );
 }
 
-function createMultipleValues( type, subName, subType, cgcount, groupID )
-{
-	buildCustomData( type, subName, subType, cgcount, groupID, true );
-}
 </script>
 {/literal}

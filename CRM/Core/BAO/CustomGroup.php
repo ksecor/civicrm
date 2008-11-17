@@ -1556,9 +1556,11 @@ ORDER BY weight ASC, label ASC";
 
     /**
      * Build custom data view
-     *
+	 *  @param object  $form page object
+     *  @param array   $groupTree associated array  
+	 *  @param boolean $returnCount true if customValue count needs to be returned
      */
-    static function buildCustomDataView ( &$form, &$groupTree )
+    static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false )
     {
         foreach ( $groupTree as $key => $group ) {
             if ( $key === 'info' ) {
@@ -1590,8 +1592,12 @@ ORDER BY weight ASC, label ASC";
 
 				}
             }
-
-            $form->assign_by_ref( 'viewCustomData', $details );
+			
+			if ( $returnCount ) {
+				return count( $details);
+			} else {
+				$form->assign_by_ref( 'viewCustomData', $details );
+			}	
         }
     }
 
