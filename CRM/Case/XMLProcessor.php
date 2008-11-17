@@ -42,7 +42,7 @@ class CRM_Case_XMLProcessor {
         require_once 'CRM/Utils/Array.php';
 
         // trim all spaces from $caseType
-        $caseType = CRM_Utils_String::munge( $caseType, '', 0 );
+        $caseType = CRM_Utils_String::munge( ucwords($caseType), '', 0 );
 
         if ( ! CRM_Utils_Array::value( $caseType, self::$_xml ) ) {
             if ( ! self::$_xml ) {
@@ -55,9 +55,8 @@ class CRM_Case_XMLProcessor {
                                         'xml',
                                         'configuration',
                                         "$caseType.xml" ) );
+
             if ( ! file_exists( $fileName ) ) {
-                CRM_Core_Error::statusBounce( ts("Unable to locate configuration file for the referenced case type. Expecting: '%1'", 
-                                                 array( 1 => $fileName ) ) );
                 return false;
             }
 

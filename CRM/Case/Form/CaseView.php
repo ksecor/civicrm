@@ -65,23 +65,13 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         require_once "CRM/Case/PseudoConstant.php";
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
-        $caseTypes = CRM_Case_PseudoConstant::caseType( );
+        $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
 
-        $caseType = null;
-        foreach( $values['case_type_id'] as $value ) {
-            if ( $value ) {
-                if ( $caseType ) {
-                    $caseType .= ", ";
-                }
-                $caseType .= $caseTypes[$value];
-            }
-        }
-
-        $this->_caseDetails = array( 'case_type'    => $caseType,
+        $this->_caseDetails = array( 'case_type'    => $caseType['name'],
                                      'case_status'  => $statuses[$values['case_status_id']],
                                      'case_subject' => $values['subject']
                               );
-        $this->_caseType = $caseType;
+        $this->_caseType = $caseType['name'];
         $this->assign ( 'caseDetails', $this->_caseDetails );
         
         $newActivityUrl = 
@@ -144,9 +134,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         require_once 'CRM/Case/XMLProcessor/Process.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $caseRoles    = $xmlProcessor->get( $this->_caseDetails['case_type'], 'CaseRoles' );
+        $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
+        $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
-        $reports = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivitySets' );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('submit'), ts('Go'), 
@@ -249,7 +239,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                         'dueDateTime'        => time( ),
                                         'caseID'             => $this->_caseID,
                                         'caseType'           => $this->_caseType,
-                                        'timeline_id'        => $params['timeline_id'] 
+                                        'activitySetName'    => $params['timeline_id'] 
                                         );
             $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
             return;

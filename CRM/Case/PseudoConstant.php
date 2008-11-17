@@ -100,6 +100,38 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     }
 
     /**
+     * Get the case type name/id given case Id
+     *
+     * @access public
+     * @return array - array reference of all case type name/id
+     * @static
+     */
+    public static function caseTypeName( $caseId )
+    {
+        if ( !$caseId ) {
+            return false;
+        }
+        
+        static $caseTypePair;
+
+        if ( ! $caseTypePair[$caseId] ) {
+            $caseTypes    = self::caseType();
+            $caseTypeIds  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
+                                                         $caseId,
+                                                         'case_type_id' );
+            $caseTypeId   = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
+                                     trim($caseTypeIds, 
+                                          CRM_Case_BAO_Case::VALUE_SEPERATOR) );
+            $caseTypeId   = $caseTypeId[0];
+            
+            $caseTypePair = array();
+            $caseTypePair[$caseId] = array( 'id'   => $caseTypeId,
+                                            'name' => $caseTypes[$caseTypeId] );
+        }
+        return $caseTypePair[$caseId];
+    }
+
+    /**
      * Get all the category
      *
      * @params $onlyParent boolean true if parent needs to retrieved, false if you want children

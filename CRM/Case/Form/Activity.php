@@ -41,6 +41,7 @@ require_once "CRM/Custom/Form/CustomData.php";
 require_once "CRM/Contact/Form/AddContact.php";
 require_once 'CRM/Core/OptionGroup.php';        
 require_once 'CRM/Case/BAO/Case.php';
+require_once "CRM/Case/PseudoConstant.php";
 
 /**
  * This class create activities for a case
@@ -144,9 +145,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
             $this->assign( 'caseAction', $this->_caseAction );
         }
-
+        
         //retrieve details about case
-        require_once "CRM/Case/PseudoConstant.php";
         $caseParams       = array( 'id' => $this->_caseId );
         $returnProperties = array( 'case_type_id', 'subject' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $caseParams, $values, $returnProperties );
@@ -206,8 +206,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             // check if activity count is within the limit
             require_once 'CRM/Case/XMLProcessor/Process.php';
             $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
-            $activityInst  = $xmlProcessor->getMaxInstance($caseType, $this->_activityTypeName);
-            
+            $activityInst  = $xmlProcessor->getMaxInstance($caseType);
+
             // Activity type is only included in getMaxInstance array if a max_instance property is set. If not, no limit on that type.
             if ( isset( $activityInst[$this->_activityTypeName] ) ) {
                 $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
@@ -467,7 +467,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // update existing case record if needed
         if ( $this->_caseAction ) {
             $params['id'] = $this->_id;
-            require_once 'CRM/Case/BAO/Case.php';
             if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
                 $caseType = CRM_Core_OptionGroup::values('case_type');
                 $params['case_type'] = $caseType[$params['case_type_id']];

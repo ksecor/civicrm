@@ -54,8 +54,8 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
-            CRM_Core_Error::statusBounce( ts("Unable to load configuration file for the referenced case type: '%1'", 
-                                              array( 1 => $caseType ) ) );
+            CRM_Core_Error::fatal( ts("Unable to load configuration file for the referenced case type: '%1'", 
+                                      array( 1 => $caseType ) ) );
             return false;
         }
 
@@ -93,9 +93,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
 
         foreach ( $xml->ActivitySets as $activitySetsXML ) {
             foreach ( $activitySetsXML->ActivitySet as $activitySetXML ) {
-                if ( ! $standardTimeline && $activitySetXML->name == $params['timeline_id'] ) {
-                    return $this->processOtherTimeline( $activitySetXML, $params );
-                } else if ( $standardTimeline ) {
+                if ( $standardTimeline ) {
                     if ( (boolean ) $activitySetXML->timeline ) {
                         return $this->processStandardTimeline( $activitySetXML,
                                                                $params );
@@ -103,8 +101,8 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
                 } else if ( $activitySetName ) {
                     $name = (string ) $activitySetXML->name;
                     if ( $name == $activitySetName ) {
-                        return $this->processActivitySetReport( $activitySetXML,
-                                                                $params ); 
+                        return $this->processActivitySet( $activitySetXML,
+                                                          $params ); 
                     }
                 } 
             }
@@ -127,7 +125,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         }
     }
 
-    function processOtherTimeline( $activitySetXML, &$params ) {
+    function processActivitySet( $activitySetXML, &$params ) {
         foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
             foreach ( $activityTypesXML as $activityTypeXML ) {
                 $this->createActivity( $activityTypeXML, $params );
@@ -229,7 +227,7 @@ AND    a.is_auto = 1
 
     function isActivityPresent( &$params ) {
         $query = "
-SELECT     a.id
+SELECT     count(a.id)
 FROM       civicrm_activity a
 INNER JOIN civicrm_activity_target t ON t.activity_id = a.id
 INNER JOIN civicrm_case_activity ca on ca.activity_id = a.id
@@ -237,30 +235,19 @@ WHERE      t.target_contact_id = %1
 AND        a.activity_type_id  = %2
 AND        ca.case_id = %3
 ";
-        
         $sqlParams = array( 1 => array( $params['clientID']      , 'Integer' ),
                             2 => array( $params['activityTypeID'], 'Integer' ),
                             3 => array( $params['caseID']        , 'Integer' ) );
+        $count     = CRM_Core_DAO::singleValueQuery( $query, $sqlParams );
 
-        //if user want to added time line activity from case view form
-        if ( CRM_Utils_Array::value( 'caseType', $params ) ) {
-            $dao = CRM_Core_DAO::executeQuery( $query, $sqlParams );
-            while ( $dao->fetch( ) ) {
-                $activityCount[] =$dao->id;
-            }
-            
-            $maxInstance = self::getMaxInstance( $params['caseType'] );
-            if ( $max = $maxInstance[$params['activityTypeName']]  ) {
-                if ( count( $activityCount ) < $max ) {
-                    return false;
-                } else {
-                    return true;
-                }  
-            } else {
-                return false;
-            }
+        // also do a check for max instance
+        $caseType    = CRM_Case_PseudoConstant::caseTypeName( $params['caseID'] );
+        $maxInstance = self::getMaxInstance( $caseType['name'], $params['activityTypeName'] );
+        if ( $maxInstance ) {
+            return $count < $maxInstance ? true : false;  
         }
-        return CRM_Core_DAO::singleValueQuery( $query, $sqlParams ) > 0 ? true : false;
+
+        return $count > 0 ? true : false;
     }
 
     function createActivity( $activityTypeXML,
@@ -366,7 +353,7 @@ AND        ca.case_id = %3
         return $result;
     }
     
-    function getMaxInstance( $caseType ) {
+    function getMaxInstance( $caseType, $activityTypeName = null ) {
         $xml = $this->retrieve( $caseType );
         
         if ( $xml === false ) {
@@ -374,6 +361,7 @@ AND        ca.case_id = %3
             return false;
         }
 
-        return $this->activityTypes( $xml->ActivityTypes, true );
+        $activityInstances = $this->activityTypes( $xml->ActivityTypes, true );
+        return $activityTypeName ? $activityInstances[$activityTypeName] : $activityInstances;
     }
 }
