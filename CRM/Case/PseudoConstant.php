@@ -55,6 +55,13 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     static $caseType;
 
     /**
+     * case type
+     * @var array
+     * @static
+     */
+    static $activityType;
+
+    /**
      * category
      * @var array
      * @static
@@ -97,6 +104,31 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             self::$caseType = CRM_Core_OptionGroup::values('case_type');
         }
         return self::$caseType;
+    }
+
+    /**
+     * Get all Activty types for the CiviCase component
+     *
+     * The static array activityType is returned
+     * @param boolean $all - get All Activity  types - default is to get only active ones.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all activty types.
+     */
+    public static function activityType(  )
+    {
+        if ( empty(self::$activityType) ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
+                                                        'CiviCase',
+                                                        'id', 'name' );
+            $condition = "AND component_id = $componentId";
+            self::$activityType = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
+        }
+
+        return self::$activityType;
     }
 
     /**

@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Case/DAO/Case.php';
+require_once 'CRM/Case/PseudoConstant.php';
 
 /**
  * This class contains the funtions for Case Management
@@ -636,32 +637,19 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
     {
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
-                          c.sort_name as reporter, 
+                          cc.sort_name as reporter, 
                           ca.due_date_time as due_date, 
                           ca.activity_date_time actual_date, 
                           ca.status_id as status, 
-                          cc2.label as category, 
                           ca.subject as subject ';
 
         $from  = 'FROM civicrm_case_activity cca, 
                        civicrm_activity ca, 
-                       civicrm_contact c, 
-                       civicrm_category cc1, 
-                       civicrm_category cc2 ';
+                       civicrm_contact cc '; 
 
-        $where = 'WHERE ca.id = cca.activity_id 
-                    AND ca.activity_type_id = cc1.id
-                    AND cc1.parent_id = cc2.id
-                    AND ca.source_contact_id = c.id 
-                    AND cca.case_id= %1 ';
-
-        if ( $params['category_0'] ) {
-            $where .= " AND cc1.parent_id = ".CRM_Utils_Type::escape( $params['category_0'], 'Integer' );
-        }
-
-        if ( $params['category_1'] ) {
-            $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['category_1'], 'Integer' );
-        }
+        $where = 'WHERE cca.case_id= %1 
+                    AND ca.id = cca.activity_id 
+                    AND cc.id = ca.source_contact_id ';
 
         if ( $params['reporter_id'] ) {
             $where .= " AND ca.source_contact_id = ".CRM_Utils_Type::escape( $params['reporter_id'], 'Integer' );
@@ -723,8 +711,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
-        require_once "CRM/Case/PseudoConstant.php";
-        $childCategories  = CRM_Case_PseudoConstant::category( false );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( );
 
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
@@ -739,8 +726,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
               
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
-            $values[$dao->id]['category']    = $dao->category;
-            $values[$dao->id]['type']        = $childCategories[$dao->type];
+            $values[$dao->id]['type']        = $activityTypes[$dao->type];
             $values[$dao->id]['reporter']    = $dao->reporter;
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
@@ -758,10 +744,13 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
     static function getFileForActivityTypeId( $activityTypeId ) 
     {
-        $actName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $activityTypeId, 'name' );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( );
 
-        if ( $actName ) {
-            $caseAction = trim(str_replace(' ', '', $actName));
+        //FIXME: note pseudoconstant currently returns 'label' and not
+        //name. And for calculating file-name we should use 'name'
+
+        if ( $activityTypes[$activityTypeId] ) {
+            $caseAction = trim(str_replace(' ', '', $activityTypes[$activityTypeId]));
         } else {
             return false;
         }
