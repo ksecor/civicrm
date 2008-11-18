@@ -26,8 +26,8 @@
      <weight>420</weight>
   </item>
   <item>
-     <path>civicrm/import/mapper</path>
-     <title>Contacts</title>
-     <page_callback>CRM_Import_Form_Mapper</page_callback>
+    <path>civicrm/ajax/status</path>
+    <page_callback>CRM_Import_Page_AJAX::status</page_callback>
+    <access_arguments>import contacts,access CiviCRM</access_arguments>
   </item>
 </menu>

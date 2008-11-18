@@ -47,22 +47,24 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
         $template =& CRM_Core_Smarty::singleton( );
 
+        if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
+        	$this->isRedact = true;
+            $template->assign( 'isRedact', 'true' );
+        } else {
+        	$this->isRedact = false;
+            $template->assign( 'isRedact', 'false' );
+        }
+
         // first get all case information
         $case = $this->caseInfo( $clientID, $caseID );
         $template->assign_by_ref( 'case', $case );
-
-        if ( CRM_Utils_Array::value( 'is_redact', $params ) ) {
-            $template->assign( 'isRedact', 'true' );
-        } else {
-            $template->assign( 'isRedact', 'false' );
-        }
 
         if ( $params['include_activities'] == 1 ) {
             $template->assign( 'includeActivities', 'All' );
         } else {
             $template->assign( 'includeActivities', 'Missing activities only' );
         }
-
+		
         $xml = $this->retrieve( $case['caseType'] );
 
         $activityTypes = $this->getActivityTypes( $xml, $activitySetName );
@@ -84,25 +86,27 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
 
         // now run the template
         $contents = $template->fetch( 'CRM/Case/XMLProcessor/Report.tpl' );
-
+        
         require_once 'CRM/Case/Audit/Audit.php';
-        Audit::run( $contents );
+        return Audit::run( $contents );
 
+        /******
         require_once 'CRM/Utils/System.php';
         CRM_Utils_System::download( "{$case['clientName']} {$case['caseType']}",
                                     'text/xml',
                                     $contents,
                                     'xml', true );
+        ******/
     }
 
     function &caseInfo( $clientID,
                        $caseID ) {
         $case = array( );
 
-        $case['clientName'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                           $clientID,
-                                                           'display_name' );
-        
+        $case['clientName'] = $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                         $clientID,
+                                                                         'display_name' ));
+                
         require_once 'CRM/Case/DAO/Case.php';
         $dao = new CRM_Case_DAO_Case( );
         $dao->id = $caseID;
@@ -206,15 +210,10 @@ WHERE      a.id = %1
         $params = array( 1 => array( $activityID, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
         if ( $dao->fetch( ) ) {
-            $activityTypes = $this->allActivityTypes( );
+            $activityTypes    = $this->allActivityTypes( false );
             $activityTypeInfo = null;
-            foreach ( $activityTypes as $category ) {
-                foreach ( $category as $activityType ) {
-                    if ( $activityType['id'] == $dao->activity_type_id ) {
-                        $activityTypeInfo = $activityType;
-                        break;
-                    }
-                }
+            if ( isset($activityTypes[$dao->activity_type_id]) ) {
+                $activityTypeInfo = $activityTypes[$dao->activity_type_id];
             }
             if ( $activityTypeInfo ) {
                 return $this->getActivity( $clientID, $dao, $activityTypeInfo );
@@ -233,21 +232,42 @@ WHERE      a.id = %1
                                                       "reset=1&cid={$clientID}&id={$activityDAO->caseID}&action=add&atype={$activityDAO->activity_type_id}&aid={$activityDAO->id}" );
         $activity['fields'] = array( );
 
+        $activity['fields'][] = array( 'label' => 'Client',
+                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                             $clientID,
+                                                                                             'display_name' )
+                                                               ),
+                                       'type'  => 'String' );
+
         // Activity Type info is a special field
         $activity['fields'][] = array( 'label'    => 'Activity Type',
                                        'value'    => $activityTypeInfo['label'],
                                        'category' => $activityTypeInfo['parentLabel'],
                                        'type'     => 'String' );
         
+        $activity['fields'][] = array( 'label' => 'Subject',
+                                       'value' => $activityDAO->subject,
+                                       'type'  => 'Memo' );
+        
         $activity['fields'][] = array( 'label' => 'Created By',
-                                       'value' => $this->getCreatedBy( $activityDAO->id ),
+                                       'value' => $this->redact($this->getCreatedBy( $activityDAO->id )),
                                        'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Reported By',
-                                       'value' => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                               $activityDAO->source_contact_id,
-                                                                               'display_name' ),
+                                       'value' => $this->redact(CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                             $activityDAO->source_contact_id,
+                                                                                             'display_name' )
+                                                               ),
                                        'type'  => 'String' );
+        
+        $activity['fields'][] = array( 'label' => 'Medium',
+                                      'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
+                                                                                $activityDAO->medium_id ),
+                                      'type'  => 'String' );
+        
+        $activity['fields'][] = array( 'label' => 'Location',
+                                      'value' => $activityDAO->location,
+                                      'type'  => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Due Date',
                                        'value' => $activityDAO->due_date_time,
@@ -257,34 +277,26 @@ WHERE      a.id = %1
                                        'value' => $activityDAO->activity_date_time,
                                        'type'  => 'Date' );
 
-        $activity['fields'][] = array( 'label' => 'Medium',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'encounter_medium',
-                                                                                  $activityDAO->medium_id ),
-                                       'type'  => 'String' );
-
+        $activity['fields'][] = array( 'label' => 'Details',
+                                      'value' => $activityDAO->details,
+                                      'type'  => 'Memo' );
+        
+        $activity['fields'][] = array( 'label' => 'Duration',
+                                      'value' => $activityDAO->duration . ' ' . ts('minutes'),
+                                      'type'  => 'Int' );
+        
         $activity['fields'][] = array( 'label' => 'Status',
-                                       'value' => CRM_Core_OptionGroup::getLabel( 'case_status',
+                                       'value' => CRM_Core_OptionGroup::getLabel( 'activity_status',
                                                                                   $activityDAO->status_id ),
                                        'type'  => 'String' );
         
-        $activity['fields'][] = array( 'label' => 'Duration',
-                                       'value' => $activityDAO->duration,
-                                       'type'  => 'Int' );
-        
-        $activity['fields'][] = array( 'label' => 'Subject',
-                                       'value' => $activityDAO->subject,
-                                       'type'  => 'Memo' );
-
-        $activity['fields'][] = array( 'label' => 'Details',
-                                       'value' => $activityDAO->details,
-                                       'type'  => 'Memo' );
-
         
         // for now empty custom groups
         $activity['customGroups'] = $this->getCustomData( $clientID,
                                                           $activityDAO,
                                                           $activityTypeInfo );
 
+//        CRM_Core_Error::debug($activity); exit();
         return $activity;
     }
 
@@ -404,6 +416,15 @@ LIMIT  1
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
+	private function redact($s)
+	{
+		if ($this->isRedact) {
+			// Pretty simple for now
+			return sha1($s);
+		} else {
+			return $s;
+		}
+	}
 }
 
 

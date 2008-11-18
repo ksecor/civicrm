@@ -612,19 +612,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 // allow components to add more actions
                 CRM_Core_Component::searchAction( $row, $result->contact_id );
                 
-                $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                    break;
-                }
-                $row['contact_type'] = $contact_type;
+
+                require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
                 if ( array_key_exists('id', $row) ) {

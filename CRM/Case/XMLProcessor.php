@@ -42,7 +42,7 @@ class CRM_Case_XMLProcessor {
         require_once 'CRM/Utils/Array.php';
 
         // trim all spaces from $caseType
-        $caseType = CRM_Utils_String::munge( $caseType, '', 0 );
+        $caseType = CRM_Utils_String::munge( ucwords($caseType), '', 0 );
 
         if ( ! CRM_Utils_Array::value( $caseType, self::$_xml ) ) {
             if ( ! self::$_xml ) {
@@ -55,8 +55,8 @@ class CRM_Case_XMLProcessor {
                                         'xml',
                                         'configuration',
                                         "$caseType.xml" ) );
+
             if ( ! file_exists( $fileName ) ) {
-                CRM_Core_Error::fatal( );
                 return false;
             }
 
@@ -68,12 +68,12 @@ class CRM_Case_XMLProcessor {
         return self::$_xml[$caseType];
     }
 
-    function &allActivityTypes( ) {
+    function &allActivityTypes( $indexName = true ) {
         static $activityTypes = null;
         require_once 'CRM/Core/Component.php';
         if ( ! $activityTypes ) {
             require_once 'CRM/Case/PseudoConstant.php';
-            $activityTypes = CRM_Case_PseudoConstant::categoryTree( CRM_Core_Component::getComponentID( 'CiviCase' ) );
+            $activityTypes = CRM_Case_PseudoConstant::activityType( $indexName );
         }
         return $activityTypes; 
     }

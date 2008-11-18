@@ -363,7 +363,7 @@ ORDER BY title asc
         $form->run( );
     }
 
-    function whereClause( &$params, $sortBy = true ) {
+    function whereClause( &$params, $sortBy = true, $excludeHidden = true ) {
         $values =  array( );
 
         $clauses = array( );
@@ -433,7 +433,11 @@ ORDER BY title asc
         if ( empty( $clauses ) ) {
              $clauses[] = 'is_active = 1';
         }
-
+        
+        if ( $excludeHidden ) {
+            $clauses[] = 'is_hidden = 0';
+        }
+        
         return implode( ' AND ', $clauses );
     }
 

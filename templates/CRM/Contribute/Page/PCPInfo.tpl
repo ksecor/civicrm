@@ -1,4 +1,24 @@
 {* this template is used for displaying PCP information *} 
+{if $owner}
+<div class="messages status">
+  <dl>
+	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}PCPInfo{/ts}"/></dt>
+	<dd><p><strong>Personal Campaign Page</strong></p></dd>
+ <dd><p>This is your Personal Campaign Page (PCP). It belongs to <a href="{crmURL p='civicrm/contribute/manage' q="reset=1&action=update&id="}{$owner.id}"><strong>&raquo; {ts}Contribution Page{/ts}</strong></a>{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
+	 <dd> <table class="form-layout-compressed"> 
+		{foreach from = $links key = k item = v}
+	         <tr>
+		   <td style="padding:0px;">
+			<a href="{crmURL p=$v.url q=$v.qs|replace:'%%pcpId%%':$replace.id|replace:'%%pcpBlock%%':$replace.block}" title="{$v.title}"{if $v.extra}{$v.extra}{/if}>{$v.name}</a>
+		   </td>
+  		   <td style="padding:0px;">&nbsp;<cite>{$hints.$k}</cite></td>
+	 	 </tr>
+        	{/foreach}
+  	   </table>
+	</dd>
+ </dl>
+</div>
+{/if}
 <div>
   <table class="campaign" width="40%">
     <tr>
@@ -23,9 +43,9 @@
 	  {/if}
 	  <tr>
 	    {if $pcp.is_thermometer}
-            <td>&nbsp;</td>
-	    <td>
-	      <table class="">
+            <td style="width:10px">&nbsp;</td>
+	    <td style="width:150px">
+	      <table>
 		<tr>
 		  <td colspan="2" align="left"><strong>{$pcp.goal_amount|crmMoney}</strong></td><td>&nbsp;</td>
 		</tr>
@@ -44,7 +64,7 @@
 	    </td>
 	    {/if} 
 	    {if $pcp.is_honor_roll}
-	    <td><strong>{ts}HONOR ROLL{/ts}</strong><br />
+	    <td style="width:150px"><strong>{ts}HONOR ROLL{/ts}</strong><br />
 	      <div class="honor_roll">
 		<marquee behavior="scroll" direction="up" id="pcp_roll"	scrolldelay="200" bgcolor="#fafafa"> 
 		  {foreach from = $honor item = v} 
@@ -57,8 +77,11 @@
 		[<a href="javascript:roll_start_stop();" id="roll" title="Stop the Honor Roll">{ts}Stop{/ts}</a>]
 	      </center>
 	    </td>
-	    {/if}
-	  </tr>
+	   {/if}
+	   {if !$pcp.is_thermometer || !$pcp.is_honor_roll}
+	       <td style="width:150px">&nbsp;</td>
+	   {/if}
+	   </tr>
 	</table>
       </td>
     </tr>

@@ -55,11 +55,9 @@ class CRM_Dedupe_Finder
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->id = $rgid;
         $rgBao->contactIds = $cids;
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
 
         $dao =& new CRM_Core_DAO();
         $dao->query($rgBao->tableQuery());
@@ -91,11 +89,9 @@ class CRM_Dedupe_Finder
         $rgBao->params = $params;
         $rgBao->level = $level;
         $rgBao->is_default = 1;
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
         $dao =& new CRM_Core_DAO();
         $dao->query($rgBao->tableQuery());
         $dao->query($rgBao->thresholdQuery());
@@ -135,26 +131,18 @@ class CRM_Dedupe_Finder
         if (!$ctype) {
             $dao =& new CRM_Contact_DAO_Contact();
             $dao->id = $cid;
-            if ( ! $dao->find(true) ) {
-	      CRM_Core_Error::fatal( );
-	    }
+            if (!$dao->find(true)) {
+                CRM_Core_Error::fatal("contact id of $cid does not exist");
+            }
             $ctype = $dao->contact_type;
         }
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->level = $level;
         $rgBao->contact_type = $ctype;
         $rgBao->is_default = 1;
-
-
-
-
-
-
-        if ( ! $rgBao->find(true) ) {
-	  CRM_Core_Error::fatal( ts( "%1 rule for %2 does not exist",
-				     array( 1 => $level,
-					    2 => $ctype ) ) );
-	}
+        if (!$rgBao->find(true)) {
+            CRM_Core_Error::fatal("$level rule for $ctype does not exist");
+        }
         $dupes = self::dupes($rgBao->id, array($cid));
         
         // get the dupes for this cid

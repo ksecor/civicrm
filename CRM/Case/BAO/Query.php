@@ -82,7 +82,7 @@ class CRM_Case_BAO_Query
         }
 
         if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
-            $query->_select['case_recent_activity_date']  = "civicrm_activity.activity_date_time as case_recent_activity_date";
+            $query->_select['case_recent_activity_date']  = "max(civicrm_activity.activity_date_time) as case_recent_activity_date";
             $query->_element['case_recent_activity_date'] = 1;
             $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
         }
@@ -94,7 +94,7 @@ class CRM_Case_BAO_Query
         }
 
         if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
-            $query->_select['case_scheduled_activity_date']  = "civicrm_activity.activity_date_time as case_scheduled_activity_date";
+            $query->_select['case_scheduled_activity_date']  = "min(civicrm_activity.due_date_time) as case_scheduled_activity_date";
             $query->_element['case_scheduled_activity_date'] = 1;
             $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
         }
@@ -113,20 +113,20 @@ class CRM_Case_BAO_Query
      * @return void 
      * @access public 
      */ 
-    static function where( &$query ) 
+    static function where( &$query )
     {
         $isTest   = false;
         $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
-                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                if ( $query->_mode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
                 $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
-        
+
         //  foreach ( array_keys( $query->_params ) as $id ) {
         //             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
         //                 self::whereClauseSingle( $query->_params[$id], $query );
@@ -185,16 +185,16 @@ class CRM_Case_BAO_Query
 
     static function from( $name, $mode, $side ) 
     {
-        $from = null;
+        $from = "";
                    
         switch ( $name ) {
             
         case 'civicrm_case_contact':
-            $from = " $side JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id ";
+            $from .= " $side JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id ";
             break;
 
         case 'civicrm_case':
-            $from .= " INNER JOIN civicrm_case ON civicrm_case_contact.case_id = civicrm_case.id ";
+            $from .= " INNER JOIN civicrm_case ON civicrm_case_contact.case_id = civicrm_case.id";
             break;
 
         case 'case_status':
@@ -208,8 +208,12 @@ class CRM_Case_BAO_Query
             break;
             
         case 'civicrm_category':
-            $from .= " $side JOIN civicrm_category ON civicrm_category.id = civicrm_activity.activity_type_id LEFT JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id";
+            $from .= " $side JOIN civicrm_category ON (civicrm_category.id = civicrm_activity.activity_type_id )";
             break;
+
+        case 'civicrm_activity':
+            $from .= " $side JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id";
+            break;            
 
         case 'case_relationship':
             $from .=" $side JOIN civicrm_relationship case_relationship ON case_relationship.contact_id_a = civicrm_case_contact.contact_id ";
@@ -242,6 +246,7 @@ case_relation_type.id = case_relationship.relationship_type_id )";
         
         if ( $mode & CRM_Contact_BAO_Query::MODE_CASE ) {
             $properties = array(  
+                                'contact_type'                =>      1,
                                 'contact_id'                  =>      1,
                                 'sort_name'                   =>      1,   
                                 'display_name'                =>      1,

@@ -619,7 +619,8 @@ class CRM_Utils_Token
                 $domain = CRM_Core_BAO_Domain::getDomain( );
                 // FIXME: get localpart+ from the database if specified
                 $localpart = '';
-                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$domain->id}.{$gid}@{$domain->email_domain}", $str);
+                // we add the 0.0000000000000000 part to make this match the other email patterns (with action, two ids and a hash)
+                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$gid}.0.0000000000000000@{$domain->email_domain}", $str);
             }
         }
         return $str;

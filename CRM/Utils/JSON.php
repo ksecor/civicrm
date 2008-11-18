@@ -52,11 +52,53 @@ class CRM_Utils_JSON
     {
         $buildObject = array( );
         foreach ( $params as $value ) {
-            $buildObject[] = '{ name: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" }';
+            $name = addslashes( $value['name'] );
+            $buildObject[] = "{ name: \"$name\", {$identifier}:\"{$value[$identifier]}\"}";
         }
 
         $jsonObject = '{ identifier: "'. $identifier .'", items: [' . implode( ',', $buildObject) . ' ]}';
 
         return $jsonObject;
     }
+
+    /**
+     * Function to encode json format for flexigrid, NOTE: "id" should be present in $params for each row 
+     * @param array  $params associated array of values rows
+     * @param int    $page  page no for selector 
+     * @param array  $selectorElements selector rows
+     *
+     * @return json encode string   
+     */
+    static function encodeSelector( &$params, $page, $selectorElements )
+    {
+        $total = count( $params );
+
+        $json = "";
+        $json .= "{\n";
+        $json .= "page: $page,\n";
+        $json .= "total: $total,\n";
+        $json .= "rows: [";
+        $rc = false;
+
+        foreach( $params as $key => $value) {
+            if ( $rc ) $json .= ",";
+            $json .= "\n{";
+            $json .= "id:'".$value['id']."',";
+            $json .= "cell:[";
+            $addcomma = false;
+            foreach ( $selectorElements as $element ) {
+                if ( $addcomma ) $json .= ",";
+                $json .= "'".addslashes($value[$element])."'";
+                $addcomma = true;
+            }
+            $json .= "]}";
+            $rc = true;
+        }
+        
+        $json .= "]\n";
+        $json .= "}";
+     
+        return $json;
+    } 
+
 }

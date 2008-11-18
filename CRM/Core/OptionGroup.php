@@ -270,10 +270,10 @@ WHERE  v.option_group_id = g.id
         return $group->id;
     }
     
-    static function getAssoc( $groupName, &$values ) 
+    static function getAssoc( $groupName, &$values, $flip = false ) 
     {
         $query = "
-SELECT v.id, v.value, v.label, v.name, v.description, v.weight
+SELECT v.id as amount_id, v.value, v.label, v.name, v.description, v.weight
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
@@ -283,19 +283,29 @@ ORDER BY v.weight
         $params = array( 1 => array( $groupName, 'String' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
 
-        // now extract the amount 
-        $values['value'] = $values['label'] = $values['name'] = array( );
-        $values['description'] = array( ); 
+        $fields = array( 'value', 'label', 'name', 'description', 'amount_id', 'weight' );
+        if ( $flip ) {
+            $values = array( );
+        } else {
+            foreach ( $fields as $field ) {
+                $values[$field] = array( );
+            }
+        }
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 
-            $values['value'      ][$index] = $dao->value; 
-            $values['label'      ][$index] = $dao->label; 
-            $values['name'       ][$index] = $dao->name; 
-            $values['description'][$index] = $dao->description; 
-            $values['amount_id'  ][$index] = $dao->id;
-            $values['weight'     ][$index] = $dao->weight;
-            $index++; 
+            if ( $flip ) {
+                $value = array( );
+                foreach ( $fields as $field ) {
+                    $value[$field] = $dao->$field;
+                }
+                $values[$dao->amount_id] = $value;
+            } else {
+                foreach ( $fields as $field ) {
+                    $values[$field][$index] = $dao->$field;
+                }
+                $index++; 
+            }
         } 
     }
 

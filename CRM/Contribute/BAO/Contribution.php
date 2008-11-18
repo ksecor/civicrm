@@ -826,4 +826,38 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
 
         return $paymentDetails;
     }
+
+    /**
+     *  Function to create address associated with contribution record.
+     *  @param array $params an associated array 
+     *  @param int   $billingID $billingLocationTypeID  
+     *
+     *  @return address id
+     *  @static
+     */
+    static function createAddress( &$params, $billingLocationTypeID ) 
+    {
+
+        $billingFields = array( "street_address",
+                                "city",
+                                "state_province_id",
+                                "postal_code",
+                                "country_id"
+                                );
+
+        //build address array 
+        $addressParams = array( );
+        $addressParams['location_type_id'] = $billingLocationTypeID;
+        $addressParams['is_billing'] = 1;
+        $addressParams['address_name'] = "{$params['billing_first_name']}{$params['billing_middle_name']}{$params['billing_last_name']}";
+        
+        foreach ( $billingFields as $value ) {
+            $addressParams[$value] = $params["{$value}-{$billingLocationTypeID}"];
+        }
+
+        require_once "CRM/Core/BAO/Address.php";
+        $address = CRM_Core_BAO_Address::add( $addressParams, false );
+
+        return $address->id;
+    } 
 }

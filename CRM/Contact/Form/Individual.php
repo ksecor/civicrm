@@ -135,7 +135,7 @@ class CRM_Contact_Form_Individual {
               
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
         
         $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                 'mode'         => 'remote',
@@ -150,7 +150,7 @@ class CRM_Contact_Form_Individual {
                                            "hh=1",
                                            false, null, false );
 
-        $this->assign('dataURL',$dataURL );
+        $form->assign('dataURL',$dataURL );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
      
         $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
@@ -177,7 +177,7 @@ class CRM_Contact_Form_Individual {
                                                    "org=1",
                                                    false, null, false );
         
-        $this->assign('employerDataURL',$employerDataURL );
+        $form->assign('employerDataURL',$employerDataURL );
         
         $form->addElement('text', 'current_employer', ts('Current Employer'), $employerAttributes );
 

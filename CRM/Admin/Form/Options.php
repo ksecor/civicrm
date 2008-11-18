@@ -149,8 +149,17 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'),
                    true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
+
+        $enabled = $this->add('checkbox', 'is_active', ts('Enabled?'));
+
+        $isReserved = false;
+        if ($this->_id) {
+            $isReserved = (bool) CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved');
+        }
         
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
+        if ($isReserved) {
+            $enabled->freeze();
+        }
         
         //fix for CRM-3552
         if ( $this->_gName == 'from_email_address' || $this->_gName == 'greeting_type' ) {
@@ -160,11 +169,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         
         if ($this->_gName == 'participant_status') {
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
-            if ( $this->_id ) {
-                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
-                    $this->freeze();
-                    $element->unfreeze();
-                } 
+            if ($isReserved) {
+                $this->freeze();
+                $element->unfreeze();
             }
         }
         

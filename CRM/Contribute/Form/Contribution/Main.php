@@ -355,12 +355,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $elements = array( );
 
         // first build the radio boxes
-        if ( ! empty( $this->_values['label'] ) ) {
+        if ( ! empty( $this->_values['amount'] ) ) {
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::buildAmount( 'contribution', $this, $this->_values['amount'] );
+            
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $this->_values['label'] ); $index++ ) {
+            foreach ( $this->_values['amount'] as $amount ) {
                 $elements[] =& $this->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($this->_values['value'][$index]) . ' ' . $this->_values['label'][$index],
-                                                    $this->_values['amount_id'][$index],
+                                                    CRM_Utils_Money::format( $amount['value']) . ' ' . $amount['label'],
+                                                    $amount['amount_id'],
                                                     array('onclick'=>'clearAmountOther();'));
             }
         }
@@ -374,7 +377,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $title = ts('Contribution Amount');
         if ( $this->_values['is_allow_other_amount'] ) {
-            if ( ! empty($this->_values['label'] ) ) {
+            if ( ! empty($this->_values['amount'] ) ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     ts('Other Amount'), 'amount_other_radio');
 
@@ -398,7 +401,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
-            if ( ! empty($this->_values['label'] ) ) {
+            if ( ! empty($this->_values['amount'] ) ) {
                 if ( $separateMembershipPayment ) {
                     $title = ts('Additional Contribution');
                 }
@@ -470,9 +473,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
 
+        $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
+        $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        if ( isset($_POST['location'][1]['address']['country_state'][0]) ) {
+            $countryDefault = $_POST['location'][1]['address']['country_state'][0];
+            $stateDefault   = $_POST['location'][1]['address']['country_state'][1];
+        }
+
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
-                                                         $this->_defaults['location'][1]['address']['country_id'],
-                                                         $this->_defaults['location'][1]['address']['state_province_id'],
+                                                         $countryDefault,
+                                                         $stateDefault,
                                                          'Organization Details');
     }
 
@@ -532,10 +542,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $units    = array( );
         $unitVals = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $this->_values['recur_frequency_unit'] );
         foreach ( $unitVals as $key => $val ) {
-            $units[$val] = ts( '%1', array(1 => $val) );
-            if ( $this->_values['is_recur_interval'] ) {
-                $units[$val] .= ts('(s)');
-            }
+            // FIXME: this is not localisable
+            $units[$val] = $this->_values['is_recur_interval'] ? "{$val}(s)" : $val;
         }
 
         $frequencyUnit =& $this->add( 'select', 'frequency_unit', null, $units );
@@ -651,7 +659,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
                  || isset( $fields['amount_other'] ) ) {
 
-                if ( !$amount ) {
+                if ( ! (float) $amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
                 
@@ -769,17 +777,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $amount += CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
             } 
         } else {
-            if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
-                $amountID = array_search( CRM_Utils_Array::value('amount',$params),
-                                          CRM_Utils_Array::value('amount_id',$form->_values) );
-            }
-            
-            if ( ! empty( $form->_values['value'] ) &&
-                 $amountID ) {
-                $params['amount_level'] =
-                    $form->_values['label'][$amountID];
-                $amount = 
-                    $form->_values['value'][$amountID];
+            if ( CRM_Utils_Array::value( 'amount', $form->_values ) ) {
+                $amountID = $params['amount'];
+                
+                if ( $amountID ) {
+                    $params['amount_level'] =
+                        $form->_values['amount'][$amountID]['label'];
+                    $amount = 
+                        $form->_values['amount'][$amountID]['value'];
+                }
             }
         }
         return $amount;
@@ -799,15 +805,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->controller->resetPage( 'Confirm' );
 
         // get the submitted form values. 
-        $params = $this->controller->exportValues( $this->_name ); 
+        $params = $this->controller->exportValues( $this->_name );
         
         $params['currencyID']     = $config->defaultCurrency;
 
         $params['amount'] = self::computeAmount( $params, $this );
-
-        if ( ! $params['amount'] && $params['selectMembership'] && !$this->_separateMembershipPayment ) {
+        $memFee = null;
+        if ( $params['selectMembership']  ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
-            $params['amount'] = $memFee ? $memFee : 0;
+            if ( !$params['amount'] && !$this->_separateMembershipPayment ) {
+                $params['amount'] = $memFee ? $memFee : 0;
+            }
         }
 
         if ( ! isset( $params['amount_other'] ) ) {
@@ -824,9 +832,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->set( 'invoiceID', $invoiceID );
 
         // required only if is_monetary and valid postive amount 
-        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 && is_array( $this->_paymentProcessor ) ) {
-            
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
+        if ( $this->_values['is_monetary'] &&
+             is_array( $this->_paymentProcessor ) &&
+             ( (float ) $params['amount'] > 0.0 || $memFee > 0.0 ) ) {
             
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
@@ -844,6 +852,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
                     
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
                     $token = $payment->setExpressCheckout( $params ); 
                     if ( is_a( $token, 'CRM_Core_Error' ) ) { 
                         CRM_Core_Error::displaySessionError( $token ); 

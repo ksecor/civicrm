@@ -298,6 +298,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         foreach ($fields as $name => $dontCare ) {
             if ( isset($this->_params[0][$name]) ) {
                     $defaults[$name] = $this->_params[0][$name];
+                    if ( $name == 'greeting_type' ) { 
+                        if ( $defaults['greeting_type'] == $this->_greetingTypeValue ) {
+                            $defaults['custom_greeting'] = $this->_params[0]['custom_greeting'];
+                        }
+                    }
             }
         }
 

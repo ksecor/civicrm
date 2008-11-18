@@ -91,4 +91,11 @@
        <key>id</key>
        <add>2.2</add>
  </foreignKey>  
+ <field>
+    <name>is_auto</name>
+    <type>boolean</type>
+    <default>0</default>
+    <comment>Is this activity type used by programmatically created activities?</comment>
+    <add>2.2</add>
+ </field> 
 </table>

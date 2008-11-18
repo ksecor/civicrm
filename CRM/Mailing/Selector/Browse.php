@@ -209,8 +209,9 @@ AND       $whereClause";
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         static $actionLinks = null;
         if (empty($actionLinks)) {
-            $cancelExtra = ts('Are you sure you want to cancel this mailing?');
-            $deleteExtra = ts('Are you sure you want to delete this mailing?');
+            $cancelExtra  = ts('Are you sure you want to cancel this mailing?');
+            $deleteExtra  = ts('Are you sure you want to delete this mailing?');
+            $archiveExtra = ts('Are you sure you want to archive this mailing?');
             $actionLinks = array(
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
@@ -243,8 +244,15 @@ AND       $whereClause";
                     'qs'    => 'action=delete&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $deleteExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Delete Mailing')                    
+                    ),
+                CRM_Core_Action::RENEW => array(
+                    'name'  => ts('Archive'),
+                    'url'   => 'civicrm/mailing/browse/archived',
+                    'qs'    => 'action=renew&mid=%%mid%%&reset=1',
+                    'extra' => 'onclick="if (confirm(\''. $archiveExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                    'title' => ts('Archive Mailing')                    
                     )
-            );
+                );
         }
 
         
@@ -265,6 +273,10 @@ AND       $whereClause";
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
+                if ( $row['status'] == 'Complete' && !$row['archived'] ) {
+                    $actionMask |= CRM_Core_Action::RENEW;
+                }
+                
                 $actionMask |= CRM_Core_Action::DELETE;
                
                 $rows[$key]['action'] = 

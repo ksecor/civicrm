@@ -1,9 +1,9 @@
 {literal}
 <style>
-#crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
-{
-white-space:normal;
-}
+  #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
+  {
+    white-space:normal;
+  }
 </style>
 {/literal}
 
@@ -11,32 +11,38 @@ white-space:normal;
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{capture assign=iconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$iconURL}Click %1 to view case details.{/ts}
+{capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
+{ts 1=$expandIconURL}Click %1 to view case details.{/ts}
+
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single and $context eq 'Search' }
-  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
-{/if}
-{if ! $single}
-  <th></th>
-{/if}
+
+  {if ! $single and $context eq 'Search' }
+    <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
+  {/if}
+
+  {if ! $single}
+    <th></th>
+  {/if}
+
   {foreach from=$columnHeaders item=header}
     <th scope="col">
-    {if $header.sort}
-      {assign var='key' value=$header.sort}
-      {$sort->_response.$key.link}
-    {else}
-      {$header.name}
-    {/if}
+      {if $header.sort}
+        {assign var='key' value=$header.sort}
+        {$sort->_response.$key.link}
+      {else}
+        {$header.name}
+      {/if}
     </th>
   {/foreach}
   </tr>
+
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
-  <tr id='rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+
+  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
@@ -45,19 +51,19 @@ white-space:normal;
     {if ! $single }	
         &nbsp;{$row.contact_type}<br/>
     {/if}
-	<span id="{$row.case_id}_show">
-	    <a href="#" onclick="show('caseDetails$row.case_id}', 'table-row'); 
-                             buildCaseDetails('{$row.case_id}','{$row.contact_id}'); 
-                             hide('{$row.case_id}_show');
-                             show('minus{$row.case_id}_hide');
-                             show('{$row.case_id}_hide','table-row');
+	<span id="{$list}{$row.case_id}_show">
+	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
+                             buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
+                             hide('{$list}{$row.case_id}_show');
+                             show('minus{$list}{$row.case_id}_hide');
+                             show('{$list}{$row.case_id}_hide','table-row');
                              return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
-	<span id="minus{$row.case_id}_hide">
-	    <a href="#" onclick="hide('caseDetails$row.case_id}'); 
-                             show('{$row.case_id}_show', 'table-row');
-                             hide('{$row.case_id}_hide');
-                             hide('minus{$row.case_id}_hide');
+	<span id="minus{$list}{$row.case_id}_hide">
+	    <a href="#" onclick="hide('caseDetails{$list}{$row.case_id}'); 
+                             show('{$list}{$row.case_id}_show', 'table-row');
+                             hide('{$list}{$row.case_id}_hide');
+                             hide('minus{$list}{$row.case_id}_hide');
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
     {if ! $single }	
@@ -73,20 +79,20 @@ white-space:normal;
     <td class="right">{$row.case_scheduled_activity_type}</td>
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.case_id}_hide" class='{$rowClass}'>
-     <td style="border-right: none;">
+   <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
+     <td>
      </td>
 {if $context EQ 'Search'}
-     <td colspan="10">
+     <td colspan="10" class="enclosingNested">
 {else}
-     <td colspan="9">
+     <td colspan="9" class="enclosingNested">
 {/if}
-        <div id="caseDetails$row.case_id}"></div>
+        <div id="caseDetails{$list}{$row.case_id}"></div>
      </td>
    </tr>
  <script type="text/javascript">
-     hide('{$row.case_id}_hide');
-     hide('minus{$row.case_id}_hide');
+     hide('{$list}{$row.case_id}_hide');
+     hide('minus{$list}{$row.case_id}_hide');
  </script>
   {/foreach}
 
@@ -118,7 +124,10 @@ white-space:normal;
 
 function buildCaseDetails( caseId, contactId )
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q="action=browse&snippet=4&context=`$context`&caseId="}"{literal} + caseId + '&cid=' + contactId;
+
+  var dataUrl = {/literal}"{crmURL p='civicrm/case/details' h=0 q='snippet=4&caseId='}{literal}" + caseId;
+
+  dataUrl = dataUrl + '&cid=' + contactId;
 	
     var result = dojo.xhrGet({
         url: dataUrl,

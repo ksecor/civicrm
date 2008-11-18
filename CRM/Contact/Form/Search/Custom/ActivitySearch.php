@@ -54,6 +54,11 @@ implements CRM_Contact_Form_Search_Interface {
                                  ts('Activity Subject') => 'activity_subject',								
 								 ts('Scheduled By'      )   => 'source_contact',
                                  ts('Scheduled Date') => 'activity_date' );
+
+        $this->_groupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                       'activity_status', 
+                                                       'id', 
+                                                       'name' );
     }
 
     function buildForm( &$form ) {
@@ -77,7 +82,7 @@ implements CRM_Contact_Form_Search_Interface {
         $activityType =
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::activityType( );
-            
+        
         $form->add  ('select', 'activity_type_id', ts('Activity Type'),
                      $activityType,
                      false);
@@ -181,7 +186,7 @@ civicrm_contact contact
 JOIN civicrm_activity_target at ON contact.id = at.target_contact_id
 JOIN civicrm_activity activity ON at.activity_id = activity.id
 JOIN civicrm_option_value ov1 ON activity.activity_type_id = ov1.value AND ov1.option_group_id = 2
-JOIN civicrm_option_value ov2 ON activity.status_id = ov2.value AND ov2.option_group_id = 25
+JOIN civicrm_option_value ov2 ON activity.status_id = ov2.value AND ov2.option_group_id = {$this->_groupId}
 JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
 ";
 

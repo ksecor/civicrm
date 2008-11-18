@@ -9,7 +9,7 @@
         <tr>
             <td class="label">{$form.attachFile_1.label}</td>
             <td>{$form.attachFile_1.html}<br />
-                <span class="description">{ts 1=$numAttachments}Browse to the <strong>file</strong> you want attached. You can have a maximum of %1 attachment(s){/ts}</span>
+                <span class="description">{ts 1=$numAttachments}Browse to the <strong>file</strong> you want attached. You can have a maximum of %1 attachment(s).{/ts}</span>
             </td>
         </tr>
 {section name=attachLoop start=2 loop=$numAttachments+1}
@@ -28,7 +28,7 @@
     <tr>
         <td class="label">&nbsp;</td>
         <td>{$form.is_delete_attachment.html}&nbsp;{$form.is_delete_attachment.label}<br />
-            <span class="description">{ts}Check this box and click Save to delete all current attachments{/ts}</span>
+            <span class="description">{ts}Check this box and click Save to delete all current attachments.{/ts}</span>
         </td>
     </tr>
 {/if}

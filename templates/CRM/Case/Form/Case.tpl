@@ -2,4 +2,3 @@
 {if $caseAction}
     {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
 {/if}
-{include file="CRM/Custom/Form/CustomData.tpl"}

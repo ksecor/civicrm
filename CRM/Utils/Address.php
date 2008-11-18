@@ -121,7 +121,8 @@ class CRM_Utils_Address
                       'postal_code'            => $fullPostalCode,
                       'country'                => CRM_Utils_Array::value( 'country', $fields ),
                       'world_region'           => CRM_Utils_Array::value( 'world_region', $fields ),
-                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields )
+                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields ),
+                      'greeting_type'          => CRM_Utils_Array::value( 'greeting_type', $fields )
                       );
         } else {
             $replacements =

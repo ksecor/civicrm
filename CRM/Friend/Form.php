@@ -83,9 +83,6 @@ class CRM_Friend_Form extends CRM_Core_Form
         } elseif ( $page == 'event' ) {
             $this->_entityTable = 'civicrm_event';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
-        } elseif ( $page == 'pledge' ) {
-            $this->_entityTable = 'civicrm_pb_pledge';
-            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );        
         } elseif ( $page == 'pcp' ) {
             $this->_pcpBlockId = CRM_Utils_Request::retrieve( 'blockId', 'Positive', $this, true ); 
             

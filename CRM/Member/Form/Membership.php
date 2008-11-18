@@ -471,9 +471,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 if ( empty( $calcStatus ) ) {
                     $url = CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', 'reset=1&action=browse' );
                     $errors['_qf_default'] = ts( 'There is no valid Membership Status available for selected membership dates.' );
-                    $status = ts( "Oops it looks like there is no valid Membership status available for given Membership dates. You can configure Membership Status Rules here <a href='%1'>Configure Membership Status Rules.</a>",  array( 1 => $url ) );
+                    $status = ts( 'Oops, it looks like there is no valid membership status available for the given membership dates. You can <a href="%1">Configure Membership Status Rules</a>.',  array( 1 => $url ) );
                     if ( !$self->_mode ) { 
-                        $status .= ts( ' OR You can sign up by selecting Status Override? equal to true.' );
+                        $status .= ' ' . ts( 'OR You can sign up by setting Status Override? to true.' );
                     }
                     CRM_Core_Session::setStatus( $status );
                 }

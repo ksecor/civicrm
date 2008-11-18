@@ -322,13 +322,21 @@ class CRM_Core_Payment_BaseIPN {
             if ( $values['is_email_receipt'] ) {
                 $contribution->receipt_date = self::$_now;
             }
-
+            
             if ( $membership ) {
                 $format       = '%Y%m%d';
                 require_once 'CRM/Member/BAO/MembershipType.php';  
                 $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
                 
-                $formatedParams = array( 'status_id'     => 2,
+                //get the status for membership.
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'], 
+                                                                                          $dates['end_date'], 
+                                                                                          $dates['join_date'],
+                                                                                          'today', 
+                                                                                          true );
+                
+                $formatedParams = array( 'status_id'     => CRM_Utils_Array::value( 'id', $calcStatus, 2 ),
                                          'join_date'     => CRM_Utils_Date::customFormat( $dates['join_date'],     $format ),
                                          'start_date'    => CRM_Utils_Date::customFormat( $dates['start_date'],    $format ),
                                          'end_date'      => CRM_Utils_Date::customFormat( $dates['end_date'],      $format ),

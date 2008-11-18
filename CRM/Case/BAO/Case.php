@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Case/DAO/Case.php';
+require_once 'CRM/Case/PseudoConstant.php';
 
 /**
  * This class contains the funtions for Case Management
@@ -385,12 +386,161 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
              $caseArray[$count] = $caseContact->case_id;
              $count++;
          }
-         
          return $caseArray;
      }
 
+
     /**
-     * function to get the amount details date wise.
+     * Function to get the list of upcoming cases for CiviCase Dashboard.
+     */
+    function getUpcomingCases( )
+    {
+
+        $resultFields = array( 'contact_id',
+                               'contact_type',
+                               'sort_name',
+                               'case_id',
+                               'case_type',
+                               'status_id',
+                               'case_status',
+                               'activity_type_id',
+                               'case_scheduled_activity_date',
+                               'case_scheduled_activity_type' );
+
+
+        $query = "SELECT
+
+                  civicrm_case.id as case_id,
+                  civicrm_contact.id as contact_id,
+                  civicrm_contact.sort_name as sort_name,
+                  civicrm_contact.contact_type as contact_type,
+                  civicrm_activity.activity_type_id,
+                  cov_type.label as case_type,
+                  cov_status.label as case_status,
+                  civicrm_activity.due_date_time as case_scheduled_activity_date,
+                  civicrm_activity.status_id,
+                  civicrm_category.label as case_scheduled_activity_type
+
+                  FROM civicrm_case
+                  
+                  INNER JOIN civicrm_case_activity
+                       ON civicrm_case_activity.case_id = civicrm_case.id
+
+                  LEFT JOIN civicrm_activity
+                       ON (civicrm_case_activity.activity_id = civicrm_activity.id
+                       AND civicrm_activity.is_current_revision = 1
+                       AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) )
+
+                  LEFT JOIN civicrm_category 
+                        ON civicrm_category.id = civicrm_activity.activity_type_id
+
+                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
+
+                  LEFT JOIN civicrm_option_group cog_type ON cog_type.name = 'case_type'
+                  LEFT JOIN civicrm_option_value cov_type
+                        ON (civicrm_case.case_type_id = cov_type.value
+                        AND cog_type.id = cov_type.option_group_id )
+
+                  LEFT JOIN civicrm_option_group cog_status ON cog_status.name = 'case_status'
+                  LEFT JOIN civicrm_option_value cov_status ON
+                        (civicrm_case.status_id = cov_status.value
+                        AND cog_status.id = cov_status.option_group_id )
+
+                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
+                  LEFT JOIN civicrm_option_value cov_actstatus ON 
+                        (civicrm_activity.status_id = cov_actstatus.value
+                        AND cog_actstatus.id = cov_actstatus.option_group_id )
+                  
+                  WHERE cov_actstatus.name = 'Scheduled'
+                        
+                  GROUP BY case_id
+                  
+                  ORDER BY civicrm_activity.due_date_time ASC
+                  ";
+
+
+        return self::_getCasesList( $resultFields, $query );
+
+    }
+
+
+    /**
+     * Function to get the list of recent cases for CiviCase Dashboard.
+     */
+    function getRecentCases( )
+    {
+
+
+        $resultFields = array( 'contact_id',
+                               'contact_type',
+                               'sort_name',
+                               'case_id',
+                               'case_type',
+                               'status_id',
+                               'case_status',
+                               'activity_type_id',
+                               'case_recent_activity_date',
+                               'case_recent_activity_type' );
+
+
+        $query = "SELECT
+
+                  civicrm_case.id as case_id,
+                  civicrm_contact.id as contact_id,
+                  civicrm_contact.sort_name as sort_name,
+                  civicrm_contact.contact_type as contact_type,
+                  civicrm_activity.activity_type_id,
+                  cov_type.label as case_type,
+                  cov_status.label as case_status,
+                  civicrm_activity.activity_date_time as case_recent_activity_date,
+                  civicrm_activity.status_id,
+                  civicrm_category.label as case_recent_activity_type
+
+                  FROM civicrm_case
+                  
+                  INNER JOIN civicrm_case_activity
+                       ON civicrm_case_activity.case_id = civicrm_case.id
+
+                  LEFT JOIN civicrm_activity
+                       ON (civicrm_case_activity.activity_id = civicrm_activity.id
+                       AND civicrm_activity.is_current_revision = 1
+                       AND civicrm_activity.activity_date_time <= NOW() 
+                       AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) )
+
+                  LEFT JOIN civicrm_category 
+                        ON civicrm_category.id = civicrm_activity.activity_type_id
+
+                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
+
+                  LEFT JOIN civicrm_option_group cog_type ON cog_type.name = 'case_type'
+                  LEFT JOIN civicrm_option_value cov_type
+                        ON (civicrm_case.case_type_id = cov_type.value
+                        AND cog_type.id = cov_type.option_group_id )
+
+                  LEFT JOIN civicrm_option_group cog_status ON cog_status.name = 'case_status'
+                  LEFT JOIN civicrm_option_value cov_status ON
+                        (civicrm_case.status_id = cov_status.value
+                        AND cog_status.id = cov_status.option_group_id )
+
+                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
+                  LEFT JOIN civicrm_option_value cov_actstatus ON 
+                        (civicrm_activity.status_id = cov_actstatus.value
+                        AND cog_actstatus.id = cov_actstatus.option_group_id )
+                  
+                  WHERE cov_actstatus.name != 'Scheduled'
+                        
+                  GROUP BY case_id
+                  
+                  ORDER BY case_recent_activity_date ASC
+                  ";
+
+        return self::_getCasesList( $resultFields, $query );
+    }
+
+    /**
+     * Function to get the summary of cases counts by type and status.
      */
     function getCasesSummary( )
     {
@@ -485,23 +635,21 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      */
     static function getCaseActivity( $caseID, $params, $contactID )
     {
-        $select = '
-SELECT ca.id as id, ca.activity_type_id as type, c.sort_name as reporter, ca.due_date_time as due_date, ca.activity_date_time actual_date, ca.status_id as status, cc2.label as category, ca.subject as subject ';
+        $select = 'SELECT ca.id as id, 
+                          ca.activity_type_id as type, 
+                          cc.sort_name as reporter, 
+                          ca.due_date_time as due_date, 
+                          ca.activity_date_time actual_date, 
+                          ca.status_id as status, 
+                          ca.subject as subject ';
 
-        $from  = 'FROM civicrm_case_activity cca, civicrm_activity ca, civicrm_contact c, civicrm_category cc1, civicrm_category cc2 ';
+        $from  = 'FROM civicrm_case_activity cca, 
+                       civicrm_activity ca, 
+                       civicrm_contact cc '; 
 
-        $where = 'WHERE ca.id = cca.activity_id 
-AND ca.activity_type_id = cc1.id
-AND cc1.parent_id = cc2.id
-AND ca.source_contact_id = c.id AND cca.case_id= %1';
-
-        if ( $params['category_0'] ) {
-            $where .= " AND cc1.parent_id = ".CRM_Utils_Type::escape( $params['category_0'], 'Integer' );
-        }
-
-        if ( $params['category_1'] ) {
-            $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['category_1'], 'Integer' );
-        }
+        $where = 'WHERE cca.case_id= %1 
+                    AND ca.id = cca.activity_id 
+                    AND cc.id = ca.source_contact_id ';
 
         if ( $params['reporter_id'] ) {
             $where .= " AND ca.source_contact_id = ".CRM_Utils_Type::escape( $params['reporter_id'], 'Integer' );
@@ -511,10 +659,20 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
+        if ( $params['is_current_revision'] ) {
+            $where .= " AND ca.is_current_revision = 1";
+        }
+
+        if ( $params['activity_type_id'] ) {
+            $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
+        }
+
         $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
         $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
 
-        if ( $params['date_range'] == 1 ) {
+        if ( $params['date_range'] == 0 ) {
+            //pass
+        } else if ( $params['date_range'] == 1 ) {
             $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
         } else if ( $params['date_range'] == 2 ) {
             $where .= " AND ( ca.activity_date_time >= '{$fromDueDate}' AND ca.activity_date_time <= '{$toDueDate}' ) ";
@@ -528,11 +686,15 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
         
-        if (!$sortname) $sortname = 'due_date_time';
-        if (!$sortorder) $sortorder = 'desc';
-
+        // Default sort is due_date_time DESC, status_id ASC (so completed activities drop to bottom)
+        if ( !$sortname AND !$sortorder ) {
+            $orderBy = " ORDER BY due_date_time DESC, status_id ASC";
+        } else {
+            if (!$sortname) $sortname = 'due_date_time';
+            if (!$sortorder) $sortorder = 'desc';
         $orderBy = " ORDER BY $sortname $sortorder";
-
+        }
+        
         $page = $params['page'];
         $rp   = $params['rp'];
         
@@ -549,24 +711,22 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
         
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
-        require_once "CRM/Case/PseudoConstant.php";
-        $childCategories  = CRM_Case_PseudoConstant::category( false );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
 
         $values = array( );
-        $url = CRM_Utils_System::url( "civicrm/case/activity?reset=1&cid={$contactID}&id={$caseID}",
-                                      null, false, null, false ); 
+        $url = CRM_Utils_System::url( "civicrm/case/activity",
+                                      "reset=1&cid={$contactID}&id={$caseID}", false, null, false ); 
         
         $editUrl   = "{$url}&action=add";
         $deleteUrl = "{$url}&action=delete";
               
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
-            $values[$dao->id]['category']    = $dao->category;
-            $values[$dao->id]['type']        = $childCategories[$dao->type];
+            $values[$dao->id]['type']        = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']    = $dao->reporter;
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
@@ -584,10 +744,11 @@ AND ca.source_contact_id = c.id AND cca.case_id= %1';
 
     static function getFileForActivityTypeId( $activityTypeId ) 
     {
-        $actName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $activityTypeId, 'name' );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
-        if ( $actName ) {
-            $caseAction = trim(str_replace(' ', '', $actName));
+        if ( $activityTypes[$activityTypeId]['name'] ) {
+            require_once 'CRM/Utils/String.php';
+            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
         } else {
             return false;
         }
@@ -682,6 +843,82 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         }
         return $result;
     }
+
+    /**
+     * Retrieve count of activities having a particular type, and
+     * associated with a particular case.
+     *
+     * @param int    $caseId          ID of the case
+     * @param int    $activityTypeId  ID of the activity type
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    static function getCaseActivityCount( $caseId, $activityTypeId ) 
+    {
+        $queryParam = array( 1 => array( $caseId, 'Integer' ),
+                             2 => array( $activityTypeId, 'Integer' ) );
+        $query = "SELECT count(ca.id) as countact 
+FROM civicrm_activity ca
+INNER JOIN civicrm_case_activity cca ON ca.id = cca.activity_id 
+WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
+        
+        $dao = CRM_Core_DAO::executeQuery($query, $queryParam);
+        if ( $dao->fetch() ) {
+            return $dao->countact;
+        }
+        
+        return false;
+    }
+    
+    
+    /* * 
+     *
+     * Retrieve the list of cases given specific query and 
+     * result fields.
+     *
+     * @param array  $resultFields the list of return properties
+     * @param string $query the query
+     * 
+     * @return array
+     * @access private
+     * 
+     */
+     private static function _getCasesList( $resultFields, $query ) {
+
+        $queryParams = array();
+        $result = CRM_Core_DAO::executeQuery( $query,$queryParams );
+
+        // we're going to use the usual actions, so doesn't make sense to duplicate definitions
+        require_once( 'CRM/Case/Selector/Search.php');
+        $actions = CRM_Case_Selector_Search::links();
+
+        $filter = array();
+
+        require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+
+        $casesList = array();
+        while ( $result->fetch() ) {
+            foreach( $resultFields as $donCare => $field ) {
+                $casesList[$result->case_id][$field] = $result->$field;
+                if( $field = 'contact_type' ) {
+                    $casesList[$result->case_id]['contact_type_icon'] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
+                    $casesList[$result->case_id]['action'] = CRM_Core_Action::formLink( $actions, $mask,
+                                                                                        array( 'id'  => $result->case_id,
+                                                                                        'cid' => $result->contact_id,
+                                                                                        'cxt' => 'dashboard' ) );
+                    
+                    
+                    
+                }
+            }
+        }
+        return $casesList;        
+        
+     }    
+    
 }
 
    

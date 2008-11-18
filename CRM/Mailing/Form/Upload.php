@@ -134,16 +134,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        $defaults['subject'] = $this->get('name');
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
-
+        
         $defaults['upload_type'] = 1; 
-	if ( isset($defaults['body_html']) ) {
-	  $defaults['html_message'] = $defaults['body_html'];
-	}
-	return $defaults;
+        if ( isset($defaults['body_html']) ) {
+            $defaults['html_message'] = $defaults['body_html'];
+        }
+        
+        return $defaults;
     }
 
  

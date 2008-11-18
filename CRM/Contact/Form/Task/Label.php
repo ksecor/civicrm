@@ -258,6 +258,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                     $rows[$value]['display_name']         = $contact['display_name'];
                     $rows[$value]['individual_prefix']    = $contact['individual_prefix'];
                     $rows[$value]['individual_suffix']    = $contact['individual_suffix'];
+                    $rows[$value]['greeting_type']        = $contact['greeting_type'];
                 } else {
                     $rows[$value]['display_name'] = $contact['display_name'];
                 }

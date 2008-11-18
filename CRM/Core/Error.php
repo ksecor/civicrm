@@ -475,11 +475,14 @@ class CRM_Core_Error extends PEAR_ErrorStack {
                                 $callback );
     }
 
-    public static function &createAPIError( $msg ) {
+    public static function &createAPIError( $msg, $data = null ) {
         $values = array( );
         
         $values['is_error']      = 1;
         $values['error_message'] = $msg;
+        if ( $data ) {
+            $values['error_data']    = $data;
+        }
         return $values;
     }
 

@@ -7,7 +7,9 @@
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
    <div>
-    <label><span class="font-size12pt">{$displayName}</span></label>{if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+    <label><span class="font-size12pt">{$displayName}</span></label>
+      {if $nick_name}&nbsp;&nbsp;({$nick_name}){/if}
+      {if $legal_name}&nbsp;&nbsp;({$legal_name}){/if}
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" accesskey="E" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
@@ -22,7 +24,8 @@
     <table class="form-layout-compressed">
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
-        {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
+        {if $sic_code}<td><label>{ts}SIC Code{/ts}:</label></td><td>{$sic_code}</td>{/if}
+        {if $contactTag}<td><label><a href="{crmURL p='civicrm/contact/view/tag' q="action=update"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td>{$contactTag}</td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>

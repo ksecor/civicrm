@@ -219,7 +219,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
      */
     function editName() 
     {
-        return 'Personal Campaign Page';
+        return ts('Personal Campaign Page');
     }
     /**
      * return class name of delete form
@@ -240,7 +240,7 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
      */
         function deleteName( ) 
     {
-        return 'Delete Personal Campaign Page';
+        return ts('Delete Personal Campaign Page');
     }
     
     /**

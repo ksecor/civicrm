@@ -1,24 +1,44 @@
-/* Note there will also be a bunch of classes specific to the site for each activity they've configured. The class name is the name they've given the activity with any non-alphanumeric characters removed. */
+/* Note there will also be a bunch of classes specific to the site for each activity they've configured. The class name is "civicase-audit-" plus the name they've given the activity with any non-alphanumeric characters removed. */
 
 #civicase-audit {
 }
 
-.leftpane {
-	font-family: Arial, Helvetica, sans-serif;
-	width: 30%;
-	top: 5px;
+#civicase-audit table {
+	border: 0px;
 }
 
-.rightpane {
-	font-family: Georgia, "Times New Roman", Times, serif;
+#civicase-audit td {
+	margin: 0px;
+}
+
+#civicase-audit td.leftpane {
+}
+
+#civicase-audit table.report{
+	width: 100%;
+	margin-top: -4px;
+}
+
+#civicase-audit tr.selected td a:link, tr.selected td a:visited, tr.selected td a:active {
+	color: #027AC6;
+	background-color: #FFFF99;
+	font-weight: bold;
+}
+
+#civicase-audit .indicator{
+	width: 30px;
+	text-align: center;
+}
+
+#civicase-audit .separator{
+	width: 10px;
+}
+
+#civicase-audit td.rightpane {
 	background-color: #CCE3F1;
 	border: #333333 solid 1px;
-	float: right;
-	width: 65%;
-	position: absolute;
 	padding: 2%;
-	top: 5px;
-	left: 35%;
+	width: 60%;
 }
 
 .rightpaneheader {
@@ -27,22 +47,18 @@
 .rightpanebody {
 }
 
-label {
+#civicase-audit label {
 	font-weight: bold;
 }
 
 .activity {
 }
 
-.selected {
-	font-weight: bold;
-}
-
-ul {
+#civicase-audit ul {
 	font-size: smaller;
 }
 
-li {
+#civicase-audit li {
 	list-style-type: disc;
 	color: #CC0000;
 	clear: both;
@@ -50,13 +66,15 @@ li {
 }
 
 /* The thinking is that this isn't something that should stand out too much because if the user is really just interested in the incomplete ones, then they would have chosen to only output incomplete ones in the first place. */
-li.completed {
+#civicase-audit li.completed {
 	color: #336600;
 }
 
-li a {
+/*
+#civicase-audit li a {
 	color:#000000;
 }
+*/
 
 .auditmenu {
 	padding-bottom: 20px;
@@ -88,15 +106,13 @@ li a {
 .activity a:link, .activity a:visited {
 } 
 
-/* The right pane starts off hidden except for the first activity. */
-
 .activityheader {
 	display: none;
 	padding-bottom: 20px;
 	font-size: smaller;
 }
 
- .activityheader span {
+.activityheader span {
  	display: list-item;
 	list-style-type: none;
 	margin-left: 20px;
@@ -117,6 +133,7 @@ li a {
 	margin-left: 20px;
 }
 
+/* The right pane starts off hidden except for the first activity. */
 #civicase-audit-header-1 {
 	display: block;
 }

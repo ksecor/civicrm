@@ -34,16 +34,17 @@
  */
 
 require_once "CRM/Core/Form.php";
-require_once 'CRM/Custom/Form/CustomData.php';
+require_once "CRM/Custom/Form/CustomData.php";
 /**
  * This class generates form components for OpenCase Activity
  * 
  */
 class CRM_Case_Form_Activity_OpenCase
 {
-
     static function preProcess( &$form ) 
     {   
+        $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
+        $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
     }
 
    /**
@@ -63,6 +64,24 @@ class CRM_Case_Form_Activity_OpenCase
         // set case status to 'ongoing'
         $defaults['status_id'] = 1;
 
+        // set default encounter medium, location type and phone type defaults are set in DB
+        require_once "CRM/Core/OptionGroup.php";
+        $medium = CRM_Core_OptionGroup::values('encounter_medium', false, false, false, 'AND is_default = 1');
+        if ( count($medium) == 1 ) {
+            $defaults['medium_id'] = key($medium);
+        }
+        
+        require_once 'CRM/Core/BAO/LocationType.php';
+        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+        if ( $defaultLocationType->id ) {
+            $defaults['location[1][location_type_id]'] = $defaultLocationType->id;
+        }
+        
+        $phoneType = CRM_Core_OptionGroup::values('phone_type', false, false, false, 'AND is_default = 1');
+        if ( count($phoneType) == 1 ) {
+            $defaults['location[1][phone][1][phone_type_id]'] = key($phoneType);
+        }
+        
         return $defaults;
     }
 
@@ -73,19 +92,19 @@ class CRM_Case_Form_Activity_OpenCase
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true);
         
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
-        $form->add( 'text', 'subject', ts('Subject'), 
-                    array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
-
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $form->add('select', 'status_id',  ts( 'Case Status' ),  
                    $caseStatus , true  );
+
+        $form->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $form->addRule('duration', ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
         require_once "CRM/Contact/BAO/Contact.php";
         if ( $form->_clientId ) {
             list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_clientId );
             $form->assign( 'clientName', $displayName );
         } else {
+            $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact' );
             $form->addElement('select', 'prefix_id', ts('Prefix'), 
                               array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
             $form->addElement('select', 'suffix_id', ts('Suffix'), 
@@ -95,11 +114,40 @@ class CRM_Case_Form_Activity_OpenCase
             $form->addElement('text',   'last_name',   ts('Last Name'),   
                               $attributes['last_name'] );
             //Primary Phone 
+            if ( ! $locType ) {
+                $locType = CRM_Core_PseudoConstant::locationType( );
+            }
+            $form->addElement('select',
+                              "location[1][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
+            if ( ! $phoneType ) {
+                $phoneType = CRM_Core_PseudoConstant::phoneType( );
+            }
+            $form->addElement('select',
+                              "location[1][phone][1][phone_type_id]",
+                              $label,
+                              array('' =>  ts('- type -'))+$phoneType,
+                              null
+                              );
             $form->addElement('text',
                               "location[1][phone][1][phone]", 
                               ts('Primary Phone'),
                               CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                          'phone'));
+            //Additional Phone 
+            $form->addElement('select'  , "location[2][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
+            $form->addElement('select',
+                              "location[2][phone][1][phone_type_id]",
+                              $label,
+                              array('' =>  ts('- type -'))+$phoneType,
+                              null
+                              );
+            $form->addElement('text',
+                              "location[2][phone][1][phone]", 
+                              ts('Additional Phone'),
+                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
+                                                         'phone'));
+            
+            
             //Primary Email
             $form->addElement('text', 
                               "location[1][email][1][email]",
@@ -112,10 +160,26 @@ class CRM_Case_Form_Activity_OpenCase
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        $form->add('textarea', 'details', ts('Details'), 
+
+        $form->add( 'text', 'activity_subject', ts('Subject'), 
+                   array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
+
+        $form->add('select', 'medium_id',  ts( 'Medium' ), 
+                   CRM_Core_OptionGroup::values('encounter_medium'), true);
+
+        // calling this field activity_location to prevent conflict with contact location fields
+        $form->add('text', 'activity_location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
+        
+        $form->add('textarea', 'activity_details', ts('Details'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
+        $form->addElement('submit', 
+                          $form->_createNewButtonName,
+                          ts( 'Create New Client' ) );
         
+        $form->addElement('submit', 
+                          $form->_assignExistingButtonName,
+                          ts( 'Assign Existing Client' ) );
     }
 
     /**
@@ -130,28 +194,30 @@ class CRM_Case_Form_Activity_OpenCase
 
         $contactParams = $params;
         if ( !$form->_clientId ) {
-            if ( $form->_buttonName == $form->_assignExistingButtonName ) {
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
                 
-                $contactParams['location'][1]['is_primary'] = 1;
-                $contactParams['contact_type']              = 'Individual';
-                
-                $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
-                
+            if ( $form->controller->getButtonName( ) == $form->_assignExistingButtonName ) {
                 //Dedupe couldn't recognize "email-Primary".So modify params temporary.
                 require_once 'CRM/Dedupe/Finder.php';
                 $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
-                
-                $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
+                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
                 
                 // if we find more than one contact, use the first one
                 if ( is_array($ids) ) {
-                    $contactParams['contact_id']  = $ids[0];
+                    $form->_clientId = $ids[0];
                 }
-            } 
-   
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
-            $form->_clientId = $contact->id;
+                if ( !$form->_clientId ) {
+                    CRM_Core_Error::fatal('Could not find existing client to link the case with.');
+                }
+            }
+
+            if ( !$form->_clientId ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
+                $form->_clientId = $contact->id;
+            }
             
             // unset contact params
             unset($params['location'], $params['first_name'], $params['last_name'], 
@@ -159,7 +225,10 @@ class CRM_Case_Form_Activity_OpenCase
         }
 
         // for open case start date should be set to current date
-        $params['start_date'] = CRM_Utils_Date::format( $params['now'] );
+        $params['start_date'] = CRM_Utils_Date::format( $params['start_date'] );
+
+        // rename activity_location param to the correct column name for activity DAO
+        $params['location'] = $params['activity_location'];
     }
 
     /**
@@ -173,7 +242,44 @@ class CRM_Case_Form_Activity_OpenCase
      */
     static function formRule( &$values, $files, &$form ) 
     {
-        return true;
+        if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
+            return true;
+        }
+
+        $errors = array( );
+              
+        // if this is a forced save, ignore find duplicate rule
+        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) ) {
+            $contactParams = $values;
+            $contactParams['location'][1]['is_primary'] = 1;
+            $contactParams['contact_type']              = 'Individual';
+            $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
+
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($contactParams, 'Individual');
+            $ids          = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy');
+
+            if ( $ids ) {
+                $urls = array( );
+                foreach ($ids as $id) {
+                    $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $id ) .
+                        '">' . $displayName . '</a>';
+                }
+                $url = implode( ', ',  $urls );
+                $errors['_qf_default'] = ts( "One matching client was found. You may choose to link the case with existing client '%1' by clicking 'Assign Existing Client', or click Create New Client button below.", 
+                                             array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can view them here: %1, or click Create New Client button below.' ) );
+                
+                // let smarty know that there are duplicates
+                $form->assign( 'isDuplicate', 1 );
+
+                if ( count($ids) == 1 ) {
+                    $form->assign( 'onlyOneDupe', 1 );
+                }
+            } 
+        }
+
+        return $errors;
     }
 
     /**
@@ -204,12 +310,18 @@ class CRM_Case_Form_Activity_OpenCase
         
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
-                                     'creatorID'        => $form->_uid,
-                                     'standardTimeline' => 1,
-                                     'activityTypeName' => 'Open Case',
-                                     'dueDateTime'      => time( ),
-                                     'caseID'           => $params['case_id'],
+        $xmlProcessorParams = array( 'clientID'           => $form->_clientId,
+                                     'creatorID'          => $form->_uid,
+                                     'standardTimeline'   => 1,
+                                     'activityTypeName'   => 'Open Case',
+                                     'dueDateTime'        => time( ),
+                                     'caseID'             => $params['case_id'],
+                                     'subject'            => $params['activity_subject'],
+                                     'location'           => $params['location'],
+                                     'activity_date_time' => $params['start_date'],
+                                     'duration'           => $params['duration'],
+                                     'medium_id'          => $params['medium_id'],
+                                     'details'            => $params['activity_details'],
                                      );
 
         if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {

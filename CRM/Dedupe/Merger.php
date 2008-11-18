@@ -94,6 +94,12 @@ class CRM_Dedupe_Merger
                     'tables' => array('civicrm_entity_tag'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=tag'),
                 ),
+                'rel_table_cases' => array(
+                    'title'  => ts('Cases'),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_target', 
+                                      'civicrm_activity_assignment', 'civicrm_case_contact'),
+                    'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),
+                )
             );
         }
         return $relTables;
@@ -201,7 +207,7 @@ class CRM_Dedupe_Merger
      * Based on the provided two contact_ids and a set of tables, move the 
      * belongings of the other contact to the main one.
      */
-    function moveContactBelongings($mainId, $otherId, $tables = false)
+    function moveContactBelongings($mainId, $otherId, $tables = false, $tableSpecificClause = array())
     {
         $cidRefs =& self::cidRefs();
         $eidRefs =& self::eidRefs();
@@ -209,7 +215,7 @@ class CRM_Dedupe_Merger
         if ($tables !== false) {
             // if there are specific tables, sanitize the list
             $affected = array_unique(array_intersect($affected, $tables));
-        } else {
+        } else { 
             // if there aren't any specific tables, don't affect the ones handled by relTables()
             $relTables =& self::relTables();
             $handled = array();
@@ -218,16 +224,24 @@ class CRM_Dedupe_Merger
             }
             $affected = array_diff($affected, $handled);
         }
-
+       
         $mainId  = (int) $mainId;
         $otherId = (int) $otherId;
-
+                
         // use UPDATE IGNORE + DELETE query pair to skip on situations when 
         // there's a UNIQUE restriction on ($field, some_other_field) pair
         foreach ($affected as $table) {
             if (isset($cidRefs[$table])) {
                 foreach ($cidRefs[$table] as $field) {
-                    $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $field = $otherId";
+                    $where  = "$field = $otherId";
+                    if ( isset($tableSpecificClause[$table]) ) {
+                        // there could be some specific query for this
+                        // table that needs to be satisfied. Best
+                        // example is case-activities where only
+                        // activities attached to the case needs to be updated.
+                        $where .= " AND ({$tableSpecificClause[$table]})";
+                    }
+                    $sqls[] = "UPDATE IGNORE $table SET $field = $mainId WHERE $where";
                     $sqls[] = "DELETE FROM $table WHERE $field = $otherId";
                 }
             }

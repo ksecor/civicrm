@@ -292,6 +292,8 @@ class CRM_NewImport_Form_Preview extends CRM_Core_Form {
         $parser->run( $tableName, $mapperFields,
                       CRM_NewImport_Parser::MODE_IMPORT,
                       $this->get('contactType'),
+                      $this->get('primaryKeyName'),
+                      $this->get('statusFieldName'),
                       $onDuplicate,
                       $this->get( 'statusID' ),
                       $this->get( 'totalRowCount' ),

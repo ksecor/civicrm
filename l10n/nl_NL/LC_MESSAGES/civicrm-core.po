@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-09-30 05:18-0700\n"
-"Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"PO-Revision-Date: 2008-11-13 17:45-0800\n"
+"Last-Translator: delta <damir@sagi.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,7 @@ msgstr "Bewerking"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -311,7 +311,7 @@ msgstr "Activiteitmethode"
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Violation Type"
-msgstr ""
+msgstr "Overtreding"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
@@ -819,7 +819,7 @@ msgstr "Formaat persoonsnaam"
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Minute Increment"
-msgstr ""
+msgstr "Verhoging per minuut"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -876,7 +876,7 @@ msgstr "Zaak status"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 msgid "Case Sub Type"
-msgstr ""
+msgstr "Zaak Sub Categorie"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 msgid "Violation"
@@ -1440,7 +1440,7 @@ msgstr "en"
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 msgid "...through"
-msgstr ""
+msgstr "doorgaand ..."
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
@@ -1695,27 +1695,6 @@ msgstr "Radioknop"
 msgid "CheckBox"
 msgstr "Aanvink vak"
 
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Type"
-msgstr "Lidmaatschap type"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Membership Status"
-msgstr "Lidmaatschap status"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Paid By"
-msgstr "Betaald met"
-
-#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-msgid "Contribution Type"
-msgstr "Type bijdrage"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Export/BAO/Export.php
-#: xml/templates/civicrm_data.tpl
-msgid "Contribution Status"
-msgstr "Bijdrage status"
-
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
 msgstr "Pad"
@@ -1742,7 +1721,7 @@ msgstr ""
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Help bericht"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1751,7 +1730,7 @@ msgstr "Verberg"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1788,7 +1767,7 @@ msgstr "Selecteer 1 of meer Staat/Provincie"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr ""
+msgstr "Verberg Weergave"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1821,7 +1800,7 @@ msgstr "Optie waarde"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Achtervoegsel voor PHP class naam implementatie"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -2023,6 +2002,10 @@ msgid ""
 "requires InnoDB. You will need to convert any MyISAM tables in your database "
 "to InnoDB before proceeding."
 msgstr ""
+"U database is ingesteld om gebruik te maken van MyISAM opslag methode. "
+"CiviCRM heef echter de InnoDB opslag methode nodig.U zult handmatig alle "
+"tabellen die gebruik maken van de MyISAM opslag methode moeten omzetten naar "
+"InnoDB  voor dat u kun doorgaan. "
 
 #: CRM/Upgrade/TwoOne/Form/Step1.php CRM/Upgrade/TwoOne/Form/Step2.php
 #: CRM/Upgrade/TwoOne/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step1.php
@@ -2064,7 +2047,7 @@ msgstr ""
 
 #: CRM/Upgrade/TwoOne/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Thank you for using CiviCRM."
-msgstr ""
+msgstr "Wij  wensen u veel succes met CiviCRM."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2109,7 +2092,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Acl Tabel"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
@@ -2118,6 +2101,11 @@ msgstr ""
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr "ACL type"
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "Role is a required field"
+msgstr "Prijs is een vereist veld."
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -2225,7 +2213,7 @@ msgstr "Datum en tijd activiteit"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Due Date Time"
-msgstr ""
+msgstr "t/m"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2456,6 +2444,8 @@ msgid ""
 "This Label already exists in the database for this option group. Please "
 "select a different Value."
 msgstr ""
+"Deze Categorie naam staat reeds  in de database voor dit keuzemenu.Kies een "
+"andere waarde"
 
 #: CRM/Admin/Form/Options.php templates/CRM/Admin/Page/Options.tpl
 msgid "Counted?"
@@ -6719,6 +6709,10 @@ msgstr ""
 msgid "Total Amount"
 msgstr "Totaal bedrag"
 
+#: CRM/Export/BAO/Export.php xml/templates/civicrm_data.tpl
+msgid "Contribution Status"
+msgstr "Bijdrage status"
+
 #: CRM/Export/BAO/Export.php
 msgid "Received Date"
 msgstr "Ontvangstdatum"
@@ -7379,6 +7373,18 @@ msgstr "E-mail %1"
 msgid "Forward"
 msgstr "Doorsturen"
 
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is not forwarded to the given email address."
+msgid_plural "Mailing is not forwarded to the given email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Mailing is forwarded successfully to %count email address."
+msgid_plural "Mailing is forwarded successfully to %count email addresses."
+msgstr[0] ""
+msgstr[1] ""
+
 #: CRM/Profile/Form.php
 msgid ""
 "Email field should be included in profile if you want to use Group(s) when "
@@ -7693,6 +7699,22 @@ msgid ""
 "Your CiviCRM Profile '%1' has been added. You can add fields to this profile "
 "now."
 msgstr "Uw CiviCRM Profiel '%1' is toegevoegd. U kunt nu velden toevoegen."
+
+#: CRM/UF/Form/Preview.php
+msgid "Paid By"
+msgstr "Betaald met"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Type"
+msgstr "Lidmaatschap type"
+
+#: CRM/UF/Form/Preview.php
+msgid "Membership Status"
+msgstr "Lidmaatschap status"
+
+#: CRM/UF/Form/Preview.php
+msgid "Contribution Type"
+msgstr "Type bijdrage"
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -9733,6 +9755,17 @@ msgstr "Instellen CMS variabelen die in CiviCRM gebruikt worden."
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "CMS Settings"
 msgstr "CMS Instellingen"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
+msgid "Views integration settings"
+msgstr "%1 CMS variabelen"
+
+#: templates/CRM/Admin/Form/Setting/UF.tpl
+msgid ""
+"To enable CiviCRM Views integration, add the following to the site "
+"<code>settings.php</code> file:"
+msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
 msgid ""

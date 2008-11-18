@@ -319,7 +319,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
         if ( $errorMessage ) {
-            $tempMsg = "Invalid value for field(s) : $errorMessage";
+            if ( $errorMessage != 'custom_greeting' ) { 
+                $tempMsg = "Invalid value for field(s) : $errorMessage";
+            } else {
+                $tempMsg = "Missing required field : Greeting Type";
+            }
             array_unshift($values, $tempMsg);
             $errorMessage = null;
             return CRM_Import_Parser::ERROR;
@@ -524,10 +528,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                 }
             } else {
-                $paramsValues = array('contact_id'=>$params['id']);
-                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                            $params['id'],
-                                                            'contact_type' );
+                $contactType = null;
+                if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                    $paramsValues = array( 'contact_id' => $params['id'] );
+                    $contactType  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                 $params['id'],
+                                                                 'contact_type' );
+                }
                 if ( $contactType ) {
                     if ($formatted['contact_type'] == $contactType ) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
@@ -556,7 +563,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
-            
+            $formatted['greeting_type']     = CRM_Core_OptionGroup::getValue( 'greeting_type', (string)$formatted['greeting'] );
+
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
             
         }
@@ -1022,6 +1030,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Individual Suffix', $errorMessage);
                     }   
                     break;
+                case 'greeting_type':
+                    if ( !self::in_value($value,CRM_Core_PseudoConstant::greeting()) ) {
+                        self::addToErrorMsg('Greeting Type', $errorMessage);
+                    }   
+                    break;     
                 case 'state_province':
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {
@@ -1094,6 +1107,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
                         }
                     }
+                    break;
+                case 'custom_greeting' :
+                     $greetingTypeLabel = CRM_Core_DAO::getFieldValue( 
+                                                                         'CRM_Core_DAO_OptionValue', 
+                                                                         'Customized', 
+                                                                         'label', 
+                                                                         'name'
+                                                                          );
+                     
+                    if ( CRM_Utils_Array::value( 'greeting_type', $params ) != $greetingTypeLabel ) {
+                        self::addToErrorMsg('custom_greeting', $errorMessage);
+                    }
+                    break;
                 default : 
                     if ( is_array( $params[$key] ) && 
                          isset( $params[$key]["contact_type"] ) ) {

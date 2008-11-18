@@ -148,7 +148,6 @@ class CRM_Case_Form_Activity_ChangeCaseType
                                      );
 
         $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
-
         // status msg
         $params['statusMsg'] = ts('Case Type changed successfully.');
     }

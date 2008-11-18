@@ -155,6 +155,25 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             $mailing->save( );
             
         }
+        
+        //when user perform mailing from search context 
+        //redirect it to search result CRM-3711.
+        $ssID    = $this->get( 'ssID' );
+        $context = $this->get( 'context' );
+        if ( $ssID && $context == 'search' ) {
+            if ( $this->_action == CRM_Core_Action::BASIC ) {
+                $fragment = 'search';
+            } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                $fragment = 'search/builder';
+            } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                $fragment = 'search/advanced';
+            } else {
+                $fragment = 'search/custom';
+            }
+            $session =& CRM_Core_Session::singleton( );
+            $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+            $session->replaceUserContext( $url );
+        }
     }
     
     /**

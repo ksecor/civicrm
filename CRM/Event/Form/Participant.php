@@ -624,24 +624,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             // fix for CRM-3088
             if ( $discountId &&
                  ! empty( $this->_values['discount'][$discountId] ) ) {
-                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
-                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                
-                $params['amount'] = $this->_values['discount'][$discountId]['value']
-                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                
+                $params['amount_level'] = $this->_values['discount'][$discountId][$params['amount']]['label'];
+                $params['amount']       = $this->_values['discount'][$discountId][$params['amount']]['value'];
                 $this->assign( 'amount_level', $params['amount_level'] );
-                
+
             } else if ( ! isset( $params['priceSetId'] ) ) {
-                $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
-                
-                $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
+                $params['amount_level'] = $this->_values['fee'][$params['amount']]['label'];
+                $params['amount']       = $this->_values['fee'][$params['amount']]['value'];
                 $this->assign( 'amount_level', $params['amount_level'] );
+
             } else {
                 $lineItem = array( );
-                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['fee']['fields'], 
                                                                              $params, $lineItem[0] );
                 $this->set( 'lineItem', $lineItem );
                 $this->assign( 'lineItem', $lineItem );

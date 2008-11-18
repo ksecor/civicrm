@@ -4,6 +4,7 @@ require_once('AuditConfig.php');
 class Audit
 {
 	private $auditConfig;
+	private $xmlString;
 	
 	public function __construct($xmlString, $confFilename)
 	{
@@ -14,7 +15,7 @@ class Audit
 	public function getActivities()
 	{
 		$retval = array();
-	
+
 		/*
 		 * Loop through the activities in the file and add them to the appropriate region array.
 		 */
@@ -22,6 +23,12 @@ class Audit
 		if ($doc->loadXML($this->xmlString))
 		{
 			$regionList = $this->auditConfig->getRegions();
+
+//			$ifBlanks = $this->auditConfig->getIfBlanks();
+$ifBlanks = array( 'leftpane' => array('Actual Date' => 'Due Date', 'Subject' => 'Activity Type') );
+			
+			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
+			$includeAll = ($includeAll == 'All');			
 			
 			$activityindex = 0;
 			$activityList = $doc->getElementsByTagName("Activity");
@@ -29,7 +36,11 @@ class Audit
 			{
 				$retval[$activityindex] = array();
 				
+				$ifBlankReplacements = array();
+				
 				$completed = false;
+				$sortValues = array('1970-01-01');
+				$category = '';
 				$fieldindex = 1;
 				$fields = $activity->getElementsByTagName("Field");
 				foreach($fields as $field)
@@ -42,14 +53,36 @@ class Audit
 				
 					$value_elements = $field->getElementsByTagName("Value");
 					$value = $value_elements->item(0)->nodeValue;
-	
+
+					$category_elements = $field->getElementsByTagName("Category");
+					if (! empty($category_elements))
+					{
+						$category = $category_elements->item(0)->nodeValue;
+					}
+					
+					// Based on the config file, does this field's label and value indicate a completed activity?							
 					if ($label == $this->auditConfig->getCompletionLabel() && $value == $this->auditConfig->getCompletionValue())
 					{
 						$completed = true;
 					}
-					
+
+					// Based on the config file, does this field's label match the one to use for sorting activities?							
+					if (in_array($label, $this->auditConfig->getSortByLabels()))
+					{
+						$sortValues[$label] = $value;
+					}
+										
 					foreach($regionList as $region)
 					{
+						// Based on the config file, is this field a potential replacement for another?
+						if (! empty($ifBlanks[$region]))
+						{
+							if (in_array($label, $ifBlanks[$region]))
+							{
+								$ifBlankReplacements[$label] = $value;
+							}
+						}
+						
 						if ($this->auditConfig->includeInRegion($label, $region))
 						{
 							$retval[$activityindex][$region][$fieldindex] = array();
@@ -65,34 +98,101 @@ class Audit
 	
 					$fieldindex++;
 				}
-	
-				// Now sort the fields based on the order in the config file.
-				foreach($regionList as $region)
+
+				if ($includeAll || !$completed)
+				{	
+					$retval[$activityindex]['completed'] = $completed;
+					$retval[$activityindex]['category'] = $category;
+					$retval[$activityindex]['sortValues'] = $sortValues;
+		
+					// Now sort the fields based on the order in the config file.
+					foreach($regionList as $region)
+					{
+						$this->auditConfig->sort($retval[$activityindex][$region], $region);
+					}				
+						
+					$retval[$activityindex]['editurl'] = $activity->getElementsByTagName("EditURL")->item(0)->nodeValue;
+
+					// If there are any fields with ifBlank specified, replace their values.
+					// We need to do this as a second pass because if we do it while looping through fields we might not have come across the field we need yet.
+					foreach($regionList as $region)
+					{
+						foreach($retval[$activityindex][$region] as &$v)
+						{
+							$vlabel = $v['label'];
+							if (trim($v['value']) == '' && !empty($ifBlanks[$region][$vlabel]))
+							{
+								if (! empty($ifBlankReplacements[$ifBlanks[$region][$vlabel]]))
+								{
+									$v['value'] = $ifBlankReplacements[$ifBlanks[$region][$vlabel]];
+								}
+							}
+						}
+						unset($v);
+					}
+								
+					$activityindex++;
+				}
+				else
 				{
-					$this->auditConfig->sort($retval[$activityindex][$region], $region);
-				}				
-				
-				$retval[$activityindex]['completed'] = $completed;
-	
-				$retval[$activityindex]['editurl'] = $activity->getElementsByTagName("EditURL")->item(0)->nodeValue;
-							
-				$activityindex++;
+					/* This is a little bit inefficient, but the alternative is to do two passes
+					because we don't know until we've examined all the field values whether the activity
+					is completed, since the field that determines it and its value is configurable,
+					so either way isn't ideal. */
+					unset($retval[$activityindex]);
+				}
 			}
+			
+			uasort($retval, array(&$this, "compareActivities"));
 		}		
             
 		return $retval;
 	}
-
+	
+	/* compareActivities
+	 * 
+	 * This is intended to be called as a sort callback function, returning whether an activity's date is earlier or later than another's.
+	 * The type of date to use is specified in the config.
+	 * 
+	 */
+	public function compareActivities($a, $b)
+	{
+		// This should work
+		foreach ($this->auditConfig->getSortByLabels() as $label)
+		{
+			$aval .= empty($a['sortValues']) ? "" : (empty($a['sortValues'][$label]) ? "" : $a['sortValues'][$label]);
+			$bval .= empty($b['sortValues']) ? "" : (empty($b['sortValues'][$label]) ? "" : $b['sortValues'][$label]);
+		}
+		
+		if ($aval < $bval)
+		{
+			return -1;
+		}
+		elseif ($aval > $bval)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
     static function run( $xmlString ) {
+/*
+$fh = fopen('C:/temp/audit2.xml', 'w');
+fwrite($fh, $xmlString);
+fclose($fh);
+*/
         $audit = new Audit( $xmlString,
                             'audit.conf.xml' );
         $activities = $audit->getActivities();
 
         $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'activities', $activities );
-
+		
         $contents = $template->fetch( 'CRM/Case/Audit/Audit.tpl' );
-        echo $contents;
+        return $contents;
     }
 }
 

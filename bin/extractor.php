@@ -43,7 +43,7 @@
  */
 
 $modules  = array('Contribute', 'Event', 'Grant', 'Mailing', 'Member', 'Pledge');
-$excluded = array('Bridge', 'PledgeBank', 'Project', 'Touchstone');
+$excluded = array('Bridge', 'Project', 'Touchstone');
 
 $phpModifier    = "-iname '*.php' ";
 $smartyModifier = "-iname '*.tpl' ";

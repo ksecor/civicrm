@@ -256,6 +256,13 @@ class CRM_Utils_System_Drupal {
         return user_logout( );
     }
 
+    static function updateCategories( ) {
+        // copied this from profile.module. Seems a bit inefficient, but i dont know a better way
+        // CRM-3600
+        cache_clear_all();
+        menu_rebuild();
+    }
+
 }
 
 

@@ -253,12 +253,13 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         if ( !$all ) {
             $endDate = date( 'YmdHis' );
-            $query .= " WHERE `end_date` >= {$endDate} OR end_date IS NULL;";
+            $query .= " WHERE `end_date` >= {$endDate} OR end_date IS NULL";
         }
         if ( $id ) {
-            $query .= " WHERE `id` = {$id};";
+            $query .= " WHERE `id` = {$id}";
         }
 
+        $query .= " ORDER BY title asc";
         $events = array( );
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -1005,7 +1006,10 @@ WHERE civicrm_event.is_active = 1
                     } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
                         $suffix = CRM_Core_PseudoConstant::individualSuffix( );
                         $values[$index] = $suffix[$params[$name]];
-                    } else if ( $name === 'preferred_communication_method' ) {
+                    } else if ( 'greeting_type' == substr( $name, 0, 13 ) ) {
+                        $greeting = CRM_Core_PseudoConstant::greeting( );
+                        $values[$index] = $greeting[$params[$name]];
+                    }else if ( $name === 'preferred_communication_method' ) {
                         $communicationFields = CRM_Core_PseudoConstant::pcm();
                         $pref = array();
                         $compref = array();

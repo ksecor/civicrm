@@ -733,9 +733,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         require_once 'api/v2/Contact.php';
         foreach ( $contactIds as $contactId ) {
-            // replace contact tokens
-            $params  = array( 'contact_id' => $contactId, 'is_deceased' => 0 );
-
+            //fix for CRM-3798
+            $params  = array( 'contact_id'  => $contactId, 
+                              'is_deceased' => 0, 
+                              'on_hold'     => 0 );
+            
             //$contact =& crm_fetch_contact( $params );
             $contact = civicrm_contact_get( $params );
             
@@ -758,7 +760,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             } 
         }
         
-        return array( count($contactIds), $sent, $notSent );
+        return array( count($contactIds), $sent, $notSent, $activity->id );
     }
     
     /**
@@ -900,7 +902,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $activities;
     }
 
- /**
+    /**
      * Function to add activity for Membership/Event/Contribution
      *
      * @param object  $activity   (reference) perticular component object
@@ -996,7 +998,125 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return false;
         }
     }
-    
+
+    /**
+     * Function to get Parent activity for currently viewd activity
+     *
+     * @param int  $activityId   current activity id
+     *
+     * @return int $parentId  Id of parent acyivity otherwise false.
+     * @access public
+     */
+    static function getParentActivity( $activityId )
+    {
+        if ( CRM_Utils_Type::escape($activityId, 'Integer') ) {
+            $parentId = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                     $activityId,
+                                                     'parent_id' );
+            if ( $parentId ) {
+                return $parentId;
+            }    
+            return false;
+        }
+    }
+
+    /**
+     * Function to get total count of prior revision of currently viewd activity
+     *
+     * @param int  $activityId   current activity id
+     *
+     * @return int $params  count of prior acyivities otherwise false.
+     * @access public
+     */
+    static function getPriorCount( $activityID )
+    {
+
+        $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                   $activityID,
+                                                   'original_id' );
+             
+        if ( $originalID ) {
+            $params = array( );
+            
+            $query  = "
+SELECT count( id ) AS cnt
+FROM civicrm_activity
+WHERE ( id = {$originalID} OR original_id = {$originalID} )
+AND is_current_revision = 0
+AND id < {$activityID} 
+";
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+
+        // return zero
+        return 0;
+    }
+
+    /**
+     * Function to get all prior activities of currently viewd activity
+     *
+     * @param int  $activityId   current activity id
+     *
+     * @return array $result  prior acyivities info.
+     * @access public
+     */
+    static function getPriorAcitivities( $activityID, $onlyPriorRevisions = true ) 
+    {
+        $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                   $activityID,
+                                                   'original_id' );
+        $result = array( );
+
+        if ( $originalID ) {
+            $query = "
+SELECT c.display_name as name, cl.modified_date as date, ca.id as activityID
+FROM civicrm_log cl, civicrm_contact c, civicrm_activity ca
+WHERE (ca.id = {$originalID} OR ca.original_id ={$originalID})
+AND ca.is_current_revision = 0
+AND cl.entity_table = 'civicrm_activity'
+AND cl.entity_id = ca.id
+AND cl.modified_id = c.id
+";
+            if ( $onlyPriorRevisions ) {
+                $query .= " AND ca.id < {$activityID}";
+            }
+            $query .= " ORDER BY ca.id DESC";
+
+            $params = array( );
+            $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+            
+            while ( $dao->fetch( ) ) {
+                $result[$dao->activityID]['id']          = $dao->activityID;
+                $result[$dao->activityID]['name']        = $dao->name;
+                $result[$dao->activityID]['date']        = $dao->date;
+                $result[$dao->activityID]['link']        = 'javascript:viewActivity( $dao->activityID );';
+            }
+            $dao->free( );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Function to find the latest revision of a given activity
+     *
+     * @param int  $activityId    prior activity id
+     *
+     * @return int $params  current activity id.
+     * @access public
+     */
+    static function getLatestActivityId( $activityID )
+    {
+        $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                   $activityID,
+                                                   'original_id' );
+        if ( $originalID ) {
+            $activityID = $originalID;
+        }
+        $params =  array( 1 => array( $activityID, 'Integer' ) );
+        $query  = "SELECT id from civicrm_activity where original_id = %1 and is_current_revision = 1";
+
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
 }
-
-

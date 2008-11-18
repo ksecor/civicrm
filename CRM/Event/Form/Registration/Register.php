@@ -150,8 +150,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( ! empty( $this->_values['discount'] ) ){
             require_once 'CRM/Core/BAO/Discount.php';
             $discountId  = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
-            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event']['default_discount_id']
-                                                        , 'weight', 'id' );
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
+                                                        $this->_values['event']['default_discount_id'],
+                                                        'weight', 'id' );
             
             $this->_defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
         }
@@ -271,12 +272,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
   
         $elements = array( );
-        $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
             require_once 'CRM/Core/BAO/PriceField.php';                       
-            foreach ( $form->_values['custom']['fields'] as $field ) {
+            foreach ( $form->_values['fee']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
                 if ( $button == 'skip' ) {
@@ -286,8 +286,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
                 CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
-        } else if ( ! empty( $form->_values['custom']['label'] ) ) {
-            $feeBlock = $form->_values['custom'];
+        } else if ( ! empty( $form->_values['fee'] ) ) {
+            $form->_feeBlock =& $form->_values['fee'];
+
             if ( isset( $form->_values['discount'] ) ) {
                 if ( ! isset( $discountId ) &&
                      ( $form->_action != CRM_Core_Action::UPDATE )) {
@@ -296,16 +297,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
 
                 if ( $discountId ) {
-                    $feeBlock = $form->_values['discount'][$discountId];
+                    $form->_feeBlock =& $form->_values['discount'][$discountId];
                 }
             }
 
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::buildAmount( 'event', $form, $form->_feeBlock );
+
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $feeBlock['label'] ); $index++ ) {
-                $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format( $feeBlock['value'][$index]) . ' ' . 
-                                                    $feeBlock['label'][$index], 
-                                                    $feeBlock['amount_id'][$index] );
+            foreach ( $form->_feeBlock as $fee ) {
+                if ( is_array( $fee ) ) {
+                    $elements[] =& $form->createElement('radio', null, '',
+                                                        CRM_Utils_Money::format( $fee['value'] ) . ' ' .
+                                                        $fee['label'],
+                                                        $fee['amount_id'] );
+                }
             }
 
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event']);
@@ -501,23 +507,20 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['discount_id'] = $discountId;
-                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
-                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                
-                $params['amount'] = $this->_values['discount'][$discountId]['value']
-                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
-                
-            }else if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] =
-                    $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                    $this->_values['custom']['amount_id'])];
+                    $this->_values['discount'][$discountId][$params['amount']]['label'];
                 
                 $params['amount'] =
-                    $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                    $this->_values['custom']['amount_id'])];
+                    $this->_values['discount'][$discountId][$params['amount']]['value'];
+                
+            } else if ( empty( $params['priceSetId'] ) ) {
+                $params['amount_level'] =
+                    $this->_values['fee'][$params['amount']]['label'];
+                $params['amount'] =
+                    $this->_values['fee'][$params['amount']]['value'];
             } else {
                 $lineItem = array( );
-                self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
+                self::processPriceSetAmount( $this->_values['fee']['fields'], $params, $lineItem );
                 $priceSet   = array();
                 $priceSet[] = $lineItem;
                 $this->set( 'lineItem', $priceSet );

@@ -29,7 +29,7 @@
   <field>
        <name>group_type</name>
        <type>enum</type>
-       <values>Include, Exclude</values>
+       <values>Include, Exclude, Base</values>
        <comment>Are the members of the group included or excluded?.</comment>
   </field>
   <field>

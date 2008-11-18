@@ -231,6 +231,25 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'activity_subject', ts('Subject'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name'));
 
         $form->addElement('checkbox', 'test_activities', ts('Find Test Activities?'));
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $activity = array( 'Activity' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $activity );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('activityGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
     }
 
     static function changeLog( &$form ) {
@@ -277,6 +296,24 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addRadio( 'relation_status', ts( 'Relationship Status' ), $relStatusOption);
         $form->setDefaults(array('relation_status' => 0));
         
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $relationship = array( 'Relationship' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $relationship );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('relationshipGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
     }
     
     static function demographics( &$form ) {

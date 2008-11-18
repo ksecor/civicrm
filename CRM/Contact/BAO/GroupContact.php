@@ -240,20 +240,22 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             // an opt-out of a smart group.
             // if not a member remove to groupContact else keep the count of contacts that are not removed
             if ( $groupContact->find( true ) || $group->saved_search_id ) {
-                $historyParams = array( 'group_id' => $groupId,
-                                        'contact_id' => $contactId,
-                                        'status' => $status,
-                                        'method' => $method,
-                                        'date' => $date,
-                                        'tracking' => $tracking);
-                CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
                 // remove the contact from the group
-                $groupContact->status     = $status;
-                $groupContact->save( );
                 $numContactsRemoved++;
             } else {
                 $numContactsNotRemoved++;
             }
+            
+            //now we grant the negative membership to contact if not member. CRM-3711
+            $historyParams = array( 'group_id' => $groupId,
+                                    'contact_id' => $contactId,
+                                    'status' => $status,
+                                    'method' => $method,
+                                    'date' => $date,
+                                    'tracking' => $tracking);
+            CRM_Contact_BAO_SubscriptionHistory::create($historyParams);
+            $groupContact->status = $status;
+            $groupContact->save( );
         }
         
         // also reset the acl cache

@@ -190,14 +190,16 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
         $db = $dao->getDatabaseConnection();
         
         $columnNames = array();
-        $columnsQuery = "SHOW FIELDS FROM $this->_importTableName";
+        $columnsQuery = "SHOW FIELDS FROM $this->_importTableName
+                         WHERE Field NOT LIKE '\_%'";
         $columnsResult = $db->query($columnsQuery);
         while ( $row = $columnsResult->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $columnNames[] = $row['Field'];
         }
+        $this->_columnCount = count( $columnNames );
         $this->_columnNames = $columnNames;
         $this->assign( 'columnNames', $columnNames );
-        $this->_columnCount = $this->get( 'columnCount' );
+        //$this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
         $this->assign( 'dataValues'  , $this->_dataValues );
@@ -697,10 +699,14 @@ class CRM_NewImport_Form_MapField extends CRM_Core_Form
         $parser =& new CRM_NewImport_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
                                                    $related, $relatedContactType, $relatedContactDetails, 
                                                    $relatedContactLocType, $relatedContactPhoneType );
-                                                 
-        $parser->run( $this->_importTableName, $mapper, 
+                                         
+        $primaryKeyName = $this->get( 'primaryKeyName' );
+        $statusFieldName = $this->get( 'statusFieldName' );
+        $parser->run( $this->_importTableName, $mapper,
                       CRM_NewImport_Parser::MODE_PREVIEW,
-                      $this->get('contactType') );
+                      $this->get('contactType'),
+                      $primaryKeyName, $statusFieldName
+                    );
         
         // add all the necessary variables to the form
         $parser->set( $this );        

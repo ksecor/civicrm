@@ -228,6 +228,8 @@ abstract class CRM_NewImport_Parser {
      */
     protected $_misMatchFilemName;
 
+    protected $_primaryKeyName;
+    protected $_statusFieldName;
 
     /**
      * contact type
@@ -249,12 +251,12 @@ abstract class CRM_NewImport_Parser {
                   &$mapper,
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
+                  $primaryKeyName = '_id',
+                  $statusFieldName = '_status',
                   $onDuplicate = self::DUPLICATE_SKIP,
                   $statusID = null,
                   $totalRowCount = null,
                   $doGeocodeAddress = false ) {
-                      
-        //print "Running parser in mode: $mode<br/>";
 
         switch ($contactType) {
         case CRM_NewImport_Parser::CONTACT_INDIVIDUAL :
@@ -278,6 +280,10 @@ abstract class CRM_NewImport_Parser {
         $this->_conflicts = array();
 
         $status = '';
+        
+        $this->_tableName       = $tableName;
+        $this->_primaryKeyName  = $primaryKeyName;
+        $this->_statusFieldName = $statusFieldName;
         
         if ( $mode == self::MODE_MAPFIELD ) {
             $this->_rows = array( );
@@ -316,6 +322,9 @@ abstract class CRM_NewImport_Parser {
         
         // get the contents of the temp. import table
         $query = "SELECT * FROM $tableName";
+        if ( $mode == self::MODE_IMPORT ) {
+            $query .= " WHERE $statusFieldName = 'NEW'";
+        }
         $dao = new CRM_Core_DAO( );
         $db = $dao->getDatabaseConnection( );
         $result = $db->query( $query );
@@ -458,7 +467,7 @@ abstract class CRM_NewImport_Parser {
             $config =& CRM_Core_Config::singleton( );
             $fileName = $config->uploadDir . "sqlImport";
             if ($this->_invalidRowCount) {
-                // removed view url for invlaid contacts
+                // removed view url for invalid contacts
                 $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
@@ -798,6 +807,35 @@ abstract class CRM_NewImport_Parser {
         }
         fwrite($fd, implode("\n", $output));
         fclose($fd);
+    }
+    
+    /**
+     * Update the record with PK $id in the import database table
+     *
+     * @param int $id
+     * @param array $params
+     * @return void
+     * @access public
+     */
+    public function updateImportRecord( $id, &$params ) {
+        $statusFieldName = $this->_statusFieldName;
+        $primaryKeyName  = $this->_primaryKeyName;
+        
+        if ($statusFieldName && $primaryKeyName) {
+            $dao = new CRM_Core_DAO( );
+            $db = $dao->getDatabaseConnection( );
+            
+            $query = "UPDATE $this->_tableName
+                      SET    $statusFieldName      = ?,
+                             ${statusFieldName}Msg = ?
+                      WHERE  $primaryKeyName       = ?";
+            $args = array( $params[$statusFieldName], 
+                           $params["${statusFieldName}Msg"], $id );
+        
+            //print "Running query: $query<br/>With arguments: ".$params[$statusFieldName].", ".$params["${statusFieldName}Msg"].", $id<br/>";
+        
+            $db->query( $query, $args );
+        }
     }
 
 }

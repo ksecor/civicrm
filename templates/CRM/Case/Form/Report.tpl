@@ -1,4 +1,7 @@
 {* template to display reports *}
+{if $report}
+{$report}
+{else}
 <div id="reportForm" class="form-item">
 <fieldset><legend>{ts}Report Parameters{/ts}</legend>
     {strip} 
@@ -25,5 +28,5 @@
         </table>
     {/strip}
 </fieldset>
-
 </div>
+{/if}

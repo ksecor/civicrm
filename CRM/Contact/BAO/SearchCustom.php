@@ -100,22 +100,6 @@ class CRM_Contact_BAO_SearchCustom {
         return $customClass->contactIDs( );
     }
 
-    static function civimailSQL( $csID, $args, $group_id ) {
-        list( $customSearchID, $customSearchClass, $formValues ) =
-            self::details( $csID );
-
-        if ( ! $customSearchID ) {
-            CRM_Core_Error::fatal( 'Could not resolve custom search ID' );
-        }
-
-        $formValues = self::buildFormValues( $args );
-        $formValues['group_id'] = $groupID;
-
-        // instantiate the new class
-        eval( '$customClass = new ' . $customSearchClass . '( $formValues );' );
-        return $customClass->civimailSQL( );
-    }
-
     static function &buildFormValues( $args ) {
         $args = trim( $args );
 

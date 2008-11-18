@@ -13,7 +13,7 @@
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
 #crm-container textarea.big {width: 35em; height: 4em;}
-#crm-container textarea.huge {width: 35em; height: 16em;}
+#crm-container textarea.huge {width: 45em; height: 16em;}
 #crm-container .huge {width: 30em;}
 
 /*
@@ -134,6 +134,7 @@ div.spacer, .spacer {
   font-weight: bold;
   padding: 5px 15px 5px 0px;
   font-size: .95em;
+  white-space: normal;
 }
 
 #crm-container .section-hidden dt {
@@ -501,6 +502,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   vertical-align: top;
 }
 
+#crm-container td.enclosingNested {
+  padding: 0px;
+}
+
 #crm-container .nowrap {
   white-space: nowrap;
 }
@@ -513,10 +518,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
  
 #crm-container tr.columnheader {
-  /*background-color: #CCCCCC;*/
   background-color: #B3D1FF;
   color: #000000;
-  /*border: 1px solid #000000;*/
   border: 1px solid #5A8FDB;
 }
 #crm-container tr.columnheader a {

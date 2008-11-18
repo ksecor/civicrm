@@ -805,16 +805,19 @@ WHERE  id = %1";
     *
     * Note: any database errors will be trapped by the DAO.
     *
+    * @param string $groupType     type of group(Access/Mailing) 
+    * @param boolen $excludeHidden exclude hidden groups.
+    *
     * @access public
     * @static
     *
     * @return array - array reference of all groups.
     *
     */
-    public static function &allGroup( $groupType = null )
+    public static function &allGroup( $groupType = null, $excludeHidden = true )
     {
         require_once 'CRM/Contact/BAO/Group.php';
-        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
+        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType, $excludeHidden );
 
         if (!self::$group) {
             self::$group = array( );
@@ -866,16 +869,19 @@ WHERE  id = %1";
      *
      * Note: any database errors will be trapped by the DAO.
      *
+     * @param string $groupType     type of group(Access/Mailing) 
+     * @param boolen $excludeHidden exclude hidden groups.
+     
      * @access public
      * @static
      *
      * @return array - array reference of all groups.
      *
      */
-    public static function group( $groupType = null )
+    public static function group( $groupType = null, $excludeHidden = true )
     {
         require_once 'CRM/Core/Permission.php';
-        return CRM_Core_Permission::group( $groupType );
+        return CRM_Core_Permission::group( $groupType, $excludeHidden );
     }
 
     /**
@@ -905,6 +911,7 @@ WHERE  id = %1";
                 require_once 'CRM/Contact/BAO/Group.php';
                 $condition .= ' AND ' . CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
             }
+            
             self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
         }
         return self::$staticGroup;        

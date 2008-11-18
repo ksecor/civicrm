@@ -32,10 +32,17 @@ function civicrm_init( ) {
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
 }
 
+function plugin_init( ) {
+    //invoke plugins.
+    JPluginHelper::importPlugin( 'civicrm' );
+    $app =& JFactory::getApplication( );
+    $app->triggerEvent( 'onCiviLoad' ); 
+}
 
 function civicrm_invoke( ) {
     civicrm_init( );
 
+    plugin_init( );
     $user = JFactory::getUser( );
     require_once 'CRM/Core/BAO/UFMatch.php';
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Joomla', 'Individual' );

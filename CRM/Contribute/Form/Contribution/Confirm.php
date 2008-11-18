@@ -294,6 +294,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
+                    if ( $name == 'greeting_type' ) {   
+                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                            $defaults['custom_greeting'] = $contact['custom_greeting'];
+                        }
+                    }
                 } 
             }
         }
@@ -363,7 +368,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         // set email for primary location.
         $fields["email-Primary"] = 1;
-        $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        
+        // don't create primary email address, just add it to billing location
+        //$params["email-Primary"] = $params["email-{$this->_bltID}"];
         
         // get the add to groups
         $addToGroups = array( );
@@ -475,6 +482,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
+            // added new parameter for cms user contact id, needed to distinguish behaviour for on behalf of sign-ups
+            if ( isset($this->_params['related_contact']) ) {
+                $membershipParams['cms_contactID'] = $this->_params['related_contact'];
+            } else {
+                $membershipParams['cms_contactID'] = $contactID;
+            } 
             require_once 'CRM/Member/BAO/Membership.php';
             CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,
                                                               $this, $premiumParams );                       
@@ -703,9 +716,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams[$val] = $params[$val];
             }
         }
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
+
+        //create an contribution address
+        $contribParams['address_id']  = CRM_Contribute_BAO_Contribution::createAddress( $params, $form->_bltID );
+
+        //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-        
+                
         //handle pledge stuff.
         if ( !CRM_Utils_Array::value( 'separate_membership_payment', $form->_params ) &&
              CRM_Utils_Array::value('pledge_block_id', $form->_values ) && 
@@ -798,10 +817,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
-        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
-                                                              $contactID,
-                                                              'email-' . $form->_bltID );
 
+        if ( isset($params['related_contact']) ) {
+            $contactID = $params['related_contact'];
+        } 
+        
+        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
+                                                              $contactID, 
+                                                              'email-' . $form->_bltID ); 
+        
         // return if pending
         if ( $pending ) {
             return $contribution;

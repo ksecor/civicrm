@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-27 20:46+0100\n"
 "PO-Revision-Date: 2008-10-26 02:42-0700\n"
 "Last-Translator: Webmaster Onelse <webmaster@onelse.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2521,16 +2521,17 @@ msgstr "Merci de saisir le label de prix pour l'événement payant."
 #, fuzzy
 msgid ""
 "Please enter the Pay Later prompt to be displayed on the Registration form."
-msgstr "Entrez SVP le texte qui sera présenté à l'utilisateur"
-"Merci d'entrer le texte pour l'option 'je paye plus tard' affichée sur le "
-"formulaire de contribution"
+msgstr ""
+"Entrez SVP le texte qui sera présenté à l'utilisateurMerci d'entrer le texte "
+"pour l'option 'je paye plus tard' affichée sur le formulaire de contribution"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
 msgid "Please enter the Pay Later instructions to be displayed to your users."
-msgstr "Entrez SVP le message qui sera envoyé à l'utilisateur"
-"Merci d'entrer les instructions qui seront envoyés à ceux qui choisissent "
-"l'option 'je paye plus tard'."
+msgstr ""
+"Entrez SVP le message qui sera envoyé à l'utilisateurMerci d'entrer les "
+"instructions qui seront envoyés à ceux qui choisissent l'option 'je paye "
+"plus tard'."
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -4037,6 +4038,23 @@ msgstr "La date de début doit être indiquée si la date de fin l'est."
 #: CRM/Member/Form/Membership.php
 msgid "End date must be the same or later than start date."
 msgstr "La date de fin doit être égale ou postérieure à la date de début."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid ""
+"There is no valid Membership Status available for selected membership dates."
+msgstr "Pas de statut d'adhésion valide pour ces dates données."
+
+#: CRM/Member/Form/Membership.php
+msgid ""
+"Oops, it looks like there is no valid membership status available for the "
+"given membership dates. You can <a href=\"%1\">Configure Membership Status "
+"Rules</a>."
+msgstr ""
+
+#: CRM/Member/Form/Membership.php
+msgid "OR You can sign up by setting Status Override? to true."
+msgstr ""
 
 #: CRM/Member/Form/Membership.php
 msgid "Please enter the join date."

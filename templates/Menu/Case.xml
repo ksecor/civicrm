@@ -36,5 +36,15 @@
      <path>civicrm/case/activity/view</path>
      <title>Activity View</title>
      <page_callback>CRM_Case_Form_ActivityView</page_callback>
+  </item>
+  <item>
+     <path>civicrm/case/details</path>
+     <title>Case Details</title>
+     <page_callback>CRM_Case_Page_CaseDetails</page_callback>
   </item>  
+  <item>
+    <path>civicrm/ajax/caseSubject</path>
+    <page_callback>CRM_HRDCase_Page_AJAX::caseSubject</page_callback>
+    <access_arguments>access CiviCRM,access CiviCase</access_arguments>  
+  </item>
 </menu>

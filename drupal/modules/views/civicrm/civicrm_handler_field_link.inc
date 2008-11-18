@@ -39,7 +39,7 @@ class civicrm_handler_field_link extends civicrm_handler_field {
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('view');
         $id = $values->{$this->aliases['id']};
-        return civicrm_href($text, "civicrm/contact/view", "reset=1&id=$id");
+        return civicrm_views_href($text, "civicrm/contact/view", "reset=1&id=$id");
     }
 }
 ?>

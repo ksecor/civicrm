@@ -336,22 +336,23 @@ class CRM_Contact_Form_Task_EmailCommon
 
         // send the mail
         require_once 'CRM/Activity/BAO/Activity.php';
-        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds,
-                                                                                $subject,
-                                                                                $text,
-                                                                                $html,
-                                                                                $emailAddress,
-                                                                                null,
-                                                                                $from,
-                                                                                $attachments );
-        
+        list( $total, $sent, $notSent, $activityId ) = 
+            CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds,
+                                                  $subject,
+                                                  $text,
+                                                  $html,
+                                                  $emailAddress,
+                                                  null,
+                                                  $from,
+                                                  $attachments );
+
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
         }
         
         //Display the name and number of contacts for those email is not sent.
         if ( $notSent ) {
-            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ':';
+            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased or Primary email address is On Hold): %1', array(1 => count($notSent))) . '<br />' . ts('Details') . ':';
             foreach($notSent as $cIds=>$cId) {
                 $name = new CRM_Contact_DAO_Contact();
                 $name->id = $cId;
@@ -364,10 +365,19 @@ class CRM_Contact_Form_Task_EmailCommon
             $status[] = $statusDisplay;
         }
         
+        $caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $form );
+        if ( $caseId ) {
+            // if case-id is found in the url, create case activity record
+            $caseParams = array( 'activity_id' => $activityId,
+                                 'case_id'     => $caseId      );
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+        }
+
         if ( strlen($statusOnHold) ) {
             $status[] = $statusOnHold;
         }
-               
+        
         CRM_Core_Session::setStatus( $status );
         
     }//end of function

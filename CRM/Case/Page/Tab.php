@@ -56,12 +56,12 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     protected $_openCaseId = null;
 
     /**
-     * Change Case Type actvitity type id
+     * Change Case Type activity type id
      */
     protected $_changeCaseTypeId = null;
 
     /**
-     * Change Case Status  actvitity type id
+     * Change Case Status activity type id
      */
     protected $changeCaseStatusId = null;
     
@@ -84,12 +84,12 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $this->assign( 'action', $this->_action);
         }
 
-        $this->_openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
-                                                                 'id', 'name' );
-        $this->_changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Type', 
-                                                                 'id', 'name' );
-        $this->_changeCaseStatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Change Case Status', 
-                                                                 'id', 'name' );
+        $this->_openCaseId        = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Open Case', 
+                                                                 'value', 'name' );
+        $this->_changeCaseTypeId  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Change Case Type', 
+                                                                 'value', 'name' );
+        $this->_changeCaseStatusId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Change Case Status', 
+                                                                 'value', 'name' );
         $this->assign( 'openCaseId'       ,$this->_openCaseId);
         $this->assign( 'changeCaseTypeId' ,$this->_changeCaseTypeId);
         $this->assign( 'changeCaseStatusId',$this->_changeCaseStatusId);
@@ -255,7 +255,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                       CRM_Core_Action::VIEW    => array(
                                                                         'name'  => ts('Manage Case'),
                                                                         'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case&context=case',
                                                                         'title' => ts('Manage Case')
                                                                         ),
                                                       
@@ -276,26 +276,41 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
     {
         $this->_id        = CRM_Utils_Request::retrieve('id', 'Integer',   $this);
         $this->_contactId = CRM_Utils_Request::retrieve('cid','Positive',  $this);
+//        CRM_Core_Error::debug('caseid', $this->_id);
 
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $url = null;
-
         switch ( $context ) {
-        case 'home':
-            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+        case 'case':
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                             "reset=1&cid={$this->_contactId}&action=view&selectedChild=case" );
+            }
             break;
-
+        
         case 'activity':
             if ( $this->_contactId ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                              "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+                                             "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
             }
+            break;
+            
+        case 'dashboard':           
+            $url = CRM_Utils_System::url( 'civicrm/case', 'reset=1' );
+            break;
+                
+        case 'search':
+                $url = CRM_Utils_System::url( 'civicrm/case/search', 'force=1' );
+                break;
+                
+        case 'home':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
             break;
 
         default :
             if ( $this->_contactId && $this->_id ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                              "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&selectedChild=case" );
+                                              "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&show=1&selectedChild=case" );
             }
             break;
         }

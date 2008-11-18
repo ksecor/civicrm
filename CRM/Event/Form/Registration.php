@@ -121,6 +121,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */
     public $_priceSet;
           
+     /**
+     * 
+     *Greeting Type value
+     * @var int
+     * @protected
+     */
+    public $_greetingTypeValue;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -263,15 +271,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
 
                 $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
-                $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+                $this->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
                 $this->set('priceSet', $this->_priceSet);
             } else {
-                if ( ! isset( $this->_values['custom'] ) ) {
-                    $this->_values['custom'] = array( );
+                if ( ! isset( $this->_values['fee'] ) ) {
+                    $this->_values['fee'] = array( );
                 }
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['custom'] );
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $this->_values['fee'], true );
             }
             
             // get the profile ids
@@ -317,6 +325,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode );
+        
+        // get greeting type value
+        $this->_greetingTypeValue = CRM_Core_DAO::getFieldValue( 
+                                                               'CRM_Core_DAO_OptionValue', 
+                                                               'Customized', 
+                                                               'value', 
+                                                               'name'
+                                                                );
 
         // setting CMS page title
         CRM_Utils_System::setTitle($this->_values['event']['title']);  
@@ -512,18 +528,18 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $form->_priceSetId = $priceSetId;
             $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
-            $form->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->_values['fee'] = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->set('priceSetId', $form->_priceSetId);
             $form->set('priceSet', $form->_priceSet);
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
-            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['custom'] );
+            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['fee'] );
             require_once 'CRM/Core/BAO/Discount.php';
             $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventID, "civicrm_event");
             if ( is_array( $discountedEvent ) ) {
                 foreach ( $discountedEvent as $key => $optionGroupId ) {
                     $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId );
-                    CRM_Core_OptionGroup::getAssoc( $name, $form->_values['discount'][$key] );
+                    CRM_Core_OptionGroup::getAssoc( $name, $form->_values['discount'][$key], true );
                     $form->_values['discount'][$key]["name"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label');;
                 }
             }

@@ -34,11 +34,20 @@
  */
 
 require_once 'CRM/Core/Page.php';
+require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        for ( $i = 1; $i <= 4; $i++ ) {
-            $this->runForm( $i );
+        if ( CRM_Upgrade_Form::checkVersion( '2.1' ) ) {
+            // 2.1 to 2.1.2
+            $this->runTwoOneTwo( );
+        } else {
+            // 2.0 to 2.1
+            for ( $i = 1; $i <= 4; $i++ ) {
+                $this->runForm( $i );
+            }
+            // 2.1 to 2.1.2
+            $this->runTwoOneTwo( );
         }
         
         echo "Upgrade Successful. \n";
@@ -72,4 +81,26 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         }
     }
 
+    function runTwoOneTwo( ) {
+        require_once "CRM/Upgrade/TwoOne/Form/TwoOneTwo.php";
+        $formName = "CRM_Upgrade_TwoOne_Form_TwoOneTwo";
+        eval( "\$form = new $formName( );" );
+        
+        $error = null;
+        if ( ! $form->verifyPreDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'pre-condition failed for current upgrade for 2.1.2';
+            }
+            CRM_Core_Error::fatal( $error );
+        }
+
+        $form->upgrade( );
+
+        if ( ! $form->verifyPostDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'post-condition failed for current upgrade for 2.1.2';
+            }
+            CRM_Core_Error::fatal( $error );
+        }
+    }
 }

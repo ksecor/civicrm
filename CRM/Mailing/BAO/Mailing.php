@@ -161,6 +161,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
         
+        /* Add all unsubscribe members of base group from this mailing to the temp
+         * table */ 
+        $unSubscribeBaseGroup =
+                    "INSERT INTO        X_$job_id (contact_id)
+                    SELECT  DISTINCT    $g2contact.contact_id
+                    FROM                $g2contact
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
+                    WHERE
+                                        $mg.mailing_id = {$mailing_id}
+                        AND             $g2contact.status = 'Removed'
+                        AND             $mg.group_type = 'Base'";
+        
+        
+        $mailingGroup->query($unSubscribeBaseGroup);
+        
         /* Add all the (intended) recipients of an excluded prior mailing to
          * the temp table */
         $excludeSubMailing = 
@@ -228,7 +244,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE           
-                                        $mg.group_type = 'Include'
+                                       ($mg.group_type = 'Include' OR $mg.group_type = 'Base')
                         AND             $mg.search_id IS NULL
                         AND             $g2contact.status = 'Added'
                         AND             $g2contact.email_id IS null
@@ -260,7 +276,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     LEFT JOIN           X_$job_id
                             ON          $contact.id = X_$job_id.contact_id
                     WHERE
-                                        $mg.group_type = 'Include'
+                                       ($mg.group_type = 'Include' OR $mg.group_type = 'Base')
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $contact.is_deceased = 0
@@ -841,7 +857,6 @@ AND civicrm_contact.is_opt_out =0";
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $value,
-                                        1,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
@@ -858,9 +873,7 @@ WHERE  civicrm_mailing_job.id = {$job_id}
 AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
         if( $job_id && CRM_Core_DAO::singleValueQuery( $query,CRM_Core_DAO::$_nullArray ) ) {
-            unset( $verp['reply'] );
             $verp['reply'] = "\"{$this->from_name}\" <{$this->from_email}>"; 
-            $skipEncode = true;
         }
         
         $urls = array(
@@ -881,22 +894,15 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
                                                                  true, null, true, true )
                       );
 
-        if ( $skipEncode ) {
-            $headers = array( 'Reply-To'  => $verp['reply'] );
-        } else {
-            $headers = array( 'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email) );
-        }
+        $headers = array(
+            'Reply-To'         => $verp['reply'],
+            'Return-Path'      => $verp['bounce'],
+            'From'             => "\"{$this->from_name}\" <{$this->from_email}>",
+            'Subject'          => $this->subject,
+            'List-Unsubscribe' => "<mailto:{$verp['unsubscribe']}>",
+        );
 
-        $headerPart = array(
-                            'Return-Path'      => CRM_Utils_Verp::encode($verp['bounce'], $email),
-                            'From'             => "\"{$this->from_name}\" <{$this->from_email}>",
-                            'Subject'          => $this->subject,
-                            'List-Unsubscribe' => '<mailto:'.$verp['unsubscribe'].'>'
-                            );
-
-        $headers = array_merge( $headers, $headerPart ); 
         if( $isForward ) {
-            unset( $headers['Subject'] );
             $headers['Subject'] = "[Fwd:{$this->subject}]";
         } 
         return array( &$verp, &$urls, &$headers );
@@ -1209,7 +1215,7 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
         foreach( array( 'groups', 'mailings' ) as $entity ) {
-            foreach( array( 'include', 'exclude' ) as $type ) {                
+            foreach( array( 'include', 'exclude', 'base' ) as $type ) {                
                 if( is_array( $params[$entity][$type] ) ) {                    
                     foreach( $params[$entity][$type] as $entityId ) {
                         $mg->reset( );
@@ -1689,7 +1695,8 @@ SELECT DISTINCT( m.id ) as id
                         createdContact.sort_name as created_by, 
                         scheduledContact.sort_name as scheduled_by,
                         $mailing.created_id as created_id, 
-                        $mailing.scheduled_id as scheduled_id
+                        $mailing.scheduled_id as scheduled_id,
+                        $mailing.is_archived as archived
             FROM        $mailing
             LEFT JOIN   $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
             LEFT JOIN   civicrm_contact createdContact ON ( civicrm_mailing.created_id = createdContact.id )
@@ -1727,7 +1734,8 @@ SELECT DISTINCT( m.id ) as id
                             'created_by'    => $dao->created_by,
                             'scheduled_by'  => $dao->scheduled_by,
                             'created_id'    => $dao->created_id,
-                            'scheduled_id'  => $dao->scheduled_id
+                            'scheduled_id'  => $dao->scheduled_id,
+                            'archived'      => $dao->archived,
                             );
         }
         return $rows;
@@ -1838,6 +1846,9 @@ SELECT DISTINCT( m.id ) as id
         
         // fix for CRM-2613
         $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        
+        //fix for CRM-3798
+        $params[] = array( 'on_hold', '=', 0, 0, 1 );
         
         // if return properties are not passed then get all return properties
         if ( empty( $returnProperties ) ) {

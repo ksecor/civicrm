@@ -95,11 +95,13 @@ function clearAmountOther() {
 		<td>&nbsp;{$form.$n.html}
 		{if $form.is_for_organization}&nbsp;&nbsp;&nbsp;{$form.is_for_organization.html}&nbsp;{$form.is_for_organization.label}
 		{/if}</td>
-		{if $linkText}
-		<td style="vertical-align: top"><a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a>
-	        </td>{/if}
+
 	</tr>
 </table>
+
+{if $linkText}
+<a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a><br/><br/>
+{/if}
 
 {if $form.is_for_organization} 
 {include file=CRM/Contact/Form/OnBehalfOf.tpl} 
@@ -145,7 +147,7 @@ function clearAmountOther() {
 	<tr>
 		<td>{$form.pcp_display_in_roll.label}</td>
 		<td>{$form.pcp_display_in_roll.html}<br />
-		<span class="description">{ts}you can display the amount of donation publicly.{/ts}</span></td>
+		<span class="description">{ts}You can display the amount of donation publicly.{/ts}</span></td>
 	</tr>
 	<tr>
 		<td></td>

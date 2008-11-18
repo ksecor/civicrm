@@ -4,6 +4,7 @@ class AuditConfig
 	private $filename;
 	private $completionLabel;
 	private $completionValue;
+	private $sortByLabels;
 	private $regionFieldList;
 	private $includeRules;
 	private $sortRegion;
@@ -15,6 +16,7 @@ class AuditConfig
 		// set some defaults
 		$this->completionLabel = "Status";
 		$this->completionValue = "Completed";
+		$this->sortByLabels = array("Actual Date", "Due Date");
 	
 		$this->loadConfig();
 	}
@@ -27,6 +29,11 @@ class AuditConfig
 	public function getCompletionLabel()
 	{
 		return $this->completionLabel;
+	}
+	
+	public function getSortByLabels()
+	{
+		return $this->sortByLabels;
 	}
 	
 	public function loadConfig()
@@ -94,6 +101,18 @@ class AuditConfig
 				$value_elements = $completionStatus->item(0)->getElementsByTagName("value");
 				$this->completionValue = $value_elements->item(0)->nodeValue;
 			}
+
+			$sortElement = $doc->getElementsByTagName("sortByLabels");
+			if (! empty($sortElement))
+			{
+				$this->sortByLabels = array();
+				$label_elements = $sortElement->item(0)->getElementsByTagName("label");
+				foreach($label_elements as $ele)
+				{
+					$this->sortByLabels[] = $ele->nodeValue;
+				}
+			}
+
 		}		
 	}
 	

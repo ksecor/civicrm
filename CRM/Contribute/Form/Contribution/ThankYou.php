@@ -175,6 +175,11 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                                                                                   $options );
                 } else {
                     $defaults[$name] = $contact[$name];
+                    if ( $name == 'greeting_type' ) {   
+                        if ( $defaults['greeting_type'] ==  $this->_greetingTypeValue ) {
+                            $defaults['custom_greeting'] = $contact['custom_greeting'];
+                        }
+                    }
                 } 
             }
         }

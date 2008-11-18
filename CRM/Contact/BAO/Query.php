@@ -345,6 +345,13 @@ class CRM_Contact_BAO_Query
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
+            if ( array_key_exists( 'activity_role', $_POST ) ) {
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
+            }
+            if ( array_key_exists( 'relation_status', $_POST ) ) {
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Relationship'));
+            }
+
             $this->_fields = array_merge( $this->_fields, $fields );
            
         }
@@ -496,6 +503,7 @@ class CRM_Contact_BAO_Query
                             
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
+                            $this->_select['custom_greeting']  = 'contact_a.custom_greeting as custom_greeting';
                         } else {
                             $this->_tables[$tableName]         = 1;
                             
@@ -881,7 +889,10 @@ class CRM_Contact_BAO_Query
             }
             if ( $this->_useDistinct ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
+            } elseif ( isset( $this->_distinctComponentClause)  ) {
+                $this->_select['case_id'] = $this->_distinctComponentClause;
             }
+            
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
 
@@ -1336,6 +1347,7 @@ class CRM_Contact_BAO_Query
             if ( is_numeric( $value ) ) { 
                 $value     =  $individualPrefixs[(int ) $value];  
             }
+            $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, 'String' );
             $this->_qill[$grouping][] = ts('Individual Prefix') . " $op '$value'";
         } else if ( $name === 'individual_suffix' ) {

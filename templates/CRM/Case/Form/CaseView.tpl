@@ -4,13 +4,13 @@
     <table class="form-layout-compressed">
         <tr>
             <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
-		<td class="right"><label>{ts}New Activity{/ts}</label>&nbsp;<input type="text" id="activity"/><input type="hidden" id="activity_id" value="">&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
+            <td class="right"><label>{ts}New Activity{/ts}</label>&nbsp;<input type="text" id="activity"/><input type="hidden" id="activity_id" value="">&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
             <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location='{$reportUrl}' + document.getElementById('report_id').value"/></td> 
         </tr>
         <tr>
             <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>{ts}Case Type:{/ts}</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
             <td style="border: solid 1px #dddddd; padding-right: 2em; vertical-align: bottom;"><label>{ts}Status:{/ts}</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-      	    <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>{ts}Subject:{/ts}</label>&nbsp;{$caseDetails.case_subject}&nbsp;<a href="" title="Change case description (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
+            <td class="right">&nbsp;&nbsp;<label>{$form.timeline_id.label}</label>&nbsp;{$form.timeline_id.html}&nbsp; {$form._qf_CaseView_next.html}</td> 
         </tr>
     </table>
 </fieldset>
@@ -21,7 +21,7 @@ var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='ca
 
 cj("#activity").autocomplete( activityUrl, {
 	width: 260,
-	selectFirst: false 
+	selectFirst: false  
 });
 
 cj("#activity").result(function(event, data, formatted) {
@@ -153,7 +153,8 @@ function viewActivity( activityId ) {
         title: "View Activity",
 	    modal: true, 
 	    width : 700,
-            height : 450, 
+        height : 650,
+        resizable: true, 
 	    overlay: { 
 		       opacity: 0.5, 
 		       background: "black" 
@@ -192,9 +193,6 @@ function viewActivity( activityId ) {
   <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
   <table class="no-border" id="searchOptions">
     <tr>
-        <td class="label" colspan="2"><label for="activity_category">{ts}Category/Type{/ts}</label><br />
-            {$form.category.html}
-        </td>
         <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
         </td>
@@ -244,14 +242,13 @@ cj(document).ready(function(){
 	url: dataUrl,
 	    dataType: 'json',
 	    colModel : [
-			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
-			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
-			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
-			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
-			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
-			{display: 'Status', name : 'status', width : 90, sortable : true, align: 'left'},
-			{display: '', name : 'links', width : 90, align: 'left'},
+			{display: 'Due',     name : 'due_date',    width : 100, sortable : true, align: 'left'},
+			{display: 'Actual',  name : 'actual_date', width : 100, sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+			{display: 'Type',    name : 'type',        width : 100, sortable : true, align: 'left'},
+			{display: 'Reporter',name : 'reporter',    width : 100, sortable : true, align: 'left'},
+			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
+			{display: '',        name : 'links',       width : 90,  align: 'left'},
 			],
 	    sortname: "due_date",
 	    sortorder: "desc",
@@ -259,7 +256,7 @@ cj(document).ready(function(){
 	    useRp: true,
 	    rp: 10,
 	    showTableToggleBtn: true,
-            width: 915,
+            width: 815,
             height: 'auto',
             nowrap: false
 	    }
@@ -287,9 +284,7 @@ function search(com)
 
     cj('#activities-selector').flexOptions({
 	    newp:1, 
-		params:[{name:'category_0', value: cj("select#category_0").val()},
-			{name:'category_1', value: cj("select#category_1").val()},
-			{name:'reporter_id', value: cj("select#reporter_id").val()},
+		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
@@ -300,6 +295,14 @@ function search(com)
     cj("#activities-selector").flexReload(); 
 }
 
+function verifyActivitySet( ) {
+    
+    if ( document.getElementById('timeline_id').value == '' ) {
+	alert("Please Select the Valid Activity Set.");
+	return false;
+    } 
+    return confirm('Are you sure you want to add a set of scheduled activities to this case?');	 
+}
 </script>
 {/literal}
 
@@ -313,7 +316,5 @@ function search(com)
 </script>
 {/literal}
 
-
-<br/>
 {$form.buttons.html}
 </div>

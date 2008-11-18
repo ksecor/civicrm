@@ -53,7 +53,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 4, $op, $objectName, $objectId, $objectRef, $op, \'civicrm_pre\' );' );  
+                  '::invoke( 4, $op, $objectName, $id, $params, $op, \'civicrm_pre\' );' );  
     }
 
     /** 
@@ -225,6 +225,16 @@ class CRM_Utils_Hook {
             eval( 'return ' .
                   $config->userHookClass .
                   '::invoke( 1, $contactID, $null, $null, $null, $null, \'civicrm_dashboard\' );' );
+    }
+
+    static function buildAmount( $pageType, &$form, &$amount ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 3, $pageType, $form, $amount, $null, $null, \'civicrm_buildAmount\' );' );
     }
 
 }

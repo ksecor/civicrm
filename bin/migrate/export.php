@@ -74,7 +74,7 @@ class bin_migrate_export {
 
     function run( ) {
         $sql = "
-SELECT g.*
+SELECT distinct(g.id), g.*
 FROM   civicrm_option_group g,
        civicrm_custom_field f
 WHERE  f.option_group_id = g.id
