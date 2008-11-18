@@ -15,7 +15,7 @@ class Audit
 	public function getActivities()
 	{
 		$retval = array();
-	
+
 		/*
 		 * Loop through the activities in the file and add them to the appropriate region array.
 		 */
@@ -25,7 +25,7 @@ class Audit
 			$regionList = $this->auditConfig->getRegions();
 
 //			$ifBlanks = $this->auditConfig->getIfBlanks();
-$ifBlanks = array('Actual Date' => 'Due Date');
+$ifBlanks = array( 'leftpane' => array('Actual Date' => 'Due Date', 'Subject' => 'Activity Type') );
 			
 			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
 			$includeAll = ($includeAll == 'All');			
@@ -71,15 +71,18 @@ $ifBlanks = array('Actual Date' => 'Due Date');
 					{
 						$sortValues[$label] = $value;
 					}
-					
-					// Based on the config file, is this field a potential replacement for another?
-					if (in_array($label, $ifBlanks))
-					{
-						$ifBlankReplacements[$label] = $value;
-					}
-					
+										
 					foreach($regionList as $region)
 					{
+						// Based on the config file, is this field a potential replacement for another?
+						if (! empty($ifBlanks[$region]))
+						{
+							if (in_array($label, $ifBlanks[$region]))
+							{
+								$ifBlankReplacements[$label] = $value;
+							}
+						}
+						
 						if ($this->auditConfig->includeInRegion($label, $region))
 						{
 							$retval[$activityindex][$region][$fieldindex] = array();
@@ -109,6 +112,24 @@ $ifBlanks = array('Actual Date' => 'Due Date');
 					}				
 						
 					$retval[$activityindex]['editurl'] = $activity->getElementsByTagName("EditURL")->item(0)->nodeValue;
+
+					// If there are any fields with ifBlank specified, replace their values.
+					// We need to do this as a second pass because if we do it while looping through fields we might not have come across the field we need yet.
+					foreach($regionList as $region)
+					{
+						foreach($retval[$activityindex][$region] as &$v)
+						{
+							$vlabel = $v['label'];
+							if (trim($v['value']) == '' && !empty($ifBlanks[$region][$vlabel]))
+							{
+								if (! empty($ifBlankReplacements[$ifBlanks[$region][$vlabel]]))
+								{
+									$v['value'] = $ifBlankReplacements[$ifBlanks[$region][$vlabel]];
+								}
+							}
+						}
+						unset($v);
+					}
 								
 					$activityindex++;
 				}
@@ -123,27 +144,6 @@ $ifBlanks = array('Actual Date' => 'Due Date');
 			}
 			
 			uasort($retval, array(&$this, "compareActivities"));
-			
-			// If there are any fields with ifBlank specified, replace their values.
-			// We need to do this as a second pass because if we do it while looping we might not have come across the field we need yet.
-			foreach($retval as $v1)
-			{
-				foreach($regionList as $region)
-				{
-					foreach($v1[$region] as &$v2)
-					{
-						$v2label = $v2['label'];
-						if ($v2['value'] == '' && !empty($ifBlanks[$v2label]))
-						{
-							if (! empty($ifBlankReplacements[$ifBlanks[$v2label]]))
-							{
-								$v2['value'] = $ifBlankReplacements[$ifBlanks[$v2label]];
-							}
-						}
-					}
-					unset($v2);
-				}
-			}
 		}		
             
 		return $retval;
