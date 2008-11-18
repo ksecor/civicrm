@@ -48,72 +48,73 @@ UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId A
 -- * Activity Categories and Activity Types
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Case History', 'Case History', 1, 'Case history', 1, 0, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where name = 'Case History';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES  ('Open Case', 'Open Case', 1, '', 1, 0, @parentId, 7),
-            ('Follow up', 'Follow up', 2, '', 1, 0, @parentId, 7),
-            ('Assign principal classification - CPHN', 'Assign principal classification - CPHN', 3, '', 1, 0, @parentId, 7),
-            ('Assign principal classification - ICD', 'Assign principal classification - ICD', 4, '', 1, 0, @parentId, 7),
-            ('Assign principal classification - Presenting Problem', 'Assign principal classification - Presenting Problem', 5, '', 1, 0, @parentId, 7),
-            ('Assign principal classification - vocab', 'Assign principal classification - vocab', 6, '', 1, 0, @parentId, 7),
-            ('Change Case Type', 'Change Case Type', 7, '', 1, 0, @parentId, 7),
-            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7),
-            ('Close Case', 'Close Case', 9, '', 1, 0, @parentId, 7),
-            ('Assign secondary classification - CPHN', 'Assign secondary classification - CPHN', 10, '', 1, 0, @parentId, 7),
-            ('Assign secondary classification - ICD', 'Assign secondary classification - ICD', 11, '', 1, 0, @parentId, 7),
-            ('Assign secondary classification - Presenting Problem', 'Assign secondary classification - Presenting Problem', 12, '', 1, 0, @parentId, 7),
-            ('Assign secondary classification - vocab', 'Assign secondary classification - vocab', 13, '', 1, 0, @parentId, 7),
-            ('Plan inpatient admission', 'Plan inpatient admission', 14, '', 1, 0, @parentId, 7),
-            ('Confirm expected admission date', 'Confirm expected admission date', 15, '', 1, 0, @parentId, 7),
-            ('Confirm actual admission', 'Confirm actual admission', 16, '', 1, 0, @parentId, 7),
-            ('Confirm expected discharge date', 'Confirm expected discharge date', 17, '', 1, 0, @parentId, 7),
-            ('Confirm actual discharge date', 'Confirm actual discharge date', 18, '', 1, 0, @parentId, 7),
-            ('Receive report of early withdrawal from treatment', 'Receive report of early withdrawal from treatment', 19, '', 1, 0, @parentId, 7),
-            ('Plan intervention', 'Plan intervention', 20, '', 1, 0, @parentId, 7),
-            ('Rehearse intervention', 'Rehearse intervention', 21, '', 1, 0, @parentId, 7),
-            ('Conduct intervention', 'Conduct intervention', 22, '', 1, 0, @parentId, 7),
-            ('Debrief intervention', 'Debrief intervention', 23, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction (Counselor referral)', 'Survey client satisfaction Referral to counselor', 24, '', 1, 0, @parentId, 7),
-            ('Determine needs and preferences (Family doctor referral)', 'Determine needs and preferences Referral to family doctor', 25, '', 1, 0, @parentId, 7),
-            ('Notify selected referral target', 'Notify selected referral target', 26, '', 1, 0, @parentId, 7),
-            ('Facilitate first appointment', 'Facilitate first appointment', 27, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction (Family doctor referral)', 'Survey client satisfaction Referral to family doctor', 28, '', 1, 0, @parentId, 7),
-            ('Determine needs and preferences (Specialist referral)', 'Determine needs and preferences Referral to specialist', 29, '', 1, 0, @parentId, 7),
-            ('Prescreen referral target', 'Prescreen referral target', 30, '', 1, 0, @parentId, 7),
--- Not sure if there would be anything different with the family doctor vs specialist versions of these
---            ('Facilitate first appointment', 'Facilitate first appointment', 31, '', 1, 0, @parentId, 7),
-            ('Survey client satisfaction (Specialist referral)', 'Survey client satisfaction Referral to specialist', 32, '', 1, 0, @parentId, 7),
-            ('Sign case coordination agreement', 'Sign case coordination agreement', 33, '', 1, 0, @parentId, 7),
-            ('Receive comprehensive plan for assessment and treatment', 'Receive comprehensive plan for assessment and treatment', 34, '', 1, 0, @parentId, 7),
-            ('Engage workplace supervisor', 'Engage workplace supervisor', 35, '', 1, 0, @parentId, 7),
-            ('Engage community mentor', 'Engage community mentor', 36, '', 1, 0, @parentId, 7),
-            ('Develop biological monitoring plan', 'Develop biological monitoring plan', 37, '', 1, 0, @parentId, 7),
-            ('Receive community mentor report', 'Receive community mentor report', 38, '', 1, 0, @parentId, 7),
-            ('Receive treating physician report', 'Receive treating physician report', 39, '', 1, 0, @parentId, 7),
-            ('Receive workplace supervisor report', 'Receive workplace supervisor report', 40, '', 1, 0, @parentId, 7),
-            ('Record biological monitoring results', 'Record biological monitoring results', 41, '', 1, 0, @parentId, 7),
-            ('Review prescribing privileges', 'Review prescribing privileges', 42, '', 1, 0, @parentId, 7),
-            ('Review hospital privileges', 'Review hospital privileges', 43, '', 1, 0, @parentId, 7),
-            ('Summarize case for discharge', 'Summarize case for discharge', 44, '', 1, 0, @parentId, 7),
-            ('Beginning of earliest period totally absent from work', 'Beginning of earliest period totally absent from work', 45, '', 1, 0, @parentId, 7),
-            ('Earliest return to any work activity', 'Earliest return to any work activity', 46, '', 1, 0, @parentId, 7),
-            ('Beginning of period of restricted duties', 'Beginning of period of restricted duties', 47, '', 1, 0, @parentId, 7),
-            ('Beginning of period of attempted full duties', 'Beginning of period of attempted full duties', 48, '', 1, 0, @parentId, 7),
-            ('Beginning of period totally absent from work', 'Beginning of period totally absent from work', 49, '', 1, 0, @parentId, 7);
+SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
 
-SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
-SELECT @at2        := max(id) from civicrm_category where name = 'Follow up';
-SELECT @at3        := max(id) from civicrm_category where name = 'Assign principal classification - CPHN';
-SELECT @at4        := max(id) from civicrm_category where name = 'Assign principal classification - ICD';
--- SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
-SELECT @at6        := max(id) from civicrm_category where name = 'Assign principal classification - Presenting Problem';
-SELECT @at7        := max(id) from civicrm_category where name = 'Assign principal classification - vocab';
-SELECT @at8        := max(id) from civicrm_category where name = 'Assign secondary classification - CPHN';
-SELECT @at9        := max(id) from civicrm_category where name = 'Assign secondary classification - ICD';
-SELECT @at10       := max(id) from civicrm_category where name = 'Assign secondary classification - Presenting Problem';
-SELECT @at11       := max(id) from civicrm_category where name = 'Assign secondary classification - vocab';
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id` ) 
+VALUES
+    (@option_group_id_activity_type, 'Open Case', (SELECT @max_val := @max_val+1), 'Open Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1 , 7),
+    (@option_group_id_activity_type, 'Follow up', (SELECT @max_val := @max_val+1), 'Follow up',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Assign principal classification - CPHN', (SELECT @max_val := @max_val+1), 'Assign principal classification - CPHN',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Assign principal classification - ICD', (SELECT @max_val := @max_val+1), 'Assign principal classification - ICD',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Assign principal classification - Presenting Problem', (SELECT @max_val := @max_val+1), 'Assign principal classification - Presenting Problem',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign principal classification - vocab', (SELECT @max_val := @max_val+1), 'Assign principal classification - vocab',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Change Case Type', (SELECT @max_val := @max_val+1), 'Change Case Type',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Close Case', (SELECT @max_val := @max_val+1), 'Close Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign secondary classification - CPHN', (SELECT @max_val := @max_val+1), 'Assign secondary classification - CPHN',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign secondary classification - ICD', (SELECT @max_val := @max_val+1), 'Assign secondary classification - ICD',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign secondary classification - Presenting Problem', (SELECT @max_val := @max_val+1), 'Assign secondary classification - Presenting Problem',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign secondary classification - vocab', (SELECT @max_val := @max_val+1), 'Assign secondary classification - vocab',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Plan inpatient admission', (SELECT @max_val := @max_val+1), 'Plan inpatient admission',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ), 
+    (@option_group_id_activity_type, 'Confirm expected admission date', (SELECT @max_val := @max_val+1), 'Confirm expected admission date',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Confirm actual admission', (SELECT @max_val := @max_val+1), 'Confirm actual admission',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Confirm expected discharge date', (SELECT @max_val := @max_val+1), 'Confirm expected discharge date',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Confirm actual discharge date', (SELECT @max_val := @max_val+1), 'Confirm actual discharge date',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ), 
+    (@option_group_id_activity_type, 'Receive report of early withdrawal from treatment', (SELECT @max_val := @max_val+1), 'Receive report of early withdrawal from treatment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Plan intervention', (SELECT @max_val := @max_val+1), 'Plan intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Rehearse intervention', (SELECT @max_val := @max_val+1), 'Rehearse intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Conduct intervention', (SELECT @max_val := @max_val+1), 'Conduct intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),      
+    (@option_group_id_activity_type, 'Debrief intervention', (SELECT @max_val := @max_val+1), 'Debrief intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction (Counselor referral)',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Determine needs and preferences (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences (Family doctor referral)',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Facilitate first appointment', (SELECT @max_val := @max_val+1), 'Facilitate first appointment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
+    (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction (Family doctor referral)',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Determine needs and preferences (Specialist referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences (Specialist referral)',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Prescreen referral target', (SELECT @max_val := @max_val+1), 'Prescreen referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Survey client satisfaction (Specialist referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction (Specialist referral)',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Sign case coordination agreement', (SELECT @max_val := @max_val+1), 'Sign case coordination agreement',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Receive comprehensive plan for assessment and treatment', (SELECT @max_val := @max_val+1), 'Receive comprehensive plan for assessment and treatment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Engage workplace supervisor', (SELECT @max_val := @max_val+1), 'Engage workplace supervisor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Engage community mentor', (SELECT @max_val := @max_val+1), 'Engage community mentor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Develop biological monitoring plan', (SELECT @max_val := @max_val+1), 'Develop biological monitoring plan',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Receive community mentor report', (SELECT @max_val := @max_val+1), 'Receive community mentor report',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Receive treating physician report', (SELECT @max_val := @max_val+1), 'Receive treating physician report',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Receive workplace supervisor report', (SELECT @max_val := @max_val+1), 'Receive workplace supervisor report',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Record biological monitoring results', (SELECT @max_val := @max_val+1), 'Record biological monitoring results',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Review prescribing privileges', (SELECT @max_val := @max_val+1), 'Review prescribing privileges',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Review hospital privileges', (SELECT @max_val := @max_val+1), 'Review hospital privileges',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Summarize case for discharge', (SELECT @max_val := @max_val+1), 'Summarize case for discharge',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Beginning of earliest period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of earliest period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Earliest return to any work activity', (SELECT @max_val := @max_val+1), 'Earliest return to any work activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Beginning of period of restricted duties', (SELECT @max_val := @max_val+1), 'Beginning of period of restricted duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Beginning of period of attempted full duties', (SELECT @max_val := @max_val+1), 'Beginning of period of attempted full duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Beginning of period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );  
+
+SELECT @at1        := max(value) from civicrm_option_value where name = 'Open Case';
+SELECT @at2        := max(value) from civicrm_option_value where name = 'Follow up';
+SELECT @at3        := max(value) from civicrm_option_value where name = 'Assign principal classification - CPHN';
+SELECT @at4        := max(value) from civicrm_option_value where name = 'Assign principal classification - ICD';
+-- SELECT @at5        := max(value) from civicrm_option_value where name = 'Close Case';
+SELECT @at6        := max(value) from civicrm_option_value where name = 'Assign principal classification - Presenting Problem';
+SELECT @at7        := max(value) from civicrm_option_value where name = 'Assign principal classification - vocab';
+SELECT @at8        := max(value) from civicrm_option_value where name = 'Assign secondary classification - CPHN';
+SELECT @at9        := max(value) from civicrm_option_value where name = 'Assign secondary classification - ICD';
+SELECT @at10       := max(value) from civicrm_option_value where name = 'Assign secondary classification - Presenting Problem';
+SELECT @at11       := max(value) from civicrm_option_value where name = 'Assign secondary classification - vocab';
 
 
 -- /*******************************************************
@@ -405,15 +406,146 @@ VALUES
 INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`, `is_deceased`, `deceased_date`, `mail_to_household_id`, `household_name`, `primary_contact_id`, `organization_name`, `sic_code`, `user_unique_id`, `employer_id`)
 VALUES
  ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Inigo, Ichabod','Ichabod Inigo',NULL,NULL,NULL,NULL,NULL,'Both','25e4742ec6bffd59a0f3f3d11b24b893',NULL,'Ichabod',NULL,'Inigo',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
- ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Leeman, Lori','Lori Leeman',NULL,NULL,NULL,NULL,NULL,'Both','5cd4c857af683c470bd77fc14e7d0a22',NULL,'Lori',NULL,'Leeman',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Leeman, Lori','Lori Leeman',NULL,NULL,NULL,NULL,NULL,'Both','5cd4c857af683c470bd77fc14e7d0a22',NULL,'Lori',NULL,'Leeman',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Poter, Ron','Ron Poter',NULL,NULL,NULL,NULL,NULL,'Both','3bd77fc14e7d0a2225e4742ec6bffd59',NULL,'Ron',NULL,'Poter',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+  
 SELECT @cid1 := id from civicrm_contact WHERE hash='25e4742ec6bffd59a0f3f3d11b24b893';
 SELECT @cid2 := id from civicrm_contact WHERE hash='5cd4c857af683c470bd77fc14e7d0a22';
+SELECT @cid3 := id from civicrm_contact WHERE hash='3bd77fc14e7d0a2225e4742ec6bffd59';
 
 INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
 VALUES
  (@cid1,2,'ichabod.inigo@physicianhealth.com',1,0,0,0,NULL,NULL),
- (@cid2,2,'lori.leeman@physicianhealth.com',1,0,0,0,NULL,NULL);
+ (@cid2,2,'lori.leeman@physicianhealth.com',1,0,0,0,NULL,NULL),
+ (@cid3,2,'ron.poter@physicianhealth.com',1,0,0,0,NULL,NULL);
+
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-11-11', NULL, 'Based on initial call, client is dealing with possible severe morphine addiction.', 1);
+SELECT @caseId1        := max(id) from civicrm_case;
+INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
+    VALUES (@caseId1, @cid1);
+
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-12-07', NULL, 'Based on initial call, client is dealing with moderate or severe cocaine abuse leading to work interruptions.', 1);
+SELECT @caseId2        := max(id) from civicrm_case;
+
+INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
+    VALUES (@caseId2, @cid2);
+
+INSERT INTO `civicrm_case` (`case_type_id`, `start_date`, `end_date`, `details`, `status_id`)
+    VALUES ('1', '2008-11-01', NULL, 'Based on initial call, client is using large does of testosterone resulting in anger management problems at work.', 1);
+SELECT @caseId3        := max(id) from civicrm_case;
+INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`)
+    VALUES (@caseId3, @cid3);
+
+-- /*******************************************************
+-- *
+-- * Service Providers and Case Roles (relationships)  
+-- *
+-- *******************************************************/
+INSERT INTO `civicrm_contact` (`contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`)
+    VALUES  ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Green, Alice', 'Dr Alice Green', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133190', NULL, 'Alice', NULL, 'Green', 4, NULL, NULL, NULL, NULL, 1, '1959-06-30'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Burke, Stuart', 'Stuart Burke', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133124', NULL, 'Stuart', NULL, 'Burke', NULL, NULL, NULL, NULL, NULL, 1, '1966-02-19'),
+            ('Individual', NULL, 1, 0, 0, 0, 0, NULL, NULL, 'Dempsey, Susan', 'Dr Susan Dempsey', NULL, NULL, NULL, NULL, '3', 'Both', '-1141133181', NULL, 'Susan', 'Albert', 'Dempsey', 4, NULL, NULL, NULL, NULL, 2, '1968-05-12');
+
+SELECT @provId1        := max(id) from civicrm_contact where sort_name = 'Green, Alice';
+INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
+    VALUES  (@cid1, @provId1, @iR, '2008-11-11', NULL, 1, NULL, 0, 0, @caseId1),
+            (@cid2, @provId1, @iR, '2008-12-07', NULL, 1, NULL, 0, 0, @caseId2);
+         
+SELECT @provId2        := max(id) from civicrm_contact where sort_name = 'Burke, Stuart';
+INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
+    VALUES  (@cid1, @provId2, @cR, '2008-11-11', NULL, 1, NULL, 0, 0, @caseId1),
+            (@cid2, @provId2, @cR, '2008-12-07', NULL, 1, NULL, 0, 0, @caseId2);
+           
+SELECT @provId3        := max(id) from civicrm_contact where sort_name = 'Dempsey, Susan';
+INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`)
+    VALUES (@cid3, @provId3, @aR, '2007-04-01', NULL, 1, NULL, 0, 0, @caseId3);
+    
+
+-- Provider phone and emails
+INSERT INTO `civicrm_phone` (`contact_id`, `location_type_id`, `is_primary`, `is_billing`, `mobile_provider_id`, `phone`, `phone_type_id`)
+    VALUES  (@provId1, 2, 1, 0, NULL, '(502) 220-9411', 1),
+            (@provId2, 2, 1, 0, NULL, '(502) 220-9433', 1),
+            (@provId3, 2, 1, 0, NULL, '(502) 990-9000 ext 32', 1);
+
+INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
+    VALUES  (@provId1, 2, 'susan.green@physicianhealth.com', 1, 0, 0, 0, NULL, NULL),
+            (@provId2, 2, 'alice.burke@physicianhealth.com', 1, 0, 0, 0, NULL, NULL),
+            (@provId3, 2, 'stuart.dempsey@physicianhealth.com', 1, 0, 0, 0, NULL, NULL);
+
+
+-- /*******************************************************
+-- *
+-- * Case Activities  
+-- *
+-- *******************************************************/
+
+-- Case 1
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-11-11 14:30:00', '2008-11-11 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-11-11 14:30:00', '2008-11-11 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-12-04', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid1);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at11, NULL, NULL, '2008-12-04', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId1, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid1);
+
+-- Case 2
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at1, 'Intake interview for new case', '2008-12-07 14:30:00', '2008-12-07 14:30:00', 60, NULL, NULL, NULL, 'Reviewed the clients current situation - unable to complete ER shifts and erratic behavior at home. He reports using morphine daily since a biking accident last year.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at2, 'Detailed presenting problem write-up', '2008-12-07 14:30:00', '2008-12-07 14:30:00', 60, NULL, NULL, NULL, 'Client thinks problem started with his biking accident last year but was worsened by stress when his wife left him.', 2, NULL, NULL, 0, 1, 0, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at6, NULL, NULL, '2008-12-13', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid2);
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`)
+    VALUES (@provId1, NULL, @at11, NULL, NULL, '2008-12-13', 60, NULL, NULL, NULL, NULL, 1, NULL, NULL, 0, NULL, 1, NULL, 1, NULL);
+SELECT @actId        := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`)
+    VALUES (@caseId2, @actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+    VALUES (@actId, @cid2);
 
 --
 -- Not sure if need uf_match table entries to keep something from breaking?
