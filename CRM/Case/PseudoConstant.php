@@ -110,7 +110,8 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      * Get all Activty types for the CiviCase component
      *
      * The static array activityType is returned
-     * @param boolean $all - get All Activity  types - default is to get only active ones.
+     * @param boolean $indexName - true return activity name in array
+     * key else activity id as array key.
      *
      * @access public
      * @static
@@ -123,32 +124,39 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
 
         if ( ! array_key_exists($indexName, self::$activityType) ) {
             self::$activityType[$indexName] = array( );
-
             require_once 'CRM/Core/OptionGroup.php';
             $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
                                                         'CiviCase',
                                                         'id', 'name' );
-            $condition   = "AND component_id = $componentId";
             
-            $activityLabels =
-                CRM_Core_OptionGroup::values( 'activity_type', false, false, 
-                                              false, $condition );
-            $activityNames  =
-                CRM_Core_OptionGroup::values( 'activity_type', false, false, 
-                                              false, $condition, 'name' );
+            $query = "
+              SELECT  v.label as label ,v.value as value, v.name as name, v.description as description
+              FROM   civicrm_option_value v,
+                     civicrm_option_group g
+              WHERE  v.option_group_id = g.id
+                     AND  g.name         = 'activity_type'
+                     AND  v.is_active    = 1 
+                     AND  g.is_active    = 1 
+                     AND  v.component_id = {$componentId} ";
             
-            foreach ( $activityLabels as $id => $label ) {
+            $query .= "  ORDER BY v.weight";
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $$activityTypes = array();
+            
+            while( $dao->fetch() ) {
                 if ( $indexName ) {
-                    $index = $activityNames[$id];
+                    $index = $dao->name;
                 } else {
-                    $index = $id;
+                    $index = $dao->value;
                 }
-                self::$activityType[$indexName][$index] = array('id'    => $id,
-                                                                'label' => $label,
-                                                                'name'  => $activityNames[$id]); 
+                $activityTypes[$index]['id']          = $dao->value; 
+                $activityTypes[$index]['label']       = $dao->label; 
+                $activityTypes[$index]['name']        = $dao->name;
+                $activityTypes[$index]['description'] = $dao->description;
             }
+            self::$activityType[$indexName] = $activityTypes;
         }
-
         return self::$activityType[$indexName];
     }
 
