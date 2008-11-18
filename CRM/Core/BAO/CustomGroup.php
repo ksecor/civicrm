@@ -1562,6 +1562,7 @@ ORDER BY weight ASC, label ASC";
      */
     static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false )
     {
+
         foreach ( $groupTree as $key => $group ) {
             if ( $key === 'info' ) {
                 continue;
@@ -1579,7 +1580,8 @@ ORDER BY weight ASC, label ASC";
                         $details[$values['id']]['fields'][$k] = array( 'field_title'      => $properties['label'],
                                                                        'field_value'      => self::formatCustomValues( $values['data'], 
                                                                                                                        $properties['html_type'], 
-                                                                                                                       $properties['data_type'] ),
+                                                                                                                       $properties['data_type'],
+														       $properties['option_group_id'] ),
                                                                        'options_per_line' => $properties['options_per_line'] );
                     }
 				} else {
@@ -1605,9 +1607,122 @@ ORDER BY weight ASC, label ASC";
      * Format custom value according to data, view mode
      *
      */
-    static function formatCustomValues( $value, $htmlType, $dataType )
+    static function formatCustomValues( $value, $htmlType, $dataType, $option_group_id )
     {
-
-        return $value;
+      if( !isset( $value ) ) {
+	return; 
+      }
+      
+      $freezeString = "";
+      $freezeStringChecked = "";
+      
+      switch ( $dataType ) {
+      case 'Float':
+      case 'Money':
+	$retValue = (float)$value;
+	break;
+	
+      case 'String':
+      case 'Int':
+      	//added check for Multi-Select in the below if-statement
+	if ( $htmlType == 'Radio'    ||
+	     $htmlType == 'CheckBox' ||
+	     $htmlType == 'Select' ||
+	     $htmlType == 'Multi-Select'||
+	     $htmlType == 'Multi-Select Country'||
+	     $htmlType == 'Multi-Select State/Province') {
+	  $customData[] = $value;
+	  //form custom data for multiple-valued custom data
+	  switch ( $htmlType ) {
+	    
+	  case 'Multi-Select Country':	    
+	    $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+	    $query = "
+SELECT id as value, name as label  
+  FROM civicrm_country";
+	    $coDAO  = CRM_Core_DAO::executeQuery( $query );
+	    break;
+	    
+	  case 'Multi-Select State/Province':
+	    $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+	    $query = "
+SELECT id as value, name as label  
+  FROM civicrm_state_province";
+	    $coDAO  = CRM_Core_DAO::executeQuery( $query );
+	    break;
+	    
+	  case 'Select': 
+	    $query = "
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
+ORDER BY weight ASC, label ASC";
+	    $params = array( 1 => array( $option_group_id, 'Integer' ) );
+	    $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+	    break;
+	    
+	  case 'CheckBox': 
+	  case 'Multi-Select':
+	    $customData = explode(CRM_Core_DAO::VALUE_SEPARATOR, $value);
+	    
+	  default:
+	    $query = "
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
+ORDER BY weight ASC, label ASC";
+	    $params = array( 1 => array( $option_group_id, 'Integer' ) );
+	    $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+	  }
+	  
+	  $counter = 1;
+	  while ( $coDAO->fetch( ) ) {
+	    //to show only values that are checked
+	    if( in_array ( $coDAO->value, $customData ) ) {
+	      $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
+	      if ( $counter != 1 ) {
+		$retValue .= $checked .",&nbsp;".$coDAO->label;
+	      } else {
+		$retValue .= $checked .$coDAO->label;
+	      }
+	      $counter++;
+	    }
+	  }
+	} else {
+	  $retValue = $value;
+	}
+	break;
+	
+      default:
+	switch ($dataType) {
+	case 'Boolean':
+	  if ( $value == '1' ) {
+	    $retValue = $freezeStringChecked . ts('Yes') . "\n";
+	  } else {
+	    $retValue = $freezeStringChecked . ts('No') . "\n";
+	  }
+	    break;
+	    
+	  case 'StateProvince':
+	    $retValue = CRM_Core_PseudoConstant::stateProvince( $value );
+	    break;
+            
+	  case 'Country':
+	    $retValue = CRM_Core_PseudoConstant::country( $value );
+	    break;
+            
+	  case 'Date':
+	    $retValue = CRM_Utils_Date::customFormat( $value );
+	    break;
+	    
+	  case 'Link': 
+	    $retValue = CRM_Utils_System::formatWikiURL( $value );
+	    break;
+	    
+	  default:
+	    $retValue = $value;
+	  }                    
+      }
+      return $retValue;
     }
 }
