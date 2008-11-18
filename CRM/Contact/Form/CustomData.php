@@ -127,16 +127,18 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             $this->assign('cdType', true);
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
- 
+
+		$this->_groupID = CRM_Utils_Request::retrieve( 'groupId', 'Positive', $this, true );
+		$this->_tableID  = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_CustomData::preProcess( $this );
-            CRM_Custom_Form_CustomData::buildQuickForm( $this );
-            CRM_Custom_Form_CustomData::setDefaultValues( $this );
+			for ( $i; $i <= $_POST['hidden_custom_group_count'][$this->_groupID]; $i++ )  {
+				CRM_Custom_Form_CustomData::preProcess( $this, null, null, $i );
+	            CRM_Custom_Form_CustomData::buildQuickForm( $this );
+	            CRM_Custom_Form_CustomData::setDefaultValues( $this );
+			}
         }
- 
-        $this->_groupID = CRM_Utils_Request::retrieve( 'groupId', 'Positive', $this, true );
-        $this->_tableID  = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
     }
     
     /**
@@ -211,7 +213,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // Get the form values and groupTree
         $params = $this->controller->exportValues( $this->_name );
         
-        //crm_core_error::debug( '$params', $params ); exit();
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $params,
                                                     $this->_groupTree[$this->_groupID]['fields'],
