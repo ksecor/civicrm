@@ -24,8 +24,7 @@ class Audit
 		{
 			$regionList = $this->auditConfig->getRegions();
 
-//			$ifBlanks = $this->auditConfig->getIfBlanks();
-$ifBlanks = array( 'leftpane' => array('Actual Date' => 'Due Date', 'Subject' => 'Activity Type') );
+			$ifBlanks = $this->auditConfig->getIfBlanks();
 			
 			$includeAll = $doc->getElementsByTagName("IncludeActivities")->item(0)->nodeValue;
 			$includeAll = ($includeAll == 'All');			

@@ -54,28 +54,6 @@
 .activity {
 }
 
-#civicase-audit ul {
-	font-size: smaller;
-}
-
-#civicase-audit li {
-	list-style-type: disc;
-	color: #CC0000;
-	clear: both;
-	margin: 2px 0px 2px 0px;
-}
-
-/* The thinking is that this isn't something that should stand out too much because if the user is really just interested in the incomplete ones, then they would have chosen to only output incomplete ones in the first place. */
-#civicase-audit li.completed {
-	color: #336600;
-}
-
-/*
-#civicase-audit li a {
-	color:#000000;
-}
-*/
-
 .auditmenu {
 	padding-bottom: 20px;
 }
@@ -122,9 +100,6 @@
 	background: #FFFFFF;
 	padding: 2px;
 	display: none;
-}
-
-.activitytype {
 }
 
 .activitybody span {

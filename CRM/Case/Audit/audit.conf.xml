@@ -6,13 +6,15 @@ includeRule can be "include" or "exclude".
 
 includeTime is true or false and says whether to include the time component of date fields.
 	It can be overridden at the Field level.
+	
+ifBlank specifies an alternate field to display if the field is blank.
 -->
 
 <regions>
 	<region name="leftpane" includeRule="include" includeTime="false">
 		<fields>
-			<field>Actual Date</field>
-			<field>Subject</field>
+			<field ifBlank="Due Date">Actual Date</field>
+			<field ifBlank="Activity Type">Subject</field>
 		</fields>
 	</region>
 

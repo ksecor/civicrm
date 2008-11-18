@@ -8,6 +8,7 @@ class AuditConfig
 	private $regionFieldList;
 	private $includeRules;
 	private $sortRegion;
+	private $ifBlanks;
 		
 	public function __construct($filename)
 	{
@@ -17,6 +18,7 @@ class AuditConfig
 		$this->completionLabel = "Status";
 		$this->completionValue = "Completed";
 		$this->sortByLabels = array("Actual Date", "Due Date");
+		$this->ifBlanks = array();
 	
 		$this->loadConfig();
 	}
@@ -34,6 +36,11 @@ class AuditConfig
 	public function getSortByLabels()
 	{
 		return $this->sortByLabels;
+	}
+	
+	public function getIfBlanks()
+	{
+		return $this->ifBlanks;
 	}
 	
 	public function loadConfig()
@@ -86,6 +93,13 @@ class AuditConfig
 					if (! empty($includeTime))
 					{
 						$this->regionFieldList[$regionName][$field->nodeValue]['includeTime'] = $includeTime;
+					}
+					
+					// ifBlank attribute
+					$ifBlank = $field->getAttribute("ifBlank");
+					if (! empty($ifBlank))
+					{
+						$this->ifBlanks[$regionName][$field->nodeValue] = $ifBlank;
 					}
 					
 					$fieldCount++;
