@@ -250,11 +250,9 @@ AND        ca.case_id = %3
                              &$params ) {
 
         $activityTypeName =  (string ) $activityTypeXML->name;
-        $categoryName     =  (string ) $activityTypeXML->category;
         $activityTypes    =& $this->allActivityTypes( );
-        $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
-                                                    CRM_Utils_Array::value( $categoryName,
-                                                                            $activityTypes ) );
+        $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
+
         if ( ! $activityTypeInfo ) {
             CRM_Core_Error::fatal( );
             return false;
