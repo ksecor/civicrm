@@ -36,6 +36,8 @@ function civicrm_views_data() {
 
     civicrm_views_data_activity    ( $data, $config );
 
+    civicrm_views_data_event       ( $data, $config );
+
     return $data;
   }
 
@@ -388,6 +390,80 @@ function civicrm_views_data_contribution( &$data, &$config ) {
     civicrm_views_add_fields( $fields, $data['civicrm_contribution'], $skipFields, 'civicrm_contribution' );
 }
 
+function civicrm_views_data_event(&$data, &$config) {
+    require_once 'CRM/Event/DAO/Event.php';
+    $fields = CRM_Event_DAO_Event::export();
+
+    $skipFields = array( 'id'                     => 1,
+                         'title'                  => 1,
+                       );
+
+    civicrm_views_add_fields( $fields, $data['civicrm_event'], $skipFields, 'civicrm_event' );
+
+    $data['civicrm_event']['table']['group'] = t('CiviCRM Event');
+
+    $data['civicrm_event']['table']['base'] = array(
+                                                    'field' => 'id',
+                                                    'title' => t('CiviCRM Events'),
+                                                    'help'  => t('CiviCRM Events')
+                                                   );
+
+    $data['civicrm_event']['id'] = array(
+                                         'title'    => t('Event ID'),
+                                         'help'     => t('The event id.'),
+                                         'field'    => array(
+                                                             'handler' => 'views_handler_field_numeric',
+                                                             'click sortable' => TRUE
+                                                            ),
+                                         'argument' => array(
+                                                             'handler' => 'views_handler_field_numeric'
+                                                            ),
+                                         'filter'   => array(
+                                                             'handler' => 'views_handler_filter_numeric'
+                                                            ),
+                                         'sort'     => array(
+                                                             'handler' => 'views_handler_sort'
+                                                            )
+                                         );
+
+    $data['civicrm_event']['title'] = array(
+                                         'title'    => t('Event Title'),
+                                         'help'     => t('Event Title'),
+                                         'field'    => array(
+                                                             'handler' => 'civicrm_handler_field_event',
+                                                             'click sortable' => TRUE
+                                                            ),
+                                         );
+
+    $data['civicrm_event']['description'] = array(
+                                         'title'    => t('Description'),
+                                         'help'     => t('Full description of event'),
+                                         'field'    => array(
+                                                             'handler' => 'civicrm_handler_field_event',
+                                                             'click sortable' => TRUE
+                                                            ),
+                                         );
+
+    $data['civicrm_event']['summary'] = array(
+                                         'title'    => t('Summary'),
+                                         'help'     => t('Brief summary of event'),
+                                         'field'    => array(
+                                                             'handler' => 'civicrm_handler_field_event',
+                                                             'click sortable' => TRUE
+                                                            ),
+                                         );
+
+    $data['civicrm_event']['link'] = array(
+                                         'title'      => t('Link'),
+                                         'help'       => t('Link to event page'),
+                                         'field'      => array(
+                                                              'handler' => 'civicrm_handler_field_event_link',
+                                                              'real field' => 'id',
+                                                              'click sortable' => FALSE
+                                                             ),
+                                         );
+}
+
 function civicrm_views_add_fields( &$fields, &$data, &$skipFields, $tableName ) {
     foreach ( $fields as $name => $value ) {
         if ( CRM_Utils_Array::value( $name, $skipFields ) ||
@@ -427,8 +503,9 @@ function civicrm_views_get_field_handler( $type ) {
     case CRM_Utils_Type::T_DATE :
     case CRM_Utils_Type::T_TIME :
     case CRM_Utils_Type::T_TIMESTAMP :
-        return 'views_handler_field_date';
-        
+    case CRM_Utils_Type::T_DATE | CRM_Utils_Type::T_TIME :
+        return 'civicrm_handler_field_datetime';
+
     case CRM_Utils_Type::T_BOOL :
     case CRM_Utils_Type::T_BOOLEAN :
         return 'views_handler_field_boolean';
@@ -461,8 +538,9 @@ function civicrm_views_get_filter_handler( $type ) {
     case CRM_Utils_Type::T_DATE :
     case CRM_Utils_Type::T_TIME :
     case CRM_Utils_Type::T_TIMESTAMP :
-        return 'views_handler_filter_date';
-        
+    case CRM_Utils_Type::T_DATE | CRM_Utils_Type::T_TIME :
+        return 'civicrm_handler_filter_datetime';
+
     case CRM_Utils_Type::T_BOOL :
     case CRM_Utils_Type::T_BOOLEAN :
         return 'views_handler_filter_boolean_operator';
@@ -476,6 +554,7 @@ function civicrm_views_get_sort_handler( $type ) {
     switch ( $type ) {
     case CRM_Utils_Type::T_DATE :
     case CRM_Utils_Type::T_TIME :
+    case CRM_Utils_Type::T_DATE | CRM_Utils_Type::T_TIME :
     case CRM_Utils_Type::T_TIMESTAMP :
         return 'views_handler_sort_date';
         
@@ -528,6 +607,12 @@ function civicrm_views_handlers() {
                        'civicrm_handler_field_country' => array(
                                                                 'parent' => 'civicrm_handler_field',
                                                                 ),
+                       'civicrm_handler_field_datetime' => array(
+                                                            'parent' => 'views_handler_field_date',
+                                                           ),
+                       'civicrm_handler_filter_datetime' => array(
+                                                            'parent' => 'views_handler_filter_date',
+                                                           ),
                        'civicrm_handler_filter_contact_type' => array(
                                                                       'parent' => 'views_handler_filter_in_operator',
                                                                       ),
@@ -546,6 +631,12 @@ function civicrm_views_handlers() {
                        'civicrm_handler_filter_activityType' => array(
                                                                       'parent' => 'civicrm_handler_filter_option',
                                                                       ),
+                       'civicrm_handler_field_event' => array(
+                                                            'parent' => 'views_handler_field',
+                                                           ),
+                       'civicrm_handler_field_event_link' => array(
+                                                            'parent' => 'civicrm_handler_field_link',
+                                                           ),
                        ),
                     );
 }
