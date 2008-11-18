@@ -711,7 +711,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
@@ -726,7 +726,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
               
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
-            $values[$dao->id]['type']        = $activityTypes[$dao->type];
+            $values[$dao->id]['type']        = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']    = $dao->reporter;
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
@@ -744,13 +744,11 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
     static function getFileForActivityTypeId( $activityTypeId ) 
     {
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
-        //FIXME: note pseudoconstant currently returns 'label' and not
-        //name. And for calculating file-name we should use 'name'
-
-        if ( $activityTypes[$activityTypeId] ) {
-            $caseAction = trim(str_replace(' ', '', $activityTypes[$activityTypeId]));
+        if ( $activityTypes[$activityTypeId]['name'] ) {
+            require_once 'CRM/Utils/String.php';
+            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
         } else {
             return false;
         }
