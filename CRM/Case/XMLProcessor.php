@@ -73,7 +73,7 @@ class CRM_Case_XMLProcessor {
         require_once 'CRM/Core/Component.php';
         if ( ! $activityTypes ) {
             require_once 'CRM/Case/PseudoConstant.php';
-            $activityTypes = CRM_Case_PseudoConstant::categoryTree( CRM_Core_Component::getComponentID( 'CiviCase' ) );
+            $activityTypes = CRM_Case_PseudoConstant::activityType();
         }
         return $activityTypes; 
     }

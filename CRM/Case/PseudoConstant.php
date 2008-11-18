@@ -117,18 +117,18 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function activityType(  )
+    public static function activityType( $column = 'label' )
     {
-        if ( empty(self::$activityType) ) {
+        if ( ! array_key_exists($column, self::$activityType) ) {
             require_once 'CRM/Core/OptionGroup.php';
             $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
                                                         'CiviCase',
                                                         'id', 'name' );
             $condition = "AND component_id = $componentId";
-            self::$activityType = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
+            self::$activityType[$column] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition, $column );
         }
 
-        return self::$activityType;
+        return self::$activityType[$column];
     }
 
     /**
@@ -146,7 +146,7 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
         
         static $caseTypePair;
 
-        if ( ! $caseTypePair[$caseId] ) {
+        if ( ! array_key_exists($caseId, $caseTypePair) ) {
             $caseTypes    = self::caseType();
             $caseTypeIds  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
                                                          $caseId,
@@ -160,6 +160,7 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             $caseTypePair[$caseId] = array( 'id'   => $caseTypeId,
                                             'name' => $caseTypes[$caseTypeId] );
         }
+
         return $caseTypePair[$caseId];
     }
 
