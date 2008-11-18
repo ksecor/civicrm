@@ -268,11 +268,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // see if any other modules want to add any tabs
         require_once 'CRM/Utils/Hook.php';
-        $hookTabs = CRM_Utils_Hook::links( 'tabs.contact.activity', 'Contact', $this->_contactId );
-        if ( is_array( $hookTabs ) ) {
-            $allTabs = array_merge( $allTabs, $hookTabs );
-        }
-
+        CRM_Utils_Hook::tabs( $allTabs, $this->_contactId );
 
         if( $config->civiHRD ) {
             $hrdOrder = array(
