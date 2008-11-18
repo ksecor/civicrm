@@ -193,9 +193,6 @@ function viewActivity( activityId ) {
   <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
   <table class="no-border" id="searchOptions">
     <tr>
-        <td class="label" colspan="2"><label for="activity_category">{ts}Category/Type{/ts}</label><br />
-            {$form.category.html}
-        </td>
         <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
         </td>

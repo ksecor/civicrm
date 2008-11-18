@@ -34,6 +34,9 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once "CRM/Core/PseudoConstant.php";
+require_once "CRM/Case/PseudoConstant.php";
+require_once 'CRM/Case/XMLProcessor/Process.php';
 
 /**
  * This class generates view mode for CiviCase
@@ -63,7 +66,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $values ) );
 
-        require_once "CRM/Case/PseudoConstant.php";
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
 
@@ -132,7 +134,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        require_once 'CRM/Case/XMLProcessor/Process.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
@@ -143,34 +144,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                            array( 'class'   => 'form-submit',
                                   'onclick' => "return verifyActivitySet( );") ); 
         
-        require_once "CRM/Case/PseudoConstant.php";
-        require_once 'CRM/Core/Component.php';
-        $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
-        $parentCategories = CRM_Case_PseudoConstant::category( true, 'label',
-                                                               $condition );
-        $childCategories  = CRM_Case_PseudoConstant::category( false, 'label',
-                                                               $condition );
-        $childParentIds   = CRM_Case_PseudoConstant::category( false, 'parent_id',
-                                                               $condition );
-
-        $sel =& $this->addElement('hierselect', "category", ts('Category'), array( 'id' => 'category' ) );
-
-        $sel1 = array( "0" => ts(' - any category - ') ) + $parentCategories;
-        $sel2 = array( );
-        
-        foreach( $childParentIds as $childId => $parentId ) {
-            if ( empty( $sel2[$parentId] ) ) {
-                $sel2[$parentId][0] = ts(' - any activity type - ');
-            }
-            
-            $sel2[$parentId][$childId] = $childCategories[$childId];
-        }
-        
-        $sel2 = array( "0" => array( "0" => ts(' - any activity type - ') ) ) + $sel2;
-        
-        $sel->setOptions( array( $sel1, $sel2 ) );
-
-        require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
 
@@ -230,7 +203,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
              CRM_Utils_Array::value( '_qf_CaseView_next', $_POST ) ) {
             $session    =& CRM_Core_Session::singleton();
             $this->_uid = $session->get('userID');
-            require_once 'CRM/Case/XMLProcessor/Process.php';
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
             $xmlProcessorParams = array( 
                                         'clientID'           => $this->_contactID,
