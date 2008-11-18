@@ -13,8 +13,8 @@
         <td class="label">{$row.value}</td>
         <td style="padding-right: 50px; text-align: right;">
             {if $revisionURL}<a href="{$revisionURL}">&raquo; {ts}Prior revisions{/ts}</a><br />{/if}
-            {if $originalID}<a href="javascript:viewActivity({$originalID}, 1);">&raquo; {ts}Previous revision{/ts}</a><br />{/if} 
-            {if $latestRevisionID}<a href="javascript:viewActivity({$latestRevisionID}, 1);">&raquo; {ts}Latest revision{/ts}</a><br />{/if}                   
+            {if $originalID}<a href="javascript:viewActivity({$originalID}, 1);">&raquo; {ts}Prior revision{/ts}</a><br />{/if} 
+            {if $latestRevisionID}<a href="javascript:viewActivity({$latestRevisionID}, 1);">&raquo; {ts}Current revision{/ts}</a><br />{/if}                   
             {if $parentID}<a href="$javascript:viewActivity({$parentID}, 1);">&raquo; {ts}Prompted by{/ts}</a>{/if}
         </td>
     {else}
