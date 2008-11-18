@@ -210,15 +210,10 @@ WHERE      a.id = %1
         $params = array( 1 => array( $activityID, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
         if ( $dao->fetch( ) ) {
-            $activityTypes = $this->allActivityTypes( );
+            $activityTypes    = $this->allActivityTypes( false );
             $activityTypeInfo = null;
-            foreach ( $activityTypes as $category ) {
-                foreach ( $category as $activityType ) {
-                    if ( $activityType['id'] == $dao->activity_type_id ) {
-                        $activityTypeInfo = $activityType;
-                        break;
-                    }
-                }
+            if ( isset($activityTypes[$dao->activity_type_id]) ) {
+                $activityTypeInfo = $activityTypes[$dao->activity_type_id];
             }
             if ( $activityTypeInfo ) {
                 return $this->getActivity( $clientID, $dao, $activityTypeInfo );

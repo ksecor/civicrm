@@ -190,17 +190,16 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
 
     function activityTypes( $activityTypesXML, $maxInst = false ) {
         $activityTypes =& $this->allActivityTypes( );
-        $activityTypes = array_flip( $activityTypes );
         $result = array( );
         foreach ( $activityTypesXML as $activityTypeXML ) {
             foreach ( $activityTypeXML as $recordXML ) {
                 $activityTypeName = (string ) $recordXML->name;
                 $maxInstances     = (string ) $recordXML->max_instances;
-                $activityTypeId = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
-
-                if ( $activityTypeId ) {
+                $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
+                
+                if ( $activityTypeInfo['id'] ) {
                     if ( !$maxInst ) {
-                        $result[$activityTypeId] = $activityTypeName;
+                        $result[$activityTypeInfo['id']] = $activityTypeName;
                     } else {
                         if ( $maxInstances ) {
                             $result[$activityTypeName] = $maxInstances;

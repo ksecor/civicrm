@@ -117,22 +117,39 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function activityType( $column = 'label' )
+    public static function activityType( $indexName = true )
     {
-        if ( ! array_key_exists($column, self::$activityType) ) {
-            self::$activityType = array( );
+        $indexName = (int) $indexName;
+
+        if ( ! array_key_exists($indexName, self::$activityType) ) {
+            self::$activityType[$indexName] = array( );
 
             require_once 'CRM/Core/OptionGroup.php';
             $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
                                                         'CiviCase',
                                                         'id', 'name' );
             $condition   = "AND component_id = $componentId";
-            self::$activityType[$column] = 
-                CRM_Core_OptionGroup::values('activity_type', false, false, 
-                                             false, $condition, $column );
+            
+            $activityLabels =
+                CRM_Core_OptionGroup::values( 'activity_type', false, false, 
+                                              false, $condition );
+            $activityNames  =
+                CRM_Core_OptionGroup::values( 'activity_type', false, false, 
+                                              false, $condition, 'name' );
+            
+            foreach ( $activityLabels as $id => $label ) {
+                if ( $indexName ) {
+                    $index = $activityNames[$id];
+                } else {
+                    $index = $id;
+                }
+                self::$activityType[$indexName][$index] = array('id'    => $id,
+                                                                'label' => $label,
+                                                                'name'  => $activityNames[$id]); 
+            }
         }
 
-        return self::$activityType[$column];
+        return self::$activityType[$indexName];
     }
 
     /**
