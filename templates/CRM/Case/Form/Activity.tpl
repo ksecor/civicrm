@@ -54,9 +54,7 @@
 
         {* Include special processing fields if any are defined for this activity type. *}
         {if $caseAction}
-            <tr><td colspan="2"><hr /></td></tr>
-            {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
-            <tr><td colspan="2"><hr /></td></tr>
+            <tr><td colspan="2"><hr />{include file="CRM/Case/Form/Activity/$caseAction.tpl"}<hr /><br/></td></tr>
         {/if}
 
         <tr>

@@ -746,12 +746,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']      = $activityStatus[$dao->status];
             $values[$dao->id]['subject']     = "<a href='javascript:viewActivity( {$dao->id} );'>{$dao->subject}</a>";
+            
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
             
-            $values[$dao->id]['links'] = "<a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";           
-            if (  $childCategories[$dao->type] != 'Open Case' ) {    
-                $values[$dao->id]['links']      = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | ".$values[$dao->id]['links'];
-            }
+            $values[$dao->id]['links']       = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
         }
         
         $dao->free( );
