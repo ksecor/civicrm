@@ -380,77 +380,30 @@ class CRM_Core_PseudoConstant
     }
 
     /**
-     * Get Activity types from civicrm_category table.
+     * Get all Activty types.
      *
-     * The static array activityType is returned.
-     * Only Activity Type records are returned. Category records (where parent_id = NULL) are ignored.
-     *
-     * @param boolean   $is_auto - filter on is_auto column. Default ('both')  gets both is_auto and ! is_auto types.
-     *                  Use 'true' or 'false' to filter by is_auto.
-     * @param int       $component - filter on component name. Default ('core') gets Core activity types. Use null to get activities for ALL components.
-     * @param array     $category - Limit return to one or more specific categories by passing array of
-     *                  category names (e.g. civicrm_category.name strings)
-     * @param string    $returnValue - which column to return in array values
+     * The static array activityType is returned
+     * @param boolean $all - get All Activity  types - default is to get only active ones.
      *
      * @access public
      * @static
      *
-     * @return array - array of activity types from civicrm_category table ( id => label ).
+     * @return array - array reference of all activty types.
      */
-    
-    public static function &activityType( $component = 'Core', $is_auto = 'both', $category = array(), $returnValue = 'label' )
+    public static function &activityType( $all = true )
     {
-        $index = "{$is_auto}_{$component}_{$returnValue})";
-
-        if ( ! array_key_exists( $index, self::$activityType ) ) {
-            $condition = 'parent_id IS NOT NULL';
-            switch ( $is_auto ) {
-                case 'true':
-                    $is_auto = 1;
-                    $condition .= " AND is_auto = $is_auto";
-                    break;
-                case 'false':
-                    $is_auto = 0;
-                    $condition .= " AND is_auto = $is_auto";
-                    break;
+        // convert to integer for array index
+        $all = $all ? 1 : 0;
+        if ( ! array_key_exists( $all, self::$activityType ) ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $condition = null;
+            if ( !$all ) {
+                $condition = 'AND filter = 0';
             }
-
-            if ( $component ) {
-                if ( strtolower($component) == 'core' ) {
-                    $condition .= " AND component_id IS NULL";
-                } else {
-                    $compId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
-                                                           $component,
-                                                           'id', 'name' );
-                    if ( $compId ) {
-                        $condition .= " AND component_id = $compId";
-                    }
-                }
-            }
-            
-            if ( count( $category ) ) {
-                // add conditions to limit search by one or more categories 
-                $catIds = array( );
-                foreach ($category as $value) {
-                    $catId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
-                                                          $value,
-                                                         'id', 'name' );
-                    if ( $catId ) {
-                        $catIds[] = $catId;
-                    }
-                }
-                // make sure we got at least one valid category ID for filter
-                if ( count( $catIds ) ) {
-                    $condition .= " AND parent_id IN (" . implode(",", $catIds ) . ")";
-                }
-            }
-
-            self::$activityType[$index] = array();
-            CRM_Core_PseudoConstant::populate( self::$activityType[$index],
-                                               'CRM_Core_DAO_Category', true, 
-                                               $returnValue, 'is_active', $condition );
+            self::$activityType[$all] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
         }
-        return self::$activityType[$index];
+
+        return self::$activityType[$all];
     }
 
     /**
