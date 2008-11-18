@@ -731,8 +731,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
 
         $values = array( );
-        $url = CRM_Utils_System::url( "civicrm/case/activity?reset=1&cid={$contactID}&id={$caseID}",
-                                      null, false, null, false ); 
+        $url = CRM_Utils_System::url( "civicrm/case/activity",
+                                      "reset=1&cid={$contactID}&id={$caseID}", false, null, false ); 
         
         $editUrl   = "{$url}&action=add";
         $deleteUrl = "{$url}&action=delete";
