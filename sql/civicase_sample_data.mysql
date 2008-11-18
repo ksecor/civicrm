@@ -44,71 +44,58 @@ UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId A
 -- * Activity Categories and Activity Types  
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Case History', 'Case History', 1, 'Case history', 1, 0, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where name = 'Case History';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES  ('Open Case', 'Open Case', 1, '', 1, 0, @parentId, 7),
-            ('Presenting Problem', 'Presenting Problem', 2, '', 1, 0, @parentId, 7),
-            ('Type of Service', 'Type of Service', 3, '', 1, 0, @parentId, 7),
-            ('Inbound Referral Source', 'Inbound Referral Source', 4, '', 1, 0, @parentId, 7),
-            ('Regulatory Involvement', 'Regulatory Involvement', 5, '', 1, 0, @parentId, 7),
-            ('Outbound Referral', 'Outbound Referral', 6, '', 1, 0, @parentId, 7),
-            ('Change Case Type', 'Change Case Type', 7, '', 1, 0, @parentId, 7),
-            ('Change Case Status', 'Change Case Status', 8, '', 1, 0, @parentId, 7),
-            ('Close Case', 'Close Case', 9, '', 1, 0, @parentId, 7);
+SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
 
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Medications and Substance Use', 'Medications and Substance Use', 2, 'Medications and substance use', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where name = 'Medications and Substance Use';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Medication and Drug Use', 'Medication and Drug Use', 1, '', 1, 0, @parentId, 7);
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id` ) 
+VALUES
+    (@option_group_id_activity_type, 'Case History', (SELECT @max_val := @max_val+1), 'Case History',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Case History', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Open Case', (SELECT @max_val := @max_val+1), 'Open Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1 , 7),
+    (@option_group_id_activity_type, 'Presenting Problem', (SELECT @max_val := @max_val+1), 'Presenting Problem',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Type of Service', (SELECT @max_val := @max_val+1), 'Type of Service',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Inbound Referral Source', (SELECT @max_val := @max_val+1), 'Inbound Referral Source',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Regulatory Involvement', (SELECT @max_val := @max_val+1), 'Regulatory Involvement',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Outbound Referral', (SELECT @max_val := @max_val+1), 'Outbound Referral',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Change Case Type', (SELECT @max_val := @max_val+1), 'Change Case Type',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Close Case', (SELECT @max_val := @max_val+1), 'Close Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Medications and Substance Use', (SELECT @max_val := @max_val+1), 'Medications and Substance Use',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Medication and Drug Use', (SELECT @max_val := @max_val+1), 'Medication and Drug Use',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Personal History', (SELECT @max_val := @max_val+1), 'Personal History',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Last Contact with MD', (SELECT @max_val := @max_val+1), 'Last Contact with MD',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Self-rated Health Status', (SELECT @max_val := @max_val+1), 'Self-rated Health Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current Home Situation', (SELECT @max_val := @max_val+1), 'Current Home Situation',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current Spiritual Practice', (SELECT @max_val := @max_val+1), 'Current Spiritual Practice',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Regular Physical Activity', (SELECT @max_val := @max_val+1), 'Regular Physical Activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Occupational History', (SELECT @max_val := @max_val+1), 'Occupational History',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current Work Status', (SELECT @max_val := @max_val+1), 'Current Work Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current Prescribing Privileges', (SELECT @max_val := @max_val+1), 'Current Prescribing Privileges',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current MAIN Practice Setting', (SELECT @max_val := @max_val+1), 'Current MAIN Practice Setting',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Current MAIN Practice Activity', (SELECT @max_val := @max_val+1), 'Current MAIN Practice Activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Currently Weekly Work Hours', (SELECT @max_val := @max_val+1), 'Currently Weekly Work Hours',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Educational History', (SELECT @max_val := @max_val+1), 'Educational History',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Professional School', (SELECT @max_val := @max_val+1), 'Professional School',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Residency Training', (SELECT @max_val := @max_val+1), 'Residency Training',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Other Degrees and Certifications', (SELECT @max_val := @max_val+1), 'Other Degrees and Certifications',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
 
 
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Personal History', 'Personal History', 3, 'Personal history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where `name` = 'Personal History';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES  ('Last Contact with MD', 'Last Contact with MD', 1, '', 1, 0, @parentId, 7),
-            ('Self-rated Health Status', 'Self-rated Health Status', 2, '', 1, 0, @parentId, 7),
-            ('Current Home Situation', 'Current Home Situation', 3, '', 1, 0, @parentId, 7),
-            ('Current Spiritual Practice', 'Current Spiritual Practice', 4, '', 1, 0, @parentId, 7),
-            ('Regular Physical Activity', 'Regular Physical Activity', 5, '', 1, 0, @parentId, 7);
-
-
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Occupational History', 'Occupational History', 4, 'Occupational history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where name = 'Occupational History';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES  ('Current Work Status', 'Current Work Status', 1, '', 1, 0, @parentId, 7),
-            ('Current Prescribing Privileges', 'Current Prescribing Privileges', 2, '', 1, 0, @parentId, 7),
-            ('Current MAIN Practice Setting', 'Current MAIN Practice Setting', 3, '', 1, 0, @parentId, 7),
-            ('Current MAIN Practice Activity', 'Current MAIN Practice Activity', 4, '', 1, 0, @parentId, 7),
-            ('Currently Weekly Work Hours', 'Currently Weekly Work Hours', 5, '', 1, 0, @parentId, 7);
-
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES ('Educational History', 'Educational History', 5, 'Educational history', 1, 1, NULL, 7);
-SELECT @parentId        := max(id) from civicrm_category where name = 'Educational History';
-INSERT INTO `civicrm_category` (`label`, `name`, `weight`, `description`, `is_active`, `is_reserved`, `parent_id`, `component_id`)
-    VALUES  ('Professional School', 'Professional School', 1, '', 1, 0, @parentId, 7),
-            ('Residency Training', 'Residency Training', 2, '', 1, 0, @parentId, 7),
-            ('Other Degrees and Certifications', 'Other Degrees and Certifications', 3, '', 1, 0, @parentId, 7);
-
-SELECT @at1        := max(id) from civicrm_category where name = 'Open Case';
-SELECT @at2        := max(id) from civicrm_category where name = 'Presenting Problem';
-SELECT @at3        := max(id) from civicrm_category where name = 'Type of Service';
-SELECT @at4        := max(id) from civicrm_category where name = 'Outbound Referral';
--- SELECT @at5        := max(id) from civicrm_category where name = 'Close Case';
-SELECT @at6        := max(id) from civicrm_category where name = 'Medication and Drug Use';
-SELECT @at7        := max(id) from civicrm_category where name = 'Last Contact with MD';
-SELECT @at8        := max(id) from civicrm_category where name = 'Self-rated Health Status';
-SELECT @at9        := max(id) from civicrm_category where name = 'Current Home Situation';
-SELECT @at10       := max(id) from civicrm_category where name = 'Current Spiritual Practice';
-SELECT @at11       := max(id) from civicrm_category where name = 'Regular Physical Activity';
-SELECT @at12       := max(id) from civicrm_category where name = 'Current Work Status';
-SELECT @at13       := max(id) from civicrm_category where name = 'Current Prescribing Privileges';
-SELECT @at14       := max(id) from civicrm_category where name = 'Professional School';
-SELECT @at15       := max(id) from civicrm_category where name = 'Residency Training';
+SELECT @at1        := max(id) from civicrm_option_value where name = 'Open Case';
+SELECT @at2        := max(id) from civicrm_option_value where name = 'Presenting Problem';
+SELECT @at3        := max(id) from civicrm_option_value where name = 'Type of Service';
+SELECT @at4        := max(id) from civicrm_option_value where name = 'Outbound Referral';
+-- SELECT @at5        := max(id) from civicrm_option_value where name = 'Close Case';
+SELECT @at6        := max(id) from civicrm_option_value where name = 'Medication and Drug Use';
+SELECT @at7        := max(id) from civicrm_option_value where name = 'Last Contact with MD';
+SELECT @at8        := max(id) from civicrm_option_value where name = 'Self-rated Health Status';
+SELECT @at9        := max(id) from civicrm_option_value where name = 'Current Home Situation';
+SELECT @at10       := max(id) from civicrm_option_value where name = 'Current Spiritual Practice';
+SELECT @at11       := max(id) from civicrm_option_value where name = 'Regular Physical Activity';
+SELECT @at12       := max(id) from civicrm_option_value where name = 'Current Work Status';
+SELECT @at13       := max(id) from civicrm_option_value where name = 'Current Prescribing Privileges';
+SELECT @at14       := max(id) from civicrm_option_value where name = 'Professional School';
+SELECT @at15       := max(id) from civicrm_option_value where name = 'Residency Training';
 
 
 -- /*******************************************************

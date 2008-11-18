@@ -5,56 +5,43 @@
   <ActivityTypes>
     <ActivityType>
       <name>Open Case</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
       <name>Survey client satisfaction Referral to counselor</name>
-      <category>Case History</category>
     </ActivityType>
 	<ActivityType>
       <name>Change Case Type</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Change Case Status</name>
-      <category>Case History</category>
     </ActivityType>
 	<ActivityType>
       <name>Follow up</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>
@@ -66,21 +53,16 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
-          <category>Case History</category>
         </ActivityType>
         <ActivityType>
           <name>Survey client satisfaction Referral to counselor</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>21</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Follow up</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>

@@ -5,100 +5,76 @@
   <ActivityTypes>
     <ActivityType>
       <name>Open Case</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
-     </ActivityType>
+    </ActivityType>
     <ActivityType>
       <name>Sign case coordination agreement</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Receive comprehensive plan for assessment and treatment</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Engage workplace supervisor</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Engage community mentor</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Develop biological monitoring plan</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Receive community mentor report</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Receive treating physician report</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Receive workplace supervisor report</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Record biological monitoring results</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Review prescribing privileges</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Review hospital privileges</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Summarize case for discharge</name>
-      <category>Case History</category>
     </ActivityType>
-	<ActivityType>
+    <ActivityType>
       <name>Change Case Type</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Change Case Status</name>
-      <category>Case History</category>
     </ActivityType>
-	<ActivityType>
+    <ActivityType>
       <name>Follow up</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>
@@ -110,45 +86,34 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
-          <category>Case History</category>
         </ActivityType>
         <ActivityType>
           <name>Sign case coordination agreement</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>7</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Receive comprehensive plan for assessment and treatment</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
-		<ActivityType>
+	<ActivityType>
           <name>Follow up</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
-		<ActivityType>
+	<ActivityType>
           <name>Engage workplace supervisor</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Engage community mentor</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>30</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>

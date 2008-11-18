@@ -5,76 +5,58 @@
   <ActivityTypes>
     <ActivityType>
       <name>Open Case</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
       <name>Plan inpatient admission</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Confirm expected admission date</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Confirm actual admission</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Confirm expected discharge date</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Confirm actual discharge date</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Receive report of early withdrawal from treatment</name>
-      <category>Case History</category>
     </ActivityType>
 	<ActivityType>
       <name>Change Case Type</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Change Case Status</name>
-      <category>Case History</category>
     </ActivityType>
 	<ActivityType>
       <name>Follow up</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign principal classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - CPHN</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - ICD</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - Presenting Problem</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Assign secondary classification - vocab</name>
-      <category>Case History</category>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>
@@ -86,53 +68,40 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
-          <category>Case History</category>
         </ActivityType>
         <ActivityType>
           <name>Plan inpatient admission</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Confirm expected admission date</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>7</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Confirm actual admission</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Follow up</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>14</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
 		<ActivityType>
           <name>Confirm expected discharge date</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>28</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Confirm actual discharge date</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>56</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
