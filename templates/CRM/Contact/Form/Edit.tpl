@@ -160,7 +160,8 @@
 	{literal}
 		<script type="text/javascript">
 			cj(document).ready(function() {
-				buildCustomData( 'Contact' );
+				var contact_type = {/literal}"{$contact_type}"{literal};
+				buildCustomData( contact_type );
 			});
 		</script>
 	{/literal}

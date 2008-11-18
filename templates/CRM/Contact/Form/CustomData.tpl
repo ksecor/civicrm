@@ -7,27 +7,18 @@
 
     {*include custom data js file*}
     {include file="CRM/common/customData.tpl"}
-	{if $action eq 1}
+
+	{if $customValueCount }
 		{literal}
-			<script type="text/javascript">
-				cj(document).ready(function() {
-					buildCustomData( 'Contact' );
-				});
-			</script>
+		<script type="text/javascript">
+			var customValueCount = {/literal}"{$customValueCount}"{literal}
+			var groupID = {/literal}"{$groupID}"{literal}
+			var contact_type = {/literal}"{$contact_type}"{literal};
+			buildCustomData( contact_type );
+			for ( var i = 1; i < customValueCount; i++ ) {
+				buildCustomData( 'Contact', null, null, i, groupID, true );
+			}
+		</script>
 		{/literal}
-	{else}
-		{if $customValueCount }
-			{literal}
-			<script type="text/javascript">
-				var customValueCount = {/literal}"{$customValueCount}"{literal}
-				var groupID = {/literal}"{$groupID}"{literal}
-				buildCustomData( 'Contact');
-				for ( var i = 1; i < customValueCount; i++ ) {
-					buildCustomData( 'Contact', null, null, i, groupID, true );
-				}
-			</script>
-			{/literal}
-		{/if}
 	{/if}
 {/if}
-
