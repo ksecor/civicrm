@@ -569,8 +569,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             
             while( $res->fetch() ) {
                 $q[$res->status_id] = array( 'case_count' => $res->case_count,
-                                             'url'     => CRM_Utils_System::url( 'civicrm/case','reset=1')
-                                           );
+                                             'url'        => CRM_Utils_System::url( 'civicrm/case/search',
+                                                                                    "reset=1&force=1&status={$res->status_id}&type={$typeId}" )
+                                             );
             }
 
             $rows[$typeId]['columns'] = $q;

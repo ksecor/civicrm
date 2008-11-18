@@ -431,6 +431,19 @@ class CRM_Case_Form_Search extends CRM_Core_Form
         if ( ! $this->_force ) {
             return;
         }
+
+        $caseStatus = CRM_Utils_Request::retrieve( 'status', 'Positive',
+                                                   CRM_Core_DAO::$_nullObject );
+        if ( $caseStatus ) {
+            $this->_formValues['case_status_id'] = $caseStatus;
+            $this->_defaults['case_status_id']   = $caseStatus;
+        }
+        $caseType    = CRM_Utils_Request::retrieve( 'type', 'Positive',
+                                                    CRM_Core_DAO::$_nullObject );
+        if ( $caseType ) {
+            $this->_formValues['case_type_id'][0] = $caseType;
+            $this->_defaults['case_type_id'][0]   = $caseType;
+        }
               
         $caseFromDate = CRM_Utils_Request::retrieve( 'pstart', 'Date',
                                                        CRM_Core_DAO::$_nullObject );
