@@ -271,8 +271,8 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $this->_defaults );
             //set the assigneed contact count to template
-            if ( !empty( $defaults['assignee_contact'] ) ) {
-                $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            if ( !empty( $this->_defaults['assignee_contact'] ) ) {
+                $this->assign( 'assigneeContactCount', count( $this->_defaults['assignee_contact'] ) );
             } else {
                 $this->assign( 'assigneeContactCount', 1 );
             }
@@ -542,9 +542,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                                  'civicrm_activity' );
         }
       
-        if (! empty($params['assignee_contact']) ) {
-            $params['assignee_contact_id'] = $params['assignee_contact'];
-        }
         // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
                 
@@ -589,6 +586,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                              'case_id'     => $this->_id   );
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
 
+        // create activity assignee records
+        $assigneeParams = array( 'activity_id' => $activity->id );
+        if (! empty($params['assignee_contact']) ) {
+            foreach ( $params['assignee_contact'] as $key => $id ) {
+                $assigneeParams['assignee_contact_id'] = $id;
+                CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
+            }
+        }
 
         // Insert civicrm_log record for the activity (e.g. store the
         // created / edited by contact id and date for the activity)
