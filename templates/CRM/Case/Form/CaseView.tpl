@@ -242,14 +242,13 @@ cj(document).ready(function(){
 	url: dataUrl,
 	    dataType: 'json',
 	    colModel : [
-			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
-			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
-                        {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
-			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
-			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
-			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
-			{display: 'Status', name : 'status', width : 90, sortable : true, align: 'left'},
-			{display: '', name : 'links', width : 90, align: 'left'},
+			{display: 'Due',     name : 'due_date',    width : 100, sortable : true, align: 'left'},
+			{display: 'Actual',  name : 'actual_date', width : 100, sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+			{display: 'Type',    name : 'type',        width : 100, sortable : true, align: 'left'},
+			{display: 'Reporter',name : 'reporter',    width : 100, sortable : true, align: 'left'},
+			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
+			{display: '',        name : 'links',       width : 90,  align: 'left'},
 			],
 	    sortname: "due_date",
 	    sortorder: "desc",
@@ -257,7 +256,7 @@ cj(document).ready(function(){
 	    useRp: true,
 	    rp: 10,
 	    showTableToggleBtn: true,
-            width: 915,
+            width: 815,
             height: 'auto',
             nowrap: false
 	    }
@@ -285,9 +284,7 @@ function search(com)
 
     cj('#activities-selector').flexOptions({
 	    newp:1, 
-		params:[{name:'category_0', value: cj("select#category_0").val()},
-			{name:'category_1', value: cj("select#category_1").val()},
-			{name:'reporter_id', value: cj("select#reporter_id").val()},
+		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },

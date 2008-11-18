@@ -15,7 +15,7 @@
             {if $revisionURL}<a href="{$revisionURL}">&raquo; {ts}Prior revisions{/ts}</a><br />{/if}
             {if $originalID}<a href="javascript:viewActivity({$originalID}, 1);">&raquo; {ts}Prior revision{/ts}</a><br />{/if} 
             {if $latestRevisionID}<a href="javascript:viewActivity({$latestRevisionID}, 1);">&raquo; {ts}Current revision{/ts}</a><br />{/if}                   
-            {if $parentID}<a href="$javascript:viewActivity({$parentID}, 1);">&raquo; {ts}Prompted by{/ts}</a>{/if}
+            {if $parentID}<a href="javascript:viewActivity({$parentID}, 1);">&raquo; {ts}Prompted by{/ts}</a>{/if}
         </td>
     {else}
         <td colspan="2"{if $smarty.foreach.report.first} class="label"{/if}>{$row.value}</td>
