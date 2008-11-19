@@ -115,7 +115,7 @@ class CRM_Utils_REST
         
         // first check for civicrm site key
         if ( ! CRM_Utils_System::authenticateKey( false ) ) {
-            return self::error( 'Could not authenticate user, invalid key.' );
+            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
         }
 
         $result =& CRM_Utils_System::authenticate($name, $pass);

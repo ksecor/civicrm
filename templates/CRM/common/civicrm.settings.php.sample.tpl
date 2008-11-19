@@ -122,7 +122,7 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
  *
  * EXAMPLE - Standalone Installations:
- * If your site's home url is http://www.examle.com/civicrm/
+ * If your site's home url is http://www.example.com/civicrm/
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicrm/standalone/' );
@@ -131,16 +131,10 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 /*
- * If you are using any civimail script in the bin directory that
- * require authentication, then you also need to set this key
- * We recommend usign a 16-32 bit alphanumeric/punctuation key. 
- * You can create a random 16-32 character key
- * You can use the following shell command to do it
-$ php -a
-Interactive shell
-php > echo md5(uniqid(rand(), true));
- * Or you can use an external service like: http://www.thebitmill.com/tools/password.html 
- *
+ * If you are using any CiviCRM script in the bin directory that
+ * requires authentication, then you also need to set this key.
+ * We recommend using a 16-32 bit alphanumeric/punctuation key. 
+ * More info at http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration
  */
 define( 'CIVICRM_SITE_KEY', null );
 
