@@ -26,6 +26,7 @@ DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case
 INSERT INTO
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
 VALUES
+    (@option_group_id_case_type, 'Substance Abuse',  1, 'substance_abuse', NULL, 0,  0, 1, 'Substance abuse case', 0, 0, 1),
     (@option_group_id_case_type, 'Inpatient treatment',  1, 'inpatient_treatment', NULL, 0,  0, 1, 'Inpatient treatment case', 0, 0, 1),
     (@option_group_id_case_type, 'Intervention',  2, 'intervention', NULL, 0,  0, 2, 'Intervention case', 0, 0, 1),
     (@option_group_id_case_type, 'Referral to counselor',  3, 'referral_to_counselor', NULL, 0,  0, 3, 'Referral to counselor case', 0, 0, 1),
