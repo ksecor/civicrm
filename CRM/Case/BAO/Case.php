@@ -419,7 +419,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   cov_status.label as case_status,
                   civicrm_activity.due_date_time as case_scheduled_activity_date,
                   civicrm_activity.status_id,
-                  civicrm_category.label as case_scheduled_activity_type
+                  aov.label as case_scheduled_activity_type
 
                   FROM civicrm_case
                   
@@ -431,9 +431,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                        AND civicrm_activity.is_current_revision = 1
                        AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) )
 
-                  LEFT JOIN civicrm_category 
-                        ON civicrm_category.id = civicrm_activity.activity_type_id
-
+                  LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
+                  LEFT JOIN civicrm_option_value aov
+                        ON (civicrm_activity.activity_type_id = aov.value
+                        AND aog.id = aov.option_group_id )
+                     
                   LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
                   LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
 
@@ -495,7 +497,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   cov_status.label as case_status,
                   civicrm_activity.activity_date_time as case_recent_activity_date,
                   civicrm_activity.status_id,
-                  civicrm_category.label as case_recent_activity_type
+                  aov.label as case_recent_activity_type
 
                   FROM civicrm_case
                   
@@ -508,8 +510,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                        AND civicrm_activity.activity_date_time <= NOW() 
                        AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) )
 
-                  LEFT JOIN civicrm_category 
-                        ON civicrm_category.id = civicrm_activity.activity_type_id
+                  LEFT JOIN civicrm_option_group aog ON aog.name = 'activity_type'
+                  LEFT JOIN civicrm_option_value aov
+                        ON (civicrm_activity.activity_type_id = aov.value
+                        AND aog.id = aov.option_group_id )
+
 
                   LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
                   LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id

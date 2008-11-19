@@ -41,13 +41,15 @@
 </table>
 
 <div class="spacer"></div>
-
+    {if $upcomingCases}
     <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming" rows=$upcomingCases}
     </div>
-
+    {/if}
+    {if $recentCases}
     <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent" rows=$recentCases}
     </div>
+    {/if}

@@ -3,7 +3,6 @@
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="Address.xml"              parse="xml" />
 <xi:include href="Cache.xml"                parse="xml" />
-<xi:include href="Category.xml"             parse="xml" />
 <xi:include href="Country.xml"              parse="xml" />
 <xi:include href="County.xml"               parse="xml" />
 <xi:include href="Currency.xml"             parse="xml" />
