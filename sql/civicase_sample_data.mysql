@@ -99,7 +99,7 @@ SELECT @at15       := max(value) from civicrm_option_value where name = 'Residen
 -- *
 -- *******************************************************/
 -- Open Case custom fields
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
     VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
 
@@ -145,7 +145,7 @@ ALTER TABLE `civicrm_value_intake_questions_2`
   ADD CONSTRAINT `FK_civicrm_value_intake_questions_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
 
 -- Presenting Problem
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
     VALUES  ('Presenting_Problem', 'Presenting Problem', 'Activity', NULL, @at2, 'Inline', 0, '', '', 3, 1, 'civicrm_value_presenting_problem_3', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Presenting_Problem';
 
@@ -198,7 +198,7 @@ ALTER TABLE `civicrm_value_presenting_problem_3`
 
 
 -- Problem Drugs
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
     VALUES  ('Problem_Drug_s_', 'Problem Drug(s)', 'Activity', NULL, @at6, 'Inline', 0, '', '', 4, 1, 'civicrm_value_problem_drug_s__4', 1, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Problem_Drug_s_';
 
@@ -236,7 +236,7 @@ ALTER TABLE `civicrm_value_problem_drug_s__4`
 
 
 -- Prof School
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
     VALUES  ('Professional_School', 'Professional School', 'Activity', NULL, @at14, 'Inline', 0, '', '', 5, 1, 'civicrm_value_professional_school_5', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Professional_School';
 
