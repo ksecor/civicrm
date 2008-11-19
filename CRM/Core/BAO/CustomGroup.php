@@ -353,7 +353,8 @@ ORDER BY civicrm_custom_group.weight,
             if ( ! array_key_exists( $fieldId, $groupTree[$groupID]['fields'] ) ) {
                 $groupTree[$groupID]['fields'][$fieldId] = array();
             }
-            $customValueTables[$crmDAO->civicrm_custom_group_table_name][$crmDAO->civicrm_custom_field_column_id] = 1;
+			
+            $customValueTables[$crmDAO->civicrm_custom_group_table_name][$crmDAO->civicrm_custom_field_column_name] = 1;
             $groupTree[$groupID]['fields'][$fieldId]['id'] = $fieldId;
             // populate information for a custom field
             foreach ($tableData['civicrm_custom_field'] as $fieldName) {
@@ -375,16 +376,15 @@ ORDER BY civicrm_custom_group.weight,
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
             $groupTree['info'] = array( 'tables' => $customValueTables );
-            
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
                 $select[] = "{$table}.id as {$table}_id";
                 $select[] = "{$table}.entity_id as {$table}_entity_id";
 
-                foreach ( $groupTree[$groupID]['fields'] as $dontcare => $column ) {
-                    $select[] = "{$table}.{$column['column_name']} as {$table}_{$column['column_name']}";
-                }
+				foreach ( $fields as $column => $dontCare ) {
+					$select[] = "{$table}.{$column} as {$table}_{$column}";
+				}
 
                 if ( $entityID ) {
                     $where[]  = "{$table}.entity_id = $entityID";
@@ -1562,7 +1562,6 @@ ORDER BY weight ASC, label ASC";
      */
     static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false )
     {
-
         foreach ( $groupTree as $key => $group ) {
             if ( $key === 'info' ) {
                 continue;
@@ -1581,7 +1580,7 @@ ORDER BY weight ASC, label ASC";
                                                                        'field_value'      => self::formatCustomValues( $values['data'], 
                                                                                                                        $properties['html_type'], 
                                                                                                                        $properties['data_type'],
-														       $properties['option_group_id'] ),
+														       														   $properties['option_group_id'] ),
                                                                        'options_per_line' => $properties['options_per_line'] );
                     }
 				} else {
@@ -1609,109 +1608,109 @@ ORDER BY weight ASC, label ASC";
      */
     static function formatCustomValues( $value, $htmlType, $dataType, $option_group_id )
     {
-      if( !isset( $value ) ) {
-	return; 
-      }
-      $freezeString = "";
-      $freezeStringChecked = "";
-      
-      switch ( $dataType ) {
-      
-      case 'Date':
-	  $retValue = CRM_Utils_Date::customFormat( $value );
-	  break;	
-	  
-      case 'Boolean':
-	if ( $value == '1' ) {
-	  $retValue = $freezeStringChecked . ts('Yes') . "\n";
-	} else {
-	  $retValue = $freezeStringChecked . ts('No') . "\n";
+		if ( !isset( $value ) ) {
+			return; 
+		}
+		$freezeString = "";
+		$freezeStringChecked = "";
+
+		switch ( $dataType ) {
+
+			case 'Date':
+			$retValue = CRM_Utils_Date::customFormat( $value );
+			break;	
+
+			case 'Boolean':
+			if ( $value == '1' ) {
+				$retValue = $freezeStringChecked . ts('Yes') . "\n";
+			} else {
+				$retValue = $freezeStringChecked . ts('No') . "\n";
+			}
+			break;
+
+			case 'Link': 
+			$retValue = CRM_Utils_System::formatWikiURL( $value );
+			break;	  
+
+			case 'Float':
+			case 'Money':
+			if ( $htmlType == 'Text' ) {
+				$retValue = (float)$value;
+				break;
+			}
+
+			case 'String':
+			if ( $htmlType == 'Text' ) {
+				$retValue = $value;
+				break;
+			}
+
+			case 'Int':
+			case 'StateProvince':
+			case 'Country':
+			//added check for Multi-Select in the below if-statement
+			$customData[] = $value;
+
+			//form custom data for multiple-valued custom data
+			switch ( $htmlType ) {
+				case 'Multi-Select Country':	 
+				case 'Select Country':	 
+				$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+				$query = "
+					SELECT id as value, name as label  
+					FROM civicrm_country";
+				$coDAO  = CRM_Core_DAO::executeQuery( $query );
+				break;
+
+				case 'Select State/Province':  
+				case 'Multi-Select State/Province':
+				$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+				$query = "
+					SELECT id as value, name as label  
+					FROM civicrm_state_province";
+				$coDAO  = CRM_Core_DAO::executeQuery( $query );
+				break;
+
+				case 'Select': 
+				$query = "
+					SELECT label, value
+					FROM civicrm_option_value
+					WHERE option_group_id = %1
+					ORDER BY weight ASC, label ASC";
+				$params = array( 1 => array( $option_group_id, 'Integer' ) );
+				$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+				break;
+
+				case 'CheckBox': 
+				case 'Multi-Select':
+				$customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+
+				default:
+				$query = "
+					SELECT label, value
+					FROM civicrm_option_value
+					WHERE option_group_id = %1
+					ORDER BY weight ASC, label ASC";
+				$params = array( 1 => array( $option_group_id, 'Integer' ) );
+				$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+			}
+
+			$counter = 1;
+			while ( $coDAO->fetch( ) ) {
+				//to show only values that are checked
+				if( in_array ( $coDAO->value, $customData ) ) {
+					$checked = in_array ( $coDAO->value, $customData ) ? $freezeStringChecked : $freezeString;
+					if ( $counter != 1 ) {
+						$retValue .= $checked .",&nbsp;".$coDAO->label;
+					} else {
+						$retValue .= $checked .$coDAO->label;
+					}
+					$counter++;
+				}
+			}
+			break;
+		}
+
+		return $retValue;
 	}
-	break;
-      
-      case 'Link': 
-	$retValue = CRM_Utils_System::formatWikiURL( $value );
-	break;	  
-	
-      case 'Float':
-      case 'Money':
-	if ( $htmlType == 'Text' ) {
-	  $retValue = (float)$value;
-	  break;
-	}
-	
-      case 'String':
-	if ( $htmlType == 'Text' ) {
-	  $retValue = $value;
-	  break;
-	}
-	
-      case 'Int':
-      case 'StateProvince':
-      case 'Country':
-      	//added check for Multi-Select in the below if-statement
-	$customData[] = $value;
-	
-	//form custom data for multiple-valued custom data
-	switch ( $htmlType ) {
-	case 'Multi-Select Country':	 
-	case 'Select Country':	 
-	  $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-	  $query = "
-SELECT id as value, name as label  
-  FROM civicrm_country";
-	  $coDAO  = CRM_Core_DAO::executeQuery( $query );
-	  break;
-	  
-	case 'Select State/Province':  
-	case 'Multi-Select State/Province':
-	  $customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-	  $query = "
-SELECT id as value, name as label  
-  FROM civicrm_state_province";
-	  $coDAO  = CRM_Core_DAO::executeQuery( $query );
-	    break;
-	    
-	case 'Select': 
-	  $query = "
-SELECT label, value
-FROM civicrm_option_value
-WHERE option_group_id = %1
-ORDER BY weight ASC, label ASC";
-	  $params = array( 1 => array( $option_group_id, 'Integer' ) );
-	  $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-	  break;
-	  
-	case 'CheckBox': 
-	case 'Multi-Select':
-	  $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
-	  
-	default:
-	  $query = "
-SELECT label, value
-FROM civicrm_option_value
-WHERE option_group_id = %1
-ORDER BY weight ASC, label ASC";
-	  $params = array( 1 => array( $option_group_id, 'Integer' ) );
-	  $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-	}
-	
-	$counter = 1;
-	while ( $coDAO->fetch( ) ) {
-	  //to show only values that are checked
-	  if( in_array ( $coDAO->value, $customData ) ) {
-	    $checked = in_array ( $coDAO->value, $customData ) ? $freezeStringChecked : $freezeString;
-	    if ( $counter != 1 ) {
-	      $retValue .= $checked .",&nbsp;".$coDAO->label;
-	    } else {
-	      $retValue .= $checked .$coDAO->label;
-	    }
-	    $counter++;
-	  }
-	}
-	break;
-      }
-      
-      return $retValue;
-    }
 }
