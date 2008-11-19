@@ -1,6 +1,7 @@
 {* Custom Data view mode*}
 {strip}
-{foreach from=$viewCustomData item=cd_edit key=index}
+{foreach from=$viewCustomData item=customValues}
+{foreach from=$customValues item=cd_edit key=index}
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
@@ -56,5 +57,6 @@
 		show("{$cd_edit.name}_show_{$index}"); hide("{$cd_edit.name}_{$index}");
 	{/if}
 	</script>
+{/foreach}
 {/foreach}
 {/strip}

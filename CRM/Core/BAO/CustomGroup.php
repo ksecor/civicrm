@@ -1568,29 +1568,29 @@ ORDER BY weight ASC, label ASC";
             }
 
             foreach ( $group['fields'] as $k => $properties ) {
+				$groupID = $group['id'];
                 if ( !empty( $properties['customValue'] ) ) {
                     foreach ( $properties['customValue'] as $values ) {
-                        $details[$values['id']]['title'] = $group['title']; 
-                        $details[$values['id']]['name'] = $group['name']; 
-                        $details[$values['id']]['help_pre'] = $group['help_pre']; 
-                        $details[$values['id']]['help_post'] = $group['help_post']; 
-                        $details[$values['id']]['collapse_display']  = $group['collapse_display'];
+	                    $details[$groupID][$values['id']]['title'] = $group['title']; 
+                        $details[$groupID][$values['id']]['name'] = $group['name']; 
+                        $details[$groupID][$values['id']]['help_pre'] = $group['help_pre']; 
+                        $details[$groupID][$values['id']]['help_post'] = $group['help_post']; 
+                        $details[$groupID][$values['id']]['collapse_display']  = $group['collapse_display'];
 
-                        $details[$values['id']]['fields'][$k] = array( 'field_title'      => $properties['label'],
-                                                                       'field_value'      => self::formatCustomValues( $values['data'], 
+                        $details[$groupID][$values['id']]['fields'][$k] = array( 'field_title'      => $properties['label'],
+                                                                       			 'field_value'      => self::formatCustomValues( $values['data'], 
                                                                                                                        $properties['html_type'], 
                                                                                                                        $properties['data_type'],
 														       														   $properties['option_group_id'] ),
-                                                                       'options_per_line' => $properties['options_per_line'] );
+                                                                       			 'options_per_line' => $properties['options_per_line'] );
                     }
 				} else {
-                    $details[0]['title'] = $group['title']; 
-                    $details[0]['name'] = $group['name']; 
-                    $details[0]['help_pre'] = $group['help_pre']; 
-                    $details[0]['help_post'] = $group['help_post']; 
-                    $details[0]['collapse_display']  = $group['collapse_display'];					
-                    $details[0]['fields'][$k] = array( 'field_title' => $properties['label'] );
-
+					$details[$groupID][0]['title'] = $group['title']; 
+					$details[$groupID][0]['name'] = $group['name']; 
+					$details[$groupID][0]['help_pre'] = $group['help_pre']; 
+					$details[$groupID][0]['help_post'] = $group['help_post']; 
+					$details[$groupID][0]['collapse_display']  = $group['collapse_display'];					
+					$details[$groupID][0]['fields'][$k] = array( 'field_title' => $properties['label'] );
 				}
             }
 			
