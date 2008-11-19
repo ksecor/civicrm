@@ -30,21 +30,21 @@
     <dt>{$form.uf_group_id.label}</dt><dd>{$form.uf_group_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a specific profile, OR apply this permission to ALL profiles.{/ts}</dd>
     </dl>
-    <div class="status message">{ts}NOTE: For Profile ACLS, the "View and "Edit" operations currently do the same thing. Either option grants users access to profile-based create, edit, view and listings screens. Neither option grants access to administration of profiles.{/ts}</div>
+    <div class="status message">{ts}NOTE: For Profile ACLs, the 'View' and 'Edit' operations currently do the same thing. Either option grants users access to profile-based create, edit, view and listings screens. Neither option grants access to administration of profiles.{/ts}</div>
   </div>
   <div id="id-custom-acl">
     <dl>
     <dt>{$form.custom_group_id.label}</dt><dd>{$form.custom_group_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a specific group of custom fields, OR apply this permission to ALL custom fields.{/ts}</dd>
     </dl>
-    <div class="status message">{ts}NOTE: For Custom Data ACLS, the "View and "Edit" operations currently do the same thing. Either option grants the right to view AND / OR edit custom data fields (in all groups, or in a specific custom data group). Neither option grants access to administration of custom data fields.{/ts}</div>
+    <div class="status message">{ts}NOTE: For Custom Data ACLs, the 'View' and 'Edit' operations currently do the same thing. Either option grants the right to view AND / OR edit custom data fields (in all groups, or in a specific custom data group). Neither option grants access to administration of custom data fields.{/ts}</div>
   </div>
   <div id="id-event-acl">
     <dl>
     <dt>{$form.event_id.label}</dt><dd>{$form.event_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select an event, OR apply this permission to ALL events.{/ts}</dt>
     </dl>
-    <div class="status message">{ts}NOTE: For Event ACLS, the "View" operation allows access to the event information screen. "Edit" allows users to register for the event if online registration is enabled.{/ts}</div>
+    <div class="status message">{ts}NOTE: For Event ACLs, the 'View' operation allows access to the event information screen. "Edit" allows users to register for the event if online registration is enabled.{/ts}</div>
   </div>
   <dl>
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
