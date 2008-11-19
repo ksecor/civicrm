@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-11-01 10:26-0700\n"
 "Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -244,8 +244,8 @@ msgid ""
 "issued a new membership."
 msgstr ""
 "Oops. Die Mitgliedschaft, die Sie zu erneuern versuchen, scheint ungültig zu "
-"sein. Kontaktieren Sie den Administrator, wenn sie Hilfe benötigen. Wenn "
-"Sie fortfahren, wird Ihnen eine neue Mitgliedschaft ausgefertigt werden."
+"sein. Kontaktieren Sie den Administrator, wenn sie Hilfe benötigen. Wenn Sie "
+"fortfahren, wird Ihnen eine neue Mitgliedschaft ausgefertigt werden."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
@@ -1019,12 +1019,10 @@ msgid "Auto Renew"
 msgstr "Selbständiges Erneuern"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
 msgstr ""
 
@@ -1106,7 +1104,6 @@ msgid "Color Bar"
 msgstr ""
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Main Text"
 msgstr ""
 
@@ -1233,8 +1230,8 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Oops. You cannot make a payment for this pledge - pledge status is %1."
 msgstr ""
-"Oops. Sie können keine Zahlung für dieses Pfand leisten - Pfand Status ist "
-"%1."
+"Oops. Sie können keine Zahlung für dieses Pfand leisten - Pfand Status ist %"
+"1."
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Chart Style"
@@ -1556,6 +1553,12 @@ msgid ""
 "If you want to enable the 'Contribution Amounts section', you need to either "
 "'Allow Other Amounts' and/or enter at least one row in the 'Fixed "
 "Contribution Amounts' table."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid ""
+"To disable Contribution Amounts section you need to first disable Separate "
+"Membership Payment option from Membership Settings."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
