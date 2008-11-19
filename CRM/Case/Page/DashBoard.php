@@ -66,8 +66,8 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
         $this->assign('recentCases',   $recent);
         
         // Retrieve the activity type id for "Open Case" so we can use it for New Case for New Client link
-        $this->_openCaseId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
-                                                          'id', 'name' );
+        $this->_openCaseId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Open Case', 
+                                                          'value', 'name' );
         $this->assign( 'openCaseId', $this->_openCaseId);
     }
     

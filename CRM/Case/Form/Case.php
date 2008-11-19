@@ -86,12 +86,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_actTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
+            $this->assign( 'caseAction', $this->_caseAction );
         }
 
-        $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
-        CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
-        
-        $this->assign( 'caseAction', $this->_caseAction );
+        $details  = CRM_Case_PseudoConstant::activityType( false );
+       
+        CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_actTypeId]['label'])));
         
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 

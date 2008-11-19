@@ -737,36 +737,5 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
--- categories and activity types
-INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('{ts escape="sql"}Core Activities{/ts}', 'Core Activities', 1, NULL, 1, 1, NULL, NULL, 0),
-    ('{ts escape="sql"}Core Activities - Custom{/ts}', 'Core Activities - Custom', 2, NULL, 1, 1, NULL, NULL, 0),
-    ('{ts escape="sql"}CiviEvent Activities{/ts}', 'CiviEvent Activities', 1, NULL, 1, 1, NULL, 1, 1),
-    ('{ts escape="sql"}CiviContribute Activities{/ts}', 'CiviContribute Activities', 1, NULL, 1, 1, NULL, 2, 1),
-    ('{ts escape="sql"}CiviMember Activities{/ts}', 'CiviMember Activities', 1, NULL, 1, 1, NULL, 3, 1),
-    ('{ts escape="sql"}CiviPledge Activities{/ts}', 'CiviPledge Activities', 1, NULL, 1, 1, NULL, 6, 1);
-
-SELECT @actCore     := MAX(id) FROM civicrm_category WHERE name = 'Core Activities';
-SELECT @actEvent    := MAX(id) FROM civicrm_category WHERE name = 'CiviEvent Activities';
-SELECT @actContrib  := MAX(id) FROM civicrm_category WHERE name = 'CiviContribute Activities';
-SELECT @actMember   := MAX(id) FROM civicrm_category WHERE name = 'CiviMember Activities';
-SELECT @actPledge   := MAX(id) FROM civicrm_category WHERE name = 'CiviPledge Activities';
-
-INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('{ts escape="sql"}Meeting{/ts}',               'Meeting',               1,   NULL,                                                         1, 1, @actCore,    NULL, 0),
-    ('{ts escape="sql"}Phone Call{/ts}',            'Phone',                 2,   NULL,                                                         1, 1, @actCore,    NULL, 0),
-    ('{ts escape="sql"}Email{/ts}',                 'Email',                 1,  '{ts escape="sql"}Email sent.{/ts}',                           1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Tell a Friend{/ts}',         'Tell a Friend',         1,  '{ts escape="sql"}Tell a Friend message sent{/ts}',            1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Text Message (SMS){/ts}',    'Text Message',          1,  '{ts escape="sql"}Text message (SMS) sent.{/ts}',              1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Event Registration{/ts}',    'Event Registration',    1,  '{ts escape="sql"}Online or offline event registration.{/ts}', 1, 1, @actEvent,   1, 1),
-    ('{ts escape="sql"}Contribution{/ts}',          'Contribution',          1,  '{ts escape="sql"}Contribution{/ts}',                          1, 1, @actContrib, 2, 1),
-    ('{ts escape="sql"}Membership Signup{/ts}',     'Membership Signup',     1,  '{ts escape="sql"}Membership signup{/ts}',                     1, 1, @actMember,  3, 1),
-    ('{ts escape="sql"}Membership Renewal{/ts}',    'Membership Renewal',    2,  '{ts escape="sql"}Membership renewal{/ts}',                    1, 1, @actMember,  3, 1),
-    ('{ts escape="sql"}Pledge Acknowledgment{/ts}', 'Pledge Acknowledgment', 1,  '{ts escape="sql"}Pledge acknowledgment{/ts}',                 1, 1, @actPledge,  6, 1),
-    ('{ts escape="sql"}Pledge Reminder{/ts}',       'Pledge Reminder',       2,  '{ts escape="sql"}Pledge reminder{/ts}',                       1, 1, @actPledge,  6, 1);
 
    

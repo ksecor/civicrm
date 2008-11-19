@@ -58,10 +58,3 @@ INSERT INTO civicrm_product VALUES (1, 'Coffee Mug', 'This heavy-duty mug is gre
 INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 
 
--- Add sample 'custom' activity type in civicrm_category
-SELECT @actCoreCust     := MAX(id) FROM civicrm_category WHERE name = 'Core Activities - Custom';
-
-INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('Interview', 'Interview',  3, NULL, 1, 0, @actCoreCust,    NULL, 0);
