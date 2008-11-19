@@ -1641,6 +1641,11 @@ ORDER BY weight ASC, label ASC";
 	}
 	
       case 'String':
+	if ( $htmlType == 'Text' ) {
+	  $retValue = $value;
+	  break;
+	}
+	
       case 'Int':
       case 'StateProvince':
       case 'Country':
