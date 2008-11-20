@@ -64,7 +64,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             CRM_Core_SelectValues::date('mailing'));
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
         
-        $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'));
+        $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'), $this );
         
         $this->addButtons( array(
                                  array(  'type'  => 'back',
@@ -93,12 +93,36 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      *                          date is properly set.
      * @static
      */
-    public static function formRule(&$params) 
+    public static function formRule(&$params, &$files, &$self) 
     {
         if ( $params['_qf_Schedule_submit'] ) {
-            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
-            CRM_Utils_System::redirect($url);
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $self->get( 'ssID' );
+            $context = $self->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $self->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $self->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $self->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( "civicrm/contact/" . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else {
+                CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
         }
         if ( isset($params['now']) || $params['_qf_Schedule_back'] == '<< Previous' ) {
             return true;
@@ -170,9 +194,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             } else {
                 $fragment = 'search/custom';
             }
-            $session =& CRM_Core_Session::singleton( );
             $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
-            $session->replaceUserContext( $url );
+            CRM_Utils_System::redirect( $url );
         }
     }
     

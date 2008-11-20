@@ -80,13 +80,12 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             );
 
         $mailingID = $this->get('mailing_id' );
-        $values = array( 'mailing_id' => $mailingID );
         $textFile = $this->get('textFile');
         $htmlFile = $this->get('htmlFile');
         $subject = $this->get('subject');
         $this->assign('subject', $subject);
 
-        $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
+        $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $this );
         $preview = array();
         if ($textFile) {
             $preview['text_link'] = CRM_Utils_System::url('civicrm/mailing/preview', "type=text&qfKey=$qfKey");
@@ -106,13 +105,32 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
      *
      * @param array $params     Array of the form values
      * @param array $files      Any files posted to the form
-     * @param array $options    Additional options from earlier in the wizard
+     * @param array $self       an current this object
      * @return boolean          true on succesful SMTP handoff
      * @access public
      */
-    public function &testMail($testParams, &$files, &$options) 
+    public function &testMail($testParams, &$files, &$self) 
     {
         $error = null;
+        
+        $urlString = "civicrm/mailing/send";
+        $urlParams = "_qf_Test_display=true&qfKey={$testParams['qfKey']}";
+        
+        $ssID    = $self->get( 'ssID' );
+        $context = $self->get( 'context' );
+        if ( $ssID && $context == 'search' ) {
+            if ( $self->_action == CRM_Core_Action::BASIC ) {
+                $fragment = 'search';
+            } else if ( $self->_action == CRM_Core_Action::PROFILE ) {
+                $fragment = 'search/builder';
+            } else if ( $self->_action == CRM_Core_Action::ADVANCED ) {
+                $fragment = 'search/advanced';
+            } else {
+                $fragment = 'search/custom';
+            }
+            $urlString = "civicrm/contact/" . $fragment;
+        }
+        
         if ($testParams['sendtest']) {
             if (!($testParams['test_group'] || $testParams['test_email'] )) {
                 CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
@@ -132,18 +150,32 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             }
             
             if ($error) {
-                $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
-                                              "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
+                $url = CRM_Utils_System::url( $urlString, $urlParams );
                 CRM_Utils_System::redirect($url);
                 return true;
             }
         } 
         
-        if ($testParams['_qf_Test_submit']) {
-            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
-            CRM_Utils_System::redirect($url);
+        if ( $testParams['_qf_Test_submit'] ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            if ( $ssID && $context == 'search' ) {
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $urlParams = "force=1&reset=1&ssID={$ssID}";
+                $url = CRM_Utils_System::url( $urlString, $urlParams );
+                CRM_Utils_System::redirect( $url );
+            } else { 
+                $status = ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.");
+                CRM_Core_Session::setStatus( $status );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
         }
+        
         if ( CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
              $testParams['_qf_Test_next'] ||
              !$testParams['sendtest'] ) {
@@ -152,7 +184,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         
         require_once 'CRM/Mailing/BAO/Job.php';
         $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $options['mailing_id'];
+        $job->mailing_id = $self->get('mailing_id' );
         $job->is_test    = true;
         $job->save( );
         
@@ -222,8 +254,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         }
         if ($testParams['sendtest']) {
             CRM_Core_Session::setStatus( ts("Your test message has been sent. Click 'Next' when you are ready to Schedule or Send your live mailing (you will still have a chance to confirm or cancel sending this mailing on the next page).") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/send',
-                                          "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
+            $url = CRM_Utils_System::url( $urlString, $urlParams );
             CRM_Utils_System::redirect($url);
         }
         
