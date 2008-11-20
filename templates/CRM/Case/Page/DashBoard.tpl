@@ -39,6 +39,7 @@
   </tr>
 {/foreach}
 </table>
+{capture assign=findCasesURL}<a href="{crmURL p="civicrm/case/search" q="reset=1"}">{ts}Find Cases{/ts}</a>{/capture}
 
 <div class="spacer"></div>
     <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
@@ -48,7 +49,7 @@
     </div>
     {else}
         <div class="messages status">
-	    {ts}There are no cases with activities scheduled in the next two weeks. Use Find Cases to expand your search.{/ts}
+	    {ts 1=$findCasesURL}There are no cases with activities scheduled in the next two weeks. Use %1 to expand your search.{/ts}
         </div>
     {/if}
 <div class="spacer"></div>
@@ -59,6 +60,6 @@
     </div>
     {else}
         <div class="messages status">
-	    {ts}There are no cases with activities scheduled in the past two weeks. Use Find Cases to expand your search.{/ts}
+	    {ts 1=$findCasesURL}There are no cases with activities scheduled in the past two weeks. Use %1 to expand your search.{/ts}
         </div>
     {/if}
