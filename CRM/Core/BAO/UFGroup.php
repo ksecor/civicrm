@@ -1352,10 +1352,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, $title,
                        array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
-        } else if ($fieldName == 'contact_type' ) {
-            require_once 'CRM/Core/SelectValues.php';
-            $form->add('select', $name, $title,
-                       array(''=>ts( '- select -' )) + CRM_Core_SelectValues::contactType( ), $required);
         } else if ($fieldName == 'scholarship_type_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
         } else if ($fieldName == 'applicant_status_id' ) {  
