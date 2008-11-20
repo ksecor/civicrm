@@ -260,6 +260,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 require_once "CRM/Core/PseudoConstant.php";
                 $this->add('select', $name, $field['title'],
                            array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::worldRegion( ), $required);
+            } else if ($field['name'] == 'contact_type' ) {
+                require_once 'CRM/Core/SelectValues.php';
+                $this->add('select', $name, $field['title'],
+                           array(''=>ts( '- select -' )) + CRM_Core_SelectValues::contactType( ), $required);
             } else if ($field['name'] == 'gpa_id' ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('select', 'gpa_id', $field['title'],

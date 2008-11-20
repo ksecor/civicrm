@@ -453,25 +453,26 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $addCaptcha = false;
             $this->assign( $name, $fields );
-            foreach($fields as $key => $field) {
-                if ( $viewOnly &&
-                     isset( $field['data_type'] ) &&
-                     $field['data_type'] == 'File' ) {
-                    // ignore file upload fields
-                    continue;
+            if ( is_array( $fields ) ) {
+                foreach($fields as $key => $field) {
+                    if ( $viewOnly &&
+                         isset( $field['data_type'] ) &&
+                         $field['data_type'] == 'File' ) {
+                        // ignore file upload fields
+                        continue;
+                    }
+                    //make the field optional if primary participant 
+                    //have been skip the additional participant.
+                    if ( $button == 'skip' ) {
+                        $field['is_required'] = false;
+                    } else if ( $field['add_captcha'] ) {
+                        // only add captcha for first page
+                        $addCaptcha = true;
+                    }
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    $this->_fields[$key] = $field;
                 }
-                //make the field optional if primary participant 
-                //have been skip the additional participant.
-                if ( $button == 'skip' ) {
-                    $field['is_required'] = false;
-                } else if ( $field['add_captcha'] ) {
-                    // only add captcha for first page
-                    $addCaptcha = true;
-                }
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                $this->_fields[$key] = $field;
             }
-
             if ( $addCaptcha &&
                  ! $viewOnly ) {
                 require_once 'CRM/Utils/ReCAPTCHA.php';
