@@ -123,7 +123,7 @@ SELECT @at11       := max(value) from civicrm_option_value where name = 'Assign 
 -- *
 -- *******************************************************/
 -- Open Case custom fields
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
     VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
 
@@ -169,7 +169,7 @@ ALTER TABLE `civicrm_value_intake_questions_2`
   ADD CONSTRAINT `FK_civicrm_value_intake_questions_2_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE;
 
 -- CPHN Indicator
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Primary_Classifications_CPHN','Primary Classifications CPHN','Activity',NULL,@at3,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_cphn_3',0,0,0);
 SELECT @cg2 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_CPHN';
 
@@ -192,7 +192,7 @@ CREATE TABLE `civicrm_value_primary_classifications_cphn_3` (
   CONSTRAINT `FK_civicrm_value_primary_classifications_cphn_3_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Secondary_Classifications_CPHN','Secondary Classifications CPHN','Activity',NULL,@at8,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_cphn_4',0,0,0);
 SELECT @cg3 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_CPHN';
 
@@ -216,7 +216,7 @@ CREATE TABLE `civicrm_value_secondary_classifications_cphn_4` (
 );
 
 -- ICD Codes
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Primary_Classifications_ICD','Primary Classifications ICD','Activity',NULL,@at4,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_icd_5',0,0,0);
 SELECT @cg4 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_ICD';
 
@@ -239,7 +239,7 @@ CREATE TABLE `civicrm_value_primary_classifications_icd_5` (
   CONSTRAINT `FK_civicrm_value_primary_classifications_icd_5_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Secondary_Classifications_ICD','Secondary Classifications ICD','Activity',NULL,@at9,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_icd_6',0,0,0);
 SELECT @cg5 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_ICD';
 
@@ -263,7 +263,7 @@ CREATE TABLE `civicrm_value_secondary_classifications_icd_6` (
 );
 
 -- Presenting Problem
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Primary_Classifications_PP','Primary Classifications PP','Activity',NULL,@at6,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_pp_7',0,0,0);
 SELECT @cg6 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_PP';
 
@@ -286,7 +286,7 @@ CREATE TABLE `civicrm_value_primary_classifications_pp_7` (
   CONSTRAINT `FK_civicrm_value_primary_classifications_pp_7_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Secondary_Classifications_PP','Secondary Classifications PP','Activity',NULL,@at10,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_pp_8',0,0,0);
 SELECT @cg7 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_PP';
 
@@ -310,7 +310,7 @@ CREATE TABLE `civicrm_value_secondary_classifications_pp_8` (
 );
 
 -- vocab
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Primary_Classifications_Vocab','Primary Classifications Vocab','Activity',NULL,@at7,'Inline',0,'','',3,1,'civicrm_value_primary_classifications_vocab_9',0,0,0);
 SELECT @cg8 := max(id) from civicrm_custom_group where name = 'Primary_Classifications_Vocab';
 
@@ -333,7 +333,7 @@ CREATE TABLE `civicrm_value_primary_classifications_vocab_9` (
   CONSTRAINT `FK_civicrm_value_primary_classifications_vocab_9_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
  VALUES ('Secondary_Classifications_Vocab','Secondary Classifications Vocab','Activity',NULL,@at11,'Inline',0,'','',4,1,'civicrm_value_secondary_classifications_vocab_10',0,0,0);
 SELECT @cg9 := max(id) from civicrm_custom_group where name = 'Secondary_Classifications_Vocab';
 
