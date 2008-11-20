@@ -382,8 +382,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign('customDataSubType',  $this->_relationshipTypeId );
         $this->assign('entityId',  $this->_relationshipId );
        
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {
@@ -445,34 +444,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
         }
         
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
-                                                             $customData,
-                                                             $value,
-                                                             'Relationship',
-                                                             null,
-                                                             $this->_relationshipId);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $relationshipTypeId );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Relationship', null, $this->_relationshipId);
-                }
-            }
-        }
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_relationshipId,
+                                                                   'Relationship' );
         
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
             CRM_Contact_BAO_Relationship::create( $params, $ids );

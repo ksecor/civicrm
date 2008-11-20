@@ -84,6 +84,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $attributes = array('value' => 'Contribute Now', 'onClick' => 'value="";');
         }
+
         $this->add('text', 'donate_link_text', ts('Donate Button Text'), $attributes); 
         $attrib = Array ('rows' => 8, 'cols' => 60 );
         $this->addWysiwyg( 'page_text', ts('Page Text'), $attrib ); 

@@ -493,6 +493,43 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
         return $addresses;
     }
 
+    static function addStateCountryMap( &$stateCountryMap,
+                                        $defaults = null ) {
+
+        // first fix the statecountry map if needed
+        if ( empty( $stateCountryMap ) ) {
+            return;
+        }
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( ! isset( $config->stateCountryMap ) ) {
+            $config->stateCountryMap = array( );
+        }
+
+        $config->stateCountryMap = array_merge( $config->stateCountryMap,
+                                                $stateCountryMap );
+    }
+
+    static function fixAllStateSelects( &$form, &$defaults ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( ! empty(  $config->stateCountryMap ) ) {
+            foreach ( $config->stateCountryMap as $index => $match ) {
+                if ( array_key_exists( 'state_province', $match ) &&
+                     array_key_exists( 'country', $match ) ) {
+                    require_once 'CRM/Contact/Form/Address.php';
+                    CRM_Contact_Form_Address::fixStateSelect( $form,
+                                                              $match['country'],
+                                                              $match['state_province'],
+                                                              CRM_Utils_Array::value( $match['country'],
+                                                                                      $defaults ) );
+                } else {
+                    unset( $config->stateCountryMap[$index] );
+                }
+            }
+        }
+    }
+
 }
 
 

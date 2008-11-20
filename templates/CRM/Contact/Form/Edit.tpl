@@ -4,6 +4,9 @@
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
  {* Including the javascript source code from the Contact.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Contact.js"></script>
  
@@ -151,7 +154,17 @@
 {/if}
  
 {* Conditionally insert any inline custom data groups *} 
-{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				var contact_type = {/literal}"{$contact_type}"{literal};
+				buildCustomData( contact_type );
+			});
+		</script>
+	{/literal}
 
 {* Plugging the Location block *}
 {include file="CRM/Contact/Form/Location.tpl"}
@@ -308,3 +321,4 @@
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
+{/if}

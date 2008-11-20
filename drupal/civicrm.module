@@ -79,6 +79,7 @@ function civicrm_html_head()
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery.autocomplete.js\"></script>";
         $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/jquery/css/jquery.autocomplete.css);</style>";
 
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery.chainedSelects.js\"></script>";
         $head .= "<script type=\"text/javascript\">var cj = jQuery.noConflict(); $ = cj;</script>";
     }
 

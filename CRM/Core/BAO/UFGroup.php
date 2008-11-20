@@ -1628,7 +1628,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else if ( array_key_exists($name,$values) ) {
                     $defaults[$fldName] = $values[$name];
                 }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $componentId, 0, null); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, null); 
                      foreach ( $groupTrees as $groupTree ) {
                          CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                          $defaults[$fldName] = $defaults[$name];
@@ -1656,7 +1657,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
                     $defaults[$fldName] = array_pop($noteDetails);
                 } else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $componentId, 0, $values[$componentId]['role_id']); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, $values[$componentId]['role_id']); 
                     foreach ( $groupTrees as $groupTree ) {
                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                         $defaults[$fldName] = $defaults[$name];
@@ -1680,7 +1682,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( array_key_exists($name,$values[$componentId]) ) {
                     $defaults[$fldName] = $values[$componentId][$name];
                 }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $componentId, 0, null); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, null); 
                      foreach ( $groupTrees as $groupTree ) {
                          CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                          $defaults[$fldName] = CRM_Utils_Array::value( $name, $defaults );

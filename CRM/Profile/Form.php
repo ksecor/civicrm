@@ -118,6 +118,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     protected $_ctype = null;
 
+    protected $_defaults = null;
+
     /** 
      * pre processing work done here. 
      * 
@@ -200,9 +202,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function setDefaultsValues( ) 
     {
-        $defaults = array( );   
+        $this->_defaults = array( );   
         if ( $this->_id ) {
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $this->_defaults, true );
         }
         
         //set custom field defaults
@@ -215,10 +217,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                          'html_type',
                                                          'id' );
                 
-                if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
+                if ( !isset( $this->_defaults[$name] ) || $htmlType == 'File') {
                     CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID,
                                                                   $name,
-                                                                  $defaults,
+                                                                  $this->_defaults,
                                                                   $this->_id,
                                                                   $this->_mode );
                 }
@@ -242,7 +244,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( isset( $customFiles ) ) {
             $this->assign( 'customFiles', $customFiles ); 
         }
-        $this->setDefaults( $defaults );
+
+        $this->setDefaults( $this->_defaults );
     } 
     
     /**
@@ -320,6 +323,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         $addCaptcha   = array();
         $emailPresent = false;
 
+        // cache the state country fields. based on the results, we could use our javascript solution
+        // in create or register mode
+        $stateCountryMap = array( );
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -334,6 +341,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                  substr( $name, 0, 5 ) == 'email' ) {
                 unset( $this->_fields[$name] );
                 continue;
+            }
+
+            list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $name, 2 );
+            if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                    $stateCountryMap[$index] = array( );
+                }
+                $stateCountryMap[$index][$prefixName] = $name;
             }
             
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
@@ -405,6 +420,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
+
+            // also do state country js
+            require_once 'CRM/Core/BAO/Address.php';
+            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap,
+                                                      $this->_defaults );
         }
 
         $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
@@ -416,6 +436,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
         
         $this->assign( 'groupId', $this->_gid ); 
+        
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
         
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {

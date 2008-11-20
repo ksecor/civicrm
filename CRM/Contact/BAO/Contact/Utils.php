@@ -402,35 +402,7 @@ WHERE id={$contactId}; ";
 
         }
 
-        // add country state selector using new hs-widget method.
-        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
-        $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
-                             'url1'         => "{$config->resourceBase}bin/ajax.php?return=countries",
-                             'url2'         => "{$config->resourceBase}bin/ajax.php?return=states",
-                             'default1'     => $countryDefault,
-                             'default2'     => $stateDefault,
-                             'firstInList'  => "true",
-                             );
-        $form->add( 'text', "location[1][address][country_state]", ts( 'Country - State' ), $attributes );
-
-        // remove country & state from address sequence since address.tpl uses old approach 
-        // and not the new hier-select widget approach / method. So we will add them separately 
-        // keeping in mind whether they are found in addressSequence / preferences. 
-
-        $addressSequence = $config->addressSequence();
-
-        $key = array_search( 'country', $addressSequence);
-        if ( $key ) {
-            $form->assign( 'addressSequenceCountry', true );
-        }
-        unset($addressSequence[$key]);
-        
-        $key = array_search( 'state_province', $addressSequence);
-        if ( $key ) {
-            $form->assign( 'addressSequenceState', true );
-        }
-        unset($addressSequence[$key]);
-
+        $addressSequence = $config->addressSequence( );
         $form->assign( 'addressSequence', array_fill_keys($addressSequence, 1) );
 
         //Primary Phone 
@@ -447,7 +419,7 @@ WHERE id={$contactId}; ";
                                                      'email'));
         //build the address block
         $location   = array(); 
-        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
+        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1, $countryDefault );
     }
 
 }

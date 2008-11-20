@@ -1244,7 +1244,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($params['contact_type'],$cid,0,null);
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($params['contact_type'],CRM_Core_DAO::$_nullObject,
+                                                       $cid,0,null);
         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
         
         $contact = get_object_vars( $contactObj );

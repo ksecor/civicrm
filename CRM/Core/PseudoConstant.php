@@ -631,9 +631,18 @@ class CRM_Core_PseudoConstant
      */
     public static function &stateProvinceAbbreviation($id = false, $limit = true )
     {
+        if ( $id > 1 ) {
+            $query = "
+SELECT abbreviation
+FROM   civicrm_state_province
+WHERE  id = %1";
+            $params = array( 1 => array( $id, 'Integer' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+
         if (!self::$stateProvinceAbbreviation || !$id ) {
 
-            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT
+            // limit the state/province list to the countries specified in CIVICRM_PROVINCE_LIMIT, unless id is specified
             $whereClause = false;
 
             if ( $limit ) {
@@ -1240,6 +1249,24 @@ class CRM_Core_PseudoConstant
             self::$mappingType = CRM_Core_OptionGroup::values('mapping_type');
         }
         return self::$mappingType;
+    }
+
+    public static function &stateProvinceForCountry( $countryID ) {
+        $query = "
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
+  FROM civicrm_state_province
+WHERE country_id = %1
+ORDER BY name";
+        $params = array( 1 => array( $countryID, 'Integer' ) );
+
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        $result = array( );
+        while ( $dao->fetch( ) ) {
+            $result[$dao->id] = $dao->name;
+        }
+
+        return $result;
     }
 
 }

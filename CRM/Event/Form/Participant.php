@@ -142,9 +142,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->_showFeeBlock = CRM_Utils_Array::value( 'eventId', $_GET );
         $this->assign( 'showFeeBlock', false );
 
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
-        $this->_mode      = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+        $this->_contactID 	   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $this->_mode           = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+		$this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
        
         if ( $this->_mode ) {
             $this->assign( 'participantMode', $this->_mode );
@@ -208,9 +208,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
-        
-        $this->_participantId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        }     
 
         //check the mode when this form is called either single or as
         //search task action
@@ -271,11 +269,22 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_Customdata::preProcess( $this );
-            CRM_Custom_Form_Customdata::buildQuickForm( $this );
-            CRM_Custom_Form_Customdata::setDefaultValues( $this );
-        }
+		if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+			//custom data of type participant, ( we 'null' to reset subType and subName)
+			CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null' );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			
+			//custom data of type participant role
+			CRM_Custom_Form_Customdata::preProcess( $this, 1, $_POST['role_id'] );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+			
+			//custom data of type participant event
+			CRM_Custom_Form_Customdata::preProcess( $this, 2, $_POST['event_id'] );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+		}
     }
     
     /**
@@ -321,7 +330,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $viewMode = false;
             $inactiveNeeded = false;
         }
-        
+
         //setting default register date
         if ($this->_action == CRM_Core_Action::ADD) {
             $today_date = getDate();
@@ -378,6 +387,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'participant_is_pay_later', true );
             }
             $this->assign( 'participant_status_id', $defaults[$this->_participantId]['participant_status_id'] );
+			
+			//assign event and role id, this is needed for Custom data building
+			$this->assign( 'roleID', $defaults[$this->_participantId]['participant_role_id'] );
+			$this->assign( 'eventID', $defaults[$this->_participantId]['event_id'] );
         }
         
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_participantId]) );
@@ -477,22 +490,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
-                   array('onchange' => "buildFeeBlock( this.value );") );
+                   array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', 2, this.value );") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
                     true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
 
-        //need to assign custom data type and subtype to the template
-        $this->assign('customDataType', 'Participant');
-        $this->assign('customDataSubType',  $this->_roleId );
-        $this->assign('entityId',  $this->_participantId );
-
+		if ( $this->_participantId ) {
+			$this->assign( 'entityID', $this->_participantId );
+		}
+		
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantRole( ),
                     true,
-                    array('onchange' => "buildCustomData( this.value );") );
+                    array('onchange' => "buildCustomData( 'Participant', 1, this.value );") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
@@ -722,34 +734,20 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
 
-        //custom data block common for offline as well as credit card
-        //(online) mode
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Participant', null, $this->_participantId);
-            }
-        }
+		// build custom data getFields array
+		$customFieldsRole  = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
+																CRM_Utils_Array::value( 'role_id', $params ), 1 );
+		$customFieldsEvent = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
+														        CRM_Utils_Array::value( 'event_id', $params ), 2 );
+		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsRole, 
+															CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, null, true ) );
+		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsEvent, $customFields );
 
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
-                                                             CRM_Utils_Array::value( 'role_id', $params ) );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Participant', null, $this->_participantId);
-                }
-            }
-        }
-              
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_participantId,
+                                                                   'Participant' );
+
         if ( $this->_mode ) {
             // add all the additioanl payment params we need
             $this->_params["state_province-{$this->_bltID}"] =

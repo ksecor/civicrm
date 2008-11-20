@@ -302,6 +302,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 } 
             }
         }
+
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $defaults );
+        
         $this->setDefaults( $defaults );
 
         $this->freeze();

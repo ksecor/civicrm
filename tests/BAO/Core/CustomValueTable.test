@@ -242,4 +242,30 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         Custom::deleteGroup( $customGroup );
         Contact::delete( $contactID );
     }
+
+    function testCustomGroupMultiple( ) {
+        $params      = array();
+        $contactID   = Contact::createIndividual();
+        $customGroup = Custom::createGroup( $params ,'Individual' );
+        $fields      = array (
+                              'groupId'  => $customGroup->id,
+                              'dataType' => 'String',
+                              'htmlType' => 'Text'
+                              );
+        $customField = Custom::createField( $params, $fields );
+
+        $params = array( 'entityI'    => 102,
+                         'custom_5_-1' => 'First String',
+                         );
+        $error = CRM_Core_BAO_CustomValueTable::setValues( $params );
+        CRM_Core_Error::debug( $error );
+        
+        $newParams = array( 'entityID'    => $contactID,
+                            'custom_5'    => 1 );
+        $result = CRM_Core_BAO_CustomValueTable::getValues( $newParams );
+        
+        $this->assertEqual( $params['custom_5_-1'], $result['custom_5_1'] );
+        $this->assertEqual( $params['entityID'], $result['entityID'] );
+    }
+    
 }

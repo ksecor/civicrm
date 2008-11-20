@@ -420,8 +420,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         $ele = $this->add('select', 'contribution_page_id', ts( 'Self-service Payments Page' ), 
                           array( '' => ts( '- select -' ) ) + $pledgePages );
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {
@@ -592,31 +592,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'hidden_custom', $formValues ) ) {
             $params['hidden_custom'] = 1;
             
-            $customData = array( );
-            foreach ( $formValues as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                    $params[$key] = $value;
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Pledge', null, $this->_id );
-                }
-            }
-            
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
-            
-            //special case to handle if all checkboxes are unchecked
             $customFields = CRM_Core_BAO_CustomField::getFields( 'Pledge' );
-            
-            if ( !empty($customFields) ) {
-                foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                     '', 'Pledge', null, $this->_id );
-                    }
-                }
-            }
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $formValues,
+                                                                       $customFields,
+                                                                       $this->_id,
+                                                                       'Pledge' );
         }
         
         //handle pending pledge.

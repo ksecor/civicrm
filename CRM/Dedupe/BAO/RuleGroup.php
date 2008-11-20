@@ -89,7 +89,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                     }
                 }
                 // add custom data fields
-                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1) as $key => $cg) {
+                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, CRM_Core_DAO::$_nullObject, null, -1) as $key => $cg) {
                     if (!is_int($key)) continue;
                     foreach($cg['fields'] as $cf) {
                         $fields[$ctype][$cg['table_name']][$cf['column_name']] = $cf['label'];

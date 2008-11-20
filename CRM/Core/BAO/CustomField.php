@@ -291,7 +291,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @param boolean     $showAll             If true returns all fields (includes disabled fields)
      * @param boolean     $inline              If true returns all inline fields (includes disabled fields)
      * @param int         $customDataSubType   Custom Data sub type value
-     *
+	 * @param int         $customDataSubName   Custom Data sub name value
+     * @param boolean     $onlyParent          return only top level custom data, for eg, only Participant and ignore subname and subtype  
+	 *
      * @return array      $fields - an array of active custom fields.
      *
      * @access public
@@ -300,12 +302,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function &getFields( $customDataType = 'Individual',
                                        $showAll = false,
                                        $inline = false,
-                                       $customDataSubType = null ) 
+                                       $customDataSubType = null,
+ 									   $customDataSubName = null,
+ 									   $onlyParent = false ) 
     {
         $cacheKey  = $customDataType;
         $cacheKey .= $customDataSubType ? "{$customDataSubType}_" : "_0";
+		$cacheKey .= $customDataSubName ? "{$customDataSubName}_" : "_0";
         $cacheKey .= $showAll ? "_1" : "_0";
         $cacheKey .= $inline  ? "_1_" : "_0_";
+		$cacheKey .= $onlyParent  ? "_1_" : "_0_";
 
         $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
@@ -338,6 +344,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         $value = "'" . CRM_Utils_Type::escape($customDataType, 'String') . "'";
                     }
                     $extends = "AND   $cgTable.extends IN ( $value ) ";
+
+					if ( $onlyParent ) {
+						$extends .= " AND $cgTable.extends_entity_column_value IS NULL AND $cgTable.extends_entity_column_id IS NULL ";
+					}
                 }
                 
                 $query ="SELECT $cfTable.id, $cfTable.label,
@@ -346,7 +356,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cfTable.options_per_line,
                             $cgTable.extends, $cfTable.is_search_range,
                             $cgTable.extends_entity_column_value,
-                            $cfTable.is_view
+                            $cfTable.is_view,
+                            $cgTable.is_multiple
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
@@ -367,6 +378,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                       OR $cgTable.extends_entity_column_value IS NULL )";
                 }
                 
+                if ( $customDataSubName ) {
+                    $query .= " AND ( $cgTable.extends_entity_column_id = $customDataSubName ) "; 
+                }
+
                 // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
                 $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
@@ -379,7 +394,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $dao =& CRM_Core_DAO::executeQuery( $query );
         
                 $fields = array( );
-                while (( $dao->fetch( ) ) != null) {
+                while ( ( $dao->fetch( ) ) != null) {
                     $fields[$dao->id]['label']                       = $dao->label;
                     $fields[$dao->id]['groupTitle']                  = $dao->title;
                     $fields[$dao->id]['data_type']                   = $dao->data_type;
@@ -389,6 +404,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     $fields[$dao->id]['is_search_range']             = $dao->is_search_range;
                     $fields[$dao->id]['extends_entity_column_value'] = $dao->extends_entity_column_value;
                     $fields[$dao->id]['is_view']                     = $dao->is_view;
+                    $fields[$dao->id]['is_multiple']                 = $dao->is_multiple;
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields,
@@ -448,7 +464,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function getKeyID($key, $all = false) 
     {
         $match = array( );
-        if (preg_match('/^custom_(\d+)_?(-\d+)?$/', $key, $match)) {
+        if (preg_match('/^custom_(\d+)_?(-?\d+)?$/', $key, $match)) {
             if ( ! $all ) {
                 return $match[1];
             } else {
@@ -1100,7 +1116,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         list( $tableName, $columnName, $groupID ) = self::getTableColumnGroup( $customFieldId );
         
-        if ( ! $customValueId && $entityId ) {
+        if ( ! $customValueId &&
+             ! $customFields[$customFieldId]['is_multiple'] && // we always create new entites for is_multiple unless specified
+             $entityId ) {
             //get the entity table for the custom field
             require_once "CRM/Core/BAO/CustomQuery.php";
             $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$customFieldExtend];
@@ -1151,13 +1169,6 @@ SELECT id
                     $unformat = CRM_Utils_Date::unformat( $value, $separator );
                     if ( $unformat ) {
                         $value = $unformat;
-
-
-
-
-
-
-
                     }
                 }
 
@@ -1241,15 +1252,28 @@ SELECT $columnName
             $value  =  $filename;
         }
 
-        $customFormatted[$customFieldId] = array('id'              => $customValueId,
-                                                 'value'           => $value,
-                                                 'type'            => $customFields[$customFieldId]['data_type'],
-                                                 'custom_field_id' => $customFieldId, 
-                                                 'custom_group_id' => $groupID,
-                                                 'table_name'      => $tableName,
-                                                 'column_name'     => $columnName,
-                                                 'file_id'         => $fileId
-                                                 );
+        if ( ! array_key_exists( $customFieldId, $customFormatted ) ) {
+            $customFormatted[$customFieldId] = array( );
+        }
+
+        $index = -1;
+        if ( $customValueId ) {
+            $index = $customValueId;
+        }
+
+        if ( ! array_key_exists( $index, $customFormatted[$customFieldId] ) ) {
+            $customFormatted[$customFieldId][$index] = array( );
+        }
+        $customFormatted[$customFieldId][$index] = array('id'              => $customValueId > 0 ? $customValueId : null,
+                                                         'value'           => $value,
+                                                         'type'            => $customFields[$customFieldId]['data_type'],
+                                                         'custom_field_id' => $customFieldId, 
+                                                         'custom_group_id' => $groupID,
+                                                         'table_name'      => $tableName,
+                                                         'column_name'     => $columnName,
+                                                         'file_id'         => $fileId,
+                                                         'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
+                                                         );
 
         return $customFormatted;
     }
@@ -1456,6 +1480,41 @@ ORDER BY html_type";
         }
 
         return $defaultValue;
+    }
+
+    function postProcess( &$params,
+                          &$customFields,
+                          $entityID,
+                          $customFieldExtends,
+                          $inline = false ) {
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
+                                                             $customData,
+                                                             $value,
+                                                             $customFieldExtends,
+                                                             $customFieldInfo[1],
+                                                             $entityID,
+                                                             $inline );
+            }
+        }
+
+        if ( ! empty( $customFields ) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( ! CRM_Utils_Array::value( $k, $customData ) &&
+                     in_array ( $val['html_type'],
+                                array ('CheckBox','Multi-Select', 'Radio') ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                 $customData,
+                                                                 '',
+                                                                 $customFieldExtends,
+                                                                 null,
+                                                                 $entityID );
+                }
+            }
+        }
+        return $customData;
     }
 
 }

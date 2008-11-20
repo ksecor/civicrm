@@ -246,5 +246,4 @@ class CRM_Utils_Hook {
                   $config->userHookClass .
                   '::invoke( 2, $tabs, $contactID, $null, $null, $null, \'civicrm_tabs\' );' );
     }
-
 }

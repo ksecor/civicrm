@@ -297,13 +297,11 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         }
 
         $formatError = _civicrm_activity_formatted_param( $params, $params, true );
-        
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $params['custom'],
-                                                             $value, 'Activity');
-            }
-        }
+
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   CRM_Core_DAO::$_nullObject,
+                                                                   null,
+                                                                   'Activity' );
 
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;

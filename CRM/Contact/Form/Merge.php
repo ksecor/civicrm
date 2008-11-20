@@ -185,8 +185,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
         
         // handle custom fields
-        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
-        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
+        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_cid, -1);
+        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_oid, -1);
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
@@ -274,7 +274,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
 
         // FIXME: fix custom fields so they're edible by createProfileContact()
-        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
+        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, null, -1);
         foreach ($cgTree as $key => $group) {
             if (!isset($group['fields'])) continue;
             foreach ($group['fields'] as $fid => $field) {

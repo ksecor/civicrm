@@ -495,17 +495,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 // new activity.
                 $activityId = $this->_activityId;
             }
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null, $activityId );
-                }
-            }
-            
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
+
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       CRM_Core_DAO::$_nullObject,
+                                                                       null,
+                                                                       'Activity',
+                                                                       true );
         }
 
         if ( isset($this->_activityId) ) { 

@@ -116,7 +116,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
             }
         } else {
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id, 0);
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this, $this->_id, 0);
             if ( isset($this->_id) ) {
                 $groupValues = array( 'id'              => $this->_id,
                                       'title'           => $this->_title,
@@ -208,8 +208,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $this->add( 'select', 'visibility', ts('Visibility'),
                         CRM_Core_SelectValues::ufVisibility( ), true ); 
             
-            $session = & CRM_Core_Session::singleton( );
-            $uploadNames = $session->get( 'uploadNames' );
+            $uploadNames = $this->get( 'uploadNames' );
             if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
                 $buttonType = 'upload';
             } else {
@@ -289,30 +288,11 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $params['id'] = $this->_id;
             }
 
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Group', null, $this->_id);
-                }
-            }
-            
-            if (! empty($customData) ) {
-                $params['custom'] = $customData;
-            }
-
-            //special case to handle if all checkboxes are unchecked
             $customFields = CRM_Core_BAO_CustomField::getFields( 'Group' );
-            
-            if ( !empty($customFields) ) {
-                foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val['html_type'], array ('CheckBox','Multi-Select') ) &&
-                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                     '', 'Group', null, $this->_id);
-                    }
-                }
-            }
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       $customFields,
+                                                                       $this->_id,
+                                                                       'Group' );
             
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );

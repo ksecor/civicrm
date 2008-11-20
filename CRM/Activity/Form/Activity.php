@@ -192,7 +192,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             // get the tree of custom fields
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this,
+                                                                   $this->_activityId, 0, $this->_activityTypeId );
         }
 
         if ( ( isset( $this->_context) && ! in_array( $this->_context, array('standalone', 'case', 'search' ) ) )  || $this->_activityTypeId ) {
@@ -670,31 +671,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params['activity_type_id']   = $this->_activityTypeId;
         }
 
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Activity', null, $this->_activityId);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $params['activity_type_id'] );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Activity', null, $this->_activityId);
-                }
-            }
-        }
-        
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_activityId,
+                                                                   'Activity',
+                                                                   null );
+
         // store the date with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
 
