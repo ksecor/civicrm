@@ -52,12 +52,12 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
 
         $this->_params = $this->get( 'params' );
         $is_deductible = $this->get('is_deductible');
-        $this->assign('is_deductible',$is_deductible);
-        $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
-        $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
-        $this->assign( 'thankyou_footer' , CRM_Utils_Array::value('thankyou_footer',$this->_values));
-        $this->assign( 'max_reminders', $this->_values['max_reminders']);
-        $this->assign( 'initial_reminder_day', $this->_values['initial_reminder_day']); 
+        $this->assign('is_deductible'        , $is_deductible);
+        $this->assign( 'thankyou_title'      , $this->_values['thankyou_title'] );
+        $this->assign( 'thankyou_text'       , $this->_values['thankyou_text' ] );
+        $this->assign( 'thankyou_footer'     , CRM_Utils_Array::value( 'thankyou_footer'      , $this->_values ));
+        $this->assign( 'max_reminders'       , CRM_Utils_Array::value( 'max_reminders'        , $this->_values ));
+        $this->assign( 'initial_reminder_day', CRM_Utils_Array::value( 'initial_reminder_day' , $this->_values )); 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
     
