@@ -186,6 +186,77 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function postProcess( ) {
        
+       $importJobParams = array(
+            'doGeocodeAddress'  => $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' ),
+            'invalidRowCount'   => $this->get('invalidRowCount'),
+            'conflictRowCount'  => $this->get('conflictRowCount'),
+            'onDuplicate'       => $this->get('onDuplicate'),
+            'addToNewGroup'     => $this->controller->exportValue( $this->_name, 'newGroup'),
+            'newGroupName'      => $this->controller->exportValue( $this->_name, 'newGroupName'),
+            'newGroupDesc'      => $this->controller->exportValue( $this->_name, 'newGroupDesc'),
+            'groups'            => $this->controller->exportValue( $this->_name, 'groups'),
+            'allGroups'         => $this->get('groups'),
+            'tagWithNewTag'     => $this->controller->exportValue( $this->_name, 'newTag'),
+            'newTagName'        => $this->controller->exportValue( $this->_name, 'newTagName'),
+            'newTagDesc'        => $this->controller->exportValue( $this->_name, 'newTagDesc'),
+            'tag'               => $this->controller->exportValue( $this->_name, 'tag'),
+            'allTags'           => $this->get('tag'),
+            'mapper'            => $this->controller->exportValue( 'MapField', 'mapper' ),
+            'mapFields'         => $this->get('fields'),
+            'contactType'       => $this->get('contactType'),
+            'primaryKeyName'    => $this->get('primaryKeyName'),
+            'statusFieldName'   => $this->get('statusFieldName'),
+            'statusID'          => $this->get('statusID'),
+            'totalRowCount'     => $this->get('totalRowCount')
+        );
+        
+        $tableName = $this->get( 'importTableName' );
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob( $tableName );
+        $importJob->setJobParams( $importJobParams );
+               
+        // run the import
+        $importJob->runImport( );
+               
+        // add all the necessary variables to the form
+        $importJob->setFormVariables( $this );
+        
+        // check if there is any error occured
+        $errorStack =& CRM_Core_Error::singleton();
+        $errors     = $errorStack->getErrors();
+        
+        $errorMessage = array();
+       
+        if( is_array( $errors ) ) {
+            foreach($errors as $key => $value) {
+                $errorMessage[] = $value['message'];
+            }
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
+            if ( $fd = fopen( $errorFile, 'w' ) ) {
+                fwrite($fd, implode('\n', $errorMessage));
+            }
+            fclose($fd);
+            
+            $this->set('errorFile', $errorFile);
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+        }
+    }
+
+    /**
+     * Process the mapped fields and map it into the uploaded file
+     * preview the file and extract some summary statistics
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcessOld( ) {
+       
         $doGeocodeAddress   = $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' );
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');

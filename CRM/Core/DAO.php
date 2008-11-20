@@ -862,7 +862,7 @@ FROM   civicrm_domain
         $dao->query( $queryStr, $i18nRewrite );
 
         if ( $freeDAO ) {
-            // we typically do this for insert/update/delete stataments
+            // we typically do this for insert/update/delete statements
             $dao->free( );
         }
         return $dao;

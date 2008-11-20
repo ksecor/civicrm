@@ -246,7 +246,7 @@ abstract class CRM_Import_Parser {
     }
 
     abstract function init();
-
+    
     function run( $tableName,
                   &$mapper,
                   $mode = self::MODE_PREVIEW,
@@ -256,7 +256,10 @@ abstract class CRM_Import_Parser {
                   $onDuplicate = self::DUPLICATE_SKIP,
                   $statusID = null,
                   $totalRowCount = null,
-                  $doGeocodeAddress = false ) {
+                  $doGeocodeAddress = false,
+                  $timeout = CRM_Import_Parser::DEFAULT_TIMEOUT ) {
+
+        // TODO: Make the timeout actually work
 
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
@@ -452,6 +455,9 @@ abstract class CRM_Import_Parser {
          
             // clean up memory from dao's
             CRM_Core_DAO::freeResult( );
+            
+            // see if we've hit our timeout yet
+            if ()
         }
 
         

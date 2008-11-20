@@ -28,40 +28,32 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2008
  * $Id$
  *
  */
- 
- require_once 'CRM/Import/DataSource.php';
- 
- class CRM_Import_DataSource_SQL extends CRM_Import_DataSource {
-     
-     // docs inherited from parent
-     public function getInfo() {
-         return array( 'title' => 'SQL Import' );
-     }
-     
-     // docs inherited from parent
-     public function preProcess( &$form ) {
-         // nop
-     }
-     
-     // docs inherited from parent
-     public function buildQuickForm( &$form ) {
-         $form->add( 'hidden', 'hidden_dataSource', 'CRM_Import_DataSource_SQL' );
-         $form->add( 'textarea', 'sqlQuery', ts('Specify SQL Query' ),
-             'rows=10 cols=45');
-     }
-     
-     // docs inherited from parent
-     public function postProcess( &$params, &$db ) {
-         $sqlQuery = $params['sqlQuery'];
-         
-         require_once 'CRM/Import/ImportJob.php';
-         $importJob = new CRM_Import_ImportJob( null, $sqlQuery );
-         
-         // Set some session variables
-         $this->set( 'importTableName', $importJob->getTableName() );
-     }
- }
+
+require_once 'CRM/Import/ImportJob.php';
+
+/**
+ * This class mainly exists to allow imports to be triggered synchronously (i.e.
+ *  via a form post) and asynchronously (i.e. by the workflow system)
+ */
+class CRM_Import_Importer {
+    public function __construct() {
+        // may not need this
+    }
+    
+    public function runIncompleteImportJobs( $timeout = 55 ) {
+        $startTime = time();
+        $incompleteImportTables = CRM_Import_ImportJob::getIncompleteImportTables();
+        foreach ($incompleteImportTables as $importTable) {
+            $importJob = new CRM_Import_ImportJob( $importTable );
+            $importJob->runImport( $timeout );
+            $currentTime = time();
+            if ( ( $currentTime - $startTime ) >= $timeout) {
+                break;
+            }
+        }
+    }
+}
