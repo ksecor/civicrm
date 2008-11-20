@@ -123,7 +123,7 @@ class CRM_Event_Form_EventFees
             $fields = array( );
     
             $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
-                                   substr( $defaults[$form->_participantId]['fee_level'], 1, -1 ) );
+                                   substr( $defaults[$form->_pId]['fee_level'], 1, -1 ) );
             foreach ( $eventLevel as $id => $name ) {
                 $optionValue         = new CRM_Core_BAO_OptionValue( );
                 $optionValue->label  = $name;
@@ -182,7 +182,7 @@ class CRM_Event_Form_EventFees
                         $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                       $form->_originalDiscountId,
                                                                       'option_group_id' );
-                        $defaults[$form->_participantId]['discount_id'] = $form->_originalDiscountId;
+                        $defaults[$form->_pId]['discount_id'] = $form->_originalDiscountId;
                     }
                 }
             } 
@@ -278,9 +278,9 @@ class CRM_Event_Form_EventFees
             $form->addElement( 'hidden', 'hidden_feeblock', 1 );
         }
         
-        if ( $form->_participantId ) { 
+        if ( $form->_pId ) { 
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
-                                              $form->_participantId, 'contribution_id', 'participant_id' ) ) {
+                                              $form->_pId, 'contribution_id', 'participant_id' ) ) {
                 $form->_online = true;
             }
         }
