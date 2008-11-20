@@ -120,7 +120,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if onbehalf-of-organization
             if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
-                if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
+                if ( CRM_Utils_Array::value( 'org_option', $this->_params ) && 
+                     CRM_Utils_Array::value( 'organization_id', $this->_params ) ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }

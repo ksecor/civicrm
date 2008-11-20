@@ -427,6 +427,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
+        $countryDefault = $stateDefault   = null;
         if ( $this->_membershipContactID ) {
             // Setting location defaults for matching permissioned contact.
             // Setting it here since we require country & state
@@ -441,8 +442,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
 
-        $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
-        $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        if ( CRM_Utils_Array::value( 'location', $this->_defaults ) ){
+            $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
+            $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        }
         if ( isset($_POST['location'][1]['address']['country_state'][0]) ) {
             $countryDefault = $_POST['location'][1]['address']['country_state'][0];
             $stateDefault   = $_POST['location'][1]['address']['country_state'][1];
@@ -453,7 +456,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $countryDefault = $stateDefault[0];
             $stateDefault   = $stateDefault[1];
         }
-
+        
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
                                                          $countryDefault,
                                                          $stateDefault,

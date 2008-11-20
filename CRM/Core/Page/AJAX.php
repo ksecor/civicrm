@@ -788,7 +788,7 @@ WHERE sort_name LIKE '%$name%'";
     function getPermissionedEmployer( &$config ) 
     {
         $cid       = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
-        $name      = trim(CRM_Utils_Type::escape( $_GET['name'], 'String')); 
+        $name      = trim(CRM_Utils_Type::escape( CRM_Utils_Array::value( 'name', $_GET ), 'String')); 
         $name      = str_replace( '*', '%', $name );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
