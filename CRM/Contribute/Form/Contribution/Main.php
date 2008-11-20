@@ -446,6 +446,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( isset($_POST['location'][1]['address']['country_state'][0]) ) {
             $countryDefault = $_POST['location'][1]['address']['country_state'][0];
             $stateDefault   = $_POST['location'][1]['address']['country_state'][1];
+            $this->set( 'country_state', array($countryDefault,$stateDefault) );
+        }
+        if ( !$countryDefault && $this->get('country_state') ) {
+            $stateDefault   = $this->get('country_state');
+            $countryDefault = $stateDefault[0];
+            $stateDefault   = $stateDefault[1];
         }
 
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
@@ -778,11 +784,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name );
-
-        // CRM-3803
-        if ( isset($_POST['location'][1]['address']['country_state']) ) {
-            $this->set( 'country_state', $_POST['location'][1]['address']['country_state'] );
-        }
 
         $params['currencyID']     = $config->defaultCurrency;
 
