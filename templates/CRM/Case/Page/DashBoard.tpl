@@ -41,15 +41,24 @@
 </table>
 
 <div class="spacer"></div>
-    {if $upcomingCases}
     <h3>{ts}Cases With Upcoming Activities{/ts}</h3>
+    {if $upcomingCases}
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="upcoming" rows=$upcomingCases}
     </div>
+    {else}
+        <div class="messages status">
+	    {ts}There are no cases with activities scheduled in the next two weeks. Use Find Cases to expand your search.{/ts}
+        </div>
     {/if}
-    {if $recentCases}
+<div class="spacer"></div>
     <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
+    {if $recentCases}
     <div class="form-item">
         {include file="CRM/Case/Page/DashboardSelector.tpl" context="dashboard" list="recent" rows=$recentCases}
     </div>
+    {else}
+        <div class="messages status">
+	    {ts}There are no cases with activities scheduled in the past two weeks. Use Find Cases to expand your search.{/ts}
+        </div>
     {/if}
