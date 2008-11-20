@@ -112,7 +112,14 @@ class CRM_Utils_REST
      * @static
      */
     public function authenticate($name, $pass) {
-        eval ('$result =& CRM_Utils_System_Drupal::authenticate($name, $pass);');
+        require_once 'CRM/Utils/System.php';
+        
+        // first check for civicrm site key
+        if ( ! CRM_Utils_System::authenticateKey( false ) ) {
+            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
+        }
+
+        $result =& CRM_Utils_System::authenticate($name, $pass);
 
         if (empty($result)) {
             return self::error( ts( 'Could not authenticate user, invalid name / password' ) );
@@ -204,7 +211,7 @@ class CRM_Utils_REST
             }
             return self::authenticate( $name, $pass );
         } else {
-            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, 'GET' );
+            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, null, 'GET' );
             if ( ! self::verify( $key ) ) {
                 return self::error( ts( 'session keys do not match, please re-auth' ) );
             }

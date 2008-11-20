@@ -158,6 +158,14 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 define('CIVICRM_DOMAIN_ID' , 1 );
 
+/*
+ * If you are using any CiviCRM script in the bin directory that
+ * requires authentication, then you also need to set this key.
+ * We recommend using a 16-32 bit alphanumeric/punctuation key. 
+ * More info at http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration
+ */
+define( 'CIVICRM_SITE_KEY', null );
+
 /**
  * 
  * Do not change anything below this line. Keep as is

@@ -35,11 +35,6 @@ $rest =& new CRM_Utils_REST();
 
 /* Cache the real UF, override it with the SOAP environment */
 $config =& CRM_Core_Config::singleton();
-
-$config->userFramework          = 'Soap';
-$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-$config->userHookClass          = 'CRM_Utils_Hook_Soap';
-
 echo $rest->run( $config );
 
 ?>
