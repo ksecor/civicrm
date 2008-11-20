@@ -630,7 +630,7 @@ class CRM_GCD {
      *
      * addIndividual()
      *
-     * This method adds data to the contact_individual table
+     * This method adds individual's data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -675,7 +675,7 @@ class CRM_GCD {
      *
      * addHousehold()
      *
-     * This method adds data to the contact_household table
+     * This method adds household's data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -719,7 +719,7 @@ class CRM_GCD {
      *
      * addOrganization()
      *
-     * This method adds data to the contact_organization table
+     * This method adds organization data to the contact table
      *
      * The following fields are generated and added.
      *
@@ -1574,25 +1574,37 @@ VALUES
  
     }
     
+    function addPCP( )
+    {
+        $query = "
+INSERT INTO `civicrm_pcp`
+    (contact_id, status_id, title, intro_text, page_text, donate_link_text, contribution_page_id, is_thermometer, is_honor_roll, goal_amount, referer, is_active)
+VALUES
+    ({$this->individual[3]}, 2, 'My Personal Civi Fundraiser', 'I''m on a mission to get all my friends and family to help support my favorite open-source civic sector CRM.', '<p>Friends and family - please help build much needed infrastructure for the civic sector by supporting my personal campaign!</p>\r\n<p><a href=\"http://civicrm.org\">You can learn more about CiviCRM here</a>.</p>\r\n<p>Then click the <strong>Contribute Now</strong> button to go to our easy-to-use online contribution form.</p>', 'Contribute Now', 1, 1, 1, 5000.00, NULL, 1);
+";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+    
+    
     function addContribution( ) 
     {
         $query = "
 INSERT INTO civicrm_contribution
-    (contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
+    (contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source, pcp_made_through_id, pcp_display_in_roll, pcp_roll_nickname)
 VALUES
-    (2, 1, 4, '2007-04-11 00:00:00', 0.00, 125.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (4, 1, 1, '2007-03-21 00:00:00', 0.00, 50.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (6, 1, 4, '2007-04-29 00:00:00', 0.00, 25.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (8, 1, 4, '2007-04-11 00:00:00', 0.00, 50.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (16, 1, 4, '2007-04-15 00:00:00', 0.00, 500.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (19, 1, 4, '2007-04-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
-    (82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (71, 1, 1, '2008-07-03 11:53:50', 0.00, 500.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (43, 1, 1, '2008-07-02 12:55:41', 0.00, 200.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (32, 1, 1, '2008-06-02 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (32, 1, 1, '2008-07-01 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL );
+    (2, 1, 4, '2007-04-11 00:00:00', 0.00, 125.00, 'check #1041', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1', NULL, NULL, NULL),
+    (4, 1, 1, '2007-03-21 00:00:00', 0.00, 50.00, 'P20901X1', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins', NULL, NULL, NULL),
+    (6, 1, 4, '2007-04-29 00:00:00', 0.00, 25.00, 'check #2095', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1', NULL, NULL, NULL),
+    (8, 1, 4, '2007-04-11 00:00:00', 0.00, 50.00, 'check #10552', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1', NULL, NULL, NULL),
+    (16, 1, 4, '2007-04-15 00:00:00', 0.00, 500.00, 'check #509', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1', NULL, NULL, NULL),
+    (19, 1, 4, '2007-04-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1', NULL, NULL, NULL),
+    (82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins', NULL, NULL, NULL),
+    (92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Help CiviCRM', 1, 1, 'Annie and the kids'),
+    (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Help CiviCRM', 1, 1, 'Jones Family'),
+    (71, 1, 1, '2008-07-03 11:53:50', 0.00, 500.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL ),
+    (43, 1, 1, '2008-07-02 12:55:41', 0.00, 200.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-06-02 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-01 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL );
 ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -1617,29 +1629,6 @@ VALUES
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
-    function addPbPledge( )
-    {
-        $pledge = "INSERT INTO civicrm_pb_pledge
-        ( creator_name, creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
-      VALUES 
-        ( 'I', 'donate $200 towards defending WikiLeaks in their first amendment fight', 10, 'other good people', 'give $20 to $200 dollars and encourage others to do the same!', '2009-06-30 00:00:00', NULL, NULL, 76, NULL, '2008-06-23 17:57:28', NULL, 1 ),
-        ( 'My organisation', 'give at least 20 pounds to the Ebbsfleet United playing budget for 2008-09', 1000, 'other people',  'do the same', '2009-06-23 00:00:00', NULL, NULL, 90, NULL, '2008-06-23 18:08:32', NULL, 1 ),
-        ( 'I',  'donate my old laptop to a charity', 10, 'other people', 'do the same', '2009-06-30 00:00:00', NULL, NULL, 40, NULL, '2008-06-23 18:12:38', NULL, 1 );
-      ";
-        CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
-    }
-    
-    function addPbPledgeSigner( )
-    {
-        $pledgeSigner = "INSERT INTO civicrm_pb_signer
-        ( contact_id,  pledge_id, is_anonymous, email_id, is_done, signing_date, is_test)
-      VALUES
-        ( 19, 1, 1, 42, 1, '2008-06-23 18:18:58', 0 ),
-        (  9, 2, 0,  8, 1, '2008-06-23 00:00:00', 0 ),
-        ( 73, 3, 0,  4, 0, '2008-06-23 18:20:16', 0 );
-      ";
-        CRM_Core_DAO::executeQuery( $pledgeSigner, CRM_Core_DAO::$_nullArray );      
-    }
 
     function addPledge( )
     {
@@ -1701,8 +1690,7 @@ $obj1->addMembershipLog();
 $obj1->createEvent( );
 $obj1->addParticipant();
 $obj1->addContribution();
-//$obj1->addPbPledge();
-//$obj1->addPbPledgeSigner();
+$obj1->addPCP();
 $obj1->addPledge();
 $obj1->addPledgePayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
