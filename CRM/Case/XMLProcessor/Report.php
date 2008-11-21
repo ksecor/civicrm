@@ -140,10 +140,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
                     foreach ( $activitySetXML->ActivityTypes as $activityTypesXML ) {
                         foreach ( $activityTypesXML as $activityTypeXML ) {
                             $activityTypeName =  (string ) $activityTypeXML->name;
-                            $categoryName     =  (string ) $activityTypeXML->category;
-                            $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName,
-                                                                        CRM_Utils_Array::value( $categoryName,
-                                                                                                $allActivityTypes ) );
+                            $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $allActivityTypes );
                             if ( $activityTypeInfo ) {
                                 $activityTypes[$activityTypeInfo['id']] = $activityTypeInfo;
                             }
@@ -242,7 +239,6 @@ WHERE      a.id = %1
         // Activity Type info is a special field
         $activity['fields'][] = array( 'label'    => 'Activity Type',
                                        'value'    => $activityTypeInfo['label'],
-                                       'category' => $activityTypeInfo['parentLabel'],
                                        'type'     => 'String' );
         
         $activity['fields'][] = array( 'label' => 'Subject',
