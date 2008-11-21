@@ -60,6 +60,19 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     {  
         parent::preProcess( );
 
+        // make sure we have right permission to edit this user
+        $csContactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, false, $this->_userID );
+
+        require_once 'CRM/Contact/BAO/Contact.php';
+        if ( $csContactID != $this->_userID ) {
+            require_once 'CRM/Contact/BAO/Contact/Permission.php';
+            if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID ) ) {
+                $session =& CRM_Core_Session::singleton( );
+                $session->set( 'userID', $csContactID ) ;
+                $this->_userID = $csContatcID;
+            }
+        }
+
         if (  CRM_Utils_Array::value( 'id', $this->_pcpInfo )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpInfo ) ) {
             $this->assign( 'intro_text' , $this->_pcpInfo['intro_text'] );
         } else if ( CRM_Utils_Array::value( 'intro_text', $this->_values ) ) {
@@ -84,7 +97,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        $contactID = $this->_userID;
         
         if ( !$contactID ) {
             //retrieve contact id from url if its send
@@ -225,11 +238,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         
          //build pledge block.
-        $session =& CRM_Core_Session::singleton( );
-        $this->_mid = null;
-        if ( $session->get('userID') ) {
-            $this->_mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-        }
+
         //don't build membership block when pledge_id is passed
         if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->_separateMembershipPayment = false;
@@ -297,9 +306,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         //to create an cms user 
-        $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get( 'userID' );
-        if ( ! $userID ) {
+        if ( ! $this->_userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
                 $profileID = $this->_values['custom_pre_id'];

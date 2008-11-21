@@ -351,8 +351,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $config =& CRM_Core_Config::singleton( );
         require_once "CRM/Contact/BAO/Contact.php";
 
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        $contactID = $this->_userID;
 
         // add a description field at the very beginning
         $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . 

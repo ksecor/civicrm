@@ -109,4 +109,18 @@ WHERE contact_a.id = %1 AND $permission";
         }
     }
 
+    static function validateChecksumContact( $contactID ) {
+        if ( ! self::allow( $id, CRM_Core_Permission::EDIT ) ) {
+            // check if this is of the format cs=XXX
+            $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
+            if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID, $cs ) ) {
+                $config =& CRM_Core_Config::singleton( );
+                CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
+                                              $config->userFrameworkBaseURL );
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
