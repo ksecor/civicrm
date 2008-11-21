@@ -23,6 +23,12 @@
     <add>2.2</add>
   </field>
   <field>
+    <name>is_default</name>
+    <type>boolean</type>
+    <comment>whether this is the default set of settings for this domain</comment>
+    <add>2.2</add>
+  </field>
+  <field>
     <name>domain</name>
     <type>varchar</type>
     <length>255</length>
@@ -78,7 +84,7 @@
     <add>2.2</add>
   </field>
   <field>
-    <name>secure</name>
+    <name>is_ssl</name>
     <type>boolean</type>
     <comment>whether to use SSL or not</comment>
     <add>2.2</add>
