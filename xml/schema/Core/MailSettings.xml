@@ -16,6 +16,13 @@
     <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
+    <name>name</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>name of this group of settings</comment>
+    <add>2.2</add>
+  </field>
+  <field>
     <name>domain</name>
     <type>varchar</type>
     <length>255</length>
