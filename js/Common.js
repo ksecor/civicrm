@@ -460,7 +460,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
 	    if ( toggleSelect[0].checked || document.forms[form].radio_ts[0].checked ) {
 		return true;
 	    } else {
-		alert( "Please select all contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button." );
+		alert( "Please select all contacts for this action.\n\nTo use the entire set of search results, click the 'all records' radio button." );
 		return false;
 	    }
 	}
@@ -475,7 +475,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
 	
         cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
         if (!cnt) {
-            alert ("Please select one or more contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button.");
+            alert ("Please select one or more contacts for this action.\n\nTo use the entire set of search results, click the 'all records' radio button.");
             return false;
         }
     } else {
