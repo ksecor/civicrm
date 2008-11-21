@@ -161,7 +161,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                $this->_contactId );
         
         //display OtherActivity link 
-        $otherAct = CRM_Core_PseudoConstant::activityType( 'Core', 'false', array('Core Activities - Custom') );
+        $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);
         $this->assign('showOtherActivityLink',$activityNum);
         

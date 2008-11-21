@@ -113,7 +113,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function actionLinks( $activityTypeId, $sourceRecordId = null ) 
     {
-        $activityTypes   = CRM_Core_PseudoConstant::activityType( );
+        $activityTypes   = CRM_Core_PseudoConstant::activityType( false );
         $activityTypeIds = array_flip( CRM_Core_PseudoConstant::activityType( ) );
         
         //show  edit link only for meeting/phone and other activities

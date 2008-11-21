@@ -61,3 +61,13 @@ INSERT INTO civicrm_premiums
 
 INSERT INTO civicrm_product VALUES (1, 'Coffee Mug', 'This heavy-duty mug is great for home or office, coffee or tea or hot chocolate. Show your support to family, friends and colleagues. Choose from three great colors.', 'MUG-101', 'White, Black, Green', NULL, NULL, 12.50, 5.00, 2.25, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
+
+
+-- Add sample activity type
+
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+   (@option_group_id_act, 'Interview', 12, 'Interview',  NULL, 0, NULL, 12, 'Conduct a phone or in person interview.', 0, 0, 1);

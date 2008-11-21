@@ -160,15 +160,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                         array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );   
         
         //Fix for code alignment, CRM-3058
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once "CRM/Contribute/PseudoConstant.php";
+        require_once "CRM/Member/BAO/MembershipType.php";
         require_once 'CRM/Event/PseudoConstant.php';
-        require_once 'CRM/Contact/BAO/Relationship.php';
+        require_once "CRM/Contact/BAO/Relationship.php";
         require_once 'CRM/Core/OptionGroup.php';
         
         $sel1 = array( "" => "-- Select --" ) + CRM_Core_SelectValues::customGroupExtends( );
         $sel2 = array( );
-        $activityType    = CRM_Core_PseudoConstant::activityType( null, 'false' );
+        $activityType    = CRM_Core_PseudoConstant::activityType( false );
         $eventType       = CRM_Core_OptionGroup::values( 'event_type' );
         $membershipType  = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $participantRole = CRM_Core_OptionGroup::values( 'participant_role' );
