@@ -211,3 +211,31 @@ function civicrm_civicrm_tabs( &$tabs, $contactID ) {
                      'title' => 'Contribution Tab Renamed',
                      'weight' => 300 );
 }
+
+
+function civicrm_civicrm_tokenCategories( &$categories ) { 
+    $categories[] = 'contribution';
+}
+
+function civicrm_civicrm_tokenDetails( &$details, &$contactIDs ) {
+    $contactIDString = implode( ',', array_values( $contactIDs ) );
+    $query = "
+SELECT sum( total_amount ) as total_amount,
+       contact_id,
+       max( receive_date ) as receive_date
+FROM   civicrm_contribution 
+WHERE  contact_id IN ( $contactIDString )
+AND    is_test = 0
+GROUP BY contact_id
+";
+
+    $dao = CRM_Core_DAO::executeQuery( $query );
+    while ( $dao->fetch( ) ) {
+        if ( ! array_key_exists( $dao->contact_id, $details ) ) {
+            $details[$dao->contact_id] = array( );
+        }
+
+        $details[$dao->contact_id]['contribution.amount'] = $dao->total_amount;
+        $details[$dao->contact_id]['contribution.date'  ] = $dao->receive_date;
+    }
+}

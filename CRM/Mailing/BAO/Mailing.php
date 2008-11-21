@@ -492,6 +492,15 @@ AND    $mg.mailing_id = {$mailing_id}
      */
     function &getDataFunc($token) 
     {
+        static $_categories = null;
+        static $_categoryString = null;
+        if ( ! $_categories ) {
+            $_categories = array( 'domain', 'action', 'mailing', 'contact' );
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::tokenCategories( $_categories );
+            $_categoryString = implode( '|', $_categories );
+        }
+
         $funcStruct = array('type' => null,'token' => $token);
         $matches = array();
         if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) ) {
@@ -513,26 +522,9 @@ AND    $mg.mailing_id = {$mailing_id}
                 $funcStruct['type'] = 'url';
             }
             
-        } else if ( preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches) ) {
-            
+        } else if ( preg_match('/^\{(' . $_categoryString . ')\.(\w+)\}$/', $token, $matches) ) {
             $funcStruct['type'] = $matches[1];
             $funcStruct['token'] = $matches[2];
-            
-        } else if ( preg_match('/^\{(action)\.(\w+)\}$/',$token, $matches) ) {
-          
-            $funcStruct['type'] = $matches[1];
-            $funcStruct['token'] = $matches[2];
-            
-        } else if ( preg_match('/^\{(mailing)\.(\w+)\}$/',$token,$matches) ) {
-            
-            $funcStruct['type'] = $matches[1];
-            $funcStruct['token'] = $matches[2];
-            
-        } else if ( preg_match('/^\{(contact)\.(\w+)\}$/',$token, $matches) ) {
-            
-            $funcStruct['type'] = $matches[1];
-            $funcStruct['token'] = $matches[2];
-            
         } else if(preg_match('/\\\\\{(\w+\.\w+)\\\\\}|\{\{(\w+\.\w+)\}\}/', $token, $matches) ) {
             // we are an escaped token
             // so remove the escape chars
@@ -1111,7 +1103,9 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             require_once 'CRM/Core/BAO/Domain.php';
             $domain =& CRM_Core_BAO_Domain::getDomain( );
             $data = CRM_Utils_Token::getDomainTokenReplacement($token, $domain, $html);
-         } 
+        } else {
+            $data = CRM_Utils_Array::value( "{$type}.{$token}", $contact );
+        }
  
         return $data;
     }
@@ -1836,10 +1830,10 @@ SELECT DISTINCT( m.id ) as id
      * @return array
      * @access public
      */
-    function getDetails($contactIds, $returnProperties = null ) 
+    function getDetails($contactIDs, $returnProperties = null ) 
     {
         $params = array( );
-        foreach ( $contactIds  as $key => $contactID ) {
+        foreach ( $contactIDs  as $key => $contactID ) {
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
                                '=', 1, 0, 1);
         }
@@ -1869,7 +1863,7 @@ SELECT DISTINCT( m.id ) as id
         }
         
         //get the total number of contacts to fetch from database.
-        $numberofContacts = count( $contactIds );
+        $numberofContacts = count( $contactIDs );
         
         require_once 'CRM/Contact/BAO/Query.php';
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
@@ -1877,7 +1871,7 @@ SELECT DISTINCT( m.id ) as id
         
         $contactDetails =& $details[0];
         
-        foreach ( $contactIds as $key => $contactID ) {
+        foreach ( $contactIDs as $key => $contactID ) {
             if ( array_key_exists( $contactID, $contactDetails ) ) {
                 
                 if ( CRM_Utils_Array::value( 'preferred_communication_method', $returnProperties ) == 1 
@@ -1907,6 +1901,10 @@ SELECT DISTINCT( m.id ) as id
                 }
             }
         }
+
+        // also call a hook and get token details
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::tokenDetails( $details[0], $contactIDs );
         return $details;
     }
 

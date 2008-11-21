@@ -196,6 +196,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                       WHERE civicrm_email.email IN ($emails)";
             
             $dao =& CRM_Core_DAO::executeQuery( $query );
+            $emailDetail = array( );
             // fetch contact_id and email id for all existing emails
             while ( $dao->fetch( ) ) {
                 $emailDetail[$dao->email] = array(

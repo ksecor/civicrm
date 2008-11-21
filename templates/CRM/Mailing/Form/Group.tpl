@@ -44,20 +44,6 @@
   {/if}
   </table>
 
-  <table>
-    <tr>
-       <td>{$form.search_id.label}</td>
-       <td>{$form.search_id.html}</td>
-    </tr>
-    <tr>
-       <td>{$form.search_args.label}</td>
-       <td>{$form.search_args.html}</td>
-    </tr>
-    <tr>
-       <td>{$form.group_id.label}</td>
-       <td>{$form.group_id.html}</td>
-    </tr>
-  </table>    
   {/strip}
   </fieldset>
  </div>

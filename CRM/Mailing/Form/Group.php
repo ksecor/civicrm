@@ -228,14 +228,6 @@ class CRM_Mailing_Form_Group extends CRM_Contact_Form_Task
                    -1 => ts( 'CiviCRM Search' ) ) +
             CRM_Contact_Page_CustomSearch::info( );
             
-        $this->add( 'select', 'search_id', ts( 'Filtering Search' ), $urls   );
-        $this->add( 'select', 'group_id' , ts( 'Group to Filter'  ),
-                    array( '' => ts('- select -') ) + $groups );
-        $this->add( 'textarea',
-                    'search_args',
-                    ts( 'Search Arguments' ),
-                    array( 'rows' => 4, 'cols' => 80 ) );
-
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
         $this->addButtons( array(
