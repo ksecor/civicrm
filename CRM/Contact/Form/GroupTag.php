@@ -77,19 +77,23 @@ class CRM_Contact_Form_GroupTag
             if ($fieldName) {
                 $fName = $fieldName; 
             }
-
-            $elements = array( );
-            if ( $visibility ) {
-                $group  =& CRM_Core_PseudoConstant::allGroup( );
-            } else {
-                $group  =& CRM_Core_PseudoConstant::group( );
-            }
             
-            $ids = implode( ',', array_keys( $group ) );
+            $elements = array( );
+            if ( $groupID = CRM_Utils_Request::retrieve( 'grid', 'Integer', $this ) && !$visibility ) {
+                $ids = '= '.$groupID;
+            } else {
+                if ( $visibility ) {
+                    $group  =& CRM_Core_PseudoConstant::allGroup( );
+                } else {
+                    $group  =& CRM_Core_PseudoConstant::group( );
+                }
+                $ids = implode( ',', array_keys( $group ) );
+                $ids = 'IN ('.$ids.')';
+            }
             $sql = "
 SELECT id, title, description, visibility
 FROM   civicrm_group
-WHERE  id IN ( $ids )
+WHERE  id $ids
 ";
             $dao = CRM_Core_DAO::executeQuery( $sql );
             while ( $dao->fetch( ) ) {
@@ -97,18 +101,20 @@ WHERE  id IN ( $ids )
 		        if ( $visibility &&
                      $dao->visibility == 'User and User Admin Only' ) {
                     continue;
-		        }
-                $title = $dao->title;
+                }
+                   $title  = '<td><strong>'.$dao->title.'</strong></td>';
                 if ( ! empty( $dao->description ) ) {
                     // CRM-3448
-                    $title .= "&nbsp;-&nbsp;<span class=\"description font-italic\">{$dao->description}</span>";
+                    $title .= '<td>'.$dao->description.'</td></tr>';
+                } else {
+                    $title .= '<td></td></tr>';
                 }
 
-		        $elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, null, $title );
-		    }
-
+                $elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, null, $title );
+            }
+            
 	        if ( ! empty( $elements ) ) {
-                $form->addGroup( $elements, $fName, $groupName, '<br />' );
+                $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
                 if ( $isRequired ) {
                     $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
                 }

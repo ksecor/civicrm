@@ -296,11 +296,13 @@
     <tr>
         <td>
         <div class="label">{ts}Group(s){/ts}</div>
-        <div class="listing-box">
-	{$form.group.html}
+	<div class="listing-box">
+	<table id="selector" style="width:auto;border:none;">
+               <tr><td>{$form.group.html}</td></tr>
+        </table> 
         </div>
-        </td>
-        <td>
+	</td>
+	<td>
         <div class="label">{ts}Tag(s){/ts}</div>
         <div class="listing-box">
 	{$form.tag.html}

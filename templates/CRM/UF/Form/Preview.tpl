@@ -70,7 +70,13 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-           {$form.$n.html}
+	{if $n eq 'group'}
+		<table id="selector" class="selector" style="width:auto;">
+		<tr><td>{$form.$n.html}</td></tr>
+		</table>
+	{else}
+	   {$form.$n.html}
+	{/if}
         </td>
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
@@ -98,5 +104,12 @@
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
-
+{literal}
+<script type="text/javascript">
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
+</script>
+{/literal}
 

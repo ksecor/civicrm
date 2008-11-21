@@ -76,10 +76,10 @@
               <td class="labels font-light">{$form.$n.$key.html}</td>
               {if $count == $field.options_per_line}
                   </tr>
-                   <tr>
+                  <tr>
                    {assign var="count" value="1"}
               {else}
-          	       {assign var="count" value=`$count+1`}
+        	   {assign var="count" value=`$count+1`}
               {/if}
           {/if}
           {/foreach}
@@ -104,6 +104,11 @@
                      {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
                      </tr>
                </table> 
+	   {elseif $n eq 'group'}
+		<table id="selector" class="selector" style="width:auto;">
+		<tr><td>{$form.$n.html}</td></tr>
+		</table>
+
            {else}        
                {$form.$n.html}
            {/if}
@@ -209,5 +214,9 @@ invert              = 0
            hide('customGreeting');      
        }     
     }
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
 </script>
 {/literal}
