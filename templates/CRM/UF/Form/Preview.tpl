@@ -70,7 +70,7 @@
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
            {/if}
-	{if $n eq 'group'}
+	{if $n eq 'group' && $form.group}
 		<table id="selector" class="selector" style="width:auto;">
 		<tr><td>{$form.$n.html}</td></tr>
 		</table>

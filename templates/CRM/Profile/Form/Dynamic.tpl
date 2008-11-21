@@ -104,7 +104,7 @@
                      {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
                      </tr>
                </table> 
-	   {elseif $n eq 'group'}
+	   {elseif $n eq 'group' && $form.group}
 		<table id="selector" class="selector" style="width:auto;">
 		<tr><td>{$form.$n.html}</td></tr>
 		</table>
