@@ -631,6 +631,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
         
+        require_once 'CRM/Core/BAO/CustomField.php';
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
                                                                    $customFields,
