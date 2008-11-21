@@ -125,7 +125,7 @@ class CRM_Activity_Page_Tab extends CRM_Contact_Page_View
      * @return void
      * @access public
      *
-v     */
+     */
     function preProcess()
     {
         parent::preProcess();

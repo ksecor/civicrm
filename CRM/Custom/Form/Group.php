@@ -99,21 +99,21 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         }
 
         if ( $fields['is_multiple'] ) {
-	  if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
-	       && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
-            $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
-	  }
-	  
-	  if ( $fields['style'] == 'Inline' ) {
-	    $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
-	  }
-	}
-
+            if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
+                 && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
+                $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
+            }
+            
+            if ( $fields['style'] == 'Inline' ) {
+                $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
+            }
+        }
+        
         //checks the given custom group doesnot start with digit
         $title = $fields['title']; 
         if ( ! empty( $title ) ) {
-            $asciiValue = ord($title{0});//gives the ascii value
-            if($asciiValue>=48 && $asciiValue<=57) {
+            $asciiValue = ord( $title{0} );//gives the ascii value
+            if( $asciiValue >= 48 && $asciiValue <= 57 ) {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
