@@ -34,9 +34,9 @@ There's the potential for collisions (two different labels having the same short
 		{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 		{if $field.datatype == 'Date'}
 			{if $field.includeTime}
-				{$field.value|escape|replace:'T':' '|crmdate}
+				{$field.value|escape|replace:'T':' '|crmDate}
 			{else}
-				{$field.value|escape|truncate:10:'':true|crmdate}
+				{$field.value|escape|truncate:10:'':true|crmDate}
 			{/if}
 		{else}
 			{$field.value|escape}
@@ -65,9 +65,9 @@ There's the potential for collisions (two different labels having the same short
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
 				{if $field.includeTime}
-					{$field.value|escape|replace:'T':' '|crmdate}
+					{$field.value|escape|replace:'T':' '|crmDate}
 				{else}
-					{$field.value|escape|truncate:10:'':true|crmdate}
+					{$field.value|escape|truncate:10:'':true|crmDate}
 				{/if}
 			{else}
 				{$field.value|escape}
@@ -88,9 +88,9 @@ There's the potential for collisions (two different labels having the same short
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
 				{if $field.includeTime}
-					{$field.value|escape|replace:'T':' '|crmdate}
+					{$field.value|escape|replace:'T':' '|crmDate}
 				{else}
-					{$field.value|escape|truncate:10:'':true|crmdate}
+					{$field.value|escape|truncate:10:'':true|crmDate}
 				{/if}
 			{else}
 				{$field.value|escape}
