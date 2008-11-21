@@ -138,10 +138,10 @@ SET    version = '$version'
     }
 
     function checkVersion( $version ) {
-        $domainId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
+        $domainID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
                                                  $version, 'id',
                                                  'version' );
-        return $domainId ? true : false; 
+        return $domainID ? true : false; 
     }
 
 

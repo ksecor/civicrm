@@ -55,7 +55,7 @@ class CRM_Contact_BAO_Query
         MODE_EVENT      =  16,
         MODE_KABISSA    =  64,
         MODE_GRANT      = 128,
-        MODE_PLEDGEBANK = 256,
+        MODE_PLEDGEiANK = 256,
         MODE_PLEDGE     = 512,
         MODE_CASE       = 2048,
         MODE_ALL        = 1023;
@@ -889,11 +889,14 @@ class CRM_Contact_BAO_Query
             }
             if ( $this->_useDistinct ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
-            } elseif ( isset( $this->_distinctComponentClause)  ) {
-                $this->_select['case_id'] = $this->_distinctComponentClause;
+            } 
+
+            $select = "SELECT ";
+            if ( isset( $this->_distinctComponentClause)  ) {
+                $select .= "{$this->_distinctComponentClause}, ";
             }
             
-            $select = 'SELECT ' . implode( ', ', $this->_select );
+            $select .= implode( ', ', $this->_select );
             $from = $this->_fromClause;
 
         }
