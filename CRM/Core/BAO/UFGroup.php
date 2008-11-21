@@ -342,7 +342,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
                 
-                if ($field->phone_type) {
+                if ( isset( $field->phone_type ) ) {
                     $name      .= "-{$field->phone_type}";
                     if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
                         $phoneType  = "-{$field->phone_type}";
@@ -365,7 +365,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'in_selector'      => $field->in_selector,
                           'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                           'location_type_id' => $field->location_type_id,
-                          'phone_type'       => $field->phone_type,
+                          'phone_type'       => isset( $field->phone_type ) ? $field->phone_type : NULL,
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
                           'collapse_display' => $group->collapse_display,
