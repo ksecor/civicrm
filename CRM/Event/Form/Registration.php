@@ -533,7 +533,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $form->set('priceSet', $form->_priceSet);
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
-            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['fee'] );
+            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['fee'], true );
             require_once 'CRM/Core/BAO/Discount.php';
             $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventID, "civicrm_event");
             if ( is_array( $discountedEvent ) ) {
