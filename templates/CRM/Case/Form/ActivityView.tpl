@@ -1,23 +1,22 @@
-{* View Case Activities *}
+{* View Case Activities *} {* Uses inline styles since we haven't figured out yet how to include our normal .css files. *}
 {if $revs}
-  <fieldset><legend>Prior Revisions - {$subject}</legend>
+  <strong>{$subject}</strong> ({ts}all revisions{/ts})<br />
   {strip}
-  <table style="width: 95%">
-      <tr style="background-color: #B3D1FF; color: #000000; border: 1px solid #5A8FDB;">
+  <table style="width: 95%; border: 1px solid #CCCCCC;">
+      <tr style="background-color: #F6F6F6; color: #000000; border: 1px solid #CCCCCC;">
          <th>{ts}Created By{/ts}</th>
          <th>{ts}Created On{/ts}</th>
          <th>&nbsp;</th>
       </tr>
        {foreach from=$result item=row}
-      <tr class="{cycle values="odd-row,even-row"}">
+      <tr {if $row.id EQ $latestRevisionID}style="font-weight: bold;"{/if}>
          <td>{$row.name}</td>
-         <td>{$row.date}</td>
-         <td><a href = "javascript:viewRevision( {$row.id} );">{if $row.id != $latestRevisionID}View{else}View Current{/if}</a></td>
+         <td>{$row.date|crmDate}</td>
+         <td><a href="javascript:viewRevision( {$row.id} );" title="{ts}View this revision of the activity record.{/ts}">{if $row.id != $latestRevisionID}View Prior Revision{else}View Current Revision{/if}</a></td>
       </tr>
        {/foreach}
   </table>
   {/strip}
-  </fieldset>
 {else}
 {if $report}
 <table style="width: 95%">
@@ -26,9 +25,9 @@
     <td class="label">{$row.label}</td>
     {if $smarty.foreach.report.first AND ( $activityID OR $parentID OR $latestRevisionID )} {* Add a cell to first row with links to prior revision listing and Prompted by (parent) as appropriate *}
         <td class="label">{$row.value}</td>
-        <td style="padding-right: 50px; text-align: right;">
-            {if $activityID}<a href="javascript:ListRevisions({$activityID});">&raquo; {ts}List revisions{/ts}</a><br />{/if}
-            {if $latestRevisionID}<a href="javascript:viewRevision({$latestRevisionID});">&raquo; {ts}Current revision{/ts}</a><br />{/if}                   
+        <td style="padding-right: 50px; text-align: right; font-size: .9em;">
+            {if $activityID}<a href="javascript:ListRevisions({$activityID});">&raquo; {ts}List all revisions{/ts}</a><br />{ts}(this is the current revision){/ts}<br />{/if}
+            {if $latestRevisionID}<a href="javascript:viewRevision({$latestRevisionID});">&raquo; {ts}View current revision{/ts}</a><br /><span style="color: red;">{ts}(this is not the current revision){/ts}</span><br />{/if}                   
             {if $parentID}<a href="javascript:viewRevision({$parentID});">&raquo; {ts}Prompted by{/ts}</a>{/if}
         </td>
     {else}
@@ -39,7 +38,7 @@
 {* Display custom field data for the activity. *}
 {if $report.customGroups}
     {foreach from=$report.customGroups item=customGroup key=groupTitle name=custom}
-        <tr style="background-color: #F6F6F6; color: #000000; border: 1px solid #5A8FDB; font-weight: bold">
+        <tr style="background-color: #F6F6F6; color: #000000; border: 1px solid #CCCCCC; font-weight: bold">
             <td colspan="3">{$groupTitle}</td>
         </tr>
         {foreach from=$customGroup item=customField name=fields}
