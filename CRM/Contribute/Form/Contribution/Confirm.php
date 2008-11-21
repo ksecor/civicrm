@@ -455,6 +455,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // lets store the contactID in the session
         // for things like tell a friend
+        $session =& CRM_Core_Session::singleton( );
         if ( ! $session->get( 'userID' ) ) {
             $session->set( 'transaction.userID', $contactID );
         } else {
