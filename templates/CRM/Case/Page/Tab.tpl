@@ -15,8 +15,9 @@
 {if $cases}
     {if $action eq 16 and $permission EQ 'edit'}
         <div class="action-link">
-        <a href="{$newCaseURL}">&raquo; {ts}New Case{/ts}</a>
+        <a accesskey="N" href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
         </div>
+        <br /><br />
     {/if}
     <div class="form-item" id=case_page>
     {strip}
