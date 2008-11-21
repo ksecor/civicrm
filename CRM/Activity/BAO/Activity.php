@@ -1060,7 +1060,7 @@ AND id < {$activityID}
      * @return array $result  prior acyivities info.
      * @access public
      */
-    static function getPriorAcitivities( $activityID, $onlyPriorRevisions = true ) 
+    static function getPriorAcitivities( $activityID, $onlyPriorRevisions = false ) 
     {
         $originalID = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
                                                    $activityID,
@@ -1072,7 +1072,6 @@ AND id < {$activityID}
 SELECT c.display_name as name, cl.modified_date as date, ca.id as activityID
 FROM civicrm_log cl, civicrm_contact c, civicrm_activity ca
 WHERE (ca.id = {$originalID} OR ca.original_id ={$originalID})
-AND ca.is_current_revision = 0
 AND cl.entity_table = 'civicrm_activity'
 AND cl.entity_id = ca.id
 AND cl.modified_id = c.id
