@@ -338,27 +338,27 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Role'),
+                                                'name'      => ts('My Role'),
                                                 'sort'      => 'case_role',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Date of Most Recent Activity'),
+                                                'name'      => ts('Most Recent-Date'),
                                                 'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Activity(most recent activity)'),
+                                                'name'      => ts('Type'),
                                                 'sort'      => 'case_recent_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Date of next scheduled Activity'),
+                                                'name'      => ts('Next Scheduled-Date'),
                                                 'sort'      => 'case_scheduled_activity_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(
-                                                'name'      => ts('Activity(next scheduled activity)'),
+                                                'name'      => ts('Type'),
                                                 'sort'      => 'case_scheduled_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

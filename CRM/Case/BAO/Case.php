@@ -655,7 +655,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $where = 'WHERE cca.case_id= %1 
                     AND ca.id = cca.activity_id 
-                    AND cc.id = ca.source_contact_id ';
+                    AND cc.id = ca.source_contact_id
+                    AND ca.is_deleted = 0
+                    AND ca.is_current_revision = 1';
 
         if ( $params['reporter_id'] ) {
             $where .= " AND ca.source_contact_id = ".CRM_Utils_Type::escape( $params['reporter_id'], 'Integer' );
