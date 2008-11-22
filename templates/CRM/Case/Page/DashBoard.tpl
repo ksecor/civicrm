@@ -5,11 +5,12 @@
   <table class="form-layout-compressed">
     <tr>
       <td>
-        <a href="{crmURL p="civicrm/case" q="reset=1"}" class="button"><span>&raquo; {ts}Show ALL Cases{/ts}</span></a><br />
-      </td>
-    </tr><tr>
-      <td>
         <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case for New Client{/ts}</span></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="right">
+        <a href="{crmURL p="civicrm/case" q="reset=1"}"><span>&raquo; {ts}Show ALL Cases{/ts}</span></a>
       </td>
     </tr>
   </table>
