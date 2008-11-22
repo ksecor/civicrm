@@ -993,7 +993,10 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         if ($text && ( $test || $contact['preferred_mail_format'] == 'Text' ||
                        $contact['preferred_mail_format'] == 'Both' ||
                        ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) ) {
-            $message->setTxtBody( join( '', $text ) );
+            $textBody = join( '', $text );
+            $smarty =& CRM_Core_Smarty::singleton( );
+            $textBody = $smarty->fetch( "string:$textBody" );
+            $message->setTxtBody( $textBody );
         }
         
         if ( $html && ( $test ||  ( $contact['preferred_mail_format'] == 'HTML' ||
