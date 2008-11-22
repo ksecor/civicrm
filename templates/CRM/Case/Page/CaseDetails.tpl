@@ -26,10 +26,10 @@
       <th>{ts}Due date{/ts}</th>
       <th>{ts}Actual date{/ts}</th>
       <th>{ts}Subject{/ts}</th>
-      <th>{ts}Category{/ts}</th>
       <th>{ts}Type{/ts}</th>
       <th>{ts}Reporter{/ts}</th>
       <th>{ts}Status{/ts}</th>
+      <th></th>
     </tr>
 
     {counter start=0 skip=1 print=false}
@@ -38,15 +38,15 @@
       <td>{$row.due_date}</td>
       <td>{$row.actual_date}</td>
       <td>{$row.subject}</td>
-      <td>{$row.category}</td>
       <td>{$row.type}</td>
       <td>{$row.reporter}</td>
       <td>{$row.status}</td>
+      <td style="white-space: nowrap;">{$row.links}</td>
     </tr>
     {/foreach}
 
   </table>
 {else}
-    <strong>There is no activities defined for this case.</strong>
+    <strong>There are no activities defined for this case.</strong>
 {/if}
 {/strip}

@@ -276,6 +276,13 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 $this->assign( 'assigneeContactCount', 1 );
             }
             
+            // Set activity date time to now if not set yet (editing auto-populated activities)
+            if ( !isset( $this->_defaults['activity_date_time'] ) ) {
+                CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
+                $this->_defaults['activity_date_time']['i'] = 
+                (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
+            }
+
             // custom data defaults
             $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
             
@@ -524,7 +531,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
             
             // record status for status msg
-            $recordStatus = 'edited';
+            $recordStatus = 'updated';
         }
         
         // call end post process
@@ -635,7 +642,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );
         }
 
-        CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2. %3", 
+        CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3", 
                                         array('1' => $this->_activityTypeName, 
                                               '2' => $recordStatus, 
                                               '3' => $mailStatus)) );

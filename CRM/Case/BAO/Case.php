@@ -729,6 +729,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         $editUrl   = "{$url}&action=add";
         $deleteUrl = "{$url}&action=delete";
+        $viewTitle = ts('View this activity.');
               
         while ( $dao->fetch( ) ) {
             $values[$dao->id]['id']          = $dao->id;
@@ -737,7 +738,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']      = $activityStatus[$dao->status];
-            $values[$dao->id]['subject']     = "<a href='javascript:viewActivity( {$dao->id} );'>{$dao->subject}</a>";
+            $values[$dao->id]['subject']     = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
             

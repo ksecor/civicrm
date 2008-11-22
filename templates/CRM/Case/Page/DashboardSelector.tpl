@@ -19,7 +19,7 @@
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
 
-    <th>Activity Date</th>
+    <th class="right">{if $list EQ 'upcoming'}{ts}Due Date{/ts}{else}{ts}Activity Date{/ts}{/if}&nbsp;</th>
     <th>Activity Type</th>
 
     <th></th>
