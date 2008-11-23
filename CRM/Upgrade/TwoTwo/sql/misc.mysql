@@ -170,3 +170,8 @@ ALTER TABLE civicrm_note
     DROP FOREIGN KEY `FK_civicrm_note_contact_id`;
 ALTER TABLE `civicrm_note`
     ADD CONSTRAINT `FK_civicrm_note_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+
+-- CRM-3860
+ALTER TABLE civicrm_contact
+    ADD api_key varchar(32);
+CREATE INDEX index_api_key ON civicrm_contact(api_key);
