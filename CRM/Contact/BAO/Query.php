@@ -55,7 +55,7 @@ class CRM_Contact_BAO_Query
         MODE_EVENT      =  16,
         MODE_KABISSA    =  64,
         MODE_GRANT      = 128,
-        MODE_PLEDGEiANK = 256,
+        MODE_PLEDGEBANK = 256,
         MODE_PLEDGE     = 512,
         MODE_CASE       = 2048,
         MODE_ALL        = 1023;
