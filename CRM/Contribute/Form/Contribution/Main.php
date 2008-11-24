@@ -99,11 +99,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $session =& CRM_Core_Session::singleton( );
         $contactID = $this->_userID;
         
-        if ( !$contactID ) {
-            //retrieve contact id from url if its send
-            $contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        }
-
         if ( $contactID ) {
             $options = array( );
             $fields = array( );

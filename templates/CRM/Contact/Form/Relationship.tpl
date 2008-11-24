@@ -72,20 +72,21 @@
                 <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false">
                 {literal}
                   <script type="text/javascript">
-		  function setUrl( ) {
-   		    var relType = document.getElementById('relationship_type_id').value; 
-		    var widget  = dijit.byId('contact');
-		    if ( relType ) {
-			widget.setDisabled( false );
-			var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
-			var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
-			widget.store = queryStore;
-		    } else {
-			widget.setDisabled( true );
-		    }
-	          }
-		  dojo.addOnLoad( function( ) {  setUrl( ); });
-
+					function setUrl( ) {
+						
+						var relType = document.getElementById('relationship_type_id').value; 
+						var widget  = dijit.byId('contact');
+						if ( relType ) {
+							widget.setDisabled( false );
+							dojo.byId('contact').value = "";
+							var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
+							var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
+							widget.store = queryStore;
+						} else {
+							widget.setDisabled( true );
+						}
+					}
+					dojo.addOnLoad( function( ) {  setUrl( ); });
                   </script>
                 {/literal}
                 <dd>{$form.name.html}</dd></div>

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-07-09 06:41-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1130,10 +1130,6 @@ msgstr ""
 "macchina a cui punta il record MX per quel dominio) deve essere configurato "
 "in modo da gestire le email in ingresso per CiviMail (in modo da poter "
 "elaborare le azioni, come l'iscrizione, la deiscrizione, l'opt-out etc)."
-
-#: templates/CRM/Contact/Form/Domain.hlp
-msgid "Opens documentation in a new window."
-msgstr "Apre la documentazione in una nuova finestra."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Read more"
@@ -2974,3 +2970,6 @@ msgstr ""
 "che vengano generate pagine Web dinamiche, e l'invio di un modulo standalone "
 "con incluso il CAPTCHA risulterà sempre in un errore di validazione di "
 "CAPTCHA."
+
+#~ msgid "Opens documentation in a new window."
+#~ msgstr "Apre la documentazione in una nuova finestra."

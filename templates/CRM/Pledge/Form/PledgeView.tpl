@@ -8,8 +8,8 @@
  	<dt>{ts}Payments are due on the{/ts}</dt><dd>{$frequency_day}&nbsp;day of the period</dd>
 
       	{if $start_date}     
-       		<dt>{ts}Pledge Made{/ts}</dt><dd>{$start_date|truncate:10:''|crmDate}</dd>
-        	<dt>{ts}Payment Start{/ts}</dt><dd>{$create_date|truncate:10:''|crmDate}</dd>
+       		<dt>{ts}Pledge Made{/ts}</dt><dd>{$create_date|truncate:10:''|crmDate}</dd>
+        	<dt>{ts}Payment Start{/ts}</dt><dd>{$start_date|truncate:10:''|crmDate}</dd>
 	{/if}
         {if $end_date}    
         	<dt>{ts}End Date{/ts}</dt><dd>{$end_date|truncate:10:''|crmDate}</dd>

@@ -424,20 +424,24 @@ class CRM_Utils_System {
         $key = trim( CRM_Utils_Array::value( 'key', $_REQUEST ) );
 
         if ( ! $key ) {
-            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file\n",
+            return self::authenticateAbort( "ERROR: You need to send a valid key to execute this file. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
                                             $abort );
         }
 
         $siteKey = defined( 'CIVICRM_SITE_KEY' ) ? CIVICRM_SITE_KEY : null;
         if ( ! $siteKey ||
-             empty( $siteKey ) ||
-             strlen( $siteKey ) < 8 ) {
-            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php\n",
+             empty( $siteKey ) ) {
+            return self::authenticateAbort( "ERROR: You need to set a valid site key in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
+                                            $abort );
+        }
+
+        if ( strlen( $siteKey ) < 8 ) {
+            return self::authenticateAbort( "ERROR: Site key needs to be greater than 7 characters in civicrm.settings.php. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
                                             $abort );
         }
 
         if ( $key !== $siteKey ) {
-            return self::authenticateAbort( "ERROR: Invalid key sent\n",
+            return self::authenticateAbort( "ERROR: Invalid key value sent. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.\n",
                                             $abort );
         }
 

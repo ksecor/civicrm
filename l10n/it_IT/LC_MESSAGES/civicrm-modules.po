@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-10-28 08:15-0700\n"
 "Last-Translator: Francesco Santini <info@internet-fundraising.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1578,6 +1578,12 @@ msgid ""
 "If you want to enable the 'Contribution Amounts section', you need to either "
 "'Allow Other Amounts' and/or enter at least one row in the 'Fixed "
 "Contribution Amounts' table."
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+msgid ""
+"To disable Contribution Amounts section you need to first disable Separate "
+"Membership Payment option from Membership Settings."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php

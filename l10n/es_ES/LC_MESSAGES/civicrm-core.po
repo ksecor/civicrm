@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-08-11 21:01-0700\n"
 "Last-Translator: Aplyca Tecnologia <riascos69@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1692,10 +1692,6 @@ msgstr ""
 "No se pudo mover el fichero personalizado al directorio de subidas "
 "personalizadas"
 
-#: CRM/Core/BAO/CustomValueTable.php CRM/Utils/REST.php
-msgid "Unknown error"
-msgstr "Error desconocido"
-
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
 msgstr "No encontramos tu ID de usuario"
@@ -1992,11 +1988,6 @@ msgstr "Ajustes"
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
 msgstr "Mensaje sugerido"
-
-#: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
-#: CRM/Friend/Form/Pledge.php templates/CRM/Friend/Form/Friend.tpl
-msgid "Tell A Friend"
-msgstr "Envíalo a un amigo"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 #: CRM/Friend/Form/Pledge.php
@@ -3494,11 +3485,6 @@ msgstr "Opciones"
 
 #: CRM/Contact/BAO/Contact/Utils.php
 #, fuzzy
-msgid "Country - State"
-msgstr "País"
-
-#: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Primary Phone"
 msgstr "Primario"
 
@@ -4059,6 +4045,7 @@ msgid "Allowed to Login"
 msgstr "Permitido el identificarse"
 
 #: CRM/Contact/Form/Organization.php
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "SIC Code"
 msgstr "Código SIC"
 
@@ -4901,6 +4888,11 @@ msgstr "No tienes el permisos para ver este contacto"
 msgid "Dashboard - %1"
 msgstr "Cuadro de mandos - %1"
 
+#: CRM/Contact/Page/View/UserDashBoard.php xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "My Contacts / Organizations"
+msgstr "Añadir Contactos a Organización"
+
 #: CRM/Contact/Page/View/UserDashBoard.php
 #, fuzzy
 msgid "Edit Contact Information"
@@ -5145,6 +5137,10 @@ msgstr ""
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "value: %1 is not of the right field data type: %2"
 msgstr ""
+
+#: CRM/Core/BAO/CustomValueTable.php
+msgid "Unknown error"
+msgstr "Error desconocido"
 
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "No values found for the specified entity ID and custom field(s)."
@@ -7066,10 +7062,6 @@ msgstr "Longitud"
 msgid "Rule Weight"
 msgstr "Peso"
 
-#: CRM/Dedupe/Finder.php
-msgid "%1 rule for %2 does not exist"
-msgstr ""
-
 #: CRM/Export/BAO/Export.php
 msgid "Total Amount"
 msgstr "Cantidad Total"
@@ -7151,8 +7143,8 @@ msgid "Use Saved Field Mapping"
 msgstr "Cargar la asignación de campos guardados"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell A Friend enabled?"
-msgstr "Permitir comunicar a un amigo?"
+msgid "Tell a Friend enabled?"
+msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
@@ -7189,10 +7181,6 @@ msgstr "Gracias"
 #, fuzzy
 msgid "Thankyou Text"
 msgstr "Agradecimiento enviado"
-
-#: CRM/Friend/Form/Contribute.php
-msgid "Tell A Friend (%1)"
-msgstr "LLamar a un amigo (%1)"
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -8308,6 +8296,14 @@ msgstr ""
 msgid "Your CiviCRM database has been successfully upgraded to v2.1."
 msgstr ""
 
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Pre-condition failed for upgrade to 2.1.2."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Post-condition failed for upgrade to 2.1.2."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr ""
@@ -8495,32 +8491,6 @@ msgstr ""
 "El texto ingresado debe emparejar la frase en la imagen. Vea de nuevo por "
 "favor la imagen y vuelva a ingresar el texto que empareje."
 
-#: CRM/Utils/REST.php
-msgid "Could not authenticate user, invalid name / password"
-msgstr "No se puede autentificar el usuario, nombre/contraseña inválido"
-
-#: CRM/Utils/REST.php
-#, fuzzy
-msgid "Could not interpret return values from function"
-msgstr "No se puede interpretar los valores de vuelta de la función"
-
-#: CRM/Utils/REST.php
-msgid "Unknown function invocation"
-msgstr "Invocación a la función desconocida"
-
-#: CRM/Utils/REST.php
-msgid "Invalid name and password"
-msgstr "Nombre y clave inválidos"
-
-#: CRM/Utils/REST.php
-msgid "session keys do not match, please re-auth"
-msgstr "las claves de la sesión no coinciden, por favor vuelva a identificarse"
-
-#: CRM/Utils/REST.php
-#, fuzzy
-msgid "Unknown function called: %1"
-msgstr "Llamada a función desconocida"
-
 #: CRM/Utils/Sunlight.php
 msgid "Invalid response code received from Sunlight servers: %1"
 msgstr ""
@@ -8689,10 +8659,6 @@ msgstr ""
 "anónimos."
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "What type of operation (action) is being permitted?"
-msgstr "¿Qué tipo de operación (acción) se está permitiendo?"
-
-#: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
 msgstr "Seleccione el tipo de dato en que este ACL actua."
 
@@ -8726,6 +8692,14 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
+"NOTE: For Profile ACLs, the 'View' and 'Edit' operations currently do the "
+"same thing. Either option grants users access to profile-based create, edit, "
+"view and listings screens. Neither option grants access to administration of "
+"profiles."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
 msgstr ""
@@ -8733,8 +8707,27 @@ msgstr ""
 "permiso a TODOS LOS campos personalizados."
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "Select a event, OR apply this permission to ALL events."
+msgid ""
+"NOTE: For Custom Data ACLs, the 'View' and 'Edit' operations currently do "
+"the same thing. Either option grants the right to view AND / OR edit custom "
+"data fields (in all groups, or in a specific custom data group). Neither "
+"option grants access to administration of custom data fields."
 msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "Select an event, OR apply this permission to ALL events."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
+"NOTE: For Event ACLs, the 'View' operation allows access to the event "
+"information screen. \"Edit\" allows users to register for the event if "
+"online registration is enabled."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "What type of operation (action) is being permitted?"
+msgstr "¿Qué tipo de operación (acción) se está permitiendo?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 #, fuzzy
@@ -9384,6 +9377,21 @@ msgid ""
 msgstr ""
 "Configura hasta cinco campos para evaluar cuando la búsqueda es sospechosa "
 "de duplicar los registros de los contactos."
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "Opens documentation in a new window."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid ""
+"IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify "
+"that there is an index on the corresponding column in the database. If not, "
+"you can use the CREATE INDEX command in MySQL to add an index."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "learn more..."
+msgstr ""
 
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
@@ -11543,6 +11551,11 @@ msgstr ""
 "Información de Dirección Complementaria, por ejemplo nombre del "
 "departamento, nombre del edificio, etc."
 
+#: templates/CRM/Contact/Form/OnBehalfOf.tpl
+#, fuzzy
+msgid "Country - State"
+msgstr "País"
+
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
 msgstr "Fecha de Inicio:"
@@ -12488,6 +12501,10 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
+
+#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
+msgid "Edit Tags"
+msgstr "Editar etiquetas"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy
@@ -13796,10 +13813,6 @@ msgstr ""
 "Marcar o Desmarcar las casillas, y haz clic en 'Actualizar Etiquetas' para "
 "modificar las etiquetas."
 
-#: templates/CRM/Tag/Form/Tag.tpl
-msgid "Edit Tags"
-msgstr "Editar etiquetas"
-
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
 "Select a group if you are using this profile for search and listings, AND "
@@ -14689,11 +14702,6 @@ msgid "Change"
 msgstr "Rango"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "My Contacts / Organizations"
-msgstr "Añadir Contactos a Organización"
-
-#: xml/templates/civicrm_data.tpl
 msgid "Granted"
 msgstr ""
 
@@ -15019,3 +15027,33 @@ msgstr "Mensaje cogido por un filtro de contenido"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Error en la transacción SMTP"
+
+#~ msgid "Tell A Friend"
+#~ msgstr "Envíalo a un amigo"
+
+#~ msgid "Tell A Friend enabled?"
+#~ msgstr "Permitir comunicar a un amigo?"
+
+#~ msgid "Tell A Friend (%1)"
+#~ msgstr "LLamar a un amigo (%1)"
+
+#~ msgid "Could not authenticate user, invalid name / password"
+#~ msgstr "No se puede autentificar el usuario, nombre/contraseña inválido"
+
+#, fuzzy
+#~ msgid "Could not interpret return values from function"
+#~ msgstr "No se puede interpretar los valores de vuelta de la función"
+
+#~ msgid "Unknown function invocation"
+#~ msgstr "Invocación a la función desconocida"
+
+#~ msgid "Invalid name and password"
+#~ msgstr "Nombre y clave inválidos"
+
+#~ msgid "session keys do not match, please re-auth"
+#~ msgstr ""
+#~ "las claves de la sesión no coinciden, por favor vuelva a identificarse"
+
+#, fuzzy
+#~ msgid "Unknown function called: %1"
+#~ msgstr "Llamada a función desconocida"

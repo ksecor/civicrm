@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-11-13 17:45-0800\n"
 "Last-Translator: delta <damir@sagi.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1672,10 +1672,6 @@ msgstr "%1 moet een integer zijn (geheel getal)"
 msgid "Could not move custom file to custom upload directory"
 msgstr "Kan de file niet verplaatsen naar de upload directory"
 
-#: CRM/Core/BAO/CustomValueTable.php CRM/Utils/REST.php
-msgid "Unknown error"
-msgstr "Onbekende fout"
-
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
 msgstr "We hebben uw ingelogde gebruikers ID niet kunnen vinden"
@@ -1963,11 +1959,6 @@ msgstr "Instellingen"
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
 msgstr "Voorstel Bericht"
-
-#: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
-#: CRM/Friend/Form/Pledge.php templates/CRM/Friend/Form/Friend.tpl
-msgid "Tell A Friend"
-msgstr "Mond tot mond reclame"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 #: CRM/Friend/Form/Pledge.php
@@ -3402,10 +3393,6 @@ msgid "options"
 msgstr "opties"
 
 #: CRM/Contact/BAO/Contact/Utils.php
-msgid "Country - State"
-msgstr "Land"
-
-#: CRM/Contact/BAO/Contact/Utils.php
 msgid "Primary Phone"
 msgstr "Telefoon (voorkeur)"
 
@@ -3914,6 +3901,7 @@ msgid "Allowed to Login"
 msgstr ""
 
 #: CRM/Contact/Form/Organization.php
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "SIC Code"
 msgstr "SIC code"
 
@@ -4711,6 +4699,10 @@ msgstr "U heeft niet de nodige toegangsrechten om dit contact te bekijken"
 msgid "Dashboard - %1"
 msgstr "Overzicht - %1"
 
+#: CRM/Contact/Page/View/UserDashBoard.php xml/templates/civicrm_data.tpl
+msgid "My Contacts / Organizations"
+msgstr "Mijn contacten / organisaties"
+
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Edit Contact Information"
 msgstr "Wijzig contactinformatie"
@@ -4947,6 +4939,10 @@ msgstr ""
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "value: %1 is not of the right field data type: %2"
 msgstr ""
+
+#: CRM/Core/BAO/CustomValueTable.php
+msgid "Unknown error"
+msgstr "Onbekende fout"
 
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "No values found for the specified entity ID and custom field(s)."
@@ -6701,10 +6697,6 @@ msgstr "Rol lengte"
 msgid "Rule Weight"
 msgstr "Rol gewicht"
 
-#: CRM/Dedupe/Finder.php
-msgid "%1 rule for %2 does not exist"
-msgstr ""
-
 #: CRM/Export/BAO/Export.php
 msgid "Total Amount"
 msgstr "Totaal bedrag"
@@ -6778,8 +6770,8 @@ msgid "Use Saved Field Mapping"
 msgstr "Gebruik opgeslagen veldoverzicht"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell A Friend enabled?"
-msgstr "Is mond tot mond reclame ingeschakeld?"
+msgid "Tell a Friend enabled?"
+msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
@@ -6812,10 +6804,6 @@ msgstr "Bedank Titel"
 #: CRM/Friend/DAO/Friend.php
 msgid "Thankyou Text"
 msgstr "Bedankbericht"
-
-#: CRM/Friend/Form/Contribute.php
-msgid "Tell A Friend (%1)"
-msgstr "Mond tot mond reclame (%1)"
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -7883,6 +7871,14 @@ msgstr ""
 msgid "Your CiviCRM database has been successfully upgraded to v2.1."
 msgstr ""
 
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Pre-condition failed for upgrade to 2.1.2."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Post-condition failed for upgrade to 2.1.2."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr ""
@@ -8068,31 +8064,6 @@ msgstr ""
 "De tekenreeks moet exact overeenkomen met de tekenreeks in de afbeelding. "
 "Hernieuw de afbeelding en voer de tekenreek opnieuw in."
 
-#: CRM/Utils/REST.php
-msgid "Could not authenticate user, invalid name / password"
-msgstr ""
-"Kan de gebruiker niet authentificeren, naam en wachtwoord komen niet overeen."
-
-#: CRM/Utils/REST.php
-msgid "Could not interpret return values from function"
-msgstr "Onbekende returncode van de functie"
-
-#: CRM/Utils/REST.php
-msgid "Unknown function invocation"
-msgstr "Onbekende functie aangeroepen"
-
-#: CRM/Utils/REST.php
-msgid "Invalid name and password"
-msgstr "Ongeldige naam en wachtwoord"
-
-#: CRM/Utils/REST.php
-msgid "session keys do not match, please re-auth"
-msgstr "Sessie sleutels komen niet overeen, herstel aub."
-
-#: CRM/Utils/REST.php
-msgid "Unknown function called: %1"
-msgstr "Onbekende functie aangeroepen: %1"
-
 #: CRM/Utils/Sunlight.php
 msgid "Invalid response code received from Sunlight servers: %1"
 msgstr "Foute reactie code ontvangen van Sunlight: %1"
@@ -8259,10 +8230,6 @@ msgstr ""
 "betekent ook anonieme (niet ingelogde) gebruikers."
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "What type of operation (action) is being permitted?"
-msgstr "Welk type bewerking (actie) is toegestaan?"
-
-#: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
 msgstr "Selecteer het gegevenstype waarop deze ACL werkt."
 
@@ -8295,6 +8262,14 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
+"NOTE: For Profile ACLs, the 'View' and 'Edit' operations currently do the "
+"same thing. Either option grants users access to profile-based create, edit, "
+"view and listings screens. Neither option grants access to administration of "
+"profiles."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
 msgstr ""
@@ -8302,8 +8277,27 @@ msgstr ""
 "specifieke velden."
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "Select a event, OR apply this permission to ALL events."
-msgstr "Selecteer een evenement OF geef  toegang tot ALLE evenementen."
+msgid ""
+"NOTE: For Custom Data ACLs, the 'View' and 'Edit' operations currently do "
+"the same thing. Either option grants the right to view AND / OR edit custom "
+"data fields (in all groups, or in a specific custom data group). Neither "
+"option grants access to administration of custom data fields."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "Select an event, OR apply this permission to ALL events."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
+"NOTE: For Event ACLs, the 'View' operation allows access to the event "
+"information screen. \"Edit\" allows users to register for the event if "
+"online registration is enabled."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "What type of operation (action) is being permitted?"
+msgstr "Welk type bewerking (actie) is toegestaan?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -8944,6 +8938,21 @@ msgid ""
 "duplicate contact records."
 msgstr ""
 "Gebruik maximaal 5 velden om te zoeken naar verdachte dubbele contacten."
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "Opens documentation in a new window."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid ""
+"IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify "
+"that there is an index on the corresponding column in the database. If not, "
+"you can use the CREATE INDEX command in MySQL to add an index."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "learn more..."
+msgstr ""
 
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
@@ -11039,6 +11048,10 @@ msgid ""
 " Supplemental address info, e.g. c/o, department name, building name, etc."
 msgstr "Aanvullende adresinformatie, zoals afdeling, naam van het gebouw, etc."
 
+#: templates/CRM/Contact/Form/OnBehalfOf.tpl
+msgid "Country - State"
+msgstr "Land"
+
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
 msgstr "Startdatum:"
@@ -11926,6 +11939,10 @@ msgstr "Feest"
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
+
+#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
+msgid "Edit Tags"
+msgstr "Wijzig markeringen"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "view current employer"
@@ -13196,10 +13213,6 @@ msgstr ""
 "Vink de markeringen aan of uit, en klik op \"Markeringen bijwerken\" om de "
 "markeringen te wijzigen."
 
-#: templates/CRM/Tag/Form/Tag.tpl
-msgid "Edit Tags"
-msgstr "Wijzig markeringen"
-
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
 "Select a group if you are using this profile for search and listings, AND "
@@ -14044,10 +14057,6 @@ msgid "Change"
 msgstr "Wijzigen"
 
 #: xml/templates/civicrm_data.tpl
-msgid "My Contacts / Organizations"
-msgstr "Mijn contacten / organisaties"
-
-#: xml/templates/civicrm_data.tpl
 msgid "Granted"
 msgstr "Toegestaan"
 
@@ -14344,3 +14353,35 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#~ msgid "Tell A Friend"
+#~ msgstr "Mond tot mond reclame"
+
+#~ msgid "Tell A Friend enabled?"
+#~ msgstr "Is mond tot mond reclame ingeschakeld?"
+
+#~ msgid "Tell A Friend (%1)"
+#~ msgstr "Mond tot mond reclame (%1)"
+
+#~ msgid "Could not authenticate user, invalid name / password"
+#~ msgstr ""
+#~ "Kan de gebruiker niet authentificeren, naam en wachtwoord komen niet "
+#~ "overeen."
+
+#~ msgid "Could not interpret return values from function"
+#~ msgstr "Onbekende returncode van de functie"
+
+#~ msgid "Unknown function invocation"
+#~ msgstr "Onbekende functie aangeroepen"
+
+#~ msgid "Invalid name and password"
+#~ msgstr "Ongeldige naam en wachtwoord"
+
+#~ msgid "session keys do not match, please re-auth"
+#~ msgstr "Sessie sleutels komen niet overeen, herstel aub."
+
+#~ msgid "Unknown function called: %1"
+#~ msgstr "Onbekende functie aangeroepen: %1"
+
+#~ msgid "Select a event, OR apply this permission to ALL events."
+#~ msgstr "Selecteer een evenement OF geef  toegang tot ALLE evenementen."

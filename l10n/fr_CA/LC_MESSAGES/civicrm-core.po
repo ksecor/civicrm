@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-07-10 05:22-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1701,11 +1701,6 @@ msgstr ""
 "Impossible de déplacer le fichier personalisé dans le répertoire de "
 "téléchargements personalisé."
 
-#: CRM/Core/BAO/CustomValueTable.php CRM/Utils/REST.php
-#, fuzzy
-msgid "Unknown error"
-msgstr "Inconnu"
-
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
 msgstr "Impossible de trouver votre identifiant"
@@ -2005,11 +2000,6 @@ msgstr "Réglages"
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
 msgstr "Message suggéré"
-
-#: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
-#: CRM/Friend/Form/Pledge.php templates/CRM/Friend/Form/Friend.tpl
-msgid "Tell A Friend"
-msgstr "Envoyer à un ami"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 #: CRM/Friend/Form/Pledge.php
@@ -3567,11 +3557,6 @@ msgstr "Actions"
 
 #: CRM/Contact/BAO/Contact/Utils.php
 #, fuzzy
-msgid "Country - State"
-msgstr "Pays"
-
-#: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
 msgid "Primary Phone"
 msgstr "Principal"
 
@@ -4147,6 +4132,7 @@ msgid "Allowed to Login"
 msgstr ""
 
 #: CRM/Contact/Form/Organization.php
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "SIC Code"
 msgstr "Code NAICS"
 
@@ -4999,6 +4985,11 @@ msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
 msgid "Dashboard - %1"
 msgstr "Tableau de bord - %1"
 
+#: CRM/Contact/Page/View/UserDashBoard.php xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "My Contacts / Organizations"
+msgstr "Ajouter les contacts à une organisation"
+
 #: CRM/Contact/Page/View/UserDashBoard.php
 #, fuzzy
 msgid "Edit Contact Information"
@@ -5250,6 +5241,11 @@ msgstr ""
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "value: %1 is not of the right field data type: %2"
 msgstr ""
+
+#: CRM/Core/BAO/CustomValueTable.php
+#, fuzzy
+msgid "Unknown error"
+msgstr "Inconnu"
 
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "No values found for the specified entity ID and custom field(s)."
@@ -7160,10 +7156,6 @@ msgstr ""
 msgid "Rule Weight"
 msgstr "Poids"
 
-#: CRM/Dedupe/Finder.php
-msgid "%1 rule for %2 does not exist"
-msgstr ""
-
 #: CRM/Export/BAO/Export.php
 msgid "Total Amount"
 msgstr "Montant total"
@@ -7243,7 +7235,7 @@ msgid "Use Saved Field Mapping"
 msgstr "Enregistrer ce mappage"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell A Friend enabled?"
+msgid "Tell a Friend enabled?"
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
@@ -7281,10 +7273,6 @@ msgstr "Remerciement envoyé"
 #, fuzzy
 msgid "Thankyou Text"
 msgstr "Remerciement envoyé"
-
-#: CRM/Friend/Form/Contribute.php
-msgid "Tell A Friend (%1)"
-msgstr ""
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -8425,6 +8413,14 @@ msgstr ""
 msgid "Your CiviCRM database has been successfully upgraded to v2.1."
 msgstr ""
 
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Pre-condition failed for upgrade to 2.1.2."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Post-condition failed for upgrade to 2.1.2."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr ""
@@ -8610,30 +8606,6 @@ msgid ""
 "re-enter matching text."
 msgstr ""
 
-#: CRM/Utils/REST.php
-msgid "Could not authenticate user, invalid name / password"
-msgstr ""
-
-#: CRM/Utils/REST.php
-msgid "Could not interpret return values from function"
-msgstr ""
-
-#: CRM/Utils/REST.php
-msgid "Unknown function invocation"
-msgstr ""
-
-#: CRM/Utils/REST.php
-msgid "Invalid name and password"
-msgstr ""
-
-#: CRM/Utils/REST.php
-msgid "session keys do not match, please re-auth"
-msgstr ""
-
-#: CRM/Utils/REST.php
-msgid "Unknown function called: %1"
-msgstr ""
-
 #: CRM/Utils/Sunlight.php
 msgid "Invalid response code received from Sunlight servers: %1"
 msgstr ""
@@ -8800,10 +8772,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "What type of operation (action) is being permitted?"
-msgstr ""
-
-#: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
 msgstr ""
 
@@ -8827,12 +8795,39 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
+"NOTE: For Profile ACLs, the 'View' and 'Edit' operations currently do the "
+"same thing. Either option grants users access to profile-based create, edit, "
+"view and listings screens. Neither option grants access to administration of "
+"profiles."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "Select a event, OR apply this permission to ALL events."
+msgid ""
+"NOTE: For Custom Data ACLs, the 'View' and 'Edit' operations currently do "
+"the same thing. Either option grants the right to view AND / OR edit custom "
+"data fields (in all groups, or in a specific custom data group). Neither "
+"option grants access to administration of custom data fields."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "Select an event, OR apply this permission to ALL events."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
+"NOTE: For Event ACLs, the 'View' operation allows access to the event "
+"information screen. \"Edit\" allows users to register for the event if "
+"online registration is enabled."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "What type of operation (action) is being permitted?"
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
@@ -9402,6 +9397,21 @@ msgstr ""
 msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "Opens documentation in a new window."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid ""
+"IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify "
+"that there is an index on the corresponding column in the database. If not, "
+"you can use the CREATE INDEX command in MySQL to add an index."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "learn more..."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -11333,6 +11343,11 @@ msgid ""
 msgstr ""
 "Informations supplémentaire, par ex. le nom du département ou du bureau"
 
+#: templates/CRM/Contact/Form/OnBehalfOf.tpl
+#, fuzzy
+msgid "Country - State"
+msgstr "Pays"
+
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
 msgstr "Date de début:"
@@ -12255,6 +12270,10 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
+
+#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
+msgid "Edit Tags"
+msgstr "Modifier les étiquettes"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy
@@ -13433,10 +13452,6 @@ msgstr ""
 "Cochez ou décochez les cases et cliquez sur 'Mettre à jour les étiquettes' "
 "pour modifier les étiquettes."
 
-#: templates/CRM/Tag/Form/Tag.tpl
-msgid "Edit Tags"
-msgstr "Modifier les étiquettes"
-
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
 "Select a group if you are using this profile for search and listings, AND "
@@ -14225,11 +14240,6 @@ msgid "Change"
 msgstr "Gérer"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "My Contacts / Organizations"
-msgstr "Ajouter les contacts à une organisation"
-
-#: xml/templates/civicrm_data.tpl
 msgid "Granted"
 msgstr ""
 
@@ -14552,3 +14562,6 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Tell A Friend"
+#~ msgstr "Envoyer à un ami"

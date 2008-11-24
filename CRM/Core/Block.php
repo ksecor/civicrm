@@ -78,6 +78,10 @@ class CRM_Core_Block {
             define('BLOCK_CACHE_GLOBAL', 0x0008);
         }
 
+        if ( ! defined( 'BLOCK_CACHE_PER_PAGE' ) ) {
+            define('BLOCK_CACHE_PER_PAGE', 0x0004);
+        }
+
         if (!(self::$_properties)) {
             self::$_properties = array(
                                        self::SHORTCUTS   => array( 'template'   => 'Shortcuts.tpl',
