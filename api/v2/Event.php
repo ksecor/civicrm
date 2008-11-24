@@ -117,8 +117,8 @@ function civicrm_event_get( &$params )
     $event  =& civicrm_event_search( $params );
     
     if ( count( $event ) != 1 &&
-         ! $event['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 event matching input params', array( 1 => count( $event ) ) ) );
+         ! $params['returnFirst'] ) {
+        return civicrm_create_error( ts( '%1 events matching input params', array( 1 => count( $event ) ) ) );
     }
     
     if ( civicrm_error( $event ) ) {
@@ -146,7 +146,7 @@ function civicrm_event_search( &$params )
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[]=substr( $n, 7 );
-        }elseif ( in_array( $n, $otherVars ) ) {
+        } elseif ( in_array( $n, $otherVars ) ) {
             $n = $v;
         } else {
             $inputParams[$n] = $v;
