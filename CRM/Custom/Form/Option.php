@@ -38,7 +38,8 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_Custom_Form_Option extends CRM_Core_Form {
+class CRM_Custom_Form_Option extends CRM_Core_Form 
+{
     /**
      * the custom group id saved to the session for an update
      *
@@ -207,8 +208,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$form ) {
-
+    static function formRule( &$fields, &$files, &$form ) 
+    {
         $optionLabel   = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue   = CRM_Utils_Type::escape( $fields['value'], 'String' );
         $fieldId       = $form->_fid;
@@ -415,6 +416,11 @@ SELECT data_type
                 $customField->save(); 
             }           
         } else {            
+            if ( $customField->data_type == 'Money' ) {  
+                require_once 'CRM/Utils/Rule.php';
+                $customOption->value = CRM_Utils_Rule::cleanMoney( $customOption->value );
+            }
+
             if ( CRM_Utils_Array::value( 'default_value', $params ) ) {
                 $customField->default_value = $customOption->value;
                 $customField->save();

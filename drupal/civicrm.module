@@ -763,7 +763,6 @@ function civicrm_admin_menu( ) {
                      'title' => 'CiviCRM',
                      'path' => 'civicrm',
                      'weight' => $weight,
-                     'parent_path' => 'CiviCRM'
                      );
 
     require_once 'CRM/Core/Menu.php';

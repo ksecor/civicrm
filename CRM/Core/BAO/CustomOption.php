@@ -229,6 +229,10 @@ WHERE  f.custom_group_id = g.id
         $queryParams = array( 1 => array( $params['fieldId'], 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $queryParams );
         if ( $dao->fetch( ) ) {
+            if ( $dao->dataType == 'Money' ) { 
+                require_once 'CRM/Utils/Rule.php';
+                $params['value'] = CRM_Utils_Rule::cleanMoney( $params['value'] );
+            }
             switch ( $dao->htmlType ) {
             case 'Select':
             case 'Radio':

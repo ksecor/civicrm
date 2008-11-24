@@ -163,12 +163,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $params['option_group_id'] = $optionGroup->id;
                 
                 require_once 'CRM/Core/BAO/OptionValue.php';
+                require_once 'CRM/Utils/Rule.php';
+                $moneyField = true;
+                if ( $params['data_type'] == 'Money' ) {
+                    $moneyField = true;
+                }
                 foreach ($params['option_value'] as $k => $v) {
                     if (strlen(trim($v))) {
                         $optionValue                  =& new CRM_Core_DAO_OptionValue( );
                         $optionValue->option_group_id =  $optionGroup->id;
                         $optionValue->label           =  $params['option_label'][$k];
-                        $optionValue->value           =  $v;
+                        $optionValue->value           =  $moneyField ? number_format(CRM_Utils_Rule::cleanMoney( $v ),2) : $v;
                         $optionValue->weight          =  $params['option_weight'][$k];
                         $optionValue->is_active       =  CRM_Utils_Array::value( $k, $params['option_status'], false );
                         $optionValue->save( );

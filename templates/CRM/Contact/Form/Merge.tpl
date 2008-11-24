@@ -4,6 +4,7 @@
 
 <div class="action-link">
     	<a href="{crmURL q="reset=1&cid=$other_cid&oid=$main_cid"}">&raquo; {ts}Flip between original and duplicate contacts.{/ts}</a>
+</div>
 <table>
   <tr class="columnheader">
     <th>&nbsp;</th>
