@@ -23,13 +23,11 @@
     {strip}
         <table class="selector">  
          <tr class="columnheader">
-            <th>{ts}Case Status{/ts}</th>
+            <th>{ts}Status{/ts}</th>
             <th>{ts}Case Type{/ts}</th>
-	    <th>{ts}Role{/ts}</th>
-            <th>{ts}Most Recent-Date{/ts}</th>
-	    <th>{ts}Type{/ts}</th>
-            <th>{ts}Next Scheduled-Date{/ts}</th>
-            <th>{ts}Type{/ts}</th>
+            <th>{ts}My Role{/ts}</th>
+            <th>{ts}Most Recent Activity{/ts}</th>
+            <th>{ts}Next Scheduled Activity{/ts}</th>
             <th>&nbsp;</th>
         </tr>
         {foreach from=$cases item=case}
@@ -37,10 +35,8 @@
             <td>{$case.case_status}</td>
             <td>{$case.case_type}</td>
             <td>{$case.case_role}</td>
-            <td>{$case.case_recent_activity_date |crmDate}</td>
- 	    <td>{$case.case_recent_activity_type}</td>
- 	    <td>{$case.case_scheduled_activity_date |crmDate}</td>
-	    <td>{$case.case_scheduled_activity_type}</td>
+            <td>{$case.case_recent_activity_type}<br />{$case.case_recent_activity_date |crmDate}</td>
+            <td>{$case.case_scheduled_activity_type}<br />{$case.case_scheduled_activity_date |crmDate}</td>
             <td>{$case.action}</td>
         </tr>
         {/foreach}
