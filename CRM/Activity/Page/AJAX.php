@@ -66,14 +66,16 @@ class CRM_Activity_Page_AJAX
         require_once 'CRM/Case/XMLProcessor/Process.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $activities = $xmlProcessor->get( $caseType, 'ActivityTypes' );
-        
+
         //unset Open Case
-        unset( $activities['13'] );
-        
+        unset( $activities['12'] );
+
+        asort($activities);
+
         foreach( $activities as $key => $value ) {
-            if ( strtolower( $activityType ) == strtolower( substr( $value, 0, strlen( $activityType ) ) ) ) {
-                echo "{$value}|{$key}\n";
-            }
+			if ( strtolower( $activityType ) == strtolower( substr( $value, 0, strlen( $activityType ) ) ) ) {
+				echo "{$value}|{$key}\n";
+			}
         }
     }
 }
