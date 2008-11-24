@@ -700,7 +700,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         } else {
             if (!$sortname) $sortname = 'due_date_time';
             if (!$sortorder) $sortorder = 'desc';
-        $orderBy = " ORDER BY $sortname $sortorder";
+        	$orderBy = " ORDER BY $sortname $sortorder";
         }
         
         $page = $params['page'];
