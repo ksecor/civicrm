@@ -67,72 +67,70 @@ cj("#dialog").hide( );
 function createRelationship( relType, contactID, relID ) {
     cj("#dialog").show( );
 
-    cj("#dialog").dialog({
-        title: "Assign Case Role",
-	    modal: true, 
-	    overlay: { 
-		       opacity: 0.5, 
-		        background: "black" 
-		    },
-
-	    open:function() {
-		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-		
-		/* set defaults if editing */
-		cj("#rel_contact").val( "" );
-		cj("#rel_contact_id").val( null );
-		if ( contactID ) {
-		    cj("#rel_contact_id").val( contactID );
-		    cj("#rel_contact").val( cj("#relName_" + contactID).text( ) );
-		}
-		
-		var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
-
-		cj("#rel_contact").autocomplete( contactUrl, {
-			width: 260,
-			selectFirst: false 
-                 });
-
-		cj("#rel_contact").result(function(event, data, formatted) {
-			cj("input[@id=rel_contact_id]").val(data[1]);
-		});		    
-	    },
-	    
-	    buttons: { 
-		"Ok": function() { 	    
-		    if ( ! cj("#rel_contact").val( ) ) {
-			alert('Select valid contact from the list.');
-			return false;
-		    }
-
-		    var sourceContact = {/literal}"{$contactID}"{literal}
-		    var caseID        = {/literal}"{$caseID}"{literal}
-
-		    var v1 = cj("#rel_contact_id").val( );
-
-		    if ( ! v1 ) {
-			alert('Select valid contact from the list.');
-			return false;
-		    }
-
-		    var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-		    cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
-		    
-		    alert("Relationship record has been updated.");
-
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		    
-		    window.location.reload();
+	cj("#dialog").dialog({
+		title: "Assign Case Role",
+		modal: true, 
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
 		},
 
-		"Cancel": function() { 
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		} 
-	    } 
+		open:function() {
+			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
 
-     });
+			/* set defaults if editing */
+			cj("#rel_contact").val( "" );
+			cj("#rel_contact_id").val( null );
+			if ( contactID ) {
+				cj("#rel_contact_id").val( contactID );
+				cj("#rel_contact").val( cj("#relName_" + contactID).text( ) );
+			}
+
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+
+			cj("#rel_contact").autocomplete( contactUrl, {
+				width: 260,
+				selectFirst: false 
+			});
+
+			cj("#rel_contact").result(function(event, data, formatted) {
+				cj("input[@id=rel_contact_id]").val(data[1]);
+			});		    
+		},
+
+		buttons: { 
+			"Ok": function() { 	    
+				if ( ! cj("#rel_contact").val( ) ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var sourceContact = {/literal}"{$contactID}"{literal}
+				var caseID        = {/literal}"{$caseID}"{literal}
+
+				var v1 = cj("#rel_contact_id").val( );
+
+				if ( ! v1 ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
+				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
+
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+
+				window.location.reload();
+			},
+
+			"Cancel": function() { 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+			} 
+		} 
+
+	});
 }
 
 cj(document).ready(function(){
