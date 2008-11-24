@@ -175,3 +175,7 @@ ALTER TABLE `civicrm_note`
 ALTER TABLE civicrm_contact
     ADD api_key varchar(32);
 CREATE INDEX index_api_key ON civicrm_contact(api_key);
+
+-- CRM-3863
+SELECT @piOpt := id from civicrm_option_group where name = 'payment_instrument';
+UPDATE civicrm_option_value SET is_reserved = 1 WHERE option_group_id = @piOpt AND name = 'Credit Card';
