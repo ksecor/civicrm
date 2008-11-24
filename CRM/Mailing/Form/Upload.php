@@ -198,7 +198,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                         'maxfilesize',
                         1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
-
+        
+        //fix upload files when context is search. CRM-3711
+        $ssID    = $this->get( 'ssID' );
+        $context = $this->get( 'context' );
+        if ( $context == 'search' && $ssID ) {
+            $this->set( 'uploadNames', array( 'textFile', 'htmlFile' ) );
+        }
+        
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_mailing',
