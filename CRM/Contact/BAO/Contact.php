@@ -852,6 +852,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     foreach ( $commonValues[$contactType] as $value ) {
                         unset( $fields[$value] );
                     }
+                    if ( CRM_Utils_Array::value( 'custom_greeting', $fields ) ) {  
+                        unset( $fields['custom_greeting'] ); 
+                    }
                 }
 
                 CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType $export" );

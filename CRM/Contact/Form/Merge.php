@@ -271,6 +271,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
         $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
         $names['individual_suffix'] = array('newName' => 'suffix_id', 'groupName' => 'individual_suffix');
+        $names['greeting_type']     = array('newName' => 'greeting_type_id', 'groupName' => 'greeting_type');
         CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
 
         // FIXME: fix custom fields so they're edible by createProfileContact()

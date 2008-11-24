@@ -171,6 +171,18 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
+        foreach( $ids as $keys => $values ) {
+            if ( CRM_Utils_Array::value( 'greeting_type', $returnProperties ) ) {
+                $greetingTypeValue = CRM_Core_DAO::getFieldValue(
+                                                                 'CRM_Contact_DAO_Contact', 
+                                                                 $values, 
+                                                                 'greeting_type_id' 
+                                                                ); 
+                if ( $greetingTypeValue == 4 ) {
+                    $returnProperties['custom_greeting'] = 1;   
+                }
+            }
+        }
         //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 

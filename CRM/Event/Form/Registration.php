@@ -125,7 +125,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * 
      *Greeting Type value
      * @var int
-     * @protected
+     * @public
      */
     public $_greetingTypeValue;
     
