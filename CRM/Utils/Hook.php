@@ -257,14 +257,15 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $categories, $null, $null, $null, $null, \'civicrm_tokenCategories\' );' );
     }
 
-    static function tokenDetails( &$details, &$contactIDs ) {
+    static function tokenValues( &$details, &$contactIDs ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         $null =& CRM_Core_DAO::$_nullObject;
+
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenDetails\' );' );
+                  '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenValues\' );' );
     }
 
 }

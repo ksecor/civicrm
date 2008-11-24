@@ -269,9 +269,11 @@ ORDER BY j.scheduled_date,
         $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
                                                           $mailing->id );
 
-        
-        require_once 'CRM/Core/Smarty/resources/String.php';
-        civicrm_smarty_register_string_resource( );
+
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
 
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {

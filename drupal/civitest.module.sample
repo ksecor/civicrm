@@ -217,7 +217,7 @@ function civicrm_civicrm_tokenCategories( &$categories ) {
     $categories[] = 'contribution';
 }
 
-function civicrm_civicrm_tokenDetails( &$details, &$contactIDs ) {
+function civicrm_civicrm_tokenValues( &$values, &$contactIDs ) {
     $contactIDString = implode( ',', array_values( $contactIDs ) );
     $query = "
 SELECT sum( total_amount ) as total_amount,
@@ -231,11 +231,11 @@ GROUP BY contact_id
 
     $dao = CRM_Core_DAO::executeQuery( $query );
     while ( $dao->fetch( ) ) {
-        if ( ! array_key_exists( $dao->contact_id, $details ) ) {
-            $details[$dao->contact_id] = array( );
+        if ( ! array_key_exists( $dao->contact_id, $values ) ) {
+            $values[$dao->contact_id] = array( );
         }
 
-        $details[$dao->contact_id]['contribution.amount'] = $dao->total_amount;
-        $details[$dao->contact_id]['contribution.date'  ] = $dao->receive_date;
+        $values[$dao->contact_id]['contribution.amount'] = $dao->total_amount;
+        $values[$dao->contact_id]['contribution.date'  ] = $dao->receive_date;
     }
 }

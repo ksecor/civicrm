@@ -425,20 +425,19 @@ class CRM_Utils_Token
      * @param string $str         The string with tokens to be replaced
      * @param array $contact      Associative array of contact properties
      * @param boolean $html       Replace tokens with HTML or plain text
-     * @param boolean $html       Replace tokens with HTML or plain text
      * @param array $knownTokens  A list of tokens that are known to exist in the email body
      * @return string             The processed string
      * @access public
      * @static
      */
-    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) 
-    {
+    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) {
         $key = 'contact';
         if (self::$_tokens[$key] == null) {
             /* This should come from UF */
             self::$_tokens[$key] =
                 array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id', 'current_employer', 'contact_type', 'sort_name' ) );
+                             array( 'display_name', 'checksum', 'contact_id',
+                                    'current_employer', 'contact_type', 'sort_name' ) );
         }
 
         // here we intersect with the list of pre-configured valid tokens
@@ -447,7 +446,9 @@ class CRM_Utils_Token
         // then we will just iterate on a list of tokens that are passed to us
         if(!$knownTokens || !$knownTokens[$key]) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
+        $str = preg_replace(self::tokenRegex($key),
+                            'self::getContactTokenReplacement(\'\\1\', $contact, $html)',
+                            $str);
         return $str;
     }
     
@@ -481,6 +482,39 @@ class CRM_Utils_Token
             $value = str_replace('&amp;', '&', $value);
         }
 
+        return $value;
+    }
+
+    /**
+     * Replace all the hook tokens in $str with information from
+     * $contact.
+     *
+     * @param string $str         The string with tokens to be replaced
+     * @param array $contact      Associative array of contact properties (including hook token values)
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @return string             The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceHookTokens($str, &$contact, &$categories, $html = false ) {
+
+        foreach ( $categories as $key ) {
+            $str = preg_replace(self::tokenRegex($key),
+                                'self::getHookTokenReplacement(\'\\1\', $contact, $key, $html)',
+                                $str);
+        }
+        return $str;
+    }
+    
+    public function getHookTokenReplacement($token, &$contact, $category, $html = false)
+    {
+        $value = CRM_Utils_Array::value( "{$category}.{$token}", $contact );
+
+        if ( $value &&
+             ! $html ) {
+            $value = str_replace('&amp;', '&', $value);
+        }
+        
         return $value;
     }
 

@@ -613,7 +613,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null, $attachments = null ) 
+    static function sendEmail( &$contactIds,
+                               &$subject,
+                               &$text,
+                               &$html,
+                               $emailAddress,
+                               $userID = null,
+                               $from = null,
+                               $attachments = null ) 
     {        
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
@@ -731,6 +738,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $mailing   = & new CRM_Mailing_BAO_Mailing();
         $details   = $mailing->getDetails($contactIds, $returnProperties );
         
+        $categories = array( );
+        CRM_Utils_Hook::tokenCategories( $categories );
+
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            $smarty =& CRM_Core_Smarty::singleton( );
+
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
+
         require_once 'api/v2/Contact.php';
         foreach ( $contactIds as $contactId ) {
             //fix for CRM-3798
@@ -738,7 +755,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                               'is_deceased' => 0, 
                               'on_hold'     => 0 );
             
-            //$contact =& crm_fetch_contact( $params );
             $contact = civicrm_contact_get( $params );
             
             if ( civicrm_error( $contact ) ) {
@@ -749,11 +765,33 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             if( is_array( $details[0]["{$contactId}"] ) ) {
                 $contact = array_merge( $contact, $details[0]["{$contactId}"] );
             }
-            
-            $tokenText = CRM_Utils_Token::replaceContactTokens( $text, $contact, false, $messageToken);
-            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
-            $tokenHtml = CRM_Utils_Token::replaceContactTokens( $html, $contact, false, $messageToken);
-            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id, $attachments ) ) {
+
+            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject     , $contact, false, $subjectToken);
+            $tokenSubject = CRM_Utils_Token::replaceHookTokens   ( $tokenSubject, $contact, $categories, false );
+
+            $tokenText    = CRM_Utils_Token::replaceContactTokens( $text     , $contact, false, $messageToken);
+            $tokenText    = CRM_Utils_Token::replaceHookTokens   ( $tokenText, $contact, $categories, false );
+
+            $tokenHtml    = CRM_Utils_Token::replaceContactTokens( $html     , $contact, true , $messageToken);
+            $tokenHtml    = CRM_Utils_Token::replaceHookTokens   ( $tokenHtml, $contact, $categories, true );
+
+            if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+                // also add the contact tokens to the template
+                $smarty->assign_by_ref( 'contact', $contact );
+
+                $tokenText = $smarty->fetch( "string:$tokenText" );
+                $tokenHtml = $smarty->fetch( "string:$tokenHtml" );
+            }
+
+            if ( self::sendMessage( $from,
+                                    $userID,
+                                    $contactId,
+                                    $tokenSubject,
+                                    $tokenText,
+                                    $tokenHtml,
+                                    $emailAddress,
+                                    $activity->id,
+                                    $attachments ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;

@@ -945,6 +945,10 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
+
+            // also call the hook to get contact details
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::tokenValues( $contact, $contactId );
         }
 
         $pTemplates = $this->getPreparedTemplates();
@@ -990,18 +994,29 @@ AND    civicrm_mailing.id = civicrm_mailing_job.mailing_id";
         
         $message =& new Mail_Mime("\n");
         
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            $smarty =& CRM_Core_Smarty::singleton( );
+            // also add the contact tokens to the template
+            $smarty->assign_by_ref( 'contact', $contact );
+        }
+
         if ($text && ( $test || $contact['preferred_mail_format'] == 'Text' ||
                        $contact['preferred_mail_format'] == 'Both' ||
                        ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) ) {
             $textBody = join( '', $text );
-            $smarty =& CRM_Core_Smarty::singleton( );
-            $textBody = $smarty->fetch( "string:$textBody" );
+            if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+                $textBody = $smarty->fetch( "string:$textBody" );
+            }
             $message->setTxtBody( $textBody );
         }
         
         if ( $html && ( $test ||  ( $contact['preferred_mail_format'] == 'HTML' ||
                                     $contact['preferred_mail_format'] == 'Both') ) ) {
-            $message->setHTMLBody( join( '', $html ) );
+            $htmlBody = join( '', $html );
+            if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+                $htmlBody = $smarty->fetch( "string:$htmlBody" );
+            }
+            $message->setHTMLBody( $htmlBody );
         }
 
         if ( ! empty( $attachments ) ) {
@@ -1907,7 +1922,7 @@ SELECT DISTINCT( m.id ) as id
 
         // also call a hook and get token details
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::tokenDetails( $details[0], $contactIDs );
+        CRM_Utils_Hook::tokenValues( $details[0], $contactIDs );
         return $details;
     }
 
