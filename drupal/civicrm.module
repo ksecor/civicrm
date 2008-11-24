@@ -791,8 +791,8 @@ function civicrm_views_api() {
                  );
 }
 
-function civicrm_civicrm_tokenCategories( &$categories ) { 
-    $categories[] = 'contribution';
+function civicrm_civicrm_tokens( &$tokens ) { 
+    $tokens['contribution'] = array( 'contribution.amount', 'contribution.date' );
 }
 
 function civicrm_civicrm_tokenValues( &$values, &$contactIDs ) {

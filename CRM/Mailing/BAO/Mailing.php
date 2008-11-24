@@ -495,10 +495,14 @@ AND    $mg.mailing_id = {$mailing_id}
         static $_categories = null;
         static $_categoryString = null;
         if ( ! $_categories ) {
-            $_categories = array( 'domain', 'action', 'mailing', 'contact' );
+            $_categories = array( 'domain'  => null, 
+                                  'action'  => null,
+                                  'mailing' => null,
+                                  'contact' => null );
+
             require_once 'CRM/Utils/Hook.php';
-            CRM_Utils_Hook::tokenCategories( $_categories );
-            $_categoryString = implode( '|', $_categories );
+            CRM_Utils_Hook::tokens( $_categories );
+            $_categoryString = implode( '|', array_keys( $_categories ) );
         }
 
         $funcStruct = array('type' => null,'token' => $token);

@@ -738,8 +738,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $mailing   = & new CRM_Mailing_BAO_Mailing();
         $details   = $mailing->getDetails($contactIds, $returnProperties );
         
-        $categories = array( );
-        CRM_Utils_Hook::tokenCategories( $categories );
+        $tokens = array( );
+        CRM_Utils_Hook::tokens( $tokens );
+        $categories = array_keys( $tokens );
 
         if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
             $smarty =& CRM_Core_Smarty::singleton( );

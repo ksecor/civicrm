@@ -600,12 +600,24 @@ class CRM_Core_SelectValues
             $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
                                   array( 'display_name', 'checksum', 'contact_id' ) );
             unset($values[0]); 
+
             //unset greeting type token
             if ( $tokenKey = CRM_Utils_Array::key( 'greeting_type', $values ) ) {
                 unset( $values[$tokenKey] );
             }
+
             foreach($values as $key => $val) {
                 $tokens[$key] = "{contact.$val}";
+            }
+
+            // might as well get all the hook tokens to
+            require_once 'CRM/Utils/Hook.php';
+            $hookTokens = array( );
+            CRM_Utils_Hook::tokens( $hookTokens );
+            foreach ( $hookTokens as $category => $tokenValues ) {
+                foreach ( $tokenValues as $value ) {
+                    $tokens[] = '{' . $value . '}';
+                }
             }
         }
         return $tokens;
