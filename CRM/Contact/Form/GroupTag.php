@@ -79,7 +79,7 @@ class CRM_Contact_Form_GroupTag
             }
             
             $elements = array( );
-            $groupID  = CRM_Utils_Request::retrieve( 'grid', 'Integer', $this );
+            $groupID  = $form->_grid;
             if ( $groupID && $visibility ) {
                 $ids = '= '.$groupID;
             } else {
