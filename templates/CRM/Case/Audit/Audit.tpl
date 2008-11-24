@@ -56,8 +56,8 @@ There's the potential for collisions (two different labels having the same short
 	{foreach from=$activities item=activity name=activityloop}
 		<div class="activityheader" id="civicase-audit-header-{$smarty.foreach.activityloop.iteration}">
 		<div class="auditmenu">
-			<label>{ts}Actions{/ts}</label>
 			<span class="editlink"><a target="editauditwin" href="{$activity.editurl}">{ts}Edit{/ts}</a></span>
+			<span class="editlink"><a href="{$caseurl}">{ts}Back to Case{/ts}</a></span>
 		</div>	
 		{foreach from=$activity.rightpaneheader item=field name=fieldloop}
 			<div class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">

@@ -88,7 +88,7 @@ class CRM_Case_XMLProcessor_Report extends CRM_Case_XMLProcessor {
         $contents = $template->fetch( 'CRM/Case/XMLProcessor/Report.tpl' );
         
         require_once 'CRM/Case/Audit/Audit.php';
-        return Audit::run( $contents );
+        return Audit::run( $contents, $clientID, $caseID );
 
         /******
         require_once 'CRM/Utils/System.php';

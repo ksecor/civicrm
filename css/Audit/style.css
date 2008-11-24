@@ -96,6 +96,11 @@
 	margin-left: 20px;
 }
 
+.auditmenu span {
+	display: inline;
+	margin-left: 0px;
+}
+
 .activitybody {
 	background: #FFFFFF;
 	padding: 2px;
