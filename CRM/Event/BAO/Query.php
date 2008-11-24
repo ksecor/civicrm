@@ -108,7 +108,7 @@ class CRM_Event_BAO_Query
             //event type
             if ( CRM_Utils_Array::value( 'event_type_id', $query->_returnProperties ) ) {
                 $query->_select['event_type']  = "event_type.label as event_type_id";
-                $query->_element['event_type']        = 1;
+                $query->_element['event_type_id']     = 1;
                 $query->_tables['event_type']         = 1;
                 $query->_whereTables['event_type']    = 1;
             }
@@ -116,7 +116,7 @@ class CRM_Event_BAO_Query
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
                 $query->_select['participant_status']  = "participant_status.label as participant_status_id";
-                $query->_element['participant_status'] = 1;
+                $query->_element['participant_status_id'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_status'] = 1;
                 $query->_whereTables['civicrm_participant'] = 1;
@@ -126,7 +126,7 @@ class CRM_Event_BAO_Query
             //add role
             if ( CRM_Utils_Array::value( 'participant_role_id', $query->_returnProperties ) ) {
                 $query->_select['participant_role']  = "participant_role.label as participant_role_id";
-                $query->_element['participant_role'] = 1;
+                $query->_element['participant_role_id'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_role'] = 1;
                 $query->_whereTables['civicrm_participant'] = 1;
