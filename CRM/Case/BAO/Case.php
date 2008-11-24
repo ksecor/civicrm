@@ -393,7 +393,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     /**
      * Function to get the list of upcoming cases for CiviCase Dashboard.
      */
-    function getUpcomingCases( )
+    function getUpcomingCases( $allCases = true, $userID = null )
     {
 
         $resultFields = array( 'contact_id',
@@ -454,9 +454,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                         (civicrm_activity.status_id = cov_actstatus.value
                         AND cog_actstatus.id = cov_actstatus.option_group_id )
                   
-                  WHERE cov_actstatus.name = 'Scheduled'
-                        
-                  GROUP BY case_id
+                  WHERE cov_actstatus.name = 'Scheduled'";
+        
+        if ( ! $allCases ) {
+            $query .= " AND civicrm_case_contact.contact_id = {$userID}";
+        }
+        $query .=" GROUP BY case_id
                   
                   ORDER BY civicrm_activity.due_date_time ASC
                   ";
@@ -470,7 +473,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     /**
      * Function to get the list of recent cases for CiviCase Dashboard.
      */
-    function getRecentCases( )
+    function getRecentCases( $allCases = true ,$userID = null )
     {
 
 
@@ -534,9 +537,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                         (civicrm_activity.status_id = cov_actstatus.value
                         AND cog_actstatus.id = cov_actstatus.option_group_id )
                   
-                  WHERE cov_actstatus.name != 'Scheduled'
+                  WHERE cov_actstatus.name != 'Scheduled'";
+ 
+            if ( ! $allCases ) {
+                $query .= " AND civicrm_case_contact.contact_id = {$userID}";
+            }
                         
-                  GROUP BY case_id
+            $query .= " GROUP BY case_id
                   
                   ORDER BY case_recent_activity_date ASC
                   ";

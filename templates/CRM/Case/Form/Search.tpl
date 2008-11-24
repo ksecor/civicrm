@@ -14,7 +14,7 @@
     {strip} 
         <table class="form-layout">
         <tr>
-           <td class="font-size12pt" colspan="2">
+           <td class="font-size12pt" colspan="3">
                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
            </td>       
         </tr>

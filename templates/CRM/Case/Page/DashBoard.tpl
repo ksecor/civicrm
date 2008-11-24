@@ -8,11 +8,19 @@
         <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case for New Client{/ts}</span></a>
       </td>
     </tr>
+   {if $myCases}
     <tr>
       <td class="right">
-        <a href="{crmURL p="civicrm/case" q="reset=1"}"><span>&raquo; {ts}Show ALL Cases{/ts}</span></a>
+        <a href="{crmURL p="civicrm/case" q="reset=1&all=1"}"><span>&raquo; {ts}Show ALL Cases{/ts}</span></a>
       </td>
     </tr>
+   {else}	
+    <tr>
+      <td class="right">
+        <a href="{crmURL p="civicrm/case" q="reset=1&all=0"}"><span>&raquo; {ts}Show My Cases{/ts}</span></a>
+      </td>
+    </tr>
+   {/if}
   </table>
 </div>
 

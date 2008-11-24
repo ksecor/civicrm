@@ -138,37 +138,54 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
 
         $links  =& self::links( );
         $action = array_sum(array_keys($links));
-        $caseStatus = CRM_Core_OptionGroup::values('case_status');
-        $caseType   = CRM_Core_OptionGroup::values('case_type');
 
         $queryParams = array();
-        $query = "SELECT civicrm_case.id, civicrm_case.case_type_id, civicrm_case.status_id,
-                         civicrm_case.start_date, civicrm_case.subject 
-                  FROM civicrm_case
-                  LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
-                  WHERE civicrm_case_contact.contact_id = {$this->_contactId}";
+        $query = " 
+      SELECT civicrm_case.id as case_id, 
+             case_type.label as case_type, 
+             case_status.label as case_status, 
+             case_relation_type.name_b_a as case_role, 
+             max(civicrm_activity.activity_date_time) as case_recent_activity_date, 
+             activity_type.label as case_recent_activity_type, 
+             min(civicrm_activity.due_date_time) as case_scheduled_activity_date, 
+             activity_type.label as case_scheduled_activity_type  
+
+        FROM civicrm_contact contact_a 
+             LEFT JOIN  civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id  
+             INNER JOIN civicrm_case ON civicrm_case_contact.case_id = civicrm_case.id 
+             LEFT JOIN  civicrm_relationship case_relationship ON case_relationship.contact_id_a = civicrm_case_contact.contact_id  
+             LEFT JOIN  civicrm_relationship_type case_relation_type ON ( case_relation_type.id = case_relationship.relationship_type_id AND case_relation_type.id = case_relationship.relationship_type_id ) 
+             LEFT JOIN  civicrm_option_group option_group_case_status ON (option_group_case_status.name = 'case_status') 
+             LEFT JOIN  civicrm_option_value case_status ON ( civicrm_case.status_id = case_status.value AND option_group_case_status.id = case_status.option_group_id )  
+             LEFT JOIN  civicrm_option_group option_group_case_type ON (option_group_case_type.name = 'case_type') 
+             LEFT JOIN  civicrm_option_value case_type ON ( civicrm_case.case_type_id = case_type.value AND option_group_case_type.id = case_type.option_group_id )  
+             LEFT JOIN  civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id  
+             LEFT JOIN  civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id  
+             LEFT JOIN  civicrm_option_group option_group_activity_type ON (option_group_activity_type.name = 'activity_type') 
+             LEFT JOIN  civicrm_option_value activity_type ON ( civicrm_activity.activity_type_id = activity_type.value AND option_group_activity_type.id = activity_type.option_group_id )  
+
+        WHERE civicrm_case_contact.contact_id = {$this->_contactId} 
+        GROUP BY civicrm_case.id  
+        ORDER BY case_scheduled_activity_date desc  ";
+
         $case = CRM_Core_DAO::executeQuery( $query, $queryParams );
         $values = array( );
         while ( $case->fetch() ) {
 
-            $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                      $action,
-                                                                      array( 'id'    => $case->id,
-                                                                             'cid'   => $this->_contactId,
-                                                                             'atype' => $this->_changeCaseTypeId ) );
-            $names = array( );
-            $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $case->case_type_id );
-            foreach ( $caseTypeIds as $id => $val ) {
-                if ( $val ) {
-                    $names[] = $caseType[$val];
-                }
-            }
+            $values[$case->case_id]['action'] = CRM_Core_Action::formLink( $links,
+                                                                           $action,
+                                                                           array( 'id'    => $case->case_id,
+                                                                                  'cid'   => $this->_contactId,
+                                                                                  'atype' => $this->_changeCaseTypeId ) );
             
-            $values[$case->id]['case_type_id'] = implode ( ':::' , $names);
-            $values[$case->id]['status_id']    = $caseStatus[$case->status_id];
-            $values[$case->id]['start_date']   = $case->start_date;
-            $values[$case->id]['subject']      = $case->subject;
-            $values[$case->id]['id']           = $case->id;
+            $values[$case->case_id]['case_type']                    = $case->case_type;
+            $values[$case->case_id]['case_status']                  = $case->case_status;
+            $values[$case->case_id]['case_role']                    = $case->case_role;
+            $values[$case->case_id]['case_recent_activity_date']    = $case->case_recent_activity_date;
+            $values[$case->case_id]['case_recent_activity_type']    = $case->case_recent_activity_type;
+            $values[$case->case_id]['case_scheduled_activity_date'] = $case->case_scheduled_activity_date;
+            $values[$case->case_id]['case_scheduled_activity_type'] = $case->case_scheduled_activity_type;
+            $values[$case->case_id]['id']                           = $case->case_id;
         } 
         
         $this->assign( 'cases', $values );

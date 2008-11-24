@@ -319,6 +319,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
+        if ( ! $this->_formValues['case_owner'] && ! $this->_force ) {
+            $session = & CRM_Core_Session::singleton();
+            $this->_formValues['case_owner']  = $session->get('userID');
+        } else {
+            unset( $this->_formValues['case_owner'] );
+        } 
+
         require_once 'CRM/Core/BAO/CustomValue.php';
         CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
 

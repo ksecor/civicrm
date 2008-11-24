@@ -180,6 +180,12 @@ class CRM_Case_BAO_Query
             $query->_where[$grouping][] = "civicrm_case.id $op $value";
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
+
+        case 'case_owner':
+            $query->_where[$grouping][] = "civicrm_case_contact.contact_id $op $value";
+            $query->_qill[$grouping ][] = ts( 'Case %1 My Cases', array( 1 => $op ) );
+            $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
+            return;
         }
     }
 
@@ -297,6 +303,10 @@ case_relation_type.id = case_relationship.relationship_type_id )";
                    array( '' => ts( '- select -' ) ) + $statuses );
         
         $form->assign( 'validCiviCase', true );
+    
+        $caseOwner = array( ts('My Cases'), ts('All Cases') );
+        $form->addRadio( 'case_owner', ts( 'Cases' ), $caseOwner );
+        $form->setDefaults(array('case_owner' => 1));
     }
 
     static function searchAction( &$row, $id ) 
