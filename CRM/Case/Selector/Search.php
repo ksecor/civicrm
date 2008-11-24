@@ -328,7 +328,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Case Status'),
+                                                'name'      => ts('Status'),
                                                 'sort'      => 'case_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -343,24 +343,14 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Most Recent-Date'),
+                                                'name'      => ts('Most Recent Activity'),
                                                 'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Type'),
-                                                'sort'      => 'case_recent_activity_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Next Scheduled-Date'),
+                                                'name'      => ts('Next Scheduled Activity'),
                                                 'sort'      => 'case_scheduled_activity_date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
-                                                ),
-                                          array(
-                                                'name'      => ts('Type'),
-                                                'sort'      => 'case_scheduled_activity_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
                                           );
@@ -368,7 +358,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
             if ( ! $this->_single ) {
                 $pre = array( 
                              array( 
-                                   'name'      => ts('Client\'s Name'), 
+                                   'name'      => ts('Client'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::DONTCARE,
                                     )

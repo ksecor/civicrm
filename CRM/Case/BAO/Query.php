@@ -300,7 +300,7 @@ case_relation_type.id = case_relationship.relationship_type_id )";
         
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
-                   array( '' => ts( '- select -' ) ) + $statuses );
+                   array( '' => ts( '- any status -' ) ) + $statuses );
         
         $form->assign( 'validCiviCase', true );
     

@@ -12,7 +12,7 @@
 {/if}
 
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$expandIconURL}Click %1 to view case details.{/ts}
+{ts 1=$expandIconURL}Click %1 to view case activities.{/ts}
 
 {strip}
 <table class="selector">
@@ -48,9 +48,6 @@
         <td>{$form.$cbName.html}</td> 
     {/if}
 	<td>
-    {if ! $single }	
-        &nbsp;{$row.contact_type}<br/>
-    {/if}
 	<span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
                              buildCaseDetails('{$list}{$row.case_id}','{$row.contact_id}'); 
@@ -67,16 +64,14 @@
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
     {if ! $single }	
-    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a></td>
     {/if}
 
-    <td class="right">{$row.case_status}</td>
-    <td class="right">{$row.case_type}</td>
-    <td class="right">{$row.case_role}</td>
-    <td class="right">{$row.case_recent_activity_date|crmDate}</td>
-    <td class="right">{$row.case_recent_activity_type}</td>
-    <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
-    <td class="right">{$row.case_scheduled_activity_type}</td>
+    <td>{$row.case_status}</td>
+    <td>{$row.case_type}</td>
+    <td>{$row.case_role}</td>
+    <td>{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}</td>
+    <td>{$row.case_scheduled_activity_type}<br />{$row.case_scheduled_activity_date|crmDate}</td>
     <td>{$row.action}</td>
    </tr>
    <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
