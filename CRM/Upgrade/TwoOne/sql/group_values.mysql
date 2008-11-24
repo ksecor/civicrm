@@ -91,8 +91,8 @@ ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' C
 -- Insert new option value for option_group = 'contribution_status'
 
 SELECT @option_cs    := id from civicrm_option_group where name = 'contribution_status';
-INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
-( @option_cs, 'Overdue', 6, 6, 1, NULL);
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `weight`, `is_active`, `is_default`) VALUES
+( @option_cs, 'Overdue', 6, 'Overdue', 6, 1, NULL);
 
 
 ALTER TABLE `civicrm_option_group`

@@ -85,7 +85,13 @@ class CRM_Utils_REST
      */
     public function authenticate($name, $pass) {
         require_once 'CRM/Utils/System.php';
-        eval ('$result =& CRM_Utils_System::authenticate($name, $pass);');
+        
+        // first check for civicrm site key
+        if ( ! CRM_Utils_System::authenticateKey( false ) ) {
+            return self::error( ts( 'Could not authenticate user, invalid key' ) );
+        }
+
+        $result =& CRM_Utils_System::authenticate($name, $pass);
         
         if (empty($result)) {
             return self::error( ts( 'Could not authenticate user, invalid name / password' ) );
@@ -158,7 +164,7 @@ class CRM_Utils_REST
 
     function handle( $config ) {
 
-        $q = $_GET['q'];
+        $q = CRM_Utils_array::value( 'q', $_GET );
         $args = explode( '/', $q );
         if ( $args[0] != 'civicrm' ) {
             return self::error( ts( 'Unknown function invocation' ) );
@@ -177,6 +183,11 @@ class CRM_Utils_REST
                 return self::error( ts( 'Invalid name and password' ) );
             }
             return self::authenticate( $name, $pass );
+        } else {
+            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, null, 'GET' );
+            if ( ! self::verify( $key ) ) {
+                return self::error( ts( 'session keys do not match, please re-auth' ) );
+            }
         }
 
         $params =& self::buildParamList( );
