@@ -92,6 +92,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $details  = CRM_Case_PseudoConstant::activityType( false );
        
         CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_actTypeId]['label'])));
+        $this->assign('activityType', $details[$this->_actTypeId]['label']);
         
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
@@ -102,6 +103,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             if ( ! $contact->find( true ) ) {
                 CRM_Core_Error::statusBounce( ts('Client contact does not exist: %1', array(1 => $this->_clientId)) );
             }
+            $this->assign( 'clientName', $contact->display_name );
         }
         
         $this->_id  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );

@@ -1,4 +1,5 @@
 {if ! $clientName}
+   <tr><td colspan="2">
    <fieldset><legend>{ts}New Client{/ts}</legend>
 	<table class="form-layout-compressed" border="0">
     <tr>
@@ -33,39 +34,12 @@
     {/if}
     </table>
    </fieldset>
+   </td></tr>
 {/if}
-<fieldset><legend>{ts}New Case{/ts}</legend>
-    <table class="form-layout">
-    {if $clientName}
-        <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
-    {/if}
-    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
-    <tr>
-        <td class="label">{$form.medium_id.label}</td>
-        <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.activity_location.label} &nbsp;{$form.activity_location.html}</td>
-    </tr> 
+    <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>
+    <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
     <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
         </td>
     </tr>
-    {if $groupTree}
-        <tr>
-            <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
-        </tr>
-    {/if}
-    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td></tr>
-    <tr>
-      <td class="label">{$form.duration.label}</td>
-      <td class="view-value">
-        {$form.duration.html}
-         <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
-      </td>
-    </tr> 
-    <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>
-    <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
-    <tr>
-        <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
-    </tr>
-    </table>
-</fieldset>

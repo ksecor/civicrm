@@ -5,11 +5,6 @@
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
     	        {include file="CRM/common/calendar/body.tpl" dateVar=reset_date_time offset=10 trigger=trigger_case_1}</td>
     </tr>
-    {if $groupTree}
-        <tr>
-            <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
-        </tr>
-    {/if}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_reset_timeline"
