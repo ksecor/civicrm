@@ -70,6 +70,11 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
         
+        if ( defined( 'CIVICRM_MAIL_SMARTY' ) ) {
+            require_once 'CRM/Core/Smarty/resources/String.php';
+            civicrm_smarty_register_string_resource( );
+        }
+
         // get and format attachments
         require_once 'CRM/Core/BAO/File.php';
         $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',

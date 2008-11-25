@@ -1112,12 +1112,12 @@ class CRM_Contact_BAO_Query
         case 'activity_date_high':
         case 'activity_type_id':
         case 'activity_role':
-          
         case 'activity_status':
         case 'activity_subject':
         case 'test_activities':    
             $this->activity( $values );
             return;
+
         case 'activity_target_name':
             // since this case is handled with the above
             return;
@@ -2348,17 +2348,13 @@ WHERE  id IN ( $groupIDs )
         $this->_tables['civicrm_address' ] = $this->_whereTables['civicrm_address' ] = 1;
 
         if ( $name == 'postal_code' ) {
-            $this->_where[$grouping][] = "{$field} {$op} '" . $val ."'"; 
+            $this->_where[$grouping][] = "{$field} {$op} '$val'"; 
             $this->_qill[$grouping][] = ts('Postal code') . " - '$value'";
         } else if ( $name =='postal_code_low') { 
-            $this->_where[$grouping][] = ' (' . $field . ' >= "' .
-                $val . 
-                '" ) ';
+            $this->_where[$grouping][] = " ( $field >= '$val' ) ";
             $this->_qill[$grouping][] = ts('Postal code greater than or equal to \'%1\'', array( 1 => $value ) );
         } else if ( $name == 'postal_code_high' ) {
-            $this->_where[$grouping][] = ' (' . $field . ' <= "' .
-                $val .
-                '" ) ';
+            $this->_where[$grouping][] = " ( $field <= '$val' ) ";
             $this->_qill[$grouping][] = ts('Postal code less than or equal to \'%1\'', array( 1 => $value ) );
         }
     }
@@ -2514,7 +2510,7 @@ WHERE  id IN ( $groupIDs )
              
             //for activity target name
             $activityTargetName = $this->getWhereValues( 'activity_target_name', $grouping );
-            if ( !$activityTargetName[2] ) {
+            if ( ! $activityTargetName[2] ) {
                 $name = null;
             } else {
                 $name = trim( $activityTargetName[2] );
