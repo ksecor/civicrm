@@ -180,9 +180,16 @@ class CRM_Core_BAO_CMSUser
                 $showUserRegistration = true;
             }
             if ( $isCMSUser && $emailPresent ) {                
-                if ( $showUserRegistration ) {  
-                    $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
-                    $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
+                if ( $showUserRegistration ) {
+                    if ( $isCMSUser != 2  ) {
+                        $extra = array(
+                                       'onclick' => "return showHideByValue('cms_create_account','','details','block','radio',false );"
+                                       );
+                        $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
+                        $form->assign( 'isCMS', true);       
+                    }else {
+                        $form->assign( 'isCMS', false);       
+                    }
                     require_once 'CRM/Core/Action.php';
                     if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
                         $form->add('text', 'cms_name', ts('Username') );
