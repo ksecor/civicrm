@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Case/XMLProcessor.php';
+require_once 'CRM/Utils/Date.php';
 
 class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
 
@@ -310,7 +311,9 @@ AND        ca.case_id = %3
             } else {
                 $dueDateTime = $params['dueDateTime'];
             }
-            $activityParams['due_date_time'] = date( 'YmdHis', $dueDateTime );
+            $activityDueTime                 = CRM_Utils_Date::unformat( date( 'Y:m:d:H:i', $dueDateTime ), ':' );
+            $activityDueTime['i']            = (integer)( $activityDueTime['i'] / 15 ) * 15;
+            $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
         }
 
         // if same activity is already there, skip and dont touch
