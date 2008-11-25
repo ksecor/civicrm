@@ -67,6 +67,7 @@
        <length>64</length>
        <comment>The domain from which outgoing email for this domain will appear to originate</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>email_return_path</name>
@@ -74,6 +75,7 @@
        <length>64</length>
        <comment>The domain from which outgoing email for this domain will appear to originate</comment>
        <add>1.1</add>
+       <drop>2.2</drop>
   </field>
   <field>
        <name>config_backend</name>

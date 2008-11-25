@@ -310,14 +310,16 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         $headers = array(
                          'Subject'       => $component->subject,
-                         'From'          => ts('\'%1\' <do-not-reply@%2>',
-                                               array(  1 => $domainEmailName,
-                                                       2 => $domain->email_domain) ),
+                         'From'          => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
                          'To'            => $eq->email,
-                         'Reply-To'      => "do-not-reply@{$domain->email_domain}",
-                         'Return-Path'   => "do-not-reply@{$domain->email_domain}"
+                         'Reply-To'      => "do-not-reply@$emailDomain",
+                         'Return-Path'   => "do-not-reply@$emailDomain",
                          );
         
         $b = $message->get();

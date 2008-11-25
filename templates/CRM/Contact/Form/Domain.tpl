@@ -23,12 +23,6 @@
                 <br /><span class="description">(info@example.org)</span>
             {/edit}
             </dd>
-        <dt class="extra-long-fourty">{$form.email_domain.label}</dt><dd>{$form.email_domain.html} {help id="email-domain"}
-            {edit}
-                <br /><span class="description">(example.org)</span>
-            {/edit}
-            </dd>
-        <dt>{$form.email_return_path.label}</dt><dd>{$form.email_return_path.html} {help id="return-path"}</dd>
     </dl>
     </fieldset>
     

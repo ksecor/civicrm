@@ -130,6 +130,9 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         } else {
             $from = "\"{$dao->display_name}\" <{$dao->email}>";
         }
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
         
         $message =& new Mail_Mime("\n");
         $headers = array(
@@ -137,7 +140,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             'To'            => $mailing->replyto_email,
             'From'          => $from,
             'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
-            'Return-Path'   => "do-not-reply@{$domain->email_domain}",
+            'Return-Path'   => "do-not-reply@{$emailDomain}",
             );
         
         $message->setTxtBody($bodyTxt);
@@ -190,15 +193,17 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
 
         require_once 'CRM/Core/BAO/Domain.php';        
         $domain =& CRM_Core_BAO_Domain::getDomain( );
+        list ($domainEmailName, $_) = CRM_Core_BAO_Domain::getNameAndEmail();
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
 
         $headers = array(
             'Subject'   => $component->subject,
             'To'        => $to,
-            'From'      => ts('\'%1\' <do-not-reply@%2>',
-                              array(  1 => $domain->email_name,
-                                      2 => $domain->email_domain) ),
-            'Reply-To'  => "do-not-reply@{$domain->email_domain}",
-            'Return-Path' => "do-not-reply@{$domain->email_domain}"
+            'From'        => "\"$domainEmailName\" <do-not-reply@$emailDomain>",
+            'Reply-To'    => "do-not-reply@$emailDomain",
+            'Return-Path' => "do-not-reply@$emailDomain"
         );
 
         /* TODO: do we need reply tokens? */

@@ -846,18 +846,20 @@ AND civicrm_contact.is_opt_out =0";
                              'unsubscribe' => 'u' ,
                              'resubscribe' => 'e',
                              'optOut'      => 'o'  );
+
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $localpart   = CRM_Core_BAO_MailSettings::defaultLocalpart();
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         foreach ($verpTokens as $key => $value ) {
-            // FIXME: get localpart+ from the database if specified
-            $localpart = '';
-            $value = $localpart . $value;
             $verp[$key] = implode($config->verpSeparator,
                                   array(
-                                        $value,
+                                        $localpart . $value,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
                                         )
-                                  ) . '@' . $this->_domain->email_domain;
+                                  ) . "@$emailDomain";
         }
         
         //handle should override VERP address.    

@@ -649,12 +649,11 @@ class CRM_Utils_Token
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 18, -1);
                 $config =& CRM_Core_Config::singleton();
-                require_once 'CRM/Core/BAO/Domain.php';
-                $domain = CRM_Core_BAO_Domain::getDomain( );
-                // FIXME: get localpart+ from the database if specified
-                $localpart = '';
+                require_once 'CRM/Core/BAO/MailSettings.php';
+                $domain    = CRM_Core_BAO_MailSettings::defaultDomain();
+                $localpart = CRM_Core_BAO_MailSettings::defaultLocalpart();
                 // we add the 0.0000000000000000 part to make this match the other email patterns (with action, two ids and a hash)
-                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$gid}.0.0000000000000000@{$domain->email_domain}", $str);
+                $str = preg_replace('/'.preg_quote($value).'/',"mailto:{$localpart}s.{$gid}.0.0000000000000000@$domain", $str);
             }
         }
         return $str;

@@ -188,16 +188,18 @@ SELECT     civicrm_email.id as email_id
         
         //get the default domain email address.
         list( $domainEmailName, $domainEmailAddress ) = CRM_Core_BAO_Domain::getNameAndEmail( );
-        
-        // FIXME: get localpart+ from the database if specified
-        $localpart = '';
+       
+        require_once 'CRM/Core/BAO/MailSettings.php';
+        $localpart   = CRM_Core_BAO_MailSettings::defaultLocalpart();
+        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+
         require_once 'CRM/Utils/Verp.php';
         $confirm = implode($config->verpSeparator,
                            array($localpart . 'c',
                                  $this->contact_id,
                                  $this->id,
                                  $this->hash)
-                          ) . "@{$domain->email_domain}";
+                          ) . "@$emailDomain";
         
         require_once 'CRM/Contact/BAO/Group.php';
         $group =& new CRM_Contact_BAO_Group();
@@ -217,7 +219,7 @@ SELECT     civicrm_email.id as email_id
                          'From'      => "\"{$domainEmailName}\" <{$domainEmailAddress}>",
                          'To'        => $email,
                          'Reply-To'  => $confirm,
-                         'Return-Path'   => "do-not-reply@{$domain->email_domain}"
+                         'Return-Path'   => "do-not-reply@$emailDomain"
                          );
         
         $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',

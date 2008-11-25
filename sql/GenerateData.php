@@ -578,8 +578,6 @@ class CRM_GCD {
             $domain->name = "Domain $id";
             $domain->description = "Description $id";
             $domain->contact_name = $this->randomName();
-            $domain->email_domain = 
-                $this->_getRandomElement($this->emailDomain) . ".fixme";
 
             // insert domain
             $this->_insert($domain);

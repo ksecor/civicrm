@@ -814,8 +814,8 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
-        $domain =& CRM_Core_BAO_Domain::getDomain( );
-        $receiptFrom = '"' .$domain->email_name . '" <' . $domain->email_domain . '>';
+        list ($name, $address) = CRM_Core_BAO_Domain::getNameAndEmail();
+        $receiptFrom = "\"$name\" <$address>";
             
         $template->assign( 'returnContent', 'subject' );
         $subject = $template->fetch( $emailTemplate );

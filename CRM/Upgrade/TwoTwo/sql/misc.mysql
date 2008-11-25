@@ -179,3 +179,9 @@ CREATE INDEX index_api_key ON civicrm_contact(api_key);
 -- CRM-3863
 SELECT @piOpt := id from civicrm_option_group where name = 'payment_instrument';
 UPDATE civicrm_option_value SET is_reserved = 1 WHERE option_group_id = @piOpt AND name = 'Credit Card';
+
+-- CRM-3851: migrate civicrm_domain.email_domain and .email_return_path to civicrm_mail_settings
+SELECT email_domain, email_return_path FROM civicrm_domain LIMIT 1 INTO @domain, @return_path;
+INSERT INTO civicrm_mail_settings (name, is_default, domain, return_path) VALUES ('default', true, @domain, @return_path);
+ALTER TABLE civicrm_domain DROP email_domain;
+ALTER TABLE civicrm_domain DROP email_return_path;
