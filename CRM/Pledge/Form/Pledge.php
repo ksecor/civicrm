@@ -101,15 +101,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
-        //handle custom data.
-        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
-        $this->assign('cdType', false);
-        if ( $this->_cdType ) {
-            $this->assign('cdType', true);
-            return CRM_Custom_Form_CustomData::preProcess( $this );
-        }
-        
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+		$this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
         $this->assign( 'action', $this->_action );
@@ -130,7 +122,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
         
-        
+        //build custom data
+        CRM_Custom_Form_Customdata::preProcess( $this, null, null, 1, 'Pledge', $this->_id );
+
         $this->_values = array( );
         // current pledge id
         if ( $this->_id ) {
@@ -140,45 +134,38 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once "CRM/Pledge/BAO/Pledge.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values );
-	    
-	    $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
-            //check for pending pledge.
-            if ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
+            
+	    	$paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+			//check for pending pledge.
+			if ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
                  array_search( 'Pending', $paymentStatusTypes ) ) {
-	      $this->_isPending = true; 
-	    } elseif ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
-		       array_search( 'Overdue',  $paymentStatusTypes ) ) {
-
-	      $allPledgePayments = array( );
-	      CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 
-					       'pledge_id', 
-					       $this->_id, 
-					       $allPledgePayments, 
-					       array( 'status_id' ) );
-	      
-	      foreach ( $allPledgePayments as $key => $value ) {
-		$allStatus[$value['id']] = $paymentStatusTypes[$value['status_id']];
-	      }
-	      
-	      if ( count( array_count_values( $allStatus) ) <= 2 ) {
-		if ( CRM_Utils_Array::value( 'Pending', array_count_values( $allStatus ) ) ) {
-		  $this->_isPending = true; 
-		}
-	      }
-	    }
-	    
-	}
-
+				$this->_isPending = true; 
+            } else if ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
+                        array_search( 'Overdue',  $paymentStatusTypes ) ) {
+                
+                $allPledgePayments = array( );
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 
+                                                 'pledge_id', 
+                                                 $this->_id, 
+                                                 $allPledgePayments, 
+                                                 array( 'status_id' ) );
+                
+                foreach ( $allPledgePayments as $key => $value ) {
+                    $allStatus[$value['id']] = $paymentStatusTypes[$value['status_id']];
+                }
+                
+                if ( count( array_count_values( $allStatus) ) <= 2 ) {
+                    if ( CRM_Utils_Array::value( 'Pending', array_count_values( $allStatus ) ) ) {
+                        $this->_isPending = true; 
+                    }
+                }
+            }
+            
+        }
+        
         //get the pledge frequency units.
         require_once 'CRM/Core/OptionGroup.php';
         $this->_freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
-        
-        //when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_Customdata::preProcess( $this );
-            CRM_Custom_Form_Customdata::buildQuickForm( $this );
-            CRM_Custom_Form_Customdata::setDefaultValues( $this );
-        }
         
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
@@ -195,12 +182,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * @return None
      */
     function setDefaultValues( ) 
-    {
-        //set default custom data.
-        if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
-        }
-        
+    {   
         $defaults = $this->_values;
         $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -261,6 +243,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $this->assign( 'email', $this->userEmail );
 
+		// custom data set defaults
+		$defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
         return $defaults;
     }
     
@@ -272,11 +257,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {   
-        //build custom data form.
-        if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
-        }
-        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -289,10 +269,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                               );
             return;
         }
-        
-        //need to assign custom data type to the template
-        $this->assign('customDataType', 'Pledge');
-        $this->assign('entityId',  $this->_id );
         
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
@@ -431,6 +407,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         require_once "CRM/Core/BAO/Preferences.php";
         $mailingInfo =& CRM_Core_BAO_Preferences::mailingPreferences();
         $this->assign( 'outBound_option', $mailingInfo['outBound_option'] );
+
+        //build custom data
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
 
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 

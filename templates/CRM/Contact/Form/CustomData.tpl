@@ -2,6 +2,7 @@
 {if $cdType }
     {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
+    <div class="html-adjust">{$form.buttons.html}</div>  
     <div id="customData"></div>
     <div class="html-adjust">{$form.buttons.html}</div>  
 

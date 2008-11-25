@@ -87,7 +87,7 @@
           </td>
        </tr>
        <tr>
-          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl" noPostCustomButton=1}</td>
+          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl"}</td>
        </tr>
        <tr>
           <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>

@@ -5,13 +5,6 @@
 	<a href="#" onclick="hide('{$cd_edit.name}_show_{$cgCount}'); show('{$cd_edit.name}_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
 </div>
 
-{* If there is no ajax call this button gets added on top of custom form. In such case $noPreCustomButton var could be used to skip showing this button. *}
-{if $form.buttons.html and !$noPreCustomButton}
-<dl>
-	<dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
-</dl>  
-{/if}
-
 <div id="{$cd_edit.name}_{$cgCount}" class="form-item">
 	<fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$cgCount}'); show('{$cd_edit.name}_show_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
 
