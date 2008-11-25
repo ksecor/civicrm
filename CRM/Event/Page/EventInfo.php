@@ -89,7 +89,16 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( !CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $this->_id ) ) {
                 //retrieve event fee block.
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+                if ( $discountId ) {
+                    CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $discountId, 'option_group_id' ),
+                                                    $values['feeBlock'], 
+                                                    false,
+                                                    'id' );
+                } else {
+                    CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
+                }
             }
         }
         
