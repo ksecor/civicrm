@@ -60,9 +60,9 @@
 
     {assign var=n value=$field.name}
     {if $field.options_per_line}
-	<tr>
+	<tr id="editrow-{$n}">
         <td class="option-label">{$form.$n.label}</td>
-        <td>
+        <td class="edit-value">
 	    {assign var="count" value="1"}
         {strip}
         <table class="form-layout-compressed">
@@ -89,9 +89,9 @@
         </td>
     </tr>
 	{else}
-        <tr>
+        <tr id="editrow-{$n}">
            <td class="label">{$form.$n.label}</td>
-           <td>
+           <td class="edit-value">
            {if $n|substr:0:3 eq 'im-'}
              {assign var="provider" value=$n|cat:"-provider_id"}
              {$form.$provider.html}&nbsp;
@@ -102,13 +102,12 @@
                      <td>{$form.$n.html} </td>
                      <td id="customGreeting">
                      {$form.custom_greeting.label}&nbsp;&nbsp;&nbsp;{$form.custom_greeting.html|crmReplace:class:big}</td>
-                     </tr>
+                  </tr>
                </table> 
-	   {elseif $n eq 'group' && $form.group}
-		<table id="selector" class="selector" style="width:auto;">
-		<tr><td>{$form.$n.html}</td></tr>
-		</table>
-
+            {elseif $n eq 'group' && $form.group}
+                <table id="selector" class="selector" style="width:auto;">
+                    <tr><td>{$form.$n.html}</td></tr>
+                </table>
            {else}        
                {$form.$n.html}
            {/if}
@@ -119,14 +118,15 @@
                 </td>
            {/if}
         </tr>
-	  {if $form.$n.type eq 'file'}
+        {if $form.$n.type eq 'file'}
 	      <tr><td class="label"></td><td>{$customFiles.$n.displayURL}</td></tr>
 	      <tr><td class="label"></td><td>{$customFiles.$n.deleteURL}</td></tr>
-	  {/if} 
+        {/if} 
 	{/if}
-        {* Show explanatory text for field if not in 'view' mode *}
-        {if $field.help_post && $action neq 4 && $form.$n.html}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
-        {/if}
+    {* Show explanatory text for field if not in 'view' mode *}
+    {if $field.help_post && $action neq 4 && $form.$n.html}
+        <tr id="helprow-{$n}"><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
+    {/if}
 
     {/foreach}
 
