@@ -444,10 +444,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
                          aov.label as case_recent_activity_type ";
         } else if ($type == 'all') {
-            $query .=  " max(civicrm_activity.activity_date_time) as case_recent_activity_date, 
-                         aov.label as case_recent_activity_type, 
-                         min(civicrm_activity.due_date_time) as case_scheduled_activity_date, 
-                         aov.label as case_scheduled_activity_type ";  
+            $query .=  " max(civicrm_activity.activity_date_time) as case_recent_activity_date,
+                         aov.label as case_recent_activity_type,
+                         min(civicrm_activity.due_date_time) as case_scheduled_activity_date,
+                         aov.label as case_scheduled_activity_type ";
         }
         
         $query .= " FROM civicrm_case
@@ -512,9 +512,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( ! $allCases && $type != 'all' ) {
             $query .= " AND civicrm_case_contact.contact_id = {$userID}";
         }
+        
+        // make sure deleted activities and cases are not included
+        $query .= " AND civicrm_activity.is_deleted = 0
+                    AND civicrm_case.is_deleted = 0";
 
         if ( $type == 'upcoming' || $type == 'all' ) {
-            $query .=" GROUP BY case_id                  
+            $query .=" GROUP BY case_id
                        ORDER BY case_scheduled_activity_date ASC ";
         } else if ( $type == 'recent' ) {
             $query .= " GROUP BY case_id
