@@ -192,7 +192,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Relationship', $relationship->id, $relationship );
         } else {
-            CRM_Utils_Hook::post( 'create', 'Contribution', $relationship->id, $relationship );
+            CRM_Utils_Hook::post( 'create', 'Relationship', $relationship->id, $relationship );
         }
         
         return $relationship;
