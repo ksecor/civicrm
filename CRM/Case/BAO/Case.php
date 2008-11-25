@@ -718,17 +718,18 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $viewTitle = ts('View this activity.');
               
         while ( $dao->fetch( ) ) {
-            $values[$dao->id]['id']          = $dao->id;
-            $values[$dao->id]['type']        = $activityTypes[$dao->type]['label'];
-            $values[$dao->id]['reporter']    = $dao->reporter;
-            $values[$dao->id]['due_date']    = CRM_Utils_Date::customFormat( $dao->due_date );
-            $values[$dao->id]['actual_date'] = CRM_Utils_Date::customFormat( $dao->actual_date );
-            $values[$dao->id]['status']      = $activityStatus[$dao->status];
-            $values[$dao->id]['subject']     = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
+            $values[$dao->id]['id']                = $dao->id;
+            $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
+            $values[$dao->id]['reporter']          = $dao->reporter;
+            $values[$dao->id]['due_date']          = CRM_Utils_Date::customFormat( $dao->due_date );
+            $values[$dao->id]['due_date_unixTime'] = CRM_Utils_Date::unixTime( $dao->due_date );
+            $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
+            $values[$dao->id]['status']            = $activityStatus[$dao->status];
+            $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
             
-            $values[$dao->id]['links']       = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
         }
         
         $dao->free( );

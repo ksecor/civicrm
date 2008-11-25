@@ -40,7 +40,13 @@
       <td>{$row.subject}</td>
       <td>{$row.type}</td>
       <td>{$row.reporter}</td>
+      {if $row.status eq 'Scheduled' and $row.due_date_unixTime < $smarty.now}
+      <td class="status-overdue">{$row.status}</td>
+      {elseif $row.status eq 'Scheduled'}
+      <td class="status-pending">{$row.status}</td>
+      {else}
       <td>{$row.status}</td>
+      {/if}
       <td style="white-space: nowrap;">{$row.links}</td>
     </tr>
     {/foreach}

@@ -349,7 +349,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                           array(
                                                 'name'      => ts('Next Scheduled Activity'),
                                                 'sort'      => 'case_scheduled_activity_date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
                                           );
@@ -359,7 +359,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                              array( 
                                    'name'      => ts('Client'), 
                                    'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::DONTCARE,
+                                   'direction' => CRM_Utils_Sort::ASCENDING,
                                     )
                               );
                 
