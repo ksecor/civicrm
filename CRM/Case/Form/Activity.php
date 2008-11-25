@@ -149,7 +149,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         }
         
         //retrieve details about case
-        $caseParams       = array( 'id' => $this->_caseId );
+        $caseParams       = array( 'id' => $this->_id );
         $returnProperties = array( 'case_type_id', 'subject' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $caseParams, $values, $returnProperties );
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
@@ -252,6 +252,11 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                             'civicrm_activity',
                                             $this->_activityId, 2 );
        
+        // set context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_clientId}&id={$this->_id}&show=1" );
+        $session->pushUserContext( $url );
+
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }

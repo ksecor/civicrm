@@ -50,25 +50,11 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
      */
     static $_links = null;
 
-    /**
-     * Open Case activity type id
-     */
-    protected $_openCaseId = null;
-
-    /**
-     * Change Case Type activity type id
-     */
-    protected $_changeCaseTypeId = null;
-
-    /**
-     * Change Case Status activity type id
-     */
-    protected $changeCaseStatusId = null;
-    
     function preProcess( )
     {
         $this->_id        = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this );
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $this->_context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 
         // contact id is not mandatory for case form. If not found, don't call
         // parent's pre-process and proceed further.
@@ -84,13 +70,11 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $this->assign( 'action', $this->_action);
         }
 
-        $this->_openCaseId         = CRM_Core_OptionGroup::getValue( 'activity_type', 'Open Case', 'name' );
-        $this->_changeCaseTypeId   = CRM_Core_OptionGroup::getValue( 'activity_type', 'Change Case Type', 'name' );
-        $this->_changeCaseStatusId = CRM_Core_OptionGroup::getValue( 'activity_type', 'Change Case Status', 'name' );
+        $activityTypes = CRM_Case_PseudoConstant::activityType( );
 
-        $this->assign( 'openCaseId'       ,$this->_openCaseId);
-        $this->assign( 'changeCaseTypeId' ,$this->_changeCaseTypeId);
-        $this->assign( 'changeCaseStatusId',$this->_changeCaseStatusId);
+        $this->assign( 'openCaseId'        ,$activityTypes['Open Case']['id']);
+        $this->assign( 'changeCaseTypeId'  ,$activityTypes['Change Case Type']['id']);
+        $this->assign( 'changeCaseStatusId',$activityTypes['Change Case Status']['id']);
     }
 
     /**
@@ -224,64 +208,36 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
        
         if (!(self::$_links)) {
             $deleteExtra = ts('Are you sure you want to delete this case?');
-            if ($config->civiHRD){ 
-                self::$_links = array(
-                                      CRM_Core_Action::UPDATE  => array(
-                                                                        'name'  => ts('Edit'),
-                                                                        'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                        'title' => ts('Edit Case')
-                                                                        ),
-                                      
-                                      CRM_Core_Action::FOLLOWUP  => array(
-                                                                          'name'  => ts('Add Activity'),
-                                                                          'url'   => 'civicrm/contact/view/activity',
-                                                                          'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
-                                                                          'title' => ts('Add Activity')
-                                                                    )
-                                      );
-            } else {
-                self::$_links = array(
-                                      CRM_Core_Action::VIEW    => array(
-                                                                        'name'  => ts('Manage Case'),
-                                                                        'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case&context=case',
-                                                                        'title' => ts('Manage Case')
-                                                                        ),
-                                                      
-                                      CRM_Core_Action::DELETE  => array(
-                                                                        'name'  => ts('Delete Case'),
-                                                                        'url'   => 'civicrm/contact/view/case',
-                                                                        'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                        'title' => ts('Delete Case')
-                                                                        ),
-                                      
-                                      );
-            }
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('Manage Case'),
+                                                                    'url'   => 'civicrm/contact/view/case',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%',
+                                                                    'title' => ts('Manage Case')
+                                                                    ),
+                                  
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete Case'),
+                                                                    'url'   => 'civicrm/contact/view/case',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%',
+                                                                    'title' => ts('Delete Case')
+                                                                    ),
+                                  
+                                  );
         }
         return self::$_links;
     }
     
     function setContext( ) 
     {
-        $this->_id        = CRM_Utils_Request::retrieve('id', 'Integer',   $this);
-        $this->_contactId = CRM_Utils_Request::retrieve('cid','Positive',  $this);
-//        CRM_Core_Error::debug('caseid', $this->_id);
+        $context = $this->get('context');
+        $url     = null;
 
-        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-        $url = null;
         switch ( $context ) {
-        case 'case':
-            if ( $this->_contactId ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                             "reset=1&cid={$this->_contactId}&action=view&selectedChild=case" );
-            }
-            break;
-        
         case 'activity':
             if ( $this->_contactId ) {
                 $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                             "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+                                              "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
             }
             break;
             
@@ -290,17 +246,17 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             break;
                 
         case 'search':
-                $url = CRM_Utils_System::url( 'civicrm/case/search', 'force=1' );
-                break;
+            $url = CRM_Utils_System::url( 'civicrm/case/search', 'force=1' );
+            break;
                 
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
             break;
 
-        default :
-            if ( $this->_contactId && $this->_id ) {
-                $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                              "reset=1&cid={$this->_contactId}&action=view&id={$this->_id}&show=1&selectedChild=case" );
+        default:
+            if ( $this->_contactId ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactId}&selectedChild=case" );
             }
             break;
         }

@@ -78,7 +78,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $newActivityUrl = 
             CRM_Utils_System::url( 'civicrm/case/activity', 
-                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&selectedChild=activity&atype=", 
+                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&atype=", 
                                    false, null, false ); 
         $this->assign ( 'newActivityUrl', $newActivityUrl );
 
@@ -92,12 +92,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         if ( $show ) {
             $this->assign ( 'show', $show );
         }
-
-        // user context
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1" );
-        $session =& CRM_Core_Session::singleton( ); 
-        $session->pushUserContext( $url );
     }
 
     /**
@@ -199,6 +193,12 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
                       
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
+
         if ( CRM_Utils_Array::value( 'timeline_id', $params ) && 
              CRM_Utils_Array::value( '_qf_CaseView_next', $_POST ) ) {
             $session    =& CRM_Core_Session::singleton();
@@ -215,8 +215,9 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                         );
             $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
             $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
-            CRM_Core_Session::setStatus( ts('Activities has been added for %1 activity set', array( 1 => $reports[$params['timeline_id']] ) ) );
-            return;
+            
+            CRM_Core_Session::setStatus( ts('Activities has been added for %1 activity set', 
+                                            array( 1 => $reports[$params['timeline_id']] ) ) );
         }
     }
 }
