@@ -7,7 +7,7 @@
         <dd><p><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">&raquo; {ts}Go to this LIVE Online Contribution page{/ts}</a></p>
         {if $config->userFramework EQ 'Drupal'}
             <p>{ts}Create links to this contribution page by copying and pasting the following URL into any web page.{/ts}:<br />
-            <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
+            <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         {elseif $config->userFramework EQ 'Joomla'}
             {ts 1=$id}Create front-end links to this contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}
@@ -78,7 +78,7 @@
     <td>{ts}Review your customized <strong>LIVE</strong> online contribution page here.{/ts}
         {if $config->userFramework EQ 'Drupal'}
             {ts}Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
-            <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
+            <strong>{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
         {elseif $config->userFramework EQ 'Joomla'}
             {ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         {/if}
