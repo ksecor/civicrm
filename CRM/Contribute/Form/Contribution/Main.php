@@ -321,7 +321,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_pcpId ) {
             require_once 'CRM/Contribute/BAO/PCP.php';
             if ( $pcpSupporter = CRM_Contribute_BAO_PCP::displayName( $this->_pcpId ) ) {
-                $this->assign( 'pcpSupporterText' , ts('This Personal Campaign Page of <strong>%1</stonrg>.',array(1 => $pcpSupporter ) ) );
+                $this->assign( 'pcpSupporterText' , ts('This contribution is being made thanks to effort of <strong>%1</strong>, who supports our campaign. You can support it as well - create your Personal Campaign Page now!', array(1 => $pcpSupporter ) ) );
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly In Roll'), null );
