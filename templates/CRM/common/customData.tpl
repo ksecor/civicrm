@@ -6,12 +6,6 @@ function buildCustomData( type, subType, subName, cgCount, groupID, isMultiple )
 	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type; 
 
 	if ( subType ) {
-		// special case to handle relationship custom data
-	    if ( type == 'Relationship' ) {
-			subType = subType.replace( '_a_b', '' );
-			subType = subType.replace( '_b_a', '' );
-	    }
-	    
 		dataUrl = dataUrl + '&subType=' + subType;
 	}
 

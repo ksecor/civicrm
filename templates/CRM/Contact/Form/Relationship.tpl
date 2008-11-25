@@ -181,7 +181,7 @@
         <dt id="employer">{ts}Is current employer?{/ts}</dt>
         <dd id="current_employer">{$form.is_current_employer.html}</dd>
         {/if}
-        <dl><dt></dt><dd id="customData"></dd></dl>
+        <div id="customData"></div>
         <div class="spacer"></div>
         <dl>
       	  <dt></dt><dd>{$form.buttons.html}</dd>
@@ -206,8 +206,20 @@
 {/if} {* close of custom data else*}
 
 {if $searchRows OR $action EQ 2}
- {*include custom data js file*}
- {include file="CRM/common/customData.tpl"}
+{*include custom data js file*}
+{include file="CRM/common/customData.tpl"}
+{literal}
+<script type="text/javascript">
+	cj(document).ready(function() {
+		{/literal}
+		buildCustomData( '{$customDataType}' );
+		{if $customDataSubType}
+			buildCustomData( '{$customDataType}', {$customDataSubType} );
+		{/if}
+		{literal}
+	});
+</script>
+{/literal}
 {/if}
 {if $action EQ 2}
 {literal}

@@ -288,7 +288,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $searchRows = $this->get( 'searchRows' );
         $attributes = array('onchange' => "setUrl( );");
         if ( $searchRows ) { 
-            $attributes = array('onchange' => "setUrl( ); buildCustomData( this.value );");
+            $attributes = array('onchange' => "setUrl( ); buildCustomData( 'Relationship', this.value );");
         } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $attributes = array('onchange' => "currentEmployer( this.form ); setUrl( );");  
         }
@@ -380,7 +380,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Relationship');
         $this->assign('customDataSubType',  $this->_relationshipTypeId );
-        $this->assign('entityId',  $this->_relationshipId );
+        $this->assign('entityID',  $this->_relationshipId );
        
         $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
