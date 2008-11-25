@@ -342,10 +342,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
                 
-                if ( isset( $field->phone_type ) ) {
-                    $name      .= "-{$field->phone_type}";
-                    if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
-                        $phoneType  = "-{$field->phone_type}";
+                if ( isset( $field->phone_type_id ) ) {
+                    $name      .= "-{$field->phone_type_id}";
+                    if ( $field->phone_type_id != '1' ) { // this hack is to prevent Phone Phone (work)
+                        $phoneType  = "-{$field->phone_type_id}";
                     }
                 }
 
@@ -365,7 +365,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'in_selector'      => $field->in_selector,
                           'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                           'location_type_id' => $field->location_type_id,
-                          'phone_type'       => isset( $field->phone_type ) ? $field->phone_type : NULL,
+                          'phone_type_id'    => isset( $field->phone_type_id ) ? $field->phone_type_id : NULL,
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
                           'collapse_display' => $group->collapse_display,
@@ -1964,9 +1964,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }                   
                     if ($fieldName == 'phone') {
                         if ( $phoneTypeId ) {
-                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $phoneTypeId;
+                            $data['location'][$loc]['phone'][$loc]['phone_type_id'] = $phoneTypeId;
                         } else {
-                            $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                            $data['location'][$loc]['phone'][$loc]['phone_type_id'] = '';
                         }
                         $data['location'][$loc]['phone'][$loc]['phone'] = $value;
                     } else if ($fieldName == 'email') {

@@ -398,7 +398,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $break = false;
                     if ( is_array($value) ) {
                         foreach ($value as $name => $testForEmpty) {
-                            if ($name !== 'phone_type' &&
+                            if ($name !== 'phone_type_id' &&
                                 ($testForEmpty === '' || $testForEmpty == null)) {
                                 $break = true;
                                 break;

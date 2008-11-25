@@ -377,7 +377,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } 
         $sel3[''] = null;
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
-        asort($phoneTypes);
+        ksort($phoneTypes);
              
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {

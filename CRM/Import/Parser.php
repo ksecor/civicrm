@@ -648,7 +648,7 @@ abstract class CRM_Import_Parser {
                                 $this->_activeFields[$i]->_hasLocationType);
                     
                     if (isset( $this->_activeFields[$i]->_phoneType)) {
-                        $value['phone_type'] =
+                        $value['phone_type_id'] =
                             $this->_activeFields[$i]->_phoneType;
                     }
                     
@@ -679,7 +679,7 @@ abstract class CRM_Import_Parser {
                                        'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
                         
                         if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
-                            $value['phone_type'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
+                            $value['phone_type_id'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
                         }
 
                         $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;

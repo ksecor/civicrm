@@ -233,7 +233,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $mapperLocTypes[$key] = null;
             }
             
-            if (!is_numeric($mapper[$key][2])) {
+            if ( CRM_Utils_Array::value($key,$mapperKeys) == 'phone' ) {
                 $mapperPhoneTypes[$key] = $mapper[$key][2];
             } else {
                 $mapperPhoneTypes[$key] = null;
@@ -266,7 +266,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapFields = $this->get('fields');
       
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         
         foreach ($mapper as $key => $value) {
             $header = array();

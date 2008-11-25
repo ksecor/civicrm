@@ -679,10 +679,14 @@ class CRM_Contact_BAO_Query
             $addAddress = false;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
-                $elementName = $elementFullName;
-
+                $elementName = $elementCmpName = $elementFullName;
+                
+                if(substr($elementCmpName, 0, 5) == 'phone'){
+                    $elementCmpName = 'phone';
+                }
+                
                 //add address table only once
-                if ( in_array( $elementName, self::$_locationSpecificFields ) && ! $addAddress ) {
+                if ( in_array( $elementCmpName, self::$_locationSpecificFields ) && ! $addAddress ) {
                     $tName = "$name-address";
                     $aName = "`$name-address`";
                     $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
@@ -699,9 +703,11 @@ class CRM_Contact_BAO_Query
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
                     
-                    $cond = self::getPrimaryCondition( $elementType );
+                    if( $elementName != 'phone' ){
+                        $cond = self::getPrimaryCondition( $elementType );
+                    }
                     if ( ! $cond ) {
-                        $cond = "phone_type = '$elementType'";
+                        $cond = "phone_type_id = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }
@@ -718,9 +724,19 @@ class CRM_Contact_BAO_Query
                             $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
                         }
                     } else if ( is_numeric( $name ) ) {
-                        $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields ); 
+                        //this for phone type to work
+                        if ( $elementName == "phone" ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary" . $elementType, $this->_fields );
+                        } else {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields );
+                        }
                     } else {
-                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                        //this is for phone type to work for profile edit
+                        if ( $elementName == "phone" ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                        } else {
+                            $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                        }
                     }
                 }
 
