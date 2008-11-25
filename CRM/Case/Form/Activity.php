@@ -623,7 +623,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $followupParams                      = array( );
             $followupParams['parent_id']         = $activity->id;
             $followupParams['source_contact_id'] = $params['source_contact_id'];
-            $followupParams['subject']           = $params['subject'];
             $followupParams['status_id']         = 
                 CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
 
