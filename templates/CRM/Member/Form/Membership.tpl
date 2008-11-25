@@ -154,6 +154,18 @@
     <div id="customData"></div>
     {*include custom data js file*}
     {include file="CRM/common/customData.tpl"}
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				{/literal}
+				buildCustomData( '{$customDataType}' );
+				{if $customDataSubType}
+					buildCustomData( '{$customDataType}', {$customDataSubType} );
+				{/if}
+				{literal}
+			});
+		</script>
+	{/literal}
 	{if $accessContribution and $action eq 2 and $rows.0.contribution_id}
         <fieldset>	 
             {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}

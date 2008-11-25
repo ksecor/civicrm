@@ -414,6 +414,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
+        //need to assign custom data type to the template
+        $this->assign('customDataType', 'Participant');
+
         $this->applyFilter('__ALL__', 'trim');
        
         if ( $this->_action & CRM_Core_Action::DELETE ) {

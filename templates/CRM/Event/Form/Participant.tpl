@@ -163,14 +163,14 @@
 	{include file="CRM/common/customData.tpl"}
 	{literal}
 		<script type="text/javascript">
-			cj(document).ready(function() {
-				buildCustomData( 'Participant' );
+			cj(document).ready(function() {				
 				{/literal}
+				buildCustomData( '{$customDataType}' );
 				{if $roleID}
-					buildCustomData( 'Participant', 1, {$roleID} );
+					buildCustomData( '{$customDataType}', {$roleID}, 1 );
 				{/if}
 				{if $eventID}
-					buildCustomData( 'Participant', 2, {$eventID} );
+					buildCustomData( '{$customDataType}', {$eventID}, 2 );
 				{/if}
 				{literal}
 			});

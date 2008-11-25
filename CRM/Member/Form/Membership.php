@@ -274,7 +274,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Membership');
         $this->assign('customDataSubType',  $this->_memType );
-        $this->assign('entityId',  $this->_id );
+        $this->assign('entityID',  $this->_id );
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
@@ -323,7 +323,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $sel =& $this->addElement('hierselect', 
                                   'membership_type_id', 
                                   ts('Membership Organization and Type'), 
-                                  array('onChange' => "buildCustomData( this.value ); setPaymentBlock( this.value );")
+                                  array('onChange' => "buildCustomData( 'Membership', this.value ); setPaymentBlock( this.value );")
                                   );
         
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
@@ -577,9 +577,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $session = CRM_Core_Session::singleton();
         $ids['userId'] = $session->get('userID');
-     
+ 
+    	// membership type custom data
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership', false, false,
                                                              CRM_Utils_Array::value( 'membership_type_id', $params ) );
+    
+		$customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
+														CRM_Core_BAO_CustomField::getFields( 'Membership', false, false, null, null, true ) );
+
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $formValues,
                                                                    $customFields,
                                                                    $this->_id,
