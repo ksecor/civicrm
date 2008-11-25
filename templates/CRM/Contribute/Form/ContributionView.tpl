@@ -103,7 +103,7 @@
 </fieldset>
 {/if} 
 
-{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+{include file="CRM/Custom/Page/CustomDataView.tpl"}
 
 <dl>
 	<dt></dt>

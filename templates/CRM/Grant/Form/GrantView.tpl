@@ -18,7 +18,7 @@
           <dt>{ts}Rationale{/ts}             </dt> <dd>{$rationale}</dd>
           <dt>{ts}Notes{/ts}                 </dt> <dd>{$note}</dd>
 	  <div class="spacer"></div>
-           {include file="CRM/Contact/Page/View/InlineCustomData.tpl" } 
+           {include file="CRM/Custom/Page/CustomDataView.tpl"} 
      </dl>
     <div class="spacer"></div>  
     <dl class="html-adjust">

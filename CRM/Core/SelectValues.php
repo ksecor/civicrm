@@ -258,7 +258,7 @@ class CRM_Core_SelectValues
                 'Participant'  => ts('Participants'),
                 'ParticipantRole'      => ts('Participants (Role)'),
                 'ParticipantEventName' => ts('Participants (Event Name)'),
-                'ParticipantEventType' => ts('Participants (Event Type)'),
+                //'ParticipantEventType' => ts('Participants (Event Type)'),
                 'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
                 'Case'         => ts('Cases')    

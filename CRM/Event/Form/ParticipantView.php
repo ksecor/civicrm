@@ -78,7 +78,7 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $this, $this->get( 'id' ), 0, 
                                                          $values[$this->get( 'id' )]['role_id'] );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
 
         $this->assign( $values[$this->get( 'id' )] );
     }

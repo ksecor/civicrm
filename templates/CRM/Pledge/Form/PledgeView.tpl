@@ -39,7 +39,7 @@
         <dt>{ts}Send additional reminders{/ts}</dt><dd>{$additional_reminder_day}&nbsp;days after the last one sent</dd>	
     </dl>
     
-    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+    {include file="CRM/Custom/Page/CustomDataView.tpl"}
 
     <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>

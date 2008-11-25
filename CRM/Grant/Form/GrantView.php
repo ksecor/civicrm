@@ -82,11 +82,9 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
             $this->assign( 'note', CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' ) );
         }
         
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this, $this->_id, 0 );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-             
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this, $this->_id, 0 );
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree ); 
     }
-
 
     /**
      * Function to build the form

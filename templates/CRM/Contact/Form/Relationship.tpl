@@ -42,7 +42,7 @@
            
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             </dl>
-            {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            {include file="CRM/Custom/Page/CustomDataView.tpl"}
             <dl>
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></dd>

@@ -190,7 +190,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         $sel2['Membership']           = array( "" => "-- Any --" ) + $membershipType;
         $sel2['ParticipantRole']      = array( "" => "-- Any --" ) + $participantRole;
         $sel2['ParticipantEventName'] = array( "" => "-- Any --" ) + CRM_Event_PseudoConstant::event( );
-        $sel2['ParticipantEventType'] = array( "" => "-- Any --" ) + $eventType;
+        //$sel2['ParticipantEventType'] = array( "" => "-- Any --" ) + $eventType;
         $sel2['Contribution']         = array( "" => "-- Any --" ) + CRM_Contribute_PseudoConstant::contributionType( );
         $sel2['Relationship']         = array( "" => "-- Any --" ) + $allRelationshipType;
         

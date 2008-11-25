@@ -82,19 +82,17 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
                                                                                 "name_$direction",
                                                                                 'id');
             }
+
             $memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$id,"membership_type_id");
             $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$this, $id,0,$memType);
+			CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
         }
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         
-        if( $values['is_test'] ) {
+        if ( $values['is_test'] ) {
             $values['membership_type'] .= ' (test) ';
         }
+
         $this->assign( $values ); 
-        $params = array('id'        => $values['membership_id'],
-                        'contactID' => $values['contact_id'],
-                        'action'    => $this->_action );
-        
     }
 
     /**

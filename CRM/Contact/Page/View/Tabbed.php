@@ -57,7 +57,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId);
 
-        //CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
 
         // also create the form element for the activity links box

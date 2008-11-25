@@ -437,9 +437,7 @@ VALUES
   (@option_group_id_fma, '"FIXME"<info@FIXME.ORG>', '1', '"FIXME"<info@FIXME.ORG>', NULL, 0, 1, 1, '{ts escape="sql"}Default domain email address and from name.{/ts}', 0, 0, 1, NULL ),
 
   (@option_group_id_cdt, 'Participant Role', '1', 'ParticipantRole', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL ),
-  (@option_group_id_cdt, 'Participant Event Name', '2', 'ParticipantEventName', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL ),	
-  (@option_group_id_cdt, 'Participant Event Type', '3', 'ParticipantEventType', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL ) ;
-
+  (@option_group_id_cdt, 'Participant Event Name', '2', 'ParticipantEventName', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL );	
 
 -- sample membership status entries
 INSERT INTO

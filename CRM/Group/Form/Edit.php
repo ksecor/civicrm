@@ -110,7 +110,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
             }
         } else {
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this, $this->_id, 0);
             if ( isset($this->_id) ) {
                 $groupValues = array( 'id'              => $this->_id,
                                       'title'           => $this->_title,
