@@ -263,6 +263,13 @@ class CRM_Contact_BAO_Query
      */
     public $_distinctComponentClause;
 
+  /**
+     * use groupBy component clause for component searches
+     *
+     * @var string
+     */
+    public $_groupByComponentClause;
+
     /**
      * The tables which have a dependency on location and/or address
      *
@@ -887,7 +894,7 @@ class CRM_Contact_BAO_Query
                     }
                 }
             }
-            if ( $this->_useDistinct ) {
+            if ( $this->_useDistinct && !isset( $this->_distinctComponentClause) ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
             } 
 
@@ -3051,10 +3058,13 @@ WHERE  id IN ( $groupIDs )
 
         // building the query string
         $groupBy = null;
-        if ( ! $count &&
-             $this->_useGroupBy ) {
-            $groupBy = ' GROUP BY contact_a.id';
-        }
+        if ( ! $count ) {
+			if ( isset( $this->_groupByComponentClause ) ) {
+				$groupBy = $this->_groupByComponentClause;
+			} else if ( $this->_useGroupBy ) {
+				$groupBy = ' GROUP BY contact_a.id';
+			}
+		}	
 
         $query = "$select $from $where $groupBy $order $limit";
         //CRM_Core_Error::debug('query', $query);
