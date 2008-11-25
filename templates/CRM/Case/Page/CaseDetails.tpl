@@ -50,3 +50,7 @@
     <strong>There are no activities defined for this case.</strong>
 {/if}
 {/strip}
+
+<div id="view-activity">
+     <div id="activity-content"></div>
+</div>

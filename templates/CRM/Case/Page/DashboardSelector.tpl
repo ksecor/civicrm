@@ -138,9 +138,9 @@ function viewActivity( activityId ) {
 	    open:function() {
 		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
 		cj("#activity-content").html("");
-		var cid= {/literal}"{$recentCases.1.contact_id}"{literal};
+		var cid= {/literal}"{$row.contact_id}"{literal};
         var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
+		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId );
 	    },
 	    
 	    buttons: { 
@@ -154,7 +154,3 @@ function viewActivity( activityId ) {
 
 </script>
 {/literal}	
-
-<div id="view-activity">
-     <div id="activity-content"></div>
-</div>
