@@ -500,7 +500,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Contact');
         $this->assign('customDataSubType',  $this->_contactType );
-        $this->assign('entityId',  $this->_contactId );
 
         require_once 'CRM/Contact/Form/Location.php';
 
@@ -536,10 +535,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
         $this->assign( 'addressSequence', $addressSequence );
 
-        /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $this->_maxLocationBlocks );
-       
-        /* End of locations */
         
         // add note block
         if ( $this->_showNotes &&
@@ -551,12 +547,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         //add tags and groups block
         require_once 'CRM/Contact/Form/GroupTag.php';
         $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId, CRM_Contact_Form_GroupTag::ALL );
-
-        //Custom Group Inline Edit form
-/*         require_once 'CRM/Core/BAO/CustomGroup.php'; */
-/*         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, */
-/*                                                                $this->_contactId,0,$this->_contactSubType); */
-/*         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' ); */
 
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
