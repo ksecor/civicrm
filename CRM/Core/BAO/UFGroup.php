@@ -1322,7 +1322,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( $fieldName === 'greeting_type' ){            
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();"));
-            // custom greeting          
+            // adding custom greeting element alongwith greeting type         
              $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, false);
             
         } else if ($fieldName === 'preferred_communication_method') {

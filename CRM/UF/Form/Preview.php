@@ -194,9 +194,12 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ( $field['name'] === 'individual_suffix' ){
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
-            } else if ( $field['name'] === 'greeting_type' ){
+            } else if ( $field['name'] === 'greeting_type' ) {
                 $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required);
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();" ));
+
+                //adding Custom Greeting element alongwith greeting type
+                $this->add('text', 'custom_greeting', ts('Custom Greeting'), null, false);
             } else if ($field['name'] === 'preferred_communication_method') {
                 $values = CRM_Core_PseudoConstant::pcm();
                 foreach ( $values as $key => $var ) {
