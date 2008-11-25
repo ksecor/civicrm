@@ -185,3 +185,7 @@ SELECT email_domain, email_return_path FROM civicrm_domain LIMIT 1 INTO @domain,
 INSERT INTO civicrm_mail_settings (name, is_default, domain, return_path) VALUES ('default', true, @domain, @return_path);
 ALTER TABLE civicrm_domain DROP email_domain;
 ALTER TABLE civicrm_domain DROP email_return_path;
+
+-- CRM-3696
+ALTER TABLE civicrm_entity_tag
+  ADD UNIQUE UI_contact_id_tag_id ( contact_id, tag_id );
