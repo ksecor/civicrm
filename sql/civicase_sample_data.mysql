@@ -45,7 +45,7 @@ UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId A
 
 -- /*******************************************************
 -- *
--- * Activity Categories and Activity Types
+-- * Activity Types
 -- *
 -- *******************************************************/
 SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
