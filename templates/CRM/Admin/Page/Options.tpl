@@ -11,10 +11,7 @@
   {elseif $gName eq "individual_suffix"}
      <p>{ts}CiviCRM is pre-configured with standard options for individual contact name suffixes (e.g. Jr., Sr., II etc.). You can use this page to customize these options and add new ones as needed for your installation.{/ts}</p>
   {elseif $gName eq "activity_type"}
-     <p>{ts}Activities are 'interactions with contacts' which you want to record and track. CiviCRM has several reserved (e.g. 'built-in') activity types (meetings, phone calls, emails sent). Create additional 'activity types' here if you need to record other types of activities. For example, you might want to include 'New Client Intake', or 'Site Audit', etc. ...as types of trackable activities.{/ts}</p>
-     {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='reset=1'}{/capture}
-     <p>{ts 1=$crmURL}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href='%1'>here</a>.{/ts}</p>
-     <p>{ts 1="http://wiki.civicrm.org/confluence/x/uwM" 2=$docURLTitle}Scheduled and Completed Activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to the online <a href='%1' target='_blank' title='%2'>API Documentation</a>.{/ts}</p>
+     <p>{ts}Activities are 'interactions with contacts' which you want to record and track.{/ts} {help id='id-activity-types'} </p>
   {elseif $gName eq "payment_instrument"}
      <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and cannot be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
   {elseif $gName eq "accept_creditcard"}
@@ -47,6 +44,9 @@
         {strip}
         <table class="selector">
 	        <tr class="columnheader">
+            {if $showComponent}
+                <th>{ts}Component{/ts}</th>
+            {/if}
             <th>{ts}Label{/ts}</th>
             <th>{ts}Value{/ts}</th>
             {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
@@ -59,6 +59,9 @@
             </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
+            {if $showComponent}
+                <td>{$row.component_name}</td>
+            {/if}
 	        <td>{$row.label}</td>	
 	        <td>{$row.value}</td>	
 	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}

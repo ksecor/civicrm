@@ -97,6 +97,7 @@ class CRM_Core_OptionValue
             $dao->find();
         }
         
+        require_once 'CRM/Core/Component.php';
         while ( $dao->fetch() ) {
             $optionValue[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id] );
@@ -122,6 +123,13 @@ class CRM_Core_OptionValue
                                                                          array('id'    => $dao->id,
                                                                                'gid'   => $optionGroupID,
                                                                                'value' => $dao->value ) );
+            
+            if ( $optionValue[$dao->id]['component_id'] ) {
+                $optionValue[$dao->id]['component_name'] = 'CiviCase';
+            } else {
+                $optionValue[$dao->id]['component_name'] = 'Core';
+            }
+
         }
         return $optionValue;
     }

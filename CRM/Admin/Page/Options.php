@@ -113,6 +113,12 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
             $this->assign( 'showIsDefault', true );
         }
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviCase", $config->enableComponents) && self::$_gName == 'activity_type' ) {
+            $this->assign( 'showComponent', true );
+        }
+            
     }
 
     /**
@@ -202,7 +208,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         
         $groupParams = array( 'name' => self::$_gName );
         $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'weight');
-
         $gName = self::$_gName;
         $returnURL = CRM_Utils_System::url( "civicrm/admin/options/$gName",
                                             "reset=1&group=$gName" );

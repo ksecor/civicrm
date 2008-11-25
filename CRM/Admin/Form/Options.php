@@ -150,6 +150,20 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                    true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
+        if ($this->_gName == 'activity_type') {
+            require_once 'CRM/Core/Config.php';
+            $config =& CRM_Core_Config::singleton( );
+            if ( in_array("CiviCase", $config->enableComponents) ) {
+                require_once 'CRM/Core/Component.php';
+                $caseID = CRM_Core_Component::getComponentID('CiviCase');
+                $components   = array( '' => ts( 'Core' ), $caseID => 'CiviCase' );
+                $this->add( 'select',
+                           'component_id',
+                           ts( 'Component' ),
+                           $components, false );
+            }
+        }
+
         $enabled = $this->add('checkbox', 'is_active', ts('Enabled?'));
 
         $isReserved = false;
