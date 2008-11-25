@@ -234,10 +234,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
         //when custom data is included in this page
-        $this->set( 'type'    , 'Activity' );
-        $this->set( 'subType' , $this->_activityTypeId );
-        $this->set( 'entityId', $this->_activityId );
-        CRM_Custom_Form_Customdata::preProcess( $this );
+        CRM_Custom_Form_Customdata::preProcess( $this, null, $this->_activityTypeId, 1, 'Activity', $this->_activityId );
 
         // build assignee contact combo
         if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
@@ -286,11 +283,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
                 $this->_defaults['activity_date_time']['i'] = 
                 (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
-            }
-
-            // custom data defaults
-            $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
-            
+            }           
         } else {
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
             $this->_defaults['due_date_time']['i'] = 
@@ -310,6 +303,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_caseAction ) {
             eval('$this->_defaults += CRM_Case_Form_Activity_'. $this->_caseAction . '::setDefaultValues($this);');
         }
+
+		// custom data defaults
+		$this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
         return $this->_defaults;
     }
     
@@ -322,8 +319,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
         }
-
+		
+		// build custom data	
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
+
         // we don't want to show button on top of custom form
         $this->assign('noPreCustomButton', true);
 
@@ -507,17 +506,15 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 // new activity.
                 $activityId = $this->_activityId;
             }
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null, $activityId );
-                }
-            }
-            
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
+
+			// build custom data getFields array
+			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
+			$customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
+															CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, null, null, true ) );
+	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+	                                                                   $customFields,
+	                                                                   $activityId,
+	                                                                   'Activity' );
         }
 
         if ( isset($this->_activityId) ) { 

@@ -40,11 +40,14 @@ require_once 'CRM/Core/BAO/CustomGroup.php';
  */
 class CRM_Custom_Form_CustomData 
 {
-    static function preProcess( &$form, $subName = null, $subType = null, $groupCount = null )
+    static function preProcess( &$form, $subName = null, $subType = null, $groupCount = null, $type = null, $entityID = null )
     {
-        //Custom Group Inline Edit form
-        $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
-
+        if ( $type ) {
+        	$form->_type = $type;
+	    } else {
+			$form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
+		}
+		
 		if ( $subType ) {
 			if ( $subType == 'null' ) {
 				$form->_subType = null;
@@ -73,7 +76,12 @@ class CRM_Custom_Form_CustomData
 		
 		$form->assign('cgCount', $form->_groupCount);
 		
-        $form->_entityId = CRM_Utils_Request::retrieve( 'entityID', 'Positive', $form );
+		if ( $entityID ) {
+			$form->_entityId = $entityID;
+		} else {
+			$form->_entityId = CRM_Utils_Request::retrieve( 'entityID', 'Positive', $form );	
+		}
+
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
 
 		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
