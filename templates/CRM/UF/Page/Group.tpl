@@ -11,7 +11,7 @@
     <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts} {help id='standalone'}</p>
     </div>
    
-    <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
+    <h3>{$title} - {ts}Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code" action="{crmURL p="civicrm/admin/uf/group" q="action=profile&gid=$gid"}">
     <div id="standalone-form">
         <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>

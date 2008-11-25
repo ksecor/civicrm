@@ -63,7 +63,7 @@
     		<span class="description">
         	{if $config->userFramework EQ 'Drupal'}
             	{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
-            	<strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+            	<strong>{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
         	{elseif $config->userFramework EQ 'Joomla'}
             	{ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         	{/if}
