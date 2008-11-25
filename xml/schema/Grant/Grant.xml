@@ -68,7 +68,7 @@
       <type>int unsigned</type>
       <export>true</export>
       <required>true</required>
-      <comment>Id of first case category.</comment>
+      <comment>Type of grant. Implicit FK to civicrm_option_value in grant_type option_group.</comment>
       <add>1.8</add>
   </field>
   <index>
