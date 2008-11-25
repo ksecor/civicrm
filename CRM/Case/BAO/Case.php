@@ -389,11 +389,23 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          return $caseArray;
      }
 
-
-    /**
-     * Function to get the list of upcoming cases for CiviCase Dashboard.
+   /**
+     * Retrieve cases related to particular contact or whole contact
+     * used in Dashboad and Tab
+     *
+     * @param boolean    $allCases  
+     * 
+     * @param int        $userID 
+     *
+     * @param String     $type /upcoming,recent,all/ 
+     *
+     * @return array     Array of Cases
+     * 
+     * @access public
+     * 
      */
-    function getUpcomingCases( $allCases = true, $userID = null )
+
+    function getCases( $allCases = true, $userID = null, $type = 'upcoming' )
     {
 
         $resultFields = array( 'contact_id',
@@ -404,12 +416,18 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                                'status_id',
                                'case_status',
                                'activity_type_id',
-                               'case_scheduled_activity_date',
-                               'case_scheduled_activity_type' );
+                               'case_role', );
 
-
+        
+        if ( $type == 'upcoming' ) {
+            $resultFields[] = 'case_scheduled_activity_date';
+            $resultFields[] = 'case_scheduled_activity_type';
+        } else if ( $type == 'recent' ) {
+            $resultFields[] = 'case_recent_activity_date';
+            $resultFields[] = 'case_recent_activity_type';
+        }
+        
         $query = "SELECT
-
                   civicrm_case.id as case_id,
                   civicrm_contact.id as contact_id,
                   civicrm_contact.sort_name as sort_name,
@@ -417,139 +435,98 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   civicrm_activity.activity_type_id,
                   cov_type.label as case_type,
                   cov_status.label as case_status,
-                  civicrm_activity.due_date_time as case_scheduled_activity_date,
                   civicrm_activity.status_id,
-                  aov.label as case_scheduled_activity_type
-
-                  FROM civicrm_case
-                  
+                  case_relation_type.name_b_a as case_role, ";
+        if ( $type == 'upcoming' ) {
+            $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
+                         aov.label as case_scheduled_activity_type ";       
+        } else if ( $type == 'recent') {
+            $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
+                         aov.label as case_recent_activity_type ";
+        } else if ($type == 'all') {
+            $query .=  " max(civicrm_activity.activity_date_time) as case_recent_activity_date, 
+                         aov.label as case_recent_activity_type, 
+                         min(civicrm_activity.due_date_time) as case_scheduled_activity_date, 
+                         aov.label as case_scheduled_activity_type ";  
+        }
+        
+        $query .= " FROM civicrm_case
                   INNER JOIN civicrm_case_activity
-                       ON civicrm_case_activity.case_id = civicrm_case.id
+                        ON civicrm_case_activity.case_id = civicrm_case.id  
+            
+                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id ";
 
-                  LEFT JOIN civicrm_activity
-                       ON (civicrm_case_activity.activity_id = civicrm_activity.id
-                       AND civicrm_activity.is_current_revision = 1
-                       AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) )
-
+        if ( $type == 'upcoming' ) {
+            $query .= " LEFT JOIN civicrm_activity
+                             ON ( civicrm_case_activity.activity_id = civicrm_activity.id
+                                  AND civicrm_activity.is_current_revision = 1
+                                  AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
+        } else if ( $type == 'recent' ) {
+            $query .= " LEFT JOIN civicrm_activity
+                             ON ( civicrm_case_activity.activity_id = civicrm_activity.id
+                                  AND civicrm_activity.is_current_revision = 1
+                                  AND civicrm_activity.activity_date_time <= NOW() 
+                                  AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) ) ";
+        } else if ( $type == 'all' ) {
+            $query .= " LEFT  JOIN  civicrm_activity_target ON civicrm_activity_target.target_contact_id = civicrm_contact.id  
+                        LEFT  JOIN  civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id  ";
+        }
+        
+        $query .= "
                   LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
                   LEFT JOIN civicrm_option_value aov
-                        ON (civicrm_activity.activity_type_id = aov.value
-                        AND aog.id = aov.option_group_id )
-                     
-                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
-                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
+                        ON ( civicrm_activity.activity_type_id = aov.value
+                             AND aog.id = aov.option_group_id )         
+
+                  LEFT  JOIN  civicrm_relationship case_relationship 
+                        ON (case_relationship.contact_id_a = civicrm_case_contact.contact_id)
+     
+                  LEFT  JOIN civicrm_relationship_type case_relation_type 
+                        ON ( case_relation_type.id = case_relationship.relationship_type_id 
+                             AND case_relation_type.id = case_relationship.relationship_type_id )
 
                   LEFT JOIN civicrm_option_group cog_type ON cog_type.name = 'case_type'
                   LEFT JOIN civicrm_option_value cov_type
-                        ON (civicrm_case.case_type_id = cov_type.value
-                        AND cog_type.id = cov_type.option_group_id )
+                        ON ( civicrm_case.case_type_id = cov_type.value
+                             AND cog_type.id = cov_type.option_group_id )
 
                   LEFT JOIN civicrm_option_group cog_status ON cog_status.name = 'case_status'
-                  LEFT JOIN civicrm_option_value cov_status ON
-                        (civicrm_case.status_id = cov_status.value
-                        AND cog_status.id = cov_status.option_group_id )
+                  LEFT JOIN civicrm_option_value cov_status 
+                       ON ( civicrm_case.status_id = cov_status.value
+                            AND cog_status.id = cov_status.option_group_id )
 
                   LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
-                  LEFT JOIN civicrm_option_value cov_actstatus ON 
-                        (civicrm_activity.status_id = cov_actstatus.value
-                        AND cog_actstatus.id = cov_actstatus.option_group_id )
-                  
-                  WHERE cov_actstatus.name = 'Scheduled'";
+                  LEFT JOIN civicrm_option_value cov_actstatus 
+                       ON ( civicrm_activity.status_id = cov_actstatus.value
+                            AND cog_actstatus.id = cov_actstatus.option_group_id )";
         
-        if ( ! $allCases ) {
+        if ( $type == 'upcoming' ) {
+            $query .= " WHERE cov_actstatus.name = 'Scheduled' "; 
+        } else if ( $type == 'recent' ) {
+            $query .= " WHERE cov_actstatus.name != 'Scheduled' ";
+        } else if ( $type == 'all') {
+            $query .= " WHERE civicrm_case_contact.contact_id = {$userID} ";  
+        }
+                  
+        if ( ! $allCases && $type != 'all' ) {
             $query .= " AND civicrm_case_contact.contact_id = {$userID}";
         }
-        $query .=" GROUP BY case_id
-                  
-                  ORDER BY civicrm_activity.due_date_time ASC
-                  ";
 
-
-        return self::_getCasesList( $resultFields, $query );
-
-    }
-
-
-    /**
-     * Function to get the list of recent cases for CiviCase Dashboard.
-     */
-    function getRecentCases( $allCases = true ,$userID = null )
-    {
-
-
-        $resultFields = array( 'contact_id',
-                               'contact_type',
-                               'sort_name',
-                               'case_id',
-                               'case_type',
-                               'status_id',
-                               'case_status',
-                               'activity_type_id',
-                               'case_recent_activity_date',
-                               'case_recent_activity_type' );
-
-
-        $query = "SELECT
-
-                  civicrm_case.id as case_id,
-                  civicrm_contact.id as contact_id,
-                  civicrm_contact.sort_name as sort_name,
-                  civicrm_contact.contact_type as contact_type,
-                  civicrm_activity.activity_type_id,
-                  cov_type.label as case_type,
-                  cov_status.label as case_status,
-                  civicrm_activity.activity_date_time as case_recent_activity_date,
-                  civicrm_activity.status_id,
-                  aov.label as case_recent_activity_type
-
-                  FROM civicrm_case
-                  
-                  INNER JOIN civicrm_case_activity
-                       ON civicrm_case_activity.case_id = civicrm_case.id
-
-                  LEFT JOIN civicrm_activity
-                       ON (civicrm_case_activity.activity_id = civicrm_activity.id
-                       AND civicrm_activity.is_current_revision = 1
-                       AND civicrm_activity.activity_date_time <= NOW() 
-                       AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) )
-
-                  LEFT JOIN civicrm_option_group aog ON aog.name = 'activity_type'
-                  LEFT JOIN civicrm_option_value aov
-                        ON (civicrm_activity.activity_type_id = aov.value
-                        AND aog.id = aov.option_group_id )
-
-
-                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
-                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id
-
-                  LEFT JOIN civicrm_option_group cog_type ON cog_type.name = 'case_type'
-                  LEFT JOIN civicrm_option_value cov_type
-                        ON (civicrm_case.case_type_id = cov_type.value
-                        AND cog_type.id = cov_type.option_group_id )
-
-                  LEFT JOIN civicrm_option_group cog_status ON cog_status.name = 'case_status'
-                  LEFT JOIN civicrm_option_value cov_status ON
-                        (civicrm_case.status_id = cov_status.value
-                        AND cog_status.id = cov_status.option_group_id )
-
-                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
-                  LEFT JOIN civicrm_option_value cov_actstatus ON 
-                        (civicrm_activity.status_id = cov_actstatus.value
-                        AND cog_actstatus.id = cov_actstatus.option_group_id )
-                  
-                  WHERE cov_actstatus.name != 'Scheduled'";
- 
-            if ( ! $allCases ) {
-                $query .= " AND civicrm_case_contact.contact_id = {$userID}";
-            }
-                        
+        if ( $type == 'upcoming' || $type == 'all' ) {
+            $query .=" GROUP BY case_id                  
+                       ORDER BY case_scheduled_activity_date ASC ";
+        } else if ( $type == 'recent' ) {
             $query .= " GROUP BY case_id
-                  
-                  ORDER BY case_recent_activity_date ASC
-                  ";
-
+                        ORDER BY case_recent_activity_date ASC ";
+        }
+        if ( $type == 'all' ) {
+            //return if call is from tab, no need of further processing
+            return $query;
+        }
         return self::_getCasesList( $resultFields, $query );
     }
+
 
     /**
      * Function to get the summary of cases counts by type and status.

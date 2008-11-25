@@ -138,35 +138,10 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $action = array_sum(array_keys($links));
 
         $queryParams = array();
-        $query = " 
-      SELECT civicrm_case.id as case_id, 
-             case_type.label as case_type, 
-             case_status.label as case_status, 
-             case_relation_type.name_b_a as case_role, 
-             max(civicrm_activity.activity_date_time) as case_recent_activity_date, 
-             activity_type.label as case_recent_activity_type, 
-             min(civicrm_activity.due_date_time) as case_scheduled_activity_date, 
-             activity_type.label as case_scheduled_activity_type  
+        $query  = CRM_Case_BAO_Case::getCases( $allCases = false, $this->_contactId, $type = 'all' );
+            
+        $case   = CRM_Core_DAO::executeQuery( $query, $queryParams );
 
-        FROM civicrm_contact contact_a 
-             LEFT JOIN  civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id  
-             INNER JOIN civicrm_case ON civicrm_case_contact.case_id = civicrm_case.id 
-             LEFT JOIN  civicrm_relationship case_relationship ON case_relationship.contact_id_a = civicrm_case_contact.contact_id  
-             LEFT JOIN  civicrm_relationship_type case_relation_type ON ( case_relation_type.id = case_relationship.relationship_type_id AND case_relation_type.id = case_relationship.relationship_type_id ) 
-             LEFT JOIN  civicrm_option_group option_group_case_status ON (option_group_case_status.name = 'case_status') 
-             LEFT JOIN  civicrm_option_value case_status ON ( civicrm_case.status_id = case_status.value AND option_group_case_status.id = case_status.option_group_id )  
-             LEFT JOIN  civicrm_option_group option_group_case_type ON (option_group_case_type.name = 'case_type') 
-             LEFT JOIN  civicrm_option_value case_type ON ( civicrm_case.case_type_id = case_type.value AND option_group_case_type.id = case_type.option_group_id )  
-             LEFT JOIN  civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id  
-             LEFT JOIN  civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id  
-             LEFT JOIN  civicrm_option_group option_group_activity_type ON (option_group_activity_type.name = 'activity_type') 
-             LEFT JOIN  civicrm_option_value activity_type ON ( civicrm_activity.activity_type_id = activity_type.value AND option_group_activity_type.id = activity_type.option_group_id )  
-
-        WHERE civicrm_case_contact.contact_id = {$this->_contactId} 
-        GROUP BY civicrm_case.id  
-        ORDER BY case_scheduled_activity_date desc  ";
-
-        $case = CRM_Core_DAO::executeQuery( $query, $queryParams );
         $values = array( );
         while ( $case->fetch() ) {
 
