@@ -457,7 +457,9 @@ abstract class CRM_Import_Parser {
             CRM_Core_DAO::freeResult( );
             
             // see if we've hit our timeout yet
-            if ()
+            /* if ( $the_thing_with_the_stuff ) {
+                do_something( );
+            } */
         }
 
         
