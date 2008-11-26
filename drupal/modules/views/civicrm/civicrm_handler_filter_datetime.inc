@@ -16,7 +16,7 @@ class civicrm_handler_filter_datetime extends views_handler_filter_date {
             $value = time() + sprintf('%+d', $value); // keep sign
         }
 
-        $value = civicrm_format_date($value);
+        $value = $this->format_date($value);
 
         $this->query->add_where($this->options['group'], "$field $this->operator '%s'", $value);
     }
