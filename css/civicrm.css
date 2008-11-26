@@ -471,8 +471,13 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-weight: normal;
   line-height: 1.1em;
 }
+
 .status-pending {
   color: green;
+}
+
+.status-completed {
+  color: #000080;
 }
 
 .upper {
