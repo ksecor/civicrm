@@ -523,10 +523,17 @@ class InstallRequirements {
       return;
     }
 
+    if (! @mysql_select_db($database,$conn)) {
+      $testDetails[2] = 'Could not select the database.';
+      $this->error($testDetails);
+      return;
+    }
+
     $result = mysql_query('CREATE TEMPORARY TABLE civicrm_install_temp_table_test (test text)', $conn);
     if (!$result) {
       $this->error($testDetails);
     }
+    $result = mysql_query('DROP TEMPORARY TABLE civicrm_install_temp_table_test');
   }
 
 	function requireDatabaseOrCreatePermissions($server, $username, $password, $database, $testDetails, $onlyRequire = false) {
@@ -541,10 +548,8 @@ class InstallRequirements {
             $this->error($testDetails);
             return;
         } else {
-			if(@mysql_query("CREATE DATABASE testing123")) {
-				mysql_query("DROP DATABASE testing123");
+			if(@mysql_query("CREATE DATABASE $database")) {
 				$okay = "Able to create a new database";
-
 			} else {
 				$testDetails[2] .= " (user '$username' doesn't have CREATE DATABASE permissions.)";
 				$this->error($testDetails);
