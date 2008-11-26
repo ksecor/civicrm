@@ -131,6 +131,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     public  $_mode = null;
 
     public  $_online;
+
+	/**
+	 * store id of role custom data type ( option value )
+	 */
+	protected $_roleCustomDataTypeID;
+	
+	/**
+	 * store id of event Name custom data type ( option value)
+	 */
+	protected $_eventNameCustomDataTypeID;
+	
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -145,7 +156,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->_contactID 	   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_mode           = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
 		$this->_participantId  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-       
+		
+		// get the option value for custom data type 	
+		$this->_roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );
+		$this->_eventNameCustomDataTypeID = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantEventName', 'name' );
+		
+		$this->assign( 'roleCustomDataTypeID', $this->_roleCustomDataTypeID );
+		$this->assign( 'eventNameCustomDataTypeID', $this->_eventNameCustomDataTypeID );
+		
         if ( $this->_mode ) {
             $this->assign( 'participantMode', $this->_mode );
 
@@ -276,12 +294,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 			
 			//custom data of type participant role
-			CRM_Custom_Form_Customdata::preProcess( $this, 1, $_POST['role_id'] );
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_roleCustomDataTypeID, $_POST['role_id'] );
 			CRM_Custom_Form_Customdata::buildQuickForm( $this );
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 			
 			//custom data of type participant event
-			CRM_Custom_Form_Customdata::preProcess( $this, 2, $_POST['event_id'] );
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_eventNameCustomDataTypeID, $_POST['event_id'] );
 			CRM_Custom_Form_Customdata::buildQuickForm( $this );
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 		}
@@ -493,7 +511,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
-                   array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, 2 );") );
+                   array('onchange' => "buildFeeBlock( this.value ); buildCustomData( 'Participant', this.value, {$this->_eventNameCustomDataTypeID} );") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
@@ -507,7 +525,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantRole( ),
                     true,
-                    array('onchange' => "buildCustomData( 'Participant', this.value, 1 );") );
+                    array('onchange' => "buildCustomData( 'Participant', this.value, {$this->_roleCustomDataTypeID} );") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
@@ -739,9 +757,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
 		// build custom data getFields array
 		$customFieldsRole  = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
-																CRM_Utils_Array::value( 'role_id', $params ), 1 );
+																CRM_Utils_Array::value( 'role_id', $params ), $this->_roleCustomDataTypeID );
 		$customFieldsEvent = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, 
-														        CRM_Utils_Array::value( 'event_id', $params ), 2 );
+														        CRM_Utils_Array::value( 'event_id', $params ), $this->_eventNameCustomDataTypeID );
 		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsRole, 
 															CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, null, true ) );
 		$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsEvent, $customFields );
