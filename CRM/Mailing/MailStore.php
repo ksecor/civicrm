@@ -50,7 +50,7 @@ class CRM_Mailing_MailStore
     {
         $dao = new CRM_Core_DAO_MailSettings;
         $name ? $dao->name = $name : $dao->is_default = 1;
-        if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings.");
+        if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
 
         switch ($dao->protocol) {
 
