@@ -172,3 +172,6 @@ ALTER TABLE civicrm_domain DROP email_return_path;
 -- CRM-3696
 ALTER TABLE civicrm_entity_tag
   ADD UNIQUE UI_contact_id_tag_id ( contact_id, tag_id );
+
+-- CRM-3487
+ALTER TABLE civicrm_uf_group DROP collapse_display;

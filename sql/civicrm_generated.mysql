@@ -1066,7 +1066,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_uf_group` WRITE;
 /*!40000 ALTER TABLE `civicrm_uf_group` DISABLE KEYS */;
-INSERT INTO `civicrm_uf_group` (`id`, `is_active`, `group_type`, `title`, `collapse_display`, `help_pre`, `help_post`, `limit_listings_group_id`, `post_URL`, `add_to_group_id`, `add_captcha`, `is_map`, `is_edit_link`, `is_uf_link`, `is_update_dupe`, `cancel_URL`, `is_cms_user`, `notify`) VALUES (1,1,'Individual,Contact','Name and Address',0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,NULL,0,NULL),(2,1,'Individual,Contact','Supporter Profile',0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,NULL,2,NULL);
+INSERT INTO `civicrm_uf_group` (`id`, `is_active`, `group_type`, `title`, `help_pre`, `help_post`, `limit_listings_group_id`, `post_URL`, `add_to_group_id`, `add_captcha`, `is_map`, `is_edit_link`, `is_uf_link`, `is_update_dupe`, `cancel_URL`, `is_cms_user`, `notify`) VALUES (1,1,'Individual,Contact','Name and Address',NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,NULL,0,NULL),(2,1,'Individual,Contact','Supporter Profile',NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,NULL,2,NULL);
 /*!40000 ALTER TABLE `civicrm_uf_group` ENABLE KEYS */;
 UNLOCK TABLES;
 

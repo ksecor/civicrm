@@ -364,17 +364,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $addToGroupId = $field['add_to_group_id'];
             }
             
-            //build show/hide array for uf groups
-            // dont do this if gid is set (i.e. only one group)
-            
-            if ( $field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $sBlocks )) {
-                $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
-                $hBlocks[] = "'id_". $field['group_id'] ."'"; 
-            } else if ( !$field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $hBlocks )) {
-                $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
-                $sBlocks[] = "'id_". $field['group_id'] ."'";   
-            }
-            
             //build array for captcha
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
@@ -421,12 +410,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
-            
-            $showBlocks = implode(",",$sBlocks); 
-            $hideBlocks = implode(",",$hBlocks); 
-            
-            $this->assign( 'showBlocks', $showBlocks ); 
-            $this->assign( 'hideBlocks', $hideBlocks ); 
             
             // also do state country js
             require_once 'CRM/Core/BAO/Address.php';

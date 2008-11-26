@@ -39,12 +39,8 @@
         {else} 
            {assign var="groupId" value="id_"|cat:$field.group_id}
 	   {if $context neq 'dialog'}
-              <div id="{$groupId}_show" class="section-hidden section-hidden-border">
-              <a href="#" onclick="hide('{$groupId}_show'); show('{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
-               </div>
-
               <div id="{$groupId}">
-              <fieldset><legend><a href="#" onclick="hide('{$groupId}'); show('{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$field.groupTitle}{/ts}</legend>
+              <fieldset><legend>{ts}{$field.groupTitle}{/ts}</legend>
            {else}
               <div>
 	      <fieldset><legend>{ts}{$field.groupTitle}{/ts}</legend>
@@ -163,16 +159,6 @@
 </div> {* end crm-container div *}
 
 <script type="text/javascript">
-  {if $mode ne 8 and $context ne 'dialog' }
-
-    var showBlocks = new Array({$showBlocks});
-    var hideBlocks = new Array({$hideBlocks});
-
-    {* hide and display the appropriate blocks as directed by the php code *}
-    on_load_init_blocks( showBlocks, hideBlocks );
-    
-  {/if}
-
   {if $drupalCms}
   {literal}
     if ( document.getElementsByName("cms_create_account")[0].checked ) {

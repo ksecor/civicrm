@@ -368,7 +368,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'phone_type_id'    => isset( $field->phone_type_id ) ? $field->phone_type_id : NULL,
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
-                          'collapse_display' => $group->collapse_display,
                           'add_captcha'      => $group->add_captcha,
                           'field_type'       => $field->field_type,
                           'field_id'         => $field->id
@@ -949,7 +948,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $params['add_captcha'            ] = CRM_Utils_Array::value( 'add_captcha'         , $params, false );
         $params['is_map'                 ] = CRM_Utils_Array::value( 'is_map'              , $params, false );
         $params['is_update_dupe'         ] = CRM_Utils_Array::value( 'is_update_dupe'      , $params, false );
-        $params['collapse_display'       ] = CRM_Utils_Array::value( 'collapse_display'    , $params, false );
         $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group'               , $params        );
         $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params        );
         $params['is_edit_link'           ] = CRM_Utils_Array::value( 'is_edit_link'        , $params, false );
