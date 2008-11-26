@@ -52,20 +52,20 @@ class CRM_Contact_BAO_Contact_Permission {
        
         //check permission based on relationship, CRM-2963
         if ( self::relationship( $id ) ) {
-            $permission = '( 1 )';
+            return true;
         } else {
             require_once 'CRM/ACL/API.php';
             $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
         }
         require_once "CRM/Contact/BAO/Query.php";
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
-             
+
         $query = "
 SELECT count(DISTINCT contact_a.id) 
        $from
 WHERE contact_a.id = %1 AND $permission";
         $params = array( 1 => array( $id, 'Integer' ) );
-       
+
         return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
     }
 
@@ -79,38 +79,29 @@ WHERE contact_a.id = %1 AND $permission";
       * selected contact record else false
       * @static
       */
-    static function relationship ( $selectedContactId, $contactID = null ) 
+    static function relationship ( $selectedContactID, $contactID = null ) 
     {
         $session   =& CRM_Core_Session::singleton( );
-        if ( !$contactID ) {
+        if ( ! $contactID ) {
             $contactID =  $session->get( 'userID' );
         }
-        if (  $contactID == $selectedContactId ) {
+        if (  $contactID == $selectedContactID ) {
             return true;
         } else {
-            require_once "CRM/Contact/DAO/Relationship.php";
-            $relationship =& new CRM_Contact_DAO_Relationship( );
-            $relationship->contact_id_a      = $contactID;
-            $relationship->contact_id_b      = $selectedContactId;
-            $relationship->is_permission_a_b = 1;
-            if ($relationship->find( true )) {
-                return true;
-            } else {
-                unset($relationship->is_permission_a_b);
-                $relationship->contact_id_b      = $contactID;
-                $relationship->contact_id_a      = $selectedContactId;
-                $relationship->is_permission_b_a = 1;
-                if ($relationship->find( true )) {
-                    return true;
-                }
-            }
-           
-            return false;
+            $query = "
+SELECT id
+FROM   civicrm_relationship
+WHERE  ( contact_id_a = %1 AND contact_id_b = %2 AND is_permission_a_b = 1 ) OR
+       ( contact_id_a = %2 AND contact_id_b = %1 AND is_permission_b_a = 1 )
+";
+            $params = array( 1 => array( $contactID        , 'Integer' ),
+                             2 => array( $selectedContactID, 'Integer' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
         }
     }
 
     static function validateChecksumContact( $contactID ) {
-        if ( ! self::allow( $id, CRM_Core_Permission::EDIT ) ) {
+        if ( ! self::allow( $contactID, CRM_Core_Permission::EDIT ) ) {
             // check if this is of the format cs=XXX
             $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
             if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID, $cs ) ) {
