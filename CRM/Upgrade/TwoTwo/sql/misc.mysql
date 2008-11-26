@@ -117,6 +117,9 @@ ALTER TABLE `civicrm_activity`
 ALTER TABLE `civicrm_custom_group`
   MODIFY `extends` enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Group','Membership','Participant','Event','Grant','Pledge','Case') collate utf8_unicode_ci default 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
 
+-- schema change CRM-3337
+ALTER TABLE `civicrm_custom_group` CHANGE `extends_entity_column_name` `extends_entity_column_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'reference to option value';
+
 -- added new column 'skipBreadcrumb' to civicrm_menu. CRM-2699.
 
 ALTER TABLE `civicrm_menu`
