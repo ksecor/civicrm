@@ -48,8 +48,12 @@ class CiviMailProcessor {
         $name ? $dao->name = $name : $dao->is_default = 1;
         if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
 
+        // legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
         $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
         $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($dao->domain) . '$/';
+
+        // a common-for-all-actions regex to handle CiviCRM 2.2 address patterns
+        $regex = '/^' . preg_quote($dao->localpart) . '(b|c|e|o|r|u)\.(\d+)\.(\d+)\.([0-9a-f]{16})@' . preg_quote($dao->domain) . '$/';
 
         // retrieve the emails
         require_once 'CRM/Mailing/MailStore.php';
@@ -62,11 +66,14 @@ class CiviMailProcessor {
             // for every addressee: match address elements if it's to CiviMail
             $matches = array();
             foreach ($mail->to as $address) {
-                if (preg_match($commonRegex, $address->email, $matches)) {
+                if (preg_match($regex, $address->email, $matches)) {
+                    list($match, $action, $job, $queue, $hash) = $matches;
+                    break;
+                } elseif (preg_match($commonRegex, $address->email, $matches)) {
                     list($match, $action, $_, $job, $queue, $hash) = $matches;
                     break;
                 } elseif (preg_match($subscrRegex, $address->email, $matches)) {
-                    list($match, $action, $_, $group) = $matches;
+                    list($match, $action, $_, $job) = $matches;
                     break;
                 }
             }
@@ -122,7 +129,7 @@ class CiviMailProcessor {
                 break;
             case 's':
             case 'subscribe':
-                crm_mailer_event_subscribe($mail->from->email, $group);
+                crm_mailer_event_subscribe($mail->from->email, $job);
                 break;
             case 'u':
             case 'unsubscribe':
