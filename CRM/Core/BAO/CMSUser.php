@@ -179,6 +179,7 @@ class CRM_Core_BAO_CMSUser
             }elseif (!$action && !$userID ) { 
                 $showUserRegistration = true;
             }
+
             if ( $isCMSUser && $emailPresent ) {                
                 if ( $showUserRegistration ) {
                     if ( $isCMSUser != 2  ) {
@@ -186,13 +187,16 @@ class CRM_Core_BAO_CMSUser
                                        'onclick' => "return showHideByValue('cms_create_account','','details','block','radio',false );"
                                        );
                         $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
-                        $form->assign( 'isCMS', true);       
+                        $required = false;       
                     }else {
-                        $form->assign( 'isCMS', false);       
+                        $form->add('hidden', 'cms_create_account', 1 );
+                        $required = true;
                     }
+
+                    $form->assign( 'isCMS', $required );       
                     require_once 'CRM/Core/Action.php';
                     if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
-                        $form->add('text', 'cms_name', ts('Username') );
+                        $form->add('text', 'cms_name', ts('Username'), null, $required );
                         if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
                             $form->add('password', 'cms_pass', ts('Password') );
                             $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
