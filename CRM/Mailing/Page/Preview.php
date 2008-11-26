@@ -57,6 +57,11 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $options = array();
         $session->getVars($options, "CRM_Mailing_Controller_Send_$qfKey");
         
+        //get the options if control come from search context, CRM-3711
+        if ( empty( $options ) ) {
+            $session->getVars($options, "CRM_Contact_Controller_Search_$qfKey");
+        }
+        
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
         // should be refactored
         $fromEmail = null;
