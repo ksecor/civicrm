@@ -318,21 +318,20 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
+     * @param array   $entityBlock   associated array of fields
+     * @param boolean $microformat   if microformat output is required
+     * @param int     $fieldName     conditional field name
      *
-     * @return void
+     * @return array  $addresses     array with address fields
      * @access public
      * @static
      */
-    static function &getValues( &$entityBlock, $microformat = false )
+    static function &getValues( &$entityBlock, $microformat = false, $fieldName = 'contact_id' )
     {
         $address =& new CRM_Core_BAO_Address();
        
         if ( ! CRM_Utils_Array::value( 'entity_table' , $entityBlock ) ) {
-            $address->contact_id = CRM_Utils_Array::value( 'contact_id' ,$entityBlock );
+            $address->$fieldName = CRM_Utils_Array::value( $fieldName ,$entityBlock );
         } else {
             $addressIds = array();
             $addressIds = self::allEntityAddress($entityBlock );
@@ -342,7 +341,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             } else {
                 return $addresses;
             }
-        }
+        } 
         $address->find( );
 
         while ( $address->fetch( ) ) {
@@ -366,10 +365,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             }
             
             $address->addDisplay( $microformat );
-
-            // FIXME: not sure whether non-DB values are safe to store here
-            // if so, we should store state_province and country as well and
-            // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
 
             $values['display'] = $address->display;
 

@@ -75,7 +75,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
 
         $premiumId = null;
         $id        = $this->get( 'id' );
-        if( $id ) {
+        if ( $id ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->contribution_id = $id;
@@ -83,11 +83,9 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                $premiumId = $dao->id;
                $productID = $dao->product_id; 
             }
-            
         }
         
-        if( $premiumId ) {
-                       
+        if ( $premiumId ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO = & new CRM_Contribute_DAO_Product();
             $productDAO->id  = $productID;
@@ -96,11 +94,22 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             $this->assign('premium' , $productDAO->name );
             $this->assign('option',$dao->product_option);
             $this->assign('fulfilled',$dao->fulfilled_date);
-                     
         }
+
         // Get Note
         $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
         $values['note'] =  array_values($noteValue);
+
+		// show billing address location details, if exists
+		if ( CRM_Utils_Array::value( 'address_id', $values ) ) {
+			$addressParams  = array( 'id' => CRM_Utils_Array::value( 'address_id', $values ) );	
+			$addressDetails = CRM_Core_BAO_Address::getValues( $addressParams, false, 'id' );
+			$addressDetails = array_values( $addressDetails );
+			$values['billing_name'   ] = str_replace( '', ' ', $addressDetails[0]['address_name']);
+			$values['billing_address'] = $addressDetails[0]['display'];
+		}
+
+		// assign values to the template
         $this->assign( $values ); 
     }
 
