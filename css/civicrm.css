@@ -270,6 +270,14 @@ div.spacer, .spacer {
   vertical-align: top;
 }
 
+#crm-container .form-layout td.label-left, #crm-container .form-layout-compressed td.label-left {
+  text-align: left;
+  padding: 0.5em 0.50em 0em 0.75em;
+  border: 0px none;
+  vertical-align: top;
+  width: 20%;
+}
+
 #crm-container table.selector td {
  border-right: 1px solid #dddddd;
 }

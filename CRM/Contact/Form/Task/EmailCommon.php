@@ -181,7 +181,7 @@ class CRM_Contact_Form_Task_EmailCommon
         foreach ( array_keys( $selectEmails ) as $k ) {
             $selectEmails[$k] = htmlspecialchars( $selectEmails[$k] );
         }
-        $form->addElement('select', 'fromEmailAddress', 'From', $selectEmails );
+        $form->add( 'select', 'fromEmailAddress', ts('From'), $selectEmails, true );
         require_once "CRM/Mailing/BAO/Mailing.php";
         CRM_Mailing_BAO_Mailing::commonCompose( $form );
         
