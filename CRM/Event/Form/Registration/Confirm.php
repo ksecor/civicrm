@@ -604,6 +604,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $contribParams['id'] = $contribID;
             }
         }
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        //create an contribution address
+        $contribParams['address_id']  = CRM_Contribute_BAO_Contribution::createAddress( $params, $form->_bltID );
+
+		// create contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         // store line items
@@ -681,7 +687,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $fields["address_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
-        $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        //$params["email-Primary"] = $params["email-{$this->_bltID}"];
     }
     
     /**
@@ -725,7 +731,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         }
-
 
         return $contactID;
     }
