@@ -575,7 +575,8 @@ class CRM_Utils_Date
         $prevCen = $cen - 1;
 
         if ($params[$dateParam]) {
-            $value = $params[$dateParam];
+            //suppress hh:mm if it exists
+            $value = preg_replace("/(?: [01]\d|2[0-3]|\d):(?:[0-4]\d|5[1-9])/", "", $params[$dateParam] );
         }
         
         switch( $dateType ) {
@@ -601,7 +602,7 @@ class CRM_Utils_Date
             }
             break;
         case 16 :
-            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value )) {
+            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value ) && ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d$/', $value ) ) {
                 return false; 
             }
             break;
@@ -672,27 +673,38 @@ class CRM_Utils_Date
         }
         if ( $dateType == 16 ) {
             $dateArray = explode('-',$value);
-            
-            $monthInt = 0;
-            $fullMonths = self::getFullMonthNames();
-            foreach ($fullMonths as $key => $val) {
-                if (strtolower($dateArray[1]) == strtolower($val)) {
-                    $monthInt = $key; 
-                    break;
-                }
+            if ( count ( $dateArray ) != 3 ) {
+                $dateArray = explode('/', $value);
             }
-            if (!$monthInt) {
-                $abbrMonths = self::getAbbrMonthNames();
-                foreach ($abbrMonths as $key => $val) {
-                    if (strtolower(trim($dateArray[1], "." )) == strtolower($val)) {
+
+            if ( count ( $dateArray ) == 3 ) {
+                $monthInt = 0;
+                $fullMonths = self::getFullMonthNames();
+                foreach ( $fullMonths as $key => $val ) {
+                    if ( strtolower( $dateArray[1] ) == strtolower( $val )) {
                         $monthInt = $key; 
                         break;
                     }
                 }
+                if ( !$monthInt ) {
+                    $abbrMonths = self::getAbbrMonthNames();
+                    foreach ( $abbrMonths as $key => $val ) {
+                        if ( strtolower(trim($dateArray[1], "." )) == strtolower( $val )) {
+                            $monthInt = $key; 
+                            break;
+                        }
+                    }
+                }
+                if ( !$monthInt ) {
+                    $monthInt = $dateArray[1];
+                }
+                
+                $year   = (int) $dateArray[2];
+                $day    = (int) $dateArray[0];
+                $month  = (int) $monthInt;
+            } else {
+                return false; 
             }
-            $year   = (int) $dateArray[2];
-            $day    = (int) $dateArray[0];
-            $month  = (int) $monthInt;
         }
         if ( $dateType == 32 ) {
             $formattedDate = explode( "/", $value );
