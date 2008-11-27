@@ -92,7 +92,9 @@ ORDER BY sort_name ";
 		require_once "CRM/Case/BAO/Case.php";
         $caseRelationship = CRM_Case_BAO_Case::getCaseRoles( $sourceContactID, $caseID, $relationshipID );
 
-		echo json_encode( $caseRelationship[$relationshipID] );
+		$relation           = $caseRelationship[$relationshipID];
+		$relation['rel_id'] = $relationshipID;
+		echo json_encode( $relation );
 		exit();
     }
     

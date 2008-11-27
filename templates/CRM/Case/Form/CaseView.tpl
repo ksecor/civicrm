@@ -48,7 +48,7 @@ cj("#activity").result(function(event, data, formatted) {
         
         {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label" id="relName_{$rowNumber}">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><tdid="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
+            <td class="label">{$relName}</td><td id="relName_{$rowNumber}">(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><td id="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
@@ -120,12 +120,19 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
 				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
-						function( response ) {
-							var data = response;
-
-							cj('#relName_' + rowNumber ).html( data.name );
+						function( data ) {
+							var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
+							var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
+							var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>&nbsp;<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">';
+							cj('#relName_' + rowNumber ).html( html );
 							cj('#phone_' + rowNumber ).html( data.phone );
-							cj('#email_' + rowNumber ).html( data.email );
+							
+							html = '';
+							if ( data.email ) {
+								var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q='atype=3&action=add&reset=1&cid=' h=0 }"{literal};
+								html = '<a href=' + activityUrl + data.cid + '><img src="'+resourceBase+'i/EnvelopeIn.gif" alt="Send Email"/></a>&nbsp;';
+							} 
+							cj('#email_' + rowNumber ).html( html );
 							
 					   	}, 'json' 
 					);
