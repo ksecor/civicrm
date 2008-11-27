@@ -79,6 +79,8 @@ abstract class CRM_Import_Parser {
         CONTACT_HOUSEHOLD      = 2,
         CONTACT_ORGANIZATION   = 4;
 
+    const DEFAULT_TIMEOUT = 30;
+
     protected $_tableName;
 
     /**#@+

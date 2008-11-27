@@ -87,7 +87,7 @@ class CRM_Import_ImportJob {
             $db->query($dropQuery);
             $createQuery = "CREATE TABLE $newTableName $createSql";
             $db->query($createQuery);
-            $result = CRM_Core_DAO::executeQuery( $createSql, true, null, true );
+            $result = CRM_Core_DAO::executeQuery( $createSql, array(), true, null, true );
             if ( !$result ) {
                 CRM_Core_Error::fatal('import', "Import table creation failed: Error message goes here");
             }
@@ -131,7 +131,7 @@ class CRM_Import_ImportJob {
     public function setJobParams( &$params )
     {       
         foreach ( $params as $param => $value ) {
-            eval( "\$this->_$param = $value");
+            eval( "\$this->_$param = \$value;");
         }
     }
     
@@ -227,7 +227,7 @@ class CRM_Import_ImportJob {
                       $this->_doGeocodeAddress );
                       
         $contactIds = $this->_parser->getImportedContacts( );
-        array_merge( $contactIds, $this->_parser->getRelatedImportedContacts( ) );            
+        if ($this->_parser->getRelatedImportedContacts()) array_merge($contactIds, $this->_parser->getRelatedImportedContacts());
         if ( $this->_addToNewGroup ) {
             $this->_addImportedContactsToNewGroup( $contactIds, 
                 $this->_newGroupName,
