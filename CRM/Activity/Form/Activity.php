@@ -35,10 +35,13 @@
 
 require_once "CRM/Core/Form.php";
 require_once "CRM/Core/BAO/CustomGroup.php";
-require_once "CRM/Activity/BAO/Activity.php";
-require_once "CRM/Custom/Form/CustomData.php";
+require_once 'CRM/Core/BAO/File.php';
+require_once 'CRM/Core/BAO/Preferences.php';
 require_once "CRM/Contact/Form/AddContact.php";
 require_once "CRM/Contact/Form/Task.php";
+require_once "CRM/Activity/BAO/Activity.php";
+require_once "CRM/Case/BAO/Case.php";
+require_once "CRM/Custom/Form/CustomData.php";
 
 /**
  * This class generates form components for Activity
@@ -107,6 +110,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
 
+        $this->_atypefile  = CRM_Utils_Array::value( 'atypefile', $_GET );
+        $this->assign('atypefile', false);
+        if ( $this->_atypefile ) {
+            $this->assign('atypefile', true);
+        }
+
         $this->_addAssigneeContact = CRM_Utils_Array::value( 'assignee_contact', $_GET );
         $this->assign('addAssigneeContact', false);
         if ( $this->_addAssigneeContact ) {
@@ -143,7 +152,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
         $this->assign( 'atype', $this->_activityTypeId );
-                
+
         //check the mode when this form is called either single or as
         //search task action
         if ( $this->_activityTypeId          || 
@@ -197,7 +206,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
-        require_once 'CRM/Core/BAO/Preferences.php';
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
         $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
@@ -256,10 +264,22 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         // add attachments part
-        require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_activity',
                                             $this->_activityId );
+
+        // figure out the file name for activity type, if any
+        if ( $this->_activityTypeId   &&
+             $this->_activityTypeFile = 
+             CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
+            // FIXME: the sec arg in the path should be customizable 
+            require_once "CRM/Case/Form/Activity/{$this->_activityTypeFile}.php";
+            $this->assign( 'activityTypeFile', $this->_activityTypeFile );
+        }
+
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
+        }
     }
     
     /**
@@ -337,6 +357,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'delName', $defaults['subject'] );
         }
         
+        if ( $this->_activityTypeFile ) {
+            eval('$defaults += CRM_Case_Form_Activity_'. $this->_activityTypeFile . '::setDefaultValues($this);');
+        }
         return $defaults;
     }
 
@@ -398,12 +421,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return;
         }
         
-        $this->_activityType = 
-            array( ''   => ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( true );
+        $this->_activityType = array( ''   => 
+                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false );
         unset( $this->_activityType[8] );
-        $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
+        $element =& $this->add('select', 
+                               'activity_type_id', 
+                               ts('Activity Type'),
                                $this->_activityType,
-                               false, array('onchange' => "buildCustomData( this.value );") );
+                               false, 
+                               array('onchange' => 
+                                     "buildCustomData( this.value );injectActTypeFileFields( this.value );") );
+
         //freeze for update mode.
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $element->freeze( );
@@ -432,6 +460,18 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $this->add('select','status_id',ts('Status'), 
                    CRM_Core_PseudoConstant::activityStatus( ), true );
+
+        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+                       'positiveInteger');  
+       
+        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
+
+        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
+        foreach ( $freqUnits as $name => $label ) {
+            $freqUnits[$name] = $label . '(s)';
+        }
+        $this->add( 'select', 'interval_unit', null, $freqUnits );
 
         $config =& CRM_Core_Config::singleton( );
 
@@ -477,7 +517,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // one or more cases
         if ( $this->_context != 'standalone' && $this->_viewOptions['CiviCase'] ) {
             $this->assign('caseEnabled', 1);
-            require_once 'CRM/Case/BAO/Case.php';
             $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );
             if ( ! empty( $cases ) ) {
                 $this->assign('hasCases', 1); 
@@ -524,6 +563,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              'name'      => ts('Cancel') ),
                                      )
                                );
+        }
+
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::buildQuickForm( \$this );");
+        }
+
+        if ( $this->_activityTypeFile ) {
+            eval('$this->addFormRule' . 
+                 "(array('CRM_Case_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
         }
 
         $this->addFormRule( array( 'CRM_Activity_Form_Activity', 'formRule' ), $this );
@@ -604,7 +652,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         if ( $this->_action & CRM_Core_Action::DETACH ) { 
-            require_once 'CRM/Case/BAO/Case.php';
             CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );
             CRM_Core_Session::setStatus( ts("Selected Activity has been sucessfully detached from a case.") );
             return;
@@ -642,6 +689,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              'civicrm_activity',
                                              $this->_activityId );
         
+        // format target params
         if ( $this->_single ) {
             $params['target_contact_id']   = empty($params['target_contact']) ?  
                 array( 1 => $this->_currentlyViewedContactId ) : $params['target_contact'];
@@ -649,22 +697,36 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params['target_contact_id']   = $this->_contactIds;
         }
 
+        // format assignee params
         if ( ! empty($params['assignee_contact']) ) {
             $params['assignee_contact_id'] = $params['assignee_contact'];
         }
 
-        $activity = CRM_Activity_BAO_Activity::create( $params );
+        // call begin post process. Idea is to let injecting file do
+        // any processing before the activity is added/updated.
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . "::beginPostProcess( \$this, \$params );");
+        }
 
+        $activity = CRM_Activity_BAO_Activity::create( $params );
+        
         // add case activity
         if ( $this->_viewOptions['CiviCase'] && $params['case_id']  ) {
-            require_once 'CRM/Case/BAO/Case.php';
             $caseParams = array( 'activity_id' => $activity->id,
                                  'case_id'     => $params['case_id'] );
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
         }
-        
+
+        // call end post process. Idea is to let injecting file do any
+        // processing needed, after the activity has been added/updated.
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . 
+                 "::endPostProcess( \$this, \$params, \$activity );");
+        }
+
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
+                                        array( 1 => $params['subject'] ) ) );
     }
     
 

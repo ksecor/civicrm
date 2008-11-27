@@ -280,12 +280,17 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $assignmentParams = array( 'activity_id'         => $activityId );
 
             if ( is_array( $params['assignee_contact_id'] ) ) {
+                // first delete existing assignments if any
+                self::deleteActivityAssignment( $activityId );
+
                 foreach ( $params['assignee_contact_id'] as $acID ) {
-                    $assignmentParams['assignee_contact_id'] = $acID;
-                    $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
-                    if( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
-                        $transaction->rollback( );
-                        return $resultAssignment;
+                    if ( $acID ) {
+                        $assignmentParams['assignee_contact_id'] = $acID;
+                        $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
+                        if( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
+                            $transaction->rollback( );
+                            return $resultAssignment;
+                        }
                     }
                 }
             } else {
@@ -319,14 +324,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             $targetParams = array( 'activity_id'       => $activityId );
             $resultTarget = array( );
-            if ( is_array( $params['target_contact_id'] ) ) { 
+            if ( is_array( $params['target_contact_id'] ) ) {
+                // first delete existing targets if any
+                self::deleteActivityTarget( $activityId );
+
                 foreach ( $params['target_contact_id'] as $tid ) {
-                    $targetParams['target_contact_id'] = $tid;
-                    $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
-                   if ( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
-                       $transaction->rollback( );
-                       return $resultTarget;
-                   }
+                    if ( $tid ) {
+                        $targetParams['target_contact_id'] = $tid;
+                        $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
+                        if ( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
+                            $transaction->rollback( );
+                            return $resultTarget;
+                        }
+                    }
                 }
             } else {
                 $targetParams['target_contact_id'] = $params['target_contact_id'];

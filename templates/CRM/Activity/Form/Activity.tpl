@@ -1,6 +1,8 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $atypefile }
+   {if $activityTypeFile}{include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}{/if}
 {elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
@@ -116,6 +118,17 @@
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
+
+             {* Include special processing fields if any are defined for this activity type. *}
+             {if $activityTypeFile}
+                {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
+             {else}
+                {* if user going to select the activity type, provide space for dynamically injecting the form fields.*}
+                <tr>
+                   <td colspan="2"><span id="atypefields"></span></td>
+                </tr>
+             {/if}
+
              <tr>
                 <td class="label">{$form.location.label}</td><td class="view-value">{$form.location.html}</td>
              </tr> 
@@ -149,6 +162,15 @@
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
              <tr>
+                <td colspan="2">
+	            {if $action eq 4} 
+                    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+                {else}
+                    <div id="customData"></div>
+                {/if} 
+                </td>
+             </tr> 
+             <tr>
              {if $action eq 4} 
                 {if $currentAttachmentURL}
                     <td class="label">{ts}Current Attachments{/ts}</td>
@@ -163,14 +185,23 @@
             {/if} 
             </tr>
             <tr>
-                <td colspan="2">
-	            {if $action eq 4} 
-                    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
-                {else}
-                    <div id="customData"></div>
-                {/if} 
-                </td>
-            </tr> 
+              <td colspan="2">
+                <div id="follow-up_show" class="section-hidden section-hidden-border">
+                 <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+                </div>
+                <div id="follow-up" class="section-shown">
+                <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+                    <table class="form-layout-compressed">
+                        <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
+                            <td>{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}<br />
+                                <span class="description">Begin typing to select from a list of available activity types.</span>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                </div>
+              </td>
+            </tr>
         {elseif $action eq 8}
              <tr>
                 <td colspan="2">
@@ -198,6 +229,10 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
+hide('attachments');
+show('attachments_show');
+hide('follow-up');
+show('follow-up_show');
 {/literal}
 {if $action eq 1 or $context eq 'search'}
 {literal}
@@ -214,7 +249,6 @@
 {literal}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
-
 if ( assigneeContactCount ) {
     for ( var i = 1; i <= assigneeContactCount; i++ ) {
 	buildContact( i, 'assignee_contact' );
@@ -222,7 +256,6 @@ if ( assigneeContactCount ) {
 }
 
 var targetContactCount = {/literal}"{$targetContactCount}"{literal}
-
 if ( targetContactCount ) {
     for ( var i = 1; i <= targetContactCount; i++ ) {
 	buildContact( i, 'target_contact' );
@@ -256,6 +289,16 @@ function buildContact( count, pref )
 {/if}
 {literal}
 
+    fetchurl(dataUrl, pref + '_' + count, pref + '_' + count);
+}
+
+function injectActTypeFileFields( type ) {
+	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&atype='}"{literal} + type; 
+    dataUrl = dataUrl + '&atypefile=1';
+    fetchurl(dataUrl, 'atypefields', false);
+}
+
+function fetchurl(dataUrl, fieldname, parsefield) {
     var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
@@ -263,22 +306,24 @@ function buildContact( count, pref )
         timeout: 5000, //Time in milliseconds
         handle: function(response, ioArgs) {
                 if (response instanceof Error) {
-		    if (response.dojoType == "cancel") {
-			//The request was canceled by some other JavaScript code.
-			console.debug("Request canceled.");
-		    } else if (response.dojoType == "timeout") {
-			//The request took over 5 seconds to complete.
-			console.debug("Request timed out.");
-		    } else {
-			//Some other error happened.
-			console.error(response);
-		    }
+        		    if (response.dojoType == "cancel") {
+    	    		//The request was canceled by some other JavaScript code.
+        			console.debug("Request canceled.");
+        		    } else if (response.dojoType == "timeout") {
+        			//The request took over 5 seconds to complete.
+        			console.debug("Request timed out.");
+        		    } else {
+        			//Some other error happened.
+        			console.error(response);
+        		    }
                 } else {
-		    // on success
-		    dojo.byId( pref + '_' + count).innerHTML = response;
-		    dojo.parser.parse( pref + '_' + count );
-		}
-	    }
+		            // on success
+    		        document.getElementById( fieldname ).innerHTML = response;
+                    if ( parsefield ) {
+	    	            dojo.parser.parse( parsefield );
+                    }
+        		}
+        	    }
 	});
 }
 </script>
