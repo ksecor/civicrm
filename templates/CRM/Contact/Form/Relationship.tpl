@@ -68,7 +68,7 @@
             {else} {* action = add *}
                 </dd>
 		    <dt>{$form.name.label}</dt>
-                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false">
+                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false" url="{$dataUrl}">
                 {literal}
                   <script type="text/javascript">
 					function setUrl( ) {
