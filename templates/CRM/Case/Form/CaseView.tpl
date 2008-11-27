@@ -38,16 +38,19 @@ cj("#activity").result(function(event, data, formatted) {
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
     <table class="report">
+		{assign var=rowNumber value = 1}
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td><a id="relName_{$row.cid}" href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId} );"></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td><td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );"></td><td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
         
         {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null );"></td><td></td><td></td>
+            <td class="label" id="relName_{$rowNumber}">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><tdid="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
         </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
     </table>
  </fieldset>
@@ -64,7 +67,7 @@ show('caseRole_show');
 hide('caseRole');
 
 cj("#dialog").hide( );
-function createRelationship( relType, contactID, relID ) {
+function createRelationship( relType, contactID, relID, rowNumber ) {
     cj("#dialog").show( );
 
 	cj("#dialog").dialog({
@@ -83,7 +86,7 @@ function createRelationship( relType, contactID, relID ) {
 			cj("#rel_contact_id").val( null );
 			if ( contactID ) {
 				cj("#rel_contact_id").val( contactID );
-				cj("#rel_contact").val( cj("#relName_" + contactID).text( ) );
+				cj("#rel_contact").val( cj("#relName_" + rowNumber).text( ) );
 			}
 
 			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
@@ -116,12 +119,21 @@ function createRelationship( relType, contactID, relID ) {
 				}
 
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
+				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+						function( response ) {
+							var data = response;
+
+							cj('#relName_' + rowNumber ).html( data.name );
+							cj('#phone_' + rowNumber ).html( data.phone );
+							cj('#email_' + rowNumber ).html( data.email );
+							
+					   	}, 'json' 
+					);
 
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy"); 
 
-				window.location.reload();
+				//window.location.reload();
 			},
 
 			"Cancel": function() { 

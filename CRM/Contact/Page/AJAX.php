@@ -58,8 +58,8 @@ ORDER BY sort_name ";
 
     static function relationship( &$config ) 
     {
-        CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
-        CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
+        // CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
+        // CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
         
         require_once 'CRM/Utils/Type.php';
         $relType         = CRM_Utils_Array::value( 'rel_type', $_POST );
@@ -84,8 +84,16 @@ ORDER BY sort_name ";
         }
 
         require_once "CRM/Contact/BAO/Relationship.php";
-        CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
-        
+        $return = CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
+
+		$relationshipID = $return[4][0];
+
+		// we should return phone and email
+		require_once "CRM/Case/BAO/Case.php";
+        $caseRelationship = CRM_Case_BAO_Case::getCaseRoles( $sourceContactID, $caseID, $relationshipID );
+
+		echo json_encode( $caseRelationship[$relationshipID] );
+		exit();
     }
     
     

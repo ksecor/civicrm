@@ -98,8 +98,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $relationshipIds[] = $relationship->id;
                 $valid++;
             }
-            
-            //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+ 
         } else { //editing the relationship
             // check for duplicate relationship
             
@@ -116,7 +115,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $relationship = self::add( $params, $ids, $ids['contactTarget'] );
             $relationshipIds[] = $relationship->id;
             $saved++;
-            //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
         
         return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
