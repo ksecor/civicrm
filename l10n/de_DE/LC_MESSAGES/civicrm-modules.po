@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-08-28 11:22-0700\n"
-"Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
+"PO-Revision-Date: 2008-11-25 05:34-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1458,7 +1458,7 @@ msgstr "Veranstaltungstyp - %1"
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants"
-msgstr "Nur nach Test-Teilnehmer suchen?"
+msgstr "Test-Teilnehmer finden?"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
