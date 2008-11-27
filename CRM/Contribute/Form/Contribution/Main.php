@@ -519,7 +519,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $units    = array( );
         $unitVals = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $this->_values['recur_frequency_unit'] );
         foreach ( $unitVals as $key => $val ) {
-            $units[$val] = ts( '%1', array(1 => $val) );
+            $units[$val] = $val;
             if ( $this->_values['is_recur_interval'] ) {
                 $units[$val] .= ts('(s)');
             }
