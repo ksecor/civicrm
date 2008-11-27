@@ -342,10 +342,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
                 
-                if ($field->phone_type) {
-                    $name      .= "-{$field->phone_type}";
-                    if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
-                        $phoneType  = "-{$field->phone_type}";
+                if ( isset( $field->phone_type_id ) ) {
+                    $name      .= "-{$field->phone_type_id}";
+                    if ( $field->phone_type_id != '1' ) { // this hack is to prevent Phone Phone (work)
+                        $phoneType  = "-{$field->phone_type_id}";
                     }
                 }
 
@@ -365,10 +365,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'in_selector'      => $field->in_selector,
                           'rule'             => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                           'location_type_id' => $field->location_type_id,
-                          'phone_type'       => $field->phone_type,
+                          'phone_type_id'    => isset( $field->phone_type_id ) ? $field->phone_type_id : NULL,
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
-                          'collapse_display' => $group->collapse_display,
                           'add_captcha'      => $group->add_captcha,
                           'field_type'       => $field->field_type,
                           'field_id'         => $field->id
@@ -949,7 +948,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $params['add_captcha'            ] = CRM_Utils_Array::value( 'add_captcha'         , $params, false );
         $params['is_map'                 ] = CRM_Utils_Array::value( 'is_map'              , $params, false );
         $params['is_update_dupe'         ] = CRM_Utils_Array::value( 'is_update_dupe'      , $params, false );
-        $params['collapse_display'       ] = CRM_Utils_Array::value( 'collapse_display'    , $params, false );
         $params['limit_listings_group_id'] = CRM_Utils_Array::value( 'group'               , $params        );
         $params['add_to_group_id'        ] = CRM_Utils_Array::value( 'add_contact_to_group', $params        );
         $params['is_edit_link'           ] = CRM_Utils_Array::value( 'is_edit_link'        , $params, false );
@@ -1322,8 +1320,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( $fieldName === 'greeting_type' ){            
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();"));
-            // custom greeting          
-             $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, $required);
+            // adding custom greeting element alongwith greeting type         
+             $form->add('text', 'custom_greeting', ts('Custom Greeting'), null, false);
             
         } else if ($fieldName === 'preferred_communication_method') {
             $communicationFields = CRM_Core_PseudoConstant::pcm();
@@ -1392,6 +1390,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
+        } else if ($fieldName == 'world_region' ) {
+            require_once "CRM/Core/PseudoConstant.php";
+            $form->add('select', $name, $title,
+                       array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::worldRegion( ), $required );
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
@@ -1487,6 +1489,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 $defaults[$fldName."[$item]"] = 1;
                             }
                         } 
+                    } else if ($name == 'world_region') {
+                        $defaults[$fldName] = $details['worldregion_id'];
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );
@@ -1628,7 +1632,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else if ( array_key_exists($name,$values) ) {
                     $defaults[$fldName] = $values[$name];
                 }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $componentId, 0, null); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, null); 
                      foreach ( $groupTrees as $groupTree ) {
                          CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                          $defaults[$fldName] = $defaults[$name];
@@ -1656,7 +1661,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
                     $defaults[$fldName] = array_pop($noteDetails);
                 } else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $componentId, 0, $values[$componentId]['role_id']); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, $values[$componentId]['role_id']); 
                     foreach ( $groupTrees as $groupTree ) {
                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                         $defaults[$fldName] = $defaults[$name];
@@ -1680,7 +1686,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( array_key_exists($name,$values[$componentId]) ) {
                     $defaults[$fldName] = $values[$componentId][$name];
                 }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $componentId, 0, null); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, null); 
                      foreach ( $groupTrees as $groupTree ) {
                          CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                          $defaults[$fldName] = CRM_Utils_Array::value( $name, $defaults );
@@ -1955,9 +1962,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }                   
                     if ($fieldName == 'phone') {
                         if ( $phoneTypeId ) {
-                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $phoneTypeId;
+                            $data['location'][$loc]['phone'][$loc]['phone_type_id'] = $phoneTypeId;
                         } else {
-                            $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                            $data['location'][$loc]['phone'][$loc]['phone_type_id'] = '';
                         }
                         $data['location'][$loc]['phone'][$loc]['phone'] = $value;
                     } else if ($fieldName == 'email') {

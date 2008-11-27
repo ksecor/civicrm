@@ -10,7 +10,7 @@
         <tr>
             <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>{ts}Case Type:{/ts}</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
             <td style="border: solid 1px #dddddd; padding-right: 2em; vertical-align: bottom;"><label>{ts}Status:{/ts}</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-            <td class="right">&nbsp;&nbsp;<label>{$form.timeline_id.label}</label>&nbsp;{$form.timeline_id.html}&nbsp;<input type="button" value="{ts}Go"{/ts} onclick="confirm('Are you sure you want to add a set of scheduled activities to this case?')" /></td> 
+            <td class="right">&nbsp;&nbsp;<label>{$form.timeline_id.label}</label>&nbsp;{$form.timeline_id.html}&nbsp; {$form._qf_CaseView_next.html}</td> 
         </tr>
     </table>
 </fieldset>
@@ -38,16 +38,19 @@ cj("#activity").result(function(event, data, formatted) {
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
     <table class="report">
+		{assign var=rowNumber value = 1}
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td><a id="relName_{$row.cid}" href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId} );"></td><td>{$row.phone}</td><td>{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td><td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );"></td><td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
         </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
         
         {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null );"></td><td></td><td></td>
+            <td class="label" id="relName_{$rowNumber}">{$relName}</td><td>(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><tdid="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
         </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
     </table>
  </fieldset>
@@ -64,75 +67,82 @@ show('caseRole_show');
 hide('caseRole');
 
 cj("#dialog").hide( );
-function createRelationship( relType, contactID, relID ) {
+function createRelationship( relType, contactID, relID, rowNumber ) {
     cj("#dialog").show( );
 
-    cj("#dialog").dialog({
-        title: "Assign Case Role",
-	    modal: true, 
-	    overlay: { 
-		       opacity: 0.5, 
-		        background: "black" 
-		    },
-
-	    open:function() {
-		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-		
-		/* set defaults if editing */
-		cj("#rel_contact").val( "" );
-		cj("#rel_contact_id").val( null );
-		if ( contactID ) {
-		    cj("#rel_contact_id").val( contactID );
-		    cj("#rel_contact").val( cj("#relName_" + contactID).text( ) );
-		}
-		
-		var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
-
-		cj("#rel_contact").autocomplete( contactUrl, {
-			width: 260,
-			selectFirst: false 
-                 });
-
-		cj("#rel_contact").result(function(event, data, formatted) {
-			cj("input[@id=rel_contact_id]").val(data[1]);
-		});		    
-	    },
-	    
-	    buttons: { 
-		"Ok": function() { 	    
-		    if ( ! cj("#rel_contact").val( ) ) {
-			alert('Select valid contact from the list.');
-			return false;
-		    }
-
-		    var sourceContact = {/literal}"{$contactID}"{literal}
-		    var caseID        = {/literal}"{$caseID}"{literal}
-
-		    var v1 = cj("#rel_contact_id").val( );
-
-		    if ( ! v1 ) {
-			alert('Select valid contact from the list.');
-			return false;
-		    }
-
-		    var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-		    cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID } );
-		    
-		    alert("Relationship record has been updated.");
-
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		    
-		    window.location.reload();
+	cj("#dialog").dialog({
+		title: "Assign Case Role",
+		modal: true, 
+		overlay: { 
+			opacity: 0.5, 
+			background: "black" 
 		},
 
-		"Cancel": function() { 
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		} 
-	    } 
+		open:function() {
+			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
 
-     });
+			/* set defaults if editing */
+			cj("#rel_contact").val( "" );
+			cj("#rel_contact_id").val( null );
+			if ( contactID ) {
+				cj("#rel_contact_id").val( contactID );
+				cj("#rel_contact").val( cj("#relName_" + rowNumber).text( ) );
+			}
+
+			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
+
+			cj("#rel_contact").autocomplete( contactUrl, {
+				width: 260,
+				selectFirst: false 
+			});
+
+			cj("#rel_contact").result(function(event, data, formatted) {
+				cj("input[@id=rel_contact_id]").val(data[1]);
+			});		    
+		},
+
+		buttons: { 
+			"Ok": function() { 	    
+				if ( ! cj("#rel_contact").val( ) ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var sourceContact = {/literal}"{$contactID}"{literal}
+				var caseID        = {/literal}"{$caseID}"{literal}
+
+				var v1 = cj("#rel_contact_id").val( );
+
+				if ( ! v1 ) {
+					alert('Select valid contact from the list.');
+					return false;
+				}
+
+				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
+				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+						function( response ) {
+							var data = response;
+
+							cj('#relName_' + rowNumber ).html( data.name );
+							cj('#phone_' + rowNumber ).html( data.phone );
+							cj('#email_' + rowNumber ).html( data.email );
+							
+					   	}, 'json' 
+					);
+
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+
+				//window.location.reload();
+			},
+
+			"Cancel": function() { 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
+			} 
+		} 
+
+	});
 }
 
 cj(document).ready(function(){
@@ -193,9 +203,6 @@ function viewActivity( activityId ) {
   <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
   <table class="no-border" id="searchOptions">
     <tr>
-        <td class="label" colspan="2"><label for="activity_category">{ts}Category/Type{/ts}</label><br />
-            {$form.category.html}
-        </td>
         <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
         </td>
@@ -245,22 +252,21 @@ cj(document).ready(function(){
 	url: dataUrl,
 	    dataType: 'json',
 	    colModel : [
-			{display: 'Due', name : 'due_date', width : 100, sortable : true, align: 'left'},
-			{display: 'Actual', name : 'actual_date', width : 100, sortable : true, align: 'left'},
-                        {display: 'Subject', name : 'subject', width : 100, sortable : true, align: 'left'},
-			{display: 'Category', name : 'category', width : 100, sortable : true, align: 'left'},
-			{display: 'Type', name : 'type', width : 100, sortable : true, align: 'left'},
-			{display: 'Reporter', name : 'reporter', width : 100, sortable : true, align: 'left'},
-			{display: 'Status', name : 'status', width : 90, sortable : true, align: 'left'},
-			{display: '', name : 'links', width : 90, align: 'left'},
+			{display: 'Due',     name : 'due_date',    width : 100, sortable : true, align: 'left'},
+			{display: 'Actual',  name : 'actual_date', width : 100, sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+			{display: 'Type',    name : 'type',        width : 100, sortable : true, align: 'left'},
+			{display: 'Reporter',name : 'reporter',    width : 100, sortable : true, align: 'left'},
+			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
+			{display: '',        name : 'links',       width : 90,  align: 'left'},
 			],
-	    sortname: "due_date",
-	    sortorder: "desc",
+	    sortname: "status",
+	    sortorder: "asc",
 	    usepager: true,
 	    useRp: true,
 	    rp: 10,
 	    showTableToggleBtn: true,
-            width: 915,
+            width: 815,
             height: 'auto',
             nowrap: false
 	    }
@@ -288,9 +294,7 @@ function search(com)
 
     cj('#activities-selector').flexOptions({
 	    newp:1, 
-		params:[{name:'category_0', value: cj("select#category_0").val()},
-			{name:'category_1', value: cj("select#category_1").val()},
-			{name:'reporter_id', value: cj("select#reporter_id").val()},
+		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
@@ -301,6 +305,14 @@ function search(com)
     cj("#activities-selector").flexReload(); 
 }
 
+function verifyActivitySet( ) {
+    
+    if ( document.getElementById('timeline_id').value == '' ) {
+	alert("Please Select the Valid Activity Set.");
+	return false;
+    } 
+    return confirm('Are you sure you want to add a set of scheduled activities to this case?');	 
+}
 </script>
 {/literal}
 

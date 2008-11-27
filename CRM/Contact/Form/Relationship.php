@@ -288,7 +288,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $searchRows = $this->get( 'searchRows' );
         $attributes = array('onchange' => "setUrl( );");
         if ( $searchRows ) { 
-            $attributes = array('onchange' => "setUrl( ); buildCustomData( this.value );");
+            $attributes = array('onchange' => "setUrl( ); buildCustomData( 'Relationship', this.value );");
         } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $attributes = array('onchange' => "currentEmployer( this.form ); setUrl( );");  
         }
@@ -304,8 +304,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           );
         
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
-        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10, 
@@ -380,10 +380,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Relationship');
         $this->assign('customDataSubType',  $this->_relationshipTypeId );
-        $this->assign('entityId',  $this->_relationshipId );
+        $this->assign('entityID',  $this->_relationshipId );
        
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
+        $uploadNames = $this->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $buttonType = 'upload';
         } else {
@@ -445,34 +444,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
         }
         
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
-                                                             $customData,
-                                                             $value,
-                                                             'Relationship',
-                                                             null,
-                                                             $this->_relationshipId);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Relationship', false, false, $relationshipTypeId );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Relationship', null, $this->_relationshipId);
-                }
-            }
-        }
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_relationshipId,
+                                                                   'Relationship' );
         
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
             CRM_Contact_BAO_Relationship::create( $params, $ids );

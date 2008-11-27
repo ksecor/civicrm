@@ -36,8 +36,9 @@ INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, em
 
 SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
 
-INSERT INTO civicrm_domain( name, email_domain, version, loc_block_id ) 
-    VALUES ( @domain_name, 'FIXME.ORG', '2.2', @locBlockId);
+INSERT INTO civicrm_domain (name, version, loc_block_id) VALUES (@domain_name, '2.2', @locBlockId);
+
+INSERT INTO civicrm_mail_settings (name, is_default, domain) VALUES ('default', true, 'FIXME.ORG');
 
 -- Sample location types
 INSERT INTO civicrm_location_type( name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( '{ts escape="sql"}Home{/ts}', 'HOME', '{ts escape="sql"}Place of residence{/ts}', 0, 1, 1 );
@@ -140,7 +141,8 @@ VALUES
    ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1),
    ('activity_medium'               , '{ts escape="sql"}Activity Medium{/ts}'                    , 0, 1),
    ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1), 
-   ('phone_type'                    , '{ts escape="sql"}Phone Type{/ts}'                         , 0, 1);  
+   ('phone_type'					, '{ts escape="sql"}Phone Type{/ts}'						 , 0, 1),
+   ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1);  
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -179,6 +181,7 @@ SELECT @option_group_id_am             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_gr             := max(id) from civicrm_option_group where name = 'greeting_type';
 SELECT @option_group_id_pht            := max(id) from civicrm_option_group where name = 'phone_type';
 SELECT @option_group_id_fma            := max(id) from civicrm_option_group where name = 'from_email_address';
+SELECT @option_group_id_cdt            := max(id) from civicrm_option_group where name = 'custom_data_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -198,8 +201,8 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Membership Signup{/ts}',                  7, 'Membership Signup',   NULL, 1, NULL, 7, '{ts escape="sql"}Online or offline membership signup.{/ts}',                                 0, 1, 1, 3),
    (@option_group_id_act, '{ts escape="sql"}Membership Renewal{/ts}',                 8, 'Membership Renewal',  NULL, 1, NULL, 8, '{ts escape="sql"}Online or offline membership renewal.{/ts}',                                0, 1, 1, 3),
    (@option_group_id_act, '{ts escape="sql"}Tell a Friend{/ts}',                      9, 'Tell a Friend',       NULL, 1, NULL, 9, '{ts escape="sql"}Send information about a contribution campaign or event to a friend.{/ts}', 0, 1, 1, NULL),
-   (@option_group_id_act, '{ts escape="sql"}Pledge Acknowledgment{/ts}',              10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, '{ts escape="sql"}Send Pledge Acknowledgment.{/ts}',                                     0, 1, 1, NULL),
-   (@option_group_id_act, '{ts escape="sql"}Pledge Reminder{/ts}',                    11, 'Pledge Reminder',    NULL, 1, NULL, 11, '{ts escape="sql"}Send Pledge Reminder.{/ts}',                                               0, 1, 1, NULL),
+   (@option_group_id_act, '{ts escape="sql"}Pledge Acknowledgment{/ts}',              10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, '{ts escape="sql"}Send Pledge Acknowledgment.{/ts}',                                     0, 1, 1, 6),
+   (@option_group_id_act, '{ts escape="sql"}Pledge Reminder{/ts}',                    11, 'Pledge Reminder',    NULL, 1, NULL, 11, '{ts escape="sql"}Send Pledge Reminder.{/ts}',                                               0, 1, 1, 6),
 
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
@@ -239,7 +242,7 @@ VALUES
    (@option_group_id_acc, 'Amex'      ,  3, 'Amex'      , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
    (@option_group_id_acc, 'Discover'  ,  4, 'Discover'  , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
 
-  (@option_group_id_pi, '{ts escape="sql"}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_pi, '{ts escape="sql"}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_group_id_pi, '{ts escape="sql"}Debit Card{/ts}',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
   (@option_group_id_pi, '{ts escape="sql"}Cash{/ts}',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
   (@option_group_id_pi, '{ts escape="sql"}Check{/ts}',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
@@ -347,8 +350,8 @@ VALUES
   (@option_group_id_grantTyp, '{ts escape="sql"}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
   (@option_group_id_grantTyp, '{ts escape="sql"}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
   (@option_group_id_grantTyp, '{ts escape="sql"}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
-  (@option_group_id_honorTyp, '{ts escape="sql"}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
-  (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_honorTyp, '{ts escape="sql"}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
 
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'               , 1, 'CRM_Contact_Form_Search_Custom_Sample'      , NULL, 0, NULL, 1, '{ts escape="sql"}Household Name and State{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ContributionAggregate', 2, 'CRM_Contact_Form_Search_Custom_ContributionAggregate', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Aggregate{/ts}', 0, 0, 1, NULL),
@@ -365,9 +368,9 @@ VALUES
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_acs, '{ts escape="sql"}Left Message{/ts}', 4, 'Left Message', NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL),
-  (@option_group_id_acs, '{ts escape="sql"}Unreachable{/ts}', 5, 'Unreachable', NULL, 0, NULL, 5, NULL, 0, 1, 1, NULL),
-  (@option_group_id_acs, '{ts escape="sql"}Not Required{/ts}',  6, 'Not Required',  NULL, 0, NULL, 6, NULL, 0, 1, 1, NULL),
+  (@option_group_id_acs, '{ts escape="sql"}Left Message{/ts}', 4, 'Left Message', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_acs, '{ts escape="sql"}Unreachable{/ts}', 5, 'Unreachable', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
+  (@option_group_id_acs, '{ts escape="sql"}Not Required{/ts}',  6, 'Not Required',  NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ct, '{ts escape="sql"}Civil & Political{/ts}',            1, 'Civil & Political',  NULL, 0, 1,    1, NULL, 0, 0, 1, NULL),
   (@option_group_id_ct, '{ts escape="sql"}Economic, Social & Cultural{/ts}',  2, 'Economic, Social & Cultural',  NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
@@ -431,8 +434,10 @@ VALUES
   (@option_group_id_pht, '{ts escape="sql"}Voicemail{/ts}' ,    5, 'Voicemail'  , NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
 
 -- from email address.
-  (@option_group_id_fma, '"FIXME"<info@FIXME.ORG>', '1', '"FIXME"<info@FIXME.ORG>', NULL, 0, 1, 1, '{ts escape="sql"}Default domain email address and from name.{/ts}', 0, 0, 1, NULL );
+  (@option_group_id_fma, '"FIXME"<info@FIXME.ORG>', '1', '"FIXME"<info@FIXME.ORG>', NULL, 0, 1, 1, '{ts escape="sql"}Default domain email address and from name.{/ts}', 0, 0, 1, NULL ),
 
+  (@option_group_id_cdt, 'Participant Role', '1', 'ParticipantRole', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL ),
+  (@option_group_id_cdt, 'Participant Event Name', '2', 'ParticipantEventName', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL );	
 
 -- sample membership status entries
 INSERT INTO
@@ -736,37 +741,3 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'nonstandard smtp line terminator'),
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
-
--- categories and activity types
-INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('{ts escape="sql"}Core Activities{/ts}', 'Core Activities', 1, NULL, 1, 1, NULL, NULL, 0),
-    ('{ts escape="sql"}Core Activities - Custom{/ts}', 'Core Activities - Custom', 2, NULL, 1, 1, NULL, NULL, 0),
-    ('{ts escape="sql"}CiviEvent Activities{/ts}', 'CiviEvent Activities', 1, NULL, 1, 1, NULL, 1, 1),
-    ('{ts escape="sql"}CiviContribute Activities{/ts}', 'CiviContribute Activities', 1, NULL, 1, 1, NULL, 2, 1),
-    ('{ts escape="sql"}CiviMember Activities{/ts}', 'CiviMember Activities', 1, NULL, 1, 1, NULL, 3, 1),
-    ('{ts escape="sql"}CiviPledge Activities{/ts}', 'CiviPledge Activities', 1, NULL, 1, 1, NULL, 6, 1);
-
-SELECT @actCore     := MAX(id) FROM civicrm_category WHERE name = 'Core Activities';
-SELECT @actEvent    := MAX(id) FROM civicrm_category WHERE name = 'CiviEvent Activities';
-SELECT @actContrib  := MAX(id) FROM civicrm_category WHERE name = 'CiviContribute Activities';
-SELECT @actMember   := MAX(id) FROM civicrm_category WHERE name = 'CiviMember Activities';
-SELECT @actPledge   := MAX(id) FROM civicrm_category WHERE name = 'CiviPledge Activities';
-
-INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('{ts escape="sql"}Meeting{/ts}',               'Meeting',               1,   NULL,                                                         1, 1, @actCore,    NULL, 0),
-    ('{ts escape="sql"}Phone Call{/ts}',            'Phone',                 2,   NULL,                                                         1, 1, @actCore,    NULL, 0),
-    ('{ts escape="sql"}Email{/ts}',                 'Email',                 1,  '{ts escape="sql"}Email sent.{/ts}',                           1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Tell a Friend{/ts}',         'Tell a Friend',         1,  '{ts escape="sql"}Tell a Friend message sent{/ts}',            1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Text Message (SMS){/ts}',    'Text Message',          1,  '{ts escape="sql"}Text message (SMS) sent.{/ts}',              1, 1, @actCore,    NULL, 1),
-    ('{ts escape="sql"}Event Registration{/ts}',    'Event Registration',    1,  '{ts escape="sql"}Online or offline event registration.{/ts}', 1, 1, @actEvent,   1, 1),
-    ('{ts escape="sql"}Contribution{/ts}',          'Contribution',          1,  '{ts escape="sql"}Contribution{/ts}',                          1, 1, @actContrib, 2, 1),
-    ('{ts escape="sql"}Membership Signup{/ts}',     'Membership Signup',     1,  '{ts escape="sql"}Membership signup{/ts}',                     1, 1, @actMember,  3, 1),
-    ('{ts escape="sql"}Membership Renewal{/ts}',    'Membership Renewal',    2,  '{ts escape="sql"}Membership renewal{/ts}',                    1, 1, @actMember,  3, 1),
-    ('{ts escape="sql"}Pledge Acknowledgment{/ts}', 'Pledge Acknowledgment', 1,  '{ts escape="sql"}Pledge acknowledgment{/ts}',                 1, 1, @actPledge,  6, 1),
-    ('{ts escape="sql"}Pledge Reminder{/ts}',       'Pledge Reminder',       2,  '{ts escape="sql"}Pledge reminder{/ts}',                       1, 1, @actPledge,  6, 1);
-
-   

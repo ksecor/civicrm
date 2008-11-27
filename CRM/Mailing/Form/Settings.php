@@ -163,10 +163,35 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
 
-        if ($qf_Settings_submit) {
-            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
-            CRM_Utils_System::redirect($url);
+        if ( $qf_Settings_submit ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $this->get( 'ssID' );
+            $context = $this->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $this->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else { 
+                $status = ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.");
+                CRM_Core_Session::setStatus( $status );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
         }
     }
     

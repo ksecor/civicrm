@@ -167,6 +167,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Contact/Form/Household.php';
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 

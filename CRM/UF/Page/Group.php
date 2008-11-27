@@ -153,6 +153,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             if ($action & CRM_Core_Action::ENABLE) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 CRM_Core_BAO_UFGroup::setIsActive($id, 1);
+
+                // update cms integration with registration / my account
+                require_once 'CRM/Utils/System.php';
+                CRM_Utils_System::updateCategories( );
             } else if ( $action & CRM_Core_Action::PROFILE ) { 
                 $this->profile( ); 
             } else if ( $action & CRM_Core_Action::PREVIEW ) { 

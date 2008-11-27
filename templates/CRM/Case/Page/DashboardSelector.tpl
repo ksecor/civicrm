@@ -19,7 +19,7 @@
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
 
-    <th>Activity Date</th>
+    <th class="right">{if $list EQ 'upcoming'}{ts}Due Date{/ts}{else}{ts}Activity Date{/ts}{/if}&nbsp;</th>
     <th>Activity Type</th>
 
     <th></th>
@@ -85,7 +85,6 @@
 
 </table>
 {/strip}
-
 {* Build case details*}
 {literal}
 <script type="text/javascript">
@@ -122,5 +121,36 @@ function {/literal}{$list}{literal}CaseDetails( caseId, contactId )
 
 
 }
+
+function viewActivity( activityId ) {
+    cj("#view-activity").show( );
+
+    cj("#view-activity").dialog({
+        title: "View Activity",
+	    modal: true, 
+	    width : 700,
+        height : 650,
+        resizable: true, 
+	    overlay: { 
+		       opacity: 0.5, 
+		       background: "black" 
+		    },
+	    open:function() {
+		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+		cj("#activity-content").html("");
+		var cid= {/literal}"{$row.contact_id}"{literal};
+        var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
+		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId );
+	    },
+	    
+	    buttons: { 
+		"Done": function() { 	    
+		    cj(this).dialog("close"); 
+		    cj(this).dialog("destroy"); 
+		}
+	    } 
+     });
+}
+
 </script>
 {/literal}	

@@ -249,7 +249,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset( $fields['Organization'][$key] );
             }
         }
-        
+        unset( $fields['Contact']['contact_type'] );
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -377,7 +377,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } 
         $sel3[''] = null;
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
-        asort($phoneTypes);
+        ksort($phoneTypes);
              
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {

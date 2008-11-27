@@ -103,8 +103,16 @@
 </fieldset>
 {/if} 
 
-{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+{include file="CRM/Custom/Page/CustomDataView.tpl"}
 
+{if $billing_address}
+<fieldset><legend>{ts}Billing Address{/ts}</legend>
+	<div class="form-item">
+		{$billing_name}<br />
+		{$billing_address|nl2br}
+	</div>
+</fieldset>
+{/if}
 <dl>
 	<dt></dt>
 	<dd>{$form.buttons.html}</dd>

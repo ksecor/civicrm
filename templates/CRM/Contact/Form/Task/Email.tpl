@@ -6,17 +6,28 @@
         <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL.'}Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL.{/ts}</p>
     </div>
 {/if}
-<dl>
-<dt>{$form.fromEmailAddress.label}</dt><dd>{$form.fromEmailAddress.html}</dd>
+<table class="form-layout">
+<tr>
+    <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html}</td>
+</tr>
 {if $single eq false}
-<dt>{ts}Recipient(s){/ts}</dt><dd>{$to|escape}</dd>
+    <tr>
+        <td class="label">{ts}Recipient(s){/ts}</td><td>{$to|escape}</td>
+    </tr>
 {else}
-<dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
+    <tr>
+        <td class="label">{$form.to.label}</td><td>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</td>
+    </tr>
 {/if}
-<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-</dl>
+<tr>
+    <td class="label">{$form.subject.label}</td><td>{$form.subject.html|crmReplace:class:huge}</td>
+</tr>
+</table>
+
 {include file="CRM/Contact/Form/Task/EmailCommon.tpl"}
+
 <div class="spacer"> </div>
+
 <dl>
 {if $single eq false}
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>

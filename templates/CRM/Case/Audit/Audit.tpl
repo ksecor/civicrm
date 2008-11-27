@@ -11,17 +11,22 @@ There's the potential for collisions (two different labels having the same short
 <input type="hidden" name="currentSelection" value="1" />
 <div id="civicase-audit">
 <table><tr><td class="leftpane">
-********<br />
-DEBUG: Sort method {$sortBy} not implemented yet<br />
-********<br /><br />
 <table class="report">
 <tr class="columnheader-dark">
 <th>&nbsp;</th>
-<th>{ts}Date{/ts} &amp; {ts}Description{/ts}</th>
+<th>{ts}Description{/ts}</th>
 </tr>
 {foreach from=$activities item=activity name=activityloop}
 <tr class="activity{if $smarty.foreach.activityloop.first} selected{/if}" id="civicase-audit-activity-{$smarty.foreach.activityloop.iteration}">
-	<td class="indicator">{if $activity.completed}<img src="{$config->resourceBase}i/spacer.gif" width="20" height="20">{else}<img src="{$config->resourceBase}i/contribute/incomplete.gif" width="20" height="20">{/if}</td>
+	<td class="indicator">
+		{if $activity.completed}
+		<img src="{$config->resourceBase}i/spacer.gif" width="20" height="20">
+		{else}
+		<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
+		<img src="{$config->resourceBase}i/contribute/incomplete.gif" width="20" height="20" alt="{ts}Incomplete{/ts}" title="{ts}Incomplete{/ts}">
+		</a>
+		{/if}
+	</td>
 	<td>
 	<a href="javascript:selectActivity({$smarty.foreach.activityloop.iteration})">
 	{foreach from=$activity.leftpane item=field name=fieldloop}
@@ -29,9 +34,9 @@ DEBUG: Sort method {$sortBy} not implemented yet<br />
 		{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 		{if $field.datatype == 'Date'}
 			{if $field.includeTime}
-				{$field.value|escape|replace:'T':' '|crmdate}
+				{$field.value|escape|replace:'T':' '|crmDate}
 			{else}
-				{$field.value|escape|truncate:10:'':true|crmdate}
+				{$field.value|escape|truncate:10:'':true|crmDate}
 			{/if}
 		{else}
 			{$field.value|escape}
@@ -51,8 +56,8 @@ DEBUG: Sort method {$sortBy} not implemented yet<br />
 	{foreach from=$activities item=activity name=activityloop}
 		<div class="activityheader" id="civicase-audit-header-{$smarty.foreach.activityloop.iteration}">
 		<div class="auditmenu">
-			<label>{ts}Actions{/ts}</label>
 			<span class="editlink"><a target="editauditwin" href="{$activity.editurl}">{ts}Edit{/ts}</a></span>
+			<span class="editlink"><a href="{$caseurl}">{ts}Back to Case{/ts}</a></span>
 		</div>	
 		{foreach from=$activity.rightpaneheader item=field name=fieldloop}
 			<div class="civicase-audit-{$field.label|lower|regex_replace:'/[^a-z0-9]+/':''}">
@@ -60,9 +65,9 @@ DEBUG: Sort method {$sortBy} not implemented yet<br />
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
 				{if $field.includeTime}
-					{$field.value|escape|replace:'T':' '|crmdate}
+					{$field.value|escape|replace:'T':' '|crmDate}
 				{else}
-					{$field.value|escape|truncate:10:'':true|crmdate}
+					{$field.value|escape|truncate:10:'':true|crmDate}
 				{/if}
 			{else}
 				{$field.value|escape}
@@ -83,9 +88,9 @@ DEBUG: Sort method {$sortBy} not implemented yet<br />
 			<span class="{$field.datatype}">{if $field.datatype == 'File'}<a href="{$field.value|escape}">{/if}
 			{if $field.datatype == 'Date'}
 				{if $field.includeTime}
-					{$field.value|escape|replace:'T':' '|crmdate}
+					{$field.value|escape|replace:'T':' '|crmDate}
 				{else}
-					{$field.value|escape|truncate:10:'':true|crmdate}
+					{$field.value|escape|truncate:10:'':true|crmDate}
 				{/if}
 			{else}
 				{$field.value|escape}

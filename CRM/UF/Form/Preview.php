@@ -194,9 +194,12 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ( $field['name'] === 'individual_suffix' ){
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
-            } else if ( $field['name'] === 'greeting_type' ){
+            } else if ( $field['name'] === 'greeting_type' ) {
                 $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required);
+                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::greeting(), $required, array( 'onchange' => "showGreeting();" ));
+
+                //adding Custom Greeting element alongwith greeting type
+                $this->add('text', 'custom_greeting', ts('Custom Greeting'), null, false);
             } else if ($field['name'] === 'preferred_communication_method') {
                 $values = CRM_Core_PseudoConstant::pcm();
                 foreach ( $values as $key => $var ) {
@@ -244,6 +247,25 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
                            array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+            } else if ( $field['name'] == 'contribution_status_id' ) {
+                require_once "CRM/Contribute/PseudoConstant.php";
+                $this->add('select', $name, $field['title'],
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
+            } else if ( $field['name'] == 'participant_register_date' ) {
+                require_once "CRM/Event/PseudoConstant.php";
+                $this->add('date', $name, $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
+            } else if ($field['name'] == 'participant_status_id' ) {
+                require_once "CRM/Event/PseudoConstant.php";
+                $this->add('select', $name, $field['title'],
+                           array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
+            } else if ($field['name'] == 'participant_role_id' ) {
+                require_once "CRM/Event/PseudoConstant.php";
+                $this->add('select', $name, $field['title'],
+                           array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
+            } else if ($field['name'] == 'world_region' ) {
+                require_once "CRM/Core/PseudoConstant.php";
+                $this->add('select', $name, $field['title'],
+                           array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::worldRegion( ), $required);
             } else if ($field['name'] == 'gpa_id' ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('select', 'gpa_id', $field['title'],

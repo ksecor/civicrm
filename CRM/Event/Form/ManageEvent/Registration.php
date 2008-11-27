@@ -122,7 +122,6 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'mail' );
             $this->_showHide->addHide( 'thankyou' );
         } else {
-            $this->_showHide->addShow( 'registration' );
             $this->_showHide->addShow( 'confirm' );
             $this->_showHide->addShow( 'mail' );
             $this->_showHide->addShow( 'thankyou' );
@@ -144,8 +143,19 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     { 
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('checkbox', 'is_online_registration', ts('Allow Online Registration?'),null,array('onclick' =>"return showHideByValue('is_online_registration','','register_show','block','radio',false);")); 
-        
+        $this->addElement( 'checkbox', 
+                           'is_online_registration', 
+                           ts('Allow Online Registration?'), 
+                           null, 
+                           array( 'onclick' => "return showHideByValue('is_online_registration', 
+                                                                       '', 
+                                                                       'registration_blocks', 
+                                                                       'block', 
+                                                                       'radio', 
+                                                                       false );"
+                                ) 
+                         );
+   
         $this->add('text','registration_link_text',ts('Registration Link Text'));
 
         $this->add( 'date',

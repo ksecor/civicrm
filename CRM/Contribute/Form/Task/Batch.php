@@ -205,16 +205,10 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                     }   
                 }
                 
-                //check for custom data
-                $customData = array( );
-                foreach ( $value as $name => $data ) {                
-                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                     $data, 'Contribution',
-                                                                     null, $key );
-                        $value['custom'] = $customData;                    
-                    } 
-                }
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $key,
+                                                                          'Contribution' );
                 
                 $ids['contribution'] = $key;
                 if ($value['contribution_type']) {

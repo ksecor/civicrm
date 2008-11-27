@@ -185,8 +185,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
         
         // handle custom fields
-        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
-        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
+        $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_cid, -1);
+        $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, $this->_oid, -1);
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
@@ -253,7 +253,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     public function postProcess()
     {
         $formValues = $this->exportValues();
-                             
+
+        // user can't choose to move cases without activities (CRM-3778)
+        if ( $formValues['move_rel_table_cases'] == '1' && 
+             array_key_exists('move_rel_table_activities', $formValues) ) {
+            $formValues['move_rel_table_activities'] = '1';
+        }
+
         $relTables =& CRM_Dedupe_Merger::relTables();
         $moveTables = array();
         foreach ($formValues as $key => $value) {
@@ -271,10 +277,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
         $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
         $names['individual_suffix'] = array('newName' => 'suffix_id', 'groupName' => 'individual_suffix');
+        $names['greeting_type']     = array('newName' => 'greeting_type_id', 'groupName' => 'greeting_type');
         CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
 
         // FIXME: fix custom fields so they're edible by createProfileContact()
-        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
+        $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this, null, -1);
         foreach ($cgTree as $key => $group) {
             if (!isset($group['fields'])) continue;
             foreach ($group['fields'] as $fid => $field) {

@@ -55,8 +55,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         //Custom Groups Inline
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId);
+
+        CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
 
         // also create the form element for the activity links box
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
@@ -268,11 +269,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // see if any other modules want to add any tabs
         require_once 'CRM/Utils/Hook.php';
-        $hookTabs = CRM_Utils_Hook::links( 'tabs.contact.activity', 'Contact', $this->_contactId );
-        if ( is_array( $hookTabs ) ) {
-            $allTabs = array_merge( $allTabs, $hookTabs );
-        }
-
+        CRM_Utils_Hook::tabs( $allTabs, $this->_contactId );
 
         if( $config->civiHRD ) {
             $hrdOrder = array(

@@ -114,7 +114,8 @@ function &civicrm_contribution_get( &$params ) {
 
     if ( count( $contributions ) != 1 &&
          ! $params['returnFirst'] ) {
-        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ) );
+        return civicrm_create_error( ts( '%1 contributions matching input params', array( 1 => count( $contributions ) ) ),
+                                     $contributions );
     }
 
     $contributions = array_values( $contributions );
@@ -295,7 +296,8 @@ function _civicrm_contribute_duplicate_check( &$params ) {
     if ( $result ) {
         $d = implode( ', ', $duplicates );
         $error = CRM_Core_Error::createError( "Found matching contribution(s):$d", CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', $d);
-        return civicrm_create_error( $error->pop( ) );
+        return civicrm_create_error( $error->pop( ),
+                                     $d );
     } else {
         return array();
     }

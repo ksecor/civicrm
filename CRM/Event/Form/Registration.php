@@ -125,7 +125,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * 
      *Greeting Type value
      * @var int
-     * @protected
+     * @public
      */
     public $_greetingTypeValue;
     
@@ -447,6 +447,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function buildCustom( $id, $name, $viewOnly = false ) 
     {
+        $stateCountryMap = array( );
+
         if ( $id ) {
             $button = substr( $this->controller->getButtonName(), -4 );
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -474,24 +476,37 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $addCaptcha = false;
             $this->assign( $name, $fields );
-            foreach($fields as $key => $field) {
-                if ( $viewOnly &&
-                     isset( $field['data_type'] ) &&
-                     $field['data_type'] == 'File' ) {
-                    // ignore file upload fields
-                    continue;
+            if ( is_array( $fields ) ) {
+                foreach($fields as $key => $field) {
+                    if ( $viewOnly &&
+                         isset( $field['data_type'] ) &&
+                         $field['data_type'] == 'File' ) {
+                        // ignore file upload fields
+                        continue;
+                    }
+                    //make the field optional if primary participant 
+                    //have been skip the additional participant.
+                    if ( $button == 'skip' ) {
+                        $field['is_required'] = false;
+                    } else if ( $field['add_captcha'] ) {
+                        // only add captcha for first page
+                        $addCaptcha = true;
+                    }
+
+                    list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $key, 2 );
+                    if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                        if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                            $stateCountryMap[$index] = array( );
+                        }
+                        $stateCountryMap[$index][$prefixName] = $key;
+                    }
+
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    $this->_fields[$key] = $field;
                 }
-                //make the field optional if primary participant 
-                //have been skip the additional participant.
-                if ( $button == 'skip' ) {
-                    $field['is_required'] = false;
-                } else if ( $field['add_captcha'] ) {
-                    // only add captcha for first page
-                    $addCaptcha = true;
-                }
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                $this->_fields[$key] = $field;
             }
+            require_once 'CRM/Core/BAO/Address.php';
+            CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
 
             if ( $addCaptcha &&
                  ! $viewOnly ) {
@@ -517,7 +532,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $form->set('priceSet', $form->_priceSet);
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
-            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['fee'] );
+            CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$eventID}", $form->_values['fee'], true );
             require_once 'CRM/Core/BAO/Discount.php';
             $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventID, "civicrm_event");
             if ( is_array( $discountedEvent ) ) {

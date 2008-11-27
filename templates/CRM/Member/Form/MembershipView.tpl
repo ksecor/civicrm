@@ -14,7 +14,7 @@
         <dt>{ts}Start date{/ts}</dt><dd>{$start_date|crmDate}&nbsp;</dd>
         <dt>{ts}End date{/ts}</dt><dd>{$end_date|crmDate}&nbsp;</dd>
         <dt>{ts}Reminder date{/ts}</dt><dd>{$reminder_date|crmDate}&nbsp;</dd>
-        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+        {include file="CRM/Custom/Page/CustomDataView.tpl"}
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
 	{if $accessContribution and $rows.0.contribution_id}

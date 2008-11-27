@@ -270,14 +270,14 @@ WHERE  v.option_group_id = g.id
         return $group->id;
     }
     
-    static function getAssoc( $groupName, &$values, $flip = false ) 
+    static function getAssoc( $groupName, &$values, $flip = false, $field = 'name' ) 
     {
         $query = "
 SELECT v.id as amount_id, v.value, v.label, v.name, v.description, v.weight
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
-   AND g.name = %1
+   AND g.$field = %1
 ORDER BY v.weight
 ";
         $params = array( 1 => array( $groupName, 'String' ) );

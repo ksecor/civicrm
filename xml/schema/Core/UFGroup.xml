@@ -52,7 +52,8 @@
      <type>int unsigned</type>
      <default>0</default>
      <comment>Will this group be in collapsed or expanded mode on initial display ?</comment>
-       <add>1.1</add>
+     <add>1.1</add>
+     <drop>2.2</drop>
   </field>
   <field>
      <name>help_pre</name>

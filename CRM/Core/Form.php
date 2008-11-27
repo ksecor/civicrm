@@ -316,6 +316,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if ( $this->controller->_key &&
              $this->controller->_print != CRM_Core_Smarty::PRINT_NOFORM ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
+            $this->assign( 'qfKey', $this->controller->_key );
         }
 
         require_once 'CRM/Utils/Hook.php';

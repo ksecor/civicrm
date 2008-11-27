@@ -114,6 +114,16 @@ class CRM_Core_Component
         return self::_info();
     }
 
+    public function &getNames( )
+    {
+        $allComponents = self::getComponents();
+        $names = array();
+        foreach ( $allComponents as $name => $comp ) {
+            $names[$comp->componentID] = $name;
+        }
+        return $names;
+    }
+    
     static function invoke( &$args, $type ) 
     {
         $info =& self::_info( );

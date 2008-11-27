@@ -175,8 +175,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $mappingLocation[$mapping->grouping][$mapping->column_number] = $mapping->location_type_id;
             }
             
-            if ( !empty( $mapping->phone_type ) ) {
-                $mappingPhoneType[$mapping->grouping][$mapping->column_number] = $mapping->phone_type;
+            if ( !empty( $mapping->phone_type_id ) ) {
+                $mappingPhoneType[$mapping->grouping][$mapping->column_number] = $mapping->phone_type_id;
             }
             
             if ( !empty($mapping->relationship_type_id) ) {
@@ -434,7 +434,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         asort($phoneTypes);
 
         foreach($sel1 as $k=>$sel ) {

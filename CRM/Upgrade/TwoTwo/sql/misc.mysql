@@ -102,8 +102,7 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 -- CRM-3573 
 -- added column case_id in civicrm_relationship table.
 -- added columns medium, is_auto, relationship_id fileds in civicrm_activity.
--- create new table civicrm_category.
--- added value'Case' in civicrm_custom_group.
+-- added value 'Case' in civicrm_custom_group.
 
 ALTER TABLE `civicrm_relationship`
   ADD `case_id` int(10) unsigned DEFAULT NULL COMMENT 'FK to civicrm_case' AFTER is_permission_b_a,
@@ -115,24 +114,11 @@ ALTER TABLE `civicrm_activity`
   ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
   ADD CONSTRAINT FK_civicrm_relationship_id FOREIGN KEY (relationship_id) REFERENCES civicrm_relationship(id) ON DELETE SET NULL;
 
-CREATE TABLE IF NOT EXISTS `civicrm_category` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'category id',
-  `label` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Category label string as displayed to users.',
-  `name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Variable name/programmatic handle for this category.',
-  `weight` int(11) default '1' COMMENT 'Order in which the subtypes should appear',
-  `description` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Optional verbose description for the category.',
-  `is_active` tinyint(4) default '1' COMMENT 'is the Category active ?',
-  `is_reserved` tinyint(4) default '0' COMMENT 'is the Category reserved ?',
-  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Category ID (if this is a Category).for storing hierarchical categorisation',
-  `component_id` int(10) unsigned default NULL COMMENT 'Component that this option value belongs/caters to.',
-  `is_auto` tinyint(4) default '0' COMMENT 'Is this activity type used by programmatically created activities?',
-  PRIMARY KEY  (`id`),
-  KEY `FK_civicrm_category_parent_id` (`parent_id`),
-  KEY `FK_civicrm_category_component_id` (`component_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-
 ALTER TABLE `civicrm_custom_group`
   MODIFY `extends` enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Group','Membership','Participant','Event','Grant','Pledge','Case') collate utf8_unicode_ci default 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
+
+-- schema change CRM-3337
+ALTER TABLE `civicrm_custom_group` CHANGE `extends_entity_column_name` `extends_entity_column_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL COMMENT 'reference to option value';
 
 -- added new column 'skipBreadcrumb' to civicrm_menu. CRM-2699.
 
@@ -164,3 +150,31 @@ CREATE INDEX `index_pcp_made_through_id` ON `civicrm_contribution` (`pcp_made_th
 UPDATE `civicrm_address`
 SET `is_billing` = 1
 WHERE `location_type_id` = 5;
+
+-- civicrm_note constraint fix
+ALTER TABLE civicrm_note 
+    DROP FOREIGN KEY `FK_civicrm_note_contact_id`;
+ALTER TABLE `civicrm_note`
+    ADD CONSTRAINT `FK_civicrm_note_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+
+-- CRM-3860
+ALTER TABLE civicrm_contact
+    ADD api_key varchar(32);
+CREATE INDEX index_api_key ON civicrm_contact(api_key);
+
+-- CRM-3863
+SELECT @piOpt := id from civicrm_option_group where name = 'payment_instrument';
+UPDATE civicrm_option_value SET is_reserved = 1 WHERE option_group_id = @piOpt AND name = 'Credit Card';
+
+-- CRM-3851: migrate civicrm_domain.email_domain and .email_return_path to civicrm_mail_settings
+SELECT email_domain, email_return_path FROM civicrm_domain LIMIT 1 INTO @domain, @return_path;
+INSERT INTO civicrm_mail_settings (name, is_default, domain, return_path) VALUES ('default', true, @domain, @return_path);
+ALTER TABLE civicrm_domain DROP email_domain;
+ALTER TABLE civicrm_domain DROP email_return_path;
+
+-- CRM-3696
+ALTER TABLE civicrm_entity_tag
+  ADD UNIQUE UI_contact_id_tag_id ( contact_id, tag_id );
+
+-- CRM-3487
+ALTER TABLE civicrm_uf_group DROP collapse_display;

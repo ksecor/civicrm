@@ -70,9 +70,6 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
         // add CAPTCHA To this group ?
         $form->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
         
-        // is this group collapsed or expanded ?
-        $form->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
-        
         // should we display an edit link
         $form->addElement('checkbox', 'is_edit_link', ts('Include profile edit links in search results?'));
 

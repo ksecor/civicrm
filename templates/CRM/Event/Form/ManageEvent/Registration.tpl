@@ -10,7 +10,8 @@
        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable online registration for this event.{/ts}</dd>
      </dl>
     </div>
-    <div id="register_show">
+    <div id="registration_blocks">
+     <div id="register_show">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. 'Register Now!').{/ts}</dd>
@@ -31,7 +32,7 @@
             <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
         </dl>
-    </div>
+     </div>
     <div class="spacer"></div>
     <div id="registration">
         {*Registration Block*}
@@ -120,6 +121,7 @@
         </fieldset>
         </div>
     </div>
+    </div> {*end of div registration_blocks*}
     <dl>
     <dt>&nbsp;</dt><dd>
         <div id="crm-submit-buttons">
@@ -134,7 +136,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
 trigger_field_id    ="is_online_registration"
 trigger_value       ="" 
-target_element_id   ="register_show" 
+target_element_id   ="registration_blocks" 
 target_element_type ="block"
 field_type          ="radio"
 invert              = 0

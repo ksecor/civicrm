@@ -169,6 +169,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $this->assign('cdType', true);
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
+
         //get the pledge payment id
         $this->_ppID = CRM_Utils_Request::retrieve( 'ppid', 'Positive', $this );
         //get the contact id
@@ -553,14 +554,14 @@ WHERE  contribution_id = {$this->_id}
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Contribution');
         $this->assign('customDataSubType',  $this->_contributionType );
-        $this->assign('entityId',  $this->_id );
+        $this->assign('entityID',  $this->_id );
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true, array('onChange' => "buildCustomData( this.value );"));
+                               true, array('onChange' => "buildCustomData( 'Contribution', this.value );"));
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -859,6 +860,16 @@ WHERE  contribution_id = {$this->_id}
                                                                             'sort_name' );
                 $this->_params['source'] = ts( 'Submit Credit Card Payment by: %1', array( 1 => $userSortName ) );
             }
+
+			// build custom data getFields array
+			$customFieldsContributionType = CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, 
+															        CRM_Utils_Array::value( 'contribution_type_id', $params ));
+			$customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsContributionType, 
+																CRM_Core_BAO_CustomField::getFields( 'Contribution', false, false, null, null, true ) );
+	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+	                                                                   $customFields,
+	                                                                   $this->_id,
+	                                                                   'Contribution' );
                         
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
             $contribution 

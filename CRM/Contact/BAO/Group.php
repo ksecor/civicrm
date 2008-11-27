@@ -457,10 +457,37 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function createHiddenSmartGroup( $params ) 
     {
+        $ssId = CRM_Utils_Array::value( 'saved_search_id',  $params );
+        
+        //add mapping record only for search builder saved search
+        $mappingId = null;
+        if ( $params['is_advanced'] == '2' && $params['is_searchBuilder'] == '1' ) {
+            //save the mapping for search builder
+            require_once "CRM/Core/BAO/Mapping.php";
+            if ( !$ssId ) {
+                //save record in mapping table
+                $temp          = array( );
+                $mappingParams = array('mapping_type' => 'Search Builder');
+                $mapping       = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $mappingId     = $mapping->id;                 
+            } else {
+                //get the mapping id from saved search
+                require_once "CRM/Contact/BAO/SavedSearch.php";
+                $savedSearch     =& new CRM_Contact_BAO_SavedSearch();
+                $savedSearch->id = $ssId;
+                $savedSearch->find(true);
+                $mappingId = $savedSearch->mapping_id; 
+            }
+            
+            //save mapping fields
+            CRM_Core_BAO_Mapping::saveMappingFields( $params['form_values'], $mappingId );
+        }
+        
         //create/update saved search record.
         $savedSearch                   =& new CRM_Contact_BAO_SavedSearch();
-        $savedSearch->id               =  CRM_Utils_Array::value( 'saved_search_id',  $params );
-        $savedSearch->form_values      =  CRM_Utils_Array::value( 'form_values',      $params );
+        $savedSearch->id               =  $ssId;
+        $savedSearch->form_values      =  serialize( $params['form_values'] );
+        $savedSearch->mapping_id       =  $mappingId;
         $savedSearch->search_custom_id =  CRM_Utils_Array::value( 'search_custom_id', $params );
         $savedSearch->save( );
         

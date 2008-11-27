@@ -126,9 +126,7 @@ class CRM_Utils_Mail {
                           $replyTo = null,
                           $html_message = null,
                           $attachments = null ) {
-        $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                                   1,
-                                                   'email_return_path' );
+        $returnPath = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_MailSettings', 1, 'return_path', 'is_default');
         if ( ! $returnPath ) {
             $returnPath = self::pluckEmailFromHeader($from);
         }
@@ -137,7 +135,6 @@ class CRM_Utils_Mail {
         $headers['From']                      = $from;
         $headers['To']                        = self::encodeAddressHeader($toDisplayName, $toEmail);  
         $headers['Cc']                        = $cc;
-        $headers['Bcc']                       = $bcc;
         $headers['Subject']                   = self::encodeSubjectHeader($subject);  
         $headers['Content-Type']              = 'text/plain; charset=utf-8';  
         $headers['Content-Disposition']       = 'inline';  

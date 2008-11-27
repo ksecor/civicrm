@@ -117,7 +117,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if onbehalf-of-organization
             if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
-                if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
+                if ( CRM_Utils_Array::value( 'org_option', $this->_params ) && 
+                     CRM_Utils_Array::value( 'organization_id', $this->_params ) ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
@@ -302,6 +303,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 } 
             }
         }
+
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $defaults );
+        
         $this->setDefaults( $defaults );
 
         $this->freeze();
@@ -346,8 +352,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $config =& CRM_Core_Config::singleton( );
         require_once "CRM/Contact/BAO/Contact.php";
 
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        $contactID = $this->_userID;
 
         // add a description field at the very beginning
         $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . 
@@ -451,6 +456,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // lets store the contactID in the session
         // for things like tell a friend
+        $session =& CRM_Core_Session::singleton( );
         if ( ! $session->get( 'userID' ) ) {
             $session->set( 'transaction.userID', $contactID );
         } else {

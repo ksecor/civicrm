@@ -79,7 +79,11 @@
                      </td>
                   </tr>
                </table> 
-             {else} 
+             {elseif $n eq 'group'} 
+		<table id="selector" class="selector" style="width:auto;">
+			<tr><td>{$form.$n.html}</td></tr>
+		</table>
+   	     {else}
                {$form.$n.html}
              {/if}
              {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
@@ -134,5 +138,11 @@
            hide('customGreeting');      
        }     
     }
+
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
+ 
   </script>
 {/literal}

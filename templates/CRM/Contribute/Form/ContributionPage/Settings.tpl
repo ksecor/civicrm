@@ -36,9 +36,13 @@
 	<tr><td class ="label">{$form.goal_amount.label}</td><td>{$form.goal_amount.html}<br />
 	    <span class="description">{ts}Enter an optional goal amount for this contribution page (e.g. for this 'campaign'). If you enable a contribution widget for this page, the widget will track progress against this goal. Otherwise, the goal will display as 'no limit'.{/ts}</span></td>
 	</tr>
-	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html}</td>
+	<tr><td class ="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_settings_1 doTime=1}
+	{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear doTime=1 offset=10 trigger=trigger_settings_1 ampm=1}</td>
 	</tr>
-	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html}</td>
+	<tr><td class ="label">{$form.end_date.label}</td><td>{$form.end_date.html}
+	{include file="CRM/common/calendar/desc.tpl" trigger=trigger_settings_2 doTime=1}
+	{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 doTime=1 trigger=trigger_settings_2 ampm=1}</td>
 	</tr>
 	<tr><td>&nbsp;</td><td>{$form.honor_block_is_active.html}{$form.honor_block_is_active.label}<br />
 	    <span class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</span></td>
@@ -59,7 +63,7 @@
     		<span class="description">
         	{if $config->userFramework EQ 'Drupal'}
             	{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
-            	<strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
+            	<strong>{crmURL a=true p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
         	{elseif $config->userFramework EQ 'Joomla'}
             	{ts 1=$id}When your page is active, create front-end links to the contribution page using the Menu Manager. Select <strong>Online Contribution</strong> and enter <strong>%1</strong> for the Contribution id.{/ts}
         	{/if}

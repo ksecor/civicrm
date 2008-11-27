@@ -157,6 +157,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->_defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
         }
        
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+
         return $this->_defaults;
     }
 
@@ -475,6 +479,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
+
         //set as Primary participant
         $params ['is_primary'] = 1;         
    
@@ -537,7 +542,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->set( 'contributeMode', 'direct' ); 
                       
             if ( isset( $params["state_province_id-{$this->_bltID}"] ) && $params["state_province_id-{$this->_bltID}"] ) {
-                $this->params["state_province-{$this->_bltID}"] =
+                $params["state_province-{$this->_bltID}"] =
                     CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params["state_province_id-{$this->_bltID}"] ); 
             }
             

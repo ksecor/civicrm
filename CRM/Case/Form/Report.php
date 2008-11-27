@@ -74,6 +74,11 @@ class CRM_Case_Form_Report extends CRM_Core_Form
             $this->assign_by_ref( 'report', $this->_report );
         }
 
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_clientID}&id={$this->_caseID}&show=1" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
     
     public function buildQuickForm( ) 
@@ -95,15 +100,6 @@ class CRM_Case_Form_Report extends CRM_Core_Form
                    'is_redact',
                    ts( 'Redact (hide) Client and Service Provider Data' ) );
 
-		$sortOptions = array(	1 => ts( 'Sort by Date' ),
-        						2 => ts( 'Sort by Category' ));
-        $this->addRadio('sort_by',
-        				null,
-        				$sortOptions,
-        				null,
-        				'&nbsp;',
-        				true );		
-                         
         $this->addButtons(array( 
                                 array ( 'type'      => 'refresh',
                                         'name'      => ts('Generate Report'), 

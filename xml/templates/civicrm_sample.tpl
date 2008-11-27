@@ -28,7 +28,12 @@ INSERT INTO `civicrm_tell_friend`
 VALUES
     ('civicrm_contribution_page', 1, 'Tell A Friend', '<p>Help us spread the word and leverage the power of your contribution by telling your friends. Use the space below to personalize your email message - let your friends know why you support us. Then fill in the name(s) and email address(es) and click ''Send Your Message''.</p>', 'Thought you might be interested in learning about and helping this organization. I think they do important work.', NULL, 'Thanks for Spreading the Word', '<p><strong>Thanks for telling your friends about us and supporting our efforts. Together we can make a difference.</strong></p>', 1),
     ('civicrm_event', 1, 'Tell A Friend', '<p>Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you''re attending. Then fill in the name(s) and email address(es) and click ''Send Your Message''.</p>', 'Thought you might be interested in checking out this event. I''m planning on attending.', NULL, 'Thanks for Spreading the Word', '<p>Thanks for spreading the word about this event to your friends.</p>', 1);
- 
+
+INSERT INTO `civicrm_pcp_block`
+    (`id`, `entity_table`, `entity_id`, `supporter_profile_id`, `is_approval_needed`, `is_tellfriend_enabled`, `tellfriend_limit`, `link_text`, `is_active`)
+VALUES
+    (1, 'civicrm_contribution_page', 1, 2, 1, 1, 5, 'Become a Supporter!', 1);
+
 INSERT INTO civicrm_contact
     (contact_type, contact_sub_type, legal_identifier, external_identifier, sort_name, display_name, nick_name, home_URL, image_URL, source, preferred_communication_method, preferred_mail_format, do_not_phone, do_not_email, do_not_mail, do_not_trade, hash, is_opt_out,organization_name)
 VALUES
@@ -58,10 +63,11 @@ INSERT INTO civicrm_product VALUES (1, 'Coffee Mug', 'This heavy-duty mug is gre
 INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 
 
--- Add sample 'custom' activity type in civicrm_category
-SELECT @actCoreCust     := MAX(id) FROM civicrm_category WHERE name = 'Core Activities - Custom';
+-- Add sample activity type
+
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
 
 INSERT INTO 
-   `civicrm_category` ( `label`, `name`,`weight`, `description`,  `is_active`, `is_reserved`, `parent_id`, `component_id`, `is_auto` ) 
-VALUES 
-    ('Interview', 'Interview',  3, NULL, 1, 0, @actCoreCust,    NULL, 0);
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+   (@option_group_id_act, 'Interview', 12, 'Interview',  NULL, 0, NULL, 12, 'Conduct a phone or in person interview.', 0, 0, 1);

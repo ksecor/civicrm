@@ -70,6 +70,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 'gender.label'                => 'civicrm_contact.gender_id',
                 'individual_prefix.label'     => 'civicrm_contact.prefix_id',
                 'individual_suffix.label'     => 'civicrm_contact.suffix_id',
+                'greeting_type.label'         => 'civicrm_contact.greeting_type_id'
             );
             // the table names we support in dedupe rules - a filter for importableFields()
             $supportedTables = array('civicrm_address', 'civicrm_contact', 'civicrm_email',
@@ -89,7 +90,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                     }
                 }
                 // add custom data fields
-                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1) as $key => $cg) {
+                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, CRM_Core_DAO::$_nullObject, null, -1) as $key => $cg) {
                     if (!is_int($key)) continue;
                     foreach($cg['fields'] as $cf) {
                         $fields[$ctype][$cg['table_name']][$cf['column_name']] = $cf['label'];

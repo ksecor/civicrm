@@ -540,7 +540,7 @@ WHERE  $whereCond AND is_test=0
      * pairs
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
-    
+     *
      * @return object CRM_Contribute_BAO_ContributionProduct object
      * @access public
      * @static

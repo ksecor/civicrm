@@ -34,13 +34,16 @@
  */
 
 require_once "CRM/Core/Form.php";
-require_once "CRM/Activity/BAO/Activity.php";
 require_once 'CRM/Core/BAO/File.php';
 require_once "CRM/Core/BAO/CustomGroup.php";
-require_once "CRM/Custom/Form/CustomData.php";
-require_once "CRM/Contact/Form/AddContact.php";
 require_once 'CRM/Core/OptionGroup.php';        
 require_once 'CRM/Case/BAO/Case.php';
+require_once "CRM/Case/PseudoConstant.php";
+require_once 'CRM/Case/XMLProcessor/Process.php';
+require_once "CRM/Activity/BAO/Activity.php";
+require_once "CRM/Custom/Form/CustomData.php";
+require_once 'CRM/Contact/BAO/Contact.php';
+require_once "CRM/Contact/Form/AddContact.php";
 
 /**
  * This class create activities for a case
@@ -144,10 +147,9 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
             $this->assign( 'caseAction', $this->_caseAction );
         }
-
+        
         //retrieve details about case
-        require_once "CRM/Case/PseudoConstant.php";
-        $caseParams       = array( 'id' => $this->_caseId );
+        $caseParams       = array( 'id' => $this->_id );
         $returnProperties = array( 'case_type_id', 'subject' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $caseParams, $values, $returnProperties );
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
@@ -183,7 +185,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_addAssigneeContact ) {
             $this->assign('addAssigneeContact', true);
         }
-
+        
         $this->assign( 'urlPath', 'civicrm/case/activity' );
 
         // add attachments part
@@ -192,55 +194,66 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                             $this->_activityId );
         
         // assign activity type name and description to template
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        $categoryParams = array('id' => $this->_activityTypeId);
-        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_Category', $categoryParams, $details );
-        
-        $this->_activityTypeName    = $details['label'];
-        $activityTypeDescription    = $details['description'];
+        $details = CRM_Case_PseudoConstant::activityType( false );
+        if ( !isset($details[$this->_activityTypeId]) ) {
+            CRM_Core_Error::fatal();
+        }
+        $this->_activityTypeName = $details[$this->_activityTypeId]['label'];
 
         $this->assign( 'activityTypeName',        $this->_activityTypeName );
-        $this->assign( 'activityTypeDescription', $activityTypeDescription );
+        $this->assign( 'activityTypeDescription', $details[$this->_activityTypeId]['description']  );
 
         if ( !$this->_activityId ) { 
             // check if activity count is within the limit
-            require_once 'CRM/Case/XMLProcessor/Process.php';
             $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
-            $activityInst  = $xmlProcessor->getMaxInstance($caseType, $this->_activityTypeName);
-            $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
-            if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
-                if ( $activityInst[$this->_activityTypeName] == 1 ) {
-                    $activities = 
-                        CRM_Case_BAO_Case::getCaseActivity( $this->_id, 
-                                                            array('activity_type_id' => 
-                                                                  $this->_activityTypeId), 
-                                                            $this->_uid );
-                    $activities = array_keys($activities);
-                    $activities = $activities[0];
-                    $editUrl    = 
-                        CRM_Utils_System::url( 'civicrm/case/activity', 
-                                               "reset=1&cid={$this->_clientId}&id={$this->_id}&aid={$activities}" );
+            $activityInst  = $xmlProcessor->getMaxInstance($caseType);
+
+            // Activity type is only included in getMaxInstance array if a max_instance property is set. If not, no limit on that type.
+            if ( isset( $activityInst[$this->_activityTypeName] ) ) {
+                $activityCount = CRM_Case_BAO_Case::getCaseActivityCount( $this->_id, $this->_activityTypeId );
+                if ( $activityCount >= $activityInst[$this->_activityTypeName] ) {
+                    if ( $activityInst[$this->_activityTypeName] == 1 ) {
+                        $activities = 
+                            CRM_Case_BAO_Case::getCaseActivity( $this->_id, 
+                                                                array('activity_type_id' => 
+                                                                      $this->_activityTypeId), 
+                                                                $this->_uid );
+                        $activities = array_keys($activities);
+                        $activities = $activities[0];
+                        $editUrl    = 
+                            CRM_Utils_System::url( 'civicrm/case/activity', 
+                                                   "reset=1&cid={$this->_clientId}&id={$this->_id}&aid={$activities}" );
+                    }
+                    CRM_Core_Error::statusBounce( ts("You can not add another '%1' activity to this case. %2", 
+                                                     array( 1 => $this->_activityTypeName,
+                                                            2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
                 }
-                CRM_Core_Error::statusBounce( ts("You can not add more activities of '%1' to this case. %2", 
-                                                 array( 1 => $this->_activityTypeName,
-                                                        2 => "Do you want to <a href='$editUrl'>edit the existing activity</a> ?" )) );
             }
         }
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
         //when custom data is included in this page
-        $this->set( 'type'    , 'Activity' );
-        $this->set( 'subType' , $this->_activityTypeId );
-        $this->set( 'entityId', $this->_activityId );
-        CRM_Custom_Form_Customdata::preProcess( $this );
+        CRM_Custom_Form_Customdata::preProcess( $this, null, $this->_activityTypeId, 1, 'Activity', $this->_activityId );
+
+        // build assignee contact combo
+        if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
+            foreach ( $_POST['assignee_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
+            }
+            $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
+        }
 
         // add 2 attachments
-        require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_activity',
                                             $this->_activityId, 2 );
        
+        // set context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_clientId}&id={$this->_id}&show=1" );
+        $session->pushUserContext( $url );
+
         if ( $this->_caseAction ) {
             eval("CRM_Case_Form_Activity_{$this->_caseAction}::preProcess( \$this );");
         }
@@ -259,15 +272,18 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $this->_defaults );
             //set the assigneed contact count to template
-            if ( !empty( $defaults['assignee_contact'] ) ) {
-                $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            if ( !empty( $this->_defaults['assignee_contact'] ) ) {
+                $this->assign( 'assigneeContactCount', count( $this->_defaults['assignee_contact'] ) );
             } else {
                 $this->assign( 'assigneeContactCount', 1 );
             }
             
-            // custom data defaults
-            $this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
-            
+            // Set activity date time to now if not set yet (editing auto-populated activities)
+            if ( !isset( $this->_defaults['activity_date_time'] ) ) {
+                CRM_Utils_Date::getAllDefaultValues( $this->_defaults['activity_date_time'] );
+                $this->_defaults['activity_date_time']['i'] = 
+                (int ) ( $this->_defaults['activity_date_time']['i'] / 15 ) * 15;
+            }           
         } else {
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
             $this->_defaults['due_date_time']['i'] = 
@@ -287,6 +303,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         if ( $this->_caseAction ) {
             eval('$this->_defaults += CRM_Case_Form_Activity_'. $this->_caseAction . '::setDefaultValues($this);');
         }
+
+		// custom data defaults
+		$this->_defaults += CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
         return $this->_defaults;
     }
     
@@ -299,8 +319,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
         }
-
+		
+		// build custom data	
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
+
         // we don't want to show button on top of custom form
         $this->assign('noPreCustomButton', true);
 
@@ -407,7 +429,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    { 
+    {  
         // skip form rule if deleting
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
@@ -416,7 +438,6 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         
         //FIX me temp. comment
         // make sure if associated contacts exist
-        require_once 'CRM/Contact/BAO/Contact.php';
         
         if ( $fields['source_contact_id'] && ! is_numeric($fields['source_contact_id'])) {
             $errors['source_contact_id'] = ts('Reported By contact does not exist. Please select a contact from the available options.');
@@ -442,7 +463,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("YmdhisA");
-        
+
         if( !CRM_Utils_Array::value( 'activity_date_time', $params ) ) {
             $params['activity_date_time'] = $params['now'];
         } 
@@ -455,26 +476,28 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             eval("CRM_Case_Form_Activity_{$this->_caseAction}" . "::beginPostProcess( \$this, \$params );");
         }
 
-        // edit existing case if needed
+        // store the dates with proper format
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
+        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
+        $params['activity_type_id']   = $this->_activityTypeId;
+        
+        // update existing case record if needed
         if ( $this->_caseAction ) {
             $params['id'] = $this->_id;
-            require_once 'CRM/Case/BAO/Case.php';
             if ( CRM_Utils_Array::value('case_type_id', $params ) ) {
                 $caseType = CRM_Core_OptionGroup::values('case_type');
                 $params['case_type'] = $caseType[$params['case_type_id']];
                 $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
                     $params['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
             }
-            $caseObj = CRM_Case_BAO_Case::create( $params );
+            // unset activity's status_id, subject and details so they aren't written case record
+            $caseParams = $params;
+            unset( $caseParams['subject'], $caseParams['details'], $caseParams['status_id'] );
+            $caseObj = CRM_Case_BAO_Case::create( $caseParams );
             $params['case_id'] = $caseObj->id;
-            // unset any ids, custom data
+            // unset any ids belonging to case, custom data
             unset($params['id'], $params['custom']);
         }
-
-        // store the date with proper format
-        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
-        $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
-        $params['activity_type_id']   = $this->_activityTypeId;
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
@@ -483,17 +506,15 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                 // new activity.
                 $activityId = $this->_activityId;
             }
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null, $activityId );
-                }
-            }
-            
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
+
+			// build custom data getFields array
+			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
+			$customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
+															CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, null, null, true ) );
+	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+	                                                                   $customFields,
+	                                                                   $activityId,
+	                                                                   'Activity' );
         }
 
         if ( isset($this->_activityId) ) { 
@@ -512,7 +533,7 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             }
             
             // record status for status msg
-            $recordStatus = 'edited';
+            $recordStatus = 'updated';
         }
         
         // call end post process
@@ -527,10 +548,10 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                                                  $params,
                                                  'civicrm_activity' );
         }
-
+      
         // activity create
         $activity = CRM_Activity_BAO_Activity::create( $params );
-        
+                
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
@@ -572,6 +593,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
                              'case_id'     => $this->_id   );
         CRM_Case_BAO_Case::processCaseActivity( $caseParams );
 
+        // create activity assignee records
+        $assigneeParams = array( 'activity_id' => $activity->id );
+        if (! empty($params['assignee_contact']) ) {
+            foreach ( $params['assignee_contact'] as $key => $id ) {
+                $assigneeParams['assignee_contact_id'] = $id;
+                CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
+            }
+        }
 
         // Insert civicrm_log record for the activity (e.g. store the
         // created / edited by contact id and date for the activity)
@@ -594,13 +623,12 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $followupParams                      = array( );
             $followupParams['parent_id']         = $activity->id;
             $followupParams['source_contact_id'] = $params['source_contact_id'];
-            $followupParams['subject']           = $params['subject'];
             $followupParams['status_id']         = 
                 CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
-            $followupParams['activity_type_id']  = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category',
-                                             $params['followup_activity'],
-                                             'id', 'label' );
+
+            $activityTypes = CRM_Case_PseudoConstant::activityType( );
+            $followupParams['activity_type_id']  = $activityTypes[$params['followup_activity']]['id'];
+
             CRM_Utils_Date::getAllDefaultValues( $currentDate );
             $followupParams['due_date_time']        = 
                 CRM_Utils_Date::intervalAdd($params['interval_unit'], 
@@ -608,9 +636,14 @@ class CRM_Case_Form_Activity extends CRM_Core_Form
             $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
 
             $followupActivity = CRM_Activity_BAO_Activity::create( $followupParams );
+
+            // create case activity record
+            $caseParams = array( 'activity_id' => $followupActivity->id,
+                                 'case_id'     => $this->_id   );
+            CRM_Case_BAO_Case::processCaseActivity( $caseParams );
         }
 
-        CRM_Core_Session::setStatus( ts("'%1' activity has been successfully %2. %3", 
+        CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3", 
                                         array('1' => $this->_activityTypeName, 
                                               '2' => $recordStatus, 
                                               '3' => $mailStatus)) );

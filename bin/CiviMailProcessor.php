@@ -35,17 +35,29 @@
 
 class CiviMailProcessor {
 
-    function process() {
-        // FIXME: make it depend on the configuration set passed as a param
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domain =& CRM_Core_BAO_Domain::getDomain();
-        $localpart = '';
-        $commonRegex = '/^' . preg_quote($localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($domain->email_domain) . '$/';
-        $subscrRegex = '/^' . preg_quote($localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($domain->email_domain) . '$/';
+    /**
+     * Process the mailbox defined by the named set of settings from civicrm_mail_settings
+     *
+     * @param string $name  name of the set of settings from civicrm_mail_settings (null for default set)
+     * @return void
+     */
+    static function process($name = null) {
+
+        require_once 'CRM/Core/DAO/MailSettings.php';
+        $dao = new CRM_Core_DAO_MailSettings;
+        $name ? $dao->name = $name : $dao->is_default = 1;
+        if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
+
+        // legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
+        $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
+        $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($dao->domain) . '$/';
+
+        // a common-for-all-actions regex to handle CiviCRM 2.2 address patterns
+        $regex = '/^' . preg_quote($dao->localpart) . '(b|c|e|o|r|u)\.(\d+)\.(\d+)\.([0-9a-f]{16})@' . preg_quote($dao->domain) . '$/';
 
         // retrieve the emails
         require_once 'CRM/Mailing/MailStore.php';
-        $store = CRM_Mailing_MailStore::getStore();
+        $store = CRM_Mailing_MailStore::getStore($name);
         $mails = $store->allMails();
 
         require_once 'api/Mailer.php';
@@ -54,11 +66,14 @@ class CiviMailProcessor {
             // for every addressee: match address elements if it's to CiviMail
             $matches = array();
             foreach ($mail->to as $address) {
-                if (preg_match($commonRegex, $address->email, $matches)) {
-                    list($match, $action, $domain, $job, $queue, $hash) = $matches;
+                if (preg_match($regex, $address->email, $matches)) {
+                    list($match, $action, $job, $queue, $hash) = $matches;
+                    break;
+                } elseif (preg_match($commonRegex, $address->email, $matches)) {
+                    list($match, $action, $_, $job, $queue, $hash) = $matches;
                     break;
                 } elseif (preg_match($subscrRegex, $address->email, $matches)) {
-                    list($match, $action, $domain, $group) = $matches;
+                    list($match, $action, $_, $job) = $matches;
                     break;
                 }
             }
@@ -114,7 +129,7 @@ class CiviMailProcessor {
                 break;
             case 's':
             case 'subscribe':
-                crm_mailer_event_subscribe($mail->from->email, $group);
+                crm_mailer_event_subscribe($mail->from->email, $job);
                 break;
             case 'u':
             case 'unsubscribe':
@@ -140,8 +155,10 @@ require_once 'CRM/Core/Lock.php';
 $lock = new CRM_Core_Lock('CiviMailProcessor');
 
 if ($lock->isAcquired()) {
-    $processor = new CiviMailProcessor;
-    $processor->process();
+    $names = is_array($_REQUEST['names']) ? $_REQUEST['names'] : array(null);
+    foreach ($names as $name) {
+        CiviMailProcessor::process($name);
+    }
 } else {
     throw new Exception('Could not acquire lock, another CiviMailProcessor process is running');
 }

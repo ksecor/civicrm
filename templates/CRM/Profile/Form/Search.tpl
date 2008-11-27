@@ -67,6 +67,10 @@
                          </tr>
                        </table> 
                     </td>
+		{elseif $n eq 'group'} 
+	 	 <td><table id="selector" class="selector" style="width:auto;">
+			<tr><td>{$form.$n.html}</td></tr>
+		 </table></td>
                 {else}
                     <td class="description">{$form.$n.html}</td>
                 {/if}
@@ -119,5 +123,10 @@
             hide('customGreeting');  
         }        
     }
+
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
+});
 </script>
 {/literal}

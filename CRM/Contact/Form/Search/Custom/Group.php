@@ -194,8 +194,9 @@ class CRM_Contact_Form_Search_Custom_Group
         $sql = " SELECT $selectClause $from WHERE  $where ";
         if ( ! $justIDs ) {
             $sql .= " GROUP BY contact_id ";  
-        }
-        // Define ORDER BY for query in $sort, with default value
+        } 
+
+       // Define ORDER BY for query in $sort, with default value
         if ( ! $justIDs ) {
             if ( ! empty( $sort ) ) {
                 if ( is_string( $sort ) ) {
@@ -207,6 +208,11 @@ class CRM_Contact_Form_Search_Custom_Group
                 $sql .= " ORDER BY contact_id ASC";
             }
         }
+
+        if ( $offset >= 0 && $rowcount > 0 ) {
+            $sql .= " LIMIT $offset, $rowcount ";
+        }
+
         return $sql;
         
     }

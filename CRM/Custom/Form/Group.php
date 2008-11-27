@@ -98,16 +98,22 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             $errors['style'] = ts("Display Style should be Inline for this Class");
         }
 
-        if ( $fields['is_multiple'] && isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
-             && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
-            $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
+        if ( $fields['is_multiple'] ) {
+            if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
+                 && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
+                $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
+            }
+            
+            if ( $fields['style'] == 'Inline' ) {
+                $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
+            }
         }
-
+        
         //checks the given custom group doesnot start with digit
         $title = $fields['title']; 
         if ( ! empty( $title ) ) {
-            $asciiValue = ord($title{0});//gives the ascii value
-            if($asciiValue>=48 && $asciiValue<=57) {
+            $asciiValue = ord( $title{0} );//gives the ascii value
+            if( $asciiValue >= 48 && $asciiValue <= 57 ) {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
@@ -154,15 +160,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                         array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );   
         
         //Fix for code alignment, CRM-3058
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once "CRM/Contribute/PseudoConstant.php";
+        require_once "CRM/Member/BAO/MembershipType.php";
         require_once 'CRM/Event/PseudoConstant.php';
-        require_once 'CRM/Contact/BAO/Relationship.php';
+        require_once "CRM/Contact/BAO/Relationship.php";
         require_once 'CRM/Core/OptionGroup.php';
         
         $sel1 = array( "" => "-- Select --" ) + CRM_Core_SelectValues::customGroupExtends( );
         $sel2 = array( );
-        $activityType    = CRM_Core_PseudoConstant::activityType( null, 'false' );
+        $activityType    = CRM_Core_PseudoConstant::activityType( false );
         $eventType       = CRM_Core_OptionGroup::values( 'event_type' );
         $membershipType  = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $participantRole = CRM_Core_OptionGroup::values( 'participant_role' );
@@ -184,7 +190,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         $sel2['Membership']           = array( "" => "-- Any --" ) + $membershipType;
         $sel2['ParticipantRole']      = array( "" => "-- Any --" ) + $participantRole;
         $sel2['ParticipantEventName'] = array( "" => "-- Any --" ) + CRM_Event_PseudoConstant::event( );
-        $sel2['ParticipantEventType'] = array( "" => "-- Any --" ) + $eventType;
+        //$sel2['ParticipantEventType'] = array( "" => "-- Any --" ) + $eventType;
         $sel2['Contribution']         = array( "" => "-- Any --" ) + CRM_Contribute_PseudoConstant::contributionType( );
         $sel2['Relationship']         = array( "" => "-- Any --" ) + $allRelationshipType;
         

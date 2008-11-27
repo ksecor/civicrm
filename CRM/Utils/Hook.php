@@ -53,7 +53,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 4, $op, $objectName, $objectId, $objectRef, $op, \'civicrm_pre\' );' );  
+                  '::invoke( 4, $op, $objectName, $id, $params, $op, \'civicrm_pre\' );' );  
     }
 
     /** 
@@ -235,6 +235,37 @@ class CRM_Utils_Hook {
             eval( 'return ' .
                   $config->userHookClass .
                   '::invoke( 3, $pageType, $form, $amount, $null, $null, \'civicrm_buildAmount\' );' );
+    }
+
+    static function tabs( &$tabs, $contactID ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 2, $tabs, $contactID, $null, $null, $null, \'civicrm_tabs\' );' );
+    }
+
+    static function tokens( &$tokens ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $tokens, $null, $null, $null, $null, \'civicrm_tokens\' );' );
+    }
+
+    static function tokenValues( &$details, &$contactIDs ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenValues\' );' );
     }
 
 }

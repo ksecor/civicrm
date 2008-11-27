@@ -47,7 +47,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      *
      */
     public $_defaultMemTypeId;
-    
+
+    protected $_defaults;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -57,6 +59,19 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function preProcess()  
     {  
         parent::preProcess( );
+
+        // make sure we have right permission to edit this user
+        $csContactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, false, $this->_userID );
+
+        require_once 'CRM/Contact/BAO/Contact.php';
+        if ( $csContactID != $this->_userID ) {
+            require_once 'CRM/Contact/BAO/Contact/Permission.php';
+            if ( CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $csContactID ) ) {
+                $session =& CRM_Core_Session::singleton( );
+                $session->set( 'userID', $csContactID ) ;
+                $this->_userID = $csContatcID;
+            }
+        }
 
         if (  CRM_Utils_Array::value( 'id', $this->_pcpInfo )  && CRM_Utils_Array::value( 'intro_text', $this->_pcpInfo ) ) {
             $this->assign( 'intro_text' , $this->_pcpInfo['intro_text'] );
@@ -75,15 +90,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
     function setDefaultValues( ) 
     {
-        // check if the user is registered and we have a contact ID
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
-        
-        if ( !$contactID ) {
-            //retrieve contact id from url if its send
-            $contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        // process defaults only once
+        if ( ! empty( $this->_defaults ) ) {
+            // return $this->_defaults;
         }
 
+        // check if the user is registered and we have a contact ID
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $this->_userID;
+        
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
@@ -170,7 +185,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2010', 'M' => '05' );
 
         //build set default for pledge overdue payment.
         if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
@@ -195,7 +210,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             //set default to one time contribution.
             $this->_defaults['is_pledge'] = 0;  
         }
-        
+
+        // now fix all state country selectors
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
+
         return $this->_defaults;
     }
 
@@ -214,11 +233,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         
          //build pledge block.
-        $session =& CRM_Core_Session::singleton( );
-        $this->_mid = null;
-        if ( $session->get('userID') ) {
-            $this->_mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-        }
+
         //don't build membership block when pledge_id is passed
         if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->_separateMembershipPayment = false;
@@ -286,9 +301,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         //to create an cms user 
-        $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get( 'userID' );
-        if ( ! $userID ) {
+        if ( ! $this->_userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
                 $profileID = $this->_values['custom_pre_id'];
@@ -308,7 +321,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_pcpId ) {
             require_once 'CRM/Contribute/BAO/PCP.php';
             if ( $pcpSupporter = CRM_Contribute_BAO_PCP::displayName( $this->_pcpId ) ) {
-                $this->assign( 'pcpSupporterText' , ts('This Personal Campaign Page of <strong>%1</stonrg>.',array(1 => $pcpSupporter ) ) );
+                $this->assign( 'pcpSupporterText' , ts('This contribution is being made thanks to effort of <strong>%1</strong>, who supports our campaign. You can support it as well - create your Personal Campaign Page now!', array(1 => $pcpSupporter ) ) );
             }
             $this->assign( 'pcp', true );
             $this->add( 'checkbox', 'pcp_display_in_roll', ts('Dispaly In Roll'), null );
@@ -448,6 +461,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
+        $countryDefault = $stateDefault   = null;
         if ( $this->_membershipContactID ) {
             // Setting location defaults for matching permissioned contact.
             // Setting it here since we require country & state
@@ -462,13 +476,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
 
-        $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
-        $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        if ( CRM_Utils_Array::value( 'location', $this->_defaults ) ){
+            $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
+            $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        }
         if ( isset($_POST['location'][1]['address']['country_state'][0]) ) {
             $countryDefault = $_POST['location'][1]['address']['country_state'][0];
             $stateDefault   = $_POST['location'][1]['address']['country_state'][1];
         }
-
+        
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
                                                          $countryDefault,
                                                          $stateDefault,

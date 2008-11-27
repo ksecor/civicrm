@@ -55,11 +55,18 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     static $caseType;
 
     /**
-     * category
+     * activity type
      * @var array
      * @static
      */
-    static $category;
+    static $activityType = array( );
+
+    /**
+     * case type
+     * @var array
+     * @static
+     */
+    static $caseTypePair = array( );
 
     /**
      * Get all the case statues
@@ -100,72 +107,87 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
     }
 
     /**
-     * Get all the category
+     * Get all Activty types for the CiviCase component
      *
-     * @params $onlyParent boolean true if parent needs to retrieved, false if you want children
+     * The static array activityType is returned
+     * @param boolean $indexName - true return activity name in array
+     * key else activity id as array key.
+     *
      * @access public
-     * @return array - array reference of all categories if any
      * @static
+     *
+     * @return array - array reference of all activty types.
      */
-    public static function category( $onlyParent  = true,
-                                     $returnValue = 'label',
-                                     $inputCond   = null ) {
-        if ( $onlyParent ) {
-            $cond = '(parent_id IS NULL)';
-            $index     = '1';
-        } else {
-            $cond = '(parent_id IS NOT NULL)';
-            $index     = '0';
-        }
+    public static function activityType( $indexName = true )
+    {
+        $indexName = (int) $indexName;
 
-        if ( $inputCond ) {
-            $cond .= " AND ($inputCond)";
+        if ( ! array_key_exists($indexName, self::$activityType) ) {
+            self::$activityType[$indexName] = array( );
+            require_once 'CRM/Core/OptionGroup.php';
+            $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component',
+                                                        'CiviCase',
+                                                        'id', 'name' );
+            
+            $query = "
+              SELECT  v.label as label ,v.value as value, v.name as name, v.description as description
+              FROM   civicrm_option_value v,
+                     civicrm_option_group g
+              WHERE  v.option_group_id = g.id
+                     AND  g.name         = 'activity_type'
+                     AND  v.is_active    = 1 
+                     AND  g.is_active    = 1 
+                     AND  v.component_id = {$componentId} ";
+            
+            $query .= "  ORDER BY v.weight";
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $$activityTypes = array();
+            
+            while( $dao->fetch() ) {
+                if ( $indexName ) {
+                    $index = $dao->name;
+                } else {
+                    $index = $dao->value;
+                }
+                $activityTypes[$index]['id']          = $dao->value; 
+                $activityTypes[$index]['label']       = $dao->label; 
+                $activityTypes[$index]['name']        = $dao->name;
+                $activityTypes[$index]['description'] = $dao->description;
+            }
+            self::$activityType[$indexName] = $activityTypes;
         }
-
-        $index .= "_$returnValue";
-
-        if ( ! self::$category ) {
-            self::$category = array( );
-        }
-
-        if ( ! CRM_Utils_Array::value( $index, self::$category ) ) {
-            self::$category[$index] = null;
-            CRM_Core_PseudoConstant::populate( self::$category[$index],
-                                               'CRM_Core_DAO_Category', true, $returnValue, 'is_active', $cond );
-        }
-        return self::$category[$index];
+        return self::$activityType[$indexName];
     }
 
-    static function categoryTree( $componentID ) {
-        $query = "
-SELECT     c.id as id, c.label as label, c.name as name,
-           p.id as p_id 
-FROM       civicrm_category c
-LEFT JOIN  civicrm_category p ON c.parent_id = p.id 
-WHERE      c.component_id = %1
-ORDER BY   p.id
-";
-        $params = array( 1 => array( $componentID, 'Integer' ) );
-        $dao = CRM_Core_DAO::executeQuery( $query, $params );
-
-        $tree  = $names = $labels = array( );
-        while ( $dao->fetch( ) ) {
-            $names [$dao->id] = $dao->name;
-            $labels[$dao->id] = $dao->label;
-            $parentName  = $dao->p_id  ? $names[$dao->p_id]  : 'Root Category';
-            $parentLabel  = $dao->p_id ? $labels[$dao->p_id] : 'Root Category';
-            if ( ! array_key_exists( $parentName, $tree ) ) {
-                $tree[$parentName] = array( );
-            }
-            $tree[$parentName][$dao->name] = array( 'id'          => $dao->id,
-                                                    'label'       => $dao->label,
-                                                    'name'        => $dao->name ,
-                                                    'parent'      => $dao->p_id ,
-                                                    'parentLabel' => $parentLabel );
+    /**
+     * Get the associated case type name/id, given a case Id
+     *
+     * @access public
+     * @return array - array reference of all case type name/id
+     * @static
+     */
+    public static function caseTypeName( $caseId )
+    {
+        if ( !$caseId ) {
+            return false;
         }
-	$names['id'] = null;
-        $tree['Root Category']['All Names'] = $names;
-        return $tree;
+        
+        if ( ! array_key_exists($caseId, self::$caseTypePair) ) {
+            $caseTypes    = self::caseType();
+            $caseTypeIds  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
+                                                         $caseId,
+                                                         'case_type_id' );
+            $caseTypeId   = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
+                                     trim($caseTypeIds, 
+                                          CRM_Case_BAO_Case::VALUE_SEPERATOR) );
+            $caseTypeId   = $caseTypeId[0];
+            
+            self::$caseTypePair[$caseId] = array( 'id'   => $caseTypeId,
+                                            'name' => $caseTypes[$caseTypeId] );
+        }
+
+        return self::$caseTypePair[$caseId];
     }
 
 }

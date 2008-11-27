@@ -63,7 +63,7 @@ SELECT   title, description
                 $this->assign( 'groupName', $dao->title );
                 CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $dao->title)));
             } else {
-                CRM_Core_Error::fatal( "The specified group is not configured for this action OR The group doesn't exist." );
+                CRM_Core_Error::statusBounce( "The specified group is not configured for this action OR The group doesn't exist." );
             }
 
             $this->assign( 'single', true  );

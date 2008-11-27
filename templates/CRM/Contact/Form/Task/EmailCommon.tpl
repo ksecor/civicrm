@@ -1,31 +1,46 @@
 {*common template for compose mail*}
-<dl>
-  <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
-  <dt>{$form.token1.label}<br />{help id="id-token-text"}</dt>
-    <dd>{$form.token1.html}</dd>
-  <dt>{$form.text_message.label}<br />{help id="id-message-text"}</dt>
-    <dd>{$form.text_message.html}</dd></dl>
-  <dt>{$form.token2.label}<br />{help id="id-token-html"}</dt>
-    <dd>{$form.token2.html}</dd>
-  <dt>{$form.html_message.label}</dt>
-    <dd>{$form.html_message.html}</dd>
+<table class="form-layout">
+    <tr>
+        <td class="label-left">{$form.template.label}</td><td>{$form.template.html}</td>
+    </tr>
+    <tr>
+        <td class="label-left">{$form.token1.label} {help id="id-token-text"}</td>
+        <td>{$form.token1.html}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$form.text_message.label} {help id="id-message-text"}<br />
+            {$form.text_message.html}
+        </td>
+    </tr>
+    <tr>
+        <td class="label-left">{$form.token2.label} {help id="id-token-html"}</td>
+        <td>{$form.token2.html}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$form.html_message.label}<br />
+            {$form.html_message.html}
+        </td>
+    </tr>
+</table>
 
 {if ! $noAttach}
-<div class="spacer"></div>
-{include file="CRM/Form/attachment.tpl"}
+    <div class="spacer"></div>
+    {include file="CRM/Form/attachment.tpl"}
 {/if}
+
 <div class="spacer"></div>
+
 <div id="editMessageDetails">
-<dl id="updateDetails" >
-    <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
-</dl><dl>
-    <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
-</dl>
+    <div id="updateDetails" >
+        {$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}
+    </div>
+    <div>
+        {$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+    </div>
 </div>
+
 <div id="saveDetails">
-<dl>
-    <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
-</dl>
+    {$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}
 </div>
 
 {literal}

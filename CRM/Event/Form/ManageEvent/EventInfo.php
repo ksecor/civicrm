@@ -238,32 +238,13 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
         $params['id']              = $this->_id;
 
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Event', null, $this->_id);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Event', false, false, 
                                                              CRM_Utils_Array::value( 'event_type_id', $params ) );
-        
-        if ( ! empty( $customFields ) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val['html_type'], array ('CheckBox', 'Multi-Select', 'Radio') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Event', null, $this->_id);
-                }
-            }
-        }
-        
+        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                   $customFields,
+                                                                   $this->_id,
+                                                                   'Event' );
+
         require_once 'CRM/Event/BAO/Event.php';
         $event =  CRM_Event_BAO_Event::create( $params );
         

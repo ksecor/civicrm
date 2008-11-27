@@ -141,6 +141,19 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $controller->setEmbedded( true );
                 $controller->run( );
             }
+        } else if ( $this->_action & CRM_Core_Action::RENEW ) {
+            //archive this mailing, CRM-3752.
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                //set is_archived to 1
+                CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Mailing', $this->_mailingId, 'is_archived', true );
+                CRM_Utils_System::redirect($context);
+            } else {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
+                                                               ts('Archive Mailing'),
+                                                               $this->_action );
+                $controller->setEmbedded( true );
+                $controller->run( );
+            }
         }
         
         $selector =& new CRM_Mailing_Selector_Browse( );
@@ -154,38 +167,39 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
         $controller->run( );
-        $scheduled = null;
-        // hack to display results as per search
+        
+        //hack to display results as per search
         $rows = $controller->getRows($controller);
-        $notScheduled = array();
-        foreach ($rows as $key => $val) {
-            if ($val['status'] == 'Not scheduled') {
+        
+        $notScheduled = $archived = $scheduled = array( );
+        foreach ( $rows as $key => $val ) {
+            if ( $val['archived'] ) {
+                $archived[] = $val;
+            } else if ( $val['status'] == 'Not scheduled' ) {
                 $notScheduled[] = $val;
             } else {
                 $scheduled[] = $val;
             }
         }
         
-        $unscheduled = false;
-        if ( isset($newArgs[3]) && ($newArgs[3]== 'unscheduled') ) {
-            $unscheduled = true;
-            CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
-            $this->assign('rows', $notScheduled);
-            $this->assign('unscheduled', $unscheduled);
-        } else {
-            CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
-            $this->assign('rows', $scheduled);
-        }
-        
-        //fixed for CRM-3834
         $urlParams = 'reset=1';
         $urlString = 'civicrm/mailing/browse';
-        if ( $unscheduled ) {
+        if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'unscheduled' ) {
             $urlString .= '/unscheduled';
             $urlParams .= '&scheduled=false';
+            $this->assign('unscheduled', true );
+            $this->assign('rows', $notScheduled );
+            CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
+        } else if ( CRM_Utils_Array::value( 3,  $newArgs ) == 'archived' ) {
+            $urlString .= '/archived';
+            $this->assign('archived', true );
+            $this->assign('rows', $archived );
+            CRM_Utils_System::setTitle(ts('Archived Mailings'));
         } else {
             $urlString .= '/scheduled';
             $urlParams .= '&scheduled=true';
+            $this->assign('rows', $scheduled);
+            CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
         }
         
         $session =& CRM_Core_Session::singleton( );

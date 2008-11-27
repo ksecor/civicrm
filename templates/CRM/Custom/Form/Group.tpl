@@ -14,13 +14,13 @@
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Select the type of record that this group of custom fields is applicable for. You can configure custom data for a specific type of contact (e.g. Individuals but NOT Organizations), ANY type of contact, or other record types such as activities and contributions.{/ts}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which custom data groups are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-    <dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label}</dd>
-    <div id="multiple">
-    <dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>
-    <dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html}</dd>
-    </div>
     </dl>
     <dl id="style">
+    <dt>&nbsp;</dt><dd>{$form.is_multiple.html}&nbsp;{$form.is_multiple.label}</dd>	
+    <div id="multiple">
+    	<dt>{$form.min_multiple.label}</dt><dd>{$form.min_multiple.html}</dd>
+        <dt>{$form.max_multiple.label}</dt><dd>{$form.max_multiple.html}</dd>
+    </div>
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Select 'Inline' to include this group of fields in the main contact Add/Edit form and Contact Summary screens. Select 'Tab' to create a separate navigation tab for display and editing these values (generally for less frequently accessed and/or larger sets of fields). <strong>NOTE: This setting applies to custom groups used for Contact records only.</strong>{/ts}</dd>
     </dl>

@@ -55,19 +55,32 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
     function preProcess( ) 
     {
         CRM_Utils_System::setTitle( ts('CiviCase Dashboard') );
-        
+        $allCases = CRM_Utils_Request::retrieve( 'all', 'Positive',
+                                                   CRM_Core_DAO::$_nullObject );
+        $session = & CRM_Core_Session::singleton();
+        $userID  = $session->get('userID');
+        if ( ! $allCases ) {
+            $this->assign('myCases', true );
+            $allCases = false;
+        } else {
+            $this->assign('myCases', false );
+            $allCases = true;
+        }
         require_once 'CRM/Case/BAO/Case.php';
         $summary  = CRM_Case_BAO_Case::getCasesSummary( );
-        $upcoming = CRM_Case_BAO_Case::getUpcomingCases( );
-        $recent   = CRM_Case_BAO_Case::getRecentCases( );
-
+        $upcoming = CRM_Case_BAO_Case::getCases( $allCases, $userID, $type = 'upcoming');
+        $recent   = CRM_Case_BAO_Case::getCases( $allCases, $userID, $type = 'recent');
+        
         $this->assign('casesSummary',  $summary);
-        $this->assign('upcomingCases', $upcoming);
-        $this->assign('recentCases',   $recent);
+        if( !empty( $upcoming ) ) {
+            $this->assign('upcomingCases', $upcoming);
+        }
+        if( !empty( $recent ) ) {
+            $this->assign('recentCases',   $recent);
+        }
         
         // Retrieve the activity type id for "Open Case" so we can use it for New Case for New Client link
-        $this->_openCaseId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', 'Open Case', 
-                                                          'id', 'name' );
+        $this->_openCaseId         = CRM_Core_OptionGroup::getValue( 'activity_type', 'Open Case', 'name' );
         $this->assign( 'openCaseId', $this->_openCaseId);
     }
     

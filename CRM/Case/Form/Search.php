@@ -319,6 +319,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
+        if ( ! $this->_formValues['case_owner'] && ! $this->_force ) {
+            $session = & CRM_Core_Session::singleton();
+            $this->_formValues['case_owner']  = $session->get('userID');
+        } else {
+            unset( $this->_formValues['case_owner'] );
+        } 
+
         require_once 'CRM/Core/BAO/CustomValue.php';
         CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
 
@@ -430,6 +437,19 @@ class CRM_Case_Form_Search extends CRM_Core_Form
     {
         if ( ! $this->_force ) {
             return;
+        }
+
+        $caseStatus = CRM_Utils_Request::retrieve( 'status', 'Positive',
+                                                   CRM_Core_DAO::$_nullObject );
+        if ( $caseStatus ) {
+            $this->_formValues['case_status_id'] = $caseStatus;
+            $this->_defaults['case_status_id']   = $caseStatus;
+        }
+        $caseType    = CRM_Utils_Request::retrieve( 'type', 'Positive',
+                                                    CRM_Core_DAO::$_nullObject );
+        if ( $caseType ) {
+            $this->_formValues['case_type_id'][0] = $caseType;
+            $this->_defaults['case_type_id'][0]   = $caseType;
         }
               
         $caseFromDate = CRM_Utils_Request::retrieve( 'pstart', 'Date',

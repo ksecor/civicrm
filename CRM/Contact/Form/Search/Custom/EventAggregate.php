@@ -63,7 +63,7 @@ implements CRM_Contact_Form_Search_Interface {
          * You can define a custom title for the search form
          */
         $this->setTitle('Find Totals for Events');
-        
+                
         /**
          * Define the search form fields here
          */
@@ -169,7 +169,7 @@ implements CRM_Contact_Form_Search_Interface {
         }
         
         // Uncomment the next line to see the actual SQL generated:
-        //CRM_Core_Error::debug('sql',$sql); exit();
+        //CRM_Core_Error::debug('sql',$sql); exit();  
         return $sql;
     }
     
@@ -245,7 +245,7 @@ implements CRM_Contact_Form_Search_Interface {
     /* This function does a query to get totals for some of the search result columns and returns a totals array. */   
     function summary( ) {
         $totalSelect = "
-        SUM(civicrm_contribution.total_amount) as payment_amount,
+        SUM(civicrm_contribution.total_amount) as payment_amount,COUNT(civicrm_participant.id) as participant_count,
         format(sum(if(civicrm_contribution.payment_instrument_id <>0,(civicrm_contribution.total_amount *.034) +.45,0)),2) as fee,
         format(sum(civicrm_contribution.total_amount - (if(civicrm_contribution.payment_instrument_id <>0,(civicrm_contribution.total_amount *.034) +.45,0))),2) as net_payment";
         
@@ -267,8 +267,8 @@ implements CRM_Contact_Form_Search_Interface {
         FROM    $from
         WHERE   $where
         ";
-        
-        //CRM_Core_Error::debug('sql',$sql);
+
+        //CRM_Core_Error::debug('sql',$sql);       
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
         $totals = array();
@@ -276,6 +276,7 @@ implements CRM_Contact_Form_Search_Interface {
             $totals['payment_amount'] = $dao->payment_amount;
             $totals['fee'] = $dao->fee;
             $totals['net_payment'] = $dao->net_payment;
+            $totals['participant_count'] = $dao->participant_count;
         }
         return $totals;
     }

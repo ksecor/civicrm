@@ -184,4 +184,11 @@
        <key>id</key>
        <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>
+       <name>is_archived</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this mailing archived?</comment>
+       <add>2.2</add>
+  </field>
 </table>

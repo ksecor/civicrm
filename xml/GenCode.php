@@ -250,7 +250,10 @@ if (isset($argv[2]) and $argv[2] != '') {
 file_put_contents("$tplCodePath/CRM/common/version.tpl", $svnversion);
 
 // unlink the templates_c directory
-system( "rm -rf {$tempDir}/templates_c" );
+foreach(glob($tempDir . '/templates_c/*') as $tempFile) {
+  unlink($tempFile);
+}
+rmdir($tempDir . '/templates_c');
 
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );

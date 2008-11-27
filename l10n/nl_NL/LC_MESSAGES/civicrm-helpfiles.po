@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
 "PO-Revision-Date: 2008-09-28 03:15-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1069,10 +1069,6 @@ msgstr ""
 "machine waar dat domein MX record naar verwijst) moet ingesteld zijn om "
 "inkomende mails van CiviMail af te handelen (het moet acties als aanmelden "
 "en afmelden afhandelen)."
-
-#: templates/CRM/Contact/Form/Domain.hlp
-msgid "Opens documentation in a new window."
-msgstr "Toont documentatie op een nieuw scherm."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Read more"
@@ -2727,3 +2723,6 @@ msgid ""
 "generation. Submitting a stand-alone form with CAPTCHA included will always "
 "result in a CAPTCHA validation error."
 msgstr ""
+
+#~ msgid "Opens documentation in a new window."
+#~ msgstr "Toont documentatie op een nieuw scherm."

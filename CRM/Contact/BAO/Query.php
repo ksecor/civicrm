@@ -263,6 +263,13 @@ class CRM_Contact_BAO_Query
      */
     public $_distinctComponentClause;
 
+  /**
+     * use groupBy component clause for component searches
+     *
+     * @var string
+     */
+    public $_groupByComponentClause;
+
     /**
      * The tables which have a dependency on location and/or address
      *
@@ -345,7 +352,13 @@ class CRM_Contact_BAO_Query
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
-            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
+            if ( array_key_exists( 'activity_role', $_POST ) ) {
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
+            }
+            if ( array_key_exists( 'relation_status', $_POST ) ) {
+                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Relationship'));
+            }
+
             $this->_fields = array_merge( $this->_fields, $fields );
            
         }
@@ -666,10 +679,14 @@ class CRM_Contact_BAO_Query
             $addAddress = false;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
-                $elementName = $elementFullName;
-
+                $elementName = $elementCmpName = $elementFullName;
+                
+                if(substr($elementCmpName, 0, 5) == 'phone'){
+                    $elementCmpName = 'phone';
+                }
+                
                 //add address table only once
-                if ( in_array( $elementName, self::$_locationSpecificFields ) && ! $addAddress ) {
+                if ( in_array( $elementCmpName, self::$_locationSpecificFields ) && ! $addAddress ) {
                     $tName = "$name-address";
                     $aName = "`$name-address`";
                     $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
@@ -686,9 +703,11 @@ class CRM_Contact_BAO_Query
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
                     
-                    $cond = self::getPrimaryCondition( $elementType );
+                    if( $elementName != 'phone' ){
+                        $cond = self::getPrimaryCondition( $elementType );
+                    }
                     if ( ! $cond ) {
-                        $cond = "phone_type = '$elementType'";
+                        $cond = "phone_type_id = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }
@@ -705,9 +724,19 @@ class CRM_Contact_BAO_Query
                             $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
                         }
                     } else if ( is_numeric( $name ) ) {
-                        $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields ); 
+                        //this for phone type to work
+                        if ( $elementName == "phone" ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary" . $elementType, $this->_fields );
+                        } else {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields );
+                        }
                     } else {
-                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                        //this is for phone type to work for profile edit
+                        if ( $elementName == "phone" ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                        } else {
+                            $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                        }
                     }
                 }
 
@@ -881,13 +910,16 @@ class CRM_Contact_BAO_Query
                     }
                 }
             }
-            if ( $this->_useDistinct ) {
+            if ( $this->_useDistinct && !isset( $this->_distinctComponentClause) ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
-            } elseif ( isset( $this->_distinctComponentClause)  ) {
-                $this->_select['case_id'] = $this->_distinctComponentClause;
+            } 
+
+            $select = "SELECT ";
+            if ( isset( $this->_distinctComponentClause)  ) {
+                $select .= "{$this->_distinctComponentClause}, ";
             }
             
-            $select = 'SELECT ' . implode( ', ', $this->_select );
+            $select .= implode( ', ', $this->_select );
             $from = $this->_fromClause;
 
         }
@@ -1080,12 +1112,12 @@ class CRM_Contact_BAO_Query
         case 'activity_date_high':
         case 'activity_type_id':
         case 'activity_role':
-          
         case 'activity_status':
         case 'activity_subject':
         case 'test_activities':    
             $this->activity( $values );
             return;
+
         case 'activity_target_name':
             // since this case is handled with the above
             return;
@@ -2316,17 +2348,13 @@ WHERE  id IN ( $groupIDs )
         $this->_tables['civicrm_address' ] = $this->_whereTables['civicrm_address' ] = 1;
 
         if ( $name == 'postal_code' ) {
-            $this->_where[$grouping][] = "{$field} {$op} '" . $val ."'"; 
+            $this->_where[$grouping][] = "{$field} {$op} '$val'"; 
             $this->_qill[$grouping][] = ts('Postal code') . " - '$value'";
         } else if ( $name =='postal_code_low') { 
-            $this->_where[$grouping][] = ' (' . $field . ' >= "' .
-                $val . 
-                '" ) ';
+            $this->_where[$grouping][] = " ( $field >= '$val' ) ";
             $this->_qill[$grouping][] = ts('Postal code greater than or equal to \'%1\'', array( 1 => $value ) );
         } else if ( $name == 'postal_code_high' ) {
-            $this->_where[$grouping][] = ' (' . $field . ' <= "' .
-                $val .
-                '" ) ';
+            $this->_where[$grouping][] = " ( $field <= '$val' ) ";
             $this->_qill[$grouping][] = ts('Postal code less than or equal to \'%1\'', array( 1 => $value ) );
         }
     }
@@ -2482,7 +2510,7 @@ WHERE  id IN ( $groupIDs )
              
             //for activity target name
             $activityTargetName = $this->getWhereValues( 'activity_target_name', $grouping );
-            if ( !$activityTargetName[2] ) {
+            if ( ! $activityTargetName[2] ) {
                 $name = null;
             } else {
                 $name = trim( $activityTargetName[2] );
@@ -3042,10 +3070,13 @@ WHERE  id IN ( $groupIDs )
 
         // building the query string
         $groupBy = null;
-        if ( ! $count &&
-             $this->_useGroupBy ) {
-            $groupBy = ' GROUP BY contact_a.id';
-        }
+        if ( ! $count ) {
+			if ( isset( $this->_groupByComponentClause ) ) {
+				$groupBy = $this->_groupByComponentClause;
+			} else if ( $this->_useGroupBy ) {
+				$groupBy = ' GROUP BY contact_a.id';
+			}
+		}	
 
         $query = "$select $from $where $groupBy $order $limit";
         //CRM_Core_Error::debug('query', $query);

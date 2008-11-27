@@ -79,15 +79,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             if ( $id != $userID ) {
                 require_once 'CRM/Contact/BAO/Contact/Permission.php';
-                if ( ! CRM_Contact_BAO_Contact_Permission::allow( $id, CRM_Core_Permission::EDIT ) ) {
-                    // check if this is of the format cs=XXX
-                    $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
-                    if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $id, $cs ) ) {
-                        $config =& CRM_Core_Config::singleton( );
-                        CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
-                                                     $config->userFrameworkBaseURL );
-                    }
-                }
+                CRM_Contact_BAO_Contact_Permission::validateChecksumContact( $id );
             }
         }
 
@@ -128,8 +120,10 @@ SELECT module
         $ufGroup =& new CRM_Core_DAO_UFGroup( );
         
         $ufGroup->id = $this->_gid;
-        $ufGroup->find(true);
-
+        if ( ! $ufGroup->find(true) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
         // set the title
         CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
@@ -183,7 +177,7 @@ SELECT module
         }
 
         parent::buildQuickForm( );
-        
+
         //get the value from session, this is set if there is any file
         //upload field
         $uploadNames = $this->get('uploadNames');

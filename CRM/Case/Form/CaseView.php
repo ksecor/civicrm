@@ -34,6 +34,9 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once "CRM/Core/PseudoConstant.php";
+require_once "CRM/Case/PseudoConstant.php";
+require_once 'CRM/Case/XMLProcessor/Process.php';
 
 /**
  * This class generates view mode for CiviCase
@@ -51,7 +54,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
     {
         $this->_contactID = $this->get('cid');
         $this->_caseID    = $this->get('id');
-        
+
         $this->assign( 'caseID', $this->_caseID );
         $this->assign( 'contactID', $this->_contactID );
 
@@ -63,30 +66,19 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $values ) );
 
-        require_once "CRM/Case/PseudoConstant.php";
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
-        $caseTypes = CRM_Case_PseudoConstant::caseType( );
+        $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );
 
-        $caseType = null;
-        foreach( $values['case_type_id'] as $value ) {
-            if ( $value ) {
-                if ( $caseType ) {
-                    $caseType .= ", ";
-                }
-                $caseType .= $caseTypes[$value];
-            }
-        }
-
-        $this->_caseDetails = array( 'case_type'    => $caseType,
+        $this->_caseDetails = array( 'case_type'    => $caseType['name'],
                                      'case_status'  => $statuses[$values['case_status_id']],
                                      'case_subject' => $values['subject']
                               );
-        
+        $this->_caseType = $caseType['name'];
         $this->assign ( 'caseDetails', $this->_caseDetails );
-
+        
         $newActivityUrl = 
             CRM_Utils_System::url( 'civicrm/case/activity', 
-                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&selectedChild=activity&atype=", 
+                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&atype=", 
                                    false, null, false ); 
         $this->assign ( 'newActivityUrl', $newActivityUrl );
 
@@ -136,42 +128,16 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        require_once 'CRM/Case/XMLProcessor/Process.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $caseRoles    = $xmlProcessor->get( $this->_caseDetails['case_type'], 'CaseRoles' );
+        $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
+        $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
-        $reports = $xmlProcessor->get( $this->_caseDetails['case_type'], 'ActivitySets' );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
-
-        require_once "CRM/Case/PseudoConstant.php";
-        require_once 'CRM/Core/Component.php';
-        $condition = "(component_id = " . CRM_Core_Component::getComponentID( 'CiviCase' ) . ")";
-        $parentCategories = CRM_Case_PseudoConstant::category( true, 'label',
-                                                               $condition );
-        $childCategories  = CRM_Case_PseudoConstant::category( false, 'label',
-                                                               $condition );
-        $childParentIds   = CRM_Case_PseudoConstant::category( false, 'parent_id',
-                                                               $condition );
-
-        $sel =& $this->addElement('hierselect', "category", ts('Category'), array( 'id' => 'category' ) );
-
-        $sel1 = array( "0" => ts(' - any category - ') ) + $parentCategories;
-        $sel2 = array( );
+        $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
+                           array( 'class'   => 'form-submit',
+                                  'onclick' => "return verifyActivitySet( );") ); 
         
-        foreach( $childParentIds as $childId => $parentId ) {
-            if ( empty( $sel2[$parentId] ) ) {
-                $sel2[$parentId][0] = ts(' - any activity type - ');
-            }
-            
-            $sel2[$parentId][$childId] = $childCategories[$childId];
-        }
-        
-        $sel2 = array( "0" => array( "0" => ts(' - any activity type - ') ) ) + $sel2;
-        
-        $sel->setOptions( array( $sel1, $sel2 ) );
-
-        require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
 
@@ -215,6 +181,43 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                   )
                           );
     }
+
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess()
+    {
+        $params = $this->controller->exportValues( $this->_name );
+                      
+        // user context
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
+                                      "reset=1&action=view&cid={$this->_contactID}&id={$this->_caseID}&show=1" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
+
+        if ( CRM_Utils_Array::value( 'timeline_id', $params ) && 
+             CRM_Utils_Array::value( '_qf_CaseView_next', $_POST ) ) {
+            $session    =& CRM_Core_Session::singleton();
+            $this->_uid = $session->get('userID');
+            $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+            $xmlProcessorParams = array( 
+                                        'clientID'           => $this->_contactID,
+                                        'creatorID'          => $this->_uid,
+                                        'standardTimeline'   => 0,
+                                        'dueDateTime'        => time( ),
+                                        'caseID'             => $this->_caseID,
+                                        'caseType'           => $this->_caseType,
+                                        'activitySetName'    => $params['timeline_id'] 
+                                        );
+            $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
+            $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
+            
+            CRM_Core_Session::setStatus( ts('Activities has been added for %1 activity set', 
+                                            array( 1 => $reports[$params['timeline_id']] ) ) );
+        }
+    }
 }
-
-

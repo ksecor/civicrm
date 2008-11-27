@@ -116,11 +116,10 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
-        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-        
+
         $this->applyFilter('__ALL__', 'trim');
         
         $this->add('text',
@@ -150,12 +149,27 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                    true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
-        $enabled = $this->add('checkbox', 'is_active', ts('Enabled?'));
-
         $isReserved = false;
         if ($this->_id) {
             $isReserved = (bool) CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved');
         }
+
+        // If CiviCase enabled AND "Add" mode OR "edit" mode for non-reserved activities, only allow user to pick Core or CiviCase component.
+        // FIXME: Each component should define whether adding new activity types is allowed.
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if ($this->_gName == 'activity_type' && in_array("CiviCase", $config->enableComponents) &&
+            ( ($this->_action & CRM_Core_Action::ADD) || ! $isReserved ) ) {
+                require_once 'CRM/Core/Component.php';
+                $caseID = CRM_Core_Component::getComponentID('CiviCase');
+                $components   = array( '' => ts( 'Core' ), $caseID => 'CiviCase' );
+                $this->add( 'select',
+                            'component_id',
+                            ts( 'Component' ),
+                            array( '' => ts( 'Core' ) ) + $components, false );
+        }
+
+        $enabled = $this->add('checkbox', 'is_active', ts('Enabled?'));
         
         if ($isReserved) {
             $enabled->freeze();

@@ -5,57 +5,45 @@
   <ActivityTypes>
     <ActivityType>
       <name>Open Case</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
       <name>Presenting Problem</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
       <name>Type of Service</name>
-      <category>Case History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
       <name>Regulatory Involvement</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Change Case Type</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Change Case Status</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Outbound Referral</name>
-      <category>Case History</category>
     </ActivityType>
     <ActivityType>
       <name>Medication and Drug Use</name>
-      <category>Medications and Substance Use</category>
-     </ActivityType>
+    </ActivityType>
     <ActivityType>
       <name>Current Work Status</name>
-      <category>Occupational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
       <name>Current Prescribing Privileges</name>
-      <category>Occupational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
       <name>Current MAIN Practice Setting</name>
-      <category>Occupational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
     <ActivityType>
       <name>Professional School</name>
-      <category>Educational History</category>
       <max_instances>1</max_instances>
     </ActivityType>
   </ActivityTypes>
@@ -68,29 +56,22 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
-          <category>Case History</category>
         </ActivityType>
         <ActivityType>
           <name>Presenting Problem</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Medication and Drug Use</name>
-          <category>Medications and Substance Use</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Current Prescribing Privileges</name>
-          <category>Occupational History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
@@ -103,25 +84,19 @@
       <ActivityTypes>
         <ActivityType>
           <name>Presenting Problem</name>
-          <category>Case History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Medication and Drug Use</name>
-          <category>Medications and Substance Use</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Current Prescribing Privileges</name>
-          <category>Occupational History</category>
           <reference_activity>Open Case</reference_activity>
-          <reference_category>Case History</reference_category>
           <reference_offset>5</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>

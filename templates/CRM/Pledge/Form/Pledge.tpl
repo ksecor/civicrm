@@ -75,12 +75,8 @@
         
 	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
+		<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr>
        </table>
-   
-      <div id="customData"></div>
-       {*include custom data js file*}
-       {include file="CRM/common/customData.tpl"}
-
 
 {* dojo pane *}
 <div class="form-item" id="additionalInformation">

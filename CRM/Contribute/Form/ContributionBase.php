@@ -162,6 +162,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @public
      */
     public $_greetingTypeValue;
+
+    protected $_userID;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -187,19 +190,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $session->set( 'pastContributionID', $this->_id );
         }
 
-        if ( $session->get('userID') ) {
-            $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-            if ( $mid ) {
+        $this->_userID = $session->get('userID');
+        $this->_mid = null;
+        if ( $this->_userID ) {
+            $this->_mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
+            if ( $this->_mid ) {
                 require_once 'CRM/Member/DAO/Membership.php';
                 $membership =& new CRM_Member_DAO_Membership( );
                 $membership->id = $mid;
                 
                 if ( $membership->find(true) ) {
                     $this->_defaultMemTypeId = $membership->membership_type_id;
-                    if ( $membership->contact_id != $session->get('userID') ) {
+                    if ( $membership->contact_id != $this->_userID ) {
                         require_once 'CRM/Contact/BAO/Relationship.php';
                         $employers = 
-                            CRM_Contact_BAO_Relationship::getPermissionedEmployer( $session->get('userID') );
+                            CRM_Contact_BAO_Relationship::getPermissionedEmployer( $this->_userID );
                         if ( array_key_exists($membership->contact_id, $employers) ) {
                             $this->_membershipContactID = $membership->contact_id;
                             $this->assign('membershipContactID', $this->_membershipContactID);
@@ -605,11 +610,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */ 
     function buildCustom( $id, $name, $viewOnly = false ) 
     {
+        $stateCountryMap = array( );
+
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' );
+            $contactID = $this->_userID;
             
             // we don't allow conflicting fields to be
             // configured via profile - CRM 2100
@@ -657,12 +664,25 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                         // ignore file upload fields
                         continue;
                     }
+
+                    list( $prefixName, $index ) = CRM_Utils_System::explode( '-', $key, 2 );
+                    if ( $prefixName == 'state_province' || $prefixName == 'country' ) {
+                        if ( ! array_key_exists( $index, $stateCountryMap ) ) {
+                            $stateCountryMap[$index] = array( );
+                        }
+                        $stateCountryMap[$index][$prefixName] = $key;
+                    }
+            
                     CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE);
                     $this->_fields[$key] = $field;
                     if ( $field['add_captcha'] ) {
                         $addCaptcha = true;
                     }
                 }
+
+                require_once 'CRM/Core/BAO/Address.php';
+                CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
+
 
                 if ( $addCaptcha &&
                      ! $viewOnly ) {
@@ -705,10 +725,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $returnProperties = array('contact_id', 'status_id');
         CRM_Core_DAO::commonRetrieve('CRM_Pledge_DAO_Pledge', $pledgeParams, $pledgeValues, $returnProperties );
         
-        //get user id.
-        $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get('userID');
-        
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
@@ -717,8 +733,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                               array_search( 'Overdue', $allStatus ), );
         
         $validUser = false;
-        if ( $userID &&
-             $userID == $pledgeValues['contact_id'] ) {
+        if ( $this->_userID &&
+             $this->_userID == $pledgeValues['contact_id'] ) {
             //check for authenticated  user. 
             $validUser = true;
         } else if ( $userChecksum && $pledgeValues['contact_id'] ) {

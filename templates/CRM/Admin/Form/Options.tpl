@@ -32,6 +32,9 @@
             <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
         {/if} 
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+        {if $form.component_id.html} {* Component ID is exposed for activity types if CiviCase is enabled. *}
+            <dt>{$form.component_id.label}</dt><dd>{$form.component_id.html}</dd>
+        {/if}
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         {if $showDefault}
             <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>

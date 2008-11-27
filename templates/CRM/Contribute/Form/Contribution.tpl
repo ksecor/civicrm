@@ -108,8 +108,20 @@
       </table>
 
     <div id="customData"></div>
-    {*include custom data js file*}
-    {include file="CRM/common/customData.tpl"}
+	{*include custom data js file*}
+	{include file="CRM/common/customData.tpl"}
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				{/literal}
+				buildCustomData( '{$customDataType}' );
+				{if $customDataSubType}
+					buildCustomData( '{$customDataType}', {$customDataSubType} );
+				{/if}
+				{literal}
+			});
+		</script>
+	{/literal}	
 
 <div class="form-item" id="additionalInformation">
    {* Additional Detail / Honoree Information / Premium Information  Fieldset *}

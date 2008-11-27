@@ -5,6 +5,17 @@ require_once 'api/v2/Group.php';
 class TestOfGroupGetAPIV2 extends CiviUnitTestCase 
 {
     protected $_groupID;
+
+    
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Group Get',
+                     'description' => 'Test all Group Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+        
     function setUp() 
     {
        $this->_groupID = $this->groupCreate();
@@ -18,8 +29,8 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     function testGetGroupEmptyParams( )
     {
         $params = '';
-        $group = civicrm_groups_get( $params );
-                
+        $group = civicrm_group_get( $params );
+        
         $this->assertEqual( $group['error_message'], 'Params should be array' );        
     }
     
@@ -27,7 +38,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         
-        $group = civicrm_groups_get( $params );
+        $group = civicrm_group_get( $params );
         
         $this->assertNotNull( count( $group ) );
         $this->assertEqual( $group[$this->_groupID]['name'], 'Test Group 1' );
@@ -39,8 +50,8 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $params['id'] = $this->_groupID;
-        $group =&civicrm_groups_get( $params );
-    
+        $group =&civicrm_group_get( $params );
+        
         foreach( $group as $v){
             $this->assertEqual( $v['name'],'Test Group 1' );
             $this->assertEqual( $v['title'],'New Test Group Created' );
@@ -48,16 +59,13 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
             $this->assertEqual( $v['is_active'], 1 );
             $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
         }
-        
-        
-        
     }
 
     function testGetGroupParamsWithGroupName( ) 
     {
         $params         = array( );
         $params['name'] = 'Test Group 1'; 
-        $group =&civicrm_groups_get( $params );
+        $group =&civicrm_group_get( $params );
  
         foreach( $group as $v){
             $this->assertEqual( $v['id'], $this->_groupID );
@@ -74,7 +82,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params          = array( );
         $params['title'] = 'New Test Group Created'; 
-        $group =&civicrm_groups_get( $params );
+        $group =&civicrm_group_get( $params );
        
         foreach( $group as $v){
             $this->assertEqual( $v['id'], $this->_groupID );

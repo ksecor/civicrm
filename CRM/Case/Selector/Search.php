@@ -171,9 +171,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_CASE);
 
-        $this->_query->_distinctComponentClause = " DISTINCT civicrm_case.id";
-        $this->_query->_useDistinct = true;
-        $this->_query->_useGroupBy = true;
+        $this->_query->_distinctComponentClause = " DISTINCT ( civicrm_case.id )";
+		$this->_query->_groupByComponentClause  = " GROUP BY civicrm_case.id ";
     }//end of constructor
 
     
@@ -328,7 +327,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Case Status'),
+                                                'name'      => ts('Status'),
                                                 'sort'      => 'case_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -338,28 +337,18 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Role'),
+                                                'name'      => ts('My Role'),
                                                 'sort'      => 'case_role',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Date of Most Recent Activity'),
+                                                'name'      => ts('Most Recent Activity'),
                                                 'sort'      => 'case_recent_activity_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Activity(most recent activity)'),
-                                                'sort'      => 'case_recent_activity_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Date of next scheduled Activity'),
+                                                'name'      => ts('Next Scheduled Activity'),
                                                 'sort'      => 'case_scheduled_activity_date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
-                                                ),
-                                          array(
-                                                'name'      => ts('Activity(next scheduled activity)'),
-                                                'sort'      => 'case_scheduled_activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
@@ -368,9 +357,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
             if ( ! $this->_single ) {
                 $pre = array( 
                              array( 
-                                   'name'      => ts('Client\'s Name'), 
+                                   'name'      => ts('Client'), 
                                    'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::DONTCARE,
+                                   'direction' => CRM_Utils_Sort::ASCENDING,
                                     )
                               );
                 

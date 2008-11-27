@@ -116,32 +116,13 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
             //set defaults for country-state dojo widget
             if ( ! empty ( $defaults['location'] ) ) {
-                $countries      =& CRM_Core_PseudoConstant::country( );
-                $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-                
                 foreach ( $defaults['location'] as $key => $value ) {
                     if ( isset( $value['address'] ) ) {
-                        
-                        // hack, check if we have created a country element
-                        if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                            $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
-                            
-                            if ( !$countryValue && isset($value['address']['country_id']) ) {
-                                $countryValue = $value['address']['country_id'];
-                            }
-                            
-                            $this->assign( "country_{$key}_value"   ,  $countryValue );
-                        }
-                        
-                        if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                            $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                            
-                            if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                                $stateValue = $value['address']['state_province_id'];
-                            }
-                            
-                            $this->assign( "state_province_{$key}_value", $stateValue );
-                        }
+                        CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                                  "location[$key][address][country_id]",
+                                                                  "location[$key][address][state_province_id]",
+                                                                  CRM_Utils_Array::value( 'country_id',
+                                                                                          $value['address'] ) );
                     }
                 }
             }
@@ -166,12 +147,6 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_address', ts('FROM Email Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
         $this->addRule( "email_address", ts('Domain Email Address must use a valid email address format (e.g. \'info@example.org\').'), 'email' );
 
-        $this->add('text', 'email_domain', ts('Email Domain'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->addRule( "email_domain", ts('Email domain must use a valid internet domain format (e.g. \'example.org\').'), 'domain' );
-
-        $this->add('text', 'email_return_path', ts('Return-Path'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
-        $this->addRule( "email_return_path", ts('Return-Path must use a valid email address format.'), 'email' );
-        
         //blocks to be displayed
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);    
    

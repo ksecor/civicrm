@@ -134,16 +134,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        $defaults['subject'] = $this->get('name');
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
-
+        
         $defaults['upload_type'] = 1; 
-	if ( isset($defaults['body_html']) ) {
-	  $defaults['html_message'] = $defaults['body_html'];
-	}
-	return $defaults;
+        if ( isset($defaults['body_html']) ) {
+            $defaults['html_message'] = $defaults['body_html'];
+        }
+        
+        return $defaults;
     }
 
  
@@ -198,7 +198,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                         'maxfilesize',
                         1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
-
+        
+        //fix upload files when context is search. CRM-3711
+        $ssID    = $this->get( 'ssID' );
+        $context = $this->get( 'context' );
+        if ( $context == 'search' && $ssID ) {
+            $this->set( 'uploadNames', array( 'textFile', 'htmlFile' ) );
+        }
+        
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
                                             'civicrm_mailing',
@@ -332,10 +339,36 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
      
-        if ($this->_submitValues['_qf_Upload_upload'] == 'Save & Continue Later') {
-            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
-            CRM_Utils_System::redirect($url);
+        if ( $this->_submitValues['_qf_Upload_upload'] == 'Save & Continue Later' ) {
+            //when user perform mailing from search context 
+            //redirect it to search result CRM-3711.
+            $ssID    = $this->get( 'ssID' );
+            $context = $this->get( 'context' );
+            if ( $ssID && $context == 'search' ) {
+                if ( $this->_action == CRM_Core_Action::BASIC ) {
+                    $fragment = 'search';
+                } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                    $fragment = 'search/builder';
+                } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+                    $fragment = 'search/advanced';
+                } else {
+                    $fragment = 'search/custom';
+                }
+                
+                $session =& CRM_Core_Session::singleton( );
+                $draftURL = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                $status = ts("Your mailing has been saved. You can continue later by clicking the 'Continue' action to resume working on it.<br /> From <a href='%1'>Draft and Unscheduled Mailings</a>.", array( 1 => $draftURL ) );
+                CRM_Core_Session::setStatus( $status );
+                
+                //replace user context to search.
+                $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, "force=1&reset=1&ssID={$ssID}" );
+                CRM_Utils_System::redirect( $url );
+            } else { 
+                $status = ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.");
+                CRM_Core_Session::setStatus( $status );
+                $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+                CRM_Utils_System::redirect($url);
+            }
         }
     }
     
@@ -480,10 +513,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
-            
+
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
 
-            if (! empty($unmatched)) {
+            if (! empty($unmatched) && 0) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'
                         . ts('Invalid token code')

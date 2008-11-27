@@ -86,12 +86,13 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         if ( $this->_caseAction = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_actTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_caseAction}.php";
+            $this->assign( 'caseAction', $this->_caseAction );
         }
 
-        $actLabel = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Category', $this->_actTypeId, 'label' );
-        CRM_Utils_System::setTitle(ts('%1', array('1' => $actLabel)));
-        
-        $this->assign( 'caseAction', $this->_caseAction );
+        $details  = CRM_Case_PseudoConstant::activityType( false );
+       
+        CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_actTypeId]['label'])));
+        $this->assign('activityType', $details[$this->_actTypeId]['label']);
         
         $this->_clientId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
@@ -102,6 +103,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             if ( ! $contact->find( true ) ) {
                 CRM_Core_Error::statusBounce( ts('Client contact does not exist: %1', array(1 => $this->_clientId)) );
             }
+            $this->assign( 'clientName', $contact->display_name );
         }
         
         $this->_id  = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
@@ -210,7 +212,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         // user context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
-                                      "reset=1&cid={$this->_clientId}&action=view&id={$caseObj->id}&selectedChild=case" );
+                                      "reset=1&action=view&cid={$this->_clientId}&id={$caseObj->id}" );
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
 

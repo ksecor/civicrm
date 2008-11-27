@@ -49,12 +49,15 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId)
+    static function buildAddressBlock(&$form, &$location, $locationId, $countryDefault = null)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
 
         $config =& CRM_Core_Config::singleton( );
+        if ( $countryDefault == null ) {
+            $countryDefault = $config->defaultContactCountry;
+        }
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
               
         $elements = array( 
@@ -71,7 +74,8 @@ class CRM_Contact_Form_Address
                           'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
                           'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
                           );
-       
+
+        $stateCountryMap = array( );
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
 
@@ -91,47 +95,35 @@ class CRM_Contact_Form_Address
             
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
-                    $onValueChanged = null;
-                    $countryUrl     = null;
-                    
-                    if ( $name == 'country_id') {
-                        $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, false, null, false );
-
-                        //when only country is enable, don't call function to build state province
-                        if ( $addressOptions['state_province'] ) {
-                            $onValueChanged = "getStateProvince{$locationId}( dijit.byId( 'location_{$locationId}_address_country_id' ), {$locationId}, null, true )";
-                        }
+                    if ( $name == 'country_id' ) {
+                        $stateCountryMap[$locationId]['country'] = "location_{$locationId}_address_{$name}";
+                        $selectOptions = array('' => ts('- select -')) + 
+                            CRM_Core_PseudoConstant::country( );
                     } else {
-                        $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state", null, false, null, false );
-                        $form->assign( 'stateUrl', $stateUrl );
+                        $stateCountryMap[$locationId]['state_province'] = "location_{$locationId}_address_{$name}";
+                        if ( $countryDefault ) {
+                            $selectOptions = array('' => ts('- select -')) +
+                                CRM_Core_PseudoConstant::stateProvinceForCountry( $countryDefault );
+                        } else {
+                            $selectOptions = array( '' => ts( '- select a country -' ) );
+                        }
+                    }
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'select',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           $selectOptions );
+                } else {
+                    if ( $name == 'address_name' ) {
+                        $name = "name";
                     }
                     
-                    $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                         'mode'           => 'remote',
-                                         'store'          => "{$name}Store",
-                                         'style'          => 'width: 230px;',
-                                         'value'          => '',
-                                         '_onBlur'        => $onValueChanged,
-                                         'onChange'       => $onValueChanged,
-                                         'id'             => 'location_'.$locationId.'_address_'.$name );
-
-                    $form->assign( 'countryUrl', $countryUrl );
+                    $location[$locationId]['address'][$name] =
+                        $form->addElement( 'text',
+                                           "location[$locationId][address][$name]",
+                                           $title,
+                                           $attributes );
                 }
-
-                if ( $name == 'state_province_id' ) {
-                    unset( $attributes['onChange'] );
-                    unset( $attributes['_onBlur'] );
-                }
-                
-                if ( $name == 'address_name' ) {
-                    $name = "name";
-                }
-                
-                $location[$locationId]['address'][$name] =
-                    $form->addElement( 'text',
-                                       "location[$locationId][address][$name]",
-                                       $title,
-                                       $attributes );
             } else {
                 $location[$locationId]['address'][$name] =
                     $form->addElement( 'select',
@@ -140,6 +132,9 @@ class CRM_Contact_Form_Address
                                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::$select( ) );
             }
         }
+
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
     }
     
     /**
@@ -224,6 +219,30 @@ class CRM_Contact_Form_Address
             }
         }             
     }
+
+    static function fixStateSelect( &$form,
+                                    $countryElementName,
+                                    $stateElementName,
+                                    $countryDefaultValue ) {
+        $countryID = null;
+        if ( isset( $form->_elementIndex[$countryElementName] ) ) {
+            $countryValue = $form->getElementValue( $countryElementName );
+            if ( $countryValue ) {
+                $countryID = $countryValue[0];
+            } else {
+                $countryID = $countryDefaultValue;
+            }
+        }
+        if ( $countryID &&
+             isset( $form->_elementIndex[$stateElementName] ) ) {
+            $form->addElement( 'select',
+                               $stateElementName,
+                               ts( 'State/Province' ),
+                               array( '' => ts( '- select -' ) ) +
+                               CRM_Core_PseudoConstant::stateProvinceForCountry( $countryID ) );
+        }
+    }
+
 }
 
 

@@ -194,7 +194,7 @@
  </div>
  {/if}
 
- {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+ {include file="CRM/Custom/Page/CustomDataView.tpl"}
 </div>
 
 {foreach from=$allTabs key=tabName item=tabValue}

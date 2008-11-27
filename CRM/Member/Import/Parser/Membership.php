@@ -347,16 +347,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         }
 
         if ( $onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
-            foreach ( $formatted as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                 $value, 'Membership', null, null );
-                }
-            }
-        }
-       
-        //fix for CRM-2219 Update Membership
-        if ( $onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
+            $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          null,
+                                                                          'Membership' );
+        } else {
+            //fix for CRM-2219 Update Membership
+            // onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE
             if ( $formatted['is_override'] && ! $formatted['status_id']) {
                 array_unshift($values, "Required parameter missing: Status");
                 return CRM_Member_Import_Parser::ERROR;
@@ -373,13 +370,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     }
                 }
 
-                foreach ( $formatted as $key => $value ) {
-                        if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                            CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                         $value, 'Membership', null, $values['membership_id'] );
-                        }
-                }
-                
+                $formatted['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                              CRM_Core_DAO::$_nullObject,
+                                                                              $values['membership_id'],
+                                                                              'Membership' );
                 if ( $dao->find( true ) ) { 
                     $ids = array(
                                  'membership' => $values['membership_id'],

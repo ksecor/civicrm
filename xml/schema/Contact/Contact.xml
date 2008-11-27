@@ -226,6 +226,18 @@
        <add>2.1</add>
   </index>
   <field>
+      <name>api_key</name>
+      <type>varchar</type>
+      <length>32</length>
+      <comment>API Key for validating requests related to this contact.</comment>
+      <add>2.2</add>
+  </field>
+  <index>
+       <name>index_api_key</name>
+       <fieldName>api_key</fieldName>
+       <add>2.1</add>
+  </index>
+  <field>
        <name>source</name>
        <title>Source of Contact Data</title>
        <uniqueName>contact_source</uniqueName>

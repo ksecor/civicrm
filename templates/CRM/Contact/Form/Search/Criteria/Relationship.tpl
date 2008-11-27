@@ -16,7 +16,14 @@
                {$form.relation_status.label}<br />
                {$form.relation_status.html}
             </td>
-        </tr>
-      </table>         
+         </tr>
+         {if $relationshipGroupTree}
+         <tr>
+	        <td colspan="3">
+	        {include file="CRM/Custom/Form/Search.tpl" groupTree=$relationshipGroupTree showHideLinks=false}
+            </td>
+         </tr>
+         {/if}
+    </table>         
 </div>
 

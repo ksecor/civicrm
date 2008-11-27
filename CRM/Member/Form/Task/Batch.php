@@ -190,15 +190,10 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
         if ( isset( $params['field'] ) ) {
             foreach ( $params['field'] as $key => $value ) {
                 //check for custom data
-                $customData = array( );
-                foreach ( $value as $name => $data ) {                
-                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                     $data, 'Membership',
-                                                                     null, $key );
-                        $value['custom'] = $customData;                    
-                    } 
-                }
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $key,
+                                                                          'Membership' );
                 
                 $ids['membership'] = $key;
                 if ($value['membership_source']) {

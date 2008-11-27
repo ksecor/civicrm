@@ -89,7 +89,16 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( !CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $this->_id ) ) {
                 //retrieve event fee block.
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+                if ( $discountId ) {
+                    CRM_Core_OptionGroup::getAssoc( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $discountId, 'option_group_id' ),
+                                                    $values['feeBlock'], 
+                                                    false,
+                                                    'id' );
+                } else {
+                    CRM_Core_OptionGroup::getAssoc( "civicrm_event.amount.{$this->_id}", $values['feeBlock'] );
+                }
             }
         }
         
@@ -99,7 +108,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $values['event']['event_type_id'] );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this, $this->_id, 0, $values['event']['event_type_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
         

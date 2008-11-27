@@ -113,8 +113,7 @@
 	document.getElementById(address).innerHTML = {/literal}"({ts}New Contact Record{/ts})"{literal};
 	if ( val == 'shared_household' ) {
 	    show('shared_household', 'block');
-	    show('id_location_1_address', 'block');
-	    setAddressFields();
+	    show('id_location_1_address', 'block');	   
 	}	
 	return; 
     }
@@ -163,64 +162,33 @@ function setDefaultAddress()
     var country   = {/literal}"{$form.location.1.address.country_id.value}"{literal};
     var state     = {/literal}"{$form.location.1.address.state_province_id.value}"{literal};
     
-    if ( document.getElementsByName("use_household_address")[0].checked == false ) { 
-	{/literal}{if $action eq 2}
-	{foreach from=$form.location.1.address  key=k item=v}
-	{literal}      
-	document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"{$v.value}";
-	{/foreach}
-        {if $form.location.1.address.county_id}
- 	{literal}
-	document.getElementById('location_1_address_county_id').value = 
-	  {/literal}"{$form.location.1.address.county_id.value.0}"{literal};
-	{/literal}
-	{/if}
-	{literal} 
-	if ( country ) {
-	  dijit.byId( 'location_1_address_country_id' ).setValue( country );
-	}
-	if ( state && country) {
-	  dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
-	} else if ( state ) {
-	    document.getElementById('location_1_address_state_province_id').value = 
-		{/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
-	}
-	
-	{/literal}{/if}{literal}
-    } else {
-	{/literal}	
-	{foreach from=$form.location.1.address  key=k item=v}
-	{literal}      
-	document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"";
-	{/foreach}
-        {literal}
-	if ( country && state ) {
-	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
-	    dijit.byId( 'location_1_address_state_province_id' ).setValue( '- type first letter(s) -' );
-	} 	
-    }  
+   
+    {/literal}{if $action eq 2}
+    {foreach from=$form.location.1.address  key=k item=v}
+    {literal}      
+    document.getElementById('location_1_address_{/literal}{$k}{literal}').value ={/literal}"{$v.value}";
+    {/foreach}
+    {if $form.location.1.address.county_id}
+    {literal}
+    document.getElementById('location_1_address_county_id').value = 
+	{/literal}"{$form.location.1.address.county_id.value.0}"{literal};
+    {/literal}
+    {/if}
+    {literal} 
+    if ( country ) {
+	dijit.byId( 'location_1_address_country_id' ).setValue( country );
+    }
+    if ( state && country) {
+	dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
+    } else if ( state ) {
+	document.getElementById('location_1_address_state_province_id').value = 
+	    {/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
+    }
+    
+    {/literal}{/if}{literal}
 }
 
-function setAddressFields () 
-{
-    var country   = {/literal}"{$form.location.1.address.country_id.value}"{literal};
-    if ( document.getElementsByName("use_household_address")[0].checked == true ) {
-	
-	document.getElementById('location_1_address_street_address').value         = '';
-	document.getElementById('location_1_address_supplemental_address_1').value = '';
-	document.getElementById('location_1_address_supplemental_address_2').value = '';
-	document.getElementById('location_1_address_city').value                   = '';
-	document.getElementById('location_1_address_postal_code').value            = '';
-	document.getElementById('location_1_address_postal_code_suffix').value     = '';
-	document.getElementById('location_1_address_geo_code_1').value             = '';
-	document.getElementById('location_1_address_geo_code_2').value             = '';
-	if ( country ) {
-	    dijit.byId( 'location_1_address_country_id' ).setValue( country );
-	}
-	
-	dijit.byId( 'location_1_address_state_province_id' ).setValue( '- type first letter(s) -' ); 	
-    }
-}
+
 function showHideHouseAddress( )
 {
     if ( document.getElementsByName("use_household_address")[0].checked == true ) { 

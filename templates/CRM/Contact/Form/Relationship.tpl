@@ -42,7 +42,7 @@
            
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             </dl>
-            {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            {include file="CRM/Custom/Page/CustomDataView.tpl"}
             <dl>
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></dd>
@@ -72,20 +72,21 @@
                 <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false">
                 {literal}
                   <script type="text/javascript">
-		  function setUrl( ) {
-   		    var relType = document.getElementById('relationship_type_id').value; 
-		    var widget  = dijit.byId('contact');
-		    if ( relType ) {
-			widget.setDisabled( false );
-			var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
-			var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
-			widget.store = queryStore;
-		    } else {
-			widget.setDisabled( true );
-		    }
-	          }
-		  dojo.addOnLoad( function( ) {  setUrl( ); });
-
+					function setUrl( ) {
+						
+						var relType = document.getElementById('relationship_type_id').value; 
+						var widget  = dijit.byId('contact');
+						if ( relType ) {
+							widget.setDisabled( false );
+							dojo.byId('contact').value = "";
+							var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
+							var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
+							widget.store = queryStore;
+						} else {
+							widget.setDisabled( true );
+						}
+					}
+					dojo.addOnLoad( function( ) {  setUrl( ); });
                   </script>
                 {/literal}
                 <dd>{$form.name.html}</dd></div>
@@ -180,7 +181,7 @@
         <dt id="employer">{ts}Is current employer?{/ts}</dt>
         <dd id="current_employer">{$form.is_current_employer.html}</dd>
         {/if}
-        <dl><dt></dt><dd id="customData"></dd></dl>
+        <div id="customData"></div>
         <div class="spacer"></div>
         <dl>
       	  <dt></dt><dd>{$form.buttons.html}</dd>
@@ -205,8 +206,20 @@
 {/if} {* close of custom data else*}
 
 {if $searchRows OR $action EQ 2}
- {*include custom data js file*}
- {include file="CRM/common/customData.tpl"}
+{*include custom data js file*}
+{include file="CRM/common/customData.tpl"}
+{literal}
+<script type="text/javascript">
+	cj(document).ready(function() {
+		{/literal}
+		buildCustomData( '{$customDataType}' );
+		{if $customDataSubType}
+			buildCustomData( '{$customDataType}', {$customDataSubType} );
+		{/if}
+		{literal}
+	});
+</script>
+{/literal}
 {/if}
 {if $action EQ 2}
 {literal}
