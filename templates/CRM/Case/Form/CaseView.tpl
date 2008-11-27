@@ -125,7 +125,12 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 							var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
 							var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>&nbsp;<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">';
 							cj('#relName_' + rowNumber ).html( html );
-							cj('#phone_' + rowNumber ).html( data.phone );
+							
+							html = '';
+							if ( data.phone ) {
+								html = data.phone;
+							}	
+							cj('#phone_' + rowNumber ).html( html );
 							
 							html = '';
 							if ( data.email ) {
