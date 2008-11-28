@@ -261,12 +261,17 @@ AND       $whereClause";
         $params = array( );
         $whereClause = ' AND ' . $this->whereClause( $params );
         $rows =& $mailing->getRows($offset, $rowCount, $sort, $whereClause, $params );
-
+        
+        //get the search base mailing Ids, CRM-3711.
+        $searchMailings = $mailing->searchMailingIDs( );
+        
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
                 if (!($row['status'] == 'Not scheduled')) {
                     $actionMask = CRM_Core_Action::VIEW;
-                    $actionMask |= CRM_Core_Action::UPDATE;
+                    if ( !in_array( $row['id'], $searchMailings ) ) {
+                        $actionMask |= CRM_Core_Action::UPDATE;
+                    }
                 } else {
                     $actionMask = CRM_Core_Action::PREVIEW;
                 }

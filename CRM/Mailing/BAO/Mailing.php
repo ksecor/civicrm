@@ -1992,7 +1992,32 @@ SELECT DISTINCT( m.id ) as id
                                  'onkeyup' =>"return verify(this)" ) );
         
     }
-
+    
+    /**
+     * Get the search based mailing Ids
+     *
+     * @return array $mailingIDs, searched base mailing ids.
+     * @access public
+     */
+    public function searchMailingIDs( ) 
+    {
+        $group   = CRM_Mailing_DAO_Group::getTableName( );
+        $mailing = self::getTableName();
+        
+        $query = "
+SELECT  $mailing.id as mailing_id
+  FROM  $mailing, $group
+ WHERE  $group.mailing_id = $mailing.id
+   AND  $group.group_type = 'Base'"; 
+        
+        $searchDAO = CRM_Core_DAO::executeQuery( $query );
+        $mailingIDs = array( );
+        while ( $searchDAO->fetch( ) ) {
+            $mailingIDs[] = $searchDAO->mailing_id;
+        }
+        
+        return $mailingIDs;
+    }
 }
 
 
