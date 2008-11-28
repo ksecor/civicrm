@@ -42,9 +42,8 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
    
     function preProcess( ) 
     {
-      
         $this->postProcess( );
-    } 
+    }
 
   
     /**
@@ -58,7 +57,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         //p3 = Three dimensional pie chart.
         //bvg = Vertical bar chart
         $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => ts('Bar'), 'p3'=> ts('Pie') ) );
-
+        
         //take available years from database to show in drop down
         if ( !empty( $this->_years ) ) {
             foreach( $this->_years as  $k => $v ){
@@ -69,11 +68,11 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
                                          'name'      => ts('Reload Charts'), 
-                                         'isDefault' => true   ), 
-                                 ) 
+                                         'isDefault' => true   ),
+                                 )
                            );
     }
-
+    
     /**
      * process the form after the input has been submitted and validated
      *
@@ -82,29 +81,19 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
      */
     public function postProcess() 
     {
-    
+        //get the submitted form values.
         $submittedValues = $this->controller->exportValues( $this->_name );
-        $config  =& CRM_Core_Config::singleton( );
-
-        //set default currency to graph
-        $currency = $config->defaultCurrency;
-
-        //default chart is Bar chart to show data
-        if ( CRM_Utils_Array::value( 'chart_type', $submittedValues ) == 'p3' ) {
-            $this->assign( 'chartType', 'p3');
-        } else {
-            $this->assign( 'chartType', 'bvg');
-        }
         
-        $selectedYear = null;
-        if ( CRM_Utils_Array::value( 'select_year', $submittedValues ) ) {
-            $selectedYear = $submittedValues['select_year'];
-        }
         //take contribution information monthly
         require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
+        $selectedYear = CRM_Utils_Array::value( 'select_year', $submittedValues, date('Y') ); 
         $chartInfoMonthly = CRM_Contribute_BAO_Contribution_Utils::contributionChartMonthly( $selectedYear );
+        
+        $pChartParams = array( );
+        $monthlyData = false;
         if ( is_array( $chartInfoMonthly ) ) {
-            $this->assign( 'monthlyData', true );   
+            $monthlyData = true;
+            
             //display bar chart linearly ::showing zero (0)
             //contribution for month if contribution for that
             //month not exist
@@ -119,103 +108,51 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             for ($i = 1; $i <= $j; $i++) {
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i, 10, 1970 ));
             }
-            foreach( $abbrMonthNames as $monthKey => $monthName ) {
+            
+            foreach ( $abbrMonthNames as $monthKey => $monthName ) {
                 if ( ! CRM_Utils_Array::value( $monthKey, $chartInfoMonthly['By Month'] ) ) {
                     //set zero value to month which is not in db
                     $chartInfoMonthly['By Month'][$monthKey] = 0;
-                }   
-            }
-            ksort( $chartInfoMonthly['By Month'] );
-            $totalMonths = count( $chartInfoMonthly['By Month'] );
-            $this->assign( 'totalMonths', $totalMonths );
-            $chartMonthly = array();
-            $chartMonthly['By Month'] = array_combine($abbrMonthNames,$chartInfoMonthly['By Month'] );
-            if ( CRM_Utils_Array::value( 'chart_type', $submittedValues ) == 'p3' ) {
-                foreach( $chartMonthly['By Month'] as $pieMonthName => $pieMonthValue ) {
-                    if ( $pieMonthValue == 0 ) {
-                        //unset the zero value month since not
-                        //required in pie chart
-                        unset( $chartMonthly['By Month'][$pieMonthName] );
-                    }
                 }
             }
-            //label are separated by '|' and data is separated by ','
-            foreach ( $chartMonthly as $key => $value ) {
-                $data['marker'] = array_values( $value );
-                $data['values'] = implode( ',', $value );
-                $data['names']  = implode( '|', array_keys( $value ) );
-            }	
-            //set marker value for each bar with color and size
-            foreach( $data['marker'] as $keys => $values ){
-                $marking[] ='t'.$values.',0000FF,0,'.$keys.',10';
-               
-            }
-            //marker on each bar to show exact value
-            $mMarker = implode ('|', $marking);
-                      
-            $this->assign( 'mMarker',$mMarker );
-            $legend = array_keys( $chartInfoMonthly );
-            $maxAmount =  max( $chartInfoMonthly['By Month']);
-            //increase the y axis length more than maximum amount
-            //if total months are greater than one
-            if ( $totalMonths > 1 ) {
-                $percentage = $maxAmount / 5;
-                $maxAmount += $percentage;
-            }
-            $this->assign( 'monthMaxAmount', $maxAmount );
-            $this->assign( 'chartData',$data['values'] );
-            $this->assign( 'chartLabel',$data['names'] );
-
-            if ( CRM_Utils_Array::value( 'select_year', $submittedValues ) ) {
-                $legendYear = $submittedValues['select_year'];
-            } else {
-                $legendYear = date('Y');
-            }
-            $this->assign( 'chartLegend',$legend[0] . ' - ' . $legendYear);
             
-        } else {
-            $this->assign( 'monthlyData', false );
-        } 
-        //take contribution information by yearly
-        $chartInfoYearly = CRM_Contribute_BAO_Contribution_Utils::contributionChartYearly();
-        $totalYears = count( $chartInfoYearly['By Year'] );
-        $this->assign( 'totalYears', $totalYears );
-        $this->_years =  $chartInfoYearly['By Year'];
-        if ( is_array( $chartInfoYearly ) ) {
-            //label are separated by '|' and data is separated by ','
-            foreach ( $chartInfoYearly as $key => $value ) {
-                $data1['marker'] = array_values( $value );
-                $data1['values'] = implode( ',', $value );
-                $data1['names'] = implode( '|', array_keys( $value ) );
-                
-            }
-            //set marker value for each bar with color and size
-            foreach( $data1['marker'] as $keys => $values ){
-                $marking1[] ='t'.$values.',0000FF,0,'.$keys.',10';
-               
-            }
-            //marker on each bar to show exact value
-            $yMarker = implode ('|', $marking1);
-           
-            $this->assign( 'yMarker',$yMarker );
-            $maxAmount = max( $chartInfoYearly['By Year']);
-            $legend = array_keys( $chartInfoYearly );
-            //increase the y axis length more than maximum amount
-            //if total years are greater than one
-            if ( $totalYears > 1 ) {
-                $percentage = $maxAmount / 5;
-                $maxAmount += $percentage;
-            }
-            $this->assign( 'yearMaxAmount', $maxAmount );
-            $this->assign( 'chartData1',$data1['values'] );
-            $this->assign( 'chartLabel1',$data1['names'] );
-            $this->assign( 'chartLegend1',$legend[0] );
-        } 
-        $this->assign( 'hasContributions' ,true );
-        if ( empty ( $chartInfoYearly ) ) {
-            // if no contributions available, show the message
-            $this->assign( 'hasContributions' , false );
+            //sort the array.
+            ksort( $chartInfoMonthly['By Month'] );
+            
+            //build the params for pChart.
+            $pChartParams['by_month']['values'] = array_combine( $abbrMonthNames, $chartInfoMonthly['By Month'] );
+            $pChartParams['by_month']['legend'] = 'By Month' . ' - ' . $selectedYear;
         }
-
-    }//end of function
+        $this->assign( 'monthlyData', $monthlyData ); 
+        
+        //take contribution information by yearly
+        $chartInfoYearly = CRM_Contribute_BAO_Contribution_Utils::contributionChartYearly( );
+        
+        //get the years.
+        $this->_years =  $chartInfoYearly['By Year'];
+        $hasContributions = false;
+        if ( is_array( $chartInfoYearly ) ) {
+            $hasContributions = true;
+            $pChartParams['by_year']['legend'] = 'By Year';
+            $pChartParams['by_year']['values'] = $chartInfoYearly['By Year'];
+        }
+        $this->assign( 'hasContributions', $hasContributions );
+        
+        //handle pchart functionality.
+        if ( !empty( $pChartParams ) ) {
+            $filesPath = array( );
+            require_once 'CRM/Utils/PChart.php';
+            if ( 'p3' == CRM_Utils_Array::value( 'chart_type', $submittedValues, 'bvg' ) ) {
+                //build the pie graph
+                $filesPath = CRM_Utils_PChart::buildPieChart( $pChartParams );
+            } else {
+                //build the bar graph.
+                $filesPath = CRM_Utils_PChart::buildBarChart( $pChartParams );
+            }
+            
+            //assign all files path.
+            $this->assign( 'monthFilePath', CRM_Utils_Array::value('by_month_file', $filesPath ) );
+            $this->assign( 'yearFilePath',  CRM_Utils_Array::value('by_year_file',  $filesPath ) );
+        }
+    }
 }
