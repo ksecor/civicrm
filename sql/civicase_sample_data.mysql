@@ -444,13 +444,15 @@ VALUES
  ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Leeman, Lori','Lori Leeman',NULL,NULL,NULL,NULL,NULL,'Both','5cd4c857af683c470bd77fc14e7d0a22',NULL,'Lori',NULL,'Leeman',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
  ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Poter, Ron','Ron Poter',NULL,NULL,NULL,NULL,NULL,'Both','3bd77fc14e7d0a2225e4742ec6bffd59',NULL,'Ron',NULL,'Poter',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
  ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Maximillian, Mojo','Mojo Maximillian',NULL,NULL,NULL,NULL,NULL,'Both','6855423eb12c81d807fd68cbe56860b6',NULL,'Mojo',NULL,'Maximillian',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
- ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Coolidge, Carla','Carla Coolidge',NULL,NULL,NULL,NULL,NULL,'Both','75c00aada54be20564feae976f94e7db',NULL,'Carla',NULL,'Coolidge',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-  
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Coolidge, Carla','Carla Coolidge',NULL,NULL,NULL,NULL,NULL,'Both','75c00aada54be20564feae976f94e7db',NULL,'Carla',NULL,'Coolidge',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Individual',NULL,0,0,0,0,0,NULL,NULL,'Bunbury, Beth','Beth Bunbury',NULL,NULL,NULL,NULL,NULL,'Both','21111d8989730de6fed72f0bc3ccc70e',NULL,'Beth',NULL,'Bunbury',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
 SELECT @cid1 := id from civicrm_contact WHERE hash='25e4742ec6bffd59a0f3f3d11b24b893';
 SELECT @cid2 := id from civicrm_contact WHERE hash='5cd4c857af683c470bd77fc14e7d0a22';
 SELECT @cid3 := id from civicrm_contact WHERE hash='3bd77fc14e7d0a2225e4742ec6bffd59';
 SELECT @cid4 := id from civicrm_contact WHERE hash='6855423eb12c81d807fd68cbe56860b6';
 SELECT @cid5 := id from civicrm_contact WHERE hash='75c00aada54be20564feae976f94e7db';
+SELECT @cid6 := id from civicrm_contact WHERE hash='21111d8989730de6fed72f0bc3ccc70e';
 
 INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
 VALUES
@@ -458,7 +460,8 @@ VALUES
  (@cid2,2,'lori.leeman@physicianhealth.com',1,0,0,0,NULL,NULL),
  (@cid3,2,'ron.poter@physicianhealth.com',1,0,0,0,NULL,NULL),
  (@cid4,2,'mojo.maximillian@physicianhealth.com',1,0,0,0,NULL,NULL),
- (@cid5,2,'carla.coolidge@physicianhealth.com',1,0,0,0,NULL,NULL);
+ (@cid5,2,'carla.coolidge@physicianhealth.com',1,0,0,0,NULL,NULL),
+ (@cid6,2,'beth.bunbury@physicianhealth.com',1,0,0,0,NULL,NULL);
 
 -- /*******************************************************
 -- *
@@ -602,64 +605,64 @@ INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activi
 VALUES (@cid1,NULL,@at1,'Subject for open case','2007-03-17 00:00:00','2007-03-17 00:00:00',5,NULL,NULL,NULL,'Some test details',2,NULL,NULL,0,2,0,NULL,1,NULL,0);
 SELECT @actId := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid6);
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47');
+VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at18,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 4 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId18 := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId18);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId18, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId18, @cid6);
 SELECT @actTargetId18 := max(id) from civicrm_activity_target;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId18,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47');
+VALUES ('civicrm_activity',@actId18,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at19,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 7 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId19 := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId19);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId19, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId19, @cid6);
 SELECT @actTargetId19 := max(id) from civicrm_activity_target;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId19,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47');
+VALUES ('civicrm_activity',@actId19,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at20,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 8 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId20 := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId20);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId20, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId20, @cid6);
 SELECT @actTargetId20 := max(id) from civicrm_activity_target;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId20,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47');
+VALUES ('civicrm_activity',@actId20,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at21,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 9 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId21 := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId21);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId21, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId21, @cid6);
 SELECT @actTargetId21 := max(id) from civicrm_activity_target;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId21,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47');
+VALUES ('civicrm_activity',@actId21,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at2,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 14 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId);
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid6);
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
-VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,'2007-03-17 12:03:47'); 
+VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47'); 
 
-INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`) VALUES (@caseId3, @cid2);
+INSERT INTO `civicrm_case_contact` (`case_id`, `contact_id`) VALUES (@caseId3, @cid6);
 
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`) 
 VALUES
- (@cid2,@cid1,@iR,NULL,NULL,1,NULL,0,0,@caseId3);
+ (@cid6,@cid1,@iR,NULL,NULL,1,NULL,0,0,@caseId3);
  
 -- Simulate progress of case #3
 INSERT INTO `civicrm_relationship` (`contact_id_a`, `contact_id_b`, `relationship_type_id`, `start_date`, `end_date`, `is_active`, `description`, `is_permission_a_b`, `is_permission_b_a`, `case_id`) 
 VALUES
-(@cid2,@cid5,@cR,NULL,NULL,1,NULL,0,0,@caseId3);
+(@cid6,@cid5,@cR,NULL,NULL,1,NULL,0,0,@caseId3);
 
 SELECT @option_group_id_acs := max(id) from civicrm_option_group where name = 'activity_status';
 SELECT @completedStatus := max(value) from civicrm_option_value where option_group_id=@option_group_id_acs AND name = 'Completed';
@@ -675,6 +678,15 @@ DELETE FROM `civicrm_activity_target` WHERE id=@actTargetId18;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
 VALUES
  ('civicrm_activity',@actId18,CONCAT('Activity (id: ', @actId18, ' ) updated with source=', @cid5),@cid5,'2007-03-18 14:52:09');
+
+SELECT @emPhone := max(value) FROM civicrm_option_value WHERE option_group_id=@option_group_id_medium AND name='phone';
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
+VALUES (@cid5,NULL,@at2,' Received call from relative','2007-03-19 12:21:14','2007-03-19 12:21:14',2,NULL,NULL,NULL,'Relative declined to identify self. Said that BB (etc...)',@completedStatus,NULL,NULL,0,@emPhone,0,NULL,1,NULL,0);
+SELECT @actId := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,@actId);
+INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
+VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid5, 'target=', @cid6),@cid5,'2007-03-19 12:21:14'); 
 
 UPDATE `civicrm_activity` SET
  subject=' Rehearsed intervention',
@@ -694,7 +706,7 @@ UPDATE `civicrm_activity` SET
  duration=120,
  status_id=@completedStatus,
  medium_id=@em,
- details='LL ran off to Mexico. Exact whereabouts unknown.'
+ details='BB ran off to Mexico. Exact whereabouts unknown.'
  WHERE id=@actId20;
 DELETE FROM `civicrm_activity_target` WHERE id=@actTargetId20;
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
