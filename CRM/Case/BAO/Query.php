@@ -194,6 +194,14 @@ class CRM_Case_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Case %1 My Cases', array( 1 => $op ) );
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
             return;
+
+        case 'case_deleted':
+            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Deleted Cases";
+            }
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
         }
     }
 
@@ -316,6 +324,11 @@ case_relation_type.id = case_relationship.relationship_type_id )";
         $caseOwner = array( ts('My Cases'), ts('All Cases') );
         $form->addRadio( 'case_owner', ts( 'Cases' ), $caseOwner );
         $form->setDefaults(array('case_owner' => 1));
+
+        require_once"CRM/Core/Permission.php";
+        if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) { 
+            $form->addElement( 'checkbox', 'case_deleted' , ts( 'Deleted Cases' ) );
+        }
     }
 
     static function searchAction( &$row, $id ) 
