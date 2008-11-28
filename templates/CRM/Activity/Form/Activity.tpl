@@ -164,7 +164,7 @@
              <tr>
                 <td colspan="2">
 	            {if $action eq 4} 
-                    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+                    {include file="CRM/Custom/Page/CustomDataView.tpl"}
                 {else}
                     <div id="customData"></div>
                 {/if} 

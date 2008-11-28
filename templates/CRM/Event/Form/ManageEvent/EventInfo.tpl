@@ -54,6 +54,18 @@
     <div id="customData"></div>
     {*include custom data js file*}
     {include file="CRM/common/customData.tpl"}	
+	{literal}
+		<script type="text/javascript">
+			cj(document).ready(function() {
+				{/literal}
+				buildCustomData( '{$customDataType}' );
+				{if $customDataSubType}
+					buildCustomData( '{$customDataType}', {$customDataSubType} );
+				{/if}
+				{literal}
+			});
+		</script>
+	{/literal}
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 

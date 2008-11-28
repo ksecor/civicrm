@@ -148,7 +148,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    ts('Event Type'),
                    array('' => ts('- select -')) + $event,
                    true, 
-                   array('onChange' => "buildCustomData( this.value );") );
+                   array('onChange' => "buildCustomData( 'Event', this.value );") );
         
         $participantRole = CRM_Core_OptionGroup::values('participant_role');
         $this->add('select',

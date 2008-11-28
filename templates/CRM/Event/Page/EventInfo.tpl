@@ -81,7 +81,7 @@
         {/if}
 	</table>
 
-    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1} 
+    {include file="CRM/Custom/Page/CustomDataView.tpl"}
 
     {* Show link to Event Registration page if event if configured for online reg AND we are NOT coming from Contact Dashboard (CRM-2046) *}
     {if $is_online_registration AND $context NEQ 'dashboard'}

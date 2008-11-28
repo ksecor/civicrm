@@ -543,7 +543,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // if we're viewing, we're assigning different buttons than for adding/editing
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
-                CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+				CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $this->_groupTree );
             }
             
             $this->freeze();
