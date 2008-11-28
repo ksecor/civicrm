@@ -40,12 +40,12 @@ class CRM_Contact_Page_AJAX
     static function getContactList( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $name = CRM_Utils_Array::value( 'text', $_GET );
+        $name = CRM_Utils_Array::value( 's', $_GET );
         
         $query = "
 SELECT sort_name, id
 FROM civicrm_contact
-WHERE sort_name LIKE '%$name%'
+WHERE sort_name LIKE '$name%'
 AND contact_type = 'Individual'
 ORDER BY sort_name ";            
 
