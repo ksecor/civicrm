@@ -271,7 +271,9 @@ class CRM_Export_BAO_Export
                                 $hdr = "{$ltype}-" . $query->_fields[$type[0]]['title'];
                                 
                                 if ( CRM_Utils_Array::value( 1, $type ) ) {
-                                    $hdr .= " " . $type[1];
+                                    $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+                                    $phoneTypeValue = CRM_Utils_Array::value( $type[1], $phoneTypes );
+                                    $hdr .= " " . $phoneTypeValue;
                                 }
                                 $headerRows[] = $hdr;
                             }
