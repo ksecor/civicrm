@@ -81,29 +81,29 @@ class CRM_Case_BAO_Query
             $query->_tables['case_relation_type'] = $query->_whereTables['case_relation_type'] = 1;
         }
 
-        if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
-            $query->_select['case_recent_activity_date']  = "max(civicrm_activity.activity_date_time) as case_recent_activity_date";
-            $query->_element['case_recent_activity_date'] = 1;
-            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
-        }
-
         if ( CRM_Utils_Array::value( 'case_recent_activity_type', $query->_returnProperties ) ) {
-            $query->_select['case_recent_activity_type']  = "activity_type.label as case_recent_activity_type";
+            $query->_select['case_recent_activity_type']  = "rec_activity_type.label as case_recent_activity_type";
             $query->_element['case_recent_activity_type'] = 1;
-            $query->_tables['civicrm_activity_type'] = $query->_whereTables['civicrm_activity_type'] = 1;
+            $query->_tables['recent_activity_type'] = $query->_whereTables['recent_activity_type'] = 1;
         }
 
-        if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
-            $query->_select['case_scheduled_activity_date']  = "min(civicrm_activity.due_date_time) as case_scheduled_activity_date";
-            $query->_element['case_scheduled_activity_date'] = 1;
-            $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
+            $query->_select['case_recent_activity_date']  = "recent_activity.activity_date_time as case_recent_activity_date";
+            $query->_element['case_recent_activity_date'] = 1;
+            $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
         }
 
-        if ( CRM_Utils_Array::value( 'case_scheduled_activity_type', $query->_returnProperties ) ) {
-            $query->_select['case_scheduled_activity_type']  = "activity_type.label as case_scheduled_activity_type";
-            $query->_element['case_scheduled_activity_type'] = 1;
-            $query->_tables['civicrm_activity'] = $query->_whereTables['activity_type'] = 1;
-        }
+        // if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
+        //     $query->_select['case_scheduled_activity_date']  = "civicrm_activity.due_date_time as case_scheduled_activity_date";
+        //     $query->_element['case_scheduled_activity_date'] = 1;
+        //     $query->_tables['civicrm_activity'] = $query->_whereTables['civicrm_activity'] = 1;
+        // }
+        // 
+        // if ( CRM_Utils_Array::value( 'case_scheduled_activity_type', $query->_returnProperties ) ) {
+        //     $query->_select['case_scheduled_activity_type']  = "activity_type.label as case_scheduled_activity_type";
+        //     $query->_element['case_scheduled_activity_type'] = 1;
+        //     $query->_tables['civicrm_activity'] = $query->_whereTables['activity_type'] = 1;
+        // }
     }
 
      /** 
@@ -115,23 +115,15 @@ class CRM_Case_BAO_Query
      */ 
     static function where( &$query )
     {
-        $isTest   = false;
-        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
                 if ( $query->_mode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
-                $grouping = $query->_params[$id][3];
-                self::whereClauseSingle( $query->_params[$id], $query );
+				$grouping = $query->_params[$id][3];
+				self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
-
-        //  foreach ( array_keys( $query->_params ) as $id ) {
-        //             if ( substr( $query->_params[$id][0], 0, 5) == 'case_' ) {
-        //                 self::whereClauseSingle( $query->_params[$id], $query );
-        //             }
-        //         }
     }
     
     /** 
@@ -194,6 +186,10 @@ class CRM_Case_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Case %1 My Cases', array( 1 => $op ) );
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
             return;
+	
+		case 'case_recent_activity_type':
+			$query->_where[$grouping][] = " rec_activity_type.name != '$value'";
+ 			return;
 
         case 'case_deleted':
             $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value";
@@ -229,13 +225,19 @@ class CRM_Case_BAO_Query
             $from .= " $side JOIN civicrm_option_value case_type ON (civicrm_case.case_type_id = case_type.value AND option_group_case_type.id = case_type.option_group_id ) ";
             break;
             
-        case 'civicrm_activity_type':
+        case 'recent_activity_type':
             $from .= " $side JOIN civicrm_option_group option_group_activity_type ON (option_group_activity_type.name = 'activity_type')";
-            $from .= " $side JOIN civicrm_option_value activity_type ON (civicrm_activity.activity_type_id = activity_type.value AND option_group_activity_type.id = activity_type.option_group_id ) ";
+            $from .= " $side JOIN civicrm_option_value rec_activity_type ON (recent_activity.activity_type_id = rec_activity_type.value AND option_group_activity_type.id = rec_activity_type.option_group_id ) ";
             break;
 
-        case 'civicrm_activity':
-            $from .= " $side JOIN civicrm_case_activity ON civicrm_case_activity.activity_id = civicrm_activity.id";
+        case 'recent_activity':
+            $from .= " INNER JOIN civicrm_case_activity ON civicrm_case_activity.case_id = civicrm_case.id ";
+			$from .= " INNER JOIN civicrm_activity recent_activity ON ( civicrm_case_activity.activity_id = recent_activity.id
+				AND recent_activity.is_current_revision = 1
+				AND recent_activity.activity_date_time <= NOW() 
+				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY ) 
+				AND recent_activity.is_deleted = 0 )
+				";
             break;            
 
         case 'case_relationship':
