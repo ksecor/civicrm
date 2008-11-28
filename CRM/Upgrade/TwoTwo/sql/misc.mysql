@@ -178,3 +178,46 @@ ALTER TABLE civicrm_entity_tag
 
 -- CRM-3487
 ALTER TABLE civicrm_uf_group DROP collapse_display;
+
+
+-- FIXED FOR CRM-3772
+-- upgrading civicrm_country table for region id by taking reference of civicrm_worldregion
+
+-- Europe and Central Asia
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "Europe and Central Asia";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id  WHERE `civicrm_country`.`iso_code` IN( "AL","AD","AQ","AT","AZ","BY","BE","BA","BV","BG","HR","CY","CZ","DK","EE","FO","FI","FR","TF","DE","GI","GR","VA","HU","IS","IE","IT","KZ","KG","LV","LI","LT","LU","MK","MT","MD","MC","NL","NO","PL","PT","RO","RU","SM","SK","SI","ES","SJ","SE","CH","TR","TM","UA","GB","UZ","CS","AX","RS","ME" ) AND `civicrm_country`.`region_id` IS null;
+
+-- America South, Central, North and Carribean
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "America South, Central, North and Carribean";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id  WHERE `civicrm_country`.`iso_code` IN( "AS","AI","AG","AR","AW","BZ","BM","BO","BR","VG","CA","CL","CO","CR","CU","DM","DO","EC","SV","FK","GF","GL","GD","GP","GT","GY","HT","HN","JM","MQ","MX","MS","AN","NI","MP","PY","PE","PR","KN","LC","PM","VC","GS","SR","BS","TT","TC","UM","US","UY","VE","VI" ) AND `civicrm_country`.`region_id` IS null;
+
+-- Middle East and North Africa
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "Middle East and North Africa";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id  WHERE `civicrm_country`.`iso_code` IN( "DZ","BH","EG","IR","IQ","IL","JO","KW","LB","LY","MA","OM","PS","QA","SA","SY","TN","AE","EH","YE" ) AND `civicrm_country`.`region_id` IS null;
+
+-- Asia-Pacific
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "Asia-Pacific";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id  WHERE `civicrm_country`.`iso_code` IN( "AF","AM","AU","BD","BB","BT","IO","BN","MM","KH","CN","CX","CC","CK","TL","FJ","PF","GE","GU","HM","HK","IN","ID","JP","KI","KP","KR","LA","MO","MY","MV","MH","FM","MN","NR","NP","NC","NZ","NU","NF","PK","PW","PG","PH","PN","WS","SG","SB","LK","TW","TJ","TH","TK","TO","TV","VU","VN","WF" ) AND `civicrm_country`.`region_id` IS null;
+
+-- Africa West, East, Central and Southern
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "Africa West, East, Central and Southern";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id  WHERE `civicrm_country`.`iso_code` IN( "AO","BJ","BW","BF","BI","CM","CV","KY","CF","TD","KM","CD","CG","CI","DJ","GQ","ER","ET","GA","GH","GN","GW","KE","LS","LR","MG","MW","ML","MR","MU","YT","MZ","NA","NE","NG","PA","RW","RE","SH","SN","SC","SL","SO","ZA","SD","SZ","ST","TZ","GM","TG","UG","ZM","ZW" ) AND `civicrm_country`.`region_id` IS null;
+
+-- unassigned
+
+SELECT @region_id   := max(id) from civicrm_worldregion where name = "unassigned";
+
+UPDATE `civicrm_country` SET `region_id` = @region_id WHERE `civicrm_country`.`iso_code` IN( "JE","GG","IM" ) AND `civicrm_country`.`region_id` IS null; 
+
+-- ******************************************************
+-- END OF THE UPGRADE
