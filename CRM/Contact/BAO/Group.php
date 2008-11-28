@@ -239,6 +239,11 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
                 }
             }
         }
+        // return only specific fields if returnproperties are sent
+        if ( !empty($returnProperties  ) ) {
+            $dao->selectAdd( );
+            $dao->selectAdd( implode( ',' , $returnProperties ) );
+        }
         $dao->find( );
 
         $flag = $returnProperties && in_array( 'member_count', $returnProperties ) ? 1 : 0;

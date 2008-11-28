@@ -88,8 +88,19 @@ function civicrm_group_get( &$params )
     if ( !is_null( $params ) && !is_array( $params ) ) {
         return civicrm_create_error( 'Params should be array' );
     }
+
+    $returnProperties = array( );
+    foreach ( $params as $n => $v ) {
+        if ( substr( $n, 0, 7 ) == 'return.' ) {
+            $returnProperties[] = substr( $n, 7 );
+        } 
+    }
     
-    $groupObjects = CRM_Contact_BAO_Group::getGroups( $params );
+    if( !empty($returnProperties) ){
+        $returnProperties[] = 'id';
+    }
+    
+    $groupObjects = CRM_Contact_BAO_Group::getGroups( $params, $returnProperties );
     
     if ( count( $groupObjects ) == 0 ) {
         return civicrm_create_error( 'No such group exists' );
