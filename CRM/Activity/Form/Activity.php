@@ -430,7 +430,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                $this->_activityType,
                                false, 
                                array('onchange' => 
-                                     "buildCustomData( this.value );injectActTypeFileFields( this.value );") );
+                                     "buildCustomData( 'Activity', this.value );injectActTypeFileFields( this.value );") );
 
         //freeze for update mode.
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -500,9 +500,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         //need to assign custom data type and subtype to the template
-        $this->assign('customDataType', 'Activity');
+        $this->assign('customDataType',     'Activity');
         $this->assign('customDataSubType',  $this->_activityTypeId );
-        $this->assign('entityId',  $this->_activityId );
+        $this->assign('entityID',           $this->_activityId );
 
         if ( $this->_targetContactId ) {
             $defaultTargetContactName = 
@@ -727,6 +727,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
                                         array( 1 => $params['subject'] ) ) );
+
+        return array( 'activity' => $activity );
     }
     
 
