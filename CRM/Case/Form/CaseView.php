@@ -154,7 +154,12 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $this->addRadio('date_range', null, $choices );
         
-        //get case related relationships (Case Role)
+		require_once"CRM/Core/Permission.php";
+		if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) { 
+			$this->add( 'checkbox', 'activity_deleted' , ts( 'Deleted Activities' ) );
+		}
+
+		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
         $this->assign('caseRelationships', $caseRelationships);
 

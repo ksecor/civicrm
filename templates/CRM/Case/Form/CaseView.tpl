@@ -242,6 +242,14 @@ function viewActivity( activityId ) {
                 {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_2}
         </td>
     </tr>
+	{if $form.activity_deleted}    
+	<tr>
+		<td>
+			{$form.activity_deleted.html}    
+			{$form.activity_deleted.label}
+		</td>
+	</tr>
+	{/if}
   </table>
   <br />
   <table id="activities-selector" style="display:none"></table>
@@ -310,7 +318,8 @@ function search(com)
 			{name:'status_id', value: cj("select#status_id").val()},
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
-			{name:'activity_date_high', value: activity_date_high}
+			{name:'activity_date_high', value: activity_date_high},
+			{name:'activity_deleted', value: cj("#activity_deleted:checked").val()}
 			]
 		});
     
