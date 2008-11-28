@@ -113,6 +113,11 @@ function civicrm_custom_group_create( $params )
     } else {
         $values['is_error'] = 0;
     }
+    if ( CRM_Utils_Array::value( 'html_type', $params ) ){
+        $params['custom_group_id'] = $customGroup->id;
+        $fielValues = civicrm_custom_field_create( $params );
+        $values     = array_merge( $values, $fielValues['result'] );
+    }
     return $values;
 }   
 
