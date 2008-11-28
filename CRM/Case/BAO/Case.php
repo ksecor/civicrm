@@ -730,17 +730,23 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
-            $values[$dao->id]['due_date']          = CRM_Utils_Date::customFormat( $dao->due_date );
-            $values[$dao->id]['due_date_unixTime'] = CRM_Utils_Date::unixTime( $dao->due_date );
+            $values[$dao->id]['due_date']          = $dao->due_date;
             $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
             $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
-            
             $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            if ( $values[$dao->id]['status'] == 'Scheduled' && 
+                 CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'due_date', $values[$dao->id] ) ) ) {
+                $values[$dao->id]['class']   = 'status-overdue';
+            } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
+                $values[$dao->id]['class']   = 'status-pending';
+            } else if ( $values[$dao->id]['status'] == 'Completed' ) {
+                $values[$dao->id]['class']   ="status-completed";
+            }
         }
-        
+
         $dao->free( );
         return $values;
     }

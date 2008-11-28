@@ -159,15 +159,23 @@ class CRM_Case_BAO_Query
         case 'case_type_id':
             require_once "CRM/Case/PseudoConstant.php";
             $caseTypes = CRM_Case_PseudoConstant::caseType( );            
+            
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ($v) {
+                        $val[$k] = $k;
+                    }
+                } 
+            }
 
             $names = array( );
-            foreach ( $value as $id => $val ) {
-                $names[] = $caseTypes[$val];
+            foreach ( $value as $id => $dontCare ) {
+                $names[] = $caseTypes[$id];
             }
             require_once 'CRM/Case/BAO/Case.php';
             $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
                 implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_case.case_type_id LIKE '%" .
-                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $val) . 
                 CRM_Case_BAO_Case::VALUE_SEPERATOR;
             $query->_where[$grouping][] = "(civicrm_case.case_type_id LIKE '%{$value}%')";
 
@@ -295,9 +303,10 @@ case_relation_type.id = case_relationship.relationship_type_id )";
 
         require_once "CRM/Case/PseudoConstant.php";
         $caseTypes = CRM_Case_PseudoConstant::caseType( );
-        $form->addElement('select', 'case_type_id',  ts( 'Case Type' ),  
-                          $caseTypes, array("size"=>"5",  "multiple"));
-        
+        foreach ( $caseTypes as $id => $Name) {
+            $form->addElement('checkbox', "case_type_id[$id]", null,$Name);
+        }
+      
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
                    array( '' => ts( '- any status -' ) ) + $statuses );
