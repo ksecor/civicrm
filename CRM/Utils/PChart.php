@@ -223,7 +223,6 @@ class CRM_Utils_PChart
                 $monthNames[]  = $month;
                 $monthValues[] = $value;
             }
-            
             $monthLegend = $params['by_month']['legend'];
             
             //rounded to 100's
@@ -287,8 +286,8 @@ class CRM_Utils_PChart
             $monthYsize = 300;
             
             //calculate x axis size as per number of months.
-            $monthXsize = count( $params['by_month']['values'] ) * 50;
-            $monthX2    = $monthXsize - 20;
+            $monthX2    = 105 + ( count( $params['by_month']['values'] ) - 1 ) * 44;
+            $monthXsize = $monthX2 + 20; 
             
             $monthDataSet = new pData;
             $monthDataSet->AddPoint( $monthValues, "Serie1" );
@@ -309,7 +308,8 @@ class CRM_Utils_PChart
             $monthChart->drawRoundedRectangle( ($monthX1-58), ($monthY1-25),  ($monthX2+20),  ($monthY2+27), 5, 230, 230, 230 );
             
             $monthChart->drawGraphArea(255,255,255,TRUE);
-            $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+            $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, 44 );
             $monthChart->drawGrid(4,TRUE,230,230,230,50);
             
             //Draw the bar chart
@@ -344,8 +344,8 @@ class CRM_Utils_PChart
             $yearYsize = 300;
             
             //need to calculate X size as per number of years.
-            $yearXsize = count( $params['by_year']['values'] ) * 85;
-            $yearX2    = $yearXsize - 20; 
+            $yearX2    = 105 + ( count( $params['by_year']['values'] ) - 1 ) * 44;
+            $yearXsize = $yearX2 + 20; 
             
             $yearDataSet = new pData;
             $yearDataSet->AddPoint( $yearValues, "Serie1");
@@ -366,7 +366,9 @@ class CRM_Utils_PChart
             
             //draw graph.
             $yearChart->drawGraphArea(255,255,255,TRUE);
-            $yearChart->drawScale($yearDataSet->GetData(),$yearDataSet->GetDataDescription(),SCALE_NORMAL,150, 150, 150,TRUE,0,2,TRUE);
+            $yearChart->drawScale( $yearDataSet->GetData(), $yearDataSet->GetDataDescription( ), 
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, 44 );
+            
             $yearChart->drawGrid(4,TRUE,230,230,230,50);
             
             $yearChart->setColorPalette( 0, 69, 139, 0 );

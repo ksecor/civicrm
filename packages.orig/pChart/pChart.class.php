@@ -378,7 +378,7 @@
     }
 
    /* Compute and draw the scale */
-   function drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE, $fixDivisionWidth = null )
+   function drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE)
     {
      /* Validate the Data and DataDescription array */
      $this->validateData("drawScale",$Data);
@@ -511,30 +511,22 @@
      $this->DivisionRatio  = ( $this->GArea_Y2 - $this->GArea_Y1 ) / $DataRange;
 
      $this->GAreaXOffset  = 0;
-     if ( count($Data) > 1 ) {
-         if ( $WithMargin == FALSE ) {
-             if ( $fixDivisionWidth ) {
-                 $this->DivisionWidth = $fixDivisionWidth;
-             } else {
-                 $this->DivisionWidth = ( $this->GArea_X2 - $this->GArea_X1 ) / (count($Data)-1);
-             }
-         } else {
-             if ( $fixDivisionWidth ) {
-                 $this->DivisionWidth = $fixDivisionWidth;
-             } else {
-                 $this->DivisionWidth = ( $this->GArea_X2 - $this->GArea_X1 ) / (count($Data));
-             }
-             $this->GAreaXOffset  = $this->DivisionWidth / 2;
-         }
-     } else { 
-         if ( $fixDivisionWidth ) {
-             $this->DivisionWidth = $fixDivisionWidth;
-         } else {
-             $this->DivisionWidth = $this->GArea_X2 - $this->GArea_X1;
-         }
+     if ( count($Data) > 1 )
+      {
+       if ( $WithMargin == FALSE )
+        $this->DivisionWidth = ( $this->GArea_X2 - $this->GArea_X1 ) / (count($Data)-1);
+       else
+        {
+         $this->DivisionWidth = ( $this->GArea_X2 - $this->GArea_X1 ) / (count($Data));
          $this->GAreaXOffset  = $this->DivisionWidth / 2;
-     }
-     
+        }
+      }
+     else
+      {
+       $this->DivisionWidth = $this->GArea_X2 - $this->GArea_X1;
+       $this->GAreaXOffset  = $this->DivisionWidth / 2;
+      }
+
      $this->DataCount = count($Data);
 
      if ( $DrawTicks == FALSE )
