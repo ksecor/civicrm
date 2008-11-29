@@ -51,7 +51,7 @@
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td>{$row.case_status}</td>
     <td>{$row.case_type}</td>
-    <td>{$row.case_role}</td>
+    <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
 
     {if $list eq 'upcoming'}
     <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>

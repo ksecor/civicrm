@@ -34,7 +34,7 @@
         <tr class="{cycle values="odd-row,even-row"}">
             <td>{$case.case_status}</td>
             <td>{$case.case_type}</td>
-            <td>{$case.case_role}</td>
+            <td>{if $case.case_role}{$case.case_role}{else}---{/if}</td>
             <td>{$case.case_recent_activity_type}<br />{$case.case_recent_activity_date |crmDate}</td>
             <td>{$case.case_scheduled_activity_type}<br />{$case.case_scheduled_activity_date |crmDate}</td>
             <td>{$case.action}</td>

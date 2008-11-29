@@ -473,7 +473,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                              AND aog.id = aov.option_group_id )         
 
                   LEFT  JOIN  civicrm_relationship case_relationship 
-                        ON (case_relationship.contact_id_a = civicrm_case_contact.contact_id)
+                        ON ( case_relationship.contact_id_a = civicrm_case_contact.contact_id 
+                             AND case_relationship.contact_id_b = {$userID} )
      
                   LEFT  JOIN civicrm_relationship_type case_relation_type 
                         ON ( case_relation_type.id = case_relationship.relationship_type_id 

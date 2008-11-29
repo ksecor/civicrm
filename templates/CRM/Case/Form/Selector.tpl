@@ -69,7 +69,7 @@
 
     <td>{$row.case_status}</td>
     <td>{$row.case_type}</td>
-    <td>{$row.case_role}</td>
+    <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
     <td>{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}</td>
     <td>{$row.case_scheduled_activity_type}<br />{$row.case_scheduled_activity_date|crmDate}</td>
     <td>{$row.action}</td>
