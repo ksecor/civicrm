@@ -42,7 +42,7 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status eq 'Resolved' } disabled{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
