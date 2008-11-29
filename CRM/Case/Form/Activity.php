@@ -46,13 +46,6 @@ require_once 'CRM/Contact/BAO/Contact.php';
 class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 {
     /**
-     * The context
-     *
-     * @var string
-     */
-    public $_context = 'activity';
-
-    /**
      * The default values of an activity
      *
      * @var array
@@ -122,7 +115,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
-        $this->_crmDir = 'Case';
+        $this->_crmDir  = 'Case';
+        $this->_context = 'activity';
 
         // set context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',

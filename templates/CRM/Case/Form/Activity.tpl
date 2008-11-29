@@ -196,16 +196,18 @@ hide('follow-up');
 show('follow-up_show');
 buildContact( 1, 'assignee_contact' );
 
-var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseType}"{literal};
+var caseType = {/literal}"{$caseType}"{literal};
+if ( caseType ) {
+    var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}"{literal} + caseType;
 
-cj("#followup_activity").autocomplete( activityUrl, {
-	width: 260,
-	selectFirst: false  
-});
+    cj("#followup_activity").autocomplete( activityUrl, {
+	    width: 260,
+	    selectFirst: false  
+    });
 
-cj("#followup_activity").result(function(event, data, formatted) {
-
-});		    
+    cj("#followup_activity").result(function(event, data, formatted) {
+    });		    
+}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {
