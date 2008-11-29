@@ -288,20 +288,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // when custom data is included in this page
 		if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-			//custom data of type participant, ( we 'null' to reset subType and subName)
-			CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null' );
-			CRM_Custom_Form_Customdata::buildQuickForm( $this );
-			CRM_Custom_Form_Customdata::setDefaultValues( $this );
-			
 			//custom data of type participant role
-			CRM_Custom_Form_Customdata::preProcess( $this, $this->_roleCustomDataTypeID, $_POST['role_id'] );
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_roleCustomDataTypeID, $_POST['role_id'], 1, 'Participant' );
 			CRM_Custom_Form_Customdata::buildQuickForm( $this );
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
 			
 			//custom data of type participant event
-			CRM_Custom_Form_Customdata::preProcess( $this, $this->_eventNameCustomDataTypeID, $_POST['event_id'] );
+			CRM_Custom_Form_Customdata::preProcess( $this, $this->_eventNameCustomDataTypeID, $_POST['event_id'], 1, 'Participant' );
 			CRM_Custom_Form_Customdata::buildQuickForm( $this );
 			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
+			//custom data of type participant, ( we 'null' to reset subType and subName)
+			CRM_Custom_Form_Customdata::preProcess( $this, 'null', 'null' );
+			CRM_Custom_Form_Customdata::buildQuickForm( $this );
+			CRM_Custom_Form_Customdata::setDefaultValues( $this );
+
 		}
     }
     
@@ -383,6 +384,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $defaults[$this->_participantId]["email-{$this->_bltID}"] = $defaults["email-Primary"];
                 }
             }
+
+			$submittedRole = $this->getElementValue( 'role_id' );
+			if ( $submittedRole[0] ) {
+				$roleID  = $submittedRole[0];
+			}
+			$submittedEvent = $this->getElementValue( 'event_id' );
+			if ( $submittedEvent[0] ) {
+				$eventID  = $submittedEvent[0];
+			}
         } else {
             $defaults[$this->_participantId]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_participantId]['register_date']);
             $defaults[$this->_participantId]['register_date']['i']  = (integer)($defaults[$this->_participantId]['register_date']['i']/15)*15;
@@ -405,12 +415,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'participant_is_pay_later', true );
             }
             $this->assign( 'participant_status_id', $defaults[$this->_participantId]['participant_status_id'] );
-			
-			//assign event and role id, this is needed for Custom data building
-			$this->assign( 'roleID', $defaults[$this->_participantId]['participant_role_id'] );
-			$this->assign( 'eventID', $defaults[$this->_participantId]['event_id'] );
+			$roleID  = $defaults[$this->_participantId]['participant_role_id'];
+			$eventID = $defaults[$this->_participantId]['event_id'];
         }
         
+		//assign event and role id, this is needed for Custom data building
+		$this->assign( 'roleID',  $roleID );
+		$this->assign( 'eventID', $eventID );
+		
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_participantId]) );
         return $defaults[$this->_participantId];
     }
@@ -547,7 +559,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                           );
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
-        }
+        }		
     }
     
     /**
