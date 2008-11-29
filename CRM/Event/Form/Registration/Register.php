@@ -68,6 +68,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         //To check if the user is already registered for the event(CRM-2426) 
         self::checkRegistration(null , $this);
+
+        require_once 'CRM/Event/BAO/Participant.php';
+        $this->_availableRegistrations = CRM_Event_BAO_Participant::eventfull( $this->_values['event']['id'], true );
+        if ( $this->_availableRegistrations ) {
+            $this->assign( 'availableRegistrations', $this->_availableRegistrations );
+        }
     }
 
     /**
@@ -340,7 +346,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-             
+       
+        //check for availability of registrations.
+        if ( ($fields['additional_participants'] >= $self->_availableRegistrations) && $self->_availableRegistrations ) {
+            $errors['additional_participants'] = ts( "You can register only %1 participant(s)", array( 1=>$self->_availableRegistrations ));
+        }
+        
+     
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
