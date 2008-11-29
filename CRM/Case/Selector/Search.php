@@ -272,7 +272,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          if ( CRM_Core_Permission::check( 'edit cases' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
-         
+
+         $scheduledInfo = array();
+
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
              $row = array();
@@ -282,7 +284,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
-                                       
+             $scheduledInfo['case_id'][]    = $result->case_id;
+             $scheduledInfo['contact_id'][] = $result->contact_id;                          
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links( ), null,
@@ -293,9 +296,18 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
              $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
              
-             $rows[] = $row;
+             $rows[$result->case_id] = $row;
          }
          
+         //retrive the scheduled Activity type and date for selector
+         if( ! empty ( $scheduledInfo ) ) {
+             require_once 'CRM/Case/BAO/Case.php';
+             $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo );
+             foreach( $schdeduledActivity as $key => $value) {
+                 $rows[$key]['case_scheduled_activity_date'] = $value['date'];
+                 $rows[$key]['case_scheduled_activity_type'] = $value['type'];
+             }
+         }
          return $rows;
      }
      

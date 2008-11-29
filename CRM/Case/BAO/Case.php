@@ -440,17 +440,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( $type == 'upcoming' ) {
             $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
                          aov.label as case_scheduled_activity_type ";       
-        } else if ( $type == 'recent') {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
                          aov.label as case_recent_activity_type ";
-        } else if ($type == 'all') {
-            $query .=  " max(civicrm_activity.activity_date_time) as case_recent_activity_date,
-                         aov.label as case_recent_activity_type,
-                         min(civicrm_activity.due_date_time) as case_scheduled_activity_date,
-                         aov.label as case_scheduled_activity_type ";
-        }
+        } 
         
-        $query .= " FROM civicrm_case
+        $query .= 
+            " FROM civicrm_case
                   INNER JOIN civicrm_case_activity
                         ON civicrm_case_activity.case_id = civicrm_case.id  
             
@@ -462,15 +458,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
                                   AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
-        } else if ( $type == 'recent' ) {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " LEFT JOIN civicrm_activity
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
                                   AND civicrm_activity.activity_date_time <= NOW() 
                                   AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) ) ";
-        } else if ( $type == 'all' ) {
-            $query .= " LEFT  JOIN  civicrm_activity_target ON civicrm_activity_target.target_contact_id = civicrm_contact.id  
-                        LEFT  JOIN  civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id  ";
         }
         
         $query .= "
@@ -503,10 +496,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         
         if ( $type == 'upcoming' ) {
             $query .= " WHERE cov_actstatus.name = 'Scheduled' "; 
-        } else if ( $type == 'recent' ) {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " WHERE cov_actstatus.name != 'Scheduled' ";
-        } else if ( $type == 'all') {
-            $query .= " WHERE civicrm_case_contact.contact_id = {$userID} ";  
+        } 
+        if ( $type == 'all') {
+            $query .= " AND civicrm_case_contact.contact_id = {$userID} ";  
         }
                   
         if ( ! $allCases && $type != 'all' ) {
@@ -517,10 +511,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $query .= " AND civicrm_activity.is_deleted = 0
                     AND civicrm_case.is_deleted = 0";
 
-        if ( $type == 'upcoming' || $type == 'all' ) {
+        if ( $type == 'upcoming' ) {
             $query .=" GROUP BY case_id
                        ORDER BY case_scheduled_activity_date ASC ";
-        } else if ( $type == 'recent' ) {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " GROUP BY case_id
                         ORDER BY case_recent_activity_date ASC ";
         }
@@ -996,6 +990,65 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         } 
 
     }
+    /**
+     * Function to retrive the scheduled activity type and date
+     * 
+     * @param  array  $cases  Array of contact and case id        
+     *       
+     * @return array  $activityInfo Array of scheduled activity type and date
+     * 
+     * @access public
+     *
+     * @static
+     */
+    static function getNextScheduledActivity( $cases ) {
+        
+        $caseID    = implode ( ',', $cases['case_id']);
+        
+        $contactID = implode ( ',', $cases['contact_id'] );
+        $query = "
+             SELECT
+                  civicrm_case.id as case_id, 
+                  civicrm_activity.due_date_time as case_scheduled_activity_date,
+                  aov.label                      as case_scheduled_activity_type  
+             FROM civicrm_case
+                  INNER JOIN civicrm_case_activity
+                        ON civicrm_case_activity.case_id = civicrm_case.id              
+                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id  
+                  LEFT JOIN civicrm_activity
+                       ON ( civicrm_case_activity.activity_id = civicrm_activity.id
+                            AND civicrm_activity.is_current_revision = 1
+                            AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) 
+                                             
+                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
+                  LEFT JOIN civicrm_option_value cov_actstatus 
+                       ON ( civicrm_activity.status_id = cov_actstatus.value
+                            AND cog_actstatus.id = cov_actstatus.option_group_id ) 
+                         LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
+                  LEFT JOIN civicrm_option_value aov
+                        ON ( civicrm_activity.activity_type_id = aov.value
+                             AND aog.id = aov.option_group_id )  
+                 
+             WHERE cov_actstatus.name = 'Scheduled'  
+                   AND civicrm_case_contact.contact_id IN( {$contactID} )
+                   AND civicrm_activity.is_deleted = 0
+                   AND civicrm_case.id IN( {$caseID})
+                   AND civicrm_case.is_deleted = 0 
+ 
+             GROUP BY civicrm_case.id
+             ORDER BY case_scheduled_activity_date ASC"; 
+        
+        $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        $activityInfo = array();
+        while( $res->fetch() ) {
+            $activityInfo[$res->case_id]['date']    = $res->case_scheduled_activity_date;
+            $activityInfo[$res->case_id]['type']    = $res->case_scheduled_activity_type;
+        } 
+        return $activityInfo;
+    }
+
 }
 
    

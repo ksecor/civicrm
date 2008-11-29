@@ -125,8 +125,8 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
         $query  = CRM_Case_BAO_Case::getCases( $allCases = false, $this->_contactId, $type = 'all' );
             
         $case   = CRM_Core_DAO::executeQuery( $query, $queryParams );
-
-        $values = array( );
+        $scheduledInfo = array();
+        $values        = array( );
         while ( $case->fetch() ) {
 
             $values[$case->case_id]['action'] = CRM_Core_Action::formLink( $links,
@@ -140,11 +140,20 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $values[$case->case_id]['case_role']                    = $case->case_role;
             $values[$case->case_id]['case_recent_activity_date']    = $case->case_recent_activity_date;
             $values[$case->case_id]['case_recent_activity_type']    = $case->case_recent_activity_type;
-            $values[$case->case_id]['case_scheduled_activity_date'] = $case->case_scheduled_activity_date;
-            $values[$case->case_id]['case_scheduled_activity_type'] = $case->case_scheduled_activity_type;
             $values[$case->case_id]['id']                           = $case->case_id;
+            $scheduledInfo['case_id'][]                             = $case->case_id;
+            $scheduledInfo['contact_id'][]                          = $this->_contactId;
         } 
-        
+
+        //retrive the scheduled Activity type and date for selector
+        if( ! empty ( $scheduledInfo ) ) {
+            require_once 'CRM/Case/BAO/Case.php';
+            $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo );
+            foreach( $schdeduledActivity as $key => $value) {
+                $values[$key]['case_scheduled_activity_date'] = $value['date'];
+                $values[$key]['case_scheduled_activity_type'] = $value['type'];
+            }
+        }
         $this->assign( 'cases', $values );
     }
 
