@@ -1,5 +1,7 @@
 {* this template is used for adding/editing activities for a case. *}
-{if $addAssigneeContact }
+{if $cdType }
+   {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $addAssigneeContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
@@ -53,8 +55,8 @@
         </tr>
 
         {* Include special processing fields if any are defined for this activity type. *}
-        {if $caseAction}
-            {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
+        {if $activityTypeFile}
+            {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
         {/if}
 
         <tr>
@@ -87,7 +89,7 @@
           </td>
        </tr>
        <tr>
-          <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl"}</td>
+          <td colspan="2"><div id="customData"></div></td>
        </tr>
        <tr>
           <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
@@ -164,6 +166,23 @@
         </tr>
     </table>
 </fieldset>
+{/if}
+
+{if $action eq 1 or $action eq 2}
+   {*include custom data js file*}
+   {include file="CRM/common/customData.tpl"}
+    {literal}
+    <script type="text/javascript">
+	cj(document).ready(function() {
+		{/literal}
+		buildCustomData( '{$customDataType}' );
+		{if $customDataSubType}
+			buildCustomData( '{$customDataType}', {$customDataSubType} );
+		{/if}
+		{literal}
+	});
+    </script>
+    {/literal}
 {/if}
  
 {* Build add contact *}

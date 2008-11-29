@@ -184,7 +184,7 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
             $caseTypeId   = $caseTypeId[0];
             
             self::$caseTypePair[$caseId] = array( 'id'   => $caseTypeId,
-                                            'name' => $caseTypes[$caseTypeId] );
+                                                  'name' => $caseTypes[$caseTypeId] );
         }
 
         return self::$caseTypePair[$caseId];

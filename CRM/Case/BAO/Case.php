@@ -725,9 +725,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $values = array( );
         $url = CRM_Utils_System::url( "civicrm/case/activity",
-                                      "reset=1&cid={$contactID}&id={$caseID}", false, null, false ); 
+                                      "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
-        $editUrl   = "{$url}&action=add";
+        $editUrl   = "{$url}&action=update";
         $deleteUrl = "{$url}&action=delete";
         $viewTitle = ts('View this activity.');
               
@@ -740,7 +740,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
-            $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
+            $additionalUrl = "&id={$dao->id}";
             $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
                  CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'due_date', $values[$dao->id] ) ) ) {
