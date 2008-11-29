@@ -279,6 +279,13 @@ class CRM_Core_PseudoConstant
     private static $phoneType;
 
     /**
+     * Visibility
+     * @var array
+     * @static
+     */
+    private static $visibility;
+
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -1235,6 +1242,26 @@ WHERE  id = %1";
         return self::$wysiwygEditor;
     }
 
+    /**
+     * Get all Visibility levels.
+     *
+     * The static array visibility is returned
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all Visibility levels.
+     *
+     */
+    public static function &visibility( )
+    {
+        if ( ! self::$visibility ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$visibility = CRM_Core_OptionGroup::values('visibility');
+        }
+        return self::$visibility;
+    }
+    
     /**
      * Get all mapping types
      *

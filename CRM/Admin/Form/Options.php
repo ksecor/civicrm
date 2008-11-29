@@ -187,6 +187,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
                 $this->freeze();
                 $element->unfreeze();
             }
+
+            require_once "CRM/Core/PseudoConstant.php";
+            $this->add( 'select', 'visibility_id', ts('Visibility'), CRM_Core_PseudoConstant::visibility( ) );
         }
         
         $this->addFormRule( array( 'CRM_Admin_Form_Options', 'formRule' ), $this );

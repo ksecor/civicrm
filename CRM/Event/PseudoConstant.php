@@ -94,7 +94,8 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all participant statuses if any
      * @static
      */
-    public static function &participantStatus( $id = null, $cond = null ) {
+    public static function &participantStatus( $id = null, $cond = null ) 
+    {
         if ( self::$participantStatus === null ) {
             self::$participantStatus = array( );
         }
