@@ -173,6 +173,18 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
+        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+                       'positiveInteger');  
+       
+        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
+
+        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
+        foreach ( $freqUnits as $name => $label ) {
+            $freqUnits[$name] = $label . '(s)';
+        }
+        $this->add( 'select', 'interval_unit', null, $freqUnits );
+
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );

@@ -473,18 +473,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->add('select','status_id',ts('Status'), 
                    CRM_Core_PseudoConstant::activityStatus( ), true );
 
-        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
-        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
-                       'positiveInteger');  
-       
-        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
-
-        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
-        foreach ( $freqUnits as $name => $label ) {
-            $freqUnits[$name] = $label . '(s)';
-        }
-        $this->add( 'select', 'interval_unit', null, $freqUnits );
-
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
@@ -741,19 +729,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // call end post process. Idea is to let injecting file do any
         // processing needed, after the activity has been added/updated.
         $this->endPostProcess( $params, $activity );
-
-        // create follow up activity if needed
-       if ( CRM_Utils_Array::value('followup_activity', $params) ) {
-           $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
-
-           if ( $caseId = CRM_Utils_Array::value('case_id', $params) && $followupActivity ) {
-
-               $caseParams = array( 'activity_id' => $followupActivity->id,
-                                    'case_id'     => $caseId   );
-               CRM_Case_BAO_Case::processCaseActivity( $caseParams );
-           
-           }
-        }
 
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
