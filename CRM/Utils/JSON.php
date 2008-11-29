@@ -69,10 +69,8 @@ class CRM_Utils_JSON
      *
      * @return json encode string   
      */
-    static function encodeSelector( &$params, $page, $selectorElements )
+    static function encodeSelector( &$params, $page, $total, $selectorElements )
     {
-        $total = count( $params );
-
         $json = "";
         $json .= "{\n";
         $json .= "page: $page,\n";

@@ -49,12 +49,12 @@ class CRM_Activity_Page_AJAX
         require_once "CRM/Case/BAO/Case.php";
         $activities = CRM_Case_BAO_Case::getCaseActivity( $caseID, $params, $contactID );
 
-        $page = $params['page'];
-        if (!$page) $page = 1;
-        
+        $page  = $_POST['page'];
+        $total = $params['total'];
+
         require_once "CRM/Utils/JSON.php";
         $selectorElements = array( 'due_date', 'actual_date', 'subject', 'type', 'reporter', 'status', 'links' );
-        $json = CRM_Utils_JSON::encodeSelector( $activities, $page, $selectorElements );
+        $json = CRM_Utils_JSON::encodeSelector( $activities, $page, $total, $selectorElements );
         echo $json;
     }
 

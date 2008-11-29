@@ -627,7 +627,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @static
      */
-    static function getCaseActivity( $caseID, $params, $contactID )
+    static function getCaseActivity( $caseID, &$params, $contactID )
     {
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
@@ -701,17 +701,19 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         if (!$page) $page = 1;
         if (!$rp) $rp = 10;
-        
+
         $start = (($page-1) * $rp);
         
-        $limit = " LIMIT $start, $rp";
-
-        $query = $select . $from . $where . $orderBy . $limit;
-        
+        $query  = $select . $from . $where . $orderBy;
         $params = array( 1 => array( $caseID, 'Integer' ) );
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        $params['total'] = $dao->N;
+
+        //FIXME: need to optimize/cache these queries
+        $limit  = " LIMIT $start, $rp";
+        $query .= $limit;
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+
         $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
         require_once "CRM/Utils/Date.php";
