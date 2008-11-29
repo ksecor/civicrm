@@ -112,10 +112,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->_currentUserId = $session->get('userID');
         
         //when custom data is included in this page
-        $this->set( 'type'    , 'Activity' );
-        $this->set( 'subType' , $this->_activityTypeId );
-        CRM_Custom_Form_Customdata::preProcess( $this );
-
+        CRM_Custom_Form_Customdata::preProcess( $this, null, $this->_activityTypeId, 1, 'Activity' );
         eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
     }
     
