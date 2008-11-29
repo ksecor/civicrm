@@ -2,13 +2,6 @@
 
 <menu>
   <item>
-     <path>civicrm/ajax</path>
-     <title></title>
-     <page_callback>CRM_Core_Page_AJAX</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-     <weight>0</weight>
-  </item>
-  <item>
      <path>civicrm/upgrade</path>
      <title>Upgrade 2.0 => 2.1</title>
      <page_callback>CRM_Upgrade_TwoOne_Controller</page_callback>
