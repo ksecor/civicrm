@@ -57,7 +57,7 @@ class CRM_Utils_PChart
                 }
                 $monthShades++; 
             }
-            $monthLegend = $params['by_month']['legend'];
+            $monthLegend = CRM_Utils_Array::value( 'legend', $params['by_month'], 'By Month');
         }
         
         //format the year params.
@@ -71,7 +71,7 @@ class CRM_Utils_PChart
                 }
                 $yearShades++;  
             }
-            $yearLegend = $params['by_year']['legend'];
+            $yearLegend = CRM_Utils_Array::value( 'legend', $params['by_year'], 'By Year' );
         }
         
         //get the required directory path.
@@ -223,7 +223,7 @@ class CRM_Utils_PChart
                 $monthNames[]  = $month;
                 $monthValues[] = $value;
             }
-            $monthLegend = $params['by_month']['legend'];
+            $monthLegend = CRM_Utils_Array::value( 'legend', $params['by_month'], 'By Month');
             
             //rounded to 100's
             $monthMaxScale = round( ( max( $params['by_month']['values'] ) + 300 ) / 100 ) * 100;
@@ -236,7 +236,7 @@ class CRM_Utils_PChart
                 $yearNames[]  = $year;
                 $yearValues[] = $value;
             }
-            $yearLegend = $params['by_year']['legend'];
+            $yearLegend = CRM_Utils_Array::value( 'legend', $params['by_year'], 'By Year' );
             
             //rounded to 100's
             $yearMaxScale = round( ( max( $params['by_year']['values'] ) + 300 ) / 100 ) * 100;
@@ -286,9 +286,10 @@ class CRM_Utils_PChart
             $monthYsize = 300;
             
             //calculate x axis size as per number of months.
-            $monthX2    = 105 + ( count( $params['by_month']['values'] ) - 1 ) * 44;
-            $monthXsize = $monthX2 + 20; 
-            
+            $divisionWidth = 44;
+            $monthX2       = 105 + ( count( $params['by_month']['values'] ) - 1 ) * $divisionWidth;
+            $monthXsize    = $monthX2 + 20;
+                        
             $monthDataSet = new pData;
             $monthDataSet->AddPoint( $monthValues, "Serie1" );
             $monthDataSet->AddPoint( $monthNames, "Serie2" );
@@ -309,7 +310,7 @@ class CRM_Utils_PChart
             
             $monthChart->drawGraphArea(255,255,255,TRUE);
             $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),
-                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, 44 );
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
             $monthChart->drawGrid(4,TRUE,230,230,230,50);
             
             //Draw the bar chart
@@ -344,8 +345,9 @@ class CRM_Utils_PChart
             $yearYsize = 300;
             
             //need to calculate X size as per number of years.
-            $yearX2    = 105 + ( count( $params['by_year']['values'] ) - 1 ) * 44;
-            $yearXsize = $yearX2 + 20; 
+            $divisionWidth = 44;
+            $yearX2        = 105 + ( count( $params['by_year']['values'] ) - 1 ) * $divisionWidth;
+            $yearXsize     = $yearX2 + 20; 
             
             $yearDataSet = new pData;
             $yearDataSet->AddPoint( $yearValues, "Serie1");
@@ -367,7 +369,7 @@ class CRM_Utils_PChart
             //draw graph.
             $yearChart->drawGraphArea(255,255,255,TRUE);
             $yearChart->drawScale( $yearDataSet->GetData(), $yearDataSet->GetDataDescription( ), 
-                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, 44 );
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
             
             $yearChart->drawGrid(4,TRUE,230,230,230,50);
             
