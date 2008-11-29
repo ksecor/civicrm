@@ -31,6 +31,16 @@
      <weight>410</weight>
   </item>
   <item>
+     <path>civicrm/admin/mailSettings</path>
+     <title>Mail Account Setting</title>
+     <page_callback>CRM_Admin_Page_MailSettings</page_callback>
+     <desc>Configure email account setting.</desc>
+     <access_arguments>access CiviMail</access_arguments>
+     <adminGroup>CiviMail</adminGroup>
+     <icon>admin/small/07.png</icon>
+     <weight>420</weight>
+  </item>
+    <item>
      <path>civicrm/mailing/send</path>
      <title>New Mailing</title>
      <page_callback>CRM_Mailing_Controller_Send</page_callback>
