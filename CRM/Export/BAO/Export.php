@@ -67,6 +67,7 @@ class CRM_Export_BAO_Export
         $queryMode        = null; 
         $paymentFields    = false;
 
+        $phoneTypes = CRM_Core_PseudoConstant::phoneType();
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -122,7 +123,7 @@ class CRM_Export_BAO_Export
             if ( $primary ) {
                 $returnProperties['location_type'   ] = 1;
                 $returnProperties['im_provider'     ] = 1;
-                $returnProperties['phone_type'      ] = 1;
+                $returnProperties['phone_type_id'   ] = 1;
                 $returnProperties['current_employer'] = 1;
             }
             
@@ -261,7 +262,7 @@ class CRM_Export_BAO_Export
                 if ( $setHeader ) { 
                     if ( isset( $query->_fields[$field]['title'] ) ) {
                         $headerRows[] = $query->_fields[$field]['title'];
-                    } else if ($field == 'phone_type'){
+                    } else if ($field == 'phone_type_id'){
                         $headerRows[] = 'Phone Type';
                     } else if ( is_array( $value ) && $field == 'location' ) {
                         // fix header for location type case
@@ -271,9 +272,7 @@ class CRM_Export_BAO_Export
                                 $hdr = "{$ltype}-" . $query->_fields[$type[0]]['title'];
                                 
                                 if ( CRM_Utils_Array::value( 1, $type ) ) {
-                                    $phoneTypes = CRM_Core_PseudoConstant::phoneType();
-                                    $phoneTypeValue = CRM_Utils_Array::value( $type[1], $phoneTypes );
-                                    $hdr .= " " . $phoneTypeValue;
+                                    $hdr .= " " . CRM_Utils_Array::value( $type[1], $phoneTypes );
                                 }
                                 $headerRows[] = $hdr;
                             }
@@ -286,6 +285,10 @@ class CRM_Export_BAO_Export
                 //build row values (data)
                 if ( property_exists( $dao, $field ) ) {
                     $fieldValue = $dao->$field;
+                    // to get phone type from phone type id
+                    if ( $field == 'phone_type_id' ) {
+                        $fieldValue = $phoneTypes[$fieldValue];
+                    }
                 } else {
                     $fieldValue = '';
                 }
