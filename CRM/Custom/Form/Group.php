@@ -313,15 +313,24 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             $defaults['style'] = 'Inline';
         }
 
-        if ( isset ($defaults['extends'] ) ){     
+        if ( isset ($defaults['extends'] ) ) {
             $extends = $defaults['extends'];
             unset($defaults['extends']);
+
             $defaults['extends'][0] = $extends;
-            $defaults['extends'][1] = CRM_Utils_Array::value( 'extends_entity_column_value',
-                                                              $defaults );
+            $defaults['extends'][1]  = CRM_Utils_Array::value( 'extends_entity_column_value', $defaults );
+			
+			$subName = CRM_Utils_Array::value( 'extends_entity_column_id', $defaults );
+			
+			if ( $extends == 'Participant') {
+				if ( $subName == 1 ) {
+					$defaults['extends'][0] = 'ParticipantRole';
+				} elseif ( $subName == 2 ) {
+					$defaults['extends'][0] = 'ParticipantEventName';
+				}
+			}
         }
         return $defaults;
-        
     }
     
     /**
