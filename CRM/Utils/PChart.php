@@ -80,18 +80,11 @@ class CRM_Utils_PChart
             
             //get the currency.
             $currency = $config->defaultCurrency;
-            $templatesDir = explode( '/', $config->templateDir );
-            $resourcePath = array( );
-            foreach ( $templatesDir as $key => $val ) {
-                if ( $val == 'templates' ) {
-                    break;
-                }
-                $resourcePath[] = $val;
-            }
-            
-            $pChartPath    = implode( '/', $resourcePath ) . 'packages/pChart/Fonts/';
-            $uploadDirURL  = self::uploadDirURL( );
-            $uploadDirURL .= 'pChart/';
+
+			$pChartPath  = str_replace( 'templates', 'packages', $config->templateDir ) ;
+			$pChartPath .= 'pChart/Fonts/';
+				
+			$uploadDirURL = str_replace( 'persist/contribute/', 'upload/pChart/', $config->imageUploadURL);
             $uploadDirPath = $config->uploadDir . 'pChart/' ;
             
             //create pchart directory, if exist clean and then create again.
@@ -244,24 +237,15 @@ class CRM_Utils_PChart
         
         //get the required directory path.
         if ( $byMonth || $byYear ) {
-            $config =& CRM_Core_Config::singleton( );
+            $config =& CRM_Core_Config::singleton( );			
             
             //get the default currency.
             $currency = $config->defaultCurrency;
             
-            $templatesDir = explode( '/', $config->templateDir );
-            $resourcePath = array( );
-            foreach ( $templatesDir as $key => $val ) {
-                if ( $val == 'templates' ) {
-                    break;
-                }
-                $resourcePath[] = $val;
-            }
-            
-            $pChartPath    = implode( '/', $resourcePath ) . 'packages/pChart/Fonts/';
-            
-            $uploadDirURL  = self::uploadDirURL( );
-            $uploadDirURL .= 'pChart/';
+			$pChartPath  = str_replace( 'templates', 'packages', $config->templateDir ) ;
+			$pChartPath .= 'pChart/Fonts/';
+				
+			$uploadDirURL = str_replace( 'persist/contribute/', 'upload/pChart/', $config->imageUploadURL);
             $uploadDirPath = $config->uploadDir . 'pChart/' ;
             
             //create pchart directory, if exist clean and then create again.
@@ -393,44 +377,6 @@ class CRM_Utils_PChart
         }
         
         return $filesPath;
-    }
-    
-    /* Build the upload Directory Url.
-     *
-     */
-    static function uploadDirURL( ) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        
-        $checkPath = explode( DIRECTORY_SEPARATOR, dirname( $config->templateCompileDir ) );
-        $directories = array( );
-        foreach ( $checkPath as $dirIndex => $dirName ) {
-            if ( $dirName == 'templates_c' ) {
-                break;
-            }
-            $directories[] = $dirName; 
-        }
-        
-        //build files directory path
-        $checkBasePath = explode( DIRECTORY_SEPARATOR, trim( $config->userFrameworkBaseURL ) );
-        for ( $i= count( $checkBasePath ) - 1 ; $i>0; $i-- ) {
-            if ( CRM_Utils_Array::value( $i, $checkBasePath ) ) {
-                $baseDirName = $checkBasePath[$i];
-                break;
-            }
-        }
-        
-        $baseIndex = array_search( $baseDirName, $checkPath );
-        foreach ( $directories as $key => $value ) {
-            if ( $key > $baseIndex ) {
-                $files[] = $value;
-            }
-        }
-        
-        $uploadFilesPath = CRM_Utils_File::addTrailingSlash( implode( DIRECTORY_SEPARATOR, $files ) );
-        $uploadDirURL = $config->userFrameworkBaseURL . $uploadFilesPath . "upload/";
-        
-        return $uploadDirURL;
     }
 }
 
