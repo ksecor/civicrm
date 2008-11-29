@@ -74,7 +74,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      */
     function preProcess( ) 
     {        
-        parent::preProcess( );
+        $result = parent::preProcess( );
+
+        if ( $this->_cdType ) {
+            return $result;
+        }
 
         if ( !$this->_caseId ||
              (!$this->_activityId && !$this->_activityTypeId) ) {
@@ -144,6 +148,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // FIXME: Need to add "Case Role" field as spec'd in CRM-3743
         // FIXME: Need to add fields for "Send Copy To" functionality as spec'd in CRM-3743
         
+        $result = parent::buildQuickForm( );
+
+        if ( $this->_cdType || $this->_addAssigneeContact || $this->_addTargetContact ) {
+            return $result;
+        }
+
+        $this->assign( 'urlPath', 'civicrm/case/activity' );
+
         $this->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
 
@@ -159,8 +171,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
-        parent::buildQuickForm( );
-               
+
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
@@ -245,12 +256,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            if ( $this->_activityId && $this->_defaults['is_auto'] != 0 ) {
-                // since we want same custom data to be attached to
-                // new activity.
-                $activityId = $this->_activityId;
-            }
-
 			// build custom data getFields array
 			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
 			$customFields = 
@@ -259,7 +264,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                                                                                      null, null, true ) );
 	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
 	                                                                   $customFields,
-	                                                                   $activityId,
+	                                                                   $this->_activityId,
 	                                                                   'Activity' );
         }
 
