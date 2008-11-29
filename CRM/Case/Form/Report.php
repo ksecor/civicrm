@@ -65,9 +65,9 @@ class CRM_Case_Form_Report extends CRM_Core_Form
      */
     function preProcess( ) 
     {        
-        $this->_caseID           = CRM_Utils_Request::retrieve( 'id'   , 'Integer', $this, true );
-        $this->_clientID         = CRM_Utils_Request::retrieve( 'cid'  , 'Integer', $this, true );
-        $this->_activitySetName  = CRM_Utils_Request::retrieve( 'asn', 'String' , $this, true );
+        $this->_caseID           = CRM_Utils_Request::retrieve( 'caseid', 'Integer', $this, true );
+        $this->_clientID         = CRM_Utils_Request::retrieve( 'cid'   , 'Integer', $this, true );
+        $this->_activitySetName  = CRM_Utils_Request::retrieve( 'asn'   , 'String' , $this, true );
 
         $this->_report = $this->get( 'report' );
         if ( $this->_report ) {

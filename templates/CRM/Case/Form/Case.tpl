@@ -20,8 +20,8 @@
 {/if}
 
 {* injection *}
-{if $caseAction}
-    {include file="CRM/Case/Form/Activity/$caseAction.tpl"}
+{if $activityTypeFile}
+    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
 {/if}
 
 {if $groupTree}

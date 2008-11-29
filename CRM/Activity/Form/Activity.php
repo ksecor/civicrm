@@ -96,6 +96,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     protected $_currentUserId;
 
     /**
+     * The the directory inside CRM, to include activity type file from 
+     *
+     * @var string
+     */
+    protected $_crmDir = 'Activity';
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -774,7 +781,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      */
     function beginPostProcess( &$params ) {
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . "::beginPostProcess( \$this, \$params );");
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
+                 "::beginPostProcess( \$this, \$params );");
         }
     }
 
@@ -785,7 +793,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      */
     function endPostProcess( &$params, &$activity ) {
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . 
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
                  "::endPostProcess( \$this, \$params, \$activity );");
         }
     }

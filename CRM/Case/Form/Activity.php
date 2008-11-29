@@ -122,6 +122,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
+        $this->_crmDir = 'Case';
+
         // set context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
                                       "reset=1&action=view&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&show=1" );
@@ -170,7 +172,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
-
 
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {
@@ -256,6 +257,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            if ( $this->_activityId && $this->_defaults['is_auto'] != 0 ) {
+                // since we want same custom data to be attached to
+                // new activity.
+                $activityId = $this->_activityId;
+            }
 			// build custom data getFields array
 			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
 			$customFields = 
@@ -264,7 +270,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
                                                                                      null, null, true ) );
 	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
 	                                                                   $customFields,
-	                                                                   $this->_activityId,
+	                                                                   $activityId,
 	                                                                   'Activity' );
         }
 
