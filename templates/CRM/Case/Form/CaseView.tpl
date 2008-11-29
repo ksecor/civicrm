@@ -168,38 +168,11 @@ function showHideSearch( ) {
 cj(document).ready(function(){
    cj("#view-activity").hide( );
 });
-function viewActivity( activityId ) {
-    cj("#view-activity").show( );
-
-    cj("#view-activity").dialog({
-        title: "View Activity",
-	    modal: true, 
-	    width : 700,
-        height : 650,
-        resizable: true, 
-	    overlay: { 
-		       opacity: 0.5, 
-		       background: "black" 
-		    },
-	    open:function() {
-		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-		cj("#activity-content").html("");
-		var cid= {/literal}"{$contactID}"{literal};
-        var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
-	    },
-	    
-	    buttons: { 
-		"Done": function() { 	    
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		}
-	    } 
-     });
-}
-
 </script>
 {/literal}
+
+{*include activity view js file*}
+{include file="CRM/common/activityView.tpl"}
 
 <div id="activities_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Case Activities{/ts}</label><br />
