@@ -55,21 +55,21 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_activityId;
+    public $_activityId;
 
     /**
      * The id of activity type 
      *
      * @var int
      */
-    protected $_activityTypeId;
+    public $_activityTypeId;
 
     /**
      * The id of currently viewed contact
      *
      * @var int
      */
-    protected $_currentlyViewedContactId;
+    public $_currentlyViewedContactId;
 
     /**
      * The id of source contact and target contact
@@ -85,7 +85,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_caseId;
+    public    $_caseId;
     protected $_single;
     
     /**
@@ -93,7 +93,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_currentUserId;
+    public $_currentUserId;
 
     /**
      * The the directory inside CRM, to include activity type file from 

@@ -218,19 +218,17 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         // 3. format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            $customData = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) { 
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Activity', null );
-                }
-            }
-           
-            if ( !empty($customData) ) {
-                $params['custom'] = $customData;
-            }
+			$customFields = CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, $this->_activityTypeId );
+			$customFields = 
+                CRM_Utils_Array::crmArrayMerge( $customFields, 
+                                                CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, 
+                                                                                     null, null, true ) );
+	        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+	                                                                   $customFields,
+	                                                                   $this->_activityId,
+	                                                                   'Activity' );
         }
-        
+
         // 4. call end post process
         if ( $this->_activityTypeFile ) {
             eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . "::endPostProcess( \$this, \$params );");
