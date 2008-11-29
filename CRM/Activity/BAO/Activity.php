@@ -1202,11 +1202,11 @@ AND cl.modified_id  = c.id
      * @access public
      */
     static function createFollowupActivity( $activityId, $params )
-    {
-        if ( !$activityId || !$caseId ) {
+    { 
+        if ( !$activityId ) {
             return;
         }
-
+       
         $followupParams                      = array( );
         $followupParams['parent_id']         = $activityId;
         $followupParams['source_contact_id'] = $params['source_contact_id'];
@@ -1222,7 +1222,7 @@ AND cl.modified_id  = c.id
                                         $params['interval'], $currentDate); 
         $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
         
-        return CRM_Activity_BAO_Activity::create( $followupParams );
+        return self::create( $followupParams );
     }
 
 }
