@@ -1192,5 +1192,37 @@ AND cl.modified_id  = c.id
 
         return $latestActivityIds[$activityID];
     }
+    /**
+     * Function to create a follow up a given activity
+     *
+     * @activityId int activity id of parent activity 
+     * @param array  $activity details
+     * @caseId int Case id
+     * 
+     * @access public
+     */
+    static function createFollowupActivity( $activityId, $params )
+    {
+        if ( !$activityId || !$caseId ) {
+            return;
+        }
+
+        $followupParams                      = array( );
+        $followupParams['parent_id']         = $activityId;
+        $followupParams['source_contact_id'] = $params['source_contact_id'];
+        $followupParams['status_id']         = 
+            CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
+        
+        $activityTypes = CRM_Case_PseudoConstant::activityType( );
+        $followupParams['activity_type_id']  = $activityTypes[$params['followup_activity']]['id'];
+        
+        CRM_Utils_Date::getAllDefaultValues( $currentDate );
+        $followupParams['due_date_time']        = 
+            CRM_Utils_Date::intervalAdd($params['interval_unit'], 
+                                        $params['interval'], $currentDate); 
+        $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
+        
+        return CRM_Activity_BAO_Activity::create( $followupParams );
+    }
 
 }

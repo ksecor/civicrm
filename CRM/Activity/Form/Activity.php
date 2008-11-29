@@ -742,6 +742,19 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // processing needed, after the activity has been added/updated.
         $this->endPostProcess( $params, $activity );
 
+        // create follow up activity if needed
+       if ( CRM_Utils_Array::value('followup_activity', $params) ) {
+           $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
+
+           if ( $caseId = CRM_Utils_Array::value('case_id', $params) && $followupActivity ) {
+
+               $caseParams = array( 'activity_id' => $followupActivity->id,
+                                    'case_id'     => $caseId   );
+               CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+           
+           }
+        }
+
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
                                         array( 1 => $params['subject'] ) ) );

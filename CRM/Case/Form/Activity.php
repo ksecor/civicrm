@@ -371,29 +371,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         // create follow up activity if needed
-        // FIXME: move this to bao
         if ( CRM_Utils_Array::value('followup_activity', $params) ) {
-            $followupParams                      = array( );
-            $followupParams['parent_id']         = $activity->id;
-            $followupParams['source_contact_id'] = $params['source_contact_id'];
-            $followupParams['status_id']         = 
-                CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
+            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
 
-            $activityTypes = CRM_Case_PseudoConstant::activityType( );
-            $followupParams['activity_type_id']  = $activityTypes[$params['followup_activity']]['id'];
-
-            CRM_Utils_Date::getAllDefaultValues( $currentDate );
-            $followupParams['due_date_time']        = 
-                CRM_Utils_Date::intervalAdd($params['interval_unit'], 
-                                            $params['interval'], $currentDate); 
-            $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
-
-            $followupActivity = CRM_Activity_BAO_Activity::create( $followupParams );
-
-            // create case activity record
-            $caseParams = array( 'activity_id' => $followupActivity->id,
-                                 'case_id'     => $this->_caseId   );
-            CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+            if ( $followupActivity ) {
+                $caseParams = array( 'activity_id' => $followupActivity->id,
+                                     'case_id'     => $this->_caseId   );
+                CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+            }
         }
         
         CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3", 
