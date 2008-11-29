@@ -176,6 +176,23 @@ ALTER TABLE civicrm_domain DROP email_return_path;
 ALTER TABLE civicrm_entity_tag
   ADD UNIQUE UI_contact_id_tag_id ( contact_id, tag_id );
 
+-- CRM-3546
+INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES
+('visibility', 'Visibility', 0, 1);
+
+SELECT @option_group_id_vis := max(id) from civicrm_option_group where name = 'visibility';
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active` ) 
+VALUES
+  (@option_group_id_vis, 'Public', 1, 'public', NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_vis, 'Admin', 2, 'admin', NULL, 0, NULL, 2, NULL, 0, 0, 1 );
+
+ALTER TABLE civicrm_option_value
+  ADD visibility_id int unsigned default NULL;
+
+SELECT @option_group_id_ps := id from civicrm_option_group where name = 'participant_status';
+UPDATE civicrm_option_value SET visibility_id = 1 WHERE option_group_id = @option_group_id_ps;
+
 -- CRM-3487
 ALTER TABLE civicrm_uf_group DROP collapse_display;
 
