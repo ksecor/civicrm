@@ -161,9 +161,6 @@ class CRM_Case_Form_Activity_OpenCase
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
-        $form->add( 'text', 'activity_subject', ts('Subject'), 
-                   array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
-
         $form->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
 

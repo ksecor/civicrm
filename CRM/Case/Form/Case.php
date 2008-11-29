@@ -136,6 +136,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         // we don't want to show button on top of custom form
         $this->assign('noPreCustomButton', true);
    
+        $this->add( 'text', 'activity_subject', ts('Subject'), 
+                   array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
+
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'), 
