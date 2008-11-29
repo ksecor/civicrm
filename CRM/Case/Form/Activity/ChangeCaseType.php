@@ -44,7 +44,7 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
     static function preProcess( &$form ) 
     {        
-        if ( !isset($form->_id) ) {
+        if ( !isset($form->_caseId) ) {
             CRM_Core_Error::fatal(ts('Case Id not found.'));
         }
     }
@@ -129,8 +129,8 @@ class CRM_Case_Form_Activity_ChangeCaseType
             return;
         }
 
-        if (!$form->_clientId   ||
-            !$form->_uid        ||
+        if (!$form->_currentlyViewedContactId  ||
+            !$form->_currentUserId         ||
             !$params['case_id'] ||
             !$params['case_type']
             ) {
@@ -139,8 +139,8 @@ class CRM_Case_Form_Activity_ChangeCaseType
 
         // 1. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $xmlProcessorParams = array( 'clientID'         => $form->_clientId,
-                                     'creatorID'        => $form->_uid,
+        $xmlProcessorParams = array( 'clientID'         => $form->_currentlyViewedContactId,
+                                     'creatorID'        => $form->_currentUserId,
                                      'standardTimeline' => 1,
                                      'activityTypeName' => 'Change Case Type',
                                      'dueDateTime'      => $params['reset_date_time'],
