@@ -457,7 +457,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $query .= " LEFT JOIN civicrm_activity
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
-                                  AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
+                                  AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY )
+                                  AND civicrm_activity.status_id = 1 ) ";
         } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " LEFT JOIN civicrm_activity
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
@@ -466,6 +467,22 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                                   AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) ) ";
         }
         
+        $query .= "LEFT JOIN civicrm_activity ca2
+                             ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
+                                              WHERE cca.case_id = civicrm_case.id )
+                                  AND ca2.is_current_revision = 1 ";
+        
+        if ( $type == 'upcoming' ) {
+            $query .= "AND ca2.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) 
+                       AND ca2.status_id = 1
+                       AND civicrm_activity.due_date_time > ca2.due_date_time 
+                        )";
+        } else if ( $type == 'recent' || $type == 'all' ) {
+            $query .= " AND ca2.activity_date_time <= NOW() 
+                        AND ca2.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY )
+                        AND civicrm_activity.activity_date_time < ca2.activity_date_time )";
+        }
+
         $query .= "
                   LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
                   LEFT JOIN civicrm_option_value aov
@@ -496,9 +513,9 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                             AND cog_actstatus.id = cov_actstatus.option_group_id )";
         
         if ( $type == 'upcoming' ) {
-            $query .= " WHERE cov_actstatus.name = 'Scheduled' "; 
+            $query .= " WHERE cov_actstatus.name = 'Scheduled' AND ca2.id IS NULL "; 
         } else if ( $type == 'recent' || $type == 'all' ) {
-            $query .= " WHERE cov_actstatus.name != 'Scheduled' ";
+            $query .= " WHERE cov_actstatus.name != 'Scheduled' AND ca2.id IS NULL";
         } 
         if ( $type == 'all') {
             $query .= " AND civicrm_case_contact.contact_id = {$userID} ";  
