@@ -518,12 +518,12 @@ SELECT $select
 
         if ( $form ) {
             // hack for field type File
-//             $formUploadNames = $form->get( 'uploadNames' );
-//             if ( $formUploadNames ) {
-//                 $uploadNames = array_unique( array_merge( $formUploadName, $uploadNames ) );
-//             }
-//             $form->set('uploadNames', $uploadNames);
-         }
+            $formUploadNames = $form->get( 'uploadNames' );
+            if ( $formUploadNames ) {
+                $uploadNames = array_unique( array_merge( $formUploadName, $uploadNames ) );
+            }
+            $form->set('uploadNames', $uploadNames);
+        }
 
         return $groupTree;
     }
