@@ -250,7 +250,7 @@ class CRM_Case_Form_Activity_OpenCase
         $errors = array( );
               
         // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) ) {
+        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) && !$form->_currentlyViewedContactId ) {
             $contactParams = $values;
             $contactParams['location'][1]['is_primary'] = 1;
             $contactParams['contact_type']              = 'Individual';
