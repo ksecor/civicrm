@@ -2243,7 +2243,7 @@ msgstr "Veranstaltungstyp - %1"
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants"
-msgstr "Nur nach Test-Teilnehmer suchen?"
+msgstr "Test-Teilnehmer finden?"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
