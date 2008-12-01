@@ -444,44 +444,50 @@ SELECT $select
 
                                 $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
                                 if ( $dataType == 'File' ) {
-                                    require_once 'CRM/Core/DAO/File.php';
-                                    $config =& CRM_Core_Config::singleton( );
-                                    $fileDAO =& new CRM_Core_DAO_File();
-                                    $fileDAO->id = $dao->$fieldName;
-                                    if ( $fileDAO->find(true) ) {
-                                        $entityIDName = "{$table}_entity_id";
-                                        $customValue['data']    = $fileDAO->uri;
-                                        $customValue['fid']     = $fileDAO->id;
-                                        $customValue['fileURL'] = 
-                                            CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
-                                        $customValue['displayURL'] = null;
-                                        $deleteExtra = ts('Are you sure you want to delete attached file.');
-                                        $deleteURL =
-                                            array( CRM_Core_Action::DELETE  =>
-                                                   array(
-                                                         'name'  => ts('Delete Attached File'),
-                                                         'url'   => 'civicrm/file',
-                                                         'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
-                                                         'extra' => 
-                                                         'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
-                                                         ) 
-                                                   );
-                                        $customValue['deleteURL'] = 
-                                            CRM_Core_Action::formLink( $deleteURL,
-                                                                       CRM_Core_Action::DELETE,
-                                                                       array( 'id'  => $fileDAO->id,
-                                                                              'eid' => $dao->$entityIDName,
-                                                                              'fid' => $fieldID ) );
-                                        $customValue['fileName'] = 
-                                            CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
-                                        if ( $fileDAO->mime_type =="image/jpeg"  ||
-                                             $fileDAO->mime_type =="image/pjpeg" ||
-                                             $fileDAO->mime_type =="image/gif"   ||
-                                             $fileDAO->mime_type =="image/x-png" ||
-                                             $fileDAO->mime_type =="image/png" ) {
-                                            $customValue['displayURL'] = $customValue['fileURL'];
-                                        }
-                                    }
+ 									if ( isset( $dao->$fieldName ) ) { 
+	                                    require_once 'CRM/Core/DAO/File.php';
+	                                    $config =& CRM_Core_Config::singleton( );
+	                                    $fileDAO =& new CRM_Core_DAO_File();
+	                                    $fileDAO->id = $dao->$fieldName;
+
+										if ( $fileDAO->find(true) ) {
+											$entityIDName = "{$table}_entity_id";
+											$customValue['data']    = $fileDAO->uri;
+											$customValue['fid']     = $fileDAO->id;
+											$customValue['fileURL'] = 
+												CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
+											$customValue['displayURL'] = null;
+											$deleteExtra = ts('Are you sure you want to delete attached file.');
+											$deleteURL =
+											array( CRM_Core_Action::DELETE  =>
+											array(
+												'name'  => ts('Delete Attached File'),
+												'url'   => 'civicrm/file',
+												'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
+												'extra' => 
+												'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
+												) 
+												);
+											$customValue['deleteURL'] = 
+											CRM_Core_Action::formLink( $deleteURL,
+												CRM_Core_Action::DELETE,
+												array( 'id'  => $fileDAO->id,
+												'eid' => $dao->$entityIDName,
+												'fid' => $fieldID ) );
+											$customValue['fileName'] = 
+												CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
+											if ( $fileDAO->mime_type =="image/jpeg"  ||
+												$fileDAO->mime_type =="image/pjpeg" ||
+												$fileDAO->mime_type =="image/gif"   ||
+												$fileDAO->mime_type =="image/x-png" ||
+											$fileDAO->mime_type =="image/png" ) {
+												$customValue['displayURL'] = $customValue['fileURL'];
+											}
+										}
+									} else {
+										$customValue = array( 'id'   => $dao->$idName,
+	                                                          'data' => '' );
+									}
                                 } else {
                                     $customValue = array( 'id'   => $dao->$idName,
                                                           'data' => $dao->$fieldName );
@@ -499,30 +505,6 @@ SELECT $select
                     }
                 }
             }
-        }
-
-        $uploadNames = array();
-        foreach ($groupTree as $key1 => $group) { 
-            if ( $key1 === 'info' ) {
-                continue;
-            }
-
-            foreach ( $group['fields'] as $key2 => $field ) {
-                if ( $field['data_type'] == 'File' ) {
-                    $fieldId          = $field['id'];                 
-                    $elementName      = "custom_$fieldId";
-                    $uploadNames[]    = $elementName; 
-                }
-            }
-        }
-
-        if ( $form ) {
-            // hack for field type File
-            $formUploadNames = $form->get( 'uploadNames' );
-            if ( $formUploadNames ) {
-                $uploadNames = array_unique( array_merge( $formUploadName, $uploadNames ) );
-            }
-            $form->set('uploadNames', $uploadNames);
         }
 
         return $groupTree;
@@ -1320,15 +1302,17 @@ SELECT $select
     /**
      * Function returns formatted groupTree, sothat form can be easily build in template
      *
-     * @param array $groupTree associated array
-     * @param int   $groupCount group count by default 1, but can varry for multiple value custom data 
-     *
+     * @param array  $groupTree associated array
+     * @param int    $groupCount group count by default 1, but can varry for multiple value custom data 
+     * @param object form object 
+	 *
      * @return array $formattedGroupTree
      */
-    static function formatGroupTree( &$groupTree, $groupCount = 1 ) 
+    static function formatGroupTree( &$groupTree, $groupCount = 1, &$form ) 
     {
         $formattedGroupTree = array( );
-        
+        $uploadNames = array();
+
         foreach ( $groupTree as $key => $value ) {
             if ( $key === 'info' ) {
                 continue;
@@ -1354,11 +1338,24 @@ SELECT $select
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
                         $properties['element_value'] = $properties['customValue'][$groupCount]['data'];
+		                if ( $properties['data_type'] == 'File' ) {
+		                    $uploadNames[]    = $properties['element_name']; 
+		                }
                     }                    
                 }
                 unset( $properties['customValue'] );
                 $formattedGroupTree[$key]['fields'][$k] = $properties;
             }
+        }
+
+        if ( $form ) {
+            // hack for field type File
+            $formUploadNames = $form->get( 'uploadNames' );
+            if ( is_array( $formUploadNames ) ) {
+                $uploadNames = array_unique( array_merge( $formUploadNames, $uploadNames ) );
+            }
+			
+            $form->set('uploadNames', $uploadNames);
         }
 
         return $formattedGroupTree;
