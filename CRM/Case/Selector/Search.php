@@ -198,7 +198,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                                                ),
                               CRM_Core_Action::DELETE => array(
                                                                'name'     => ts('Delete'),
-                                                               'url'      => 'civicrm/contact/view/Case',
+                                                               'url'      => 'civicrm/contact/view/case',
                                                                'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                'title'    => ts('Delete Case'),
                                                                ),

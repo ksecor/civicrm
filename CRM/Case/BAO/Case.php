@@ -283,17 +283,22 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public 
      * @static 
      */ 
-    static function deleteCase( $caseId ) 
+    static function deleteCase( $caseId , $moveToTrash = false ) 
     {
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
+        if ( ! $moveToTrash ) {
+            require_once 'CRM/Core/Transaction.php';
+            $transaction = new CRM_Core_Transaction( );
+        }
         require_once 'CRM/Case/DAO/Case.php';
         $case     = & new CRM_Case_DAO_Case( );
         $case->id = $caseId; 
-        $case->delete( );
-
-        $transaction->commit( );
+        if ( ! $moveToTrash ) {  
+            $case->delete( );
+            $transaction->commit( );
+        } else {
+            $case->is_deleted = 1;
+            $case->save( );
+        }
     }
 
    /**                                                           
@@ -562,7 +567,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $rows[$typeId]['case_type'] = $type;
 
             $query = "select status_id, count(*) as case_count from civicrm_case" . 
-            " where case_type_id like '%" . $this->VALUE_SEPERATOR . $typeId . $this->VALUE_SEPERATOR . "%'" .
+            " where is_deleted = 0 AND case_type_id like '%" . $this->VALUE_SEPERATOR . $typeId . $this->VALUE_SEPERATOR . "%'" .
             " group by status_id";
             $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 

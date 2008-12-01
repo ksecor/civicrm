@@ -3,8 +3,18 @@
          2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
 *}
 
-<fieldset><legend>{$activityType}</legend>
+<fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>
 <table class="form-layout">
+{if $action eq 8} 
+      <div class="messages status"> 
+        <dl> 
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+          <dd> 
+          {ts}WARNING: Deleting this case will move to Trash.{/ts} {ts}Do you want to continue?{/ts} 
+          </dd> 
+       </dl> 
+      </div> 
+{else}
 {if $clientName}
     <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
 {/if}
@@ -44,6 +54,7 @@
       </td>
     </tr> 
 {/if}
+{/if}	
 
     <tr>
         <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>

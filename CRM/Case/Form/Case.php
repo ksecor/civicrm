@@ -83,6 +83,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function preProcess( ) 
     {        
+        $this->_caseId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return true;
+        }
         $this->_activityTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
 
         if ( $this->_activityTypeFile = CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, 'Case') ) {
@@ -94,7 +98,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
        
         CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_activityTypeId]['label'])));
         $this->assign('activityType', $details[$this->_activityTypeId]['label']);
-        
+       
         $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         if ( isset($this->_currentlyViewedContactId) ) {
@@ -107,8 +111,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $this->assign( 'clientName', $contact->display_name );
         }
         
-        $this->_caseId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-
+        
         $session              =& CRM_Core_Session::singleton();
         $this->_currentUserId = $session->get('userID');
         
@@ -126,6 +129,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return true;
+        }
         CRM_Custom_Form_Customdata::setDefaultValues( $this );
         eval('$defaults = CRM_Case_Form_Activity_'. $this->_activityTypeFile. '::setDefaultValues($this);');
         return $defaults;
@@ -136,7 +142,19 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
         // we don't want to show button on top of custom form
         $this->assign('noPreCustomButton', true);
-   
+    
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
         $this->add( 'text', 'activity_subject', ts('Subject'), 
                    array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
 
@@ -161,6 +179,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function addRules( ) 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            return true;
+        }
         eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
         $this->addFormRule( array( 'CRM_Case_Form_Case', 'formRule'), $this );
     }
@@ -187,6 +208,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCase( $this->_caseId, true );
+            return;
+        }
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("Ymd");
