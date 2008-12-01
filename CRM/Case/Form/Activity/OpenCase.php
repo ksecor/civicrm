@@ -239,6 +239,10 @@ class CRM_Case_Form_Activity_OpenCase
      */
     static function formRule( &$values, $files, &$form ) 
     {
+        if ( $form->_context == 'activity' ) {
+            return true;
+        }
+        
         if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
             return true;
         }
