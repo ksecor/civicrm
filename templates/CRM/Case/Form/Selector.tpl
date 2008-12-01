@@ -103,7 +103,9 @@
 
 {*include activity view js file*}
 {include file="CRM/common/activityView.tpl"}
-
+<div id="view-activity">
+     <div id="activity-content"></div>
+</div>
 {if $context EQ 'Search'}
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}

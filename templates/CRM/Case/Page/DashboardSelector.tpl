@@ -86,9 +86,6 @@
 </table>
 {/strip}
 
-{*include activity view js file*}
-{include file="CRM/common/activityView.tpl"}
-
 {* Build case details*}
 {literal}
 <script type="text/javascript">
