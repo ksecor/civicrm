@@ -108,7 +108,7 @@ class CRM_Core_IDS {
             file_put_contents( $configFile, $contents );
 
             // also create the .htaccess file so we prevent the reading of the log and ini files
-            // via a browser
+            // via a browser, CRM-3875
             $htaccessFile = $config->uploadDir . '.htaccess';
             if ( ! file_exists( $htaccessFile ) ) {
                 $contents = '
