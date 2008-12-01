@@ -441,60 +441,59 @@ SELECT $select
                                 $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                                 $idName    = "{$table}_id";
                                 $fieldName = "{$table}_{$column}";
-                                if ( isset($dao->$fieldName) ) {
-                                    $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
-                                    if ( $dataType == 'File' ) {
-                                        require_once 'CRM/Core/DAO/File.php';
-                                        $config =& CRM_Core_Config::singleton( );
-                                        $fileDAO =& new CRM_Core_DAO_File();
-                                        $fileDAO->id = $dao->$fieldName;
-                                        if ( $fileDAO->find(true) ) {
-                                            $entityIDName = "{$table}_entity_id";
-                                            $customValue['data']    = $fileDAO->uri;
-                                            $customValue['fid']     = $fileDAO->id;
-                                            $customValue['fileURL'] = 
-                                                CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
-                                            $customValue['displayURL'] = null;
-                                            $deleteExtra = ts('Are you sure you want to delete attached file.');
-                                            $deleteURL =
-                                                array( CRM_Core_Action::DELETE  =>
-                                                       array(
-                                                             'name'  => ts('Delete Attached File'),
-                                                             'url'   => 'civicrm/file',
-                                                             'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
-                                                             'extra' => 
-                                                             'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
-                                                             ) 
-                                                       );
-                                            $customValue['deleteURL'] = 
-                                                CRM_Core_Action::formLink( $deleteURL,
-                                                                           CRM_Core_Action::DELETE,
-                                                                           array( 'id'  => $fileDAO->id,
-                                                                                  'eid' => $dao->$entityIDName,
-                                                                                  'fid' => $fieldID ) );
-                                            $customValue['fileName'] = 
-                                                CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
-                                            if ( $fileDAO->mime_type =="image/jpeg"  ||
-                                                 $fileDAO->mime_type =="image/pjpeg" ||
-                                                 $fileDAO->mime_type =="image/gif"   ||
-                                                 $fileDAO->mime_type =="image/x-png" ||
-                                                 $fileDAO->mime_type =="image/png" ) {
-                                                $customValue['displayURL'] = $customValue['fileURL'];
-                                            }
+
+                                $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
+                                if ( $dataType == 'File' ) {
+                                    require_once 'CRM/Core/DAO/File.php';
+                                    $config =& CRM_Core_Config::singleton( );
+                                    $fileDAO =& new CRM_Core_DAO_File();
+                                    $fileDAO->id = $dao->$fieldName;
+                                    if ( $fileDAO->find(true) ) {
+                                        $entityIDName = "{$table}_entity_id";
+                                        $customValue['data']    = $fileDAO->uri;
+                                        $customValue['fid']     = $fileDAO->id;
+                                        $customValue['fileURL'] = 
+                                            CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
+                                        $customValue['displayURL'] = null;
+                                        $deleteExtra = ts('Are you sure you want to delete attached file.');
+                                        $deleteURL =
+                                            array( CRM_Core_Action::DELETE  =>
+                                                   array(
+                                                         'name'  => ts('Delete Attached File'),
+                                                         'url'   => 'civicrm/file',
+                                                         'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
+                                                         'extra' => 
+                                                         'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
+                                                         ) 
+                                                   );
+                                        $customValue['deleteURL'] = 
+                                            CRM_Core_Action::formLink( $deleteURL,
+                                                                       CRM_Core_Action::DELETE,
+                                                                       array( 'id'  => $fileDAO->id,
+                                                                              'eid' => $dao->$entityIDName,
+                                                                              'fid' => $fieldID ) );
+                                        $customValue['fileName'] = 
+                                            CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
+                                        if ( $fileDAO->mime_type =="image/jpeg"  ||
+                                             $fileDAO->mime_type =="image/pjpeg" ||
+                                             $fileDAO->mime_type =="image/gif"   ||
+                                             $fileDAO->mime_type =="image/x-png" ||
+                                             $fileDAO->mime_type =="image/png" ) {
+                                            $customValue['displayURL'] = $customValue['fileURL'];
                                         }
-                                    } else {
-                                        $customValue = array( 'id'   => $dao->$idName,
-                                                              'data' => $dao->$fieldName );
                                     }
-                                    if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
-                                    }
-                                    if (  empty( $groupTree[$groupID]['fields'][$fieldID]['customValue'] ) ) {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( 1 => $customValue );
-                                    } else {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
-                                    }                                     
+                                } else {
+                                    $customValue = array( 'id'   => $dao->$idName,
+                                                          'data' => $dao->$fieldName );
                                 }
+                                if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
+                                }
+                                if (  empty( $groupTree[$groupID]['fields'][$fieldID]['customValue'] ) ) {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( 1 => $customValue );
+                                } else {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
+                                }                                     
                             }
                         }
                     }
