@@ -17,7 +17,7 @@
 			var contact_type = {/literal}"{$contact_type}"{literal};
 			buildCustomData( contact_type );
 			for ( var i = 1; i < customValueCount; i++ ) {
-				buildCustomData( 'Contact', null, null, i, groupID, true );
+				buildCustomData( contact_type, null, null, i, groupID, true );
 			}
 		</script>
 		{/literal}

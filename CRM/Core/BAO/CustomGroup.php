@@ -1370,7 +1370,7 @@ SELECT $select
      *  @param array   $groupTree associated array  
 	 *  @param boolean $returnCount true if customValue count needs to be returned
      */
-    static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false )
+    static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false, $groupID = null )
     {
         foreach ( $groupTree as $key => $group ) {
             if ( $key === 'info' ) {
@@ -1402,14 +1402,14 @@ SELECT $select
 					$details[$groupID][0]['collapse_display']  = $group['collapse_display'];					
 					$details[$groupID][0]['fields'][$k] = array( 'field_title' => $properties['label'] );
 				}
-            }
-			
-			if ( $returnCount ) {
-				return count( $details);
-			} else {
-				$form->assign_by_ref( 'viewCustomData', $details );
-			}	
+            }	
         }
+
+		if ( $returnCount ) {
+			return count( $details[$groupID]);
+		} else {
+			$form->assign_by_ref( 'viewCustomData', $details );
+		}
     }
 
     /** 

@@ -196,9 +196,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                                          $this->_groupID );
 
 		// custom data building in edit mode (required to handle multi-value)
-		
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType, $this, $this->_tableID, $this->_groupID);
-        $customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true );
+        $customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true, $this->_groupID );
 		$this->assign("customValueCount", $customValueCount );
 		
         $defaults = array();
