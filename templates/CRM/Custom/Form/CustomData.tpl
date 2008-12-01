@@ -86,7 +86,7 @@
 		</dl>
 		<div class="spacer"></div>
 		{if $cd_edit.help_post}<div class="messages help">{$cd_edit.help_post}</div>{/if}
-		{if $cd_edit.is_multiple}
+		{if $cd_edit.is_multiple and $cd_edit.max_multiple > $cgCount }
 		<div id="add-more-link-{$cgCount}"><a href="javascript:buildCustomData('{$cd_edit.extends}','{$cd_edit.extends_entity_column_id}', '{$cd_edit.extends_entity_column_value}', {$cgCount}, {$group_id}, true );">{ts}Add More{/ts}</a></div>	
 		{/if}
 

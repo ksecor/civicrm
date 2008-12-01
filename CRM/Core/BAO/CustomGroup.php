@@ -245,7 +245,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'is_multiple',
  						'extends',
 						'extends_entity_column_id',
-						'extends_entity_column_value'),
+						'extends_entity_column_value',
+						'max_multiple'),
                   );
 
        // create select
@@ -1330,6 +1331,7 @@ SELECT $select
 			$formattedGroupTree[$key]['extends'] = $value['extends'];
 			$formattedGroupTree[$key]['extends_entity_column_id'] = $value['extends_entity_column_id'];
 			$formattedGroupTree[$key]['extends_entity_column_value'] = $value['extends_entity_column_value'];
+			$formattedGroupTree[$key]['max_multiple'] = $value['max_multiple'];
 			
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {
