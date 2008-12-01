@@ -1378,8 +1378,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'participant_status_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
+            $cond = null;
+            if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+                $cond = "visibility_id = 1";
+            }            
             $form->add('select', $name, $title,
-                       array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantStatus( null, "visibility_id = 1" ), $required);
+                       array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantStatus( null, $cond ), $required);
         } else if ($fieldName == 'participant_role_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, $title,

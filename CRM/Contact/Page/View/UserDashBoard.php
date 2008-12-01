@@ -60,7 +60,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     static $_links = null;
 
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
 
         $check = CRM_Core_Permission::check( 'access Contact Dashboard' );
