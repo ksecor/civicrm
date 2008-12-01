@@ -35,9 +35,6 @@
 	<tr><td class="label">{$form.protocol.label}</td><td>{$form.protocol.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Name of the protocol to use for polling (like IMAP, POP3 or Maildir).{/ts}</td></tr>
 
-	<tr><td class="label">{$form.port.label}</td><td>{$form.port.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Port to use when polling.{/ts}</td></tr>
-
 	<tr><td class="label">{$form.localpart.label}</td><td>{$form.localpart.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Optional local part (like civimail+ for addresses like civimail+s.1.2@example.com).{/ts}</td></tr>
 

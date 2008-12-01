@@ -62,7 +62,7 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MailSettings' );
         
         //build setting form
-        $this->add( 'text', 'name', ts('Group Name'), $attributes['name'], true );
+        $this->add( 'text', 'name', ts('Group Name'), array( 'autocomplete' => 'off' ), true );
         
         $this->add('text', 'domain', ts('Email Domain'), $attributes['domain'], true );
         $this->addRule( 'domain', ts('Email domain must use a valid internet domain format (e.g. \'example.org\').'), 'domain' );
@@ -72,15 +72,16 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
         $this->add('text', 'return_path', ts('Return-Path'), $attributes['return_path'] );
         $this->addRule( 'return_path', ts('Return-Path must use a valid email address format.'), 'email' );
         
-        $this->add( 'text', 'protocol', ts('Protocol'), $attributes['protocol']  );
+        require_once 'CRM/Core/PseudoConstant.php';
+        $this->add( 'select', 'protocol', 
+                    ts( 'Protocol' ),
+                    array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::mailProtocol( ) ); 
+        
         $this->add( 'text', 'server', ts('Server'), $attributes['server'] );
         
-        $this->add( 'text', 'port', ts('Port'), $attributes['port'] );
-        $this->addRule( 'port', ts('Port should be positive integer.'), 'positiveInteger' );
+        $this->add( 'text', 'username', ts('User Name'), array( 'autocomplete' => 'off' ) );
         
-        $this->add( 'text', 'username', ts('User Name'), $attributes['username'] );
-        
-        $this->add( 'password', 'password', ts('Password'), $attributes['password'] );
+        $this->add( 'password', 'password', ts('Password'), array( 'autocomplete' => 'off' ) );
         
         $this->add( 'text', 'source', ts('Source'), $attributes['source'] );
         

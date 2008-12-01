@@ -88,6 +88,41 @@ class CRM_Admin_Page_MailSettings extends CRM_Core_Page_Basic
     }
     
     /**
+     * Browse all mail settings.
+     * 
+     * @return void
+     * @access public
+     * @static
+     */
+    function browse( )
+    {
+        //get all mail settings.
+        $allMailSettings = array( );
+        require_once 'CRM/Core/DAO/MailSettings.php';
+        $mailSetting =& new CRM_Core_DAO_MailSettings( );
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $allProtocols = CRM_Core_PseudoConstant::mailProtocol( );
+        
+        //find all mail settings.
+        $mailSetting->find( );
+        while ( $mailSetting->fetch( ) ) {
+            //replace protocol value with name
+            $mailSetting->protocol = CRM_Utils_Array::value( $mailSetting->protocol, $allProtocols );
+            CRM_Core_DAO::storeValues( $mailSetting, $allMailSettings[$mailSetting->id]);
+            
+            //form all action links
+            $action = array_sum( array_keys( $this->links( ) ) );
+            
+            //add action links.
+            $allMailSettings[$mailSetting->id]['action'] = CRM_Core_Action::formLink( self::links( ), $action, 
+                                                                                      array('id' => $mailSetting->id ) );
+        }
+        
+        $this->assign('rows', $allMailSettings );
+    }
+    
+    /**
      * Get name of edit form
      *
      * @return string Classname of edit form.
