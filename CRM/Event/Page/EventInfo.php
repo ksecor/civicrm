@@ -100,21 +100,21 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
                 //retrieve event fees.
                 require_once 'CRM/Core/OptionGroup.php';
-		require_once 'CRM/Core/BAO/Discount.php';
-		$discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
-		if ( $discountId ) {
-		  CRM_Core_OptionGroup::getAssoc( 
-						 CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount',
-									      $discountId,
-									      'option_group_id' ),
-						 $values['feeBlock'], 'id' );
-		} else {
-		  CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}", $values['feeBlock'] );
-		}
-	    }
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $this->_id, 'civicrm_event' );
+                if ( $discountId ) {
+                    CRM_Core_OptionGroup::getAssoc( 
+                                                   CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount',
+                                                                                $discountId,
+                                                                                'option_group_id' ),
+                                                   $values['feeBlock'], 'id' );
+                } else {
+                    CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}", $values['feeBlock'] );
+                }
+            }
         }				
-	
-	$params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
+        
+        $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::getValues( $params, $values, true );
         
