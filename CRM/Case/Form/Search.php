@@ -320,7 +320,9 @@ class CRM_Case_Form_Search extends CRM_Core_Form
         } else {
             unset( $this->_formValues['case_owner'] );
         } 
-
+        if ( ! CRM_Utils_Array::value( 'case_deleted', $this->_formValues ) ) {
+            $this->_formValues['case_deleted'] = 0;
+        }
         require_once 'CRM/Core/BAO/CustomValue.php';
         CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
 
