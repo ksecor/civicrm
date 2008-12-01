@@ -49,7 +49,8 @@
             {/if}
             <th>{ts}Label{/ts}</th>
             <th>{ts}Value{/ts}</th>
-            {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
+            {if $showCounted}<th>{ts}Counted?{/ts}</th>{/if}
+            {if $showVisibility}<th>{ts}Visibility{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
             <th>{ts}Order{/ts}</th>
 	        {if $showIsDefault}<th>{ts}Default{/ts}</th>{/if}
@@ -63,8 +64,9 @@
                 <td>{$row.component_name}</td>
             {/if}
 	        <td>{$row.label}</td>	
-	        <td>{$row.value}</td>	
-	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
+	        <td>{$row.value}</td>
+	        {if $showCounted}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
+            {if $showVisibility}<td>{$row.visibility_label}</td>{/if}
 	        <td>{$row.description}</td>	
 	        <td class="nowrap">{$row.weight}</td>
             {if $showIsDefault}<td>{$row.default_value}</td>{/if}

@@ -31,9 +31,9 @@
         {if $form.filter.html} {* Filter property is only exposed for some option groups. *}
             <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
         {/if} 
-	{if $gName eq 'participant_status'}
-	    <dt>{$form.visibility_id.label}</dt><dd>{$form.visibility_id.html}</dd>	
-	{/if}
+        {if $gName eq 'participant_status'}
+            <dt>{$form.visibility_id.label}</dt><dd>{$form.visibility_id.html}</dd>	
+        {/if}
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
         {if $form.component_id.html} {* Component ID is exposed for activity types if CiviCase is enabled. *}
             <dt>{$form.component_id.label}</dt><dd>{$form.component_id.html}</dd>

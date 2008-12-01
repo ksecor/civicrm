@@ -182,12 +182,8 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
         
         if ($this->_gName == 'participant_status') {
+            // For Participant Status options, expose the 'filter' field to track which statuses are "Counted", and the Visibility field
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
-            if ($isReserved) {
-                $this->freeze();
-                $element->unfreeze();
-            }
-
             require_once "CRM/Core/PseudoConstant.php";
             $this->add( 'select', 'visibility_id', ts('Visibility'), CRM_Core_PseudoConstant::visibility( ) );
         }
