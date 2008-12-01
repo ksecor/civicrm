@@ -293,6 +293,32 @@ ADD INDEX `FK_{$tableName}_entity_id` ( `entity_id` )";
 
         $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
+
+    static function createIndexes( &$tables ) {
+        foreach ( $tables as $table => $fields ) {
+            $query = "SHOW INDEX FROM $table";
+            $dao = CRM_Core_DAO::executeQuery( $query );
+
+            $currentIndexes = array( );
+            while ( $dao->fetch( ) ) {
+                $currentIndexes[$dao->Key_name] = 1;
+            }
+
+            // now check for all fields if the index exists
+            foreach ( $fields as $field ) {
+                $indexName  = "index_$field"; 
+                $fkName     = "FK_{$table}_{$field}";
+                $uniqueName = "UI_{$field}";
+                if ( ! array_key_exists( $indexName , $currentIndexes ) &&
+                     ! array_key_exists( $fkName    , $currentIndexes ) &&
+                     ! array_key_exists( $uniqueName, $currentIndexes ) ) {
+                    $indexQuery = "CREATE INDEX $indexName ON $table ( $field )";
+                    $indexDAO   = CRM_Core_DAO::executeQuery( $indexQuery );
+                }
+            }
+        }
+    }
+
 }
 
 
