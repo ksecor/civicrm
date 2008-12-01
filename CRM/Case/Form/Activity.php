@@ -142,8 +142,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     public function buildQuickForm( ) 
     {
         // FIXME: Need to add "Case Role" field as spec'd in CRM-3743
-        // FIXME: Need to add fields for "Send Copy To" functionality as spec'd in CRM-3743
-        
+
+        $this->_fields['activity_date_time']['label'] = 'Actual Date'; 
         $result = parent::buildQuickForm( );
 
         if ( $this->_cdType || $this->_addAssigneeContact || $this->_addTargetContact ) {
@@ -158,12 +158,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
         
-        //FIXME: note label is different here
-//         $this->add('date', 'activity_date_time', ts('Actual Date'), 
-//                    CRM_Core_SelectValues::date('activityDatetime'));
-//         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
+        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
-        $this->add( 'text', 'duration', ts('Duration'),array( 'size'=> 4,'maxlength' => 8 ) );
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 

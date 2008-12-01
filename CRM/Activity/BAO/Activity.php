@@ -1225,4 +1225,31 @@ AND cl.modified_id  = c.id
         return self::create( $followupParams );
     }
 
+    /**
+     * Function to get Activity specific File according activity type Id.
+     *
+     * @param int  $activityTypeId  activity id
+     *
+     * @return if file exists returns $caseAction activity filename otherwise false.
+     *
+     * @static
+     */
+    static function getFileForActivityTypeId( $activityTypeId ) 
+    {
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
+        
+        if ( $activityTypes[$activityTypeId]['name'] ) {
+            require_once 'CRM/Utils/String.php';
+            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
+        } else {
+            return false;
+        }
+        
+        global $civicrm_root;
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/Case/Form/Activity/{$caseAction}.php") ) {
+            return false;
+        }
+
+        return $caseAction;
+    }
 }

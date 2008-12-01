@@ -34,6 +34,7 @@
  */
 
 require_once "CRM/Core/Form.php";
+require_once "CRM/Activity/BAO/Activity.php";
 require_once 'CRM/Custom/Form/CustomData.php';
 
 /**
@@ -84,7 +85,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     {        
         $this->_activityTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
 
-        if ( $this->_activityTypeFile = CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
+        if ( $this->_activityTypeFile = CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId) ) {
             require_once "CRM/Case/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
         }

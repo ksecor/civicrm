@@ -96,11 +96,54 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     public $_currentUserId;
 
     /**
+     * The array of filelds
+     *
+     * @var array
+     */
+    public $_fields = array( 'description'        =>  array( 'type'        => 'text',
+                                                             'label'       => 'Description' ,
+                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' )",
+                                                             'required'    => false
+                                                             ),
+                             'subject'            =>  array( 'type'        => 'text',
+                                                             'label'       => 'Subject',
+                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' )",
+                                                             'required'    => true
+                                                             ),
+                             'activity_date_time' =>  array( 'type'        => 'date',
+                                                             'label'       => 'Date and Time',
+                                                             'attribiutes' => "CRM_Core_SelectValues::date('activityDatetime')" ,
+                                                             'required'    => true
+                                                           ),
+                             'duration'           =>  array( 'type'        => 'text',
+                                                             'label'       => 'Duration',
+                                                             'attribiutes' => "array( 'size'=> 4,'maxlength' => 8 )",
+                                                             'required'    => false
+                                                             ),
+                         
+                             'location'           =>  array(  'type'       => 'text',
+                                                              'label'      => 'Location',
+                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' )",
+                                                              'required'   => false
+                                                              ),
+                             'details'            => array(   'type'       => 'textarea',
+                                                              'label'      => 'Details',
+                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' )" ,
+                                                              'required'   => false 
+                                                              ),
+                             'status_id'         =>  array(   'type'       => 'select',
+                                                              'label'      => 'Status',
+                                                              'attribiutes'=> "CRM_Core_PseudoConstant::activityStatus( )",
+                                                              'required'   => true 
+                                                              )
+                           );
+
+    /**
      * The the directory inside CRM, to include activity type file from 
      *
      * @var string
      */
-    protected $_crmDir = 'Activity';
+    protected $_crmDir = 'Case';
 
     /**
      * Function to build the form
@@ -283,9 +326,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // figure out the file name for activity type, if any
         if ( $this->_activityTypeId   &&
              $this->_activityTypeFile = 
-             CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
-            // FIXME: the sec arg in the path should be customizable 
-            require_once "CRM/Case/Form/Activity/{$this->_activityTypeFile}.php";
+             CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId) ) {
+            
+            require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
         }
 
@@ -448,30 +491,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $element->freeze( );
         }
-        
-        $this->add('text', 'description', ts('Description'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
+       
+        foreach ( $this->_fields as $field => $values ) {
+             
+            if( CRM_Utils_Array::value($field, $this->_fields ) ) {
+                eval('$attribute ='. $values['attribiutes'].';');
+                $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
+            }
+        }
 
-        $this->add('text', 'subject', ts('Subject') , 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
-
-        $this->add('date', 'activity_date_time', ts('Date and Time'), 
-                   CRM_Core_SelectValues::date('activityDatetime'), true);
-        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
-
-        $this->add('select','duration_hours',ts('Duration'),
-                   CRM_Core_SelectValues::getHours());
-        $this->add('select','duration_minutes', null,
-                   CRM_Core_SelectValues::getMinutes());
-
-        $this->add('text', 'location', ts('Location'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
-        
-        $this->add('textarea', 'details', ts('Details'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
-        
-        $this->add('select','status_id',ts('Status'), 
-                   CRM_Core_PseudoConstant::activityStatus( ), true );
 
         $config =& CRM_Core_Config::singleton( );
 

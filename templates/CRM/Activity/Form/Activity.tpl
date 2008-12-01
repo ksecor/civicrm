@@ -114,7 +114,9 @@
                   </td>
                 </tr>
              {/if}
-
+              <tr>
+                <td class="label">{$form.description.label}</td><td class="view-value">{$form.description.html}</td>
+             </tr> 
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
@@ -145,14 +147,10 @@
                 </td>
              </tr> 
              <tr>
-                <td class="label">{$form.duration_hours.label}</td>
+                <td class="label">{$form.duration.label}</td>
                 <td class="view-value">
-                    {if $action eq 4}
-                        {if $form.duration_hours.value}{$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{/if}
-                        {if $form.duration_minutes.value}{$form.duration_minutes.html} {ts}Mins{/ts}{/if}
-                    {else}
-                        {$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{$form.duration_minutes.html} {ts}Mins{/ts}
-                    {/if}
+                    {$form.duration.html}
+                    <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
                 </td>
              </tr> 
              <tr>
