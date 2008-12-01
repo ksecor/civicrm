@@ -1234,7 +1234,7 @@ AND cl.modified_id  = c.id
      *
      * @static
      */
-    static function getFileForActivityTypeId( $activityTypeId ) 
+    static function getFileForActivityTypeId( $activityTypeId, $crmDir = 'Activity' ) 
     {
         $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
         
@@ -1246,7 +1246,7 @@ AND cl.modified_id  = c.id
         }
         
         global $civicrm_root;
-        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/Case/Form/Activity/{$caseAction}.php") ) {
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$caseAction}.php") ) {
             return false;
         }
 

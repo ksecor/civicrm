@@ -143,7 +143,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var string
      */
-    protected $_crmDir = 'Case';
+    protected $_crmDir = 'Activity';
 
     /**
      * Function to build the form
@@ -326,7 +326,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // figure out the file name for activity type, if any
         if ( $this->_activityTypeId   &&
              $this->_activityTypeFile = 
-             CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId) ) {
+             CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, 'Case' ) ) {
             
             require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
@@ -360,12 +360,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
             $this->assign('caseSubject', $defaults['case_subject']);
-
-            if ( CRM_Utils_Array::value('duration',$defaults) ) {
-                require_once "CRM/Utils/Date.php";
-                list( $defaults['duration_hours'], 
-                      $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
-            }
 
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
@@ -500,7 +494,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
         }
 
-
+        $this->addRule('duration', 
+                       ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
+        
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts

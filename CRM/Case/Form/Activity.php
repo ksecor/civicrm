@@ -67,6 +67,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      */
     function preProcess( ) 
     {        
+        $this->_crmDir  = 'Case';
         $result = parent::preProcess( );
 
         if ( $this->_cdType ) {
@@ -115,7 +116,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
 
-        $this->_crmDir  = 'Case';
         $this->_context = 'activity';
 
         // set context
@@ -135,7 +135,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     function setDefaultValues( ) 
     {
         $this->_defaults = parent::setDefaultValues( );
-        
+
+        $this->_defaults['due_date_time'] = array( );
+        CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
+        $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
         return $this->_defaults;
     }
     
@@ -143,7 +146,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     {
         // FIXME: Need to add "Case Role" field as spec'd in CRM-3743
 
-        $this->_fields['activity_date_time']['label'] = 'Actual Date'; 
+        $this->_fields['activity_date_time']['label']    = 'Actual Date'; 
+        $this->_fields['activity_date_time']['required'] = false;
+        $this->_fields['subject']['required']            = false;
+
         $result = parent::buildQuickForm( );
 
         if ( $this->_cdType || $this->_addAssigneeContact || $this->_addTargetContact ) {
@@ -154,15 +160,12 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         $this->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
-
+        
         $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
-        
-        $this->addRule('duration', 
-                       ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
-
+              
         $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
         $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
                        'positiveInteger');  
