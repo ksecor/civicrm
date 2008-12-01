@@ -188,7 +188,7 @@ class CRM_Case_BAO_Query
             return;
 	
 		case 'case_recent_activity_type':
-			$query->_where[$grouping][] = " rec_activity_type.name != '$value'";
+			$query->_where[$grouping][] = " rec_activity_type.name != '$value' AND  ca2.id IS NULL";
  			return;
 
         case 'case_deleted':
@@ -236,8 +236,15 @@ class CRM_Case_BAO_Query
 				AND recent_activity.is_current_revision = 1
 				AND recent_activity.activity_date_time <= NOW() 
 				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY ) 
-				AND recent_activity.is_deleted = 0 )
-				";
+				AND recent_activity.is_deleted = 0 ) ";
+
+            $from .= " LEFT JOIN civicrm_activity ca2
+                              ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
+                                               WHERE cca.case_id = civicrm_case.id )
+                                   AND ca2.is_current_revision = 1
+                                          AND ca2.activity_date_time <= NOW() 
+                                   AND ca2.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY )
+                                   AND recent_activity.activity_date_time < ca2.activity_date_time  )";
             break;            
 
         case 'case_relationship':
