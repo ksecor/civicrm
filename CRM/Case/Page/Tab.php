@@ -193,9 +193,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( );
-        }
-                
-        if ( $this->_contactId ) {
+        } else if ( $this->_contactId ) {
             $this->browse( );
         }
 

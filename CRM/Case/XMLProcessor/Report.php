@@ -226,7 +226,7 @@ WHERE      a.id = %1
         
         $activity = array( );
         $activity['editURL'] = CRM_Utils_System::url( 'civicrm/case/activity',
-                                                      "reset=1&cid={$clientID}&id={$activityDAO->caseID}&action=add&atype={$activityDAO->activity_type_id}&aid={$activityDAO->id}" );
+                                                      "reset=1&cid={$clientID}&caseid={$activityDAO->caseID}&action=update&atype={$activityDAO->activity_type_id}&id={$activityDAO->id}" );
         $activity['fields'] = array( );
 
         $activity['fields'][] = array( 'label' => 'Client',
