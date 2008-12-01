@@ -106,6 +106,19 @@ class CRM_Core_IDS {
     html[]              = msg_html
 ";
             file_put_contents( $configFile, $contents );
+
+            // also create the .htaccess file so we prevent the reading of the log and ini files
+            // via a browser
+            $htaccessFile = $config->uploadDir . '.htaccess';
+            if ( ! file_exists( $htaccessFile ) ) {
+                $contents = '
+# Protect files and directories from prying eyes.
+<FilesMatch "\.(log|ini)$">
+ Order allow,deny
+</FilesMatch>
+';
+                file_put_contents( $htaccessFile, $contents );
+            }
         }
 
         $init    = IDS_Init::init( $configFile );
