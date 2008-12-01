@@ -48,7 +48,7 @@ class CiviMailProcessor {
         $name ? $dao->name = $name : $dao->is_default = 1;
         if (!$dao->find(true)) throw new Exception("Could not find entry named $name in civicrm_mail_settings");
 
-        // legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
+        // FIXME: legacy regexen to handle CiviCRM 2.1 address patterns, with domain id and possible VERP part
         $commonRegex = '/^' . preg_quote($dao->localpart) . '(b|bounce|c|confirm|o|optOut|r|reply|re|e|resubscribe|u|unsubscribe)\.(\d+)\.(\d+)\.(\d+)\.([0-9a-f]{16})(-.*)?@' . preg_quote($dao->domain) . '$/';
         $subscrRegex = '/^' . preg_quote($dao->localpart) . '(s|subscribe)\.(\d+)\.(\d+)@' . preg_quote($dao->domain) . '$/';
 
@@ -69,6 +69,7 @@ class CiviMailProcessor {
                 if (preg_match($regex, $address->email, $matches)) {
                     list($match, $action, $job, $queue, $hash) = $matches;
                     break;
+                // FIXME: the below elseifs should be dropped when we drop legacy support
                 } elseif (preg_match($commonRegex, $address->email, $matches)) {
                     list($match, $action, $_, $job, $queue, $hash) = $matches;
                     break;
@@ -84,30 +85,25 @@ class CiviMailProcessor {
                 continue;
             }
 
-            // for bounces and replies get the plaintext and HTML parts of the message
-            // FIXME: this assumes only one plain and one html part per message (and discards the rest)
-            if (in_array($action, array('b', 'bounce', 'r', 'reply'))) {
-                $text = $html = null;
-                if ($mail->body instanceof ezcMailText) {
-                    $text = $mail->body->text;
-                } elseif ($mail->body instanceof ezcMailMultipart) {
-                    foreach ($mail->body->getParts() as $part) {
-                        switch ($part->subType) {
-                        case 'plain': $text = $part->text; break;
-                        case 'html':  $html = $part->text; break;
-                        }
-                    }
-                }
-            }
-
             // get $replyTo from either the Reply-To header or from From
             // FIXME: make sure it works with Reply-Tos containing non-email stuff
             $replyTo = $mail->getHeader('Reply-To') ? $mail->getHeader('Reply-To') : $mail->from->email;
 
             // handle the action by passing it to the proper API call
+            // FIXME: leave only one-letter cases when dropping legacy support
             switch($action) {
             case 'b':
             case 'bounce':
+                if ($mail->body instanceof ezcMailText) {
+                    $text = $mail->body->text;
+                } elseif ($mail->body instanceof ezcMailMultipart) {
+                    foreach ($mail->body->getParts() as $part) {
+                        if (isset($part->subType) and $part->subType == 'plain') {
+                            $text = $part->text;
+                            break;
+                        }
+                    }
+                }
                 crm_mailer_event_bounce($job, $queue, $hash, $text);
                 break;
             case 'c':
@@ -120,7 +116,8 @@ class CiviMailProcessor {
                 break;
             case 'r':
             case 'reply':
-                crm_mailer_event_reply($job, $queue, $hash, $text, $replyTo, $html);
+                // instead of text and HTML parts (4th and 6th params) send the whole email as the last param
+                crm_mailer_event_reply($job, $queue, $hash, null, $replyTo, null, $mail->generate());
                 break;
             case 'e':
             case 're':
