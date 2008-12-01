@@ -17,9 +17,9 @@
     {/section}
     <tr class="columnheader"><th colspan="2" style="text-align: right;">{$form.threshold.label}</th><td>{$form.threshold.html}</td></tr>
   </table>
-  {capture assign=urlTitle}{ts}Opens documentation in a new window.{/ts}{/capture}  
+  {capture assign=urlTitle}{ts}Opens MYSQL documentation in a new window.{/ts}{/capture}  
   <div class="message status">
-    <p>{ts}IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify that there is an index on the corresponding column in the database. If not, you can use the CREATE INDEX command in MySQL to add an index.{/ts} (<a href="%1" target="_blank" title="%2">{ts}learn more...{/ts}</a>)</p>
+    <p>{ts}IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify that there is an index on the corresponding column in the database. If not, you can use the CREATE INDEX command in MySQL to add an index.{/ts} (<a href="http://dev.mysql.com/doc/refman/5.0/en/create-index.html" target="_blank" title="{$urlTitle}">{ts}learn more...{/ts}</a>)</p>
   </div>
   <p>{$form.buttons.html}</p>
   </dl>
