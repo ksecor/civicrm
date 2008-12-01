@@ -173,11 +173,14 @@ function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
  * @param int $job_id           The job ID
  * @param int $queue_id         The queue event ID
  * @param string $hash          Security hash
- * @param string $body          Body of the reply message
+ * @param string $bodyTxt       text part of the body (ignored if $fullEmail supplied)
  * @param string $replyto       Reply-to of the incoming message
+ * @param string $bodyHTML      HTML part of the body (ignored if $fullEmail supplied)
+ * @param string $fullEmail     whole email to forward in one string
  * @return boolean              True on success
  */
-function crm_mailer_event_reply($job_id, $queue_id, $hash, $bodyTxt, $replyto, $bodyHTML = null ) {
+function crm_mailer_event_reply($job_id, $queue_id, $hash, $bodyTxt, $replyto, $bodyHTML = null, $fullEmail = null)
+{
     $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, 
                                                     $hash, $replyto);
 
@@ -185,7 +188,7 @@ function crm_mailer_event_reply($job_id, $queue_id, $hash, $bodyTxt, $replyto, $
         return false;
     }
 
-    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $bodyTxt, $replyto, $bodyHTML );
+    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $bodyTxt, $replyto, $bodyHTML, $fullEmail);
 
     return true;
 }

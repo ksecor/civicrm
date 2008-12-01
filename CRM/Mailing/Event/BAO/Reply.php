@@ -35,6 +35,9 @@
 
 require_once 'Mail/mime.php';
 
+require_once 'ezc/Base/src/ezc_bootstrap.php';
+require_once 'ezc/autoload/mail_autoload.php';
+
 require_once 'CRM/Mailing/Event/DAO/Reply.php';
 
 require_once 'CRM/Mailing/BAO/Job.php'; 
@@ -97,56 +100,85 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      *
      * @param int $queue_id     Queue event ID of the sender
      * @param string $mailing   The mailing object
-     * @param string $body      Body of the message
+     * @param string $bodyTxt   text part of the body (ignored if $fullEmail provided)
      * @param string $replyto   Reply-to of the incoming message
+     * @param string $bodyHTML  HTML part of the body (ignored if $fullEmail provided)
+     * @param string $fullEmail whole email to forward in one string
      * @return void
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$bodyTxt, $replyto, &$bodyHTML = null) {
-        $config =& CRM_Core_Config::singleton();
-        $mailer =& $config->getMailer();
-        $domain =& CRM_Core_BAO_Domain::getDomain( );
-        
-        $emails = CRM_Core_BAO_Email::getTableName();
-        $eq = CRM_Mailing_Event_BAO_Queue::getTableName();
-        $contacts = CRM_Contact_BAO_Contact::getTableName();
-        
-        $dao =& new CRM_Core_DAO();
-        $dao->query("SELECT     $contacts.display_name as display_name,
-                                $emails.email as email
-                    FROM        $eq
-                    INNER JOIN  $contacts
-                            ON  $eq.contact_id = $contacts.id
-                    INNER JOIN  $emails
-                            ON  $eq.email_id = $emails.id
-                    WHERE       $eq.id = " 
-                                . CRM_Utils_Type::escape($queue_id, 'Integer'));
-        $dao->fetch();
-        
-        
-        if (empty($dao->display_name)) {
-            $from = $dao->email;
+    public static function send($queue_id, &$mailing, &$bodyTxt, $replyto, &$bodyHTML = null, &$fullEmail = null)
+    {
+        if ($fullEmail) {
+            // parse the email and set a new destination
+            $parser = new ezcMailParser;
+            $set = new ezcMailVariableSet($fullEmail);
+            $parsed = array_shift($parser->parseMail($set));
+            $parsed->to = array(new ezcMailAddress($mailing->replyto_email));
+
+            // $h must be an array, so we can't use generateHeaders()'s result, 
+            // but we have to regenerate the headers because we changed To
+            $parsed->generateHeaders();
+            $h = $parsed->headers->getCaseSensitiveArray();
+            $b = $parsed->generateBody();
+
+            // FIXME: ugly hack - find the first MIME boundary in 
+            // the body and make the boundary in the header match it
+            $ct =& $h['Content-Type'];
+            if (substr_count($ct, 'boundary=')) {
+                $matches = array();
+                preg_match('/^--(.*)$/m', $b, $matches);
+                $boundary = rtrim($matches[1]);
+                $parts = explode('boundary=', $ct);
+                $ct = "{$parts[0]} boundary=\"$boundary\"";
+            }
         } else {
-            $from = "\"{$dao->display_name}\" <{$dao->email}>";
+            $domain =& CRM_Core_BAO_Domain::getDomain( );
+            
+            $emails = CRM_Core_BAO_Email::getTableName();
+            $eq = CRM_Mailing_Event_BAO_Queue::getTableName();
+            $contacts = CRM_Contact_BAO_Contact::getTableName();
+            
+            $dao =& new CRM_Core_DAO();
+            $dao->query("SELECT     $contacts.display_name as display_name,
+                                    $emails.email as email
+                        FROM        $eq
+                        INNER JOIN  $contacts
+                                ON  $eq.contact_id = $contacts.id
+                        INNER JOIN  $emails
+                                ON  $eq.email_id = $emails.id
+                        WHERE       $eq.id = " 
+                                    . CRM_Utils_Type::escape($queue_id, 'Integer'));
+            $dao->fetch();
+            
+            if (empty($dao->display_name)) {
+                $from = $dao->email;
+            } else {
+                $from = "\"{$dao->display_name}\" <{$dao->email}>";
+            }
+
+            require_once 'CRM/Core/BAO/MailSettings.php';
+            $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
+            
+            $message =& new Mail_Mime("\n");
+            $headers = array(
+                'Subject'       => "Re: {$mailing->subject}",
+                'To'            => $mailing->replyto_email,
+                'From'          => $from,
+                'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
+                'Return-Path'   => "do-not-reply@{$emailDomain}",
+                );
+            
+            $message->setTxtBody($bodyTxt);
+            $message->setHTMLBody($bodyHTML);
+            $b = $message->get();
+            $h = $message->headers($headers);
         }
 
-        require_once 'CRM/Core/BAO/MailSettings.php';
-        $emailDomain = CRM_Core_BAO_MailSettings::defaultDomain();
-        
-        $message =& new Mail_Mime("\n");
-        $headers = array(
-            'Subject'       => "Re: {$mailing->subject}",
-            'To'            => $mailing->replyto_email,
-            'From'          => $from,
-            'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
-            'Return-Path'   => "do-not-reply@{$emailDomain}",
-            );
-        
-        $message->setTxtBody($bodyTxt);
-        $message->setHTMLBody($bodyHTML);
-        $b = $message->get();
-        $h = $message->headers($headers);
+        $config =& CRM_Core_Config::singleton();
+        $mailer =& $config->getMailer();
+
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Core_Error', 'nullHandler' ) );
         if ( is_object( $mailer ) ) {
