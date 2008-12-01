@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-11-01 10:26-0700\n"
-"Last-Translator: Marius-C. Hammerich <hammerich@mc-it.net>\n"
+"PO-Revision-Date: 2008-11-27 08:37-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,11 +26,11 @@ msgstr "Nein danke"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Contribution Type - %1"
-msgstr "Zuwendungsart - %1"
+msgstr "Spendenart - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Contribution Page - %1"
-msgstr "Zuwendungsseite - %1"
+msgstr "Spenden Seite - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #, fuzzy
@@ -39,7 +39,7 @@ msgstr "\"Zu Ehren von\"-Name wie - \"%1\""
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
-msgstr "Zuwendungsquelle"
+msgstr "Spendenquelle"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
@@ -59,7 +59,7 @@ msgstr "Bitte geben Sie einen gültigen Geldwert ein (z.B. 99.99)."
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr "Zuwendungsseite"
+msgstr "Spenden Seite"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "In Honor Of"
@@ -147,9 +147,8 @@ msgstr "Einhheit der Zahlungshäufigkeit"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Frequenz-Intervall"
+msgstr "Zahlungshäufigkeit"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
@@ -382,11 +381,11 @@ msgstr "Häufigkeit"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
-msgstr "Lösche Zuwendungen"
+msgstr "Lösche Spenden"
 
 #: CRM/Contribute/Form/Task/PDF.php CRM/Contribute/Task.php
 msgid "Print Contribution Receipts"
-msgstr "Drucke Zuwendungsbestätigung"
+msgstr "Drucke Spenden Bestätigung"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
@@ -454,7 +453,7 @@ msgstr "Quelle/ Grund für die Teilnahme"
 #: CRM/Event/BAO/Query.php CRM/Event/Selector/Search.php
 #: templates/CRM/Event/Form/Task/Print.tpl
 msgid "Fee Level"
-msgstr "Gebühr"
+msgstr "Gebührenstufe"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
 msgid "Event ID"
@@ -462,11 +461,11 @@ msgstr "Veranstaltungs-ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Name"
-msgstr "Bestätige mit Namen"
+msgstr "Bestätigung von Namen"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Email"
-msgstr "Bestätige per Email"
+msgstr "Bestätigungs Email Von Adresse"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Event Title"
@@ -479,7 +478,7 @@ msgstr "Zusammenfassung der Veranstaltung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Start Date"
-msgstr "Startdatum der Anmeldung"
+msgstr "Beginndatum der Anmeldung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration End Date"
@@ -488,7 +487,7 @@ msgstr "Enddatum der Anmeldung"
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Fee Label"
-msgstr "Bezeichnung der Gebühr"
+msgstr "Label der Gebühr"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
 msgid "Payment ID"
@@ -501,7 +500,7 @@ msgstr "Teilnehmer-Nummer"
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Transaction ID already exists in Database."
-msgstr "Transaktions-ID ist schon vergeben."
+msgstr "Transaktions-ID ist schon vorhanden"
 
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
@@ -535,7 +534,7 @@ msgstr "Konnte keinen gültigen Bearbeiter der Zahlung für diese Seite finden"
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 msgid "Grant Status"
-msgstr "Zuwendungsstatus"
+msgstr "Unterstützung Status"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
@@ -567,7 +566,7 @@ msgstr "Überweisungsdatum"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr "Zuwendungen löschen"
+msgstr "Unterstützung löschen"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -803,13 +802,13 @@ msgstr "Daten der weiteren Erinnerungen"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
 msgid "Total Pledged"
-msgstr "Insgesamt gepfändet"
+msgstr "Total der zugesagten Unterstützung"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
 msgid "Pledge Made"
-msgstr "Pfand ausgestellt"
+msgstr "Abgegebene Unterstützungs Zusage"
 
 #: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
 #, fuzzy
@@ -818,11 +817,11 @@ msgstr "%1(e)"
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
 msgid "Delete Pledges"
-msgstr "Pfand löschen"
+msgstr "Unterstützungs Zusage löschen"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr "- Zuwendungsfelder -"
+msgstr "- Spendenfelder -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 #, fuzzy
@@ -859,7 +858,7 @@ msgstr "Das Datum der \"Dankeschön\"-Notiz ist leer."
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Receipt date is null"
-msgstr "Das Datum der Zuwendungsbestätigung ist leer"
+msgstr "Das Datum der Spendenbestätigung ist leer"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
@@ -867,11 +866,11 @@ msgstr "Zahlung per - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Status %1"
-msgstr "Status der Zuwendung \"%1\""
+msgstr "Status der Spende \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr "Zuwendungsdatum - von"
+msgstr "Spenden Datum - von"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Thank-you date not set?"
@@ -883,15 +882,15 @@ msgstr "Quittung nicht gesendet?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Test Contributions?"
-msgstr "Testzuwendungen finden?"
+msgstr "Test Spenden finden?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Pay Later Contributions?"
-msgstr "Noch zu bezahlende Zuwendungen finden?"
+msgstr "Noch zu bezahlende Spenden finden?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Recurring Contributions?"
-msgstr "Wiederkehrende Zuwendungen finden?"
+msgstr "Wiederkehrende Spenden finden?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -938,11 +937,11 @@ msgstr "Text des Abschnitts \"Zu Ehren von\""
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Contribution Page Start Date"
-msgstr "Zuwendungsseite - Startdatum"
+msgstr "Spenden Seite - Startdatum"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Contribution Page End Date"
-msgstr "Zuwendungsseite - Enddatum"
+msgstr "spenden Seite - Enddatum"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID"
@@ -2244,7 +2243,7 @@ msgstr "Veranstaltungstyp - %1"
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants"
-msgstr "Nur nach Test-Teilnehmer suchen?"
+msgstr "Test-Teilnehmer finden?"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2812,7 +2811,7 @@ msgstr "Wählen Sie ein gültiges BIS Datum aus."
 #: CRM/Event/Form/Search.php
 #, fuzzy
 msgid "Participant Name or Email"
-msgstr "Teilnehmername"
+msgstr "Teilnehmer Name oder Email"
 
 #: CRM/Event/Form/Search.php
 #, fuzzy
@@ -4959,13 +4958,12 @@ msgid "There are no live contribution records to display."
 msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#, fuzzy
 msgid ""
 "Please verify the information below carefully. Click <strong>Go Back</"
 "strong> if you need to make changes."
 msgstr ""
-"Bitte überprüfen Sie die Angaben sorgfältig. Klicken Sie auf <strong>Zurück "
-"(Go Back)</stong>, wenn Sie etwas ändern möchten."
+"Bitte überprüfen Sie die Angaben. Klick auf <strong>Zurück (Go "
+"Back)</stong>, wenn Sie etwas ändern möchten."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -7408,6 +7406,8 @@ msgid ""
 "Click the <strong>Google Checkout</strong> button to checkout to Google, "
 "where you will select your payment method and complete the registration."
 msgstr ""
+"Klick <strong> Google Checkout</strong> für Bezahlung bei Google, wo sie die "
+"Bezahl Methode auswählen und die Registration abschliessen können."
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #, fuzzy
@@ -7415,9 +7415,8 @@ msgid ""
 "Otherwise, click the <strong>Continue</strong> button below to complete your "
 "registration."
 msgstr ""
-"Bitte kontrollieren Sie die untenstehende Information. Klicken Sie auf "
-"<strong>Zurück</strong> um Änderungen durchzuführen. Um die Anmeldung "
-"abzuschließen klicken Sie auf <strong>Weiter</strong>."
+"Andernfalls untenstehend Klick <strong>Weiter</strong>um die Registration "
+"abzuschliessen."
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
@@ -7470,8 +7469,8 @@ msgstr ""
 "durchgeführt. Jedoch werden Kontakte erzeugt und aktualisiert und die "
 "Testveranstaltungsteilnahmen und Zuwendungen werden in der Datenbank "
 "gespeichert. Verwenden Sie eindeutig erkennbare Testnamen um diese "
-"Aufzeichnungen später finden und löschen zu können.</strong> Kontaktieren "
-"Sie die Dokumentation ihres Payment-Prozessors für Informationen über die "
+"Aufzeichnungen später finden und löschen zu können.</strong> Verwenden Sie "
+"die Dokumentation ihres Payment-Prozessors für Informationen über die "
 "Testwerte für Kreditkarten, Sicherheitscode, PLZ usw."
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl

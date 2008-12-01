@@ -169,8 +169,7 @@
 {* Plugging the Location block *}
 {include file="CRM/Contact/Form/Location.tpl"}
 
-{if $showDemographics}
-{if $contact_type eq 'Individual'}
+{if $contact_type eq 'Individual' and $showDemographics }
  <div id = "id_demographics_show" class="section-hidden section-hidden-border label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
@@ -209,7 +208,6 @@
         {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear trigger=trigger_demographics_2 }
         </span>
     </div>
-
   </fieldset>
  </div>
 
@@ -223,18 +221,22 @@
         } else {
 	    hide('showDeceasedDate');
         }
-    }
-
-    dojo.addOnLoad( function( ) 
-    {
-	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
-	dijit.byId( 'current_employer' ).setValue(currentEmployer);
-    }); 
-    
+    }     
 </script>
 {/literal}
 
-{/if}  
+{/if} 
+
+{if $contact_type eq 'Individual' and $currentEmployer }
+{literal}
+<script type="text/javascript">
+	dojo.addOnLoad( function( ) 
+	{
+		var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
+		dijit.byId( 'current_employer' ).setValue(currentEmployer);
+	}); 
+</script>
+{/literal} 
 {/if}
 
 {if $contact_type eq 'Individual' or $contact_type eq 'Household'}
