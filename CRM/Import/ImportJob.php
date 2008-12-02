@@ -303,7 +303,7 @@ class CRM_Import_ImportJob {
             require_once 'CRM/Core/BAO/Tag.php';
             $id = array();
             $addedTag = CRM_Core_BAO_Tag::add($tagParams,$id);
-            $tag[$addedTag->id] = 1;            
+            $this->_tag[$addedTag->id] = 1;
         }
         //add Tag to Import   
 
