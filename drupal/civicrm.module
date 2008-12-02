@@ -65,19 +65,6 @@ function civicrm_html_head()
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
-
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery.js\"></script>";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/jquery-ui.js\"></script>";
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/jquery/css/jquery-ui.css);</style>";
-
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/plugins/flexigrid.js\"></script>";
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/jquery/css/flexigrid.css);</style>";
-
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/plugins/jquery.autocomplete.js\"></script>";
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/jquery/css/jquery.autocomplete.css);</style>";
-
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/jquery/plugins/jquery.chainedSelects.js\"></script>";
-        $head .= "<script type=\"text/javascript\">var cj = jQuery.noConflict(); $ = cj;</script>";
     }
 
     return $head;
