@@ -239,11 +239,11 @@ cj(document).ready(function(){
 	url: dataUrl,
 	    dataType: 'json',
 	    colModel : [
-			{display: 'Due',     name : 'due_date',    width : 70, sortable : true, align: 'left'},
-			{display: 'Actual',  name : 'actual_date', width : 70, sortable : true, align: 'left'},
+			{display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
+			{display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
             {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
-			{display: 'Type',    name : 'type',        width : 85, sortable : true, align: 'left'},
-			{display: 'Reporter',name : 'reporter',    width : 90, sortable : true, align: 'left'},
+			{display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
+			{display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
 			{display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
 			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
@@ -335,11 +335,7 @@ function checkSelection( field ) {
 
 {literal}
 <script type="text/javascript">
-{/literal}{if $show}{literal}
     hide('activities_show');
-{/literal}{else}{literal}
-    hide('activities');
-{/literal}{/if}{literal}
 </script>
 {/literal}
 
