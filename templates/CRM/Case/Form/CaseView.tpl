@@ -16,9 +16,9 @@
     </table>
     <table class="form-layout">
         <tr>
-            <td>{$form.activity_type_id.label}<br />{$form.activity_type_id.html}&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="newActivity();"/></td>
+            <td>{$form.activity_type_id.label}<br />{$form.activity_type_id.html}&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="checkSelection( this );"/></td>
             <td>{$form.timeline_id.label}<br />{$form.timeline_id.html}&nbsp;{$form._qf_CaseView_next.html}</td> 
-            <td>{$form.report_id.label}<br />{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="doReport();"/></td> 
+            <td>{$form.report_id.label}<br />{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="checkSelection( this );"/></td> 
         </tr>
     </table>
 </fieldset>
@@ -295,32 +295,41 @@ function search(com)
     cj("#activities-selector").flexReload(); 
 }
 
-function newActivity( ) {
-    if ( document.getElementById('activity_type_id').value == '' ) {
-	alert("Please select an activity type from the list.");
-	return false;
-    } else {
-        window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value
-    }
+function checkSelection( field ) {
+	var validationMessage = '';
+	var validationField   = '';
+	var successAction     = '';
+	
+	var fName = field.name;
+	
+	switch ( fName )  {
+		case '_qf_CaseView_next' :
+				validationMessage = 'Please select an activity set from the list.';
+				validationField   = 'timeline_id';
+				successAction     = "confirm('Are you sure you want to add a set of scheduled activities to this case?');";
+				break;
+
+		case 'new_activity' :
+				validationMessage = 'Please select an activity type from the list.';
+				validationField   = 'activity_type_id';
+				successAction     = "window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value";
+				break;
+
+		case 'case_report' :
+				validationMessage = 'Please select a report from the list.';
+				validationField   = 'report_id';
+				successAction     = "window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value";
+				break;
+	}	
+
+	if ( document.getElementById( validationField ).value == '' ) {
+		alert( validationMessage );
+		return false;
+	} else {
+		return eval( successAction );
+	}
 }
 
-function doReport( ) {
-    if ( document.getElementById('report_id').value == '' ) {
-	alert("Please select a report from the list.");
-	return false;
-    } else {
-        window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value
-    }
-}
-
-function verifyActivitySet( ) {
-    
-    if ( document.getElementById('timeline_id').value == '' ) {
-	alert("Please select an activity set from the list.");
-	return false;
-    } 
-    return confirm('Are you sure you want to add a set of scheduled activities to this case?');	 
-}
 </script>
 {/literal}
 

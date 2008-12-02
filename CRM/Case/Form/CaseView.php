@@ -144,7 +144,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
                            array( 'class'   => 'form-submit',
-                                  'onclick' => "return verifyActivitySet( );") ); 
+                                  'onclick' => "return checkSelection( this );") ); 
         
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
