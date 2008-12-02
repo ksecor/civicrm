@@ -16,20 +16,20 @@
             <tr><td class="label">{$form.$element_name.label}</td>
                 <td class="view-value">
                 <table class="form-layout-compressed">
-                {foreach name=outer key=key item=item from=$form.$element_name}
-                    <tr>	
-                        {if is_numeric($key) }
-                            <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
-                            {if $count == $element.options_per_line}
-                                {assign var="count" value="1"}
-                                </tr>
-                                <tr>			
-                            {else}
-                                {assign var="count" value=`$count+1`}
-                            {/if}
+                <tr>	
+		{foreach name=outer key=key item=item from=$form.$element_name}
+                    {if is_numeric($key) }
+                        <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
+                        {if $count == $element.options_per_line}
+                            {assign var="count" value="1"}
+                            </tr>
+                            <tr>			
+                        {else}
+                            {assign var="count" value=`$count+1`}
                         {/if}
-                    </tr>
+                    {/if}
                 {/foreach}
+                </tr>
                 {if $element.help_post AND $action eq 1}
                     <tr><td></td><td class="description">{$element.help_post}</td></tr>
                 {/if}

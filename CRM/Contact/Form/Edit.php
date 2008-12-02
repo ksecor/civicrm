@@ -395,7 +395,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
         }
 
-        //CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
 
@@ -481,8 +480,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function addRules( )
     {
-        
-        //$this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
+		// skip adding formRules when custom data is build
+        if ( $this->_cdType ) {
+			return;
+		}
+        $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
     /**

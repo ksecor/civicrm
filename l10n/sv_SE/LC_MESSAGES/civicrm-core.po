@@ -1826,7 +1826,7 @@ msgstr "Val värde"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Tipsa en vän"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"

@@ -18,6 +18,9 @@
     </tr>
     <tr>
         <td colspan="2">{$form.html_message.label}<br />
+            {if $editor EQ 'textarea'}
+                <span class="description">{ts}If you are composing HTML-formatted messages, you may want to enable a WYSIWYG editor (Administer CiviCRM &raquo; Global Settings &raquo; Site Preferences).{/ts}</span><br />
+            {/if}
             {$form.html_message.html}
         </td>
     </tr>

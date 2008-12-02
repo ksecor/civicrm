@@ -41,7 +41,6 @@ require_once 'CRM/Core/Config.php';
 class CRM_Core_Page_AJAX_Location
 {
 
-
     /**
      * Function to obtain the location of given contact-id. 
      * This method is used by on-behalf-of form to dynamically generate poulate the 
@@ -86,170 +85,24 @@ class CRM_Core_Page_AJAX_Location
         echo $str;
     }
 
+	function jqState( &$config ) {
+		if ( ! isset( $_GET['_value'] ) ||
+		empty( $_GET['_value'] ) ) {
+			return null;
+		}
 
+		require_once 'CRM/Core/PseudoConstant.php';
+		$result =& CRM_Core_PseudoConstant::stateProvinceForCountry( $_GET['_value'] );
 
-    /**
-     * Function to build state province combo box
-     */
-    function state( ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $countryName  = $stateName = null;
-        $elements = array( );
-        $countryClause = " 1 ";
-        if ( CRM_Utils_Array::value( 'node', $_GET ) ) {
-            $countryId     = CRM_Utils_Type::escape( $_GET['node'], 'String');
-            $countryClause = " civicrm_state_province.country_id = {$countryId}";
-        } 
+		$elements = array( array( 'name'  => ts('- select a state-'),
+			'value' => '' ) );
+		foreach ( $result as $id => $name ) {
+			$elements[] = array( 'name'  => ts($name),
+				'value' => $id );
+		}
 
-        if ( isset( $_GET['name'] ) ) {
-            $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
-        }
-
-        $stateId = null;
-        if ( isset( $_GET['id'] ) ) {
-            $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
-        }
-        
-        $validValue = true;
-        if ( !$stateName && !$stateId ) {
-            $validValue = false;
-        }
-
-        if ( $validValue ) {
-            $stateClause = " 1 ";
-            if ( !$stateId ) {
-                $stateName = str_replace( '*', '%', $stateName );        
-                $stateClause = " civicrm_state_province.name LIKE '$stateName%' ";
-            } else {
-                $stateClause = " civicrm_state_province.id = {$stateId} ";
-            }
-            
-            $query = "
-SELECT civicrm_state_province.name name, civicrm_state_province.id id
-  FROM civicrm_state_province
-WHERE {$countryClause}
-    AND {$stateClause}
-ORDER BY name";
-
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            
-            $count = 0;
-            
-            while ( $dao->fetch( ) && $count < 5 ) {
-                $elements[] = array( 'name'  => ts($dao->name),
-                                     'value' => $dao->id );
-                $count++;
-            }
-        }
-
-        if ( empty( $elements) ) {
-            if ( !$stateName && isset( $_GET['id'] )) {
-                if ( $stateId ) {
-                    $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-                    $stateName =  $stateProvinces[$stateId];
-                    $stateValue = $stateId;
-                } else {
-                    $stateName = $stateValue = $_GET['id'];
-                }
-            } else if ( !is_numeric( $stateName ) )  {
-                $stateValue = $stateName;
-            }
-            
-            $elements[] = array( 'name'  => trim($stateName, "%"),
-                                 'value' => trim($stateValue, "%") 
-                                 );
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
-    }
-
-    /**
-     * Function to build country combo box
-     */
-    function country( ) 
-    {
-    
-        $config =& CRM_Core_Config::singleton();    
-        //get the country limit and restrict the combo select options
-        $limitCodes = $config->countryLimit( );
-        if ( ! is_array( $limitCodes ) ) {
-            $limitCodes = array( $config->countryLimit => 1);
-        }
-        
-        $limitCodes = array_intersect( CRM_Core_PseudoConstant::countryIsoCode(), $limitCodes);
-        if ( count($limitCodes) ) {
-            $whereClause = " iso_code IN ('" . implode("', '", $limitCodes) . "')";
-        } else {
-            $whereClause = " 1";
-        }
-
-        $elements = array( );
-        require_once 'CRM/Utils/Type.php';
-        $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
-        $name      = CRM_Utils_Type::escape( $name, 'String'  );
-
-        $countryId = null;
-        if ( isset( $_GET['id'] ) ) {
-            $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
-        }
-
-        //temporary fix to handle locales other than default US,
-        // CRM-2653
-        if ( !$countryId && $name && $config->lcMessages != 'en_US') {
-            $countries = CRM_Core_PseudoConstant::country();
-            
-            // get the country name in en_US, since db has this locale
-            $countryName = array_search( $name, $countries );
-            
-            if ( $countryName ) {
-                $countryId = $countryName;
-            }
-        }
-
-        $validValue = true;
-        if ( !$name && !$countryId ) {
-            $validValue = false;
-        }
-
-        if ( $validValue ) {
-            if ( !$countryId ) {
-                $name = str_replace( '*', '%', $name );
-                $countryClause = " civicrm_country.name LIKE '$name%' ";
-            } else {
-                $countryClause = " civicrm_country.id = {$countryId} ";
-            }
-            
-            $query = "
-SELECT id, name
-  FROM civicrm_country
- WHERE {$countryClause}
-   AND {$whereClause} 
-ORDER BY name";
-
-            $dao = CRM_Core_DAO::executeQuery( $query );
-            
-            $count = 0;
-            while ( $dao->fetch( ) && $count < 5 ) {
-                $elements[] = array( 'name'  => ts($dao->name),
-                                     'value' => $dao->id );
-                $count++;
-            }
-        }
-        
-        if ( empty( $elements) ) {
-            if ( isset( $_GET['id'] ) ) {
-                $name = $_GET['id'];
-            }
-
-            $elements[] = array( 'name'  => trim($name, "%"),
-                                 'value' => trim($name, "%") 
-                                 );
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
-    }
+		require_once "CRM/Utils/JSON.php";
+		echo json_encode( $elements );
+	}
 
 }

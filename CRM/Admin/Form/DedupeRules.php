@@ -145,6 +145,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         $ruleDao->delete();
         $ruleDao->free();
 
+        $tables = array( );
         for ($count = 0; $count < self::RULES_COUNT; $count++) {
             list($table, $field) = explode('.', $values["where_$count"]);
             $length = $values["length_$count"] ? $values["length_$count"] : null;
@@ -158,8 +159,19 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
                 $ruleDao->rule_weight          = $weight;
                 $ruleDao->save();
                 $ruleDao->free();
+
+                if ( ! array_key_exists( $table, $tables ) ) {
+                    $tables[$table] = array( );
+                }
+                $tables[$table][] = $field;
             }
         }
+
+        // also create an index for this dedupe rule
+        // CRM-3837
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+        CRM_Core_BAO_SchemaHandler::createIndexes( $tables );
+                
     }
     
 }

@@ -55,21 +55,21 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_activityId;
+    public $_activityId;
 
     /**
      * The id of activity type 
      *
      * @var int
      */
-    protected $_activityTypeId;
+    public $_activityTypeId;
 
     /**
      * The id of currently viewed contact
      *
      * @var int
      */
-    protected $_currentlyViewedContactId;
+    public $_currentlyViewedContactId;
 
     /**
      * The id of source contact and target contact
@@ -85,7 +85,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_caseId;
+    public    $_caseId;
     protected $_single;
     
     /**
@@ -93,7 +93,57 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var int
      */
-    protected $_currentUserId;
+    public $_currentUserId;
+
+    /**
+     * The array of filelds
+     *
+     * @var array
+     */
+    public $_fields = array( 'description'        =>  array( 'type'        => 'text',
+                                                             'label'       => 'Description' ,
+                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' )",
+                                                             'required'    => false
+                                                             ),
+                             'subject'            =>  array( 'type'        => 'text',
+                                                             'label'       => 'Subject',
+                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' )",
+                                                             'required'    => true
+                                                             ),
+                             'activity_date_time' =>  array( 'type'        => 'date',
+                                                             'label'       => 'Date and Time',
+                                                             'attribiutes' => "CRM_Core_SelectValues::date('activityDatetime')" ,
+                                                             'required'    => true
+                                                           ),
+                             'duration'           =>  array( 'type'        => 'text',
+                                                             'label'       => 'Duration',
+                                                             'attribiutes' => "array( 'size'=> 4,'maxlength' => 8 )",
+                                                             'required'    => false
+                                                             ),
+                         
+                             'location'           =>  array(  'type'       => 'text',
+                                                              'label'      => 'Location',
+                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' )",
+                                                              'required'   => false
+                                                              ),
+                             'details'            => array(   'type'       => 'textarea',
+                                                              'label'      => 'Details',
+                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' )" ,
+                                                              'required'   => false 
+                                                              ),
+                             'status_id'         =>  array(   'type'       => 'select',
+                                                              'label'      => 'Status',
+                                                              'attribiutes'=> "CRM_Core_PseudoConstant::activityStatus( )",
+                                                              'required'   => true 
+                                                              )
+                           );
+
+    /**
+     * The the directory inside CRM, to include activity type file from 
+     *
+     * @var string
+     */
+    protected $_crmDir = 'Activity';
 
     /**
      * Function to build the form
@@ -153,6 +203,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
         $this->assign( 'atype', $this->_activityTypeId );
 
+        if ( !$this->_activityTypeId && $this->_activityId ) {
+            $this->_activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity',
+                                                                  $this->_activityId,
+                                                                  'activity_type_id' );
+        }
+
         //check the mode when this form is called either single or as
         //search task action
         if ( $this->_activityTypeId          || 
@@ -199,10 +255,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_activityTypeId ) {
             //set activity type name and description to template
             require_once 'CRM/Core/BAO/OptionValue.php';
-            list( $activityTypeName, $activityTypeDescription ) = 
+            list( $this->_activityTypeName, $activityTypeDescription ) = 
                 CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
-            
-            $this->assign( 'activityTypeName',        $activityTypeName        );
+            $this->assign( 'activityTypeName',        $this->_activityTypeName );
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
@@ -223,10 +278,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         } else if ( $this->_context == 'case' ) {
             $url = CRM_Utils_System::url('civicrm/contact/view/case',
                                          "action=view&reset=1&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&selectedChild=case" );
-        } else {
+        } else if ( $this->_context == 'activity' ) {
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
-        }      
+        }
         $session->pushUserContext( $url );
         
         // hack to retrieve activity type id from post variables
@@ -271,9 +326,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // figure out the file name for activity type, if any
         if ( $this->_activityTypeId   &&
              $this->_activityTypeFile = 
-             CRM_Case_BAO_Case::getFileForActivityTypeId($this->_activityTypeId) ) {
-            // FIXME: the sec arg in the path should be customizable 
-            require_once "CRM/Case/Form/Activity/{$this->_activityTypeFile}.php";
+             CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, $this->_crmDir) ) {
+
+            require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
         }
 
@@ -305,12 +360,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
             $this->assign('caseSubject', $defaults['case_subject']);
-
-            if ( CRM_Utils_Array::value('duration',$defaults) ) {
-                require_once "CRM/Utils/Date.php";
-                list( $defaults['duration_hours'], 
-                      $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
-            }
 
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
@@ -436,43 +485,18 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $element->freeze( );
         }
-        
-        $this->add('text', 'description', ts('Description'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
-
-        $this->add('text', 'subject', ts('Subject') , 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
-
-        $this->add('date', 'activity_date_time', ts('Date and Time'), 
-                   CRM_Core_SelectValues::date('activityDatetime'), true);
-        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
-
-        $this->add('select','duration_hours',ts('Duration'),
-                   CRM_Core_SelectValues::getHours());
-        $this->add('select','duration_minutes', null,
-                   CRM_Core_SelectValues::getMinutes());
-
-        $this->add('text', 'location', ts('Location'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
-        
-        $this->add('textarea', 'details', ts('Details'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
-        
-        $this->add('select','status_id',ts('Status'), 
-                   CRM_Core_PseudoConstant::activityStatus( ), true );
-
-        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
-        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
-                       'positiveInteger');  
        
-        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
-
-        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
-        foreach ( $freqUnits as $name => $label ) {
-            $freqUnits[$name] = $label . '(s)';
+        foreach ( $this->_fields as $field => $values ) {
+             
+            if( CRM_Utils_Array::value($field, $this->_fields ) ) {
+                eval('$attribute ='. $values['attribiutes'].';');
+                $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
+            }
         }
-        $this->add( 'select', 'interval_unit', null, $freqUnits );
 
+        $this->addRule('duration', 
+                       ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
+        
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
@@ -543,7 +567,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // if we're viewing, we're assigning different buttons than for adding/editing
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
-                CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+				CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $this->_groupTree );
             }
             
             $this->freeze();
@@ -606,13 +630,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $fields['source_contact_id'] && ! is_numeric($fields['source_contact_id'])) {
             $errors['source_contact_id'] = ts('Source Contact non-existant!');
         }
-
-        foreach ( $fields['assignee_contact'] as $key => $id ) {
-            if ( $id && ! is_numeric($id)) {
-                $errors["assignee_contact[$key]"] = ts('Assignee Contact %1 does not exist.', array(1 => $key));
+        if ( is_array( $fields['assignee_contact'] ) ) {
+            foreach ( $fields['assignee_contact'] as $key => $id ) {
+                if ( $id && ! is_numeric($id)) {
+                    $errors["assignee_contact[$key]"] = ts('Assignee Contact %1 does not exist.', array(1 => $key));
+                }
             }
         }
-
         if ( !empty($fields['target_contact']) ) {
             foreach ( $fields['target_contact'] as $key => $id ) {
                 if ( $id && ! is_numeric($id)) {
@@ -642,7 +666,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( $params = null ) 
     {
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
             $deleteParams = array( 'id' => $this->_activityId );
@@ -658,18 +682,29 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        if ( ! $params ) {
+            $params = $this->controller->exportValues( $this->_name );
+        }
 
         //set activity type id
         if ( ! $params['activity_type_id'] ) {
             $params['activity_type_id']   = $this->_activityTypeId;
         }
-
-        $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                   $customFields,
-                                                                   $this->_activityId,
-                                                                   'Activity',
-                                                                   null );
+        
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) &&
+             !isset($params['custom']) ) {
+            $customFields     = 
+                CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, 
+                                                     $this->_activityTypeId  );
+            $customFields     = 
+                CRM_Utils_Array::crmArrayMerge( $customFields, 
+                                                CRM_Core_BAO_CustomField::getFields( 'Activity', false, false, 
+                                                                                     null, null, true ) );
+            $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                                                                       $customFields,
+                                                                       $this->_activityId,
+                                                                       'Activity' );
+        }
 
         // store the date with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
@@ -704,9 +739,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         // call begin post process. Idea is to let injecting file do
         // any processing before the activity is added/updated.
-        if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . "::beginPostProcess( \$this, \$params );");
-        }
+        $this->beginPostProcess( $params );
 
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
@@ -719,10 +752,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         // call end post process. Idea is to let injecting file do any
         // processing needed, after the activity has been added/updated.
-        if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}" . 
-                 "::endPostProcess( \$this, \$params, \$activity );");
-        }
+        $this->endPostProcess( $params, $activity );
 
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
@@ -735,9 +765,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     /**
      * Shorthand for getting id by display name (makes code more readable)
      *
-     * @access private
+     * @access protected
      */
-    private function _getIdByDisplayName( $displayName ) {
+    protected function _getIdByDisplayName( $displayName ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                             $displayName,
                                             'id',
@@ -747,15 +777,36 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     /**
      * Shorthand for getting display name by id (makes code more readable)
      *
-     * @access private
+     * @access protected
      */
-    private function _getDisplayNameById( $id ) {
+    protected function _getDisplayNameById( $id ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                             $id,
                                             'sort_name',
                                             'id' );
     }
 
+    /**
+     * Function to let injecting activity type file do any processing
+     * needed, before the activity is added/updated
+     *
+     */
+    function beginPostProcess( &$params ) {
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
+                 "::beginPostProcess( \$this, \$params );");
+        }
+    }
+
+    /**
+     * Function to let injecting activity type file do any processing
+     * needed, after the activity has been added/updated
+     *
+     */
+    function endPostProcess( &$params, &$activity ) {
+        if ( $this->_activityTypeFile ) {
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}" . 
+                 "::endPostProcess( \$this, \$params, \$activity );");
+        }
+    }
 }
-
-

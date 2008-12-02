@@ -1192,5 +1192,64 @@ AND cl.modified_id  = c.id
 
         return $latestActivityIds[$activityID];
     }
+    /**
+     * Function to create a follow up a given activity
+     *
+     * @activityId int activity id of parent activity 
+     * @param array  $activity details
+     * @caseId int Case id
+     * 
+     * @access public
+     */
+    static function createFollowupActivity( $activityId, $params )
+    { 
+        if ( !$activityId ) {
+            return;
+        }
+       
+        $followupParams                      = array( );
+        $followupParams['parent_id']         = $activityId;
+        $followupParams['source_contact_id'] = $params['source_contact_id'];
+        $followupParams['status_id']         = 
+            CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
+        
+        $activityTypes = CRM_Case_PseudoConstant::activityType( );
+        $followupParams['activity_type_id']  = $activityTypes[$params['followup_activity']]['id'];
+        
+        CRM_Utils_Date::getAllDefaultValues( $currentDate );
+        $followupParams['due_date_time']        = 
+            CRM_Utils_Date::intervalAdd($params['interval_unit'], 
+                                        $params['interval'], $currentDate); 
+        $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
+        
+        return self::create( $followupParams );
+    }
 
+    /**
+     * Function to get Activity specific File according activity type Id.
+     *
+     * @param int  $activityTypeId  activity id
+     *
+     * @return if file exists returns $caseAction activity filename otherwise false.
+     *
+     * @static
+     */
+    static function getFileForActivityTypeId( $activityTypeId, $crmDir = 'Activity' ) 
+    {
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
+        
+        if ( $activityTypes[$activityTypeId]['name'] ) {
+            require_once 'CRM/Utils/String.php';
+            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
+        } else {
+            return false;
+        }
+        
+        global $civicrm_root;
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$caseAction}.php") ) {
+            return false;
+        }
+
+        return $caseAction;
+    }
 }

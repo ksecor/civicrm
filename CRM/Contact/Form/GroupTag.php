@@ -103,7 +103,7 @@ WHERE  id $ids
                      $dao->visibility == 'User and User Admin Only' ) {
                     continue;
                 }
-                   $title  = '<td><strong>'.$dao->title.'</strong></td>';
+                $title  = '</td><td><strong>'.$dao->title.'</strong></td>';
                 if ( ! empty( $dao->description ) ) {
                     // CRM-3448
                     $title .= '<td>'.$dao->description.'</td></tr>';

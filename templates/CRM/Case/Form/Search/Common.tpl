@@ -13,7 +13,11 @@
   <td>
     {$form.case_status_id.label}<br /> 
     {$form.case_status_id.html}<br /><br />	
-    {$form.case_owner.html}	
+    {$form.case_owner.html}<br />
+    {if $form.case_deleted}	
+    {$form.case_deleted.html}	
+    {$form.case_deleted.label}	
+    {/if}
   </td>
 
 </tr>     

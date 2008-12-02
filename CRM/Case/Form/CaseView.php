@@ -78,13 +78,13 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         
         $newActivityUrl = 
             CRM_Utils_System::url( 'civicrm/case/activity', 
-                                   "action=add&reset=1&cid={$this->_contactID}&id={$this->_caseID}&atype=", 
+                                   "action=add&reset=1&cid={$this->_contactID}&caseid={$this->_caseID}&atype=", 
                                    false, null, false ); 
         $this->assign ( 'newActivityUrl', $newActivityUrl );
 
         $reportUrl = 
             CRM_Utils_System::url( 'civicrm/case/report', 
-                                   "reset=1&cid={$this->_contactID}&id={$this->_caseID}&asn=", 
+                                   "reset=1&cid={$this->_contactID}&caseid={$this->_caseID}&asn=", 
                                    false, null, false ); 
         $this->assign ( 'reportUrl', $reportUrl );
 
@@ -132,11 +132,19 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
+        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+        // remove Open Case activity type since we're inside an existing case
+        $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
+        unset( $aTypes[$openCaseID] );
+        asort( $aTypes );
+
+        
+        $this->add('select', 'activity_type_id',  ts( 'New Activity' ), array( '' => ts( '- select activity type -' ) ) + $aTypes );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 
                            array( 'class'   => 'form-submit',
-                                  'onclick' => "return verifyActivitySet( );") ); 
+                                  'onclick' => "return checkSelection( this );") ); 
         
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         $this->add('select', 'status_id',  ts( 'Status' ), array( "" => ts(' - any status - ') ) + $activityStatus );
@@ -154,7 +162,12 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $this->addRadio('date_range', null, $choices );
         
-        //get case related relationships (Case Role)
+		require_once"CRM/Core/Permission.php";
+		if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) { 
+			$this->add( 'checkbox', 'activity_deleted' , ts( 'Deleted Activities' ) );
+		}
+
+		//get case related relationships (Case Role)
         $caseRelationships = CRM_Case_BAO_Case::getCaseRoles( $this->_contactID, $this->_caseID );
         $this->assign('caseRelationships', $caseRelationships);
 

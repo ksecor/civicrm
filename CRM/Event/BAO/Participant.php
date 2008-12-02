@@ -273,7 +273,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      * @static
      * @access public
      */
-    static function eventFull( $eventId )
+    static function eventFull( $eventId, $isDeference = false )
     {
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
@@ -306,6 +306,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 } else {
                     return ts( "This event is full !!!" );
                 }
+            } else if ( $isDeference ) {
+                return $dao->max_participants - $dao->total_participants;
             }
         }
         return false;

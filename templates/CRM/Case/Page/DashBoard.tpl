@@ -72,3 +72,9 @@
 	    {ts 1=$findCasesURL}There are no cases with activities scheduled in the past two weeks. Use %1 to expand your search.{/ts}
         </div>
     {/if}
+
+	{*include activity view js file*}
+	{include file="CRM/common/activityView.tpl"}
+	<div id="view-activity">
+	     <div id="activity-content"></div>
+	</div>

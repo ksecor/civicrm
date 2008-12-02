@@ -42,7 +42,7 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status eq 'Resolved' } disabled{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
@@ -69,7 +69,7 @@
 
     <td>{$row.case_status}</td>
     <td>{$row.case_type}</td>
-    <td>{$row.case_role}</td>
+    <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
     <td>{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}</td>
     <td>{$row.case_scheduled_activity_type}<br />{$row.case_scheduled_activity_date|crmDate}</td>
     <td>{$row.action}</td>
@@ -101,6 +101,11 @@
 </table>
 {/strip}
 
+{*include activity view js file*}
+{include file="CRM/common/activityView.tpl"}
+<div id="view-activity">
+     <div id="activity-content"></div>
+</div>
 {if $context EQ 'Search'}
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}

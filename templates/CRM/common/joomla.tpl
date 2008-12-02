@@ -23,6 +23,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
 <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
+{include file="CRM/common/jquery.tpl"}
 {include file="CRM/common/dojo.tpl"}
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">

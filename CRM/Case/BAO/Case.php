@@ -42,6 +42,15 @@ require_once 'CRM/Case/PseudoConstant.php';
  */
 class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 {
+  
+    /**
+     * static field for all the case information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
+
     /**  
      * value seletor for multi-select
      **/ 
@@ -283,17 +292,22 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public 
      * @static 
      */ 
-    static function deleteCase( $caseId ) 
+    static function deleteCase( $caseId , $moveToTrash = false ) 
     {
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
+        if ( ! $moveToTrash ) {
+            require_once 'CRM/Core/Transaction.php';
+            $transaction = new CRM_Core_Transaction( );
+        }
         require_once 'CRM/Case/DAO/Case.php';
         $case     = & new CRM_Case_DAO_Case( );
         $case->id = $caseId; 
-        $case->delete( );
-
-        $transaction->commit( );
+        if ( ! $moveToTrash ) {  
+            $case->delete( );
+            $transaction->commit( );
+        } else {
+            $case->is_deleted = 1;
+            $case->save( );
+        }
     }
 
    /**                                                           
@@ -440,17 +454,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( $type == 'upcoming' ) {
             $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
                          aov.label as case_scheduled_activity_type ";       
-        } else if ( $type == 'recent') {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
                          aov.label as case_recent_activity_type ";
-        } else if ($type == 'all') {
-            $query .=  " max(civicrm_activity.activity_date_time) as case_recent_activity_date,
-                         aov.label as case_recent_activity_type,
-                         min(civicrm_activity.due_date_time) as case_scheduled_activity_date,
-                         aov.label as case_scheduled_activity_type ";
-        }
+        } 
         
-        $query .= " FROM civicrm_case
+        $query .= 
+            " FROM civicrm_case
                   INNER JOIN civicrm_case_activity
                         ON civicrm_case_activity.case_id = civicrm_case.id  
             
@@ -462,17 +472,14 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
                                   AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
-        } else if ( $type == 'recent' ) {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " LEFT JOIN civicrm_activity
                              ON ( civicrm_case_activity.activity_id = civicrm_activity.id
                                   AND civicrm_activity.is_current_revision = 1
                                   AND civicrm_activity.activity_date_time <= NOW() 
                                   AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) ) ";
-        } else if ( $type == 'all' ) {
-            $query .= " LEFT  JOIN  civicrm_activity_target ON civicrm_activity_target.target_contact_id = civicrm_contact.id  
-                        LEFT  JOIN  civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id  ";
         }
-        
+               
         $query .= "
                   LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
                   LEFT JOIN civicrm_option_value aov
@@ -480,7 +487,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                              AND aog.id = aov.option_group_id )         
 
                   LEFT  JOIN  civicrm_relationship case_relationship 
-                        ON (case_relationship.contact_id_a = civicrm_case_contact.contact_id)
+                        ON ( case_relationship.contact_id_a = civicrm_case_contact.contact_id 
+                             AND case_relationship.contact_id_b = {$userID} )
      
                   LEFT  JOIN civicrm_relationship_type case_relation_type 
                         ON ( case_relation_type.id = case_relationship.relationship_type_id 
@@ -500,13 +508,30 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   LEFT JOIN civicrm_option_value cov_actstatus 
                        ON ( civicrm_activity.status_id = cov_actstatus.value
                             AND cog_actstatus.id = cov_actstatus.option_group_id )";
+
+        $query .= "LEFT JOIN civicrm_activity ca2
+                             ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
+                                              WHERE cca.case_id = civicrm_case.id )
+                                  AND ca2.is_current_revision = 1 ";
         
         if ( $type == 'upcoming' ) {
-            $query .= " WHERE cov_actstatus.name = 'Scheduled' "; 
-        } else if ( $type == 'recent' ) {
-            $query .= " WHERE cov_actstatus.name != 'Scheduled' ";
-        } else if ( $type == 'all') {
-            $query .= " WHERE civicrm_case_contact.contact_id = {$userID} ";  
+            $query .= "AND ca2.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) 
+                       AND ca2.status_id = cov_actstatus.value
+                       AND civicrm_activity.due_date_time > ca2.due_date_time 
+                        )";
+        } else if ( $type == 'recent' || $type == 'all' ) {
+            $query .= " AND ca2.activity_date_time <= NOW() 
+                        AND ca2.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY )
+                        AND civicrm_activity.activity_date_time < ca2.activity_date_time )";
+        }
+        
+        if ( $type == 'upcoming' ) {
+            $query .= " WHERE cov_actstatus.name = 'Scheduled' AND ca2.id IS NULL "; 
+        } else if ( $type == 'recent' || $type == 'all' ) {
+            $query .= " WHERE cov_actstatus.name != 'Scheduled' AND ca2.id IS NULL";
+        } 
+        if ( $type == 'all') {
+            $query .= " AND civicrm_case_contact.contact_id = {$userID} ";  
         }
                   
         if ( ! $allCases && $type != 'all' ) {
@@ -517,10 +542,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $query .= " AND civicrm_activity.is_deleted = 0
                     AND civicrm_case.is_deleted = 0";
 
-        if ( $type == 'upcoming' || $type == 'all' ) {
+        if ( $type == 'upcoming' ) {
             $query .=" GROUP BY case_id
                        ORDER BY case_scheduled_activity_date ASC ";
-        } else if ( $type == 'recent' ) {
+        } else if ( $type == 'recent' || $type == 'all' ) {
             $query .= " GROUP BY case_id
                         ORDER BY case_recent_activity_date ASC ";
         }
@@ -551,7 +576,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $rows[$typeId]['case_type'] = $type;
 
             $query = "select status_id, count(*) as case_count from civicrm_case" . 
-            " where case_type_id like '%" . $this->VALUE_SEPERATOR . $typeId . $this->VALUE_SEPERATOR . "%'" .
+            " where is_deleted = 0 AND case_type_id like '%" . $this->VALUE_SEPERATOR . $typeId . $this->VALUE_SEPERATOR . "%'" .
             " group by status_id";
             $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
@@ -632,7 +657,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @static
      */
-    static function getCaseActivity( $caseID, $params, $contactID )
+    static function getCaseActivity( $caseID, &$params, $contactID )
     {
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
@@ -649,7 +674,6 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $where = 'WHERE cca.case_id= %1 
                     AND ca.id = cca.activity_id 
                     AND cc.id = ca.source_contact_id
-                    AND ca.is_deleted = 0
                     AND ca.is_current_revision = 1';
 
         if ( $params['reporter_id'] ) {
@@ -663,6 +687,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         if ( $params['is_current_revision'] ) {
             $where .= " AND ca.is_current_revision = 1";
         }
+		
+		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
+            $where .= " AND ca.is_deleted = 1";
+        } else {
+			$where .= " AND ca.is_deleted = 0";
+		}
 
         if ( $params['activity_type_id'] ) {
             $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
@@ -684,16 +714,21 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
         }
 
+		// hack to handle to allow initial sorting to be done by query
+		if ( $params['sortname'] == 'undefined' ) {
+			$params['sortname'] = null;
+		}
+
+		if ( $params['sortorder'] == 'undefined' ) {
+			$params['sortorder'] = null;
+		}
+
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
         
-        // Default sort is due_date_time DESC, status_id ASC (so completed activities drop to bottom)
+        // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
-            $orderBy = " ORDER BY due_date_time DESC, status_id ASC";
-        } else {
-            if (!$sortname) $sortname = 'due_date_time';
-            if (!$sortorder) $sortorder = 'desc';
-        	$orderBy = " ORDER BY $sortname $sortorder";
+            $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
         }
         
         $page = $params['page'];
@@ -701,17 +736,20 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         
         if (!$page) $page = 1;
         if (!$rp) $rp = 10;
-        
+
         $start = (($page-1) * $rp);
         
-        $limit = " LIMIT $start, $rp";
-
-        $query = $select . $from . $where . $orderBy . $limit;
-        
+        $query  = $select . $from . $where . $orderBy;
+		
         $params = array( 1 => array( $caseID, 'Integer' ) );
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        $params['total'] = $dao->N;
+
+        //FIXME: need to optimize/cache these queries
+        $limit  = " LIMIT $start, $rp";
+        $query .= $limit;
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+
         $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
 
         require_once "CRM/Utils/Date.php";
@@ -720,9 +758,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $values = array( );
         $url = CRM_Utils_System::url( "civicrm/case/activity",
-                                      "reset=1&cid={$contactID}&id={$caseID}", false, null, false ); 
+                                      "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
-        $editUrl   = "{$url}&action=add";
+        $editUrl   = "{$url}&action=update";
         $deleteUrl = "{$url}&action=delete";
         $viewTitle = ts('View this activity.');
               
@@ -733,9 +771,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['due_date']          = $dao->due_date;
             $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
-            $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id} );' title='{$viewTitle}'>{$dao->subject}</a>";
+            $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
-            $additionalUrl = "&atype={$dao->type}&aid={$dao->id}";
+            $additionalUrl = "&id={$dao->id}";
             $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
                  CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'due_date', $values[$dao->id] ) ) ) {
@@ -751,24 +789,6 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         return $values;
     }
 
-    static function getFileForActivityTypeId( $activityTypeId ) 
-    {
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
-
-        if ( $activityTypes[$activityTypeId]['name'] ) {
-            require_once 'CRM/Utils/String.php';
-            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
-        } else {
-            return false;
-        }
-
-        global $civicrm_root;
-        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/Case/Form/Activity/{$caseAction}.php") ) {
-            return false;
-        }
-
-        return $caseAction;
-    }
     
     /**
      * Function to get Case Related Contacts
@@ -991,6 +1011,93 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         } 
 
     }
+    /**
+     * Function to retrive the scheduled activity type and date
+     * 
+     * @param  array  $cases  Array of contact and case id        
+     *       
+     * @return array  $activityInfo Array of scheduled activity type and date
+     * 
+     * @access public
+     *
+     * @static
+     */
+    static function getNextScheduledActivity( $cases ) {
+        
+        $caseID    = implode ( ',', $cases['case_id']);
+        
+        $contactID = implode ( ',', $cases['contact_id'] );
+        $query = "
+             SELECT
+                  civicrm_case.id as case_id, 
+                  civicrm_activity.due_date_time as case_scheduled_activity_date,
+                  aov.label                      as case_scheduled_activity_type  
+             FROM civicrm_case
+                  INNER JOIN civicrm_case_activity
+                        ON civicrm_case_activity.case_id = civicrm_case.id              
+                  LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
+                  LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id  
+                  LEFT JOIN civicrm_activity
+                       ON ( civicrm_case_activity.activity_id = civicrm_activity.id
+                            AND civicrm_activity.is_current_revision = 1
+                            AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) 
+                                             
+                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
+                  LEFT JOIN civicrm_option_value cov_actstatus 
+                       ON ( civicrm_activity.status_id = cov_actstatus.value
+                            AND cog_actstatus.id = cov_actstatus.option_group_id ) 
+                         LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
+                  LEFT JOIN civicrm_option_value aov
+                        ON ( civicrm_activity.activity_type_id = aov.value
+                             AND aog.id = aov.option_group_id )  
+                 
+             WHERE cov_actstatus.name = 'Scheduled'  
+                   AND civicrm_case_contact.contact_id IN( {$contactID} )
+                   AND civicrm_activity.is_deleted = 0
+                   AND civicrm_case.id IN( {$caseID})
+                   AND civicrm_case.is_deleted = 0 
+ 
+             GROUP BY civicrm_case.id
+             ORDER BY case_scheduled_activity_date ASC"; 
+        
+        $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        $activityInfo = array();
+        while( $res->fetch() ) {
+            $activityInfo[$res->case_id]['date']    = $res->case_scheduled_activity_date;
+            $activityInfo[$res->case_id]['type']    = $res->case_scheduled_activity_type;
+        } 
+        return $activityInfo;
+    }
+    /**
+     * combine all the exportable fields from the lower levels object
+     *     
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( ) 
+    {
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            require_once 'CRM/Core/OptionValue.php';
+            require_once 'CRM/Case/DAO/Case.php';
+            require_once 'CRM/Case/DAO/CaseContact.php';
+            require_once 'CRM/Case/DAO/CaseActivity.php';
+            $impFields         = CRM_Case_DAO_Case::import( );
+            //$expFieldContact   = CRM_Case_DAO_CaseContact::export( );
+            //$expFieldsActivity = CRM_Case_DAO_CaseActivity::export( );
+            //$fields = array_merge($impFields, $expFieldContact);
+            //$fields = array_merge($fields, $expFieldsActivity );
+            //$fields = array_merge($fields, $optionField );
+            //$fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Case'));
+            
+            self::$_exportableFields = $impFields;
+        }
+        return self::$_exportableFields;
+    }
+
 }
 
    

@@ -127,6 +127,12 @@
        <key>id</key>
        <add>2.0</add>
   </foreignKey>  
+  <field>
+       <name>visibility_id</name>
+       <type>int unsigned</type>
+       <default>NULL</default>
+       <add>2.2</add>
+  </field>
   <index>
        <name>index_option_group_id_value</name>
        <fieldName>value</fieldName>

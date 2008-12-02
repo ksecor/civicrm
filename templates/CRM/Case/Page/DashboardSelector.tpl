@@ -29,7 +29,7 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
+  <tr id='{$list}Rowid{$row.case_id}' class='{$rowClass} {if $row.case_status eq 'Resolved' } disabled{/if}'>
 	<td>
         &nbsp;{$row.contact_type_icon}<br />
         <span id="{$list}{$row.case_id}_show">
@@ -51,7 +51,7 @@
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     <td>{$row.case_status}</td>
     <td>{$row.case_type}</td>
-    <td>{$row.case_role}</td>
+    <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
 
     {if $list eq 'upcoming'}
     <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
@@ -85,6 +85,7 @@
 
 </table>
 {/strip}
+
 {* Build case details*}
 {literal}
 <script type="text/javascript">
@@ -117,38 +118,6 @@ function {/literal}{$list}{literal}CaseDetails( caseId, contactId )
                    dojo.byId( '{/literal}{$list}{literal}CaseDetails' + caseId).innerHTML = response;
 	       }
         }
-     });
-
-
-}
-
-function viewActivity( activityId ) {
-    cj("#view-activity").show( );
-
-    cj("#view-activity").dialog({
-        title: "View Activity",
-	    modal: true, 
-	    width : 700,
-        height : 650,
-        resizable: true, 
-	    overlay: { 
-		       opacity: 0.5, 
-		       background: "black" 
-		    },
-	    open:function() {
-		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-		cj("#activity-content").html("");
-		var cid= {/literal}"{$row.contact_id}"{literal};
-        var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId );
-	    },
-	    
-	    buttons: { 
-		"Done": function() { 	    
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		}
-	    } 
      });
 }
 

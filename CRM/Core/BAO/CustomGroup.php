@@ -245,7 +245,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'is_multiple',
  						'extends',
 						'extends_entity_column_id',
-						'extends_entity_column_value'),
+						'extends_entity_column_value',
+						'max_multiple'),
                   );
 
        // create select
@@ -441,90 +442,71 @@ SELECT $select
                                 $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                                 $idName    = "{$table}_id";
                                 $fieldName = "{$table}_{$column}";
-                                if ( isset($dao->$fieldName) ) {
-                                    $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
-                                    if ( $dataType == 'File' ) {
-                                        require_once 'CRM/Core/DAO/File.php';
-                                        $config =& CRM_Core_Config::singleton( );
-                                        $fileDAO =& new CRM_Core_DAO_File();
-                                        $fileDAO->id = $dao->$fieldName;
-                                        if ( $fileDAO->find(true) ) {
-                                            $entityIDName = "{$table}_entity_id";
-                                            $customValue['data']    = $fileDAO->uri;
-                                            $customValue['fid']     = $fileDAO->id;
-                                            $customValue['fileURL'] = 
-                                                CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
-                                            $customValue['displayURL'] = null;
-                                            $deleteExtra = ts('Are you sure you want to delete attached file.');
-                                            $deleteURL =
-                                                array( CRM_Core_Action::DELETE  =>
-                                                       array(
-                                                             'name'  => ts('Delete Attached File'),
-                                                             'url'   => 'civicrm/file',
-                                                             'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
-                                                             'extra' => 
-                                                             'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
-                                                             ) 
-                                                       );
-                                            $customValue['deleteURL'] = 
-                                                CRM_Core_Action::formLink( $deleteURL,
-                                                                           CRM_Core_Action::DELETE,
-                                                                           array( 'id'  => $fileDAO->id,
-                                                                                  'eid' => $dao->$entityIDName,
-                                                                                  'fid' => $fieldID ) );
-                                            $customValue['fileName'] = 
-                                                CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
-                                            if ( $fileDAO->mime_type =="image/jpeg"  ||
-                                                 $fileDAO->mime_type =="image/pjpeg" ||
-                                                 $fileDAO->mime_type =="image/gif"   ||
-                                                 $fileDAO->mime_type =="image/x-png" ||
-                                                 $fileDAO->mime_type =="image/png" ) {
-                                                $customValue['displayURL'] = $customValue['fileURL'];
-                                            }
-                                        }
-                                    } else {
-                                        $customValue = array( 'id'   => $dao->$idName,
-                                                              'data' => $dao->$fieldName );
-                                    }
-                                    if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
-                                    }
-                                    if (  empty( $groupTree[$groupID]['fields'][$fieldID]['customValue'] ) ) {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( 1 => $customValue );
-                                    } else {
-                                        $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
-                                    }                                     
+
+                                $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
+                                if ( $dataType == 'File' ) {
+ 									if ( isset( $dao->$fieldName ) ) { 
+	                                    require_once 'CRM/Core/DAO/File.php';
+	                                    $config =& CRM_Core_Config::singleton( );
+	                                    $fileDAO =& new CRM_Core_DAO_File();
+	                                    $fileDAO->id = $dao->$fieldName;
+
+										if ( $fileDAO->find(true) ) {
+											$entityIDName = "{$table}_entity_id";
+											$customValue['data']    = $fileDAO->uri;
+											$customValue['fid']     = $fileDAO->id;
+											$customValue['fileURL'] = 
+												CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
+											$customValue['displayURL'] = null;
+											$deleteExtra = ts('Are you sure you want to delete attached file.');
+											$deleteURL =
+											array( CRM_Core_Action::DELETE  =>
+											array(
+												'name'  => ts('Delete Attached File'),
+												'url'   => 'civicrm/file',
+												'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
+												'extra' => 
+												'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
+												) 
+												);
+											$customValue['deleteURL'] = 
+											CRM_Core_Action::formLink( $deleteURL,
+												CRM_Core_Action::DELETE,
+												array( 'id'  => $fileDAO->id,
+												'eid' => $dao->$entityIDName,
+												'fid' => $fieldID ) );
+											$customValue['fileName'] = 
+												CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
+											if ( $fileDAO->mime_type =="image/jpeg"  ||
+												$fileDAO->mime_type =="image/pjpeg" ||
+												$fileDAO->mime_type =="image/gif"   ||
+												$fileDAO->mime_type =="image/x-png" ||
+											$fileDAO->mime_type =="image/png" ) {
+												$customValue['displayURL'] = $customValue['fileURL'];
+											}
+										}
+									} else {
+										$customValue = array( 'id'   => $dao->$idName,
+	                                                          'data' => '' );
+									}
+                                } else {
+                                    $customValue = array( 'id'   => $dao->$idName,
+                                                          'data' => $dao->$fieldName );
                                 }
+                                if ( ! array_key_exists( 'customValue', $groupTree[$groupID]['fields'][$fieldID] ) ) {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( );
+                                }
+                                if (  empty( $groupTree[$groupID]['fields'][$fieldID]['customValue'] ) ) {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array( 1 => $customValue );
+                                } else {
+                                    $groupTree[$groupID]['fields'][$fieldID]['customValue'][] = $customValue;
+                                }                                     
                             }
                         }
                     }
                 }
             }
         }
-
-        $uploadNames = array();
-        foreach ($groupTree as $key1 => $group) { 
-            if ( $key1 === 'info' ) {
-                continue;
-            }
-
-            foreach ( $group['fields'] as $key2 => $field ) {
-                if ( $field['data_type'] == 'File' ) {
-                    $fieldId          = $field['id'];                 
-                    $elementName      = "custom_$fieldId";
-                    $uploadNames[]    = $elementName; 
-                }
-            }
-        }
-
-        if ( $form ) {
-            // hack for field type File
-//             $formUploadNames = $form->get( 'uploadNames' );
-//             if ( $formUploadNames ) {
-//                 $uploadNames = array_unique( array_merge( $formUploadName, $uploadNames ) );
-//             }
-//             $form->set('uploadNames', $uploadNames);
-         }
 
         return $groupTree;
     }
@@ -1146,195 +1128,6 @@ SELECT $select
     }
 
     /**
-     * generic function to build all the view form elements for a specific group tree
-     *
-     * @param CRM_Core_Form $page      the page object
-     * @param array         $groupTree the group tree object
-     * @param string        $viewName  what name should all the values be stored under
-     * @param string        $showName  
-     * @param string        $hideName
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function buildViewHTML( &$page, &$groupTree,
-                                   $viewName = 'viewForm',
-                                   $showName = 'showBlocks1',
-                                   $hideName = 'hideBlocks1' ) 
-    {
-        //showhide blocks for Custom Fields inline
-        $sBlocks = array();
-        $hBlocks = array();
-        $form = array();
-       
-        foreach ($groupTree as $key => $group) {
-            if ( $key === 'info' ) {
-                continue;
-            }
-
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
-                $elementName = 'custom_' . $fieldId;
-                $form[$elementName] = array( );
-                $form[$elementName]['name'] = $elementName;
-                $form[$elementName]['html'] = null;
-           
-                if ( $field['data_type'] == 'String' ||
-                     $field['data_type'] == 'Int' ||
-                     $field['data_type'] == 'Float' ||
-                     $field['data_type'] == 'Money' ||
-                     $field['html_type'] == 'Multi-Select Country' ||
-                     $field['html_type'] == 'Multi-Select State/Province') {
-                   
-                    //added check for Multi-Select in the below if-statement
-                    if ( $field['html_type'] == 'Radio'    ||
-                         $field['html_type'] == 'CheckBox' ||
-                         $field['html_type'] == 'Multi-Select'||
-                         $field['html_type'] == 'Multi-Select Country'||
-                         $field['html_type'] == 'Multi-Select State/Province') {
-                        $freezeString =  "";
-                        $freezeStringChecked = "";
-                        $customData = array();
-
-                        if ( isset( $field['customValue'] ) ) {
-                            //added check for Multi-Select in the below if-statement
-                            if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
-                                $customData = explode(CRM_Core_DAO::VALUE_SEPARATOR, $field['customValue']['data']);
-                            } else {
-                                $customData[] = $field['customValue']['data'];
-                            }
-                        }
-
-                        if ( $field['html_type'] == 'Multi-Select Country' ){
-                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
-                            $query = "
-SELECT id as value, name as label  
-  FROM civicrm_country";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
-                        } else if ($field['html_type'] == 'Multi-Select State/Province') {
-                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
-                            $query = "
-SELECT id as value, name as label  
-  FROM civicrm_state_province";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
-
-                        } else {
-                        
-                            $query = "
-SELECT label, value
-FROM civicrm_option_value
-WHERE option_group_id = %1
-ORDER BY weight ASC, label ASC";
-                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-                        }
-                        
-                        $counter = 1;
-                        while($coDAO->fetch()) {
-                            //to show only values that are checked
-                           if(in_array($coDAO->value, $customData)){
-                               $checked = in_array($coDAO->value, $customData) ? $freezeStringChecked : $freezeString;
-                               if ($counter!=1) {
-                                   $form[$elementName]['html'] .= $checked .",&nbsp;".$coDAO->label;
-                               } else {
-                                   $form[$elementName]['html'] .= $checked .$coDAO->label;
-                               }
-                               $form[$elementName][$counter]['html'] = $checked .$coDAO->label."\n";
-                               $counter++;
-                           }
-                        }
-                    } else {
-                        if ( $field['html_type'] == 'Select' ) {
-                            $query = "
-SELECT label, value
-FROM civicrm_option_value
-WHERE option_group_id = %1
-ORDER BY weight ASC, label ASC";
-                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-
-                            while($coDAO->fetch()) {
-                                if ( isset( $field['customValue'] ) &&
-                                     $coDAO->value == $field['customValue']['data'] ) {
-                                    $form[$elementName]['html'] = $coDAO->label;
-                                }
-                            }
-                        } else {
-                            if ($field['data_type'] == "Float") {
-                                $form[$elementName]['html'] = (float)$field['customValue']['data'];
-                            } else {
-                                if ( isset ($field['customValue']['data'] ) ) {
-                                    $form[$elementName]['html'] = $field['customValue']['data'];
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if ( isset($field['customValue']['data']) ) {
-                        switch ($field['data_type']) {
-                            
-                        case 'Boolean':
-                            $freezeString = "";
-                            $freezeStringChecked = "";
-                            if ( isset($field['customValue']['data']) ) {
-                                if ( $field['customValue']['data'] == '1' ) {
-                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'Yes' ) . "\n";
-                                } else {
-                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'No' ) . "\n";
-                                }
-                            } else {
-                                $form[$elementName]['html'] = "\n";
-                            }                        
-                            break;
-                            
-                        case 'StateProvince':
-                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::stateProvince( $field['customValue']['data'] );
-                            break;
-                            
-                        case 'Country':
-                            $form[$elementName]['html'] = CRM_Core_PseudoConstant::country( $field['customValue']['data'] );
-                            break;
-                            
-                        case 'Date':
-                            $parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $field['date_parts']);
-                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat( $field['customValue']['data'], null, $parts);
-                            break;
-
-                        case 'Link':
-                            $form[$elementName]['html'] =
-                                CRM_Utils_System::formatWikiURL( $field['customValue']['data'] );
-                            break;
-
-                        default:
-                            $form[$elementName]['html'] = $field['customValue']['data'];
-                        }                    
-                    }
-                }
-            }
-
-            //showhide group
-            if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['name'] . "_show'" ;
-                $hBlocks[] = "'". $group['name'] ."'";
-            } else {
-                $hBlocks[] = "'". $group['name'] . "_show'" ;
-                $sBlocks[] = "'". $group['name'] ."'";
-            }
-        }
-        
-        $showBlocks = implode(",",$sBlocks);
-        $hideBlocks = implode(",",$hBlocks);
-
-        $page->assign( $viewName, $form );
-        $page->assign( $showName, $showBlocks );
-        $page->assign( $hideName, $hideBlocks );
-
-        $page->assign_by_ref('groupTree', $groupTree);
-    }
-
-    /**
      * Function to extract the get params from the url, validate
      * and store it in session
      *
@@ -1510,15 +1303,17 @@ ORDER BY weight ASC, label ASC";
     /**
      * Function returns formatted groupTree, sothat form can be easily build in template
      *
-     * @param array $groupTree associated array
-     * @param int   $groupCount group count by default 1, but can varry for multiple value custom data 
-     *
+     * @param array  $groupTree associated array
+     * @param int    $groupCount group count by default 1, but can varry for multiple value custom data 
+     * @param object form object 
+	 *
      * @return array $formattedGroupTree
      */
-    static function formatGroupTree( &$groupTree, $groupCount = 1 ) 
+    static function formatGroupTree( &$groupTree, $groupCount = 1, &$form ) 
     {
         $formattedGroupTree = array( );
-        
+        $uploadNames = array();
+
         foreach ( $groupTree as $key => $value ) {
             if ( $key === 'info' ) {
                 continue;
@@ -1536,6 +1331,7 @@ ORDER BY weight ASC, label ASC";
 			$formattedGroupTree[$key]['extends'] = $value['extends'];
 			$formattedGroupTree[$key]['extends_entity_column_id'] = $value['extends_entity_column_id'];
 			$formattedGroupTree[$key]['extends_entity_column_value'] = $value['extends_entity_column_value'];
+			$formattedGroupTree[$key]['max_multiple'] = $value['max_multiple'];
 			
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {
@@ -1544,11 +1340,24 @@ ORDER BY weight ASC, label ASC";
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
                         $properties['element_value'] = $properties['customValue'][$groupCount]['data'];
+		                if ( $properties['data_type'] == 'File' ) {
+		                    $uploadNames[]    = $properties['element_name']; 
+		                }
                     }                    
                 }
                 unset( $properties['customValue'] );
                 $formattedGroupTree[$key]['fields'][$k] = $properties;
             }
+        }
+
+        if ( $form ) {
+            // hack for field type File
+            $formUploadNames = $form->get( 'uploadNames' );
+            if ( is_array( $formUploadNames ) ) {
+                $uploadNames = array_unique( array_merge( $formUploadNames, $uploadNames ) );
+            }
+			
+            $form->set('uploadNames', $uploadNames);
         }
 
         return $formattedGroupTree;
@@ -1560,7 +1369,7 @@ ORDER BY weight ASC, label ASC";
      *  @param array   $groupTree associated array  
 	 *  @param boolean $returnCount true if customValue count needs to be returned
      */
-    static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false )
+    static function buildCustomDataView ( &$form, &$groupTree, $returnCount = false, $groupID = null )
     {
         foreach ( $groupTree as $key => $group ) {
             if ( $key === 'info' ) {
@@ -1592,14 +1401,14 @@ ORDER BY weight ASC, label ASC";
 					$details[$groupID][0]['collapse_display']  = $group['collapse_display'];					
 					$details[$groupID][0]['fields'][$k] = array( 'field_title' => $properties['label'] );
 				}
-            }
-			
-			if ( $returnCount ) {
-				return count( $details);
-			} else {
-				$form->assign_by_ref( 'viewCustomData', $details );
-			}	
+            }	
         }
+
+		if ( $returnCount ) {
+			return count( $details[$groupID]);
+		} else {
+			$form->assign_by_ref( 'viewCustomData', $details );
+		}
     }
 
     /** 

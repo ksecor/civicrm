@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2007-05-08 01:19-0700\n"
-"Last-Translator: ycs <yuccmember@gmail.com>\n"
+"PO-Revision-Date: 2008-11-20 17:25-0800\n"
+"Last-Translator: Tiffany Lee <pink4ever@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
@@ -44,58 +44,58 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "請輸入金額數字 (如:9.99)"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "請輸入金額數字 (如:99.99)"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr ""
+msgstr "捐款頁面"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "In Honor Of"
-msgstr ""
+msgstr "很榮幸"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
-msgstr ""
+msgstr "後付款文字"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr ""
+msgstr "後付款收據"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Goal Amount"
-msgstr ""
+msgstr "目標金額"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Name"
-msgstr ""
+msgstr "收據抬頭"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr ""
+msgstr "收據寄送信箱"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Footer Text"
-msgstr ""
+msgstr "頁尾文字"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
-msgstr ""
+msgstr "無扣除額"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Form/Task/Status.php
@@ -106,20 +106,20 @@ msgstr ""
 #: templates/CRM/Event/Form/Search/Common.tpl
 #: templates/CRM/Event/Form/Task/Print.tpl
 msgid "Fee Amount"
-msgstr ""
+msgstr "手續費"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr ""
+msgstr "網路售價"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr ""
+msgstr "收據編號"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
@@ -130,64 +130,64 @@ msgstr "取消"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "開立日期"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
 msgid "Is Pay Later"
-msgstr ""
+msgstr "延後付款"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
 msgid "Frequency Unit"
-msgstr ""
+msgstr "單位"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "間格"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Installments"
-msgstr ""
+msgstr "分期付款"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "week"
-msgstr ""
+msgstr "週"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Accounting Code"
-msgstr ""
+msgstr "會計碼"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
+msgstr "最小庫存"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Options"
-msgstr ""
+msgstr "選項"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Period Type"
-msgstr ""
+msgstr "週期類型"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr ""
+msgstr "固定日期"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "Duration Unit"
-msgstr ""
+msgstr "時間單位"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
@@ -197,12 +197,12 @@ msgstr ""
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Button Title"
-msgstr ""
+msgstr "底部標題"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr ""
+msgstr "關於"
 
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -213,7 +213,7 @@ msgstr ""
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
-msgstr ""
+msgstr "最小捐款金額"
 
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl

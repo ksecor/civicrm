@@ -79,6 +79,7 @@ class CRM_Core_Menu
                             $config->templateDir . 'Menu/Admin.xml',
                             $config->templateDir . 'Menu/Group.xml',
                             $config->templateDir . 'Menu/Misc.xml',
+                            $config->templateDir . 'Menu/Location.xml'
                             );
 
             $files = array_merge( $files,

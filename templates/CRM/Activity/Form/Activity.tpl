@@ -114,7 +114,9 @@
                   </td>
                 </tr>
              {/if}
-
+              <tr>
+                <td class="label">{$form.description.label}</td><td class="view-value">{$form.description.html}</td>
+             </tr> 
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
@@ -145,14 +147,10 @@
                 </td>
              </tr> 
              <tr>
-                <td class="label">{$form.duration_hours.label}</td>
+                <td class="label">{$form.duration.label}</td>
                 <td class="view-value">
-                    {if $action eq 4}
-                        {if $form.duration_hours.value}{$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{/if}
-                        {if $form.duration_minutes.value}{$form.duration_minutes.html} {ts}Mins{/ts}{/if}
-                    {else}
-                        {$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{$form.duration_minutes.html} {ts}Mins{/ts}
-                    {/if}
+                    {$form.duration.html}
+                    <span class="description">{ts}Total time spent on this activity (in minutes).{/ts}
                 </td>
              </tr> 
              <tr>
@@ -164,7 +162,7 @@
              <tr>
                 <td colspan="2">
 	            {if $action eq 4} 
-                    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+                    {include file="CRM/Custom/Page/CustomDataView.tpl"}
                 {else}
                     <div id="customData"></div>
                 {/if} 
@@ -183,24 +181,6 @@
                     {include file="CRM/Form/attachment.tpl"}
                 </td>
             {/if} 
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div id="follow-up_show" class="section-hidden section-hidden-border">
-                 <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
-                </div>
-                <div id="follow-up" class="section-shown">
-                <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
-                    <table class="form-layout-compressed">
-                        <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
-                            <td>{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}<br />
-                                <span class="description">Begin typing to select from a list of available activity types.</span>
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
-                </div>
-              </td>
             </tr>
         {elseif $action eq 8}
              <tr>
@@ -241,10 +221,6 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
-hide('attachments');
-show('attachments_show');
-hide('follow-up');
-show('follow-up_show');
 {/literal}
 {if $action eq 1 or $context eq 'search'}
 {literal}
@@ -259,6 +235,8 @@ show('follow-up_show');
 
 {if $action eq 1 or $action eq 2}
 {literal}
+hide('attachments');
+show('attachments_show');
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {

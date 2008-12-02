@@ -113,6 +113,10 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         if ( self::$_gName == 'from_email_address' || self::$_gName == 'greeting_type' ) {
             $this->assign( 'showIsDefault', true );
         }
+        if ( self::$_gName == 'participant_status' ) {
+            $this->assign( 'showCounted', true );
+            $this->assign( 'showVisibility', true );
+        }
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviCase", $config->enableComponents) && self::$_gName == 'activity_type' ) {

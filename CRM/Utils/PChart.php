@@ -57,7 +57,7 @@ class CRM_Utils_PChart
                 }
                 $monthShades++; 
             }
-            $monthLegend = $params['by_month']['legend'];
+            $monthLegend = CRM_Utils_Array::value( 'legend', $params['by_month'], 'By Month');
         }
         
         //format the year params.
@@ -71,7 +71,7 @@ class CRM_Utils_PChart
                 }
                 $yearShades++;  
             }
-            $yearLegend = $params['by_year']['legend'];
+            $yearLegend = CRM_Utils_Array::value( 'legend', $params['by_year'], 'By Year' );
         }
         
         //get the required directory path.
@@ -80,18 +80,11 @@ class CRM_Utils_PChart
             
             //get the currency.
             $currency = $config->defaultCurrency;
-            $templatesDir = explode( '/', $config->templateDir );
-            $resourcePath = array( );
-            foreach ( $templatesDir as $key => $val ) {
-                if ( $val == 'templates' ) {
-                    break;
-                }
-                $resourcePath[] = $val;
-            }
-            
-            $pChartPath    = implode( '/', $resourcePath ) . 'packages/pChart/Fonts/';
-            $uploadDirURL  = self::uploadDirURL( );
-            $uploadDirURL .= 'pChart/';
+
+			$pChartPath  = str_replace( 'templates', 'packages', $config->templateDir ) ;
+			$pChartPath .= 'pChart/Fonts/';
+				
+			$uploadDirURL = str_replace( 'persist/contribute/', 'upload/pChart/', $config->imageUploadURL);
             $uploadDirPath = $config->uploadDir . 'pChart/' ;
             
             //create pchart directory, if exist clean and then create again.
@@ -223,8 +216,7 @@ class CRM_Utils_PChart
                 $monthNames[]  = $month;
                 $monthValues[] = $value;
             }
-            
-            $monthLegend = $params['by_month']['legend'];
+            $monthLegend = CRM_Utils_Array::value( 'legend', $params['by_month'], 'By Month');
             
             //rounded to 100's
             $monthMaxScale = round( ( max( $params['by_month']['values'] ) + 300 ) / 100 ) * 100;
@@ -237,7 +229,7 @@ class CRM_Utils_PChart
                 $yearNames[]  = $year;
                 $yearValues[] = $value;
             }
-            $yearLegend = $params['by_year']['legend'];
+            $yearLegend = CRM_Utils_Array::value( 'legend', $params['by_year'], 'By Year' );
             
             //rounded to 100's
             $yearMaxScale = round( ( max( $params['by_year']['values'] ) + 300 ) / 100 ) * 100;
@@ -245,24 +237,15 @@ class CRM_Utils_PChart
         
         //get the required directory path.
         if ( $byMonth || $byYear ) {
-            $config =& CRM_Core_Config::singleton( );
+            $config =& CRM_Core_Config::singleton( );			
             
             //get the default currency.
             $currency = $config->defaultCurrency;
             
-            $templatesDir = explode( '/', $config->templateDir );
-            $resourcePath = array( );
-            foreach ( $templatesDir as $key => $val ) {
-                if ( $val == 'templates' ) {
-                    break;
-                }
-                $resourcePath[] = $val;
-            }
-            
-            $pChartPath    = implode( '/', $resourcePath ) . 'packages/pChart/Fonts/';
-            
-            $uploadDirURL  = self::uploadDirURL( );
-            $uploadDirURL .= 'pChart/';
+			$pChartPath  = str_replace( 'templates', 'packages', $config->templateDir ) ;
+			$pChartPath .= 'pChart/Fonts/';
+				
+			$uploadDirURL = str_replace( 'persist/contribute/', 'upload/pChart/', $config->imageUploadURL);
             $uploadDirPath = $config->uploadDir . 'pChart/' ;
             
             //create pchart directory, if exist clean and then create again.
@@ -287,9 +270,10 @@ class CRM_Utils_PChart
             $monthYsize = 300;
             
             //calculate x axis size as per number of months.
-            $monthXsize = count( $params['by_month']['values'] ) * 50;
-            $monthX2    = $monthXsize - 20;
-            
+            $divisionWidth = 44;
+            $monthX2       = 105 + ( count( $params['by_month']['values'] ) - 1 ) * $divisionWidth;
+            $monthXsize    = $monthX2 + 20;
+                        
             $monthDataSet = new pData;
             $monthDataSet->AddPoint( $monthValues, "Serie1" );
             $monthDataSet->AddPoint( $monthNames, "Serie2" );
@@ -309,7 +293,8 @@ class CRM_Utils_PChart
             $monthChart->drawRoundedRectangle( ($monthX1-58), ($monthY1-25),  ($monthX2+20),  ($monthY2+27), 5, 230, 230, 230 );
             
             $monthChart->drawGraphArea(255,255,255,TRUE);
-            $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+            $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
             $monthChart->drawGrid(4,TRUE,230,230,230,50);
             
             //Draw the bar chart
@@ -344,8 +329,9 @@ class CRM_Utils_PChart
             $yearYsize = 300;
             
             //need to calculate X size as per number of years.
-            $yearXsize = count( $params['by_year']['values'] ) * 85;
-            $yearX2    = $yearXsize - 20; 
+            $divisionWidth = 44;
+            $yearX2        = 105 + ( count( $params['by_year']['values'] ) - 1 ) * $divisionWidth;
+            $yearXsize     = $yearX2 + 20; 
             
             $yearDataSet = new pData;
             $yearDataSet->AddPoint( $yearValues, "Serie1");
@@ -366,7 +352,9 @@ class CRM_Utils_PChart
             
             //draw graph.
             $yearChart->drawGraphArea(255,255,255,TRUE);
-            $yearChart->drawScale($yearDataSet->GetData(),$yearDataSet->GetDataDescription(),SCALE_NORMAL,150, 150, 150,TRUE,0,2,TRUE);
+            $yearChart->drawScale( $yearDataSet->GetData(), $yearDataSet->GetDataDescription( ), 
+                                   SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
+            
             $yearChart->drawGrid(4,TRUE,230,230,230,50);
             
             $yearChart->setColorPalette( 0, 69, 139, 0 );
@@ -389,44 +377,6 @@ class CRM_Utils_PChart
         }
         
         return $filesPath;
-    }
-    
-    /* Build the upload Directory Url.
-     *
-     */
-    static function uploadDirURL( ) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        
-        $checkPath = explode( DIRECTORY_SEPARATOR, dirname( $config->templateCompileDir ) );
-        $directories = array( );
-        foreach ( $checkPath as $dirIndex => $dirName ) {
-            if ( $dirName == 'templates_c' ) {
-                break;
-            }
-            $directories[] = $dirName; 
-        }
-        
-        //build files directory path
-        $checkBasePath = explode( DIRECTORY_SEPARATOR, trim( $config->userFrameworkBaseURL ) );
-        for ( $i= count( $checkBasePath ) - 1 ; $i>0; $i-- ) {
-            if ( CRM_Utils_Array::value( $i, $checkBasePath ) ) {
-                $baseDirName = $checkBasePath[$i];
-                break;
-            }
-        }
-        
-        $baseIndex = array_search( $baseDirName, $checkPath );
-        foreach ( $directories as $key => $value ) {
-            if ( $key > $baseIndex ) {
-                $files[] = $value;
-            }
-        }
-        
-        $uploadFilesPath = CRM_Utils_File::addTrailingSlash( implode( DIRECTORY_SEPARATOR, $files ) );
-        $uploadDirURL = $config->userFrameworkBaseURL . $uploadFilesPath . "upload/";
-        
-        return $uploadDirURL;
     }
 }
 

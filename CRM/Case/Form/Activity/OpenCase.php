@@ -100,8 +100,8 @@ class CRM_Case_Form_Activity_OpenCase
         $form->addRule('duration', ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
 
         require_once "CRM/Contact/BAO/Contact.php";
-        if ( $form->_clientId ) {
-            list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_clientId );
+        if ( $form->_currentlyViewedContactId ) {
+            list( $displayName ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $form->_currentlyViewedContactId );
             $form->assign( 'clientName', $displayName );
         } else {
             $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact' );
@@ -161,9 +161,6 @@ class CRM_Case_Form_Activity_OpenCase
                     true);   
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
-        $form->add( 'text', 'activity_subject', ts('Subject'), 
-                   array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
-
         $form->add('select', 'medium_id',  ts( 'Medium' ), 
                    CRM_Core_OptionGroup::values('encounter_medium'), true);
 
@@ -193,7 +190,7 @@ class CRM_Case_Form_Activity_OpenCase
         // create contact if cid not present
 
         $contactParams = $params;
-        if ( !$form->_clientId ) {
+        if ( !$form->_currentlyViewedContactId ) {
             $contactParams['location'][1]['is_primary'] = 1;
             $contactParams['contact_type']              = 'Individual';
             $contactParams['email'] = $contactParams['location'][1]['email'][1]['email'];
@@ -206,17 +203,17 @@ class CRM_Case_Form_Activity_OpenCase
                 
                 // if we find more than one contact, use the first one
                 if ( is_array($ids) ) {
-                    $form->_clientId = $ids[0];
+                    $form->_currentlyViewedContactId = $ids[0];
                 }
-                if ( !$form->_clientId ) {
+                if ( !$form->_currentlyViewedContactId ) {
                     CRM_Core_Error::fatal('Could not find existing client to link the case with.');
                 }
             }
 
-            if ( !$form->_clientId ) {
+            if ( !$form->_currentlyViewedContactId ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $contact =& CRM_Contact_BAO_Contact::create( $contactParams, true, false );
-                $form->_clientId = $contact->id;
+                $form->_currentlyViewedContactId = $contact->id;
             }
             
             // unset contact params
@@ -242,6 +239,10 @@ class CRM_Case_Form_Activity_OpenCase
      */
     static function formRule( &$values, $files, &$form ) 
     {
+        if ( $form->_context == 'activity' ) {
+            return true;
+        }
+        
         if ( CRM_Utils_Array::value( '_qf_Case_next_assignExisting', $values ) ) {
             return true;
         }
@@ -249,7 +250,7 @@ class CRM_Case_Form_Activity_OpenCase
         $errors = array( );
               
         // if this is a forced save, ignore find duplicate rule
-        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) ) {
+        if ( ! CRM_Utils_Array::value( '_qf_Case_next_createNew', $values ) && !$form->_currentlyViewedContactId ) {
             $contactParams = $values;
             $contactParams['location'][1]['is_primary'] = 1;
             $contactParams['contact_type']              = 'Individual';
@@ -294,8 +295,8 @@ class CRM_Case_Form_Activity_OpenCase
             return;
         }
 
-        if (!$form->_clientId   ||
-            !$form->_uid        ||
+        if (!$form->_currentlyViewedContactId   ||
+            !$form->_currentUserId        ||
             !$params['case_id'] ||
             !$params['case_type']
             ) {
@@ -304,14 +305,14 @@ class CRM_Case_Form_Activity_OpenCase
 
         // 1. create case-contact
         $contactParams = array('case_id'    => $params['case_id'],
-                               'contact_id' => $form->_clientId
+                               'contact_id' => $form->_currentlyViewedContactId
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
         
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $xmlProcessorParams = array( 'clientID'           => $form->_clientId,
-                                     'creatorID'          => $form->_uid,
+        $xmlProcessorParams = array( 'clientID'           => $form->_currentlyViewedContactId,
+                                     'creatorID'          => $form->_currentUserId,
                                      'standardTimeline'   => 1,
                                      'activityTypeName'   => 'Open Case',
                                      'dueDateTime'        => time( ),

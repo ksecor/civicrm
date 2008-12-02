@@ -43,7 +43,10 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
 {
 
     static function preProcess( &$form ) 
-    {        
+    { 
+        if ( !isset($form->_caseId) ) {
+            CRM_Core_Error::fatal(ts('Case Id not found.'));
+        } 
     }
 
     /**
@@ -58,7 +61,7 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
         $defaults = array();
         // Retrieve current case status
         $defaults['case_status_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case',
-                                                                  $this->_id,
+                                                                  $this->_caseId,
                                                                   'status_id', 'id' );
         return $defaults;
     }

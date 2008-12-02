@@ -55,7 +55,8 @@ class CRM_Custom_Form_CustomData
 				$form->_subType = $subType;
 			}
 		} else {
-			$form->_subType = CRM_Utils_Request::retrieve( 'subType', 'String', $form );	
+			$form->_subType = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
+			if ( $form->_subType == 'null' ) $form->_subType = null;	
 		}
 		
         if ( $subName ) {
@@ -65,7 +66,8 @@ class CRM_Custom_Form_CustomData
 				$form->_subName = $subName;
 			}
 		} else {
-			$form->_subName = CRM_Utils_Request::retrieve( 'subName', 'String', $form );	
+			$form->_subName = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
+			if ( $form->_subName == 'null' ) $form->_subName = null;	
 		}
         
 		if ( $groupCount ) {
@@ -92,7 +94,7 @@ class CRM_Custom_Form_CustomData
 														 $form->_subName );
 
         // we should use simplified formatted groupTree
-        $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount );
+        $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount, $form );
     }
 
     static function setDefaultValues( &$form ) 

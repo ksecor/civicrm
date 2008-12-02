@@ -1,35 +1,28 @@
 {* CiviCase -  view case screen*}
 <div class="form-item">
 <fieldset><legend>{ts}Case Summary{/ts}</legend>
-    <table class="form-layout-compressed">
+    <table class="report">
         <tr>
-            <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
-            <td class="right"><label>{ts}New Activity{/ts}</label>&nbsp;<input type="text" id="activity"/><input type="hidden" id="activity_id" value="">&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
-            <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location='{$reportUrl}' + document.getElementById('report_id').value"/></td> 
+            <td class="font-size12pt">
+                <label>{ts}Client{/ts}:</label>&nbsp;{$displayName}
+            </td>
+            <td>
+                <label>{ts}Case Type{/ts}:</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+            </td>
+            <td>
+                <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+            </td>
         </tr>
+    </table>
+    <table class="form-layout">
         <tr>
-            <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>{ts}Case Type:{/ts}</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-            <td style="border: solid 1px #dddddd; padding-right: 2em; vertical-align: bottom;"><label>{ts}Status:{/ts}</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&id=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-            <td class="right">&nbsp;&nbsp;<label>{$form.timeline_id.label}</label>&nbsp;{$form.timeline_id.html}&nbsp; {$form._qf_CaseView_next.html}</td> 
+            <td>{$form.activity_type_id.label}<br />{$form.activity_type_id.html}&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="checkSelection( this );"/></td>
+            <td>{$form.timeline_id.label}<br />{$form.timeline_id.html}&nbsp;{$form._qf_CaseView_next.html}</td> 
+            <td>{$form.report_id.label}<br />{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="checkSelection( this );"/></td> 
         </tr>
     </table>
 </fieldset>
-{literal}
-<script type="text/javascript">
-	
-var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseDetails.case_type}"{literal};
 
-cj("#activity").autocomplete( activityUrl, {
-	width: 260,
-	selectFirst: false  
-});
-
-cj("#activity").result(function(event, data, formatted) {
-	cj("input[@id=activity_id]").val(data[1]);
-});		    
-
-</script>
-{/literal}
 <div id="caseRole_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Roles</label><br />
 </div>
@@ -95,7 +88,8 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				width: 260,
 				selectFirst: false 
 			});
-
+			
+			cj("#rel_contact").focus();
 			cj("#rel_contact").result(function(event, data, formatted) {
 				cj("input[@id=rel_contact_id]").val(data[1]);
 			});		    
@@ -168,38 +162,11 @@ function showHideSearch( ) {
 cj(document).ready(function(){
    cj("#view-activity").hide( );
 });
-function viewActivity( activityId ) {
-    cj("#view-activity").show( );
-
-    cj("#view-activity").dialog({
-        title: "View Activity",
-	    modal: true, 
-	    width : 700,
-        height : 650,
-        resizable: true, 
-	    overlay: { 
-		       opacity: 0.5, 
-		       background: "black" 
-		    },
-	    open:function() {
-		cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-		cj("#activity-content").html("");
-		var cid= {/literal}"{$contactID}"{literal};
-        var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-		cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
-	    },
-	    
-	    buttons: { 
-		"Done": function() { 	    
-		    cj(this).dialog("close"); 
-		    cj(this).dialog("destroy"); 
-		}
-	    } 
-     });
-}
-
 </script>
 {/literal}
+
+{*include activity view js file*}
+{include file="CRM/common/activityView.tpl"}
 
 <div id="activities_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('activities_show'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Case Activities{/ts}</label><br />
@@ -213,18 +180,18 @@ function viewActivity( activityId ) {
 <fieldset>
   <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
   <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
-  <table class="no-border" id="searchOptions">
+  <table class="no-border form-layout-compressed" id="searchOptions">
     <tr>
-        <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
+        <td><label for="reporter_id">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
         </td>
-        <td class="label"><label for="status">{$form.status_id.label}</label><br />
+        <td><label for="status_id">{$form.status_id.label}</label><br />
             {$form.status_id.html}
         </td>
 	<td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="button" onclick="search()"; /></td>
     </tr>
     <tr>
-        <td colspan="2"> 
+        <td> 
 	        {$form.date_range.html}
                  &nbsp;&nbsp; <label>- {ts}From{/ts}</label> 
                 <br />
@@ -242,6 +209,14 @@ function viewActivity( activityId ) {
                 {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_activity_2}
         </td>
     </tr>
+	{if $form.activity_deleted}    
+	<tr>
+		<td>
+			{$form.activity_deleted.html}    
+			{$form.activity_deleted.label}
+		</td>
+	</tr>
+	{/if}
   </table>
   <br />
   <table id="activities-selector" style="display:none"></table>
@@ -272,8 +247,6 @@ cj(document).ready(function(){
 			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
 			{display: '',        name : 'links',       width : 90,  align: 'left'},
 			],
-	    sortname: "status",
-	    sortorder: "asc",
 	    usepager: true,
 	    useRp: true,
 	    rp: 10,
@@ -304,27 +277,59 @@ function search(com)
 
     var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
 
+	var activity_deleted = 0;
+	if ( cj("#activity_deleted:checked").val() == 1 ) {
+		activity_deleted = 1;
+	}
     cj('#activities-selector').flexOptions({
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
 			{name:'status_id', value: cj("select#status_id").val()},
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
-			{name:'activity_date_high', value: activity_date_high}
+			{name:'activity_date_high', value: activity_date_high},
+			{name:'activity_deleted', value: activity_deleted }
 			]
 		});
     
     cj("#activities-selector").flexReload(); 
 }
 
-function verifyActivitySet( ) {
-    
-    if ( document.getElementById('timeline_id').value == '' ) {
-	alert("Please Select the Valid Activity Set.");
-	return false;
-    } 
-    return confirm('Are you sure you want to add a set of scheduled activities to this case?');	 
+function checkSelection( field ) {
+	var validationMessage = '';
+	var validationField   = '';
+	var successAction     = '';
+	
+	var fName = field.name;
+	
+	switch ( fName )  {
+		case '_qf_CaseView_next' :
+				validationMessage = 'Please select an activity set from the list.';
+				validationField   = 'timeline_id';
+				successAction     = "confirm('Are you sure you want to add a set of scheduled activities to this case?');";
+				break;
+
+		case 'new_activity' :
+				validationMessage = 'Please select an activity type from the list.';
+				validationField   = 'activity_type_id';
+				successAction     = "window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value";
+				break;
+
+		case 'case_report' :
+				validationMessage = 'Please select a report from the list.';
+				validationField   = 'report_id';
+				successAction     = "window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value";
+				break;
+	}	
+
+	if ( document.getElementById( validationField ).value == '' ) {
+		alert( validationMessage );
+		return false;
+	} else {
+		return eval( successAction );
+	}
 }
+
 </script>
 {/literal}
 

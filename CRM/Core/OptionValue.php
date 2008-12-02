@@ -99,6 +99,7 @@ class CRM_Core_OptionValue
         
         require_once 'CRM/Core/Component.php';
         $componentNames = CRM_Core_Component::getNames();
+        $visibilityLabels = CRM_Core_PseudoConstant::visibility( );
         while ( $dao->fetch() ) {
             $optionValue[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id] );
@@ -129,6 +130,10 @@ class CRM_Core_OptionValue
                 $optionValue[$dao->id]['component_name'] = $componentNames[$optionValue[$dao->id]['component_id']];
             } else {
                 $optionValue[$dao->id]['component_name'] = 'Core';
+            }
+            
+            if ( $optionValue[$dao->id]['visibility_id'] ) {
+                $optionValue[$dao->id]['visibility_label'] = $visibilityLabels[$optionValue[$dao->id]['visibility_id']];
             }
 
         }

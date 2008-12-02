@@ -161,7 +161,7 @@
 <script type="text/javascript">
 	cj(document).ready(function() {				
 		{/literal}
-		buildCustomData( '{$customDataType}' );
+		buildCustomData( '{$customDataType}', 'null', 'null' );
 		{if $roleID}
 		buildCustomData( '{$customDataType}', {$roleID}, {$roleCustomDataTypeID} );
 		{/if}

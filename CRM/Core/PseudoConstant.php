@@ -279,6 +279,20 @@ class CRM_Core_PseudoConstant
     private static $phoneType;
 
     /**
+     * Visibility
+     * @var array
+     * @static
+     */
+    private static $visibility;
+    
+    /**
+     * Mail Protocols
+     * @var array
+     * @static
+     */
+    private static $mailProtocol;
+    
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -471,7 +485,8 @@ class CRM_Core_PseudoConstant
         }
         return self::$individualSuffix;
     }
- /**
+    
+    /**
      * Get all Greeting.
      *
      * The static array greeting is returned
@@ -541,19 +556,18 @@ class CRM_Core_PseudoConstant
     }
 
     /**
-     * Get all the From Email Address from database.
+     * Get the all From Email Address from database.
      *
-     * The static array imProvider is returned, and if it's
-     * called the first time, the <b>IM DAO</b> is used 
-     * to get all the IM Providers.
+     * The static array $fromEmailAddress is returned, and if it's
+     * called the first time, DAO is used 
+     * to get all the From Email Address
      *
      * Note: any database errors will be trapped by the DAO.
      *
      * @access public
      * @static
      *
-     * @return array - array reference of all IM providers.
-     *
+     * @return array - array reference of all From Email Address.
      */
     public static function &fromEmailAddress( ) 
     {
@@ -563,7 +577,30 @@ class CRM_Core_PseudoConstant
         }        
         return self::$fromEmailAddress;
     }
-
+    
+    /**
+     * Get the all Mail Protocols from database.
+     *
+     * The static array mailProtocol is returned, and if it's
+     * called the first time, the DAO is used 
+     * to get all the Mail Protocol.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all Mail Protocols.
+     */
+    public static function &mailProtocol( ) 
+    {
+        if ( ! self::$mailProtocol ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$mailProtocol = CRM_Core_OptionGroup::values('mail_protocol');
+        }        
+        return self::$mailProtocol;
+    }
+    
     /**
      * Get all the State/Province from database.
      *
@@ -1235,6 +1272,26 @@ WHERE  id = %1";
         return self::$wysiwygEditor;
     }
 
+    /**
+     * Get all Visibility levels.
+     *
+     * The static array visibility is returned
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all Visibility levels.
+     *
+     */
+    public static function &visibility( )
+    {
+        if ( ! self::$visibility ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$visibility = CRM_Core_OptionGroup::values('visibility');
+        }
+        return self::$visibility;
+    }
+    
     /**
      * Get all mapping types
      *
