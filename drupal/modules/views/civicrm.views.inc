@@ -431,6 +431,7 @@ function civicrm_views_data_event(&$data, &$config) {
                                          'help'     => t('Event Title'),
                                          'field'    => array(
                                                              'handler' => 'civicrm_handler_field_event',
+                                                             'format' => FILTER_FORMAT_DEFAULT,
                                                              'click sortable' => TRUE
                                                             ),
                                          );
@@ -440,6 +441,7 @@ function civicrm_views_data_event(&$data, &$config) {
                                          'help'     => t('Full description of event'),
                                          'field'    => array(
                                                              'handler' => 'civicrm_handler_field_event',
+                                                             'format' => FILTER_FORMAT_DEFAULT,
                                                              'click sortable' => TRUE
                                                             ),
                                          );
@@ -449,6 +451,7 @@ function civicrm_views_data_event(&$data, &$config) {
                                          'help'     => t('Brief summary of event'),
                                          'field'    => array(
                                                              'handler' => 'civicrm_handler_field_event',
+                                                             'format' => FILTER_FORMAT_DEFAULT,
                                                              'click sortable' => TRUE
                                                             ),
                                          );
@@ -632,7 +635,7 @@ function civicrm_views_handlers() {
                                                                       'parent' => 'civicrm_handler_filter_option',
                                                                       ),
                        'civicrm_handler_field_event' => array(
-                                                            'parent' => 'views_handler_field',
+                                                            'parent' => 'views_handler_field_markup',
                                                            ),
                        'civicrm_handler_field_event_link' => array(
                                                             'parent' => 'civicrm_handler_field_link',
