@@ -97,6 +97,7 @@ FROM   civicrm_group
 WHERE  id $ids
 ";
             $dao = CRM_Core_DAO::executeQuery( $sql );
+			$attributes['skiplabel'] = true;
             while ( $dao->fetch( ) ) {
                 // make sure that this group has public visibility
 		        if ( $visibility &&
@@ -111,7 +112,8 @@ WHERE  id $ids
                     $title .= '<td></td></tr>';
                 }
 
-                $elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, null, $title );
+                //$elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, $title, $attributes );
+				$elements[] =& $form->addElement('advcheckbox', $dao->id, null, $title, $attributes );
             }
             
 	        if ( ! empty( $elements ) ) {
