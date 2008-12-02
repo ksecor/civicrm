@@ -712,20 +712,28 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-        foreach ( array ( 'pcp_made_through_id', 'pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
+        foreach ( array ('pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $val ) {
             if ( CRM_Utils_Array::value( $val, $params ) ) {
-                $contribParams[$val] = $params[$val];
+                $contribSoftParams[$val] = $params[$val];
             }
         }
-
+        
         require_once 'CRM/Contribute/BAO/Contribution.php';
-
+        
         //create an contribution address
         $contribParams['address_id']  = CRM_Contribute_BAO_Contribution::createAddress( $params, $form->_bltID );
 
         //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-                
+
+        //add soft contribution
+        $contribSoftParams['contribution_id'] = $contribution->id;
+        $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
+        $contribSoftParams['amount']          = $params['amount'];
+        $contribSoftParams['contact_id']      = $contribution->contact_id;
+
+        $softContribution = CRM_Contribute_BAO_Contribution::addSoftContribution( $contribSoftParams );
+
         //handle pledge stuff.
         if ( !CRM_Utils_Array::value( 'separate_membership_payment', $form->_params ) &&
              CRM_Utils_Array::value('pledge_block_id', $form->_values ) && 

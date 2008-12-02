@@ -859,5 +859,20 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $address = CRM_Core_BAO_Address::add( $addressParams, false );
 
         return $address->id;
+    }
+    
+    /**
+     *  Function to create soft contribuiton with contribution record.
+     *  @param array $params an associated array 
+     *
+     *  @return soft contribution id
+     *  @static
+     */
+    static function addSoftContribution( $params ) 
+    { 
+        require_once 'CRM/Contribute/DAO/ContributionSoft.php';
+        $softContribution = new CRM_Contribute_DAO_ContributionSoft();
+        $softContribution->copyValues($params);
+        return $softContribution->save();
     } 
 }
