@@ -60,15 +60,15 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
         }
         
-        if ( CRM_Utils_Array::value( 'case_type', $query->_returnProperties ) ) {
-            $query->_select['case_type']  = "case_type.label as case_type";
+        if ( CRM_Utils_Array::value( 'case_type_id', $query->_returnProperties ) ) {
+            $query->_select['case_type']  = "case_type.label as case_type_id";
             $query->_element['case_type'] = 1;
             $query->_tables['case_type']  = $query->_whereTables['case_type'] = 1;
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
         }
         
-        if ( CRM_Utils_Array::value( 'case_status', $query->_returnProperties ) ) {
-            $query->_select['case_status']  = "case_status.label as case_status";
+        if ( CRM_Utils_Array::value( 'case_status_id', $query->_returnProperties ) ) {
+            $query->_select['case_status']  = "case_status.label as case_status_id";
             $query->_element['case_status'] = 1;
             $query->_tables['case_status']  = $query->_whereTables['case_status'] = 1;
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
@@ -285,8 +285,8 @@ case_relation_type.id = case_relationship.relationship_type_id )";
                                 'sort_name'                   =>      1,   
                                 'display_name'                =>      1,
                                 'case_id'                     =>      1,   
-                                'case_status'                 =>      1, 
-                                'case_type'                   =>      1,
+                                'case_status_id'              =>      1, 
+                                'case_type_id'                =>      1,
                                 'case_role'                   =>      1,
                                 'case_recent_activity_date'   =>      1,
                                 'case_recent_activity_type'   =>      1, 

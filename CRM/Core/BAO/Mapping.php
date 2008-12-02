@@ -386,7 +386,16 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $compArray['Pledge'] = 'Pledge';
             }
         }
-        
+
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviCase' ) ) {
+                require_once 'CRM/Case/BAO/Case.php';
+                $fields['Case'] =& CRM_Case_BAO_Case::exportableFields( );
+                unset($fields['Case']['case_contact_id']);
+                $compArray['Case'] = 'Case';
+            }
+        }
+
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 //CRM-2676, replacing the conflict for same custom field name from different custom group.
