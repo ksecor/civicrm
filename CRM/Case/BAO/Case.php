@@ -717,7 +717,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
         
-        // Default sort is due_date_time ASC, status_id ASC (so completed activities drop to bottom)
+        // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
         }
