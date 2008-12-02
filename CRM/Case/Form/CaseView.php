@@ -132,6 +132,14 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $caseRoles    = $xmlProcessor->get( $this->_caseType, 'CaseRoles' );
         $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
 
+        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+        // remove Open Case activity type since we're inside an existing case
+        $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
+        unset( $aTypes[$openCaseID] );
+        asort( $aTypes );
+
+        
+        $this->add('select', 'activity_type_id',  ts( 'New Activity' ), array( '' => ts( '- select activity type -' ) ) + $aTypes );
         $this->add('select', 'report_id',  ts( 'Report' ), array( '' => ts( '- select report -' ) ) + $reports );
         $this->add('select', 'timeline_id',  ts( 'Add Timeline' ), array( '' => ts( '- select activity set -' ) ) + $reports );
         $this->addElement( 'submit', $this->getButtonName('next'), ts('Go'), 

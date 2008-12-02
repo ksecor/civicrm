@@ -1,35 +1,28 @@
 {* CiviCase -  view case screen*}
 <div class="form-item">
 <fieldset><legend>{ts}Case Summary{/ts}</legend>
-    <table class="form-layout-compressed">
+    <table class="report">
         <tr>
-            <td class="font-size12pt bold">&nbsp;{ts}Client{/ts}: {$displayName}&nbsp;</td>
-            <td class="right"><label>{ts}New Activity{/ts}</label>&nbsp;<input type="text" id="activity"/><input type="hidden" id="activity_id" value="">&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="window.location='{$newActivityUrl}' + document.getElementById('activity_id').value"/></td>
-            <td class="right">&nbsp;&nbsp;<label>{$form.report_id.label}</label>&nbsp;{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="window.location='{$reportUrl}' + document.getElementById('report_id').value"/></td> 
+            <td class="font-size12pt">
+                <label>{ts}Client{/ts}:</label>&nbsp;{$displayName}
+            </td>
+            <td>
+                <label>{ts}Case Type{/ts}:</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+            </td>
+            <td>
+                <label>{ts}Status{/ts}:</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a>
+            </td>
         </tr>
+    </table>
+    <table class="form-layout">
         <tr>
-            <td style="border: solid 1px #dddddd; padding-right: 2em;"><label>{ts}Case Type:{/ts}</label>&nbsp;{$caseDetails.case_type}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseTypeId`"}" title="Change case type (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-            <td style="border: solid 1px #dddddd; padding-right: 2em; vertical-align: bottom;"><label>{ts}Status:{/ts}</label>&nbsp;{$caseDetails.case_status}&nbsp;<a href="{crmURL p='civicrm/case/activity' q="action=add&reset=1&cid=`$contactId`&caseid=`$caseId`&selectedChild=activity&atype=`$changeCaseStatusId`"}" title="Change case status (creates activity record)"><img src="{$config->resourceBase}i/edit.png" border="0"></a></td>
-            <td class="right">&nbsp;&nbsp;<label>{$form.timeline_id.label}</label>&nbsp;{$form.timeline_id.html}&nbsp; {$form._qf_CaseView_next.html}</td> 
+            <td>{$form.activity_type_id.label}<br />{$form.activity_type_id.html}&nbsp;<input type="button" accesskey="N" value="Go" name="new_activity" onclick="newActivity();"/></td>
+            <td>{$form.timeline_id.label}<br />{$form.timeline_id.html}&nbsp;{$form._qf_CaseView_next.html}</td> 
+            <td>{$form.report_id.label}<br />{$form.report_id.html}&nbsp;<input type="button" accesskey="R" value="Go" name="case_report" onclick="doReport();"/></td> 
         </tr>
     </table>
 </fieldset>
-{literal}
-<script type="text/javascript">
-	
-var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}{$caseDetails.case_type}"{literal};
 
-cj("#activity").autocomplete( activityUrl, {
-	width: 260,
-	selectFirst: false  
-});
-
-cj("#activity").result(function(event, data, formatted) {
-	cj("input[@id=activity_id]").val(data[1]);
-});		    
-
-</script>
-{/literal}
 <div id="caseRole_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Roles</label><br />
 </div>
@@ -186,18 +179,18 @@ cj(document).ready(function(){
 <fieldset>
   <legend><a href="#" onclick="hide('activities'); show('activities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Activities{/ts}</legend>
   <div><a id="searchFilter" href="javascript:showHideSearch( );">{ts}Search Filters{/ts}</a></div>
-  <table class="no-border" id="searchOptions">
+  <table class="no-border form-layout-compressed" id="searchOptions">
     <tr>
-        <td class="label"><label for="reporter">{ts}Reporter/Role{/ts}</label><br />
+        <td><label for="reporter_id">{ts}Reporter/Role{/ts}</label><br />
             {$form.reporter_id.html}
         </td>
-        <td class="label"><label for="status">{$form.status_id.label}</label><br />
+        <td><label for="status_id">{$form.status_id.label}</label><br />
             {$form.status_id.html}
         </td>
 	<td style="vertical-align: bottom;"><input class="form-submit default" name="_qf_Basic_refresh" value="Search" type="button" onclick="search()"; /></td>
     </tr>
     <tr>
-        <td colspan="2"> 
+        <td> 
 	        {$form.date_range.html}
                  &nbsp;&nbsp; <label>- {ts}From{/ts}</label> 
                 <br />
@@ -299,10 +292,28 @@ function search(com)
     cj("#activities-selector").flexReload(); 
 }
 
+function newActivity( ) {
+    if ( document.getElementById('activity_type_id').value == '' ) {
+	alert("Please select an activity type from the list.");
+	return false;
+    } else {
+        window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value
+    }
+}
+
+function doReport( ) {
+    if ( document.getElementById('report_id').value == '' ) {
+	alert("Please select a report from the list.");
+	return false;
+    } else {
+        window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value
+    }
+}
+
 function verifyActivitySet( ) {
     
     if ( document.getElementById('timeline_id').value == '' ) {
-	alert("Please Select the Valid Activity Set.");
+	alert("Please select an activity set from the list.");
 	return false;
     } 
     return confirm('Are you sure you want to add a set of scheduled activities to this case?');	 
