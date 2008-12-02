@@ -297,18 +297,18 @@
 	<table class="form-layout">
     <tr>
         <td>
-        <div class="label">{ts}Group(s){/ts}</div>
-	<div class="listing-box">
-	<table id="selector" style="width:auto;border:none;">
-               <tr><td>{$form.group.html}</td></tr>
-        </table> 
-        </div>
-	</td>
-	<td>
-        <div class="label">{ts}Tag(s){/ts}</div>
-        <div class="listing-box">
-	{$form.tag.html}
-        </div>
+            <div class="label">{ts}Group(s){/ts}</div>
+            <div class="listing-box">
+            <table id="selector" class="selector" style="width:auto;border:none;">
+                   <tr><td>{$form.group.html}</td></tr>
+            </table> 
+            </div>
+        </td>
+        <td>
+            <div class="label">{ts}Tag(s){/ts}</div>
+            <div class="listing-box">
+                {$form.tag.html}
+            </div>
         </td>
     </tr>
     </table>
