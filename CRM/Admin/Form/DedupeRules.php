@@ -170,7 +170,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         // also create an index for this dedupe rule
         // CRM-3837
         require_once 'CRM/Core/BAO/SchemaHandler.php';
-        CRM_Core_BAO_SchemaHandler::createIndexes( $tables );
+        CRM_Core_BAO_SchemaHandler::createIndexes( $tables, 'dedupe_index' );
                 
     }
     
