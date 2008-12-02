@@ -326,7 +326,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @param boolean $onlyPublicGroups  true if we want to hide system groups
      *
      * @return array (reference )|int $values the relevant data object values for the contact or
-                                      the total count when $count is true
+     *                                 the total count when $count is true
      *
      * $access public
      */
@@ -671,10 +671,10 @@ AND civicrm_group_contact.group_id = %2";
 
         // check which values has to be add/remove contact from group
         foreach ($allGroup as $key => $varValue) {
-            if (array_key_exists($key, $params) && !array_key_exists($key, $contactGroup) ) {
+            if ( CRM_Utils_Array::value( $key, $params) && !array_key_exists($key, $contactGroup) ) {
                 // add contact to group
                 CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $key, $method);
-            } else if (!array_key_exists($key, $params) && array_key_exists($key, $contactGroup) ) {
+            } else if ( !CRM_Utils_Array::value( $key, $params) && array_key_exists($key, $contactGroup) ) {
                 // remove contact from group
                 CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactIds, $key, $method);
             }
