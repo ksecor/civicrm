@@ -134,15 +134,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      *
      */
-    public function deleteActivity( &$params ) 
+    public function deleteActivity( &$params, $moveToTrash = false ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
-        $activity     =& new CRM_Activity_DAO_Activity( );
+               
+        $activity    =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
-        $result = $activity->delete( );
         
+        if ( ! $moveToTrash ) {  
+            $result = $activity->delete( );
+        } else {
+            $activity->is_deleted = 1;
+            $result = $activity->save( );
+        }
         $transaction->commit( );
         return $result;
     }

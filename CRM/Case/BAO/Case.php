@@ -294,6 +294,15 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */ 
     static function deleteCase( $caseId , $moveToTrash = false ) 
     {
+        //delete activities
+        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        if ( $activities ) {
+            require_once"CRM/Activity/BAO/Activity.php";
+            foreach( $activities as $value ) {
+                CRM_Activity_BAO_Activity::deleteActivity( $value, $moveToTrash );
+            }
+        }  
+        
         if ( ! $moveToTrash ) {
             require_once 'CRM/Core/Transaction.php';
             $transaction = new CRM_Core_Transaction( );
@@ -304,10 +313,14 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( ! $moveToTrash ) {  
             $case->delete( );
             $transaction->commit( );
+            return true;
         } else {
+                                    
             $case->is_deleted = 1;
             $case->save( );
+            return true;
         }
+        return false;
     }
 
    /**                                                           
@@ -657,8 +670,29 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @static
      */
-    static function getCaseActivity( $caseID, &$params, $contactID )
+    static function getCaseActivity( $caseID, &$params, $contactID,  $skipDetails = false )
     {
+        $values = array( );
+        if ( $skipDetails ) {
+            if ( !$caseID ) {
+                return;
+            }
+            
+            $query = "SELECT ca.id 
+                      FROM civicrm_activity ca 
+                      LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
+                      WHERE cc.id = %1";
+            
+            $params = array( 1 => array( $caseID, 'Integer' ) );
+            $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+            
+            while ( $dao->fetch( ) ) {
+                $values[$dao->id]['id']  = $dao->id;
+            }
+            $dao->free( );
+            return $values;
+        }
+
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter, 
@@ -755,8 +789,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
-
-        $values = array( );
+        
         $url = CRM_Utils_System::url( "civicrm/case/activity",
                                       "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         

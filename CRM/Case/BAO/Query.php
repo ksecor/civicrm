@@ -208,7 +208,7 @@ class CRM_Case_BAO_Query
  			return;
 
         case 'case_deleted':
-            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value";
+            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value AND recent_activity.is_deleted $op $value";
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Deleted Cases";
             }
@@ -251,8 +251,7 @@ class CRM_Case_BAO_Query
 			$from .= " INNER JOIN civicrm_activity recent_activity ON ( civicrm_case_activity.activity_id = recent_activity.id
 				AND recent_activity.is_current_revision = 1
 				AND recent_activity.activity_date_time <= NOW() 
-				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY ) 
-				AND recent_activity.is_deleted = 0 ) ";
+				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY )) ";
 
             $from .= " LEFT JOIN civicrm_activity ca2
                               ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
