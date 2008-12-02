@@ -705,16 +705,21 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
         }
 
+		// hack to handle to allow initial sorting to be done by query
+		if ( $params['sortname'] == 'undefined' ) {
+			$params['sortname'] = null;
+		}
+
+		if ( $params['sortorder'] == 'undefined' ) {
+			$params['sortorder'] = null;
+		}
+
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
         
-        // Default sort is due_date_time DESC, status_id ASC (so completed activities drop to bottom)
+        // Default sort is due_date_time ASC, status_id ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
-            $orderBy = " ORDER BY due_date_time ASC";
-        } else {
-            if (!$sortname) $sortname = 'due_date_time';
-            if (!$sortorder) $sortorder = 'desc';
-        	$orderBy = " ORDER BY $sortname $sortorder";
+            $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
         }
         
         $page = $params['page'];
@@ -726,6 +731,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $start = (($page-1) * $rp);
         
         $query  = $select . $from . $where . $orderBy;
+		
         $params = array( 1 => array( $caseID, 'Integer' ) );
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
         $params['total'] = $dao->N;

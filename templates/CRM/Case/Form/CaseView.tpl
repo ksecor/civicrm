@@ -247,8 +247,6 @@ cj(document).ready(function(){
 			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
 			{display: '',        name : 'links',       width : 90,  align: 'left'},
 			],
-	    sortname: "status",
-	    sortorder: "asc",
 	    usepager: true,
 	    useRp: true,
 	    rp: 10,
