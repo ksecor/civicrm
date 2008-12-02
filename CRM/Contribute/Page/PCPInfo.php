@@ -97,10 +97,10 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             $link  = CRM_Contribute_BAO_PCP::pcpLinks( );
             unset($link['all'][CRM_Core_Action::ENABLE]);
             $hints = array(
-                           CRM_Core_Action::UPDATE  => 'Allows you to change the way your PCP works and your personal information',
-                           CRM_Core_Action::DISABLE => 'Inactivates the page',
-                           CRM_Core_Action::DELETE  => 'Removes the page (this cannot be undone!)',
-                           CRM_Core_Action::DETACH  => 'Inform your friends about your Personal Campaign!'
+                           CRM_Core_Action::UPDATE  => ts('Allows you to change the way your PCP works and your personal information'),
+                           CRM_Core_Action::DISABLE => ts('Inactivates the page'),
+                           CRM_Core_Action::DELETE  => ts('Removes the page (this cannot be undone!)'),
+                           CRM_Core_Action::DETACH  => ts('Inform your friends about your Personal Campaign!')
                            );
             CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_PCPBlock', $pcpInfo['contribution_page_id'], 
                                              'entity_id', $blockValues, array('is_tellfriend_enabled') );

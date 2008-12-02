@@ -175,7 +175,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
 
         CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
-        CRM_Core_Session::setStatus( ts( "Your PCP Page has been Updated %1.", array(1 => $approvalMessage)) );
+        CRM_Core_Session::setStatus( ts( "Your Personal Contribution Page has been updated %1.", array(1 => $approvalMessage)) );
         $statusId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcp->id, 'status_id' );
         
         if ( $session->get('userID') ) {

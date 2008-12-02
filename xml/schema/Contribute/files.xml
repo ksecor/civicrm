@@ -6,6 +6,7 @@
 <xi:include href="ContributionPage.xml"     parse="xml" />
 <xi:include href="ContributionProduct.xml"  parse="xml" />
 <xi:include href="ContributionType.xml"     parse="xml" />
+<xi:include href="ContributionSoft.xml"     parse="xml" />
 <xi:include href="FinancialTrxn.xml"        parse="xml" />
 <xi:include href="FinancialTrxn.xml"        parse="xml" />
 <xi:include href="Premium.xml"              parse="xml" />
