@@ -5,7 +5,7 @@
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
- * $Date: 2008-04-01 00:09:43 +0800 (Tue, 01 Apr 2008) $
+ * $Date: 2008-07-14 00:09:43 +0800 (Tue, 14 Jul 2008) $
  */
  
 (function($){
@@ -22,7 +22,7 @@
 			 striped: true, //apply odd even stripes
 			 novstripe: false,
 			 minwidth: 30, //min width of columns
-			 minheight: 100, //min height of columns
+			 minheight: 80, //min height of columns
 			 resizable: true, //resizable table
 			 url: false, //ajax url
 			 method: 'POST', // data sending method
@@ -92,7 +92,7 @@
 				
 			},
 			fixHeight: function (newH) {
-				
+					newH = false;
 					if (!newH) newH = $(g.bDiv).height();
 					var hdHeight = $(this.hDiv).height();
 					$('div',this.cDrag).each(
@@ -101,6 +101,14 @@
 								$(this).height(newH+hdHeight);
 							}
 					);
+					
+					var nd = parseInt($(g.nDiv).height());
+					
+					if (nd>newH)
+						$(g.nDiv).height(newH).width(200);
+					else
+						$(g.nDiv).height('auto').width('auto');
+					
 					$(g.block).css({height:newH,marginBottom:(newH * -1)});
 					
 					var hrH = g.bDiv.offsetTop + newH;
@@ -133,6 +141,7 @@
 						this.vresize = {h: p.height, sy: e.pageY, w: p.width, sx: e.pageX, hgo: hgo};
 						
 					}
+
 				else if (dragtype=='colMove') //column header drag
 					{
 						$(g.nDiv).hide();$(g.nBtn).hide();
@@ -236,6 +245,7 @@
 						$('div:eq('+n+')',this.cDrag).siblings().show();
 						$('.dragging',this.cDrag).removeClass('dragging');
 						this.rePosDrag();
+						this.fixHeight();
 						this.colresize = false;
 					}
 				else if (this.vresize)
@@ -352,6 +362,9 @@
 			},
 			addData: function (data) { //parse data
 				
+				if (p.preProcess)
+					data = p.preProcess(data);
+				
 				$('.pReload',this.pDiv).removeClass('loading');
 				this.loading = false;
 
@@ -368,7 +381,7 @@
 					
 				if (p.total==0)
 					{
-					$('tr',t).unbind();
+					$('tr, a, td, div',t).unbind();
 					$(t).empty();
 					p.pages = 1;
 					p.page = 1;
@@ -414,7 +427,8 @@
 										$(tr).append(td);
 										td = null;
 									}
-							);
+							); 
+							
 							
 							if ($('thead',this.gDiv).length<1) //handle if grid has no headers
 							{
@@ -501,7 +515,7 @@
 				this.addCellProp();
 				this.addRowProp();
 				
-				this.fixHeight($(this.bDiv).height());
+				//this.fixHeight($(this.bDiv).height());
 				
 				this.rePosDrag();
 				
@@ -540,8 +554,8 @@
 			},
 			buildpager: function(){ //rebuild pager based on new properties
 			
-			$('.pcontrol input').val(p.page);
-			$('.pcontrol span').html(p.pages);
+			$('.pcontrol input',this.pDiv).val(p.page);
+			$('.pcontrol span',this.pDiv).html(p.pages);
 			
 			var r1 = (p.page-1) * p.rp + 1; 
 			var r2 = r1 + p.rp - 1; 
@@ -583,29 +597,35 @@
 				if (!p.newp) p.newp = 1;
 				
 				if (p.page>p.pages) p.page = p.pages;
-				var param = {page:p.newp, rp: p.rp, sortname: p.sortname, sortorder: p.sortorder, query: p.query, qtype: p.qtype};
-
+				//var param = {page:p.newp, rp: p.rp, sortname: p.sortname, sortorder: p.sortorder, query: p.query, qtype: p.qtype};
+				var param = [
+					 { name : 'page', value : p.newp }
+					,{ name : 'rp', value : p.rp }
+					,{ name : 'sortname', value : p.sortname}
+					,{ name : 'sortorder', value : p.sortorder }
+					,{ name : 'query', value : p.query}
+					,{ name : 'qtype', value : p.qtype}
+				];							 
+							 
 				if (p.params)
 					{
-						var nparam = {};
-						$.each(p.params, function() {
-						  nparam[this.name] = this.value;
-						});
-						$.extend(param,nparam);
+						for (var pi = 0; pi < p.params.length; pi++) param[param.length] = p.params[pi];
 					}
 				
-				$.ajax({
-				   type: p.method,
-				   url: p.url,
-				   data: param,
-				   dataType: p.dataType,
-				   success: function(data){g.addData(data);}
-				 });				
+					$.ajax({
+					   type: p.method,
+					   url: p.url,
+					   data: param,
+					   dataType: p.dataType,
+					   success: function(data){g.addData(data);},
+					   error: function(data) { try { if (p.onError) p.onError(data); } catch (e) {} }
+					 });
 			},
 			doSearch: function () {
 				p.query = $('input[name=q]',g.sDiv).val();
 				p.qtype = $('select[name=qtype]',g.sDiv).val();
 				p.newp = 1;
+
 				this.populate();				
 			},
 			changePage: function (ctype){ //change page
@@ -615,15 +635,15 @@
 				switch(ctype)
 				{
 					case 'first': p.newp = 1; break;
-					case 'prev': if (p.page>1) p.newp = p.page - 1; break;
-					case 'next': if (p.page<p.pages) p.newp = p.page + 1; break;
+					case 'prev': if (p.page>1) p.newp = parseInt(p.page) - 1; break;
+					case 'next': if (p.page<p.pages) p.newp = parseInt(p.page) + 1; break;
 					case 'last': p.newp = p.pages; break;
 					case 'input': 
-							var nv = parseInt($('.pcontrol input').val());
+							var nv = parseInt($('.pcontrol input',this.pDiv).val());
 							if (isNaN(nv)) nv = 1;
 							if (nv<1) nv = 1;
 							else if (nv > p.pages) nv = p.pages;
-							$('.pcontrol input').val(nv);
+							$('.pcontrol input',this.pDiv).val(nv);
 							p.newp =nv;
 							break;
 				}
@@ -706,7 +726,8 @@
 								function (e) 
 									{ 
 										var obj = (e.target || e.srcElement); if (obj.href || obj.type) return true;
-										$(this).toggleClass('trSelected'); 
+										$(this).toggleClass('trSelected');
+										if (p.singleSelect) $(this).siblings().removeClass('trSelected');
 									}
 							)
 							.mousedown(
@@ -766,14 +787,14 @@
 			thead = document.createElement('thead');
 			tr = document.createElement('tr');
 			
-			for (i in p.colModel)
+			for (i=0;i<p.colModel.length;i++)
 				{
 					var cm = p.colModel[i];
 					var th = document.createElement('th');
 
 					th.innerHTML = cm.display;
 					
-					if (cm.name)
+					if (cm.name&&cm.sortable)
 						$(th).attr('abbr',cm.name);
 					
 					//th.idx = i;
@@ -842,7 +863,7 @@
 			var tDiv2 = document.createElement('div');
 			tDiv2.className = 'tDiv2';
 			
-			for (i in p.buttons)
+			for (i=0;i<p.buttons.length;i++)
 				{
 					var btn = p.buttons[i];
 					if (!btn.separator)
@@ -940,7 +961,10 @@
 						 thdiv.innerHTML = this.innerHTML;
 						 
 						$(this).empty().append(thdiv).removeAttr('width')
-						.mousedown(function (e) {g.dragStart('colMove',e,this)})
+						.mousedown(function (e) 
+							{
+								g.dragStart('colMove',e,this);
+							})
 						.hover(
 							function(){
 								if (!g.colresize&&!$(this).hasClass('thMove')&&!g.colCopy) $(this).addClass('thOver');
@@ -1088,7 +1112,7 @@
 					}
 			);
 		
-		g.rePosDrag();
+		//g.rePosDrag();
 							
 		}
 		
@@ -1107,7 +1131,7 @@
 		$(g.bDiv).after(g.vDiv);
 		}
 		
-		if (p.resizable && p.width !='auto') 
+		if (p.resizable && p.width !='auto' && !p.nohresize) 
 		{
 		g.rDiv.className = 'hGrip';
 		$(g.rDiv)
@@ -1142,7 +1166,7 @@
 			if (p.useRp)
 			{
 			var opt = "";
-			for (var nx in p.rpOptions)
+			for (var nx=0;nx<p.rpOptions.length;nx++)
 			{
 				if (p.rp == p.rpOptions[nx]) sel = 'selected="selected"'; else sel = '';
 				 opt += "<option value='" + p.rpOptions[nx] + "' " + sel + " >" + p.rpOptions[nx] + "&nbsp;&nbsp;</option>";
@@ -1167,7 +1191,7 @@
 		if (p.searchitems)
 			{
 				$('.pDiv2',g.pDiv).prepend("<div class='pGroup'> <div class='pSearch pButton'><span></span></div> </div>  <div class='btnseparator'></div>");
-				$('.pSearch',g.spDiv).click(function(){$(g.sDiv).slideToggle('fast',function(){$('.sDiv:visible input:first',g.gDiv).trigger('focus');});});				
+				$('.pSearch',g.pDiv).click(function(){$(g.sDiv).slideToggle('fast',function(){$('.sDiv:visible input:first',g.gDiv).trigger('focus');});});				
 				//add search box
 				g.sDiv.className = 'sDiv';
 				
@@ -1215,6 +1239,7 @@
 							}
 					);
 				}
+			//g.rePosDrag();
 		}
 
 		//setup cdrops
@@ -1234,7 +1259,7 @@
 			background: 'white',
 			position: 'relative',
 			marginBottom: (gh * -1),
-			zIndex: 999,
+			zIndex: 1,
 			top: gtop,
 			left: '0px'
 		}
@@ -1305,7 +1330,6 @@
 			$(g.nBtn).addClass('nBtn')
 			.html('<div></div>')
 			.attr('title','Hide/Show Columns')
-			.css('top',g.hDiv.offsetTop)
 			.click
 			(
 			 	function ()
@@ -1348,6 +1372,9 @@
 			$(g.gDiv).addClass('ie6');
 			if (p.width!='auto') $(g.gDiv).addClass('ie6fullwidthbug');			
 		} 
+		
+		g.rePosDrag();
+		g.fixHeight();
 		
 		//make grid functions accessible
 		t.p = p;
@@ -1412,6 +1439,13 @@
 
 	}; //end flexToggleCol
 
+	$.fn.flexAddData = function(data) { // function to add data to grid
+
+		return this.each( function() {
+				if (this.grid) this.grid.addData(data);
+			});
+
+	};
 
 	$.fn.noSelect = function(p) { //no select plugin by me :-)
 
