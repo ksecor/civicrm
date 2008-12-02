@@ -62,7 +62,7 @@ class CRM_Admin_Form_MailSettings extends CRM_Admin_Form
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MailSettings' );
         
         //build setting form
-        $this->add( 'text', 'name', ts('Group Name'), array( 'autocomplete' => 'off' ), true );
+        $this->add( 'text', 'name', ts('Group Name'), $attributes['name'], true );
         
         $this->add('text', 'domain', ts('Email Domain'), $attributes['domain'], true );
         $this->addRule( 'domain', ts('Email domain must use a valid internet domain format (e.g. \'example.org\').'), 'domain' );
