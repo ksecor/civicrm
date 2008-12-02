@@ -264,10 +264,10 @@ VALUES
   (@option_group_id_pcp, '{ts escape="sql"}Rejected{/ts}'     , 3, 'Rejected'     , NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL),
 
   (@option_group_id_ps, '{ts escape="sql"}Registered{/ts}', 1, 'Registered', NULL, 1, NULL, 1, NULL, 0, 1, 1, NULL, 1),
-  (@option_group_id_ps, '{ts escape="sql"}Attended{/ts}',   2, 'Attended',   NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, 1),
-  (@option_group_id_ps, '{ts escape="sql"}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, 1),
-  (@option_group_id_ps, '{ts escape="sql"}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, 1),
-  (@option_group_id_ps, '{ts escape="sql"}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1, NULL, 1),
+  (@option_group_id_ps, '{ts escape="sql"}Attended{/ts}',   2, 'Attended',   NULL, 1, NULL, 2, NULL, 0, 0, 1, NULL, 2),
+  (@option_group_id_ps, '{ts escape="sql"}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, 2),
+  (@option_group_id_ps, '{ts escape="sql"}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, 2),
+  (@option_group_id_ps, '{ts escape="sql"}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1, NULL, 2),
 
   (@option_group_id_pRole, '{ts escape="sql"}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
   (@option_group_id_pRole, '{ts escape="sql"}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
@@ -448,7 +448,7 @@ VALUES
   (@option_group_id_vis, 'Public', 1, 'public', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
   (@option_group_id_vis, 'Admin', 2, 'admin', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
 
---mail protocol
+-- mail protocol.
   (@option_group_id_mp, 'IMAP',    1, 'IMAP',    NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL ),
   (@option_group_id_mp, 'Maildir', 2, 'Maildir', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL ),	
   (@option_group_id_mp, 'POP3',    3, 'POP3',    NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL );
