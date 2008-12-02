@@ -245,7 +245,7 @@ cj(document).ready(function(){
 			{display: 'Type',    name : 'type',        width : 85, sortable : true, align: 'left'},
 			{display: 'Reporter',name : 'reporter',    width : 90, sortable : true, align: 'left'},
 			{display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
-			{display: '',        name : 'links',       width : 70,  align: 'left'},
+			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
 	    usepager: true,
 	    useRp: true,
