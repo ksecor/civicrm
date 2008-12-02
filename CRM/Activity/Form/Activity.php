@@ -87,7 +87,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      */
     public    $_caseId;
     protected $_single;
-    
+    /**
+     * The flag for case enabled or not
+     *
+     * @var boolean
+     */
+    public $_caseEnabled = false;
     /**
      * The id of the logged in user, used when add / edit 
      *
@@ -261,8 +266,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        
+              
         $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
         if ( !$this->_caseId && $this->_activityId ) {
             $this->_caseId  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $this->_activityId,
@@ -327,7 +331,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_activityTypeId   &&
              $this->_activityTypeFile = 
              CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, $this->_crmDir) ) {
-
+            
             require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
         }
@@ -470,8 +474,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return;
         }
         
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $this->_viewOptions['CiviCase'] && in_array('CiviCase', $config->enableComponents) ) {
+            $this->_caseEnabled = true;
+        }
         $this->_activityType = array( ''   => 
-                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false );
+                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false, $this->_caseEnabled );
+        
         unset( $this->_activityType[8] );
         $element =& $this->add('select', 
                                'activity_type_id', 
@@ -497,8 +508,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
         
-        $config =& CRM_Core_Config::singleton( );
-
+       
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
 
@@ -539,7 +549,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // include Case Subject field provided - cases are enabled, we
         // are in a contact's context - not standalone, and contact has
         // one or more cases
-        if ( $this->_context != 'standalone' && $this->_viewOptions['CiviCase'] ) {
+        if ( $this->_context != 'standalone' && $this->_caseEnabled ) { 
             $this->assign('caseEnabled', 1);
             $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );
             if ( ! empty( $cases ) ) {
@@ -744,7 +754,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
         // add case activity
-        if ( $this->_viewOptions['CiviCase'] && $params['case_id']  ) {
+        if ( $this->_caseEnabled && $params['case_id']  ) {
             $caseParams = array( 'activity_id' => $activity->id,
                                  'case_id'     => $params['case_id'] );
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );        

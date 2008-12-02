@@ -404,20 +404,23 @@ class CRM_Core_PseudoConstant
      *
      * @return array - array reference of all activty types.
      */
-    public static function &activityType( $all = true )
+    public static function &activityType( $all = true, $includeCaseActivities = false )
     {
         // convert to integer for array index
-        $all = $all ? 1 : 0;
-        if ( ! array_key_exists( $all, self::$activityType ) ) {
+        $index      = (int) $all . '_' . (int) $includeCaseActivities;
+
+        if ( ! array_key_exists( $index, self::$activityType ) ) {
             require_once 'CRM/Core/OptionGroup.php';
             $condition = null;
             if ( !$all ) {
                 $condition = 'AND filter = 0';
+            } 
+            if ( !$includeCaseActivities ) {
+                $condition .= ' AND ( v.component_id is NULL OR  v.component_id != 7 )';
             }
-            self::$activityType[$all] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
+            self::$activityType[$index] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
         }
-
-        return self::$activityType[$all];
+        return self::$activityType[$index];
     }
 
     /**

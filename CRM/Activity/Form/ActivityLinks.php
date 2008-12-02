@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Core/BAO/Preferences.php';
 
 /**
  * This class generates form components for Activity Links
@@ -51,9 +51,16 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         $urlParams = "action=add&reset=1&cid={$contactId}&selectedChild=activity&atype=";
         
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, false, null, false ); 
-
-        $activityType = CRM_Core_PseudoConstant::activityType( false );
+                                      $urlParams, false, null, false );
+ 
+        $caseEnabled = false;
+        $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $viewOptions['CiviCase'] && in_array('CiviCase', $config->enableComponents) ) {
+            $caseEnabled = true;
+        }
+        $activityType = CRM_Core_PseudoConstant::activityType( false, $caseEnabled );
         
         //unset Phone and Meeting
         unset( $activityType[1] );
