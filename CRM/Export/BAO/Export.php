@@ -110,8 +110,6 @@ class CRM_Export_BAO_Export
                 $returnProperties['pledge_id'] = 1;
             } else if ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) {
                 $returnProperties['case_id'] = 1;
-                // $test = array( 'activity_date_time', 'activity_type_id','subject','location');
-                //$replace =  array('case_recent_activity_date','case_recent_activity_type','case_subject','');   
                 if ( CRM_Utils_Array::value( 'activity_date_time',$returnProperties ) ) {
                     unset($returnProperties['activity_date_time']);
                     $returnProperties['case_recent_activity_date'] = 1;
@@ -191,7 +189,6 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        //CRM_Core_Error::debug( '$returnProperties', $returnProperties );
         foreach( $ids as $keys => $values ) {
             if ( CRM_Utils_Array::value( 'greeting_type', $returnProperties ) ) {
                 $greetingTypeValue = CRM_Core_DAO::getFieldValue(
