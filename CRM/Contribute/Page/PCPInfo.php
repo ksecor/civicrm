@@ -118,10 +118,12 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         }
         
         $query="
-SELECT id, pcp_roll_nickname ,  total_amount
-FROM civicrm_contribution
-WHERE pcp_made_through_id = $this->_id AND pcp_display_in_roll = 1 AND contribution_status_id =1 AND is_test = 0
-";
+SELECT cc.id, cs.pcp_roll_nickname, cc.total_amount
+FROM civicrm_contribution cc LEFT JOIN civicrm_contribution_soft cs on cc.id = cs.contribution_id
+WHERE cs.pcp_id = $this->_id 
+AND cs.pcp_display_in_roll = 1 
+AND contribution_status_id =1 
+AND is_test = 0";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $honor = array();
         

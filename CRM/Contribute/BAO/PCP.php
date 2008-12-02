@@ -203,10 +203,11 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     static function thermoMeter( $pcpId ) 
     {
         $query = "
-     SELECT SUM(cc.total_amount) as total
-     FROM civicrm_pcp pcp LEFT JOIN 
-          civicrm_contribution cc ON ( pcp.id = cc.pcp_made_through_id )
-     WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
+SELECT SUM(cc.total_amount) as total
+FROM civicrm_pcp pcp 
+LEFT JOIN civicrm_contribution_soft cs ON ( pcp.id = cs.pcp_id ) 
+LEFT JOIN civicrm_contribution cc ON ( cs.contribution_id = cc.id)
+WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
 
         return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
