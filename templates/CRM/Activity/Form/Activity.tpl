@@ -221,8 +221,6 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
-hide('attachments');
-show('attachments_show');
 {/literal}
 {if $action eq 1 or $context eq 'search'}
 {literal}
@@ -237,6 +235,8 @@ show('attachments_show');
 
 {if $action eq 1 or $action eq 2}
 {literal}
+hide('attachments');
+show('attachments_show');
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {
