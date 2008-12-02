@@ -1081,19 +1081,20 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             if ( ! self::$_exportableFields ) {
                 self::$_exportableFields = array();
             }
-            require_once 'CRM/Core/OptionValue.php';
             require_once 'CRM/Case/DAO/Case.php';
-            require_once 'CRM/Case/DAO/CaseContact.php';
-            require_once 'CRM/Case/DAO/CaseActivity.php';
-            $impFields         = CRM_Case_DAO_Case::import( );
-            //$expFieldContact   = CRM_Case_DAO_CaseContact::export( );
-            //$expFieldsActivity = CRM_Case_DAO_CaseActivity::export( );
-            //$fields = array_merge($impFields, $expFieldContact);
-            //$fields = array_merge($fields, $expFieldsActivity );
-            //$fields = array_merge($fields, $optionField );
-            //$fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Case'));
+            require_once 'CRM/Activity/DAO/Activity.php';
             
-            self::$_exportableFields = $impFields;
+            $impFields         = CRM_Case_DAO_Case::import( );
+            $expFieldsActivity = CRM_Activity_DAO_Activity::export( );
+            
+            foreach( $expFieldsActivity as $key => $val) {
+                if ( ! in_array( $key, array('activity_type_id', 'activity_date_time' ) ) ) {
+                    unset( $expFieldsActivity[$key]);
+                }
+            }
+            $fields = array_merge($impFields, $expFieldsActivity);
+            
+            self::$_exportableFields = $fields;
         }
         return self::$_exportableFields;
     }
