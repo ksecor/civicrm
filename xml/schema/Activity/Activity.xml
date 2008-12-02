@@ -23,7 +23,9 @@
   <field>
       <name>source_contact_id</name>
       <type>int unsigned</type>
+      <title>Source Contact</title> 
       <required>true</required>
+      <import>true</import>
       <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>
       <add>1.1</add>
   </field>
@@ -85,6 +87,7 @@
   <field>
        <name>subject</name>
        <type>varchar</type>
+       <title>Subject</title>
        <length>255</length>
        <comment>The subject/purpose/short description of the activity.</comment>
        <import>true</import>
@@ -103,6 +106,7 @@
   <field>
        <name>activity_date_time</name>
        <import>true</import>
+       <title>Activity Date</title>
        <type>datetime</type>
        <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
        <add>2.0</add>

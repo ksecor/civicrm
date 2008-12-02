@@ -1088,7 +1088,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             $expFieldsActivity = CRM_Activity_DAO_Activity::export( );
             
             foreach( $expFieldsActivity as $key => $val) {
-                if ( ! in_array( $key, array('activity_type_id', 'activity_date_time' ) ) ) {
+                if ( ! in_array( $key, array('subject','source_contact_id','location','activity_type_id', 'activity_date_time' ) ) ) {
                     unset( $expFieldsActivity[$key]);
                 }
             }
