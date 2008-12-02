@@ -277,6 +277,10 @@ function search(com)
 
     var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
 
+	var activity_deleted = 0;
+	if ( cj("#activity_deleted:checked").val() == 1 ) {
+		activity_deleted = 1;
+	}
     cj('#activities-selector').flexOptions({
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
@@ -284,7 +288,7 @@ function search(com)
 			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
 			{name:'activity_date_high', value: activity_date_high},
-			{name:'activity_deleted', value: cj("#activity_deleted:checked").val()}
+			{name:'activity_deleted', value: activity_deleted }
 			]
 		});
     
