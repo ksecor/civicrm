@@ -49,12 +49,10 @@ class CRM_Import_ImportJob {
     protected $_invalidRowCount;
     protected $_conflictRowCount;
     protected $_onDuplicate;
-    protected $_addToNewGroup;
     protected $_newGroupName;
     protected $_newGroupDesc;
     protected $_groups;
     protected $_allGroups;
-    protected $_tagWithNewTag;
     protected $_newTagName;
     protected $_newTagDesc;
     protected $_tag;
@@ -85,8 +83,10 @@ class CRM_Import_ImportJob {
             $newTableName = "civicrm_import_job_$tableSuffix";
             $dropQuery = "DROP TABLE IF EXISTS $newTableName";
             $db->query($dropQuery);
+            # ??? what if $createSql is something like 'DROP DATABASE civicrm'?
             $createQuery = "CREATE TABLE $newTableName $createSql";
             $db->query($createQuery);
+            # ??? we've just (sub-)executed $createSql, why re-execute it?
             $result = CRM_Core_DAO::executeQuery( $createSql, array(), true, null, true );
             if ( !$result ) {
                 CRM_Core_Error::fatal('import', "Import table creation failed: Error message goes here");
@@ -228,13 +228,13 @@ class CRM_Import_ImportJob {
                       
         $contactIds = $this->_parser->getImportedContacts( );
         if ($this->_parser->getRelatedImportedContacts()) array_merge($contactIds, $this->_parser->getRelatedImportedContacts());
-        if ( $this->_addToNewGroup ) {
+        if ( $this->_newGroupName ) {
             $this->_addImportedContactsToNewGroup( $contactIds, 
                 $this->_newGroupName,
                 $this->_newGroupDesc );
         }
         
-        if ( $this->_tagWithNewTag ) {
+        if ( $this->_newTagName ) {
             $this->_tagImportedContactsWithNewTag( $contactIds,
                 $this->_newTagName,
                 $this->_newTagDesc );

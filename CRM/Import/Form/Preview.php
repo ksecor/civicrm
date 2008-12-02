@@ -185,18 +185,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-       
+
        $importJobParams = array(
             'doGeocodeAddress'  => $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' ),
             'invalidRowCount'   => $this->get('invalidRowCount'),
             'conflictRowCount'  => $this->get('conflictRowCount'),
             'onDuplicate'       => $this->get('onDuplicate'),
-            'addToNewGroup'     => $this->controller->exportValue( $this->_name, 'newGroup'),
             'newGroupName'      => $this->controller->exportValue( $this->_name, 'newGroupName'),
             'newGroupDesc'      => $this->controller->exportValue( $this->_name, 'newGroupDesc'),
             'groups'            => $this->controller->exportValue( $this->_name, 'groups'),
             'allGroups'         => $this->get('groups'),
-            'tagWithNewTag'     => $this->controller->exportValue( $this->_name, 'newTag'),
             'newTagName'        => $this->controller->exportValue( $this->_name, 'newTagName'),
             'newTagDesc'        => $this->controller->exportValue( $this->_name, 'newTagDesc'),
             'tag'               => $this->controller->exportValue( $this->_name, 'tag'),
@@ -261,12 +259,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
-        $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
         $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         $allGroups          = $this->get('groups');
-        $newTag             = $this->controller->exportValue( $this->_name, 'newTag');
         $newTagName         = $this->controller->exportValue( $this->_name, 'newTagName');
         $newTagDesc         = $this->controller->exportValue( $this->_name, 'newTagDesc');
         $tag                = $this->controller->exportValue( $this->_name, 'tag');
