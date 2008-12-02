@@ -88,7 +88,8 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				width: 260,
 				selectFirst: false 
 			});
-
+			
+			cj("#rel_contact").focus();
 			cj("#rel_contact").result(function(event, data, formatted) {
 				cj("input[@id=rel_contact_id]").val(data[1]);
 			});		    
