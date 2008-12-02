@@ -140,14 +140,35 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once "CRM/Pledge/BAO/Pledge.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values );
-            
+	    
+	    $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
             //check for pending pledge.
             if ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
-                 array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ) ) ) {
-                $this->_isPending = true; 
-            }
-        }
-        
+                 array_search( 'Pending', $paymentStatusTypes ) ) {
+	      $this->_isPending = true; 
+	    } elseif ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
+		       array_search( 'Overdue',  $paymentStatusTypes ) ) {
+
+	      $allPledgePayments = array( );
+	      CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 
+					       'pledge_id', 
+					       $this->_id, 
+					       $allPledgePayments, 
+					       array( 'status_id' ) );
+	      
+	      foreach ( $allPledgePayments as $key => $value ) {
+		$allStatus[$value['id']] = $paymentStatusTypes[$value['status_id']];
+	      }
+	      
+	      if ( count( array_count_values( $allStatus) ) <= 2 ) {
+		if ( CRM_Utils_Array::value( 'Pending', array_count_values( $allStatus ) ) ) {
+		  $this->_isPending = true; 
+		}
+	      }
+	    }
+	    
+	}
+
         //get the pledge frequency units.
         require_once 'CRM/Core/OptionGroup.php';
         $this->_freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");

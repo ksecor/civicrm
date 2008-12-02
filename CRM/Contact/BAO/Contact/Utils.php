@@ -402,14 +402,8 @@ WHERE id={$contactId}; ";
 
         // add country state selector using new hs-widget method.
         $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
-        $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
-                             'url1'         => "{$config->resourceBase}bin/ajax.php?return=countries",
-                             'url2'         => "{$config->resourceBase}bin/ajax.php?return=states",
-                             'default1'     => $countryDefault,
-                             'default2'     => $stateDefault,
-                             'firstInList'  => "true",
-                             );
-        $form->add( 'text', "location[1][address][country_state]", ts( 'Country - State' ), $attributes );
+        $form->assign('countryDefault', $countryDefault);
+        $form->assign('stateDefault'  , $stateDefault  );
 
         // remove country & state from address sequence since address.tpl uses old approach 
         // and not the new hier-select widget approach / method. So we will add them separately 

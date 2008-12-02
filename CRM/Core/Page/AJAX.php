@@ -230,7 +230,7 @@ WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$conta
                 $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '%$name%'
+WHERE c.sort_name LIKE '%$name'
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
@@ -286,6 +286,7 @@ ORDER BY sort_name ";
 
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements );
+		exit();
     }
     
     /**
@@ -787,7 +788,7 @@ WHERE sort_name LIKE '%$name%'";
     function getPermissionedEmployer( &$config ) 
     {
         $cid       = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
-        $name      = trim(CRM_Utils_Type::escape( $_GET['name'], 'String')); 
+        $name      = trim(CRM_Utils_Type::escape( CRM_Utils_Array::value( 'name', $_GET ), 'String')); 
         $name      = str_replace( '*', '%', $name );
 
         require_once 'CRM/Contact/BAO/Relationship.php';

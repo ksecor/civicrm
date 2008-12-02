@@ -38,7 +38,7 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_TwoOneTwo extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = ts('Pre-condition failed for upgrade to v2.1.2.');
+        $errorMessage = ts('Pre-condition failed for upgrade to 2.1.2.');
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_cache' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_group_contact_cache' ) ||
@@ -118,7 +118,7 @@ AND civicrm_option_value.label = civicrm_participant.fee_level
     }
 
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = ts('Post-condition failed for upgrade to v2.1.2.');
+        $errorMessage = ts('Post-condition failed for upgrade to 2.1.2.');
         return $this->checkVersion( '2.1.2' );
     }
 }

@@ -59,6 +59,11 @@ function civitest_civicrm_custom( $op, $groupID, $entityID, &$params ) {
     if ( $op != 'create' && $op != 'edit' ) {
         return;
     }
+    
+    // this is the custom group i am interested in updating when the row is updated
+    if ( $groupID != 1 ) {
+        return;
+    }
 
     $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                               $groupID,

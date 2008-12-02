@@ -14,9 +14,9 @@ class civicrm_handler_field_link_edit extends civicrm_handler_field_link {
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('edit');
         $id = $values->id;
-        return civicrm_href( $text,
-                                   'civicrm/contact/add',
-                                   "reset=1&action=update&cid=$id" );
+        return civicrm_view_href( $text,
+                                  'civicrm/contact/add',
+                                  "reset=1&action=update&cid=$id" );
     }
 }
 ?>

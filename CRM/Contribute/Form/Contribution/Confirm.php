@@ -105,6 +105,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
+            if ( $this->get('country_state') ) {
+                $this->_params['location'][1]['address']['country_state'] = $this->get('country_state');
+            }
 
             if ( !empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
                 $this->_params["state_province-{$this->_bltID}"] =
@@ -117,7 +120,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if onbehalf-of-organization
             if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
-                if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
+                if ( CRM_Utils_Array::value( 'org_option', $this->_params ) && 
+                     CRM_Utils_Array::value( 'organization_id', $this->_params ) ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }

@@ -38,7 +38,7 @@ require_once 'CRM/Contact/DAO/GroupContactCache.php';
 class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCache {
 
     const
-        NUM_CONTACTS_TO_INSERT = 5;
+        NUM_CONTACTS_TO_INSERT = 200;
 
     /**
      * Check to see if we have cache entries for this group

@@ -154,10 +154,9 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         // make widget submit values in the required format for
         // country & state. 
         $params['location'][1]['address']['country_id'] = 
-            $params['location'][1]['address']['country_state'][0];
+            $_POST['location'][1]['address']['country_state'][0];
         $params['location'][1]['address']['state_province_id'] = 
-            $params['location'][1]['address']['country_state'][1];
-        unset($params['location'][1]['address']['country_state']);
+            $_POST['location'][1]['address']['country_state'][1];
         
         $params['location'][1]['is_primary'] = 1;
 	    $params['contact_type']              = $this->_contactType;
@@ -167,6 +166,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            require_once 'CRM/Contact/Form/Household.php';
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 

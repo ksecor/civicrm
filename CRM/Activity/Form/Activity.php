@@ -331,6 +331,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
 
+            $defaults['source_contact_id'] = $this->_sourceContactId;
             $defaults['target_contact[1]'] = $this->_targetContactId;
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );

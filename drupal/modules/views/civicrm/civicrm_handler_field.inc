@@ -27,9 +27,9 @@ class civicrm_handler_field extends views_handler_field {
 
     function render_link($data, $values) {
         if (!empty($this->options['link_to_civicrm']) && user_access('access CiviCRM') && $values->id) {
-            return civicrm_href( $data,
-                                       'civicrm/contact/view',
-                                       "reset=1&cid={$values->id}" );
+            return civicrm_view_href( $data,
+                                      'civicrm/contact/view',
+                                      "reset=1&cid={$values->id}" );
         }
         else {
             return $data;

@@ -44,6 +44,12 @@
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
+{elseif $membership_amount}
+===========================================================
+{ts}Membership Fee{/ts}
+
+===========================================================
+{ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney}
 {/if}
 {if $receive_date}
 
