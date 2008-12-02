@@ -56,7 +56,7 @@
         
          <table class="form-layout">
          {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
-             {if $context eq ('standalone' or 'case' or 'search') }
+             {if $context eq 'standalone' or $context eq 'case' or $context eq 'search' }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
