@@ -109,20 +109,14 @@ class CRM_Case_Form_Activity_ChangeCaseStatus
     public function endPostProcess( &$form, &$params ) 
     {
         // Set case end_date if we're closing the case. Clear end_date if we're (re)opening it.
-        if ( $params['case_status_id'] == CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) ) {
-            CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', $params['activity_date_time'] );
+        if( $params['case_status_id'] == 
+            CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) ) {
+            $params['end_date'] = $params['activity_date_time'];
+
+        } else if ( $params['case_status_id'] == 
+                    CRM_Core_OptionGroup::getValue( 'case_status', 'Open', 'name' ) ) {
+            $params['end_date'] = "null";
         }
-        switch ( $params['case_status_id'] ) {
-            case CRM_Core_OptionGroup::getValue( 'case_status', 'Closed', 'name' ) :
-                CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', $params['activity_date_time'] );
-                break;
-            case CRM_Core_OptionGroup::getValue( 'case_status', 'Open', 'name' ) :
-                CRM_Core_DAO::setFieldValue( 'CRM_Case_DAO_Case', $params['case_id'], 'end_date', null );
-                break;
-        }
-        
-        // user status msg
-        CRM_Core_Session::setStatus( ts('Case Status has been changed.') );
         
         // FIXME: does this do anything ?
         $params['statusMsg'] = ts('Case Status changed successfully.');

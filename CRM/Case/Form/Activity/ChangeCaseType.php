@@ -66,6 +66,9 @@ class CRM_Case_Form_Activity_ChangeCaseType
         CRM_Utils_Date::getAllDefaultValues( $defaults['reset_date_time'] );
         $defaults['reset_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
 
+        $caseType  = CRM_Case_PseudoConstant::caseTypeName( $form->_caseId );
+        $defaults['case_type_id'] = $caseType['id'];
+
         return $defaults;
     }
 
@@ -125,15 +128,18 @@ class CRM_Case_Form_Activity_ChangeCaseType
      */
     public function endPostProcess( &$form, &$params ) 
     {
-        if ( !CRM_Utils_Array::value('case_id', $params) && $form->_context == 'activity' ) {
+        if ( !$form->_caseId ) {
+            // always expecting a change, so case-id is a must.
             return;
         }
 
-        if (!$form->_currentlyViewedContactId  ||
-            !$form->_currentUserId         ||
-            !$params['case_id'] ||
-            !$params['case_type']
-            ) {
+        $caseType = CRM_Case_PseudoConstant::caseTypeName( $form->_caseId );
+        $caseType = $caseType['name'];
+
+        if ( ! $form->_currentlyViewedContactId  ||
+             ! $form->_currentUserId             ||
+             ! $caseType
+             ) {
             CRM_Core_Error::fatal('Required parameter missing for ChangeCaseType - end post processing');
         }
 
@@ -144,10 +150,10 @@ class CRM_Case_Form_Activity_ChangeCaseType
                                      'standardTimeline' => 1,
                                      'activityTypeName' => 'Change Case Type',
                                      'dueDateTime'      => $params['reset_date_time'],
-                                     'caseID'           => $params['case_id'],
+                                     'caseID'           => $form->_caseId,
                                      );
-
-        $xmlProcessor->run( $params['case_type'], $xmlProcessorParams );
+        
+        $xmlProcessor->run( $caseType, $xmlProcessorParams );
         // status msg
         $params['statusMsg'] = ts('Case Type changed successfully.');
     }
