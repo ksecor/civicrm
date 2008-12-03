@@ -85,7 +85,7 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
         }
         //   require_once 'CRM/Member/Import/Parser/Membership.php';
         $options = array(); 
-        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('No acct create option'), 0 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('No account create option'), 0 );
         $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Give option, but not required'), 1 );
         $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Account creation required'), 2 );
         

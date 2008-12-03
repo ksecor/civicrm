@@ -82,7 +82,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->add('text', 'goal_amount', ts('Goal Amount'), null, true );
         $attributes = array( );
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
-            $attributes = array('value' => 'Contribute Now', 'onClick' => 'value="";');
+            $attributes = array('value' => 'Contribute Now', 'onClick' => 'select();');
         }
 
         $this->add('text', 'donate_link_text', ts('Donate Button Text'), $attributes); 
