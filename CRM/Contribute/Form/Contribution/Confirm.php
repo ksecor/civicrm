@@ -731,7 +731,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contribSoftParams['contribution_id'] = $contribution->id;
             $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
             $contribSoftParams['amount']          = $params['amount'];
-            $contribSoftParams['contact_id']      = $contribution->contact_id;
+            $contribSoftParams['contact_id']      = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', 
+                                                                                 $params['pcp_made_through_id'], 
+                                                                                 'contact_id' );
             
             $softContribution = CRM_Contribute_BAO_Contribution::addSoftContribution( $contribSoftParams );
         }
