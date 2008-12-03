@@ -35,7 +35,7 @@
     {counter start=0 skip=1 print=false}
     {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-      <td>{$row.due_date|crmDate}</td>
+      <td>{$row.due_date}</td>
       <td>{$row.actual_date}</td>
       <td>{$row.subject}</td>
       <td>{$row.type}</td>

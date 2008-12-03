@@ -143,6 +143,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
             $values[$case->case_id]['id']                           = $case->case_id;
             $scheduledInfo['case_id'][]                             = $case->case_id;
             $scheduledInfo['contact_id'][]                          = $this->_contactId;
+            $scheduledInfo['case_deleted']                          = 0;
         } 
 
         //retrive the scheduled Activity type and date for selector
@@ -224,7 +225,7 @@ class CRM_Case_Page_Tab extends CRM_Contact_Page_View
                                                                     ),
                                   
                                   CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete Case'),
+                                                                    'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/case',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%',
                                                                     'title' => ts('Delete Case')

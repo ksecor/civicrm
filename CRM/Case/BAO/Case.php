@@ -809,7 +809,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $additionalUrl = "&id={$dao->id}";
             $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
-                 CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'due_date', $values[$dao->id] ) ) ) {
+                 CRM_Utils_Date::overdue(  $dao->due_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';
             } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
                 $values[$dao->id]['class']   = 'status-pending';
@@ -1086,9 +1086,9 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
                  
              WHERE cov_actstatus.name = 'Scheduled'  
                    AND civicrm_case_contact.contact_id IN( {$contactID} )
-                   AND civicrm_activity.is_deleted = 0
+                   AND civicrm_activity.is_deleted = {$cases['case_deleted']}
                    AND civicrm_case.id IN( {$caseID})
-                   AND civicrm_case.is_deleted = 0 
+                   AND civicrm_case.is_deleted = {$cases['case_deleted']} 
  
              GROUP BY civicrm_case.id
              ORDER BY case_scheduled_activity_date ASC"; 
