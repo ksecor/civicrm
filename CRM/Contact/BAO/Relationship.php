@@ -222,7 +222,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @param int     $contactId      this is the contact id of the current contact.
      * @param string  $strContact     it's  values are 'a or b' if value is 'a' then selected contact is the
      *                                value of contac_id_a for the relationship and if value is 'b' 
-                                      then selected contact is the value of contac_id_b for the relationship
+     *                                then selected contact is the value of contac_id_b for the relationship
      * @param string  $relationshipId the id of the existing relationship if any
      * @param string  $contactType    contact type
      * @param boolean $all            if true returns relationship types in both the direction
@@ -290,7 +290,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      *
      * @return null
      * @access public
-
+     *
      * @static
      */
     static function del ( $id ) 

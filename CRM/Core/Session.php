@@ -388,13 +388,18 @@ class CRM_Core_Session {
      * stores the status message in the session
      *
      * @param $status string the status message
-     *
+     * @param $append boolean if you want to append or set new status 
+	 *
      * @static
      * @return void
      */
-    static function setStatus( $status ) {
+    static function setStatus( $status, $append = true ) {
         if ( isset( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
-            self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+			if ( $append ) {
+				self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+			} else {
+				self::$_singleton->_session[self::$_singleton->_key]['status'] = " $status";
+			}  
         } else {
             self::$_singleton->_session[self::$_singleton->_key]['status'] = $status;
         }
