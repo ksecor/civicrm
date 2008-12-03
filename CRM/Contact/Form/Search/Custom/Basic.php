@@ -127,10 +127,11 @@ class CRM_Contact_Form_Search_Custom_Basic
     }
     
     function from( ) {
+        return $this->_query->_fromClause;
     }
 
     function where( $includeContactIDs = false ) {
-        return $where;
+        return $this->_query->whereClause( );
     }
 
     function templateFile( ) {

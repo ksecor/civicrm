@@ -71,7 +71,7 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
         }
        
         $eventsByDates = array();
-        $searchOption  = array( ts('Show Current and Upcoming Events'), ts('Search by Date Range') );
+        $searchOption  = array( ts('Show Current and Upcoming Events'), ts('Search All or by Date Range') );
         $this->addRadio( 'eventsByDates', ts( 'Events by Dates' ), $searchOption, array('onclick' =>"return showHideByValue('eventsByDates','1','id_fromToDates','block','radio',true);"), "<br />");
 
         $this->add('date', 'start_date', ts('From'), CRM_Core_SelectValues::date('relative')); 

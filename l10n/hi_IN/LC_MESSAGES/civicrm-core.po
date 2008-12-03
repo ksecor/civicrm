@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-10-22 08:45-0700\n"
+"PO-Revision-Date: 2008-12-01 21:29-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3765,7 +3765,7 @@ msgstr "अभिनन्दन"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
-msgstr ""
+msgstr "नकल संपर्क के लिऐ ढूंडे"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save Matching Contact"
@@ -11154,7 +11154,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View User Record"
-msgstr ""
+msgstr "प्रयोक्ता रिकॉर्ड देखिऐ"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11166,25 +11166,25 @@ msgstr "(मुख्य स्थान)"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Email:"
-msgstr ""
+msgstr "पसंदीदा ईमेल:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Phone:"
-msgstr ""
+msgstr "पसंदीदा फोन:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "इन्स्टैंट मैसेन्जर:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Map this Address"
-msgstr ""
+msgstr "नक्शे पर पता देखिऐ"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11428,7 +11428,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Quick Search"
-msgstr ""
+msgstr "त्वरित खोज"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
@@ -11436,7 +11436,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
-msgstr ""
+msgstr "लघुपथ"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 msgid ""
