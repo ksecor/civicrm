@@ -54,6 +54,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
 	<tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
+
         {if $contributionMode}
 	    {if $email and $outBound_option != 2}
             <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
@@ -62,7 +63,7 @@
 	    <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>	
+            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
         {/if}
 	{if !$contributionMode}
         <tr><td class="label">{$form.receive_date.label}</td>
@@ -105,6 +106,11 @@
            </td>
         </tr>
         {/if}
+
+        <tr><td class="label">{$form.soft_credit_to.label}</td>
+            <td>{$form.soft_credit_to.html}</td>
+        </tr>
+
       </table>
 
     <div id="customData"></div>

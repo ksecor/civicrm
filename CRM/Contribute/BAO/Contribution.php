@@ -238,6 +238,18 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Activity_BAO_Activity::addActivity( $contribution, 'Offline' );
         }
 
+
+        if ( CRM_Utils_Array::value( 'soft_credit_to', $params ) ) {
+
+            $csParams = array();
+            $csParams['contribution_id'] = $contribution->id;
+            $csParams['contact_id'] = $params['soft_credit_to'];
+            // first stage: we register whole amount as credited to given person
+            $csParams['amount'] = $contribution->total_amount;
+
+            self::addSoftContribution( $csParams );
+        }
+
         $transaction->commit( );
         
         return $contribution;
@@ -862,7 +874,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
     }
     
     /**
-     *  Function to create soft contribuiton with contribution record.
+     *  Function to create soft contributon with contribution record.
      *  @param array $params an associated array 
      *
      *  @return soft contribution id
@@ -875,4 +887,26 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $softContribution->copyValues($params);
         return $softContribution->save();
     } 
+    
+    
+    /**
+     *  Function to retrieve soft contributon for contribution record.
+     *  @param array $params an associated array 
+     *
+     *  @return soft contribution id
+     *  @static
+     */
+    static function getSoftContribution( $params )
+    { 
+        require_once 'CRM/Contribute/DAO/ContributionSoft.php';
+
+        $cs =& new CRM_Contribute_DAO_ContributionSoft( );
+        $cs->copyValues( $params );
+
+        if ( $cs->find(true) ) {
+            return $cs->contact_id;
+        }
+        return null;
+    }     
+
 }

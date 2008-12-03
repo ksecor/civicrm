@@ -307,6 +307,12 @@ WHERE  contribution_id = {$this->_id}
             }
             
             $this->_contributionType = $this->_values['contribution_type_id'];
+            
+            $csParams = array( 'contribution_id' => $this->_id );
+            $softCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $csParams );
+            if ( $softCredit ) {
+                $this->_values['soft_credit_to'] = $softCredit;
+            }
         }
         
         // when custom data is included in this page
@@ -324,7 +330,7 @@ WHERE  contribution_id = {$this->_id}
         }
        
         $defaults = $this->_values;
-        
+
         //set defaults for pledge payment.
         if ( $this->_ppID ) {
             $defaults['total_amount'] = CRM_Utils_Array::value( 'scheduled_amount', $this->_pledgeValues['pledgePayment'] );
@@ -379,7 +385,7 @@ WHERE  contribution_id = {$this->_id}
         if ($this->_contributionType) {
             $defaults['contribution_type_id'] = $this->_contributionType;
         }
-        
+
         if (  CRM_Utils_Array::value('is_test',$defaults) ){
             $this->assign( "is_test" , true);
         } 
@@ -625,6 +631,8 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $element->freeze( );
         }
+
+        $this->addElement('text', 'soft_credit_to'      , ts('Soft Credit To')  );
 
         $js = null;
         if ( !$this->_mode && $this->userEmail ) {
@@ -939,7 +947,8 @@ WHERE  contribution_id = {$this->_id}
                              'contribution_status_id',
                              'payment_instrument_id',
                              'cancel_reason',
-                             'source'
+                             'source',
+                             'soft_credit_to'
                              );
             
             foreach ( $fields as $f ) {
