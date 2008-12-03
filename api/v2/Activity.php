@@ -107,7 +107,7 @@ function &civicrm_activity_create( &$params )
  * @param  array  $params (reference ) input parameters.
  *
  * @return array (reference)  array of activities / error message.
- * @access public.
+ * @access public
  */
 function &civicrm_activities_get_contact( $params )
 {
@@ -220,7 +220,7 @@ function _civicrm_activity_update( $params )
  * @param int $contactID.
  *
  * @return array (reference)  array of activities.
- * @access public.
+ * @access public
  */
 function &_civicrm_activities_get( $contactID ) 
 {
@@ -376,4 +376,10 @@ function civicrm_activity_process_email( $file, $activiyTypeID ) {
     // create activity
     require_once 'api/v2/Activity.php';
     return civicrm_activity_create( $params );
+}
+
+function civicrm_activity_get_types( ) {
+    require_once 'CRM/Core/OptionGroup.php';
+    $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );
+    return $activityTypes;
 }
