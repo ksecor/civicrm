@@ -670,7 +670,7 @@ GROUP BY p.id
             $params[$honorDAO->id]['amount']       = $honorDAO->total_amount;
             $params[$honorDAO->id]['source']       = $honorDAO->source;
             $params[$honorDAO->id]['receive_date'] = $honorDAO->receive_date;
-            $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);  
+            $params[$honorDAO->id]['contribution_status']= CRM_Utils_Array::value($honorDAO->contribution_status_id, $status);
         }
 
         return $params;
@@ -907,6 +907,40 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
             return $cs->contact_id;
         }
         return null;
-    }     
+    }
+    
+    /**
+     *  Function to retrieve the list of soft contributons for given contact.
+     *  @param int $contact_id contact id 
+     *
+     *  @return array
+     *  @static
+     */
+    static function getSoftContributionList( $contact_id )
+    { 
+
+
+        $query = "select ccs.id, ccs.amount as amount, 
+                         cc.receive_date,
+                         cc.contact_id as contributor_id,
+                         cc.contribution_type_id as contribution_type_id,
+                         cc.contribution_status_id as contribution_status_id
+                  from civicrm_contribution_soft ccs
+                  left join civicrm_contribution cc on ccs.contribution_id = cc.id
+                  where ccs.contact_id = " . $contact_id;
+
+        $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $result = array();
+        while( $cs->fetch( ) ) {
+            $result[$cs->id]['amount'] = $cs->amount;
+            $result[$cs->id]['contributor_id'] = $cs->contributor_id;
+            $result[$cs->id]['contributor_display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cs->contributor_id, 'display_name' );
+            $result[$cs->id]['contribution_type']        = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $cs->contribution_type_id, 'name' );
+            $result[$cs->id]['receive_date'] = $cs->receive_date;
+            $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, CRM_Contribute_Pseudoconstant::contributionStatus( ) );
+        }
+        return $result;
+    }    
 
 }

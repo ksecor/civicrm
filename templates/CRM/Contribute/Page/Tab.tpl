@@ -50,5 +50,12 @@
     {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
 {/if} 
 
+{if $softCredit}
+    <div class="solid-border-top">
+        <br /><label>{ts}Soft credit for others' contributions.{/ts}</label>
+    </div>
+    {include file="CRM/Contribute/Page/ContributionSoft.tpl"}	    
+{/if}
+
 {/if}
 </div>
