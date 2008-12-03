@@ -183,11 +183,6 @@ class CRM_Utils_REST
                 return self::error( 'Invalid name / password.' );
             }
             return self::authenticate( $name, $pass );
-        } else {
-            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, null, 'GET' );
-            if ( ! self::verify( $key ) ) {
-                return self::error( 'Session keys do not match, please re-auth.' );
-            }
         }
 
         $params =& self::buildParamList( );
