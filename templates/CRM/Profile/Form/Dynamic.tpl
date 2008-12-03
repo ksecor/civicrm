@@ -102,7 +102,7 @@
                </table> 
             {elseif $n eq 'group' && $form.group}
                 <table id="selector" class="selector" style="width:auto;">
-                    <tr><td>{$form.$n.html}</td></tr>
+                    <tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
                 </table>
            {else}        
                {$form.$n.html}

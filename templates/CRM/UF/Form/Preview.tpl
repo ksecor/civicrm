@@ -72,7 +72,7 @@
            {/if}
 	{if $n eq 'group' && $form.group}
 		<table id="selector" class="selector" style="width:auto;">
-		<tr><td>{$form.$n.html}</td></tr>
+		<tr><td>{$form.$n.html}{* quickform add closing </td> </tr>*}
 		</table>
     {elseif $n eq 'greeting_type'}
           <table class="form-layout-compressed">
