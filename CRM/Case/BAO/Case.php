@@ -1118,14 +1118,16 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             require_once 'CRM/Activity/DAO/Activity.php';
             
             $impFields         = CRM_Case_DAO_Case::import( );
-            $expFieldsActivity = CRM_Activity_DAO_Activity::export( );
+            //set title to calculated fields
+            $expFieldsActivity = array( 
+                                      'case_subject'              => array( 'title' => ts('Subject') ),
+                                      'case_source_contact_id'    => array( 'title' => ts('Source Contact') ),
+                                      'case_location'             => array( 'title' => ts('Case Location') ),
+                                      'case_recent_activity_date' => array( 'title' => ts('Activity Date') ),
+                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') )
+                                      );
             
-            foreach( $expFieldsActivity as $key => $val) {
-                if ( ! in_array( $key, array('subject','source_contact_id','location','activity_type_id', 'activity_date_time' ) ) ) {
-                    unset( $expFieldsActivity[$key]);
-                }
-            }
-            $fields = array_merge($impFields, $expFieldsActivity);
+            $fields = array_merge($impFields, $expFieldsActivity );
             
             self::$_exportableFields = $fields;
         }

@@ -99,18 +99,18 @@ class CRM_Case_BAO_Query
             $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
         }
         
-        if ( CRM_Utils_Array::value( 'subject', $query->_returnProperties ) ) {
-            $query->_select['case_subject']  = "recent_activity.subject as subject";
+        if ( CRM_Utils_Array::value( 'case_subject', $query->_returnProperties ) ) {
+            $query->_select['case_subject']  = "recent_activity.subject as case_subject";
             $query->_element['case_subject'] = 1;
             $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
         }
-        if ( CRM_Utils_Array::value( 'location', $query->_returnProperties ) ) {
-            $query->_select['case_location']  = "recent_activity.location as location";
+        if ( CRM_Utils_Array::value( 'case_location', $query->_returnProperties ) ) {
+            $query->_select['case_location']  = "recent_activity.location as case_location";
             $query->_element['case_location'] = 1;
             $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
         }
-        if ( CRM_Utils_Array::value( 'source_contact_id', $query->_returnProperties ) ) {
-            $query->_select['case_source_contact_id']  = "recent_activity.source_contact_id as source_contact_id";
+        if ( CRM_Utils_Array::value( 'case_source_contact_id', $query->_returnProperties ) ) {
+            $query->_select['case_source_contact_id']  = "recent_activity.source_contact_id as case_source_contact_id";
             $query->_element['case_source_contact_id'] = 1;
             $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
         }
@@ -330,9 +330,9 @@ case_relation_type.id = case_relationship.relationship_type_id )";
      
         if ( $mode & CRM_Contact_BAO_Query::MODE_CASE ) {
             $properties = array(  
-                                'subject'           => 1,
-                                'source_contact_id' => 1,
-                                'location'          => 1
+                                'case_subject'           => 1,
+                                'case_source_contact_id' => 1,
+                                'case_location'          => 1
                                 );
         }
         return $properties;
