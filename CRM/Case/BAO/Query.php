@@ -40,7 +40,10 @@ class CRM_Case_BAO_Query
     {
         $fields = array( );
         require_once 'CRM/Case/DAO/Case.php';
-        $fields = array_merge( $fields, CRM_Case_DAO_Case::import( ) );
+        require_once 'CRM/Case/BAO/Case.php';
+        $fields         = array_merge( $fields, CRM_Case_DAO_Case::import( ) );
+        $activityFields = CRM_Case_BAO_Case::exportableFields( );
+        $fields         = array_merge( $fields,$activityFields );
         return $fields;  
     }
 
@@ -73,24 +76,55 @@ class CRM_Case_BAO_Query
             $query->_tables['case_status']  = $query->_whereTables['case_status'] = 1;
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
         }
+        
+        if ( CRM_Utils_Array::value( 'case_deleted', $query->_returnProperties ) ) {
+            $query->_select['case_deleted']  = "civicrm_case.is_deleted as case_deleted";
+            $query->_element['case_deleted'] = 1;
+            $query->_tables['civicrm_case']  = $query->_whereTables['civicrm_case'] = 1;
+        }
 
         if ( CRM_Utils_Array::value( 'case_role', $query->_returnProperties ) ) {
-            $query->_select['case_role']  = "case_relation_type.name_b_a as case_role";
-            $query->_element['case_role'] = 1;
-            $query->_tables['case_relationship'] = $query->_whereTables['case_relationship'] = 1;
+            $query->_select['case_role']          = "case_relation_type.name_b_a as case_role";
+            $query->_element['case_role']         = 1;
+            $query->_tables['case_relationship']  = $query->_whereTables['case_relationship'] = 1;
             $query->_tables['case_relation_type'] = $query->_whereTables['case_relation_type'] = 1;
         }
 
         if ( CRM_Utils_Array::value( 'case_recent_activity_type', $query->_returnProperties ) ) {
             $query->_select['case_recent_activity_type']  = "rec_activity_type.label as case_recent_activity_type";
             $query->_element['case_recent_activity_type'] = 1;
-            $query->_tables['recent_activity_type'] = $query->_whereTables['recent_activity_type'] = 1;
+            $query->_tables['recent_activity_type']       = $query->_whereTables['recent_activity_type'] = 1;
         }
 
         if ( CRM_Utils_Array::value( 'case_recent_activity_date', $query->_returnProperties ) ) {
             $query->_select['case_recent_activity_date']  = "recent_activity.activity_date_time as case_recent_activity_date";
             $query->_element['case_recent_activity_date'] = 1;
-            $query->_tables['recent_activity'] = $query->_whereTables['recent_activity'] = 1;
+            $query->_tables['recent_activity']            = $query->_whereTables['recent_activity'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'case_subject', $query->_returnProperties ) ) {
+            $query->_select['case_subject']    = "recent_activity.subject as case_subject";
+            $query->_element['case_subject']   = 1;
+            $query->_tables['recent_activity'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_location', $query->_returnProperties ) ) {
+            $query->_select['case_location']   = "recent_activity.location as case_location";
+            $query->_element['case_location']  = 1;
+            $query->_tables['recent_activity'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_source_contact_id', $query->_returnProperties ) ) {
+            $query->_select['case_source_contact_id']  = "recent_activity.source_contact_id as case_source_contact_id";
+            $query->_element['case_source_contact_id'] = 1;
+            $query->_tables['recent_activity']         = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'case_activity_status_id', $query->_returnProperties ) ) {
+            $query->_select['case_activity_status_id']  = "rec_activity_status.label as case_activity_status_id";
+            $query->_element['case_activity_status_id'] = 1;
+            $query->_tables['recent_activity']          = 1;
+            $query->_tables['recent_activity_status']   = 1;
         }
 
         // if ( CRM_Utils_Array::value( 'case_scheduled_activity_date', $query->_returnProperties ) ) {
@@ -192,7 +226,7 @@ class CRM_Case_BAO_Query
  			return;
 
         case 'case_deleted':
-            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value";
+            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value AND recent_activity.is_deleted $op $value";
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Deleted Cases";
             }
@@ -230,13 +264,17 @@ class CRM_Case_BAO_Query
             $from .= " $side JOIN civicrm_option_value rec_activity_type ON (recent_activity.activity_type_id = rec_activity_type.value AND option_group_activity_type.id = rec_activity_type.option_group_id ) ";
             break;
 
+        case 'recent_activity_status':
+            $from .= " $side JOIN civicrm_option_group option_group_activity_status ON (option_group_activity_status.name = 'activity_status')";
+            $from .= " $side JOIN civicrm_option_value rec_activity_status ON (recent_activity.status_id = rec_activity_status.value AND option_group_activity_status.id = rec_activity_status.option_group_id ) ";
+            break;
+
         case 'recent_activity':
             $from .= " INNER JOIN civicrm_case_activity ON civicrm_case_activity.case_id = civicrm_case.id ";
 			$from .= " INNER JOIN civicrm_activity recent_activity ON ( civicrm_case_activity.activity_id = recent_activity.id
 				AND recent_activity.is_current_revision = 1
 				AND recent_activity.activity_date_time <= NOW() 
-				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY ) 
-				AND recent_activity.is_deleted = 0 ) ";
+				AND recent_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 20 DAY )) ";
 
             $from .= " LEFT JOIN civicrm_activity ca2
                               ON ( ca2.id IN ( SELECT cca.activity_id FROM civicrm_case_activity cca 
@@ -288,12 +326,31 @@ case_relation_type.id = case_relationship.relationship_type_id )";
                                 'case_status_id'              =>      1, 
                                 'case_type_id'                =>      1,
                                 'case_role'                   =>      1,
+                                'case_deleted'                =>      1, 
                                 'case_recent_activity_date'   =>      1,
+                                'case_activity_status_id'     =>      1,
                                 'case_recent_activity_type'   =>      1, 
                                 'case_scheduled_activity_date'=>      1,
                                 'case_scheduled_activity_type'=>      1
+                                );
+        }
+        return $properties;
+    }
 
-                            );
+ 
+    /**
+     * This includes any extra fields that might need for export etc
+     */
+    static function extraReturnProperties( $mode ) 
+    {
+        $properties = null;
+     
+        if ( $mode & CRM_Contact_BAO_Query::MODE_CASE ) {
+            $properties = array(  
+                                'case_subject'           => 1,
+                                'case_source_contact_id' => 1,
+                                'case_location'          => 1
+                                );
         }
         return $properties;
     }

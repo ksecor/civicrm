@@ -47,10 +47,12 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return array( 'name'           => 'CiviMail',
-                      'translatedName' => ts('CiviMail'),
-                      'title'          => 'CiviCRM Mailing Engine',
-                      'search'         => 0 );
+        return array( 'name'                 => 'CiviMail',
+                      'translatedName'       => ts('CiviMail'),
+                      'title'                => 'CiviCRM Mailing Engine',
+                      'search'               => 0,
+                      'showActivitiesInCore' => 1 
+                      );
     }
 
 

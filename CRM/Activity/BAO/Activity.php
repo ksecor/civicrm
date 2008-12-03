@@ -134,15 +134,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      *
      */
-    public function deleteActivity( &$params ) 
+    public function deleteActivity( &$params, $moveToTrash = false ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
-        $activity     =& new CRM_Activity_DAO_Activity( );
+               
+        $activity    =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
-        $result = $activity->delete( );
         
+        if ( ! $moveToTrash ) {  
+            $result = $activity->delete( );
+        } else {
+            $activity->is_deleted = 1;
+            $result = $activity->save( );
+        }
         $transaction->commit( );
         return $result;
     }
@@ -464,6 +469,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $case = " civicrm_case_activity.case_id = $caseId ";
         }
         
+        // Filter on component IDs.
+        $componentClause = "civicrm_option_value.component_id IS NULL";
+
+        $compInfo        = CRM_Core_Component::getEnabledComponents();
+        foreach ( $compInfo as $compObj ) {
+            if ( $compObj->info['showActivitiesInCore'] ) {
+                $componentsIn = $componentsIn ? 
+                    ($componentsIn . ', ' . $compObj->componentID) : $compObj->componentID;
+            }
+        }
+        if ( $componentsIn ) {
+            $componentClause = "($componentClause OR civicrm_option_value.component_id IN ($componentsIn))";
+        }
+
         $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.activity_date_time,
                          civicrm_activity.status_id, civicrm_activity.subject,
                          civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
@@ -498,7 +517,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   left join civicrm_case_contact on
                             civicrm_case_contact.case_id = civicrm_case.id
                   where {$clause}
-                        and civicrm_option_group.name = 'activity_type' 
+                        and civicrm_option_group.name = 'activity_type'
+                        and {$componentClause}
                         and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause} 
                         GROUP BY id";
 

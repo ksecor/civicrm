@@ -139,6 +139,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_defaults['due_date_time'] = array( );
         CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
         $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
+
+        if ( !isset($this->_defaults['subject']) ) {
+            $this->_defaults['subject'] = $this->_activityTypeName;
+        }
         return $this->_defaults;
     }
     
@@ -234,9 +238,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // required for status msg
         $recordStatus = 'created';
 
-        // call begin post process
-        $this->beginPostProcess( $params );
-
         // store the dates with proper format
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
         $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
@@ -298,18 +299,24 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $recordStatus = 'updated';
         }
         
-        // add attachments as needed (for more old activity)
         if ( ! isset($newActParams) ) {
+            // add more attachments if needed for old activity
             CRM_Core_BAO_File::formatAttachment( $params,
                                                  $params,
                                                  'civicrm_activity' );
+
+            // call begin post process, before the activity is created/updated.
+            $this->beginPostProcess( $params );
         }
 
-        // activity create
+        // activity create/update
         $activity = CRM_Activity_BAO_Activity::create( $params );
+        
+        if ( ! isset($newActParams) ) {
+            // call end post process, after the activity has been created/updated.
+            $this->endPostProcess( $params, $activity );
+        }
 
-        $this->endPostProcess( $params, $activity );
-                
         // create a new version of activity if activity was found to
         // have been modified/created by user
         if ( isset($newActParams) ) {
@@ -322,15 +329,17 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             }
             //is_current_revision will be set to 1 by default.
             
-            $this->beginPostProcess( $newActParams );
-
             // add attachments if any
             CRM_Core_BAO_File::formatAttachment( $newActParams,
                                                  $newActParams,
                                                  'civicrm_activity' );
             
+            // call begin post process, before the activity is created/updated.
+            $this->beginPostProcess( $newActParams );
+
             $activity = CRM_Activity_BAO_Activity::create( $newActParams );
             
+            // call end post process, after the activity has been created/updated.
             $this->endPostProcess( $newActParams, $activity );
 
             // copy files attached to old activity if any, to new one,
@@ -342,6 +351,22 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
             // copy back params to original var
             $params = $newActParams;
+        }
+
+        // update case if needed
+        if ( in_array($this->_activityTypeName, array('Change Case Type', 'Change Case Status'))) {
+            $caseParams       = $params;
+            $caseParams['id'] = $this->_caseId;
+            if ( CRM_Utils_Array::value('case_type_id', $caseParams) ) {
+                $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                    $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            }
+            if ( CRM_Utils_Array::value('case_status_id', $caseParams) ) {
+                $caseParams['status_id'] = $caseParams['case_status_id'];
+            }
+            // unset params intended for activities only
+            unset($caseParams['subject'], $caseParams['details'], $caseParams['status_id']);
+            $case = CRM_Case_BAO_Case::create( $caseParams );
         }
 
         // create case activity record

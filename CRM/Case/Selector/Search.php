@@ -73,8 +73,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                 'sort_name',   
                                 'display_name',
                                 'case_id',   
-                                'case_status', 
-                                'case_type',
+                                'case_status_id', 
+                                'case_type_id',
                                 'case_role',
                                 'case_recent_activity_date',
                                 'case_recent_activity_type', 
@@ -274,8 +274,9 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          }
 
          $scheduledInfo = array();
-
-         $mask = CRM_Core_Action::mask( $permission );
+         $links = self::links( );
+         $mask = $hide = array_sum( array_keys( $links ) );
+         //$mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in
@@ -284,15 +285,20 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
+             if ( $result->case_deleted ) {
+                 $mask = $hide;
+                 $mask -= CRM_Core_Action::DELETE;
+             }
              $scheduledInfo['case_id'][]    = $result->case_id;
-             $scheduledInfo['contact_id'][] = $result->contact_id;                          
+             $scheduledInfo['contact_id'][] = $result->contact_id; 
+             $scheduledInfo['case_deleted'] = $result->case_deleted;    
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
-             $row['action']   = CRM_Core_Action::formLink( self::links( ), null,
+             $row['action']   = CRM_Core_Action::formLink( $links, $mask ,
                                                            array( 'id'  => $result->case_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-             
+                      
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
              $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
              

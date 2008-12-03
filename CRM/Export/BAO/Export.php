@@ -156,6 +156,8 @@ class CRM_Export_BAO_Export
                 break;
             case CRM_Export_Form_Select::CASE_EXPORT :
                 $queryMode = CRM_Contact_BAO_Query::MODE_CASE;
+                require_once 'CRM/Case/BAO/Query.php';
+                $extraReturnProperties = CRM_Case_BAO_Query::extraReturnProperties( $queryMode );
                 break;
             }
             

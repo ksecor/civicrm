@@ -43,7 +43,7 @@ class CRM_Case_XMLProcessor_Process extends CRM_Case_XMLProcessor {
         $xml = $this->retrieve( $caseType );
 
         if ( $xml === false ) {
-            CRM_Core_Error::fatal( );
+            CRM_Core_Error::fatal( "xml file could not be retrieved for case type = '$caseType'." );
             return false;
         }
 

@@ -46,10 +46,12 @@ class CRM_Member_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return array( 'name'           => 'CiviMember',
-                      'translatedName' => ts('CiviMember'),
-                      'title'          => 'CiviCRM Membership Engine',
-                      'search'         => 1 );
+        return array( 'name'                 => 'CiviMember',
+                      'translatedName'       => ts('CiviMember'),
+                      'title'                => 'CiviCRM Membership Engine',
+                      'search'               => 1,
+                      'showActivitiesInCore' => 1 
+                      );
     }
 
 

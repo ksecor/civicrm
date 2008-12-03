@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-11-27 13:26-0800\n"
-"Last-Translator: Daniel Kinzler <daniel.kinzler@brightbyte.de>\n"
+"PO-Revision-Date: 2008-12-02 15:55-0800\n"
+"Last-Translator: Frank Bindrich <waerter@waerter.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13817,11 +13817,8 @@ msgid "Are users required to complete this field?"
 msgstr "Sind Benutzer verpflichtet dieses Feld auszufüllen?"
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid "If checked, users can view but not edit this field."
-msgstr ""
-"Wenn dies ausgewählt ist, können Benutzer das Feld sehen aber nicht "
-"bearbeiten."
+msgstr "Falls markiert kann der User das Feld sehen aber nicht editieren."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13832,13 +13829,16 @@ msgid ""
 "field value when viewing a contact in order to locate other contacts with "
 "the same value(s) (i.e. other contacts who live in Poland)."
 msgstr ""
+"Wird dieses Feld vor anderen User versteckt (Nur User und User Admin) oder "
+"ist es für andere sichtbar (Für jeden User Seiten)?Wähle 'Für jeden User "
+"Seiten' um das Feld suchbar zu machen (im Profil Such Formular). Wenn die "
+"Sichtbarkeit 'Für jeden User Seiten und Ausdrucke' ist können User bei der "
+"Kontakt Anzeige auf den Wert des Feldes klicken um andere Kontakte mit "
+"denselben Werten (zB andere Kontakte, welche in Polen leben) zu finden."
 
 #: templates/CRM/UF/Form/Field.tpl
-#, fuzzy
 msgid "Do you want to include this field in the Profile's Search form?"
-msgstr ""
-"Wenn Sie dieses Feld als Suchfeld in der erweiterten Suche darstellen "
-"möchten."
+msgstr "Möchten sie dieses Feld in das Profil Such-Formular aufnehmen?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13869,16 +13869,16 @@ msgstr ""
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
 msgid "Delete CiviCRM Profile"
-msgstr "Neues CiviCRM-Profil"
+msgstr "Lösche CiviCRM-Profil"
 
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
 msgid "Disable CiviCRM Profile"
-msgstr "CiviCRMprofilfeld deaktivieren"
+msgstr "Deaktiviere CiviCRM-Profil "
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
-msgstr ""
+msgstr "Profile können ausdrücklich zu Modul Seiten verknüpft werden"
 
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
@@ -13894,6 +13894,8 @@ msgid ""
 "Check <strong>View/Edit User Account</strong> to include it in the view and "
 "edit screens for existing user accounts."
 msgstr ""
+"Markiere <strong>Anzeigen/Editieren User Konto</strong> um es in Anzeige und "
+"Editier Fenster für bestehende User Konten einzubeziehen."
 
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
@@ -13909,51 +13911,47 @@ msgid ""
 "Check <strong>Search Results</strong> to use this profile to display an "
 "alternate set of results columns for CiviCRM Basic and Advanced Search."
 msgstr ""
+"Markiere <strong>Such Resultate</strong> um mit diesem Profil ein "
+"alternativer Set von Resultat Kolonnen für einfache und erweiterete Suche "
+"anzuzeigen"
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid ""
 "Weight controls the order in which profiles are presented when there are "
 "more than one. Enter a positive or negative integer - lower numbers are "
 "displayed ahead of higher numbers."
 msgstr ""
-"Die Gewichtung entscheidet über die Reihenfolge in der die Felder in der "
+"Die Gewichtung entscheidet über die Reihenfolge, in der die Felder in der "
 "Gruppe dargestellt werden. Geben Sie eine positive oder eine negative Zahl "
-"ein - niedrigere Nummern werden über den hohen Nummern angezeigt."
+"ein - niedrigere Nummern werden vor den hohen Nummern angezeigt."
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid "Explanatory text displayed at the beginning of the form."
-msgstr "Der Erklärungstext wird am Anfang der Gruppe angezeigt."
+msgstr "Erklärender Text am Anfang des Formulars"
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid "Explanatory text displayed at the end of the form."
-msgstr "Der Erklärungstext wird am Anfang der Gruppe angezeigt."
+msgstr "Erklärender Text am Ende des Formulars"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
-msgstr "Felder ansehen oder bearbeiten für dieses Profil"
+msgstr "Felder dieses Profils ansehen oder editieren"
 
 #: templates/CRM/UF/Form/NotifySubject.tpl
-#, fuzzy
 msgid "Submitted by"
-msgstr "Übermittelte Formular-Werte"
+msgstr "Eingereicht von"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "Profile Field Preview"
-msgstr "Profiltitel"
+msgstr "Profil Feld Überprüfung"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "Profile Preview"
-msgstr "Profiltitel"
+msgstr "Profil Überprüfung"
 
 #: templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "This CiviCRM profile field is view only."
-msgstr "Ihr CiviCRMprofilfeld \"%1\" wurde gespeichert."
+msgstr "Ihr CiviCRM Profil Feld kann nicht geändert werden"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
@@ -13961,7 +13959,7 @@ msgstr "CiviCRM Feldname"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr "Pflicht"
+msgstr "erforderlich"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
@@ -13969,21 +13967,19 @@ msgstr "Nur ansehen"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
-msgstr "Neues CiviCRM-Profilefeld"
+msgstr "Neues CiviCRM-Profil Feld"
 
 #: templates/CRM/UF/Page/Field.tpl
-#, fuzzy
 msgid "Edit Profile Settings"
-msgstr "Profil-Einstellungen - %1"
+msgstr "Profil-Einstellungen Editieren"
 
 #: templates/CRM/UF/Page/Field.tpl
-#, fuzzy
 msgid ""
 "There are no CiviCRM Profile Fields for '%1', you can <a href='%2'>add one "
 "now</a>."
 msgstr ""
-"Es gibt keine CiviCRM-Profilfelder für \"%1\", Sie können aber ein <a href="
-"\"%2\">hinzufügen</a>."
+"Es gibt keine CiviCRM-Profilfelder für \"%1\", sie können aber ein <a "
+"href=\"%2\">hinzufügen</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -13991,15 +13987,14 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
-"Der untenstehende HTML-Code zeigt ein Formular, das aus den aktivierten "
-"CiviCRM-Profilfeldern besteht. Du annst diesen HTML-Code kopieren und an "
-"beliebiger Stelle einer Seite, auf der Du Kontaktinformationn sammeln "
-"möchtest, einfügen. "
+"Der untenstehende HTML-Code zeigt ein Formular, das aus den aktiviven "
+"CiviCRM-Profilfeldern besteht. Sie können diesen HTML-Code kopieren und an "
+"beliebiger Stelle einer Seite, auf der sie Kontaktinformationen sammeln "
+"möchten, einfügen. "
 
 #: templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid "Back to Profile Listings"
-msgstr "CiviCRM Profil Aufzählung"
+msgstr "Zurück zur Profil Liste"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -14008,17 +14003,22 @@ msgid ""
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"CiviCRM Profile erlauben es, Gruppen von Eingabefelder zusammenzufassen, "
+"welche dann in der eigenen Web-Site als Input Formular, Kontakt Anzeige "
+"Seite und in Suche- und Auflistungsfunktionen verwendet werden können. Sie "
+"stellen eine starke Sammlung von Werkzeugen für das Beschaffen von "
+"Informationen über Zielgruppen und die selektive Weitergabe von Kontakt "
+"Information zur Verfügung."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr "Profiltitel"
+msgstr "Profil Titel"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Alle Aktiven Profile holen (HTML)"
 
 #: templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href='%1'>add one now</"
 "a>."
@@ -14027,137 +14027,120 @@ msgstr ""
 "\">hinzufügen</a>."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Home"
-msgstr "Website"
+msgstr "Zuhause"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Wohnort"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Work"
-msgstr "oder"
+msgstr "Werk"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Work location"
-msgstr "Standort"
+msgstr "Werk Standort"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Main"
-msgstr "Min."
+msgstr "Haupt"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Hauptsitz Adresse"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Other location"
-msgstr "eine andere Emailadresse"
+msgstr "anderer Ort"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Emailadresse"
+msgstr "Ort Rechnungs Adresse"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Kind von"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Eltern von"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Parent/child relationship."
-msgstr "Letzte Bezeihungen"
+msgstr "Eltern/Kind Beziehung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Ehepartner von"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Spousal relationship."
-msgstr "Beziehung speichern"
+msgstr "Ehe Beziehung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Geschwister von"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Sibling relationship."
-msgstr "Beziehung deaktivieren"
+msgstr "Geschwister Beziehung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Angestellter von"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Angestellter von"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Employment relationship."
-msgstr "Doppelte Beziehung."
+msgstr "Anstellungs Beziehung."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Freiwilliger für"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Freiwilliger ist"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Volunteer relationship."
-msgstr "Doppelte Beziehung."
+msgstr "Beziehung zu Freiwilligem"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of Household for"
-msgstr "Zu Haushalt hinzufügen"
+msgstr "Haushalt Vorstand für "
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of Household is"
-msgstr "Zu Haushalt hinzufügen"
+msgstr "Haushalt Vorstand ist"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Head of household."
-msgstr "Zu Haushalt hinzufügen"
+msgstr "Haushalt Vorstand"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household Member of"
-msgstr "Haushaltsname"
+msgstr "Mitglied des Haushalts"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household Member is"
-msgstr "Haushaltsname"
+msgstr "Mitglied der Haushalts ist"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Household membership."
 msgstr "Haushaltsmitgliedschaft"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Non-profit"
 msgstr "gemeinnützig"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Any not-for-profit organization."
-msgstr ""
+msgstr "Beliebige non profit Organisation"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Company"
@@ -14169,20 +14152,19 @@ msgstr "profitorientierte Organisation."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "Regierungs Stelle"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Any governmental entity."
-msgstr ""
+msgstr "Beliebige Regierungsstelle"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Major Donor"
-msgstr "Großspender"
+msgstr "Hauptspender"
 
 #: xml/templates/civicrm_data.tpl
 msgid "High-value supporter of our organization."
-msgstr ""
+msgstr "Bedeutender Unterstützer unserer Organisation"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Volunteer"
@@ -14190,7 +14172,7 @@ msgstr "Freiwilliger"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "Aktiver Freiwilliger"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mailing Header"
@@ -14198,19 +14180,19 @@ msgstr "Mailing Kopfzeile"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Descriptive Title for this Header"
-msgstr ""
+msgstr "Beschreibender Titel für diese Kopfzeile"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sample Header for HTML formatted content."
-msgstr ""
+msgstr "Beispiel Kopfzeile für HTML formattierter Inhalt"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Sample Header for TEXT formatted content."
-msgstr ""
+msgstr "Besispiel Kopfzeile für Text formattierter Inhalt"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mailing Footer"
-msgstr "Mailing Fußzeile"
+msgstr "Mail Versand Fußzeile"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Descriptive Title for this Footer."
@@ -14233,22 +14215,20 @@ msgid "Your Subscription has been Activated"
 msgstr "Deine Registrierung wurde aktivert."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Un-subscribe Confirmation"
-msgstr "Bestätigung für das Löschen der Registrierung"
+msgstr "Abbonieren gelöscht Bestätigung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Re-subscribe Confirmation"
 msgstr "Bestätigung der erneuten Registrierung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Opt-out Confirmation"
-msgstr "Systemeinstellungen"
+msgstr "Nicht Teilnahme Bestätigung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Auto-responder"
-msgstr "Auto-responder"
+msgstr "Beantworter in Abwesenheit"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Please Send Inquiries to Our Contact Email Address"
@@ -14267,9 +14247,8 @@ msgid "Donation"
 msgstr "Spende"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Member Dues"
-msgstr "Mitgliedsbeiträge"
+msgstr "Mitgliederbeiträge"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Campaign Contribution"
@@ -14277,10 +14256,9 @@ msgstr "Spende für eine Kampagne"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Event Fee"
-msgstr "Teilnahmegebühr"
+msgstr "Kosten Veranstaltung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Instant Messenger (IM) screen-names"
 msgstr "Instant Messenger (IM), angezeigter Name"
 
@@ -14293,21 +14271,18 @@ msgid "Individual contact suffixes"
 msgstr "individueller Namenszusatz (nachgestellt)"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Addressing Options"
-msgstr "Einstellungen für Adressierungen"
+msgstr "Adressierungs Optionen"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Grant status"
-msgstr "Gruppenstatus"
+msgstr "Unterstützung Status"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Grant Type"
 msgstr "Art der Zuwendung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Honor Type"
 msgstr "Art der Ehrenmitgliedschaft"
 
@@ -14317,12 +14292,11 @@ msgstr "Teilnehmerliste"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Safe File Extension"
-msgstr "speichere Dateierweiterung"
+msgstr "sichere Datei Extension"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Recurring Frequency Units"
-msgstr "Einhheit der Zahlungshäufigkeit"
+msgstr "Periode der regelmässigen Zahlungen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Postal Mail"
@@ -14333,64 +14307,58 @@ msgid "Email sent."
 msgstr "Email gesendet."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Text Message (SMS)"
 msgstr "Textnachricht (SMS)"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Text message (SMS) sent."
 msgstr "Textnachricht (SMS) gesendet."
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Online or offline event registration."
-msgstr "Online-Registrierung:"
+msgstr "Online oder offline Registrierung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Online or offline contribution."
-msgstr "Kontakte finden"
+msgstr "Online oder offline Spende"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Membership Signup"
-msgstr "Mitgliedschaft´s Status"
+msgstr "Mitgliedschaft´s Anmeldung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Online or offline membership signup."
-msgstr ""
+msgstr "Online oder offline Mitgliedschaft Anmeldung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Membership Renewal"
-msgstr "Mitglieds-Art"
+msgstr "Mitgliedschaft Erneuerung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Online or offline membership renewal."
-msgstr ""
+msgstr "online oder offline Mitgliedschaft Erneuerung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Send information about a contribution campaign or event to a friend."
 msgstr ""
+"Einem Freund Informationen zu einer Spenden Aktion oder zu einem Anlass "
+"senden"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Pledge Acknowledgment"
-msgstr ""
+msgstr "Bestätigung Unterstützungs Zusage"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Send Pledge Acknowledgment."
-msgstr ""
+msgstr "Bestätigung Unterstützungs Zusage senden"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Pledge Reminder"
-msgstr "Erneuerte Erinnerung"
+msgstr "Erinnerung für Unterstützungs Zusage"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Send Pledge Reminder."
-msgstr "Erneuerte Erinnerung"
+msgstr "Erinnerung für Unterstützungs Zusage senden"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Female"
@@ -14441,7 +14409,6 @@ msgid "Credit Card"
 msgstr "Kredit-Karte"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Debit Card"
 msgstr "Debit-/Kundenkarte"
 
@@ -14455,7 +14422,7 @@ msgstr "Scheck"
 
 #: xml/templates/civicrm_data.tpl
 msgid "EFT"
-msgstr "Überweisung"
+msgstr "EFT (Elektronische Zahlung)"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Completed"
@@ -14467,16 +14434,15 @@ msgstr "Storniert"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Failed"
-msgstr "Fehler"
+msgstr "erfolglos"
 
 #: xml/templates/civicrm_data.tpl
 msgid "In Progress"
 msgstr "in Arbeit"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Overdue"
-msgstr "Reihenfolge"
+msgstr "überfällig"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Registered"
@@ -14488,7 +14454,7 @@ msgstr "Teilgenommen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "No-show"
-msgstr ""
+msgstr "Nicht-Teilnahme"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Attendee"
@@ -14512,31 +14478,27 @@ msgstr "Ausstellung"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Fundraiser"
-msgstr "Fundraiser"
+msgstr "Spenden sammeln"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Performance"
-msgstr ""
+msgstr "Veranstaltung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Workshop"
 msgstr "Workshop"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Change"
-msgstr "Bereich"
+msgstr "Wechsel"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Granted"
 msgstr "gewährt"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Rejected"
-msgstr "Abgewiesen"
+msgstr "zurückgewiesen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Emergency"
@@ -14547,76 +14509,66 @@ msgid "Family Support"
 msgstr "Familienunterstuetzung"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "General Protection"
-msgstr "Optionen ansehen"
+msgstr "Allgemeiner Schutz"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Impunity"
-msgstr ""
+msgstr "ungestraft"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "In Honor of"
-msgstr "Ehrend"
+msgstr "zu Ehren von"
 
 #: xml/templates/civicrm_data.tpl
 msgid "In Memory of"
 msgstr "In Erinnerung an"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Household Name and State"
-msgstr "Haushaltsname und Land"
+msgstr "Familien Name und Land"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Contribution Aggregate"
-msgstr "Zuwendungsseite"
+msgstr "Zusammenzug Spenden"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Basic Search"
-msgstr "Schnellsuche"
+msgstr "Einfache Suche"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Include / Exclude Contacts in a Group / Tag"
-msgstr "Kontakte zu Gruppe hinzufügen"
+msgstr "Einfügen / Ausschließen von Kontakten zu Gruppe / Tag"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Postal Mailing"
 msgstr "Briefpost"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Proximity Search"
-msgstr "benutzerdefinierte Suche"
+msgstr "Ähnlichkeitssuche"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Event Aggregate"
-msgstr "Veranstaltungsdatum"
+msgstr "Veranstaltung Zusammenzug"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Activity Search"
-msgstr "Titel der Aktivität"
+msgstr "Aktivität suchen"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Price Set Details for Event Participants"
-msgstr "Stapelweise Aktualisierung von Veranstaltungsteilnahmen"
+msgstr "Preisgruppe Detail für Verantstaltungs Teilnehmer"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Scheduled"
-msgstr "Wartend"
+msgstr "geplant"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Left Message"
-msgstr "Nachricht hinterlassen"
+msgstr "hinterlassene Nachricht "
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unreachable"
@@ -14624,25 +14576,24 @@ msgstr "Nicht erreichbar"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Civil & Political"
-msgstr ""
+msgstr "Zivil und Politisch"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Economic, Social & Cultural"
-msgstr ""
+msgstr "Ökonomisch, Sozial und Kulturell"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
 msgid "Gender Issues"
-msgstr "Geschlecht"
+msgstr "Frage des Geschlechts"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Ongoing"
-msgstr ""
+msgstr "fortlaufend"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Resolved"
-msgstr "Entfernt"
+msgstr "gelöst"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Name Only"
@@ -14653,98 +14604,80 @@ msgid "Name and Email"
 msgstr "Name und Email"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Contact"
 msgstr "Kontakte importieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Activity"
-msgstr "Aktivitätshistorie importieren"
+msgstr "Aktivitäten importieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Contribution"
-msgstr "Importiere Zuwendungen"
+msgstr "Importiere Spenden"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Membership"
 msgstr "Mitglieder importieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Import Participant"
-msgstr "Teilnehmer exportieren"
+msgstr "Teilnehmer importieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Contact"
 msgstr "Kontakte exportieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Contribution"
 msgstr "Exportiere Zuwendungen"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Membership"
 msgstr "Mitglieder exportieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Participant"
 msgstr "Teilnehmer exportieren"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Pledge"
-msgstr "Exporttyp"
+msgstr "Exportiere Unterstützungs Zusagen"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "daily"
-msgstr "Tag"
+msgstr "täglich"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "weekly"
-msgstr "Woche(n)"
+msgstr "wöchentlich"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "monthly"
-msgstr "Monat"
+msgstr "monatlich"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "yearly"
-msgstr "Jahr"
+msgstr "jährlich"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Current"
-msgstr "Währung"
+msgstr "aktuell"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Grace"
-msgstr "Gradient"
+msgstr "letzte Chance"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Expired"
 msgstr "Abgelaufen"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Deceased"
-msgstr "Todestag"
+msgstr "gestorben"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Dummy Payment Processor"
-msgstr "Zahlungsbearbeiter"
+msgstr "Zahlungs Prozessor Attrape"
 
 #: xml/templates/civicrm_data.tpl
 msgid "PayPal - Website Payments Standard"
@@ -14752,7 +14685,7 @@ msgstr "PayPal - Website Payments Standard"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Merchant Account Email"
-msgstr ""
+msgstr "Email von Händler Konto"
 
 #: xml/templates/civicrm_data.tpl
 msgid "PayPal - Website Payments Pro"
@@ -14767,9 +14700,8 @@ msgid "Google Checkout"
 msgstr "Google Checkout"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Merchant ID"
-msgstr "Händler ID - LIVE"
+msgstr "Händler ID "
 
 #: xml/templates/civicrm_data.tpl
 msgid "Key"
@@ -14792,18 +14724,16 @@ msgid "API Login"
 msgstr "API Login"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Payment Key"
-msgstr "Zahlungsbearbeiter"
+msgstr "Zahlungs Schlüssel"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "MD5 Hash"
-msgstr "MD5 Schlüssel"
+msgstr "MD5 Hash"
 
 #: xml/templates/civicrm_data.tpl
 msgid "PayJunction"
-msgstr ""
+msgstr "Zahlungsfunktion"
 
 #: xml/templates/civicrm_data.tpl
 msgid "eWAY (Single Currency)"
@@ -14816,11 +14746,11 @@ msgstr "Zahlungsbearbeiter"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Click and Pledge"
-msgstr ""
+msgstr "Klick für Unterstützungs Zusage"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
-msgstr ""
+msgstr "AOL Beschwerde zu Service Bedingungen"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"

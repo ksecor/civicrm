@@ -299,8 +299,8 @@
         <td>
             <div class="label">{ts}Group(s){/ts}</div>
             <div class="listing-box">
-            <table id="selector" class="selector" style="width:auto;border:none;">
-                   <tr><td>{$form.group.html}</td></tr>
+            <table id="selector" class="selector" style="border:none;">
+                   <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
             </table> 
             </div>
         </td>
@@ -317,6 +317,14 @@
     <div class="spacer"> </div>
     </fieldset>
 </div>
+{literal}
+<script type="text/javascript">
+	cj(document).ready(function(){
+		cj('#selector tr:even').addClass('odd-row ');
+		cj('#selector tr:odd ').addClass('even-row');
+	});
+</script>
+{/literal}
 {/if}
 
 <div class="crm-submit-buttons">

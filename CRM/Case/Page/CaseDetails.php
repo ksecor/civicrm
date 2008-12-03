@@ -56,12 +56,17 @@ class CRM_Case_Page_CaseDetails extends CRM_Core_Page
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
         $caseId = CRM_Utils_Request::retrieve( 'caseId', 'Positive', $this );
-        
+       
         require_once 'CRM/Case/Page/Tab.php';
         CRM_Case_Page_Tab::setContext( );
             
         require_once 'CRM/Case/BAO/Case.php';
+        $isDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseId, 'is_deleted' );  
         $params = array( 'date_range' => 0 );
+
+        if ( $isDeleted ) {
+            $params['activity_deleted'] = 1;
+        } 
         $caseDetails = CRM_Case_BAO_Case::getCaseActivity( $caseId, $params, $this->_contactId );
 
         $this->assign( 'rows'     , $caseDetails );

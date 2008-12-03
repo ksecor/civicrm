@@ -130,13 +130,17 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      */
     function toHtml()
     {
+		$attributes = $this->getAttributes();
+			
         if (0 == strlen($this->_text)) {
             $label = '';
-        } elseif ($this->_flagFrozen) {
+        } elseif ($this->_flagFrozen || isset( $attributes['skiplabel']) ) {
             $label = $this->_text;
         } else {
             $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
+		
+		unset( $attributes['skipLabel'] );
         return HTML_QuickForm_input::toHtml() . $label;
     } //end func toHtml
     

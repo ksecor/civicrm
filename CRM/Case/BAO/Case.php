@@ -294,6 +294,15 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */ 
     static function deleteCase( $caseId , $moveToTrash = false ) 
     {
+        //delete activities
+        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        if ( $activities ) {
+            require_once"CRM/Activity/BAO/Activity.php";
+            foreach( $activities as $value ) {
+                CRM_Activity_BAO_Activity::deleteActivity( $value, $moveToTrash );
+            }
+        }  
+        
         if ( ! $moveToTrash ) {
             require_once 'CRM/Core/Transaction.php';
             $transaction = new CRM_Core_Transaction( );
@@ -304,10 +313,14 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( ! $moveToTrash ) {  
             $case->delete( );
             $transaction->commit( );
+            return true;
         } else {
+                                    
             $case->is_deleted = 1;
             $case->save( );
+            return true;
         }
+        return false;
     }
 
    /**                                                           
@@ -657,8 +670,29 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
      *
      * @static
      */
-    static function getCaseActivity( $caseID, &$params, $contactID )
+    static function getCaseActivity( $caseID, &$params, $contactID,  $skipDetails = false )
     {
+        $values = array( );
+        if ( $skipDetails ) {
+            if ( !$caseID ) {
+                return;
+            }
+            
+            $query = "SELECT ca.id 
+                      FROM civicrm_activity ca 
+                      LEFT JOIN civicrm_case_activity cca ON cca.activity_id = ca.id LEFT JOIN civicrm_case cc ON cc.id = cca.case_id 
+                      WHERE cc.id = %1";
+            
+            $params = array( 1 => array( $caseID, 'Integer' ) );
+            $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+            
+            while ( $dao->fetch( ) ) {
+                $values[$dao->id]['id']  = $dao->id;
+            }
+            $dao->free( );
+            return $values;
+        }
+
         $select = 'SELECT ca.id as id, 
                           ca.activity_type_id as type, 
                           cc.sort_name as reporter, 
@@ -729,7 +763,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         // Default sort is status_id ASC, due_date_time ASC (so completed activities drop to bottom)
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
-        }
+        } else {
+			$orderBy = " ORDER BY {$sortname} {$sortorder}";
+		}
         
         $page = $params['page'];
         $rp   = $params['rp'];
@@ -755,8 +791,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
-
-        $values = array( );
+        
         $url = CRM_Utils_System::url( "civicrm/case/activity",
                                       "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
@@ -768,7 +803,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
-            $values[$dao->id]['due_date']          = $dao->due_date;
+            $values[$dao->id]['due_date']          = CRM_Utils_Date::customFormat( $dao->due_date );
             $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
@@ -776,7 +811,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $additionalUrl = "&id={$dao->id}";
             $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
-                 CRM_Utils_Date::overdue( CRM_Utils_Array::value( 'due_date', $values[$dao->id] ) ) ) {
+                 CRM_Utils_Date::overdue(  $dao->due_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';
             } else if ( $values[$dao->id]['status'] == 'Scheduled' ) {
                 $values[$dao->id]['class']   = 'status-pending';
@@ -1053,9 +1088,9 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
                  
              WHERE cov_actstatus.name = 'Scheduled'  
                    AND civicrm_case_contact.contact_id IN( {$contactID} )
-                   AND civicrm_activity.is_deleted = 0
+                   AND civicrm_activity.is_deleted = {$cases['case_deleted']}
                    AND civicrm_case.id IN( {$caseID})
-                   AND civicrm_case.is_deleted = 0 
+                   AND civicrm_case.is_deleted = {$cases['case_deleted']} 
  
              GROUP BY civicrm_case.id
              ORDER BY case_scheduled_activity_date ASC"; 
@@ -1081,19 +1116,24 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             if ( ! self::$_exportableFields ) {
                 self::$_exportableFields = array();
             }
-            require_once 'CRM/Core/OptionValue.php';
             require_once 'CRM/Case/DAO/Case.php';
-            require_once 'CRM/Case/DAO/CaseContact.php';
-            require_once 'CRM/Case/DAO/CaseActivity.php';
-            $impFields         = CRM_Case_DAO_Case::import( );
-            //$expFieldContact   = CRM_Case_DAO_CaseContact::export( );
-            //$expFieldsActivity = CRM_Case_DAO_CaseActivity::export( );
-            //$fields = array_merge($impFields, $expFieldContact);
-            //$fields = array_merge($fields, $expFieldsActivity );
-            //$fields = array_merge($fields, $optionField );
-            //$fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Case'));
+            require_once 'CRM/Activity/DAO/Activity.php';
             
-            self::$_exportableFields = $impFields;
+            $impFields         = CRM_Case_DAO_Case::import( );
+            //set title to activity fields
+            $expFieldsActivity = array( 
+                                      'case_subject'              => array( 'title' => ts('Subject') ),
+                                      'case_source_contact_id'    => array( 'title' => ts('Source Contact') ),
+                                      'case_location'             => array( 'title' => ts('Case Location') ),
+                                      'case_recent_activity_date' => array( 'title' => ts('Activity Date') ),
+                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') ),
+                                      'case_activity_status_id'   => array( 'title' => ts('Activity Status') ),
+                                      'case_role'                 => array( 'title' => ts('Case Role') )
+                                      );
+            
+            $fields = array_merge($impFields, $expFieldsActivity );
+            
+            self::$_exportableFields = $fields;
         }
         return self::$_exportableFields;
     }

@@ -134,7 +134,16 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             $this->assign('honorRows', $params);
             $this->assign('honor', true);
         }
+
+        $softCreditList = CRM_Contribute_BAO_Contribution::getSoftContributionList( $this->_contactId );
+        if( !empty( $softCreditList ) ) {
+            $this->assign('softCredit', true);
+            $this->assign('softCreditRows', $softCreditList );
+        }
+
     }
+    
+
 
     /** 
      * This function is called when action is view

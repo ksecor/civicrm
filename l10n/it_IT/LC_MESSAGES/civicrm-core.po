@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-11-01 09:20-0700\n"
-"Last-Translator: gianmichele <albadur@interfree.it>\n"
+"PO-Revision-Date: 2008-12-03 00:01-0800\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2722,7 +2722,7 @@ msgstr "<< Disabilita"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "You need to enable CiviContribute before enabling CiviPledge."
-msgstr ""
+msgstr "Si deve abilitare CiviContribute prima di abilitare CiviPledge."
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -3230,7 +3230,7 @@ msgstr "Elimina Opzione"
 
 #: CRM/Admin/Page/Options.php
 msgid "Manage ACL Roles"
-msgstr "Amministra Ruoli ACL"
+msgstr "Gestione Ruoli ACL"
 
 #: CRM/Admin/Page/Options.php
 msgid "%1 Options"
@@ -5590,9 +5590,8 @@ msgid "Relationship"
 msgstr "Relazione"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Pledge"
-msgstr "Sospeso"
+msgstr "Impegno di pagamento"
 
 #: CRM/Core/DAO/Discount.php
 #, fuzzy
@@ -6209,6 +6208,8 @@ msgid ""
 "Sending a relative URL to Click And Pledge is erroneous. Please make your "
 "resource URL (in Administer CiviCRM >> Global Settings) complete"
 msgstr ""
+"Inviare un URL relativo a Clicca e Prendi un impegno è errato. Completate "
+"l'URL della risorsa (in Amministra CiviCRM >> Impostazioni globali)"
 
 #: CRM/Core/Payment/Dummy.php
 #, fuzzy
@@ -7075,9 +7076,8 @@ msgid "CiviCRM Participant Search"
 msgstr "Ricerca di finanziamenti in CiviCRM"
 
 #: CRM/Export/BAO/Export.php
-#, fuzzy
 msgid "CiviCRM Pledge Search"
-msgstr "Ricerca Iscritti CiviCRM"
+msgstr "Ricerca Impegni di pagamento di CiviCRM"
 
 #: CRM/Export/Form/Map.php
 msgid "Export >>"
@@ -7268,29 +7268,27 @@ msgid ""
 msgstr ""
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid ""
 "Help us spread the word about this pledge. Use the space below to "
 "personalize your email message - let your friends know why you're attending. "
 "Then fill in the name(s) and email address(es) and click 'Send Your Message'."
 msgstr ""
-"Aiutaci a diffondere la notizia su questo evento. Usa lo spazio qui sotto "
-"per personalizzare il messaggio di posta - dì ai tuoi amici perché verrai. "
-"Poi riempi i nomi e gli indirizzi e clicca su \"Invia il messaggio\"."
+"Aiutaci a diffondere la notizia su questo impegno di pagamento. Usa lo "
+"spazio qui sotto per personalizzare il messaggio di posta - dì ai tuoi amici "
+"perché stai partecipando. Poi riempi i nomi e gli indirizzi e clicca su "
+"\"Invia il messaggio\"."
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid ""
 "Thought you might be interested in checking out this pledge. I'm planning on "
 "attending."
 msgstr ""
-"Ho pensato che ti interessasse sapere di questo evento. Io penso di "
-"partecipare."
+"Ho pensato che ti interessasse sapere della possibilità di impegnarsi a fare "
+"questa donazione. Io penso di partecipare."
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid "Thanks for spreading the word about this pledge to your friends."
-msgstr "Grazie per avere detto ai tuoi amici di questo evento."
+msgstr "Grazie per avere detto ai tuoi amici di questo impegno di pagamento."
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
@@ -10522,14 +10520,14 @@ msgid "Merge %1 with"
 msgstr "Unisci %1 con"
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
-#, fuzzy
 msgid ""
 "Manage the rules used to identify potentially duplicate contact records. "
 "Scan for duplicates using a selected rule and merge duplicate contact data "
 "as needed."
 msgstr ""
-"Regole usate per identificare record di contatto duplicati, e per far "
-"corrispondere i dati importati ai record dei contatti esistenti."
+"Gestione delle regole usate per identificare record di contatto duplicati. "
+"Analizza i duplicati usando una regola selezionata e unisce se necessario i "
+"dati dei contatti duplicati."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 #, fuzzy
@@ -10954,13 +10952,12 @@ msgstr ""
 "dettagli sulle impostazioni e le opzioni."
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid ""
 "Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant and/or "
 "CiviMail components."
 msgstr ""
-"Abilita i componenti CiviContribute, CiviEvent, CiviMember, CiviGrant e/o "
-"CiviMail."
+"Abilita i componenti CiviContribute, CiviPledge, CiviEvent, CiviMember, "
+"CiviGrant e/o CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 #, fuzzy
@@ -12713,7 +12710,6 @@ msgid "Explanatory text displayed to users for this field."
 msgstr "Testo esplicativo mostrato agli utenti per questo campo."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Can you search on this field in the Advanced and component search forms? "
 "NOTE: This feature is available to custom fields used for <strong>Contacts</"
@@ -12723,9 +12719,9 @@ msgid ""
 msgstr ""
 "Questo campo è incluso nei moduli di ricerca Avanzato e dei componenti? "
 "NOTA: questa caratteristica è al momento disponibile per i campi "
-"personalizzati usati per <strong>Contatti</strong>, <strong>Contributi</"
-"strong>, <strong>Iscrizioni</strong> e <strong>Partecipanti agli eventi</"
-"strong>."
+"personalizzati usati per <strong>Contatti</strong>, "
+"<strong>Contributi</strong>, <strong>Iscrizioni</strong>, <strong>Impegni di "
+"pagamento</strong> e <strong>Partecipanti agli eventi</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -13129,7 +13125,6 @@ msgstr ""
 "memorizzerà queste richieste ed aggiungerà gli amici al database."
 
 #: templates/CRM/Friend/Form/Friend.tpl
-#, fuzzy
 msgid ""
 "Tell a Friend gives registering pledge signers an easy way to spread the "
 "word about this pledge. The registration thank-you page will include a link "
@@ -14540,21 +14535,19 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Pledge Acknowledgment"
-msgstr ""
+msgstr "Ringraziamento per l'impegno di pagamento"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Send Pledge Acknowledgment."
-msgstr ""
+msgstr "Invia ringraziamento per l'impegno di pagamento"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Pledge Reminder"
-msgstr "Promemoria Rinnovo"
+msgstr "Promemoria Pagamento Impegno"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Send Pledge Reminder."
-msgstr "Promemoria Rinnovo"
+msgstr "Invia Promemoria Pagamento Impegno"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Female"
@@ -14851,9 +14844,8 @@ msgid "Export Participant"
 msgstr "Esportazione Partecipanti"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Pledge"
-msgstr "Tipo di esportazione"
+msgstr "Esportazione Impegni di pagamento"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14964,7 +14956,7 @@ msgstr "Gestore dei Pagamenti"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Click and Pledge"
-msgstr ""
+msgstr "Clicca e Prendi un impegno"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"

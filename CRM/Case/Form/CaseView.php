@@ -87,11 +87,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                    "reset=1&cid={$this->_contactID}&caseid={$this->_caseID}&asn=", 
                                    false, null, false ); 
         $this->assign ( 'reportUrl', $reportUrl );
-
-        $show = CRM_Utils_Request::retrieve( 'show', 'Integer', CRM_Core_DAO::$_nullObject );
-        if ( $show ) {
-            $this->assign ( 'show', $show );
-        }
+        
     }
 
     /**

@@ -47,10 +47,12 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return  array( 'name'	        => 'CiviContribute',
-                       'translatedName' => ts('CiviContribute'),
-                       'title'          => ts('CiviCRM Contribution Engine'),
-                       'search'         => 1 );
+        return  array( 'name'	              => 'CiviContribute',
+                       'translatedName'       => ts('CiviContribute'),
+                       'title'                => ts('CiviCRM Contribution Engine'),
+                       'search'               => 1,
+                       'showActivitiesInCore' => 1 
+                       );
     }
 
     // docs inherited from interface

@@ -34,14 +34,21 @@
 		{assign var=rowNumber value = 1}
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );"></td><td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td>
+            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
+            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+            <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('Are you sure you want to delete this relationship?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
-        
+
         {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label">{$relName}</td><td id="relName_{$rowNumber}">(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><td id="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
+            <td class="label">{$relName}</td>
+            <td id="relName_{$rowNumber}">(not assigned)</td>
+            <td id="phone_{$rowNumber}"></td>
+            <td id="email_{$rowNumber}"></td>
+            <td id ="edit_{$rowNumber}"><img title="assign contact to case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
@@ -117,8 +124,13 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 						function( data ) {
 							var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
 							var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
-							var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>&nbsp;<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">';
+							var deleteUrl      = {/literal}"{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&caseID=`$caseID`&id=" h=0 }"{literal};	
+							var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>';
 							cj('#relName_' + rowNumber ).html( html );
+							
+							html = '';
+							html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'Are you sure you want to delete this relationship?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
+							cj('#edit_' + rowNumber ).html( html );
 							
 							html = '';
 							if ( data.phone ) {
@@ -229,35 +241,35 @@ cj(document).ready(function(){
 <script type="text/javascript">
 cj(document).ready(function(){
 
-  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
 
-  dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
-  
-  cj("#activities-selector").flexigrid
-  (
-    {
-	url: dataUrl,
-	    dataType: 'json',
-	    colModel : [
-			{display: 'Due',     name : 'due_date',    width : 100, sortable : true, align: 'left'},
-			{display: 'Actual',  name : 'actual_date', width : 100, sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
-			{display: 'Type',    name : 'type',        width : 100, sortable : true, align: 'left'},
-			{display: 'Reporter',name : 'reporter',    width : 100, sortable : true, align: 'left'},
-			{display: 'Status',  name : 'status',      width : 90,  sortable : true, align: 'left'},
-			{display: '',        name : 'links',       width : 90,  align: 'left'},
+	dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
+
+	cj("#activities-selector").flexigrid
+	(
+		{
+			url: dataUrl,
+			dataType: 'json',
+			colModel : [
+			{display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
+			{display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
+			{display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+			{display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
+			{display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
+			{display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
+			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
-	    usepager: true,
-	    useRp: true,
-	    rp: 10,
-	    showTableToggleBtn: true,
-            width: 815,
-            height: 'auto',
-            nowrap: false
-	    }
-   );   
-  }
- );
+			usepager: true,
+			useRp: false,
+			rp: 10,
+			showToggleBtn: false,
+			width: 680,
+			height: 'auto',
+			nowrap: false
+		}
+	);	   
+}
+);
 
 function search(com)
 {   
@@ -335,11 +347,7 @@ function checkSelection( field ) {
 
 {literal}
 <script type="text/javascript">
-{/literal}{if $show}{literal}
     hide('activities_show');
-{/literal}{else}{literal}
-    hide('activities');
-{/literal}{/if}{literal}
 </script>
 {/literal}
 

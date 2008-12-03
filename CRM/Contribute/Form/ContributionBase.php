@@ -378,7 +378,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page Block is disabled.') );
             }  else if ( ! CRM_Utils_Array::value( 'is_active', $pcpInfo ) ) {
                 CRM_Core_Error::fatal( ts('This Personal Campaign Page is disabled.') );
-            } else if ( ( $startDate > $now ) || ( $endDate < $now ) ) {
+            } else if ( ( $startDate && $startDate > $now ) || ( $endDate && $endDate < $now ) ) {
                 $customStartDate =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'start_date',$this->_values ) );
                 $customEndDate   =  CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'end_date',$this->_values ) );
                 if ( $startDate && $endDate ) {

@@ -49,6 +49,12 @@ class CRM_Case_Form_Task_Delete extends CRM_Case_Form_Task
      * @var boolean
      */
     protected $_single = false;
+    /**
+     * Are we moving case to Trash
+     * 
+     * @var boolean
+     */
+    public $_moveToTrash = true;
 
     /**
      * build all the data structures needed to build the form
@@ -83,7 +89,7 @@ class CRM_Case_Form_Task_Delete extends CRM_Case_Form_Task
         $deletedCases = 0;
         require_once 'CRM/Case/BAO/Case.php';
         foreach ( $this->_caseIds as $caseId ) {
-            if ( CRM_Case_BAO_Case::deleteCase( $caseId ) ) {
+            if ( CRM_Case_BAO_Case::deleteCase( $caseId, $this->_moveToTrash ) ) {
                 $deletedCases++;
             }
         }

@@ -6,14 +6,7 @@
  *
  * @ingroup civicrm_field_handlers
  */
-class civicrm_handler_field_event extends views_handler_field {
-    /**
-     * Override init function to provide generic option to link to user.
-     */
-    function init(&$view, &$data) {
-        parent::init($view, $data);
-    }
-
+class civicrm_handler_field_event extends views_handler_field_markup {
     /**
      * Provide link to node option
      */
@@ -38,6 +31,7 @@ class civicrm_handler_field_event extends views_handler_field {
     }
 
     function render($values) {
-        return $this->render_link(check_plain($values->{$this->field_alias}), $values);
+        $format = is_numeric($this->format) ? $this->format : $values->{$this->aliases['format']};
+        return $this->render_link(check_markup($values->{$this->field_alias}, $format, FALSE), $values);
     }
 }
