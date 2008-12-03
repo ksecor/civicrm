@@ -6,7 +6,7 @@
         <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL.'}Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL.{/ts}</p>
     </div>
 {/if}
-<table class="form-layout">
+<table class="form-layout-compressed">
 <tr>
     <td class="label">{$form.fromEmailAddress.label}</td><td>{$form.fromEmailAddress.html}</td>
 </tr>
