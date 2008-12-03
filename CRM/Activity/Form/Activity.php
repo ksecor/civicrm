@@ -481,7 +481,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->_caseEnabled = true;
         }
         $this->_activityType = array( ''   => 
-                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false, $this->_caseEnabled );
+                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false );
         
         unset( $this->_activityType[8] );
         $element =& $this->add('select', 
@@ -544,34 +544,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              $this->_targetContactId,
                                              'sort_name' );
             $this->assign( 'target_contact_value', $defaultTargetContactName );
-        }
-        
-        // include Case Subject field provided - cases are enabled, we
-        // are in a contact's context - not standalone, and contact has
-        // one or more cases
-        if ( $this->_context != 'standalone' && $this->_caseEnabled ) { 
-            $this->assign('caseEnabled', 1);
-            $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );
-            if ( ! empty( $cases ) ) {
-                $this->assign('hasCases', 1); 
-                $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                         'mode'           => 'remote',
-                                         'store'          => 'caseStore');
-                
-                $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                                  "c={$this->_currentlyViewedContactId}",
-                                                  false, null, false );
-                $this->assign( 'caseUrl', $caseUrl );
-                
-                $subject = $this->add( 'text','case_id',ts('Case'), $caseAttributes );
-                
-                if ( $subject->getValue( ) ) {
-                    $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
-                    $this->assign( 'subject_value',  $caseSbj );
-                }
-            } else {
-                $this->assign('hasCases', 0);
-            }
         }
         
         // if we're viewing, we're assigning different buttons than for adding/editing
