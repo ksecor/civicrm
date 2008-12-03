@@ -490,6 +490,9 @@ INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId1,
 INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
 VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,NOW());
+INSERT INTO `civicrm_value_intake_questions_2` (`entity_id`, `caller_4`, `severity_rating_5`, `problem_person_6`, `how_hear_7`)
+VALUES
+ (@actId,'Physician','1','Caller','Personal knowledge');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at22,' ',NULL,DATE_ADD(NOW(), INTERVAL 21 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
@@ -533,6 +536,9 @@ INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId2,
 INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid3);
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
 VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid3),@cid1,NOW());
+INSERT INTO `civicrm_value_intake_questions_2` (`entity_id`, `caller_4`, `severity_rating_5`, `problem_person_6`, `how_hear_7`)
+VALUES
+ (@actId,'Physician','1','Caller','Personal knowledge');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at12,' ',NULL,NOW(),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
@@ -608,6 +614,9 @@ INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId3,
 INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid6);
 INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
 VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid6),@cid1,'2007-03-17 12:03:47');
+INSERT INTO `civicrm_value_intake_questions_2` (`entity_id`, `caller_4`, `severity_rating_5`, `problem_person_6`, `how_hear_7`)
+VALUES
+ (@actId,'Physician','1','Caller','Personal knowledge');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at18,' ',NULL,DATE_ADD('2007-03-17 12:03:47', INTERVAL 4 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
