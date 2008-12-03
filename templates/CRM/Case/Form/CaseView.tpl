@@ -34,14 +34,21 @@
 		{assign var=rowNumber value = 1}
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
-            <td class="label">{$row.relation}</td><td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a>&nbsp;<img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );"></td><td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;{/if}</td>
+            <td class="label">{$row.relation}</td>
+            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
+            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+            <td><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
         
         {foreach from=$caseRoles item=relName key=relTypeID}
         <tr>
-            <td class="label">{$relName}</td><td id="relName_{$rowNumber}">(not assigned)&nbsp;<img title="edit case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td><td id="phone_{$rowNumber}"></td><td id="email_{$rowNumber}"></td>
+            <td class="label">{$relName}</td>
+            <td id="relName_{$rowNumber}">(not assigned)</td>
+            <td id="phone_{$rowNumber}"></td>
+            <td id="email_{$rowNumber}"></td>
+            <td><img title="assign contact to case role" src="{$config->resourceBase}i/edit.png" onclick="createRelationship( {$relTypeID}, null, null, {$rowNumber} );"></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
