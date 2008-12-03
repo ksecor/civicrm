@@ -260,9 +260,9 @@ cj(document).ready(function(){
 			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
 			usepager: true,
-			useRp: true,
+			useRp: false,
 			rp: 10,
-			showTableToggleBtn: false,
+			showToggleBtn: false,
 			width: 680,
 			height: 'auto',
 			nowrap: false
