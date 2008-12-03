@@ -362,6 +362,7 @@ function setSelectorClass( ) {
 	});
 	
 	cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+	cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>
 {/literal}
