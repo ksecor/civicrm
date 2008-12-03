@@ -727,12 +727,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
         //add soft contribution
-        $contribSoftParams['contribution_id'] = $contribution->id;
-        $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
-        $contribSoftParams['amount']          = $params['amount'];
-        $contribSoftParams['contact_id']      = $contribution->contact_id;
-
-        $softContribution = CRM_Contribute_BAO_Contribution::addSoftContribution( $contribSoftParams );
+        if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) ) { 
+            $contribSoftParams['contribution_id'] = $contribution->id;
+            $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
+            $contribSoftParams['amount']          = $params['amount'];
+            $contribSoftParams['contact_id']      = $contribution->contact_id;
+            
+            $softContribution = CRM_Contribute_BAO_Contribution::addSoftContribution( $contribSoftParams );
+        }
 
         //handle pledge stuff.
         if ( !CRM_Utils_Array::value( 'separate_membership_payment', $form->_params ) &&
