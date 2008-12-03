@@ -260,14 +260,15 @@ cj(document).ready(function(){
 			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
 			usepager: true,
-			useRp: false,
+			useRp: true,
 			rp: 10,
 			showToggleBtn: false,
 			width: 680,
 			height: 'auto',
-			nowrap: false
+			nowrap: false,
+			onSuccess:setSelectorClass
 		}
-	);	   
+	);	
 }
 );
 
@@ -342,6 +343,27 @@ function checkSelection( field ) {
 	}
 }
 
+
+function setSelectorClass( ) {
+	cj("#activities-selector tbody tr").attr( 'class','status-completed').find(":contains('Completed')");
+	
+	var currentDate = new Date();
+	var ct = currentDate.getTime();
+
+	cj("#activities-selector tbody tr td:first-child").each( function( ) {
+		var dueDate = cj(this).text();
+		dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
+		var dt = Date.parse(dueDate)
+		
+		if ( ct > dt ) {
+			cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
+		} else{
+			cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
+		}	
+	});
+	
+	
+}
 </script>
 {/literal}
 
