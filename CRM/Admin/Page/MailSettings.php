@@ -113,6 +113,9 @@ class CRM_Admin_Page_MailSettings extends CRM_Core_Page_Basic
             
             //form all action links
             $action = array_sum( array_keys( $this->links( ) ) );
+
+            // disallow the DELETE action for the default set of settings
+            if ($mailSetting->is_default) $action &= ~CRM_Core_Action::DELETE;
             
             //add action links.
             $allMailSettings[$mailSetting->id]['action'] = CRM_Core_Action::formLink( self::links( ), $action, 
