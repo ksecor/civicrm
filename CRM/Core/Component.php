@@ -54,16 +54,7 @@ class CRM_Core_Component
             $c = array();
             
             $config =& CRM_Core_Config::singleton( );
-            
-            /* FIXME: hack to bypass getComponents, if running upgrade to avoid
-               any serious non-recoverable error which might hinder the
-               upgrade process. */
-            $args = array( );
-            if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
-                $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
-            }
-
-            $c =& self::getComponents();
+            $c      =& self::getComponents();
 
             foreach( $c as $name => $comp ) {
                 if ( in_array( $name, $config->enableComponents ) ) {

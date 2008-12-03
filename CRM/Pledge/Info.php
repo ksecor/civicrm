@@ -46,10 +46,12 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return array( 'name'	       => 'CiviPledge',
-                      'translatedName' => ts('CiviPledge'),
-                      'title'          => ts('CiviCRM Pledge Engine'),
-                      'search'         => 1 );
+        return array( 'name'	             => 'CiviPledge',
+                      'translatedName'       => ts('CiviPledge'),
+                      'title'                => ts('CiviCRM Pledge Engine'),
+                      'search'               => 1,
+                      'showActivitiesInCore' => 1 
+                      );
     }
 
 
