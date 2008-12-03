@@ -345,8 +345,7 @@ function checkSelection( field ) {
 
 
 function setSelectorClass( ) {
-	cj("#activities-selector tbody tr").attr( 'class','status-completed').find(":contains('Completed')");
-	
+
 	var currentDate = new Date();
 	var ct = currentDate.getTime();
 
@@ -362,7 +361,7 @@ function setSelectorClass( ) {
 		}	
 	});
 	
-	
+	cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
 }
 </script>
 {/literal}
