@@ -1244,7 +1244,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function buildProfile( &$form, &$field, $mode, $contactId = null )  
+    static function buildProfile( &$form, &$field, $mode, $contactId = null, $online = false )  
     {
         require_once "CRM/Profile/Form.php";
         require_once "CRM/Core/OptionGroup.php";
@@ -1379,7 +1379,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ($fieldName == 'participant_status_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $cond = null;
-            if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            if ( $online == true ) { 
                 $cond = "visibility_id = 1";
             }            
             $form->add('select', $name, $title,
