@@ -411,7 +411,9 @@ INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_
     VALUES( 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0 );
 SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a = 'Intake Physician';
 
-
+INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 'Family Physician is', 'Family Physician', 'Family Physician', 'Individual', 'Individual', 0 );
+SELECT @fR            := max(id) from civicrm_relationship_type where name_b_a = 'Family Physician';
 
 
 -- /*******************************************************
