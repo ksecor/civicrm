@@ -724,8 +724,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 		
 		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
             $where .= " AND ca.is_deleted = 1";
+            $activityDeleted = true;
         } else {
 			$where .= " AND ca.is_deleted = 0";
+            $activityDeleted = false;
 		}
 
         if ( $params['activity_type_id'] ) {
@@ -809,7 +811,12 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
             $additionalUrl = "&id={$dao->id}";
-            $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            $url           = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
+            if ( ! $activityDeleted ) {
+                $url .= "| <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                
+            }
+            $values[$dao->id]['links'] = $url;
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
                  CRM_Utils_Date::overdue(  $dao->due_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';

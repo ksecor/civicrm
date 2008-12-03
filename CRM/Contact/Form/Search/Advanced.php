@@ -240,7 +240,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
-        
+        //search for civicase assign userID, search for my cases;
+        if ( ! $this->_formValues['case_owner'] && ! $this->_force ) {
+            $this->_formValues['case_owner']  = $session->get('userID');
+        } else {
+            unset( $this->_formValues['case_owner'] );
+        } 
+
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button

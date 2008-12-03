@@ -226,7 +226,11 @@ class CRM_Case_BAO_Query
  			return;
 
         case 'case_deleted':
-            $query->_where[$grouping][] = "civicrm_case.is_deleted $op $value AND recent_activity.is_deleted $op $value";
+            $queryDelete = " civicrm_case.is_deleted $op $value ";
+            if ( $query->_mode &  CRM_Contact_BAO_Query::MODE_CASE  ) {
+                $queryDelete .= " AND recent_activity.is_deleted $op $value ";
+            }
+            $query->_where[$grouping][] = $queryDelete;
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Deleted Cases";
             }
