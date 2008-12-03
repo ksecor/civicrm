@@ -168,6 +168,25 @@ UPDATE civicrm_option_value SET is_reserved = 1 WHERE option_group_id = @piOpt A
 
 -- CRM-3851: migrate civicrm_domain.email_domain and .email_return_path to civicrm_mail_settings
 SELECT email_domain, email_return_path FROM civicrm_domain LIMIT 1 INTO @domain, @return_path;
+
+
+CREATE TABLE `civicrm_mail_settings` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'primary key',
+  `name` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'name of this group of settings',
+  `is_default` tinyint(4) default NULL COMMENT 'whether this is the default set of settings for this domain',
+  `domain` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'email address domain (the part after @)',
+  `localpart` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'optional local part (like civimail+ for addresses like civimail+s.1.2@example.com)',
+  `return_path` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'contents of the Return-Path header',
+  `protocol` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'name of the protocol to use for polling (like IMAP, POP3 or Maildir)',
+  `server` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'server to use when polling',
+  `port` int(10) unsigned default NULL COMMENT 'port to use when polling',
+  `username` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'username to use when polling',
+  `password` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'password to use when polling',
+  `is_ssl` tinyint(4) default NULL COMMENT 'whether to use SSL or not',
+  `source` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'folder to poll from when using IMAP, path to poll from when using Maildir, etc.',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 INSERT INTO civicrm_mail_settings (name, is_default, domain, return_path) VALUES ('default', true, @domain, @return_path);
 ALTER TABLE civicrm_domain DROP email_domain;
 ALTER TABLE civicrm_domain DROP email_return_path;
@@ -191,7 +210,12 @@ ALTER TABLE civicrm_option_value
   ADD visibility_id int unsigned default NULL;
 
 SELECT @option_group_id_ps := id from civicrm_option_group where name = 'participant_status';
-UPDATE civicrm_option_value SET visibility_id = 1 WHERE option_group_id = @option_group_id_ps;
+UPDATE civicrm_option_value
+   SET visibility_id = CASE name
+                              WHEN 'Registered' THEN 1
+                              ELSE 2
+                          END
+   WHERE option_group_id = @option_group_id_ps;
 
 -- CRM-3487
 ALTER TABLE civicrm_uf_group DROP collapse_display;
