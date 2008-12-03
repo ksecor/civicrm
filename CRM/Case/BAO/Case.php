@@ -813,7 +813,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $additionalUrl = "&id={$dao->id}";
             $url           = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
             if ( ! $activityDeleted ) {
-                $url .= "| <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+                $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
                 
             }
             $values[$dao->id]['links'] = $url;
