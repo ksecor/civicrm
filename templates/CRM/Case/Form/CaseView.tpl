@@ -241,35 +241,35 @@ cj(document).ready(function(){
 <script type="text/javascript">
 cj(document).ready(function(){
 
-  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
 
-  dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
-  
-  cj("#activities-selector").flexigrid
-  (
-    {
-	url: dataUrl,
-	    dataType: 'json',
-	    colModel : [
+	dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
+
+	cj("#activities-selector").flexigrid
+	(
+		{
+			url: dataUrl,
+			dataType: 'json',
+			colModel : [
 			{display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
 			{display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
-            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+			{display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
 			{display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
 			{display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
 			{display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
 			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
-	    usepager: true,
-	    useRp: true,
-	    rp: 10,
-	    showTableToggleBtn: true,
-        width: 680,
-        height: 'auto',
-        nowrap: false
-	    }
-   );   
-  }
- );
+			usepager: true,
+			useRp: true,
+			rp: 10,
+			showTableToggleBtn: false,
+			width: 680,
+			height: 'auto',
+			nowrap: false
+		}
+	);	   
+}
+);
 
 function search(com)
 {   
