@@ -1118,13 +1118,15 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             require_once 'CRM/Activity/DAO/Activity.php';
             
             $impFields         = CRM_Case_DAO_Case::import( );
-            //set title to calculated fields
+            //set title to activity fields
             $expFieldsActivity = array( 
                                       'case_subject'              => array( 'title' => ts('Subject') ),
                                       'case_source_contact_id'    => array( 'title' => ts('Source Contact') ),
                                       'case_location'             => array( 'title' => ts('Case Location') ),
                                       'case_recent_activity_date' => array( 'title' => ts('Activity Date') ),
-                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') )
+                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') ),
+                                      'case_activity_status_id'   => array( 'title' => ts('Activity Status') ),
+                                      'case_role'                 => array( 'title' => ts('Case Role') )
                                       );
             
             $fields = array_merge($impFields, $expFieldsActivity );
