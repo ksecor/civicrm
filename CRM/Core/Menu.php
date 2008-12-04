@@ -277,15 +277,13 @@ class CRM_Core_Menu
 
     static function buildNavigation( &$menu ) {
 
-        $components = array( ts( 'CiviContribute' ) => 1,
-                             ts( 'CiviEvent'      ) => 1,
-                             ts( 'CiviMember'     ) => 1,
-                             ts( 'CiviMail'       ) => 1,
-                             ts( 'Import'         ) => 1,
-                             ts( 'CiviGrant'      ) => 1,
-                             ts( 'CiviPledge'     ) => 1,
-                             ts( 'CiviCase'       ) => 1,
-                             ts( 'Logout'         ) => 1);
+        $compNames = CRM_Core_Component::getNames( true );
+        foreach( $compNames as $donCare => $name ) {
+            $elements[$name] = 1;
+        }
+        // supplement the list with additional non-component positions
+        $elements[ts('Logout')] = 1;
+        $elements[ts('Import')] = 1;
 
         $values = array( );
         foreach ( $menu as $path => $item ) {
@@ -305,7 +303,7 @@ class CRM_Core_Menu
                 $value['access_arguments'] = $item['access_arguments'];
                 $value['component_id'    ] = $item['component_id'    ];
                 
-                if ( array_key_exists( $item['title'], $components ) ) {
+                if ( array_key_exists( $item['title'], $elements ) ) {
                     $value['class']  = 'collapsed';
                 } else {
                     $value['class']  = 'leaf';

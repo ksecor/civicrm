@@ -105,12 +105,17 @@ class CRM_Core_Component
         return self::_info();
     }
 
-    public function &getNames( )
+    public function &getNames( $translated = false )
     {
         $allComponents = self::getComponents();
+        
         $names = array();
         foreach ( $allComponents as $name => $comp ) {
-            $names[$comp->componentID] = $name;
+            if( $translated ) {
+                $names[$comp->componentID] = $comp->translatedName;
+            } else {
+                $names[$comp->componentID] = $name;
+            }
         }
         return $names;
     }
