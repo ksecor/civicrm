@@ -621,7 +621,7 @@ class CRM_Contribute_BAO_Query
         $options = array(); 
         $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Yes'), 1 );
         $options[] = HTML_QuickForm::createElement('radio', null, null, ts('No'), 0 );
-        $form->addGroup($options, 'contribution_pcp_display_in_roll', ts('In Display Roll?') );
+        $form->addGroup($options, 'contribution_pcp_display_in_roll', ts('Display In Roll ?') );
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
