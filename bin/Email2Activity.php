@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 /*
@@ -135,7 +134,7 @@ class bin_Email2Activity {
 }
     
 
-function run( $context ) {
+function run( $supportedArgs, $context ) {
     session_start( );
 
     require_once '../civicrm.config.php';
@@ -150,11 +149,17 @@ function run( $context ) {
         $mailDir = $_GET['mailDir'];
     }
 
+    if ( array_key_exists( 'context', $_GET ) && 
+         isset($supportedArgs[strtolower($_GET['context'])]) ) {
+        $context = $supportedArgs[strtolower($_GET['context'])];
+    }
+
     $email = new bin_Email2Activity( $mailDir, $context );
 
     $email->run( );
 }
 
+// support command line arguements as well
 $context       = 'activity';
 $supportedArgs = array('case'     => 'case', 
                        '--case'   => 'case', 
@@ -168,4 +173,4 @@ if ( isset($argv[1]) ) {
         exit( );
     }
 }
-run( $context );
+run( $supportedArgs, $context );

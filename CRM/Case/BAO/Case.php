@@ -1017,47 +1017,54 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         if ( $result['is_error'] ) {
             return $result;
         }
-     
-        $caseInfo = explode( '@', $result['to'] );
-        if ( count($caseInfo) == 2 ) {
-            $caseId = explode( '+', $caseInfo[0] );
-        }
 
-        $contactDetails = self::getRelatedContacts( $caseId[1] );
+        foreach( $result['to'] as $to ) {
+            $caseId = null;
 
-        if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
+            $emailPattern = '/^([A-Z0-9._%+-]+)\+([\d]+)@[A-Z0-9.-]+\.[A-Z]{2,4}$/i';
+            $replacement  = preg_replace ($emailPattern, '$2', $to['email']); 
 
-            $details = CRM_Case_PseudoConstant::activityType( false );
-            $params['subject']            = $result['subject'];
-            $params['activity_date_time'] = $result['date'];
-            $params['details']            = $result['body'];
-            $params['source_contact_id']  = $result['from']['id'];
-            
-            //to extract activity type from mail body.
-            $matches= array();
-            foreach ( $details as $key => $value ) {
-                $activityName = $value['label'].'/';
-                preg_match("/^activity type = ".$activityName, $result['body'], $activityInfo, PREG_OFFSET_CAPTURE);
-
-                //if activity type is mentioned in mail use that otherwise use default
-                if ( $activityInfo ) {
-                    $params['activity_type_id'] =  $value['id'];
-                    break;
-                } 
+            if ( $replacement !== $to['email'] ) {
+                $caseId = $replacement;
+            } else {
+                continue;
             }
-           
-            if ( !CRM_Utils_Array::value('activity_type_id', $params ) ) {
-                $params['activity_type_id'] = CRM_Core_OptionGroup::getValue('activity_type', 'Inbound Email', 'name' );
 
-            } 
-         
-            // create activity
-            require_once "CRM/Activity/BAO/Activity.php";
-            $activity = CRM_Activity_BAO_Activity::create( $params );
-            return $activity;
+            $contactDetails = self::getRelatedContacts( $caseId );
+
+            if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
+                $params['subject']            = $result['subject'];
+                $params['activity_date_time'] = $result['date'];
+                $params['details']            = $result['body'];
+                $params['source_contact_id']  = $result['from']['id'];
+            
+                $details = CRM_Case_PseudoConstant::activityType( );
+                $matches = array( );
+                preg_match( '/activity[ ]*type[ ]*=[ ]*\"([a-zA-Z0-9_ ]+)\"/i', 
+                            $result['body'], $matches );
+ 
+                if ( !empty($matches) && isset($matches[1]) ) {
+                    $activityType = trim($matches[1]);
+                    if ( isset($details[$activityType]) ) {
+                        $params['activity_type_id'] = $details[$activityType]['id'];
+                    }
+                } else {
+                    $params['activity_type_id'] = CRM_Core_OptionGroup::getValue('activity_type', 
+                                                                                 'Inbound Email', 
+                                                                                 'name' );
+                }
+
+                // create activity
+                require_once "CRM/Activity/BAO/Activity.php";
+                $activity = CRM_Activity_BAO_Activity::create( $params );
+
+                $caseParams = array( 'activity_id' => $activity->id,
+                                     'case_id'     => $caseId   );
+                CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+            }
         } 
-
     }
+
     /**
      * Function to retrive the scheduled activity type and date
      * 
