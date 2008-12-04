@@ -183,7 +183,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_currentUserId = $session->get( 'userID' );
 
         // this is used for setting dojo tabs
-        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        if ( ! $this->_context ) {
+            $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        }
         $this->assign( 'context', $this->_context );
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );

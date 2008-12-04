@@ -67,6 +67,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      */
     function preProcess( ) 
     {        
+        $this->_context = 'caseActivity';
         $this->_crmDir  = 'Case';
         $result = parent::preProcess( );
 
@@ -115,8 +116,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         CRM_Utils_System::setTitle( $this->_activityTypeName );
-
-        $this->_context = 'activity';
 
         // set context
         $url = CRM_Utils_System::url( 'civicrm/contact/view/case',
@@ -357,10 +356,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( in_array($this->_activityTypeName, array('Change Case Type', 'Change Case Status'))) {
             $caseParams       = $params;
             $caseParams['id'] = $this->_caseId;
-            if ( CRM_Utils_Array::value('case_type_id', $caseParams) ) {
-                $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
-                    $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            }
             if ( CRM_Utils_Array::value('case_status_id', $caseParams) ) {
                 $caseParams['status_id'] = $caseParams['case_status_id'];
             }
