@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-27 20:46+0100\n"
-"PO-Revision-Date: 2008-10-22 09:21-0700\n"
-"Last-Translator: Adamo Crespi <mircov@gmail.com>\n"
+"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"PO-Revision-Date: 2008-12-03 00:01-0800\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -531,7 +531,7 @@ msgid ""
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
 msgstr ""
-"Le colonne di dati in questo file importato sembrano essere differenti dall "
+"Le colonne di dati in questo file importato sembrano essere differenti dalla "
 "mappatura salvata. Verifica di aver selezionato la corretta mappatura prima "
 "di proseguire."
 
@@ -1688,10 +1688,6 @@ msgstr ""
 "Non è possibile spostare il file personalizzato nella propria cartella di "
 "invio dati"
 
-#: CRM/Core/BAO/CustomValueTable.php CRM/Utils/REST.php
-msgid "Unknown error"
-msgstr "Errore sconosciuto"
-
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
 msgstr "Non è stato possibile individuare il tuo user ID"
@@ -1988,11 +1984,6 @@ msgstr "Impostazioni"
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
 msgstr "Messaggio suggerito"
-
-#: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
-#: CRM/Friend/Form/Pledge.php templates/CRM/Friend/Form/Friend.tpl
-msgid "Tell A Friend"
-msgstr "Invia ad un amico"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 #: CRM/Friend/Form/Pledge.php
@@ -2731,7 +2722,7 @@ msgstr "<< Disabilita"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "You need to enable CiviContribute before enabling CiviPledge."
-msgstr ""
+msgstr "Si deve abilitare CiviContribute prima di abilitare CiviPledge."
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -3239,7 +3230,7 @@ msgstr "Elimina Opzione"
 
 #: CRM/Admin/Page/Options.php
 msgid "Manage ACL Roles"
-msgstr "Amministra Ruoli ACL"
+msgstr "Gestione Ruoli ACL"
 
 #: CRM/Admin/Page/Options.php
 msgid "%1 Options"
@@ -3486,11 +3477,6 @@ msgstr "Seleziona famiglia esistente"
 #, fuzzy
 msgid "options"
 msgstr "Opzioni"
-
-#: CRM/Contact/BAO/Contact/Utils.php
-#, fuzzy
-msgid "Country - State"
-msgstr "Paese"
 
 #: CRM/Contact/BAO/Contact/Utils.php
 #, fuzzy
@@ -4047,6 +4033,7 @@ msgid "Allowed to Login"
 msgstr "Abilitato al login"
 
 #: CRM/Contact/Form/Organization.php
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "SIC Code"
 msgstr "Codice SIC"
 
@@ -4890,6 +4877,11 @@ msgstr "Non si hanno i permessi sufficienti per visualizzare questo contatto"
 msgid "Dashboard - %1"
 msgstr "Dettagli - %1"
 
+#: CRM/Contact/Page/View/UserDashBoard.php xml/templates/civicrm_data.tpl
+#, fuzzy
+msgid "My Contacts / Organizations"
+msgstr "Aggiungi Contatti ad Organizzazione"
+
 #: CRM/Contact/Page/View/UserDashBoard.php
 #, fuzzy
 msgid "Edit Contact Information"
@@ -5132,6 +5124,10 @@ msgstr ""
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "value: %1 is not of the right field data type: %2"
 msgstr ""
+
+#: CRM/Core/BAO/CustomValueTable.php
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
 
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "No values found for the specified entity ID and custom field(s)."
@@ -5594,9 +5590,8 @@ msgid "Relationship"
 msgstr "Relazione"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Pledge"
-msgstr "Sospeso"
+msgstr "Impegno di pagamento"
 
 #: CRM/Core/DAO/Discount.php
 #, fuzzy
@@ -6213,6 +6208,8 @@ msgid ""
 "Sending a relative URL to Click And Pledge is erroneous. Please make your "
 "resource URL (in Administer CiviCRM >> Global Settings) complete"
 msgstr ""
+"Inviare un URL relativo a Clicca e Prendi un impegno è errato. Completate "
+"l'URL della risorsa (in Amministra CiviCRM >> Impostazioni globali)"
 
 #: CRM/Core/Payment/Dummy.php
 #, fuzzy
@@ -7045,10 +7042,6 @@ msgstr "Lunghezza"
 msgid "Rule Weight"
 msgstr "Peso"
 
-#: CRM/Dedupe/Finder.php
-msgid "%1 rule for %2 does not exist"
-msgstr ""
-
 #: CRM/Export/BAO/Export.php
 msgid "Total Amount"
 msgstr "Importo Totale"
@@ -7083,9 +7076,8 @@ msgid "CiviCRM Participant Search"
 msgstr "Ricerca di finanziamenti in CiviCRM"
 
 #: CRM/Export/BAO/Export.php
-#, fuzzy
 msgid "CiviCRM Pledge Search"
-msgstr "Ricerca Iscritti CiviCRM"
+msgstr "Ricerca Impegni di pagamento di CiviCRM"
 
 #: CRM/Export/Form/Map.php
 msgid "Export >>"
@@ -7127,8 +7119,8 @@ msgid "Use Saved Field Mapping"
 msgstr "Carica mappatura di campi salvata"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell A Friend enabled?"
-msgstr "Invia ad un amico abilitato?"
+msgid "Tell a Friend enabled?"
+msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
@@ -7165,10 +7157,6 @@ msgstr "Titolo ringraziamento"
 #, fuzzy
 msgid "Thankyou Text"
 msgstr "Ringraziamento inviato"
-
-#: CRM/Friend/Form/Contribute.php
-msgid "Tell A Friend (%1)"
-msgstr "Invia ad un amico (%1)"
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -7280,29 +7268,27 @@ msgid ""
 msgstr ""
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid ""
 "Help us spread the word about this pledge. Use the space below to "
 "personalize your email message - let your friends know why you're attending. "
 "Then fill in the name(s) and email address(es) and click 'Send Your Message'."
 msgstr ""
-"Aiutaci a diffondere la notizia su questo evento. Usa lo spazio qui sotto "
-"per personalizzare il messaggio di posta - dì ai tuoi amici perché verrai. "
-"Poi riempi i nomi e gli indirizzi e clicca su \"Invia il messaggio\"."
+"Aiutaci a diffondere la notizia su questo impegno di pagamento. Usa lo "
+"spazio qui sotto per personalizzare il messaggio di posta - dì ai tuoi amici "
+"perché stai partecipando. Poi riempi i nomi e gli indirizzi e clicca su "
+"\"Invia il messaggio\"."
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid ""
 "Thought you might be interested in checking out this pledge. I'm planning on "
 "attending."
 msgstr ""
-"Ho pensato che ti interessasse sapere di questo evento. Io penso di "
-"partecipare."
+"Ho pensato che ti interessasse sapere della possibilità di impegnarsi a fare "
+"questa donazione. Io penso di partecipare."
 
 #: CRM/Friend/Form/Pledge.php
-#, fuzzy
 msgid "Thanks for spreading the word about this pledge to your friends."
-msgstr "Grazie per avere detto ai tuoi amici di questo evento."
+msgstr "Grazie per avere detto ai tuoi amici di questo impegno di pagamento."
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
@@ -8302,6 +8288,14 @@ msgstr "Aggiornamento del database alla v2.0 completato"
 msgid "Your CiviCRM database has been successfully upgraded to v2.1."
 msgstr "Il vostro database di CiviCRM è stato aggiornato alla versione 2.0."
 
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Pre-condition failed for upgrade to 2.1.2."
+msgstr ""
+
+#: CRM/Upgrade/TwoOne/Form/TwoOneTwo.php
+msgid "Post-condition failed for upgrade to 2.1.2."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr "Controllo database fallito - il database corrente non è v1.9."
@@ -8514,32 +8508,6 @@ msgstr ""
 "Il testo inserito deve corrispondere alla frase nell'immagine. Reinserire il "
 "testo corretto."
 
-#: CRM/Utils/REST.php
-msgid "Could not authenticate user, invalid name / password"
-msgstr "Impossibile autenticare l'utente, nome o password non validi"
-
-#: CRM/Utils/REST.php
-#, fuzzy
-msgid "Could not interpret return values from function"
-msgstr "Impossibile interpretare il valore restituito dalla funzione"
-
-#: CRM/Utils/REST.php
-msgid "Unknown function invocation"
-msgstr "Invocazione ad una funzione ignota"
-
-#: CRM/Utils/REST.php
-msgid "Invalid name and password"
-msgstr "Nome e password non validi"
-
-#: CRM/Utils/REST.php
-msgid "session keys do not match, please re-auth"
-msgstr "Le chiavi di sessione non corrispondono, autenticarsi di nuovo"
-
-#: CRM/Utils/REST.php
-#, fuzzy
-msgid "Unknown function called: %1"
-msgstr "Chiamata a funzione sconosciuta"
-
 #: CRM/Utils/Sunlight.php
 msgid "Invalid response code received from Sunlight servers: %1"
 msgstr "Codice di risposta non valido ricevuto dai server Sunlight: %1"
@@ -8707,10 +8675,6 @@ msgstr ""
 "gli utenti. \"Chiunque\" include anche gli utenti anonimi (non collegati) "
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "What type of operation (action) is being permitted?"
-msgstr "Che tipo di operazione (azione) si sta permettendo?"
-
-#: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
 msgstr "Seleziona il tipo di dati su cui la ACL opera."
 
@@ -8742,6 +8706,14 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
+"NOTE: For Profile ACLs, the 'View' and 'Edit' operations currently do the "
+"same thing. Either option grants users access to profile-based create, edit, "
+"view and listings screens. Neither option grants access to administration of "
+"profiles."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
 "Select a specific group of custom fields, OR apply this permission to ALL "
 "custom fields."
 msgstr ""
@@ -8749,8 +8721,27 @@ msgstr ""
 "permesso a TUTTI i campi personalizzati."
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "Select a event, OR apply this permission to ALL events."
-msgstr "Seleziona un evento, O applica questo permesso a TUTTI gli eventi."
+msgid ""
+"NOTE: For Custom Data ACLs, the 'View' and 'Edit' operations currently do "
+"the same thing. Either option grants the right to view AND / OR edit custom "
+"data fields (in all groups, or in a specific custom data group). Neither "
+"option grants access to administration of custom data fields."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "Select an event, OR apply this permission to ALL events."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid ""
+"NOTE: For Event ACLs, the 'View' operation allows access to the event "
+"information screen. \"Edit\" allows users to register for the event if "
+"online registration is enabled."
+msgstr ""
+
+#: templates/CRM/ACL/Form/ACL.tpl
+msgid "What type of operation (action) is being permitted?"
+msgstr "Che tipo di operazione (azione) si sta permettendo?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -9418,6 +9409,21 @@ msgid ""
 msgstr ""
 "Configura fino a cinque campi da valutare quando si ricercano record di "
 "contatti duplicati \"sospetti\"."
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "Opens documentation in a new window."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid ""
+"IMPORTANT: Before adding fields to your Duplicate Matching Rules, verify "
+"that there is an index on the corresponding column in the database. If not, "
+"you can use the CREATE INDEX command in MySQL to add an index."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid "learn more..."
+msgstr ""
 
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
@@ -10514,14 +10520,14 @@ msgid "Merge %1 with"
 msgstr "Unisci %1 con"
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
-#, fuzzy
 msgid ""
 "Manage the rules used to identify potentially duplicate contact records. "
 "Scan for duplicates using a selected rule and merge duplicate contact data "
 "as needed."
 msgstr ""
-"Regole usate per identificare record di contatto duplicati, e per far "
-"corrispondere i dati importati ai record dei contatti esistenti."
+"Gestione delle regole usate per identificare record di contatto duplicati. "
+"Analizza i duplicati usando una regola selezionata e unisce se necessario i "
+"dati dei contatti duplicati."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 #, fuzzy
@@ -10946,13 +10952,12 @@ msgstr ""
 "dettagli sulle impostazioni e le opzioni."
 
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid ""
 "Enable CiviContribute, CiviPledge, CiviEvent, CiviMember, CiviGrant and/or "
 "CiviMail components."
 msgstr ""
-"Abilita i componenti CiviContribute, CiviEvent, CiviMember, CiviGrant e/o "
-"CiviMail."
+"Abilita i componenti CiviContribute, CiviPledge, CiviEvent, CiviMember, "
+"CiviGrant e/o CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 #, fuzzy
@@ -11604,6 +11609,11 @@ msgid ""
 msgstr ""
 "Informazioni aggiuntive sull'indirizzo, ad es. c/o dipartimento, nome "
 "dell'edificio etc."
+
+#: templates/CRM/Contact/Form/OnBehalfOf.tpl
+#, fuzzy
+msgid "Country - State"
+msgstr "Paese"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
@@ -12519,6 +12529,10 @@ msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
 "Nessun dato disponibile su questo contatto. Si controlli città/provincia/cap"
 
+#: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
+msgid "Edit Tags"
+msgstr "Modifica Tag"
+
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy
 msgid "view current employer"
@@ -12696,7 +12710,6 @@ msgid "Explanatory text displayed to users for this field."
 msgstr "Testo esplicativo mostrato agli utenti per questo campo."
 
 #: templates/CRM/Custom/Form/Field.tpl
-#, fuzzy
 msgid ""
 "Can you search on this field in the Advanced and component search forms? "
 "NOTE: This feature is available to custom fields used for <strong>Contacts</"
@@ -12706,9 +12719,9 @@ msgid ""
 msgstr ""
 "Questo campo è incluso nei moduli di ricerca Avanzato e dei componenti? "
 "NOTA: questa caratteristica è al momento disponibile per i campi "
-"personalizzati usati per <strong>Contatti</strong>, <strong>Contributi</"
-"strong>, <strong>Iscrizioni</strong> e <strong>Partecipanti agli eventi</"
-"strong>."
+"personalizzati usati per <strong>Contatti</strong>, "
+"<strong>Contributi</strong>, <strong>Iscrizioni</strong>, <strong>Impegni di "
+"pagamento</strong> e <strong>Partecipanti agli eventi</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -13112,7 +13125,6 @@ msgstr ""
 "memorizzerà queste richieste ed aggiungerà gli amici al database."
 
 #: templates/CRM/Friend/Form/Friend.tpl
-#, fuzzy
 msgid ""
 "Tell a Friend gives registering pledge signers an easy way to spread the "
 "word about this pledge. The registration thank-you page will include a link "
@@ -13821,10 +13833,6 @@ msgstr ""
 "Spunta o togli la spunta alle caselle, e clicca su 'Aggiorna Tag' per "
 "modificare i tag."
 
-#: templates/CRM/Tag/Form/Tag.tpl
-msgid "Edit Tags"
-msgstr "Modifica Tag"
-
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
 "Select a group if you are using this profile for search and listings, AND "
@@ -14527,21 +14535,19 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Pledge Acknowledgment"
-msgstr ""
+msgstr "Ringraziamento per l'impegno di pagamento"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Send Pledge Acknowledgment."
-msgstr ""
+msgstr "Invia ringraziamento per l'impegno di pagamento"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Pledge Reminder"
-msgstr "Promemoria Rinnovo"
+msgstr "Promemoria Pagamento Impegno"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Send Pledge Reminder."
-msgstr "Promemoria Rinnovo"
+msgstr "Invia Promemoria Pagamento Impegno"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Female"
@@ -14675,11 +14681,6 @@ msgstr "Workshop"
 #: xml/templates/civicrm_data.tpl
 msgid "Change"
 msgstr "Cambia"
-
-#: xml/templates/civicrm_data.tpl
-#, fuzzy
-msgid "My Contacts / Organizations"
-msgstr "Aggiungi Contatti ad Organizzazione"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Granted"
@@ -14843,9 +14844,8 @@ msgid "Export Participant"
 msgstr "Esportazione Partecipanti"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Export Pledge"
-msgstr "Tipo di esportazione"
+msgstr "Esportazione Impegni di pagamento"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -14956,7 +14956,7 @@ msgstr "Gestore dei Pagamenti"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Click and Pledge"
-msgstr ""
+msgstr "Clicca e Prendi un impegno"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
@@ -15001,3 +15001,35 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#~ msgid "Tell A Friend"
+#~ msgstr "Invia ad un amico"
+
+#~ msgid "Tell A Friend enabled?"
+#~ msgstr "Invia ad un amico abilitato?"
+
+#~ msgid "Tell A Friend (%1)"
+#~ msgstr "Invia ad un amico (%1)"
+
+#~ msgid "Could not authenticate user, invalid name / password"
+#~ msgstr "Impossibile autenticare l'utente, nome o password non validi"
+
+#, fuzzy
+#~ msgid "Could not interpret return values from function"
+#~ msgstr "Impossibile interpretare il valore restituito dalla funzione"
+
+#~ msgid "Unknown function invocation"
+#~ msgstr "Invocazione ad una funzione ignota"
+
+#~ msgid "Invalid name and password"
+#~ msgstr "Nome e password non validi"
+
+#~ msgid "session keys do not match, please re-auth"
+#~ msgstr "Le chiavi di sessione non corrispondono, autenticarsi di nuovo"
+
+#, fuzzy
+#~ msgid "Unknown function called: %1"
+#~ msgstr "Chiamata a funzione sconosciuta"
+
+#~ msgid "Select a event, OR apply this permission to ALL events."
+#~ msgstr "Seleziona un evento, O applica questo permesso a TUTTI gli eventi."

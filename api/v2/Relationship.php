@@ -196,6 +196,42 @@ function civicrm_relationship_type_delete( &$params ) {
 /**
  * Function to get the relationship
  *
+ * @param array   $params          (reference ) input parameters 
+         param['contact_id'] is mandatory
+ * @return        Array of all relationship.
+ *
+ * @access  public
+ */
+function civicrm_relationship_get( $params ) {
+    if ( !isset( $params['contact_id'] ) ) {
+        return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
+    }
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $contactID     = $params['contact_id'];
+    $relationships = CRM_Contact_BAO_Relationship::getRelationship($contactID);
+    
+    if ( !empty( $relationshipTypes ) ) {
+        $result = array();
+        foreach ( $relationshipTypes as $relationshipName ) {
+            foreach( $relationships as $key => $relationship ) {
+                if ( $relationship['relation'] ==  $relationshipName ) {
+                    $result[$key] = $relationship;
+                }
+            }
+        }
+        $relationships = $result;
+    }
+    if ( $relationships ) {
+        return civicrm_create_success( $relationships );
+    } else {
+        return civicrm_create_error( ts( 'Invalid Data' ) );
+    }
+  
+}
+
+/**
+ * Function to get the relationship
+ *
  * @param array   $contact_a          (reference ) input parameters.
  * @param array   $contact_b          (reference ) input parameters.
  * @param array   $relationshipTypes  an array of Relationship Type Name.
@@ -250,6 +286,7 @@ function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship
     
     //handle custom data.
     require_once 'CRM/Core/BAO/CustomGroup.php';
+
     foreach ( $relationships as $relationshipId => $values ) {
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Relationship', $relationshipId, false,
                                                          $values['civicrm_relationship_type_id'] );

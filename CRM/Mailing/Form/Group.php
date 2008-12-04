@@ -66,7 +66,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $defaults = array( );
         
         if ( $mailingID && $continue ) {
-            $defaults["name"] = ts('%1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));
+            $defaults["name"] = CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id');
             $this->set('mailing_id', $mailingID);
         } elseif ( $mailingID && !$continue ) {
             $defaults["name"] = ts('Copy of %1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));

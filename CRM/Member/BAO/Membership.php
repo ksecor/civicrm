@@ -501,7 +501,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             if (! empty( $membershipTypeIds ) ) {
                 //set status message if wrong membershipType is included in membershipBlock
-                if ( $form->_mid ) {
+                if ( isset( $form->_mid ) ) {
                     $membershipTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', $form->_mid, 'membership_type_id' );
                     if ( !in_array( $membershipTypeID, $membershipTypeIds ) ){
                         CRM_Core_Session::setStatus( ts("Oops. The membership you're trying to renew appears to be invalid. Contact your site administrator if you need assistance. If you continue, you will be issued a new membership.") );
@@ -849,7 +849,7 @@ AND civicrm_membership.is_test = %2";
         } else {
             // create the CMS contact here since we normally do this under processConfirm
             CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $membershipParams,
-                                                                  $contactID,
+                                                                  $membershipParams['cms_contactID'],
                                                                   'email-' . $form->_bltID );
         }
 

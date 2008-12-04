@@ -566,6 +566,8 @@ class CiviUnitTestCase extends DrupalTestCase {
                             'description' => 'New Test Group Created',
                             'is_active'   => 1,
                             'visibility'  => 'Public User Pages and Listings',
+                            'group_type'  => array( '1' => 1,
+                                                    '2' => 1 ), 
                             );
         }
         require_once 'api/v2/Group.php';

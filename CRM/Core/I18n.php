@@ -86,6 +86,7 @@ class CRM_Core_I18n
                          'hi_IN' => 'हिन्दी',
                          'it_IT' => 'Italiano',
                          'he_IL' => 'עברית',
+                         'lt_LT' => 'Lietuvių',
                          'hu_HU' => 'Magyar',
                          'nl_NL' => 'Nederlands',
                          'ja_JP' => '日本語',

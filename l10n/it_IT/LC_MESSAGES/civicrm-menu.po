@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-09-25 04:00-0700\n"
+"PO-Revision-Date: 2008-12-02 23:53-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -157,10 +157,10 @@ msgid "Download Errors"
 msgstr "Scarica errori"
 
 msgid "Draft and Unscheduled Mailings"
-msgstr ""
+msgstr "Bozze e email non programmate"
 
 msgid "Edit Related Contact"
-msgstr ""
+msgstr "Modifica Contatto Correlato"
 
 msgid "Email a Contact"
 msgstr "Manda un'email a un contatto"
@@ -169,22 +169,22 @@ msgid "Event Information"
 msgstr "Note Evento"
 
 msgid "Event Participants List"
-msgstr ""
+msgstr "Lista partecipanti evento"
 
 msgid "Event Registration"
 msgstr "Registrazione Evento"
 
 msgid "Event Types"
-msgstr ""
+msgstr "Tipi di Evento"
 
 msgid "Export Contacts"
 msgstr "Esporta Contatti"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Percorsi del filesystem"
 
 msgid "Find and Merge Duplicate Contacts"
-msgstr ""
+msgstr "Trova e Unisci contatti duplicati"
 
 msgid "Find Contacts"
 msgstr "Trova Contatti"
@@ -202,23 +202,22 @@ msgid "Find Participants"
 msgstr "Trova Partecipanti"
 
 msgid "Find Pledges"
-msgstr ""
+msgstr "Trova Impegni di pagamento"
 
-#, fuzzy
 msgid "Find Signers"
-msgstr "Trova Membri"
+msgstr "Trova Sottoscrittori"
 
 msgid "From Email Address"
-msgstr ""
+msgstr "Da indirizzo email"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Opzioni del Genere"
 
 msgid "Global Settings"
 msgstr "Impostazioni Globali"
 
 msgid "Grant Types"
-msgstr ""
+msgstr "Tipi di finanziamento"
 
 msgid "Group Members"
 msgstr "Membri del Gruppo"
@@ -227,35 +226,34 @@ msgid "Groups"
 msgstr "Gruppi"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Intestazione, Piè di pagine e Messaggi Automatici"
 
 msgid "Import"
 msgstr "Importa contatti"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importa Contribuzioni"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Importa/Esporta Mappature"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importa Membri"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Importa Partecipanti"
 
-#, fuzzy
 msgid "Import Signers"
-msgstr "Importazione Membri"
+msgstr "Importa Sottoscrittori"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Titoli Personali (Sig., Dott., ...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Suffissi personali (Jr, Sr, ...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Servizi di Messaggistica Istantanea"
 
 msgid "Localization"
 msgstr "Localizzazione"
@@ -267,22 +265,22 @@ msgid "Log out"
 msgstr "Logout"
 
 msgid "Mailer Settings"
-msgstr ""
+msgstr "Impostazioni Gestore Email"
 
 msgid "Mailing Event"
-msgstr ""
+msgstr "Evento di invio posta"
 
 msgid "Mailing Report"
-msgstr ""
+msgstr "Report di invio posta"
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Gestione ACL"
 
 msgid "Manage Contribution Pages"
 msgstr "Gestione Pagine Contributi"
 
 msgid "Manage Custom Searches"
-msgstr ""
+msgstr "Gestisci Ricerche Personalizzate"
 
 msgid "Manage Events"
 msgstr "Gestisci Eventi"
@@ -290,18 +288,17 @@ msgstr "Gestisci Eventi"
 msgid "Manage Groups"
 msgstr "Gestione Gruppi"
 
-#, fuzzy
 msgid "Manage Pledges"
-msgstr "Annullato"
+msgstr "Gestione Impegni di pagamento"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Gestione Premium"
 
 msgid "Manage Price Sets"
-msgstr ""
+msgstr "Gestione Insiemi di prezzi"
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Mappa Posizione Evento"
 
 msgid "Map Location(s)"
 msgstr "Mappa Recapito/i"
@@ -313,19 +310,19 @@ msgid "Memberships"
 msgstr "Iscrizioni"
 
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Regole di Stato delle Iscrizioni"
 
 msgid "Membership Types"
 msgstr "Tipologie di iscrizione"
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "Unisci Contatti"
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Modelli di Messaggio"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varie"
 
 msgid "Mobile Phone Providers"
 msgstr "Fornitori di Telefonia Mobile"
@@ -337,7 +334,7 @@ msgid "New Contact"
 msgstr "Nuovo Contatto"
 
 msgid "New Contact Dialog"
-msgstr ""
+msgstr "Nuovo Dialogo Contatto"
 
 msgid "New Event"
 msgstr "Nuovo evento"
@@ -345,18 +342,17 @@ msgstr "Nuovo evento"
 msgid "New Mailing"
 msgstr "Nuova mailing"
 
-#, fuzzy
 msgid "New Pledge"
-msgstr "Nuovo Insieme Prezzi"
+msgstr "Nuovo impegno di pagamento"
 
 msgid "Notes"
 msgstr "Note"
 
 msgid "Option Groups"
-msgstr ""
+msgstr "Gruppi di Opzioni"
 
 msgid "Option Values"
-msgstr ""
+msgstr "Valori dell'Opzione"
 
 msgid "Optout"
 msgstr "Optout"
@@ -377,103 +373,103 @@ msgid "Payment Processor Type"
 msgstr "Tipo di Gestore dei Pagamenti"
 
 msgid "PledgeBank"
-msgstr ""
+msgstr "Banca impegni di pagamento"
 
 msgid "Pledge Payments"
-msgstr ""
+msgstr "Pagamenti impegni"
 
 msgid "Pledges"
-msgstr ""
+msgstr "Impegni di pagamento"
 
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "Metodi di Comunicazione Preferiti"
 
 msgid "Preview Mailing"
 msgstr "Anteprima Mailing"
 
 msgid "Price Field Options"
-msgstr ""
+msgstr "Opzioni Campi Prezzo"
 
 msgid "Price Fields"
-msgstr ""
+msgstr "Campi prezzo"
 
 msgid "Price Sets"
 msgstr "Insiemi di prezzi"
 
 msgid "Registration Page"
-msgstr ""
+msgstr "Pagina di Registrazione"
 
 msgid "Relationships"
 msgstr "Relazioni"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipi di Relazioni"
 
 msgid "Resubscribe"
 msgstr "Sottoscrivi nuovamente"
 
 msgid "Safe File Extension Options"
-msgstr ""
+msgstr "Estensioni dei file sicuri"
 
 msgid "Scheduled and Sent Mailings"
-msgstr ""
+msgstr "Email Programmate e Spedite"
 
 msgid "Search Builder"
 msgstr "Costruttore Ricerca"
 
 msgid "Sending Mail"
-msgstr ""
+msgstr "Inviare Email"
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Ricerca Semplice"
 
 msgid "Site URLs"
 msgstr "URLs del Sito"
 
 msgid "Smtp Server"
-msgstr ""
+msgstr "Server SMTP"
 
 msgid "Subscribe"
 msgstr "Sottoscrivi"
 
 msgid "Sunlight"
-msgstr ""
+msgstr "Luce del sole"
 
 msgid "Synchronize Users to Contacts"
-msgstr ""
+msgstr "Sincronizza gli Utenti ai Contatti"
 
 msgid "System Preferences"
-msgstr ""
+msgstr "Preferenze di Sistema"
 
 msgid "Tags"
 msgstr "Tag"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Tag (Categorie)"
 
 msgid "Tell a Friend"
 msgstr "Invia ad un amico"
 
 msgid "This should never be seen"
-msgstr ""
+msgstr "Questo non dovrebbe mai essere visto"
 
 msgid "Unsubscribe"
 msgstr "Cancella sottoscrizione"
 
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Eventi in arrivo"
 
 msgid "Update Directory Path and URL"
-msgstr ""
+msgstr "Aggiorna percorsi di directory e URL"
 
 msgid "Upgrade 2.0 => 2.1"
-msgstr ""
+msgstr "Aggiorna 2.0 => 2.1"
 
 msgid "User Framework Settings"
-msgstr ""
+msgstr "Impostazioni Framework Utente"
 
 msgid "View Activity"
 msgstr "Visualizza Attività"
 
 msgid "View Date Prefences"
-msgstr ""
+msgstr "Visualizza preferenze della data"

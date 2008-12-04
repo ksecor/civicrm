@@ -77,11 +77,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         
-        if ( !$contactID ) {
-            //retrieve contact id from url if its send
-            $contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        }
-
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
@@ -432,6 +427,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
+        $countryDefault = $stateDefault   = null;
         if ( $this->_membershipContactID ) {
             // Setting location defaults for matching permissioned contact.
             // Setting it here since we require country & state
@@ -446,9 +442,24 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
 
+        if ( CRM_Utils_Array::value( 'location', $this->_defaults ) ){
+            $countryDefault = $this->_defaults['location'][1]['address']['country_id'];
+            $stateDefault   = $this->_defaults['location'][1]['address']['state_province_id'];
+        }
+        if ( isset($_POST['location'][1]['address']['country_state'][0]) ) {
+            $countryDefault = $_POST['location'][1]['address']['country_state'][0];
+            $stateDefault   = $_POST['location'][1]['address']['country_state'][1];
+            $this->set( 'country_state', array($countryDefault,$stateDefault) );
+        }
+        if ( !$countryDefault && $this->get('country_state') ) {
+            $stateDefault   = $this->get('country_state');
+            $countryDefault = $stateDefault[0];
+            $stateDefault   = $stateDefault[1];
+        }
+        
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
-                                                         $this->_defaults['location'][1]['address']['country_id'],
-                                                         $this->_defaults['location'][1]['address']['state_province_id'],
+                                                         $countryDefault,
+                                                         $stateDefault,
                                                          'Organization Details');
     }
 
@@ -508,7 +519,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $units    = array( );
         $unitVals = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $this->_values['recur_frequency_unit'] );
         foreach ( $unitVals as $key => $val ) {
-            $units[$val] = ts( '%1', array(1 => $val) );
+            $units[$val] = $val;
             if ( $this->_values['is_recur_interval'] ) {
                 $units[$val] .= ts('(s)');
             }
@@ -627,7 +638,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
                  || isset( $fields['amount_other'] ) ) {
 
-                if ( !$amount ) {
+                if ( ! (float) $amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
                 
@@ -775,15 +786,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->controller->resetPage( 'Confirm' );
 
         // get the submitted form values. 
-        $params = $this->controller->exportValues( $this->_name ); 
-        
+        $params = $this->controller->exportValues( $this->_name );
+
         $params['currencyID']     = $config->defaultCurrency;
 
         $params['amount'] = self::computeAmount( $params, $this );
-
-        if ( ! $params['amount'] && $params['selectMembership'] && !$this->_separateMembershipPayment ) {
+        $memFee = null;
+        if ( $params['selectMembership']  ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
-            $params['amount'] = $memFee ? $memFee : 0;
+            if ( !$params['amount'] && !$this->_separateMembershipPayment ) {
+                $params['amount'] = $memFee ? $memFee : 0;
+            }
         }
 
         if ( ! isset( $params['amount_other'] ) ) {
@@ -800,9 +813,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->set( 'invoiceID', $invoiceID );
 
         // required only if is_monetary and valid postive amount 
-        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 && is_array( $this->_paymentProcessor ) ) {
-            
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
+        if ( $this->_values['is_monetary'] &&
+             is_array( $this->_paymentProcessor ) &&
+             ( (float ) $params['amount'] > 0.0 || $memFee > 0.0 ) ) {
             
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
@@ -820,6 +833,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
                     
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
                     $token = $payment->setExpressCheckout( $params ); 
                     if ( is_a( $token, 'CRM_Core_Error' ) ) { 
                         CRM_Core_Error::displaySessionError( $token ); 

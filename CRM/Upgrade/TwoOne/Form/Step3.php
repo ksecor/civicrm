@@ -79,20 +79,6 @@ class CRM_Upgrade_TwoOne_Form_Step3 extends CRM_Upgrade_Form {
             }
         }
         
-        // CRM-3707, Price Set Export has zeros in all columns
-        $query     = "SELECT distinct(price_field_id) FROM civicrm_line_item";
-        $lineItem  = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        while ( $lineItem->fetch( ) ) {
-            $grpName = "civicrm_price_field.amount." . $lineItem->price_field_id;
-            $query   = "SELECT id FROM civicrm_option_group WHERE name='$grpName'";
-            $optGrp  = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            if ( $optGrp->fetch( ) ) {
-                // update line_item table
-                $query   = "UPDATE civicrm_line_item SET option_group_id={$optGrp->id} WHERE price_field_id={$lineItem->price_field_id}";
-                CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            }
-        }
-
         $this->setVersion( '2.03' );
     }
     

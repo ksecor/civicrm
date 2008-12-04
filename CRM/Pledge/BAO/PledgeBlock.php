@@ -313,7 +313,7 @@ class CRM_Pledge_BAO_PledgeBlock extends CRM_Pledge_DAO_PledgeBlock
             $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
             $freqUnits = array( );
             foreach ( $freqUnitVals as $key => $val ) {
-                $freqUnits[$val]  = ts( '%1', array(1 => $val) );
+                $freqUnits[$val]  = $val;
                 if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock )  ) {
                     $freqUnits[$val] .= ts('(s)');
                 }

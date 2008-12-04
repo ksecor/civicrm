@@ -75,7 +75,7 @@ class CRM_Friend_Form_Pledge extends CRM_PledgeBank_Form_ManagePledgeBank
             $defaults['intro'] = ts('Help us spread the word about this pledge. Use the space below to personalize your email message - let your friends know why you\'re attending. Then fill in the name(s) and email address(es) and click \'Send Your Message\'.');
             $defaults['suggested_message'] = ts('Thought you might be interested in checking out this pledge. I\'m planning on attending.');
             $defaults['thankyou_text'] = ts('Thanks for spreading the word about this pledge to your friends.');
-            $defaults['title'] = ts('Tell A Friend');
+            $defaults['title'] = ts('Tell a Friend');
             $defaults['thankyou_title'] = ts('Thanks for Spreading the Word');
         }
         

@@ -265,14 +265,17 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
-        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10, 
                              'id'             => 'contact'
                              );
-        
+
+		$dataUrl = CRM_Utils_System::url( "civicrm/ajax/search", "reset=1", true, null, false );
+		$this->assign('dataUrl',$dataUrl );
+
         $this->addElement('text', 'name'      , ts('Find Target Contact'), $attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );

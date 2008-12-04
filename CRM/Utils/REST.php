@@ -112,10 +112,16 @@ class CRM_Utils_REST
      */
     public function authenticate($name, $pass) {
         require_once 'CRM/Utils/System.php';
-        eval ('$result =& CRM_Utils_System::authenticate($name, $pass);');
+        
+        // first check for civicrm site key
+        if ( ! CRM_Utils_System::authenticateKey( false ) ) {
+            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
+        }
+
+        $result =& CRM_Utils_System::authenticate($name, $pass);
         
         if (empty($result)) {
-            return self::error( ts( 'Could not authenticate user, invalid name / password' ) );
+            return self::error( 'Could not authenticate user, invalid name / password.' );
         }
         
         $session =& CRM_Core_Session::singleton();
@@ -158,7 +164,7 @@ class CRM_Utils_REST
                 $result['is_error'] = 0;
             }
         } else {
-            $result = self::error( ts( 'Could not interpret return values from function' ) );
+            $result = self::error( 'Could not interpret return values from function.' );
         }
 
         if ( CRM_Utils_Array::value( 'json', $_GET ) ) {
@@ -186,14 +192,14 @@ class CRM_Utils_REST
 
     function handle( $config ) {
 
-        $q = $_GET['q'];
+        $q = CRM_Utils_array::value( 'q', $_GET );
         $args = explode( '/', $q );
         if ( $args[0] != 'civicrm' ) {
-            return self::error( ts( 'Unknown function invocation' ) );
+            return self::error( 'Unknown function invocation.' );
         }
 
         if ( ( count( $args ) != 3 ) && ( $args[1] != 'login' ) ) {
-            return self::error( ts( 'Unknown function invocation' ) );
+            return self::error( 'Unknown function invocation.' );
         }
 
         require_once 'CRM/Utils/Request.php';
@@ -204,13 +210,13 @@ class CRM_Utils_REST
             $pass = CRM_Utils_Request::retrieve( 'pass', 'String', $store, false, 'GET' );
             if ( empty( $name ) ||
                  empty( $pass ) ) {
-                return self::error( ts( 'Invalid name and password' ) );
+                return self::error( 'Invalid name / password.' );
             }
             return self::authenticate( $name, $pass );
         } else {
-            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, 'GET' );
+            $key = CRM_Utils_Request::retrieve( 'key', 'String', $store, false, null, 'GET' );
             if ( ! self::verify( $key ) ) {
-                return self::error( ts( 'session keys do not match, please re-auth' ) );
+                return self::error( 'Session keys do not match, please re-auth.' );
             }
         }
 
@@ -230,12 +236,12 @@ class CRM_Utils_REST
         if ( file_exists( $apiPath . $apiFile ) ) {
             require_once $apiPath . $apiFile;
         } else {
-            return self::error( ts( "Unknown function invocation" ) );
+            return self::error( 'Unknown function invocation.' );
         }
 
         $fnName = "civicrm_{$args[1]}_{$args[2]}";
         if ( ! function_exists( $fnName ) ) {
-            return self::error( ts( 'Unknown function called: %1', array(1 => $fnName)) );
+            return self::error( "Unknown function called: $fnName" );
         }
 
         // trap all fatal errors
@@ -244,7 +250,7 @@ class CRM_Utils_REST
         CRM_Core_Error::setCallback( );
 
         if ( $result === false ) {
-            return self::error( ts( 'Unknown error' ) );
+            return self::error( 'Unknown error.' );
         }
         return $result;
     }

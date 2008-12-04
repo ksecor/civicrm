@@ -1358,6 +1358,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
+        } else if ($fieldName == 'world_region' ) {
+            require_once "CRM/Core/PseudoConstant.php";
+            $form->add('select', $name, $title,
+                       array(''=>ts( '- select -' )) + CRM_Core_PseudoConstant::worldRegion( ), $required );
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
@@ -1450,6 +1454,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 $defaults[$fldName."[$item]"] = 1;
                             }
                         } 
+                    } else if ($name == 'world_region') {
+                        $defaults[$fldName] = $details['worldregion_id'];
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'Individual', $values ) );

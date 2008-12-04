@@ -16,7 +16,7 @@
 </div>
 
 <div id="form" class="form-item">
-    <fieldset><legend>{ts}Tell A Friend{/ts}</legend>
+    <fieldset><legend>{ts}Tell a Friend{/ts}</legend>
     
     <dl>
     	<dt></dt><dd>{$form.is_active.html}&nbsp;{$form.is_active.label}</dd>

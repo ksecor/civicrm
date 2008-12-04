@@ -261,18 +261,18 @@ WHERE  v.option_group_id = g.id
         return $group->id;
     }
     
-    static function getAssoc( $groupName, &$values ) 
+    static function getAssoc( $groupName, &$values, $field = 'name' ) 
     {
         $query = "
 SELECT v.id, v.value, v.label, v.name, v.description, v.weight
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
-   AND g.name = %1
+   AND g.$field = %1
 ORDER BY v.weight
 ";
         $params = array( 1 => array( $groupName, 'String' ) );
-        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+       	$dao = CRM_Core_DAO::executeQuery( $query, $params );
 
         // now extract the amount 
         $values['value'] = $values['label'] = $values['name'] = array( );

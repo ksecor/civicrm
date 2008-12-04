@@ -26,14 +26,15 @@ function invoke() {
             }
             exit(1);
         } else {
+            $str = '';
             if ( $session->get('new_install') !== true &&
                  $_GET[$urlVar] !== "civicrm/standalone/register" ) {
-                print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+                $str = "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
             } elseif ($_GET[$urlVar] == "civicrm/standalone/register" && isset($_GET['reset'])) {
                 // this is when user first registers with civicrm
                 print "<head><style type=\"text/css\"> body {border: 1px #CCC solid;margin: 3em;padding: 1em 1em 1em 2em;} </head>";
             }
-            print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
+            print $str . CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
         }
     } else {
         if ($_GET[$urlVar] == "") {
