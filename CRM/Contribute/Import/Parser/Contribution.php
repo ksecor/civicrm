@@ -418,8 +418,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             //$contactFormatted['contact_type'] = 'Individual';
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);        
             if ( self::isDuplicate($error) ) {
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The contribution was not imported");
                     return CRM_Contribute_Import_Parser::ERROR;
