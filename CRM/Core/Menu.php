@@ -68,25 +68,17 @@ class CRM_Core_Menu
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
             $config =& CRM_Core_Config::singleton( );
-            $coreMenuFiles = array( 'Activity', 'Contact', 'Import', 
-                                    'NewImport',
-                                    'Profile', 'Admin', 'Group', 'Misc', );
 
-            $files = array( $config->templateDir . 'Menu/Activity.xml',
-                            $config->templateDir . 'Menu/Contact.xml',
-                            $config->templateDir . 'Menu/Custom.xml',
-                            $config->templateDir . 'Menu/Import.xml',
-                            $config->templateDir . 'Menu/NewImport.xml',
-                            $config->templateDir . 'Menu/Profile.xml',
-                            $config->templateDir . 'Menu/Admin.xml',
-                            $config->templateDir . 'Menu/Group.xml',
-                            $config->templateDir . 'Menu/Misc.xml',
-                            $config->templateDir . 'Menu/Location.xml'
-                            );
+            // We needs this until Core becomes a component
+            $coreMenuFilesNamespace = 'CRM_Core_xml_Menu';
+            $coreMenuFilesPath = str_replace('_', DIRECTORY_SEPARATOR, $coreMenuFilesNamespace );
+            global $civicrm_root;
+            $files = CRM_Utils_File::getFilesByExtension( $civicrm_root . DIRECTORY_SEPARATOR . $coreMenuFilesPath, 'xml' );
 
+            // Grab component menu files
             $files = array_merge( $files,
                                   CRM_Core_Component::xmlMenu( ) );
-
+                                  
             // lets call a hook and get any additional files if needed
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::xmlMenu( $files );

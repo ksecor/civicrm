@@ -75,8 +75,14 @@ abstract class CRM_Core_Component_Info
     const COMPONENT_ADVSEARCHPANE_CLASS = 'Form_Search_AdvancedSearchPane';
 
     /*
-     * Name of the directory (assumed in templates path) 
-     * of the component menu definition XML file name.
+     * Name of the directory (assumed in component directory) 
+     * where xml resources used by this component live.
+     */
+    const COMPONENT_XML_RESOURCES = 'xml';
+
+    /*
+     * Name of the directory (assumed in xml resources path) 
+     * containing component menu definition XML file names.
      */
     const COMPONENT_MENU_XML = 'Menu';
     
@@ -108,9 +114,7 @@ abstract class CRM_Core_Component_Info
         $this->namespace = $namespace;
         $this->componentID = $componentID;
         $this->info = $this->getInfo();
-
         $this->info['url'] = $this->getKeyword();
-        $this->info['menu'] = array( $this->_getMenuXMLFilename() );
     }                                                          
 
     /**
@@ -320,7 +324,7 @@ abstract class CRM_Core_Component_Info
      */
     public function menuFiles( )
     {
-        return $this->info['menu'] ? $this->info['menu'] : array( );
+        return CRM_Utils_File::getFilesByExtension( $this->_getMenuXMLPath(), 'xml' );
     }
 
 
@@ -346,11 +350,11 @@ abstract class CRM_Core_Component_Info
      * @access private
      *
      */
-    private function _getMenuXMLFilename()
+    private function _getMenuXMLPath()
     {
-        $config =& CRM_Core_Config::singleton( );
-        return $config->templateDir . DIRECTORY_SEPARATOR . self::COMPONENT_MENU_XML . 
-                                      DIRECTORY_SEPARATOR . ucwords( $this->keyword ) . '.xml';
+        global $civicrm_root;
+        $fullpath = $this->namespace . '_' . self::COMPONENT_XML_RESOURCES . '_' . self::COMPONENT_MENU_XML;
+        return CRM_Utils_File::addTrailingSlash( $civicrm_root . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $fullpath ) );
     }
 
 

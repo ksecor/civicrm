@@ -162,6 +162,7 @@ class CRM_Core_Component
             $files = array_merge( $files,
                                   $comp->menuFiles( ) );
         }
+        
         return $files;
     }
 
