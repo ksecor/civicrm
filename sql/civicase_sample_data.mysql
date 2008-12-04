@@ -13,6 +13,10 @@ UPDATE civicrm_location_type SET `is_default` = 1 WHERE `name` = 'Work';
 SELECT @ptId        := max(id) from civicrm_option_group where name = 'phone_type';
 UPDATE civicrm_option_value SET `is_default` = 1 WHERE `option_group_id` = @ptId AND `name` = 'Voicemail';
 
+-- Update dedupe matching rules to not require email.
+DELETE FROM civicrm_dedupe_rule WHERE id='3';
+UPDATE civicrm_dedupe_rule_group SET threshold='11';
+
 -- /*******************************************************
 -- *
 -- * Case Types
