@@ -167,6 +167,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
+        $buttonType = 'upload';
         
         $this->addButtons(array(
                                 array ( 'type'      => $buttonType,

@@ -1,4 +1,5 @@
 {* Custom Data form*}
+{debug}
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
 <div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
@@ -51,17 +52,17 @@
 				&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
 				{/if}
 				{if $element.data_type eq 'File'}
-				{if $element.customValue.data}
+				{if $element.element_value.data}
 				<span class="html-adjust"><br />
 					&nbsp;{ts}Attached File{/ts}: &nbsp;
-					{if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
-					<a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
+					{if $element.element_value.displayURL }
+					<a href="javascript:popUp('{$element.element_value.displayURL}')" ><img src="{$element.element_value.displayURL}" height = "100" width="100"></a>
 					{else}
-					<a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
+					<a href="{$element.element_value.fileURL}">{$element.element_value.fileName}</a>
 					{/if}
-					{if $groupTree.$group_id.fields.$field_id.customValue.deleteURL }
+					{if $element.element_value.deleteURL }
 					<br />
-					{$groupTree.$group_id.fields.$field_id.customValue.deleteURL}
+					{$element.element_value.deleteURL}
 					{/if}	
 				</span>  
 				{/if} 
