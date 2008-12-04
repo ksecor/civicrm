@@ -33,90 +33,68 @@
  *
  */
 
+require_once 'CRM/Case/Form/Task.php';
+
 /**
- * class to represent the actions that can be performed on a group of contacts
- * used by the search forms
- *
+ * This class provides the functionality to restore a group of
+ * participations. This class provides functionality for the actual
+ * deletion.
  */
-class CRM_Case_Task
+class CRM_Case_Form_Task_Restore extends CRM_Case_Form_Task 
 {
-    const
-        DELETE_CASES   = 1,
-        PRINT_CASES    = 2,
-        EXPORT_CASES   = 3,
-        RESTORE_CASES  = 4;
     /**
-     * the task array
+     * Are we operating in "single mode", i.e. deleting one
+     * specific case?
      *
-     * @var array
-     * @static
+     * @var boolean
      */
-    static $_tasks = null;
-
+    protected $_single = false;
+    
     /**
-     * the optional task array
+     * build all the data structures needed to build the form
      *
-     * @var array
-     * @static
-     */
-    static $_optionalTasks = null;
-
-    /**
-     * These tasks are the core set of tasks that the user can perform
-     * on a contact / group of contacts
-     *
-     * @return array the set of tasks for a group of contacts
-     * @static
+     * @return void
      * @access public
      */
-    static function &tasks()
+    function preProcess( ) 
     {
-        if ( !self::$_tasks ) {
-            self::$_tasks = array(
-                                  1     => ts( 'Delete Cases' ),
-                                  3     => ts( 'Export Cases' ),
-                                  4     => ts( 'Restore Cases'),
-                                  );
-        }
-
-        asort( self::$_tasks );
-        return self::$_tasks;
+        parent::preProcess( );
     }
 
     /**
-     * These tasks get added based on the context the user is in
+     * Build the form
      *
-     * @return array the set of optional tasks for a group of contacts
-     * @static
      * @access public
+     * @return void
      */
-    static function &optionalTaskTitle()
+    function buildQuickForm( ) 
     {
-        $tasks = array( );
-        return $tasks;
+        $this->addDefaultButtons( ts( 'Restore Cases' ), 'done' );
     }
 
     /**
-     * show tasks selectively based on the permission level
-     * of the user
+     * process the form after the input has been submitted and validated
      *
-     * @param int $permission
-     *
-     * @return array set of tasks that are valid for the user
      * @access public
+     * @return None
      */
-    static function &permissionedTaskTitles( $permission ) 
+    public function postProcess( ) 
     {
-        $allTasks = self::tasks( );
-        if ( ( $permission == CRM_Core_Permission::EDIT ) 
-             || CRM_Core_Permission::check( 'edit cases' ) ) {
-            return $allTasks; 
-        } else {
-            $tasks = array( 
-                           3  => self::$_tasks[3]
-                           );
-            return $tasks;
+        $restoredCases = 0;
+        require_once 'CRM/Case/BAO/Case.php';
+        foreach ( $this->_caseIds as $caseId ) {
+            if ( CRM_Case_BAO_Case::restoreCase( $caseId ) ) {
+                $restoredCases++;
+            }
         }
+
+        $status = array(
+                        ts( 'Restored Case(s): %1',         array( 1 => $restoredCases ) ),
+                        ts( 'Total Selected Case(s): %1',   array( 1 => count($this->_caseIds ) ) ),
+                        );
+        CRM_Core_Session::setStatus( $status );
+
     }
 }
+
 
