@@ -325,6 +325,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['target_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_caseId, $this->_contactID );
             $this->assign( 'targetContactCount', count( $defaults['target_contact'] ) );
             $this->_sourceContactId = $this->_currentUserId;
+            $defaults['activity_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+            $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;            
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
