@@ -191,8 +191,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         }
 
         // also set the value to null of the table and column
-        $query = "UPDATE $tableName SET $columnName = null WHERE entity_id = %1";
-        $params = array( 1 => array( $entityID, 'Integer' ) );
+        $query = "UPDATE $tableName SET $columnName = null WHERE $columnName = %1";
+        $params = array( 1 => array( $fileID, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
     }
 

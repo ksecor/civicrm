@@ -1239,8 +1239,9 @@ SELECT id
                 $query = "
 SELECT $columnName
   FROM $tableName
- WHERE entity_id={$entityId}";
-                $fileId = CRM_Core_DAO::singleValueQuery( $query );
+ WHERE id = %1";
+                $params = array( 1 => array( $customValueId, 'Integer' ) );
+                $fileId = CRM_Core_DAO::singleValueQuery( $query, $params );
             }
             
             $fileDAO =& new CRM_Core_DAO_File();

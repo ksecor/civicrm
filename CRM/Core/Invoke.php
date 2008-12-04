@@ -204,47 +204,6 @@ class CRM_Core_Invoke
     }
 
     /**
-     * This function contains the actions for search arguments
-     *
-     * @param $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
-    static function search( $args ) 
-    {
-        CRM_Core_Error::fatal( 'Please rebuild your menu array.' );
-
-        $session =& CRM_Core_Session::singleton( );
-        $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
-
-        if ( $thirdArg == 'advanced' ) {
-            // advanced search
-            $mode  = CRM_Core_Action::ADVANCED;
-            $title = ts('Advanced Search');
-            $url   = 'civicrm/contact/search/advanced';
-        } else if ( $thirdArg == 'builder' ) {
-            $mode    =  CRM_Core_Action::PROFILE;
-            $title   = ts( 'Search Builder' );
-            $url   = 'civicrm/contact/search/builder';
-        } else if ( $thirdArg == 'custom' ) {
-            $mode    =  CRM_Core_Action::COPY;
-            $title   = ts( 'Custom Search' );
-            $url   = 'civicrm/contact/search/custom';
-        } else {
-            $mode  = CRM_Core_Action::BASIC;
-            $title = ts('Search');
-            $url   = 'civicrm/contact/search/basic';
-        }
-
-        require_once 'CRM/Contact/Controller/Search.php';
-        $controller =& new CRM_Contact_Controller_Search($title, true, $mode);
-
-        $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
-        return $controller->run();
-    }
-    
-    /**
      * This function contains the default action
      *
      * @param $action 
