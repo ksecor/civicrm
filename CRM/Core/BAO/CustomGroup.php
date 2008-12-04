@@ -1380,27 +1380,27 @@ SELECT $select
 				$groupID = $group['id'];
                 if ( !empty( $properties['customValue'] ) ) {
                     foreach ( $properties['customValue'] as $values ) {
-	                    $details[$groupID][$values['id']]['title'] = $group['title']; 
-                        $details[$groupID][$values['id']]['name'] = $group['name']; 
-                        $details[$groupID][$values['id']]['help_pre'] = $group['help_pre']; 
-                        $details[$groupID][$values['id']]['help_post'] = $group['help_post']; 
-                        $details[$groupID][$values['id']]['collapse_display']  = $group['collapse_display'];
-
-                        $details[$groupID][$values['id']]['fields'][$k] = array( 'field_title'      => $properties['label'],
-                                                                       			 'field_value'      => self::formatCustomValues( $values['data'], 
-                                                                                                                       $properties['html_type'], 
-                                                                                                                       $properties['data_type'],
-														       														   $properties['option_group_id'] ),
-                                                                       			 'options_per_line' => $properties['options_per_line'] );
+	                    $details[$groupID][$values['id']]['title']            = CRM_Utils_Array::value('title', $group);
+                        $details[$groupID][$values['id']]['name']             = CRM_Utils_Array::value('name', $group); 
+                        $details[$groupID][$values['id']]['help_pre']         = CRM_Utils_Array::value('help_pre', $group );  
+                        $details[$groupID][$values['id']]['help_post']        = CRM_Utils_Array::value('help_post', $group); 
+                        $details[$groupID][$values['id']]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $group);
+                        
+                        $details[$groupID][$values['id']]['fields'][$k] = array( 'field_title'      => CRM_Utils_Array::value('label', $properties) ,
+                                                                                 'field_value'      => self::formatCustomValues( CRM_Utils_Array::value('data', $values), 
+                                                                                                                                 CRM_Utils_Array::value('html_type', $properties), 
+                                                                                                                                 CRM_Utils_Array::value('data_type', $properties),
+                                                                                                                                 CRM_Utils_Array::value('option_group_id', $properties) ),
+                                                                                 'options_per_line' => CRM_Utils_Array::value('options_per_line', $properties) ) ;
                     }
-				} else {
-					$details[$groupID][0]['title'] = $group['title']; 
-					$details[$groupID][0]['name'] = $group['name']; 
-					$details[$groupID][0]['help_pre'] = $group['help_pre']; 
-					$details[$groupID][0]['help_post'] = $group['help_post']; 
-					$details[$groupID][0]['collapse_display']  = $group['collapse_display'];					
-					$details[$groupID][0]['fields'][$k] = array( 'field_title' => $properties['label'] );
-				}
+                } else {
+                    $details[$groupID][0]['title']             = CRM_Utils_Array::value('title', $group);  
+                    $details[$groupID][0]['name']              = CRM_Utils_Array::value('name', $group); 
+                    $details[$groupID][0]['help_pre']          = CRM_Utils_Array::value('help_pre', $group ); 
+                    $details[$groupID][0]['help_post']         = CRM_Utils_Array::value('help_post', $group); 
+                    $details[$groupID][0]['collapse_display']  = CRM_Utils_Array::value('collapse_display', $group);				
+                    $details[$groupID][0]['fields'][$k]        = array( 'field_title' => CRM_Utils_Array::value('label', $properties) );
+                }
             }	
         }
 
@@ -1519,7 +1519,8 @@ SELECT $select
 			}
 			break;
 		}
-
+        
+        $retValue = isset($retValue) ? $retValue : null ;
 		return $retValue;
 	}
 }
