@@ -1,5 +1,4 @@
 <?php
-
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 2.1                                                |
@@ -60,9 +59,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         $this->_searchPane = CRM_Utils_Array::value( 'searchPane', $_GET );
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
-
         if ( ! $this->_searchPane || $this->_searchPane == 'basic' ) {
             CRM_Contact_Form_Search_Criteria::basic( $this );
         }
@@ -87,6 +83,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
             unset( $paneNames[ts('Custom Fields')] );
         }
 
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
                 unset( $paneNames[$name] );
@@ -113,6 +111,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                 // FIXME: we should change the use of $name here
                 // FIXME: to keyword
                 $paneNames[$pane['title']] = $pane['name'];
+        }
+
+        // FIXME: exception for CiviCase, which is not formally a component
+        // FIXME: consider reworking it for cases project
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        if ( $this->_viewOptions['CiviCase'] ) {
+            $paneNames[ts('Cases')] = 'CiviCase';
         }
 
         $this->_paneTemplatePath = array( );
@@ -240,13 +245,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
-        //search for civicase assign userID, search for my cases;
-        if ( ! $this->_formValues['case_owner'] && ! $this->_force ) {
-            $this->_formValues['case_owner']  = $session->get('userID');
-        } else {
-            unset( $this->_formValues['case_owner'] );
-        } 
-
+        
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button
