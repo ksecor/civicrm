@@ -1,6 +1,4 @@
 {* Custom Data form*}
-{debug}
-{strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
 <div id="{$cd_edit.name}_show_{$cgCount}" class="section-hidden section-hidden-border">
 	<a href="#" onclick="hide('{$cd_edit.name}_show_{$cgCount}'); show('{$cd_edit.name}_{$cgCount}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
@@ -19,7 +17,6 @@
 			<dt>{$form.$element_name.label}</dt>
 			<dd class="html-adjust">
 				{assign var="count" value="1"}
-				{strip}
 				<table class="form-layout-compressed">
 					<tr>
 						{* sort by fails for option per line. Added a variable to iterate through the element array*}
@@ -40,7 +37,6 @@
 						{/foreach}
 					</tr>
 				</table>
-				{/strip}
 			</dd>
 			{if $element.help_post}
 			<dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
@@ -103,6 +99,5 @@
 {/if}
 </script>
 {/foreach}
-{/strip}
 
 
