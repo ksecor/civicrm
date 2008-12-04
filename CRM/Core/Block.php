@@ -304,6 +304,20 @@ class CRM_Core_Block {
                                                                    'title' => ts('New Group') ) ));
             }
 
+            if ( CRM_Core_Permission::check('access CiviCase') && 
+                 in_array( 'CiviCase', $config->enableComponents ) ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $atype = CRM_Core_OptionGroup::getValue('activity_type', 
+                                                        'Open Case', 
+                                                        'name' );
+                if ( $atype ) {
+                    $shortCuts = 
+                        array_merge($shortCuts, array( array( 'path'  => 'civicrm/contact/view/case',
+                                                              'query' => "reset=1&action=add&atype=$atype",
+                                                              'title' => ts('New Case for New Client') ) ));
+                }
+            }
+
             if ( CRM_Core_Permission::check('access Contact Dashboard')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/user',
                                                                    'query' => 'reset=1',
