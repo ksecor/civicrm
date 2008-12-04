@@ -70,6 +70,21 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     {
         return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_UFGroup', $params, $defaults );
     }
+
+    /**
+     * Retrieve the first non-generic contact type
+     *
+     * @param int $id  id of uf_group
+     * @return string  contact type
+     */
+    static function getContactType($id)
+    {
+        $valid = array('Individual', 'Organization', 'Household');
+        $types = explode(',', CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $id, 'group_type'));
+        foreach ($types as $type) {
+            if (in_array($type, $valid)) return $type;
+        }
+    }
     
     /**
      * Get the form title.

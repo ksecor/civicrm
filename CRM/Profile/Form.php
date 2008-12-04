@@ -476,8 +476,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             $session =& CRM_Core_Session::singleton();
+
+            $ctype = CRM_Core_BAO_UFGroup::getContactType($form->_gid);
+
             require_once 'CRM/Dedupe/Finder.php';
-            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, $ctype);
             if ( $form->_mode == CRM_Profile_Form::MODE_CREATE ) {
                 // fix for CRM-2888
                 $exceptions = array( );
@@ -486,7 +489,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $exceptions = array( $session->get( 'userID' ) );
             }
             $ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams,
-                                                     'Individual', 
+                                                     $ctype, 
                                                      'Strict', 
                                                      $exceptions );
             if ( $ids ) {
