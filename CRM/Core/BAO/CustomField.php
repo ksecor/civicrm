@@ -164,7 +164,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 
                 require_once 'CRM/Core/BAO/OptionValue.php';
                 require_once 'CRM/Utils/Rule.php';
-                $moneyField = true;
+                $moneyField = false;
                 if ( $params['data_type'] == 'Money' ) {
                     $moneyField = true;
                 }
