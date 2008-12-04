@@ -92,10 +92,10 @@
 </fieldset>
 {/if} 
 
-{if $pcp_made_through_id}
+{if $pcp_id}
 <fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
 <dl>
-	<dt>{ts}Campaign Page{/ts}</dt><dd>{$pcp_made_through}</dd>
+	<dt>{ts}Campaign Page{/ts}</dt><dd>{$pcp}</dd>
 	<dt>{ts}Display in Roll{/ts}</dt><dd>{if $pcp_display_in_roll}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</dd>
 	<dt>{ts}Nick Name{/ts}</dt><dd>{$pcp_roll_nickname}</dd>
 	<dt>{ts}Notes{/ts}</dt><dd>{$pcp_personal_note}</dd>

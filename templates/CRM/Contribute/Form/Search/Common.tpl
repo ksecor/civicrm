@@ -49,8 +49,8 @@
 <tr>
 	<td>{$form.contribution_pcp_made_through_id.label} <br />
 	{$form.contribution_pcp_made_through_id.html}</td>
-	<td>{$form.contribution_pcp_display_in_roll.html}&nbsp;
-	{$form.contribution_pcp_display_in_roll.label}</td>
+	<td>{$form.contribution_pcp_display_in_roll.label}
+	{$form.contribution_pcp_display_in_roll.html}&nbsp;&nbsp;<a href="javascript:unselectRadio('contribution_pcp_display_in_roll','Search')">unselect</a></td>
 </tr>
 {if $contributeGroupTree}
 <tr>
