@@ -8,7 +8,7 @@
             <td class="label">{ts}Added By{/ts}</td><td class="view-value">{$values.source_contact}</td>
         </tr>  
         <tr>
-            <td class="label">{ts}With Contact{/ts}</td><td class="view-value">{$values.target_contact}</td>
+            <td class="label">{ts}With Contact{/ts}</td><td class="view-value">{$values.target_contact_value}</td>
         </tr>  
         <tr>
             <td class="label">{ts}Subject{/ts}</td><td class="view-value">{$values.subject}</td>

@@ -182,31 +182,13 @@ class CRM_Contact_Form_Search_Criteria {
         // textbox for Activity Type
         $form->_activityType =
             array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::activityType( );
-
-        // we need to remove some activity types
-        CRM_Utils_Array::crmArraySplice( $form->_activityType, 4, 9);
-
+            CRM_Core_PseudoConstant::activityType( true, true );
+        
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,
                    false);
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->civiHRD ) {
-            $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
-            $form->add('select', 'activity_activitytag1_id',  ts( 'Case Activity Type' ),  
-                       array( '' => ts( '-select case activity-' ) ) + $caseActivityType );
-            
-            $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
-            $form->add('select', 'activity_activitytag2_id',  ts( 'Activity Medium' ),  
-                       array( '' => ts( '-select-' ) ) + $comunicationMedium );
-            
-            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
-                              $caseViolation , array("size"=>"5",  "multiple"));
-            
-            $form->addElement( 'text', 'activity_details', ts( 'Content' ) );
-        }
 
         // Date selects for activity date
         $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));

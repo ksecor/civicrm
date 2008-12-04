@@ -105,11 +105,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var array
      */
-    public $_fields = array( 'description'        =>  array( 'type'        => 'text',
-                                                             'label'       => 'Description' ,
-                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' )",
-                                                             'required'    => false
-                                                             ),
+    public $_fields = array(
                              'subject'            =>  array( 'type'        => 'text',
                                                              'label'       => 'Subject',
                                                              'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' )",

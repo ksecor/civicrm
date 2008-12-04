@@ -90,9 +90,6 @@
              {/if}
              </tr>
              <tr>
-                <td class="label">{$form.description.label}</td><td class="view-value">{$form.description.html}</td>
-             </tr> 
-             <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
 
