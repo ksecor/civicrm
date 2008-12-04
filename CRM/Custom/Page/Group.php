@@ -290,7 +290,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         foreach ($customGroup as $key => $values ) {
             $sub      = CRM_Utils_Array::value( 'extends_entity_column_value', $customGroup[$key] );
 			$subName  = CRM_Utils_Array::value( 'extends_entity_column_id', $customGroup[$key] );
-            if ( $customGroup[$key]['extends'] == 'Relationship' && $customGroup[$key]['extends_entity_column_value']) {
+            if ( $customGroup[$key]['extends'] == 'Relationship' && CRM_Utils_Array::value('extends_entity_column_value', $customGroup[$key] ) ) {
                 $sub = $sub.'_a_b';
             }
             $type = CRM_Utils_Array::value( 'extends', $customGroup[$key] );
