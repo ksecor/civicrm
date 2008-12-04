@@ -1138,19 +1138,26 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             require_once 'CRM/Case/DAO/Case.php';
             require_once 'CRM/Activity/DAO/Activity.php';
             
-            $impFields         = CRM_Case_DAO_Case::import( );
+            $fields['case'] = CRM_Case_DAO_Case::import( );
+
+            $fields['case']['case_start_date'] = array( 'title' => ts('Case Start Date') );
+            $fields['case']['case_end_date']   = array( 'title' => ts('Case End Date') );
             //set title to activity fields
-            $expFieldsActivity = array( 
-                                      'case_subject'              => array( 'title' => ts('Subject') ),
-                                      'case_source_contact_id'    => array( 'title' => ts('Source Contact') ),
-                                      'case_location'             => array( 'title' => ts('Case Location') ),
-                                      'case_recent_activity_date' => array( 'title' => ts('Activity Date') ),
-                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') ),
-                                      'case_activity_status_id'   => array( 'title' => ts('Activity Status') ),
-                                      'case_role'                 => array( 'title' => ts('Case Role') )
-                                      );
+            $fields['activity'] = array( 
+                                        'case_subject'                 => array( 'title' => ts('Activity Subject') ),
+                                        'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
+                                        'case_location'                => array( 'title' => ts('Activity Location') ),
+                                        'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
+                                        'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
+                                        'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),
+                                        'case_activity_status_id'      => array( 'title' => ts('Activity Status') ),
+                                        'case_activity_duration'       => array( 'title' => ts('Activity Duration') ),
+                                        'case_activity_medium_id'      => array( 'title' => ts('Activity Medium') ),
+                                        'case_activity_details'        => array( 'title' => ts('Activity Details') ),
+                                        'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?') )
+                                        );
             
-            $fields = array_merge($impFields, $expFieldsActivity );
+            //$fields = array_merge($impFields, $expFieldsActivity );
             
             self::$_exportableFields = $fields;
         }
