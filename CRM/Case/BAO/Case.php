@@ -815,7 +815,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             if ( !$dao->deleted ) {
                 $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
                 $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
-            } else if ( !$deleted ) {CRM_Core_Error::debug( '$caseDeleted', $caseDeleted );
+            } else if ( !$deleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
             } else {
                 $url = "";
