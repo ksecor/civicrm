@@ -53,7 +53,7 @@ class CRM_Case_BAO_Query
     static function select( &$query ) 
     {
         //field which are used in export, not in find case
-        $activityElements = array( 'case_subject', 'case_source_contact_id', 'case_location','case_activity_status_id',
+        $activityElements = array( 'case_subject', 'case_source_contact_id', 'case_activity_status_id',
                                    'case_activity_duration', 'case_activity_medium_id', 'case_activity_details',
                                    'case_activity_is_auto' );
 
@@ -129,12 +129,6 @@ class CRM_Case_BAO_Query
         if ( CRM_Utils_Array::value( 'case_subject', $query->_returnProperties ) ) {
             $query->_select['case_subject']    = "recent_activity.subject as case_subject";
             $query->_element['case_subject']   = 1;
-            $query->_tables['all_activity']    = 1;
-        }
-
-        if ( CRM_Utils_Array::value( 'case_location', $query->_returnProperties ) ) {
-            $query->_select['case_location']   = "recent_activity.location as case_location";
-            $query->_element['case_location']  = 1;
             $query->_tables['all_activity']    = 1;
         }
 
@@ -433,7 +427,6 @@ case_relation_type.id = case_relationship.relationship_type_id )";
                                 'case_end_date'           => 1,
                                 'case_subject'            => 1,
                                 'case_source_contact_id'  => 1,
-                                'case_location'           => 1,
                                 'case_activity_status_id' => 1,
                                 'case_activity_duration'  => 1,
                                 'case_activity_medium_id' => 1,

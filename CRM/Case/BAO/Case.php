@@ -1146,7 +1146,6 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             $fields['activity'] = array( 
                                         'case_subject'                 => array( 'title' => ts('Activity Subject') ),
                                         'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
-                                        'case_location'                => array( 'title' => ts('Activity Location') ),
                                         'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
                                         'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
                                         'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),

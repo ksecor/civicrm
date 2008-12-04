@@ -347,6 +347,10 @@ class CRM_Export_BAO_Export
                         $row[$field] = $fieldValue;
                     }
                 } else {
+                    if ( $field == 'case_role' ) {
+                        //role is removed
+                        continue;
+                    }
                     // if field is empty or null
                     $row[$field] = '';             
                 }
