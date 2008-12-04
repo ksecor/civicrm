@@ -830,7 +830,7 @@ SELECT $select
     {
         require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ( $groupTree as $id => $group ) {
-            $groupId = $group['id'];
+            $groupId = CRM_Utils_Array::value('id', $group);
             foreach ($group['fields'] as $field) {
                 if ( CRM_Utils_Array::value( 'element_value', $field ) !== null ) {
                     $value = $field['element_value'];
@@ -1104,7 +1104,7 @@ SELECT $select
 
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
 
-            $groupId = $group['id']; 
+            $groupId = CRM_Utils_Array::value('id', $group);
             foreach ($group['fields'] as $field) { 
                 // skip all view fields
                 if ( CRM_Utils_Array::value( 'is_view', $field ) ) {
@@ -1320,18 +1320,18 @@ SELECT $select
             }
             
             // add group information
-            $formattedGroupTree[$key]['name'     ] = $value['name'];
-            $formattedGroupTree[$key]['title'    ] = $value['title'];
-            $formattedGroupTree[$key]['help_pre' ] = $value['help_pre'];
-            $formattedGroupTree[$key]['help_post'] = $value['help_post'];
-            $formattedGroupTree[$key]['collapse_display'] = $value['collapse_display'];
+            $formattedGroupTree[$key]['name'     ]        = CRM_Utils_Array::value('name', $value);
+            $formattedGroupTree[$key]['title'    ]        = CRM_Utils_Array::value('title', $value);
+            $formattedGroupTree[$key]['help_pre' ]        = CRM_Utils_Array::value('help_pre', $value);
+            $formattedGroupTree[$key]['help_post']        = CRM_Utils_Array::value('help_post', $value);
+            $formattedGroupTree[$key]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $value);
            			
 			// this params needed of bulding multiple values	
-			$formattedGroupTree[$key]['is_multiple'] = $value['is_multiple'];
-			$formattedGroupTree[$key]['extends'] = $value['extends'];
-			$formattedGroupTree[$key]['extends_entity_column_id'] = $value['extends_entity_column_id'];
-			$formattedGroupTree[$key]['extends_entity_column_value'] = $value['extends_entity_column_value'];
-			$formattedGroupTree[$key]['max_multiple'] = $value['max_multiple'];
+			$formattedGroupTree[$key]['is_multiple']                 = CRM_Utils_Array::value('is_multiple', $value);
+			$formattedGroupTree[$key]['extends']                     = CRM_Utils_Array::value('extends', $value);
+			$formattedGroupTree[$key]['extends_entity_column_id']    = CRM_Utils_Array::value('extends_entity_column_id', $value);
+			$formattedGroupTree[$key]['extends_entity_column_value'] = CRM_Utils_Array::value('extends_entity_column_value', $value);
+			$formattedGroupTree[$key]['max_multiple']                = CRM_Utils_Array::value('max_multiple', $value);
 			
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {

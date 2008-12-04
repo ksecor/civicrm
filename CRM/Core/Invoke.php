@@ -164,9 +164,9 @@ class CRM_Core_Invoke
                                        $newArgs );
             } else if (strstr($item['page_callback'], '_Form')) {
                 $wrapper =& new CRM_Utils_Wrapper( );
-                return $wrapper->run( $item['page_callback'],
-                                      $item['title'], 
-                                      $pageArgs );
+                return $wrapper->run( CRM_Utils_Array::value('page_callback', $item),
+                                      CRM_Utils_Array::value('title', $item), 
+                                      isset($pageArgs) ? $pageArgs : null );
             } else {
                 $newArgs  = explode( '/',
                                      $_GET[$config->userFrameworkURLVar] );

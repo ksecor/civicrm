@@ -98,7 +98,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             $errors['style'] = ts("Display Style should be Inline for this Class");
         }
 
-        if ( $fields['is_multiple'] ) {
+        if ( CRM_Utils_Array::value('is_multiple',  $fields ) ) {
             if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
                  && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
                 $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");

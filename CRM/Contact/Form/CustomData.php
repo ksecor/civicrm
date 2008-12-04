@@ -187,7 +187,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     function &setDefaultValues()
     { 
         if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            $customDefaultValue = CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            return $customDefaultValue;
         }
 
 		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType,

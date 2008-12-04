@@ -444,14 +444,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
             $importableFields[$key] = array(
                                             'name'             => $key,
-                                            'title'            => $values['label'],
+                                            'title'            => CRM_Utils_Array::value('label', $values),
                                             'headerPattern'    => '/' . preg_quote($regexp, '/') . '/',
                                             'import'           => 1,
                                             'custom_field_id'  => $id,
-                                            'options_per_line' => $values['options_per_line'],
-                                            'data_type'        => $values['data_type'],
-                                            'html_type'        => $values['html_type'],
-                                            'is_search_range'  => $values['is_search_range'],
+                                            'options_per_line' => CRM_Utils_Array::value('options_per_line', $values),
+                                            'data_type'        => CRM_Utils_Array::value('data_type', $values),
+                                            'html_type'        => CRM_Utils_Array::value('html_type', $values),
+                                            'is_search_range'  => CRM_Utils_Array::value('is_search_range', $values),
                                             );
         }
          
