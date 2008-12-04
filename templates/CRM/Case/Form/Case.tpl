@@ -44,12 +44,16 @@
 
 <fieldset><legend>{if $action eq 8}{ts}Delete Case{/ts}{else}{$activityType}{/if}</legend>
 <table class="form-layout">
-{if $action eq 8} 
+{if $action eq 8 or $action eq 32768 } 
       <div class="messages status"> 
         <dl> 
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           <dd> 
+          {if $action eq 8}
           {ts}WARNING: Deleting this case will move to Trash.{/ts} {ts}Do you want to continue?{/ts} 
+          {else}
+          {ts}WARNING: This will Restore this case from Trash.{/ts} {ts}Do you want to continue?{/ts} 
+          {/if}
           </dd> 
        </dl> 
       </div> 

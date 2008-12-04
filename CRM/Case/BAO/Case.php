@@ -1145,6 +1145,33 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         return self::$_exportableFields;
     }
 
+    /**                                                           
+     * Restore the record that are associated with this case 
+     * 
+     * @param  int  $caseId id of the case to restore
+     * 
+     * @return true if success.
+     * @access public 
+     * @static 
+     */ 
+    static function restoreCase( $caseId ) 
+    {
+        //restore activities
+        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        if ( $activities ) {
+            require_once"CRM/Activity/BAO/Activity.php";
+            foreach( $activities as $value ) {
+                CRM_Activity_BAO_Activity::restoreActivity( $value );
+            }
+        }  
+        //restore case
+        require_once 'CRM/Case/DAO/Case.php';
+        $case     = & new CRM_Case_DAO_Case( );
+        $case->id = $caseId; 
+        $case->is_deleted = 0;
+        $case->save( );
+        return true;
+    }
 }
 
    

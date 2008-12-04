@@ -84,7 +84,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     function preProcess( ) 
     {        
         $this->_caseId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
+      
+        if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
         $this->_activityTypeId  = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
@@ -129,7 +130,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
+        if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
         CRM_Custom_Form_Customdata::setDefaultValues( $this );
@@ -139,22 +140,27 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
-        CRM_Custom_Form_Customdata::buildQuickForm( $this );
-        // we don't want to show button on top of custom form
-        $this->assign('noPreCustomButton', true);
-    
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
+        if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
+            $title = 'Delete';
+            if ( $this->_action & CRM_Core_Action::RENEW ) {
+                $title = 'Restore';
+            }
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
-                                            'name'      => ts('Delete'), 
+                                            'name'      => ts($title), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     array ( 'type'      => 'cancel', 
                                             'name'      => ts('Cancel') ), 
-                                    ) 
+                                     ) 
                               );
             return;
         }
+        
+        CRM_Custom_Form_Customdata::buildQuickForm( $this );
+        // we don't want to show button on top of custom form
+        $this->assign('noPreCustomButton', true);
+           
         $this->add( 'text', 'activity_subject', ts('Subject'), 
                    array_merge( CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), array('maxlength' => '128') ), true);
 
@@ -179,7 +185,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function addRules( ) 
     {
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
+        if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
         eval('$this->addFormRule' . "(array('CRM_Case_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
@@ -209,8 +215,24 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function postProcess() 
     {
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $statusMsg = null;
             require_once 'CRM/Case/BAO/Case.php';
-            CRM_Case_BAO_Case::deleteCase( $this->_caseId, true );
+            $caseDelete = CRM_Case_BAO_Case::deleteCase( $this->_caseId, true );
+            if ( $caseDelete ) {
+                $statusMsg = ts('The selected case has been moved to the Trash. You can view and / or restore deleted cases by checking the "Deleted Cases" option under Find Cases.<br />');
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+            return;
+        }
+
+        if ( $this->_action & CRM_Core_Action::RENEW ) {
+            $statusMsg = null;
+            require_once 'CRM/Case/BAO/Case.php';
+            $caseRestore = CRM_Case_BAO_Case::restoreCase( $this->_caseId );
+            if ( $caseRestore ) {
+                $statusMsg = ts('The selected case has been restored.<br />');
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
             return;
         }
         // store the submitted values in an array

@@ -187,22 +187,33 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
      * @access public
      *
      */
-    static function &links( )
+    static function &links( $isDeleted = false )
     {
-        self::$_links = array(
-                              CRM_Core_Action::VIEW   => array(
-                                                               'name'     => ts('Manage Case'),
-                                                               'url'      => 'civicrm/contact/view/case',
-                                                               'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case',
-                                                               'title'    => ts('Manage Case'),
-                                                               ),
-                              CRM_Core_Action::DELETE => array(
-                                                               'name'     => ts('Delete'),
-                                                               'url'      => 'civicrm/contact/view/case',
-                                                               'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                               'title'    => ts('Delete Case'),
-                                                               ),
-                              ); 
+        if ( $isDeleted ) {
+            self::$_links = array( CRM_Core_Action::RENEW  => array(
+                                                                    'name'     => ts('Restore'),
+                                                                    'url'      => 'civicrm/contact/view/case',
+                                                                    'qs'       => 'reset=1&action=renew&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                    'title'    => ts('Restore Case'),
+                                                                    ),                                  
+                                   
+                                   ); 
+        } else { 
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW   => array(
+                                                                   'name'     => ts('Manage Case'),
+                                                                   'url'      => 'civicrm/contact/view/case',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=case',
+                                                                   'title'    => ts('Manage Case'),
+                                                                   ),
+                                  CRM_Core_Action::DELETE => array(
+                                                                   'name'     => ts('Delete'),
+                                                                   'url'      => 'civicrm/contact/view/case',
+                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'title'    => ts('Delete Case')
+                                                                   )
+                                  );
+        }    
         
         return self::$_links;
     } //end of function
@@ -274,9 +285,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          }
 
          $scheduledInfo = array();
-         $links = self::links( );
-         $mask = $hide = array_sum( array_keys( $links ) );
-         //$mask = CRM_Core_Action::mask( $permission );
+         $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in
@@ -285,20 +294,22 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
+             
+             $isDeleted = false;
              if ( $result->case_deleted ) {
-                 $mask = $hide;
-                 $mask -= CRM_Core_Action::DELETE;
+                 $isDeleted = true;
              }
+ 
              $scheduledInfo['case_id'][]    = $result->case_id;
              $scheduledInfo['contact_id'][] = $result->contact_id; 
              $scheduledInfo['case_deleted'] = $result->case_deleted;    
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
-             $row['action']   = CRM_Core_Action::formLink( $links, $mask ,
+             $row['action']   = CRM_Core_Action::formLink( self::links( $isDeleted ), $mask ,
                                                            array( 'id'  => $result->case_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-                      
+             
              require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
              $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
              
