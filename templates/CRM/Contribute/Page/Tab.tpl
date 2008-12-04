@@ -52,7 +52,7 @@
 
 {if $softCredit}
     <div class="solid-border-top">
-        <br /><label>{ts}Soft credit for others' contributions.{/ts}</label>
+        <br /><label>{ts}Soft credit for contributions donated by other people.{/ts}</label>
     </div>
     {include file="CRM/Contribute/Page/ContributionSoft.tpl"}	    
 {/if}
