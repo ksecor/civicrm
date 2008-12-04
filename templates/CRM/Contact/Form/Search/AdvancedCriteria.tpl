@@ -6,28 +6,28 @@
         {elseif $savedSearch}{ts 1=$savedSearch.name}%1 Smart Group Criteria{/ts} &nbsp; {help id='id-advanced-smart'}
         {else}{ts}Search Criteria{/ts} &nbsp; {help id='id-advanced-intro'}{/if}
     </legend>
- <div class="form-item">
-    {strip}
 
-<div id="basicCriteria" class="content-pane">
-    {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
-</div>
-<div class="tundra">
-{foreach from=$allPanes key=paneName item=paneValue}
-{if $paneValue.open eq 'true'}
-  <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
-{else}
-  <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
-{/if}
-{/foreach}
-</div>
+<div class="form-item">
+{strip}
+    <div id="basicCriteria" class="content-pane">
+        {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
+    </div>
+    <div class="tundra">
+    {foreach from=$allPanes key=paneName item=paneValue}
+    {if $paneValue.open eq 'true'}
+      <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
+    {else}
+      <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
+    {/if}
+    {/foreach}
+    </div>
     <div class="spacer"></div>
 
     <table class="form-layout">
-    <tr>
-    <td class="label">{$form.buttons.html}</td>
-    </tr>
+        <tr>
+            <td>{$form.buttons.html}</td>
+        </tr>
     </table>
-    {/strip}
- </div>
+{/strip}
+</div>
 </fieldset>
