@@ -66,7 +66,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      * @access public
      */
     function preProcess( ) 
-    {        
+    {    
         $this->_context = 'caseActivity';
         $this->_crmDir  = 'Case';
         $result = parent::preProcess( );
@@ -155,6 +155,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 
         $result = parent::buildQuickForm( );
 
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH |  CRM_Core_Action::RENEW ) ) {
+            return;
+        }
+
         if ( $this->_cdType || $this->_addAssigneeContact || $this->_addTargetContact ) {
             return $result;
         }
@@ -212,7 +216,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     static function formRule( &$fields, &$files, $self ) 
     {  
         // skip form rule if deleting
-        if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
+        if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' || CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Restore' ) {
             return true;
         }
         
@@ -227,6 +231,30 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      */
     public function postProcess() 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $statusMsg = null;
+            $params = array( 'id' => $this->_activityId );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            $activityDelete = CRM_Activity_BAO_Activity::deleteActivity( $params, true );
+            if ( $activityDelete ) {
+                $statusMsg = ts('The selected activity has been moved to the Trash. You can view and / or restore deleted activity by checking the "Deleted Activity" option under Manage Cases.<br />');
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+            return;
+        }
+
+        if ( $this->_action & CRM_Core_Action::RENEW ) {
+            $statusMsg = null;
+            $params = array( 'id' => $this->_activityId );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            $activityRestore = CRM_Activity_BAO_Activity::restoreActivity( $params );
+            if ( $activityRestore ) {
+                $statusMsg = ts('The selected activity has been restored.<br />');
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+            return;
+        }
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         $params['now'] = date("YmdhisA");

@@ -4,14 +4,14 @@
 {elseif $addAssigneeContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
-
+{if $action neq 8 and $action  neq 32768 }
 {* onload javascript for source contact *}
 <script type="text/javascript">
     dojo.addOnLoad( function( ) {ldelim}
     dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
     {rdelim} );
 </script>
-
+{/if}
 
 <fieldset>
     <legend>
@@ -20,16 +20,30 @@
        {elseif $action eq 4}
           {ts}View{/ts}
        {elseif $action eq 32768}
-          {ts}Detach{/ts}
+          {ts}Restore{/ts}
        {/if}
        {$activityTypeName}
     </legend>
-
-       {if $activityTypeDescription }  
-          <div id="help">{$activityTypeDescription}</div>
-       {/if}
-
     <table class="form-layout">
+       {if $action eq 8 or $action eq 32768 }
+        <div class="messages status"> 
+          <dl> 
+             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
+             <dd> 
+             {if $action eq 8}
+             {ts}WARNING: Deleting this activity will move to Trash.{/ts} {ts}Do you want to continue?{/ts}
+             {else}
+             {ts}WARNING: Restoring this activity will restore from Trash.{/ts} {ts}Do you want to continue?{/ts}
+             {/if}  
+             </dd> 
+          </dl> 
+        </div> 
+       {else}
+        {if $activityTypeDescription }
+       <tr>
+          <div id="help">{$activityTypeDescription}</div>
+       </tr>
+        {/if}
        <tr>
           <td class="label font-size12pt">{ts}Client{/ts}</td>
           <td class="view-value font-size12pt bold">{$client_name|escape}</td>
@@ -161,6 +175,7 @@
        <tr>
           <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
        </tr>
+       {/if}
        <tr>
           <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td>
         </tr>
@@ -184,7 +199,7 @@
     </script>
     {/literal}
 {/if}
- 
+{if $action neq 8 and $action neq 32768} 
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
@@ -264,3 +279,4 @@ function buildContact( count, pref )
 }
 </script>
 {/literal}
+{/if }

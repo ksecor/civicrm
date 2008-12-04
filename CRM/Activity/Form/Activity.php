@@ -417,6 +417,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
     public function buildQuickForm( ) 
     {
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
+            $button = ts('Delete');
+            if (  $this->_action & CRM_Core_Action::RENEW ) {
+                $button = ts('Restore');
+            } 
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => $button, 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel'),
+                                            )
+                                     ));
+            return;
+        }
+        
         if ( ! $this->_single && !empty($this->_contactIds) ) {
             $withArray          = array();
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -455,24 +472,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         //enable form element
         $this->assign( 'suppressForm', false );
-
-        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) { 
-            $button = ts('Delete');
-            if ( $this->_action & CRM_Core_Action::DETACH ) {
-                $button = ts('Detach');
-            }
-            $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
-                                            'name'      => $button, 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel'),
-                                            )
-                                    ));
-            return;
-        }
-        
+            
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
         $config =& CRM_Core_Config::singleton( );
