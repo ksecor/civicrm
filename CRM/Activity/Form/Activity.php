@@ -361,6 +361,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
+            if ( !CRM_Utils_Array::value('activity_date_time', $defaults) ) {
+                $defaults['activity_date_time'] = array( );
+                CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+                $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
+            }
+
             $this->assign('caseSubject', $defaults['case_subject']);
 
             //set the assigneed contact count to template
