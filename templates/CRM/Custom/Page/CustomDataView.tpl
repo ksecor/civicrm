@@ -1,5 +1,4 @@
 {* Custom Data view mode*}
-{strip}
 {foreach from=$viewCustomData item=customValues}
 {foreach from=$customValues item=cd_edit key=index}
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
@@ -15,7 +14,6 @@
         <dt>{$element.element_title}</dt>
         <dd>
         {assign var="count" value="1"}
-        {strip}
         <table class="form-layout-compressed">
         <tr>
             {* sort by fails for option per line. Added a variable to iterate through the element array*}
@@ -36,15 +34,14 @@
             {/foreach}
         </tr>
         </table>
-        {/strip}
         </dd>
 	{else}
            <dt>{$element.field_title}</dt>
            {if $element.field_type == 'File'}
               {if $element.field_value.displayURL}
-               <dd class="html-adjust"><a href="javascript:popUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></dd>
+               <dd>&nbsp;<a href="javascript:popUp('{$element.field_value.displayURL}')" ><img src="{$element.field_value.displayURL}" height = "100" width="100"></a></dd>
              {else}
-               <dd class="html-adjust"><a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></dd>
+               <dd>&nbsp;<a href="{$element.field_value.fileURL}">{$element.field_value.fileName}</a></dd>
              {/if}
            {else}
              <dd>&nbsp;{$element.field_value}</dd>
@@ -68,4 +65,3 @@
 	</script>
 {/foreach}
 {/foreach}
-{/strip}
