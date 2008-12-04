@@ -50,9 +50,9 @@
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
           <dd> 
           {if $action eq 8}
-          {ts}WARNING: Deleting this case will move to Trash.{/ts} {ts}Do you want to continue?{/ts} 
+            {ts}Click Delete to move this case and all associated activities to the Trash.{/ts} 
           {else}
-          {ts}WARNING: This will Restore this case from Trash.{/ts} {ts}Do you want to continue?{/ts} 
+            {ts}Click Restore to retrieve this case and all associated activities from the Trash.{/ts} 
           {/if}
           </dd> 
        </dl> 
