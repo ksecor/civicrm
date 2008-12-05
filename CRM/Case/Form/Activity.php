@@ -237,7 +237,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             require_once 'CRM/Activity/BAO/Activity.php';
             $activityDelete = CRM_Activity_BAO_Activity::deleteActivity( $params, true );
             if ( $activityDelete ) {
-                $statusMsg = ts('The selected activity has been moved to the Trash. You can view and / or restore deleted activity by checking the "Deleted Activity" option under Manage Cases.<br />');
+                $statusMsg = ts('The selected activity has been moved to the Trash. You can view and / or restore deleted activities by checking "Deleted Activities" from the Case Activities search filter (under Manage Case).<br />');
             }
             CRM_Core_Session::setStatus( $statusMsg );
             return;

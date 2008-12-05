@@ -31,9 +31,9 @@
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
              <dd> 
              {if $action eq 8}
-             {ts}WARNING: Deleting this activity will move to Trash.{/ts} {ts}Do you want to continue?{/ts}
+                {ts}Click Delete to move this activity to the Trash.{/ts}
              {else}
-             {ts}WARNING: Restoring this activity will restore from Trash.{/ts} {ts}Do you want to continue?{/ts}
+                {ts}Click Restore to retrieve this activity from the Trash.{/ts}
              {/if}  
              </dd> 
           </dl> 
