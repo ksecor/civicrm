@@ -27,6 +27,7 @@
 require_once ('bin/cli.php');
 require_once 'CRM/Core/BAO/Tag.php';
 
+/$ this
 class tagsImporter extends civicrm_cli {
 
     function __construct() {
@@ -42,8 +43,8 @@ class tagsImporter extends civicrm_cli {
 function run() {
 	$row = 1;
 	$handle = fopen($this->file, "r");
-	//header
-//	$header = fgetcsv($handle, 1000, ",");
+	//if you have a header with the name of the fields on the first line, uncomment
+	//$header = fgetcsv($handle, 1000, ",");
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 	    $num = count($data);
 	    $row++;
@@ -75,12 +76,11 @@ function addTag ($param) {
    return $tag->id;
 }
 
-/* return a params as expected */
-function convertLine ($data) {
-/*
-    [0] => parent tag name
-    [1] => name of the tag
+/* format the csv line so it returns the params as expected 
+    first column = parent tag name
+    second column = name of the tag
 */
+function convertLine ($data) {
    $params ['parent'] = $data[0];
    $params ['name'] = $data[1];
    return $params;
@@ -88,7 +88,7 @@ function convertLine ($data) {
 
 }
 
-$tagsImporter = new tagsImporter ("civicrm_value_1_extra_information");
+$tagsImporter = new tagsImporter ();
 $tagsImporter->run();
 echo "\n";
 ?>
