@@ -117,5 +117,8 @@
     <RelationshipType>
         <name>Supervisor</name>
     </RelationshipType>
+    <RelationshipType>
+        <name>Family Physician</name>
+    </RelationshipType>
   </CaseRoles>
 </CaseType>

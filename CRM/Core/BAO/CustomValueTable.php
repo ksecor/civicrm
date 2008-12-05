@@ -203,6 +203,7 @@ class CRM_Core_BAO_CustomValueTable
                     } else {
                         $query = "$sqlOP SET $setClause $where";
                     }
+                    
                     $dao = CRM_Core_DAO::executeQuery( $query, $params );
                     $dao->free( );
 

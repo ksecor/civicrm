@@ -241,7 +241,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         foreach ( $rest as $k => $v ) {
-            if ( ! $this->_viewOptions[$k] ) {
+            if ( !isset( $this->_viewOptions[$k] ) ) {
                 continue;
             }
             $allTabs[] = array( 'id'     =>  $k,

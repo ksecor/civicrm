@@ -26,23 +26,23 @@
       
       {/literal}
       {foreach from=$locations item=location}
-{if $location.url and ! $profileGID}
+      {if $location.url and ! $profileGID}
       {literal}
-	 var data = "{/literal}<a href='{$location.url}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:gpopUp();\">&raquo; Go</a>";
-{else}
+	 var data = "{/literal}<a href='{$location.url}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=hidden id=to value='{$location.displayAddress}'><input type=text id=from size=20>&nbsp;<a href=\"javascript:gpopUp();\">&raquo; Go</a>";
+      {else}
       {capture assign="profileURL"}{crmURL p='civicrm/profile/view' q="reset=1&id=`$location.contactID`&gid=$profileGID"}{/capture}
       {literal}
-	 var data = "{/literal}<a href='{$profileURL}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:gpopUp();\">&raquo; Go</a>";
-{/if}
-{literal}
+	 var data = "{/literal}<a href='{$profileURL}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=hidden id=to value='{$location.displayAddress}'><input type=text id=from size=20>&nbsp;<a href=\"javascript:gpopUp();\">&raquo; Go</a>";
+      {/if}
+      {literal}
 	 var address = "{/literal}{$location.address}{literal}";
-{/literal}
-{if $location.lat}
+      {/literal}
+      {if $location.lat}
        	var point = new GLatLng({$location.lat},{$location.lng});
        	var marker = createMarker(point, data);
         map.addOverlay(marker);
         bounds.extend(point);
-{/if}
+      {/if}
       {/foreach}
       {if count($locations) gt 1}  
       	  map.setZoom(5);
@@ -56,10 +56,8 @@
    }
 
     function gpopUp() {
-       {/literal}
-       var to = "{$location.displayAddress}";
-       {literal}
-       var from   = document.getElementById('to').value;
+       var from   = document.getElementById('from').value;
+       var to     = document.getElementById('to').value;	
        var URL  = "http://maps.google.com/maps?saddr=" + from + "&daddr=" + to;
        day = new Date();
        id = day.getTime();

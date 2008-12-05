@@ -68,23 +68,17 @@ class CRM_Core_Menu
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
             $config =& CRM_Core_Config::singleton( );
-            $coreMenuFiles = array( 'Activity', 'Contact', 'Import', 
-                                    'Profile', 'Admin', 'Group', 'Misc', );
 
-            $files = array( $config->templateDir . 'Menu/Activity.xml',
-                            $config->templateDir . 'Menu/Contact.xml',
-                            $config->templateDir . 'Menu/Custom.xml',
-                            $config->templateDir . 'Menu/Import.xml',
-                            $config->templateDir . 'Menu/Profile.xml',
-                            $config->templateDir . 'Menu/Admin.xml',
-                            $config->templateDir . 'Menu/Group.xml',
-                            $config->templateDir . 'Menu/Misc.xml',
-                            $config->templateDir . 'Menu/Location.xml'
-                            );
+            // We needs this until Core becomes a component
+            $coreMenuFilesNamespace = 'CRM_Core_xml_Menu';
+            $coreMenuFilesPath = str_replace('_', DIRECTORY_SEPARATOR, $coreMenuFilesNamespace );
+            global $civicrm_root;
+            $files = CRM_Utils_File::getFilesByExtension( $civicrm_root . DIRECTORY_SEPARATOR . $coreMenuFilesPath, 'xml' );
 
+            // Grab component menu files
             $files = array_merge( $files,
                                   CRM_Core_Component::xmlMenu( ) );
-
+                                  
             // lets call a hook and get any additional files if needed
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::xmlMenu( $files );
@@ -275,15 +269,13 @@ class CRM_Core_Menu
 
     static function buildNavigation( &$menu ) {
 
-        $components = array( ts( 'CiviContribute' ) => 1,
-                             ts( 'CiviEvent'      ) => 1,
-                             ts( 'CiviMember'     ) => 1,
-                             ts( 'CiviMail'       ) => 1,
-                             ts( 'Import'         ) => 1,
-                             ts( 'CiviGrant'      ) => 1,
-                             ts( 'CiviPledge'     ) => 1,
-                             ts( 'CiviCase'       ) => 1,
-                             ts( 'Logout'         ) => 1);
+        $compNames = CRM_Core_Component::getNames( true );
+        foreach( $compNames as $donCare => $name ) {
+            $elements[$name] = 1;
+        }
+        // supplement the list with additional non-component positions
+        $elements[ts('Logout')] = 1;
+        $elements[ts('Import')] = 1;
 
         $values = array( );
         foreach ( $menu as $path => $item ) {
@@ -303,7 +295,7 @@ class CRM_Core_Menu
                 $value['access_arguments'] = $item['access_arguments'];
                 $value['component_id'    ] = $item['component_id'    ];
                 
-                if ( array_key_exists( $item['title'], $components ) ) {
+                if ( array_key_exists( $item['title'], $elements ) ) {
                     $value['class']  = 'collapsed';
                 } else {
                     $value['class']  = 'leaf';

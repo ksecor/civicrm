@@ -98,7 +98,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
             $errors['style'] = ts("Display Style should be Inline for this Class");
         }
 
-        if ( $fields['is_multiple'] ) {
+        if ( CRM_Utils_Array::value('is_multiple',  $fields ) ) {
             if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
                  && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
                 $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
@@ -168,7 +168,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         
         $sel1 = array( "" => "-- Select --" ) + CRM_Core_SelectValues::customGroupExtends( );
         $sel2 = array( );
-        $activityType    = CRM_Core_PseudoConstant::activityType( false );
+        $activityType    = CRM_Core_PseudoConstant::activityType( false, true );
         $eventType       = CRM_Core_OptionGroup::values( 'event_type' );
         $membershipType  = CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $participantRole = CRM_Core_OptionGroup::values( 'participant_role' );

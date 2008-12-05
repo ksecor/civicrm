@@ -40,10 +40,6 @@ require_once 'CRM/Core/Config.php';
 
 $config =& CRM_Core_Config::singleton();
 
-$config->userFramework          = 'Soap';
-$config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-$config->userHookClass          = 'CRM_Utils_Hook_Soap';
-
 require_once 'CRM/Core/Payment/GoogleIPN.php';
 $rawPostData = file_get_contents( 'php://input' );
 CRM_Core_Payment_GoogleIPN::main( $rawPostData );

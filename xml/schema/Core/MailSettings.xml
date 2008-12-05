@@ -93,7 +93,6 @@
     <name>source</name>
     <type>varchar</type>
     <length>255</length>
-    <default>'Inbox'</default>
     <comment>folder to poll from when using IMAP, path to poll from when using Maildir, etc.</comment>
     <add>2.2</add>
   </field>

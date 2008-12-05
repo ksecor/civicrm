@@ -699,7 +699,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                           ca.due_date_time as due_date, 
                           ca.activity_date_time actual_date, 
                           ca.status_id as status, 
-                          ca.subject as subject ';
+                          ca.subject as subject,
+                          ca.is_deleted as deleted ';
 
         $from  = 'FROM civicrm_case_activity cca, 
                        civicrm_activity ca, 
@@ -725,8 +726,9 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
             $where .= " AND ca.is_deleted = 1";
         } else {
-			$where .= " AND ca.is_deleted = 0";
-		}
+            $where .= " AND ca.is_deleted = 0";
+        }
+
 
         if ( $params['activity_type_id'] ) {
             $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
@@ -795,11 +797,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $url = CRM_Utils_System::url( "civicrm/case/activity",
                                       "reset=1&cid={$contactID}&caseid={$caseID}", false, null, false ); 
         
-        $editUrl   = "{$url}&action=update";
-        $deleteUrl = "{$url}&action=delete";
+        $editUrl     = "{$url}&action=update";
+        $deleteUrl   = "{$url}&action=delete";
+        $restoreUrl  = "{$url}&action=renew";
         $viewTitle = ts('View this activity.');
-              
-        while ( $dao->fetch( ) ) {
+        
+        require_once 'CRM/Case/BAO/Case.php';
+        $caseDeleted = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_Case', $caseID, 'is_deleted' );
+        
+        while ( $dao->fetch( ) ) { 
             $values[$dao->id]['id']                = $dao->id;
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
@@ -809,7 +815,15 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
             
             $additionalUrl = "&id={$dao->id}";
-            $values[$dao->id]['links']             = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a> | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            if ( !$dao->deleted ) {
+                $url  = "<a href='" .$editUrl.$additionalUrl."'>". ts('Edit') . "</a>";
+                $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
+            } else if ( !$caseDeleted ) {
+                $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
+                $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
+            } 
+            
+            $values[$dao->id]['links'] = $url;
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
                  CRM_Utils_Date::overdue(  $dao->due_date ) ) {
                 $values[$dao->id]['class']   = 'status-overdue';
@@ -1005,47 +1019,54 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         if ( $result['is_error'] ) {
             return $result;
         }
-     
-        $caseInfo = explode( '@', $result['to'] );
-        if ( count($caseInfo) == 2 ) {
-            $caseId = explode( '+', $caseInfo[0] );
-        }
 
-        $contactDetails = self::getRelatedContacts( $caseId[1] );
+        foreach( $result['to'] as $to ) {
+            $caseId = null;
 
-        if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
+            $emailPattern = '/^([A-Z0-9._%+-]+)\+([\d]+)@[A-Z0-9.-]+\.[A-Z]{2,4}$/i';
+            $replacement  = preg_replace ($emailPattern, '$2', $to['email']); 
 
-            $details = CRM_Case_PseudoConstant::activityType( false );
-            $params['subject']            = $result['subject'];
-            $params['activity_date_time'] = $result['date'];
-            $params['details']            = $result['body'];
-            $params['source_contact_id']  = $result['from']['id'];
-            
-            //to extract activity type from mail body.
-            $matches= array();
-            foreach ( $details as $key => $value ) {
-                $activityName = $value['label'].'/';
-                preg_match("/^activity type = ".$activityName, $result['body'], $activityInfo, PREG_OFFSET_CAPTURE);
-
-                //if activity type is mentioned in mail use that otherwise use default
-                if ( $activityInfo ) {
-                    $params['activity_type_id'] =  $value['id'];
-                    break;
-                } 
+            if ( $replacement !== $to['email'] ) {
+                $caseId = $replacement;
+            } else {
+                continue;
             }
-           
-            if ( !CRM_Utils_Array::value('activity_type_id', $params ) ) {
-                $params['activity_type_id'] = CRM_Core_OptionGroup::getValue('activity_type', 'Inbound Email', 'name' );
 
-            } 
-         
-            // create activity
-            require_once "CRM/Activity/BAO/Activity.php";
-            $activity = CRM_Activity_BAO_Activity::create( $params );
-            return $activity;
+            $contactDetails = self::getRelatedContacts( $caseId );
+
+            if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
+                $params['subject']            = $result['subject'];
+                $params['activity_date_time'] = $result['date'];
+                $params['details']            = $result['body'];
+                $params['source_contact_id']  = $result['from']['id'];
+            
+                $details = CRM_Case_PseudoConstant::activityType( );
+                $matches = array( );
+                preg_match( '/activity[ ]*type[ ]*=[ ]*\"([a-zA-Z0-9_ ]+)\"/i', 
+                            $result['body'], $matches );
+ 
+                if ( !empty($matches) && isset($matches[1]) ) {
+                    $activityType = trim($matches[1]);
+                    if ( isset($details[$activityType]) ) {
+                        $params['activity_type_id'] = $details[$activityType]['id'];
+                    }
+                } else {
+                    $params['activity_type_id'] = CRM_Core_OptionGroup::getValue('activity_type', 
+                                                                                 'Inbound Email', 
+                                                                                 'name' );
+                }
+
+                // create activity
+                require_once "CRM/Activity/BAO/Activity.php";
+                $activity = CRM_Activity_BAO_Activity::create( $params );
+
+                $caseParams = array( 'activity_id' => $activity->id,
+                                     'case_id'     => $caseId   );
+                CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+            }
         } 
-
     }
+
     /**
      * Function to retrive the scheduled activity type and date
      * 
@@ -1119,25 +1140,58 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             require_once 'CRM/Case/DAO/Case.php';
             require_once 'CRM/Activity/DAO/Activity.php';
             
-            $impFields         = CRM_Case_DAO_Case::import( );
+            $fields['case'] = CRM_Case_DAO_Case::import( );
+
+            $fields['case']['case_start_date'] = array( 'title' => ts('Case Start Date') );
+            $fields['case']['case_end_date']   = array( 'title' => ts('Case End Date') );
             //set title to activity fields
-            $expFieldsActivity = array( 
-                                      'case_subject'              => array( 'title' => ts('Subject') ),
-                                      'case_source_contact_id'    => array( 'title' => ts('Source Contact') ),
-                                      'case_location'             => array( 'title' => ts('Case Location') ),
-                                      'case_recent_activity_date' => array( 'title' => ts('Activity Date') ),
-                                      'case_recent_activity_type' => array( 'title' => ts('Activity Type') ),
-                                      'case_activity_status_id'   => array( 'title' => ts('Activity Status') ),
-                                      'case_role'                 => array( 'title' => ts('Case Role') )
-                                      );
+            $fields['activity'] = array( 
+                                        'case_subject'                 => array( 'title' => ts('Activity Subject') ),
+                                        'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
+                                        'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
+                                        'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
+                                        'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),
+                                        'case_activity_status_id'      => array( 'title' => ts('Activity Status') ),
+                                        'case_activity_duration'       => array( 'title' => ts('Activity Duration') ),
+                                        'case_activity_medium_id'      => array( 'title' => ts('Activity Medium') ),
+                                        'case_activity_details'        => array( 'title' => ts('Activity Details') ),
+                                        'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?') )
+                                        );
             
-            $fields = array_merge($impFields, $expFieldsActivity );
+            //$fields = array_merge($impFields, $expFieldsActivity );
             
             self::$_exportableFields = $fields;
         }
         return self::$_exportableFields;
     }
 
+    /**                                                           
+     * Restore the record that are associated with this case 
+     * 
+     * @param  int  $caseId id of the case to restore
+     * 
+     * @return true if success.
+     * @access public 
+     * @static 
+     */ 
+    static function restoreCase( $caseId ) 
+    {
+        //restore activities
+        $activities = self::getCaseActivity( $caseId, $params = array(), null, true );
+        if ( $activities ) {
+            require_once"CRM/Activity/BAO/Activity.php";
+            foreach( $activities as $value ) {
+                CRM_Activity_BAO_Activity::restoreActivity( $value );
+            }
+        }  
+        //restore case
+        require_once 'CRM/Case/DAO/Case.php';
+        $case     = & new CRM_Case_DAO_Case( );
+        $case->id = $caseId; 
+        $case->is_deleted = 0;
+        $case->save( );
+        return true;
+    }
 }
 
    

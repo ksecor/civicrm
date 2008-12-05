@@ -43,8 +43,8 @@ class CRM_Case_Task
     const
         DELETE_CASES   = 1,
         PRINT_CASES    = 2,
-        EXPORT_CASES   = 3;
-
+        EXPORT_CASES   = 3,
+        RESTORE_CASES  = 4;
     /**
      * the task array
      *
@@ -75,6 +75,7 @@ class CRM_Case_Task
             self::$_tasks = array(
                                   1     => ts( 'Delete Cases' ),
                                   3     => ts( 'Export Cases' ),
+                                  4     => ts( 'Restore Cases'),
                                   );
         }
 

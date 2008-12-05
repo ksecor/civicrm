@@ -387,6 +387,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 $this->setDefaultAction( $button['type'] );
             }
             
+            // if button type is upload, set the enctype
+            if ( $button['type'] == 'upload' ) {
+                $this->updateAttributes(array('enctype' => 'multipart/form-data'));
+                $this->setMaxFileSize();
+            }
+
             // hack - addGroup uses an array to express variable spacing, read from the last element
             $spacing[] = CRM_Utils_Array::value('spacing', $button, self::ATTR_SPACING);
         }

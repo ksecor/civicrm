@@ -64,9 +64,12 @@ class CRM_Contact_Form_Search_Custom_ContributionAggregate
         $form->add( 'text',
                     'min_amount',
                     ts( 'Aggregate Total Between $' ) );
+        $form->addRule( 'min_amount', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
+
         $form->add( 'text',
                     'max_amount',
                     ts( '...and $' ) );
+        $form->addRule( 'max_amount', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
 
         $form->add( 'date',
                     'start_date',
@@ -193,11 +196,13 @@ civicrm_contact AS contact_a
         $clauses = array( );
         $min = CRM_Utils_Array::value( 'min_amount', $this->_formValues );
         if ( $min ) {
+            $min = CRM_Utils_Rule::cleanMoney( $min );
             $clauses[] = "sum(contrib.total_amount) >= $min";
         }
 
         $max = CRM_Utils_Array::value( 'max_amount', $this->_formValues );
         if ( $max ) {
+            $max = CRM_Utils_Rule::cleanMoney( $max );
             $clauses[] = "sum(contrib.total_amount) <= $max";
         }
 

@@ -43,6 +43,9 @@ class CRM_Case_Form_Activity_OpenCase
 {
     static function preProcess( &$form ) 
     {   
+        if ( $form->_context == 'caseActivity' ) {
+            return;
+        }
         $form->_createNewButtonName      = $form->getButtonName( 'next'   , 'createNew' );
         $form->_assignExistingButtonName = $form->getButtonName( 'next'   , 'assignExisting' );
     }
@@ -57,6 +60,9 @@ class CRM_Case_Form_Activity_OpenCase
     function setDefaultValues( &$form ) 
     {
         $defaults = array( );
+        if ( $form->_context == 'caseActivity' ) {
+            return $defaults;
+        }
 
         $defaults['start_date'] = array();
         CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
@@ -87,6 +93,10 @@ class CRM_Case_Form_Activity_OpenCase
 
     static function buildQuickForm( &$form ) 
     {
+        if ( $form->_context == 'caseActivity' ) {
+            return;
+        }
+
         require_once 'CRM/Core/OptionGroup.php';        
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->add('select', 'case_type_id',  ts( 'Case Type' ),  
@@ -187,6 +197,9 @@ class CRM_Case_Form_Activity_OpenCase
      */
     public function beginPostProcess( &$form, &$params ) 
     {
+        if ( $form->_context == 'caseActivity' ) {
+            return;
+        }
         // create contact if cid not present
 
         $contactParams = $params;
@@ -239,7 +252,7 @@ class CRM_Case_Form_Activity_OpenCase
      */
     static function formRule( &$values, $files, &$form ) 
     {
-        if ( $form->_context == 'activity' ) {
+        if ( $form->_context == 'caseActivity' ) {
             return true;
         }
         
@@ -291,7 +304,7 @@ class CRM_Case_Form_Activity_OpenCase
      */
     public function endPostProcess( &$form, &$params ) 
     {
-        if ( !CRM_Utils_Array::value('case_id', $params) && $form->_context == 'activity' ) {
+        if ( $form->_context == 'caseActivity' ) {
             return;
         }
 

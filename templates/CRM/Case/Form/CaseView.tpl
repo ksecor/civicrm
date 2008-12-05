@@ -37,7 +37,7 @@
             <td class="label">{$row.relation}</td>
             <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
             <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$row.cid`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
-            <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('Are you sure you want to delete this relationship?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
+            <td id ="edit_{$rowNumber}"><img src="{$config->resourceBase}i/edit.png" title="edit case role" onclick="createRelationship( {$row.relation_type}, {$row.cid}, {$relId}, {$rowNumber} );">&nbsp;&nbsp;<a href="{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&id=`$relId`&caseID=`$caseID`"}" onclick = "if (confirm('Are you sure you want to remove this person from their case role?') ) this.href+='&confirmed=1'; else return false;"><img title="remove contact from case role" src="{$config->resourceBase}i/delete.png"/></a></td>
         </tr>
 		{assign var=rowNumber value = `$rowNumber+1`}
         {/foreach}
@@ -260,14 +260,15 @@ cj(document).ready(function(){
 			{display: '',        name : 'links',       width : 70,  align: 'left'}
 			],
 			usepager: true,
-			useRp: false,
+			useRp: true,
 			rp: 10,
 			showToggleBtn: false,
 			width: 680,
 			height: 'auto',
-			nowrap: false
+			nowrap: false,
+			onSuccess:setSelectorClass
 		}
-	);	   
+	);	
 }
 );
 
@@ -342,6 +343,27 @@ function checkSelection( field ) {
 	}
 }
 
+
+function setSelectorClass( ) {
+
+	var currentDate = new Date();
+	var ct = currentDate.getTime();
+
+	cj("#activities-selector tbody tr td:first-child").each( function( ) {
+		var dueDate = cj(this).text();
+		dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
+		var dt = Date.parse(dueDate)
+		
+		if ( ct > dt ) {
+			cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
+		} else{
+			cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
+		}	
+	});
+	
+	cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+	cj("#activities-selector tbody tr:odd").addClass('erow');
+}
 </script>
 {/literal}
 

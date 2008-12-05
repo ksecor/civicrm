@@ -67,7 +67,15 @@ class CRM_Admin_Form_Tag extends CRM_Admin_Form
 
             $this->add('text', 'description', ts('Description'), 
                        CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Tag', 'description' ) );
-            
+
+//@lobo haven't a clue why the checkbox isn't displayed (it should be checked by default
+            $this->add( 'checkbox', 'is_selectable', ts("If it's a tag or a category"));
+
+            $allTag = array ('' => '- ' . ts('select') . ' -') + CRM_Core_PseudoConstant::tag();
+
+//	    array_unshift ($allTag,'- ' . ts('select') . ' -'); 
+            $this->add( 'select', 'parent_id', ts('Add Parent'), $allTag );
+
             parent::buildQuickForm( ); 
         }
     }

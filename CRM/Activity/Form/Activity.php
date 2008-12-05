@@ -105,11 +105,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      *
      * @var array
      */
-    public $_fields = array( 'description'        =>  array( 'type'        => 'text',
-                                                             'label'       => 'Description' ,
-                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' )",
-                                                             'required'    => false
-                                                             ),
+    public $_fields = array(
                              'subject'            =>  array( 'type'        => 'text',
                                                              'label'       => 'Subject',
                                                              'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' )",
@@ -187,7 +183,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_currentUserId = $session->get( 'userID' );
 
         // this is used for setting dojo tabs
-        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        if ( ! $this->_context ) {
+            $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+        }
         $this->assign( 'context', $this->_context );
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
@@ -363,6 +361,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
+            if ( !CRM_Utils_Array::value('activity_date_time', $defaults) ) {
+                $defaults['activity_date_time'] = array( );
+                CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+                $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
+            }
+
             $this->assign('caseSubject', $defaults['case_subject']);
 
             //set the assigneed contact count to template
@@ -419,6 +423,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
     public function buildQuickForm( ) 
     {
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
+            $button = ts('Delete');
+            if (  $this->_action & CRM_Core_Action::RENEW ) {
+                $button = ts('Restore');
+            } 
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => $button, 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel'),
+                                            )
+                                     ));
+            return;
+        }
+        
         if ( ! $this->_single && !empty($this->_contactIds) ) {
             $withArray          = array();
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -457,24 +478,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         //enable form element
         $this->assign( 'suppressForm', false );
-
-        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) { 
-            $button = ts('Delete');
-            if ( $this->_action & CRM_Core_Action::DETACH ) {
-                $button = ts('Detach');
-            }
-            $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
-                                            'name'      => $button, 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel'),
-                                            )
-                                    ));
-            return;
-        }
-        
+            
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
         $config =& CRM_Core_Config::singleton( );

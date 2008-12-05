@@ -1272,4 +1272,23 @@ AND cl.modified_id  = c.id
 
         return $caseAction;
     }
+
+    /**
+     * Function to restore the activity
+     * @param array  $params  associated array 
+     *
+     * @return void
+     * @access public
+     *
+     */
+    public function restoreActivity( &$params ) 
+    {
+        $activity    =& new CRM_Activity_DAO_Activity( );
+        $activity->copyValues( $params );
+
+        $activity->is_deleted = 0;
+        $result = $activity->save( );
+
+        return $result;
+    }
 }

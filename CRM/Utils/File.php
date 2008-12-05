@@ -274,6 +274,19 @@ class CRM_Utils_File {
         }
     }
 
+    static function getFilesByExtension( $path, $ext ) {
+        $path = self::addTrailingSlash( $path );
+        $dh = opendir( $path );
+        $files = array();
+        while( false !== ( $elem = readdir( $dh ) ) ) {
+            if( substr( $elem, -(strlen( $ext ) + 1 ) ) == '.' . $ext ) {
+                $files[] .= $path . $elem;
+            }
+        }
+        closedir( $dh );
+        return $files;
+    }
+
 }
 
 

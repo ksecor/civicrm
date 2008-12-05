@@ -49,23 +49,26 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             CRM_Core_Session::setStatus( $errorMessage );
         }
 
-        $groups = array( 'Customize', 'Configure', 'Manage', 'Option Lists' );
+        $groups = array( 'Customize'    => ts( 'Customize' ),
+                         'Configure'    => ts( 'Configure' ),
+                         'Manage'       => ts( 'Manage'    ),
+                         'Option Lists' => ts( 'Option Lists' ) );
 
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviContribute", $config->enableComponents) ) {
-            $groups[] = 'CiviContribute';
+            $groups['CiviContribute'] = ts( 'CiviContribute' );
         }
         
         if ( in_array("CiviMember", $config->enableComponents) ) {
-            $groups[] = 'CiviMember';
+            $groups['CiviMember'] = ts( 'CiviMember' );
         }
 
         if ( in_array("CiviEvent", $config->enableComponents) ) {
-            $groups[] = 'CiviEvent';
+            $groups['CiviEvent'] = ts( 'CiviEvent' );
         }
 
         if ( in_array("CiviMail", $config->enableComponents) ) {
-            $groups[] = 'CiviMail';
+            $groups['CiviMail'] = ts( 'CiviMail' );
         }
 
         require_once 'CRM/Core/Menu.php';
@@ -73,13 +76,14 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        foreach ( $groups as $group ) {
+        foreach ( $groups as $group => $title) {
             $this->_showHide->addShow( "id_{$group}_show" );
             $this->_showHide->addHide( "id_{$group}" );
             $v = CRM_Core_ShowHideBlocks::links($this, $group, '' , '', false);
             $adminPanel[$group] = $values[$group];
-            $adminPanel[$group]['show'] = $v['show'];
-            $adminPanel[$group]['hide'] = $v['hide'];
+            $adminPanel[$group]['show' ] = $v['show'];
+            $adminPanel[$group]['hide' ] = $v['hide'];
+            $adminPanel[$group]['title'] = $title;
         }
 
         require_once 'CRM/Utils/VersionCheck.php';

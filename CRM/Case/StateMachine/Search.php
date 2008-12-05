@@ -110,6 +110,10 @@ class CRM_Case_StateMachine_Search extends CRM_Core_StateMachine
             $task   = array('CRM_Export_Form_Select',
                             'CRM_Export_Form_Map');
             break;
+
+        case CRM_Case_Task::RESTORE_CASES:
+            $task   = 'CRM_Case_Form_Task_Restore';
+            break;
             
         default: // the print task is the default and catch=all task
             $task = 'CRM_Case_Form_Task_Print';

@@ -411,7 +411,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         
         //Setup the log file
         if (!$message_log = fopen(RESPONSE_HANDLER_LOG_FILE, "a")) {
-            error_func("Cannot open " . RESPONSE_HANDLER_LOG_FILE . " file.\n", 0);
+            echo "Cannot open " . RESPONSE_HANDLER_LOG_FILE . " file.\n";
             exit(1);
         }
         

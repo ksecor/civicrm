@@ -136,9 +136,12 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
         }
 
         $softCreditList = CRM_Contribute_BAO_Contribution::getSoftContributionList( $this->_contactId );
+
         if( !empty( $softCreditList ) ) {
+            $softCreditTotals = CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId );        
             $this->assign('softCredit', true);
             $this->assign('softCreditRows', $softCreditList );
+            $this->assign('softCreditTotals', $softCreditTotals );
         }
 
     }

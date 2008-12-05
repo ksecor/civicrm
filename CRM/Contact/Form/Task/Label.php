@@ -199,7 +199,20 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         require_once 'CRM/Contact/BAO/Query.php';      
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-        
+
+        // also get all token values
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::tokenValues( $details[0], $this->_contactIds );
+
+        $tokens = array( );
+        CRM_Utils_Hook::tokens( $tokens );
+        $tokenFields = array( );
+        foreach ( $tokens as $category => $catTokens ) {
+            foreach ( $catTokens as $token ) {
+                $tokenFields[] = $token;
+            }
+        }
+
         foreach ( $this->_contactIds as $value ) {
             foreach ( $custom as $cfID ) {
                 if ( isset ( $details[0][$value]["custom_{$cfID}"] ) ) {
@@ -324,7 +337,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat, $tokenFields );
 
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366

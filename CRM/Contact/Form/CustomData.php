@@ -161,15 +161,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->assign('entityID',  $this->_tableID );
 		$this->assign('groupID',   $this->_groupID );
 
-        $uploadNames = $this->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-        
+        // make this form an upload since we dont know if the custom data injected dynamically
+        // is of type file etc
         $this->addButtons(array(
-                                array ( 'type'      => $buttonType,
+                                array ( 'type'      => 'upload',
                                         'name'      => ts('Save'),
                                         'isDefault' => true   ),
                                 array ( 'type'       => 'cancel',
@@ -187,7 +182,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     function &setDefaultValues()
     { 
         if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            $customDefaultValue = CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            return $customDefaultValue;
         }
 
 		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType,
@@ -214,7 +210,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     {
         // Get the form values and groupTree
         $params = $this->controller->exportValues( $this->_name );
-        
+
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $params,
                                                     $this->_groupTree[$this->_groupID]['fields'],

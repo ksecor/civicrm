@@ -398,8 +398,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             }
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);
             if ( self::isDuplicate($error) ) {
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
                         $formatted['contact_id'] = $contactId;

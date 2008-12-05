@@ -441,9 +441,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error['error_message']['params'][0]);
                     
             if ( self::isDuplicate($error) ) { 
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if (count( $matchedIDs) >1) {                   
                     array_unshift($values,"Multiple matching contact records detected for this row. The membership was not imported");
                     return CRM_Member_Import_Parser::ERROR;                   

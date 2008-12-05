@@ -3,7 +3,7 @@
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
-        <p>{ts}Are you sure you want to delete the selected cases? This delete operation will move case(s) to Trash.{/ts}</p>
+        <p>{ts}Are you sure you want to delete the selected cases? This will move the case(s) and all associated activities to the Trash.{/ts}</p>
         <p>{include file="CRM/Case/Form/Task.tpl"}</p>
     </dd>
   </dl>

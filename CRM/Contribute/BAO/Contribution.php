@@ -268,11 +268,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     static function resolveDefaults(&$defaults, $reverse = false)
     {
         require_once 'CRM/Contribute/PseudoConstant.php';
-
         self::lookupValue($defaults, 'contribution_type', CRM_Contribute_PseudoConstant::contributionType(), $reverse);
         self::lookupValue($defaults, 'payment_instrument', CRM_Contribute_PseudoConstant::paymentInstrument(), $reverse);
         self::lookupValue($defaults, 'contribution_status', CRM_Contribute_PseudoConstant::contributionStatus(), $reverse);
-        self::lookupValue($defaults, 'pcp_made_through', CRM_Contribute_PseudoConstant::pcPage(), $reverse);
+        self::lookupValue($defaults, 'pcp', CRM_Contribute_PseudoConstant::pcPage(), $reverse);
     }
 
     /**
@@ -896,7 +895,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
      *  @return soft contribution id
      *  @static
      */
-    static function getSoftContribution( $params )
+    static function getSoftContribution( $params, $all = false )
     { 
         require_once 'CRM/Contribute/DAO/ContributionSoft.php';
 
@@ -904,7 +903,14 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $cs->copyValues( $params );
 
         if ( $cs->find(true) ) {
-            return $cs->contact_id;
+            if ( $all ){
+                foreach ( array ('pcp_id','pcp_display_in_roll', 'pcp_roll_nickname', 'pcp_personal_note' ) as $key=>$val ) {
+                    $softContribution[$val] = $cs->$val;
+                }
+                return $softContribution;
+            }else {
+                return $cs->contact_id;
+            }
         }
         return null;
     }
@@ -924,9 +930,12 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                          cc.receive_date,
                          cc.contact_id as contributor_id,
                          cc.contribution_type_id as contribution_type_id,
-                         cc.contribution_status_id as contribution_status_id
+                         cc.contribution_status_id as contribution_status_id,
+                         ccs.pcp_id,
+                         cp.title as pcp_title
                   from civicrm_contribution_soft ccs
                   left join civicrm_contribution cc on ccs.contribution_id = cc.id
+                  left join civicrm_pcp cp on ccs.pcp_id = cp.id
                   where ccs.contact_id = " . $contact_id;
 
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -939,8 +948,23 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
             $result[$cs->id]['contribution_type']        = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $cs->contribution_type_id, 'name' );
             $result[$cs->id]['receive_date'] = $cs->receive_date;
             $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, CRM_Contribute_Pseudoconstant::contributionStatus( ) );
+            $result[$cs->id]['pcp_id'] = $cs->pcp_id;
+            $result[$cs->id]['pcp_title'] = $cs->pcp_title;
         }
         return $result;
     }    
+    
+    static function getSoftContributionTotals( $contact_id )
+    {
+    
+        $query = "select sum(amount) as total from civicrm_contribution_soft where contact_id = " . $contact_id;
+        $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $result = array();
+        if( $cs->fetch( ) ) {
+            $result['total'] = $cs->total;
+        }
+        return $result;
+    }
 
 }

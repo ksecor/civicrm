@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+//die ("toto".error_reporting(E_ALL ^ E_NOTICE));
 
 /*
  +--------------------------------------------------------------------+
@@ -44,7 +46,6 @@ class CRM_Core_Config_Defaults
 {
     function setCoreVariables( ) {
         global $civicrm_root;
-
         // set of base directories relying on $civicrm_root
         $this->smartyDir  =
             $civicrm_root . DIRECTORY_SEPARATOR .

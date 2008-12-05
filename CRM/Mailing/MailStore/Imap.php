@@ -51,6 +51,9 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
      */
     function __construct($host, $username, $password, $ssl = true, $folder = 'Inbox')
     {
+        // default to Inbox if an empty string
+        if (!$folder) $folder = 'Inbox';
+
         if ($this->_debug) print "connecting to $host, authenticating as $username and selecting $folder\n";
 
         $options = array('ssl' => $ssl, 'uidReferencing' => true);

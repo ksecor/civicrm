@@ -224,7 +224,7 @@ class CRM_Case_Form_Search extends CRM_Core_Form
     function buildQuickForm( ) 
     {
         $this->addElement('text', 'sort_name', ts('Client Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        
+       
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $this );
 
@@ -253,7 +253,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             
             require_once 'CRM/Case/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Case_Task::permissionedTaskTitles( $permission );
- 
+
+            if ( CRM_Utils_Array::value('case_deleted', $this->_formValues) ) {
+                unset( $tasks[1] );
+            } else {
+                unset( $tasks[4] );
+            }
+
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class'   => 'form-submit',
