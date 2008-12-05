@@ -57,7 +57,9 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                                                     $values,  
                                                     $ids );            
         $softParams = array( 'contribution_id' => $values['contribution_id'] );
-        $values = array_merge( $values, CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams, true ) );
+        if( $softContribution = CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams, true ) ) {
+            $values = array_merge( $values, $softContribution );
+        } 
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
         
         if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
