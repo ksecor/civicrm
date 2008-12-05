@@ -169,8 +169,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     
     public function buildQuickForm( ) 
     {
-        // FIXME: Need to add "Case Role" field as spec'd in CRM-3743
-
+        // modify core Activity fields
         $this->_fields['activity_date_time']['label']    = 'Actual Date'; 
         $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['subject']['required']            = false;
