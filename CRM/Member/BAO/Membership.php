@@ -275,18 +275,18 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
         }
         
-        // add activity record only during create mode
+        // add activity record only during create mode and renew mode
         if ( !CRM_Utils_Array::value( 'membership', $ids ) || $activityType == 'Membership Renewal' ) {
             if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
-                $membership->contact_id = CRM_Core_DAO::getFieldValue( 
-                                                                      'CRM_Member_DAO_Membership', 
-                                                                      $membership->id,
-                                                                      'contact_id' );	 
-                $membership->membership_type_id = CRM_Core_DAO::getFieldValue( 
-                                                                              'CRM_Member_DAO_Membership', 
-                                                                              $membership->id,
-                                                                              'membership_type_id' );	 
-           
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Member_DAO_Membership', 
+                                                 'id', 
+                                                 $membership->id, 
+                                                 $data, 
+                                                 array( 'contact_id', 'membership_type_id', 'source' ) );
+
+                $membership->contact_id         = $data[$membership->id]['contact_id'];
+                $membership->membership_type_id = $data[$membership->id]['membership_type_id'];
+                $membership->source             = $data[$membership->id]['source'];
             }
             require_once 'CRM/Activity/BAO/Activity.php';
             CRM_Activity_BAO_Activity::addActivity( $membership, $activityType );
@@ -1059,7 +1059,7 @@ AND civicrm_membership.is_test = %2";
                                                                                 $currentMembership['id'],
                                                                                 'source');  
                 }
-
+                
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
                     $ids['membership'] = $currentMembership['id'];
                 }
@@ -1086,7 +1086,7 @@ AND civicrm_membership.is_test = %2";
                 
                 //set the log start date.
                 $memParams['log_start_date'] = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
-                
+
                 if ( empty( $membership->source ) ) {
                     if ( $form ) {
                         if ( $form->_params['membership_source'] ) {
