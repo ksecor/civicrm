@@ -99,10 +99,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
         }
 
         if ( CRM_Utils_Array::value('is_multiple',  $fields ) ) {
-            if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
-                 && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
-                $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
-            }
+            // if ( isset( $fields['min_multiple'] ) && isset( $fields['max_multiple'] ) 
+            //      && ( $fields['min_multiple'] > $fields['max_multiple'] ) ) {
+            //     $errors['max_multiple'] = ts("Maximum limit should be higher than minimum limit");
+            // }
             
             if ( $fields['style'] == 'Inline' ) {
                 $errors['style'] = ts("'Multiple custom values' feature is not supported with Inline custom data.");
@@ -256,15 +256,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form
                                       null,
                                       array( 'onclick' => "showRange();"));
 
-        $min_multiple = $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
-        $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
+        // $min_multiple = $this->add('text', 'min_multiple', ts('Minimum number of multiple records'), $attributes['min_multiple'] );
+        // $this->addRule('min_multiple', ts('is a numeric field') , 'numeric');
         
         $max_multiple = $this->add('text', 'max_multiple', ts('Maximum number of multiple records'), $attributes['max_multiple'] );
         $this->addRule('max_multiple', ts('is a numeric field') , 'numeric');
         
         if ( $freeze ) {
             $multiple->freeze();
-            $min_multiple->freeze();
+            //$min_multiple->freeze();
             $max_multiple->freeze();
         }
        
