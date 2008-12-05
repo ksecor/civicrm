@@ -16,7 +16,7 @@
 	<th scope="col">{ts}Type{/ts}</th>
         <th scope="col">{ts}Received{/ts}</th>
         <th scope="col">{ts}Status{/ts}</th>
-        <th scope="col">{ts}Personal Contribtion Page?{/ts}</th>
+        <th scope="col">{ts}Personal Contribution Page?{/ts}</th>
      </tr>
      {foreach from=$softCreditRows item=row}
      <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">

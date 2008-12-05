@@ -108,7 +108,11 @@
         {/if}
 
         <tr><td class="label">{$form.soft_credit_to.label}</td>
-            <td>{$form.soft_credit_to.html}</td>
+            <td>
+                <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
+                {$form.soft_credit_to.html}
+                </div>
+            </td>
         </tr>
 
       </table>
