@@ -1427,7 +1427,7 @@ SELECT $select
     static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id )
     {
         $value = $values['data'];
-
+		
 		if ( !isset( $value ) ) {
 			return; 
 		}
@@ -1455,6 +1455,10 @@ SELECT $select
         case 'File':
             $retValue = $values;
             break;
+
+		case 'Memo': 
+			$retValue = $value;
+			break;	
 
         case 'Float':
         case 'Money':
