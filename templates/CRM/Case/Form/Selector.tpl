@@ -10,10 +10,10 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
-
+{if $context != 'case'}
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
 {ts 1=$expandIconURL}Click %1 to view case activities.{/ts}
-
+{/if}
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -42,11 +42,12 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
 
-  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status eq 'Resolved' } disabled{/if}'>
+  <tr id='rowid{$list}{$row.case_id}' class='{$rowClass} {if $row.case_status_id eq 'Resolved' } disabled{/if}'>
     {if $context eq 'Search' }
         {assign var=cbName value=$row.checkbox}
         <td>{$form.$cbName.html}</td> 
     {/if}
+    {if $context != 'case'}	
 	<td>
 	<span id="{$list}{$row.case_id}_show">
 	    <a href="#" onclick="show('caseDetails{$list}{$row.case_id}', 'table-row'); 
@@ -63,6 +64,7 @@
                              hide('minus{$list}{$row.case_id}_hide');
                              return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
+    {/if}	
     {if ! $single }	
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}" title="{ts}view contact details{/ts}">{$row.sort_name}</a></td>
     {/if}
@@ -70,11 +72,13 @@
     <td>{$row.case_status_id}</td>
     <td>{$row.case_type_id}</td>
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
-    <td>{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}</td>
+    <td>{if $row.case_recent_activity_type}
+	{$row.case_recent_activity_type}<br />{$row.case_recent_activity_date|crmDate}{else}---{/if}</td>
     <td>{if $row.case_scheduled_activity_type}
 	{$row.case_scheduled_activity_type}<br />{$row.case_scheduled_activity_date|crmDate}{else}---{/if}</td>
     <td>{$row.action}</td>
    </tr>
+{if $context != 'case'}
    <tr id="{$list}{$row.case_id}_hide" class='{$rowClass}'>
      <td>
      </td>
@@ -90,6 +94,7 @@
      hide('{$list}{$row.case_id}_hide');
      hide('minus{$list}{$row.case_id}_hide');
  </script>
+{/if}
   {/foreach}
 
     {* Dashboard only lists 10 most recent casess. *}
