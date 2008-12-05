@@ -295,15 +295,16 @@ AND        ca.case_id = %3
                                     );
         }
         
-        if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
-            $activityParams['custom'] = $params['custom'];
-        }
-
-        // we don't set activity_date_time for auto generated
-        // activities, but we want it to be set for open case.
-        if ( $activityTypeName == 'Open Case' && array_key_exists('activity_date_time', $params) ) {
-            $activityParams['activity_date_time'] = $params['activity_date_time'];
-            $activityParams['due_date_time']      = $params['activity_date_time'];
+        if ( $activityTypeName == 'Open Case' ) {
+            // we don't set activity_date_time for auto generated
+            // activities, but we want it to be set for open case.
+            if ( array_key_exists('activity_date_time', $params) ) {
+                $activityParams['activity_date_time'] = $params['activity_date_time'];
+                $activityParams['due_date_time']      = $params['activity_date_time'];
+            }
+            if ( array_key_exists('custom', $params) && is_array($params['custom']) ) {
+                $activityParams['custom'] = $params['custom'];
+            }
         } else {
             if ( (int ) $activityTypeXML->reference_offset ) {
                 $dueDateTime = $params['dueDateTime'] + 
