@@ -298,6 +298,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              $isDeleted = false;
              if ( $result->case_deleted ) {
                  $isDeleted = true;
+                 $row['case_status_id'] =  $row['case_status_id'].'<br />(deleted)';
              }
  
              $scheduledInfo['case_id'][]    = $result->case_id;

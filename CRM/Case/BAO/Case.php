@@ -725,7 +725,10 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 		
 		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
             $where .= " AND ca.is_deleted = 1";
+        } else {
+            $where .= " AND ca.is_deleted = 0";
         }
+
 
         if ( $params['activity_type_id'] ) {
             $where .= " AND ca.activity_type_id = ".CRM_Utils_Type::escape( $params['activity_type_id'], 'Integer' );
@@ -817,9 +820,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
                 $url .= " | <a href='" .$deleteUrl.$additionalUrl."'>". ts('Delete') . "</a>";
             } else if ( !$caseDeleted ) {
                 $url  = "<a href='" .$restoreUrl.$additionalUrl."'>". ts('Restore') . "</a>";
-            } else {
-                $url = "";
-            }
+                $values[$dao->id]['status']  = $values[$dao->id]['status'].'<br /> (deleted)'; 
+            } 
             
             $values[$dao->id]['links'] = $url;
             if ( $values[$dao->id]['status'] == 'Scheduled' && 
