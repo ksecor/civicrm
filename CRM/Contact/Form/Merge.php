@@ -179,7 +179,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
                     $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
-                    $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  array( '6' => ts( 'Overrite' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                    $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  array( '6' => ts( 'Overwrite' ) ) + CRM_Core_PseudoConstant::locationType( ) );
                 }
             } 
         }
