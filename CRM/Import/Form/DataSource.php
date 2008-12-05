@@ -157,7 +157,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         }
 
         $this->addButtons( array( 
-                                 array ( 'type'         => 'next',
+                                 array ( 'type'         => 'upload',
                                          'name'         => ts('Continue >>'),
                                          'spacing'      => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault'    => true ),
@@ -205,15 +205,12 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         if ($this->_dataSourceIsValid) {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
- 
-            $onDuplicate  = $this->controller->exportValue( $this->_name,
-                             'onDuplicate' );
-            $contactType  = $this->controller->exportValue( $this->_name, 
-                             'contactType' );
-            $dateFormats  = $this->controller->exportValue( $this->_name,
-                             'dateFormats' );
-            $savedMapping = $this->controller->exportValue( $this->_name, 
-                             'savedMapping' );
+
+            $onDuplicate  = $this->_name['onDuplicate'];
+            $contactType  = $this->_name['contactType'];
+            $dateFormats  = $this->_name['dateFormats'];
+            $savedMapping = $this->_name['savedMapping'];
+
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
             $this->set('dateFormats', $dateFormats);
