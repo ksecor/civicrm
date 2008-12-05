@@ -37,6 +37,20 @@
  
     <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
 
+    {include file="CRM/Core/Date.tpl"}
+    <dt>&nbsp;</dt>
+    <dd class="description">
+      {ts}Select the format that is used for date fields in your import data.{/ts}
+    </dd>
+
+    {if $form.doGeocodeAddress.html}
+      <dt>&nbsp;</dt><dd>{$form.doGeocodeAddress.html} {$form.doGeocodeAddress.label}</dd>
+      <dt>&nbsp;</dt>
+      <dd class="description">
+          {ts 1="http://wiki.civicrm.org/confluence//x/YDY" 2=$docURLTitle}This option is not recommended for large imports. Use the command-line geocoding script instead (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
+      </dd>
+    {/if}
+
 {if $savedMapping}
     <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
         <dd> <span>{$form.savedMapping.html}</span> </dd>

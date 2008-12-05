@@ -11,13 +11,6 @@
     <dd class="description">
         {ts}Check this box if the first row of your file consists of field names (Example: 'First Name','Last Name','Email'){/ts}
     </dd>
-<!--<dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>-->
-<!--<dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>-->
-    {include file="CRM/Core/Date.tpl"}
-    <dt>&nbsp;</dt>
-    <dd class="description">
-        {ts}Select the format that is used for date fields in your import data.{/ts}
-    </dd>
   </dl>
 </fieldset>
 </div>

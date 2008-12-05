@@ -48,33 +48,74 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
 
     function buildQuickForm(&$form)
     {
+        $form->add('hidden', 'hidden_dataSource', 'CRM_Import_DataSource_CSV');
+
         $config =& CRM_Core_Config::singleton();
 
         // FIXME: why do we limit the file size to 8 MiB if it's larger in config?
         $uploadFileSize = $config->maxImportFileSize >= 8388608 ? 8388608 : $config->maxImportFileSize;
         $uploadSize = round(($uploadFileSize / (1024*1024)), 2);
-        $this->assign('uploadSize', $uploadSize);
-        $this->add('file', 'uploadFile', ts('Import Data File'), 'size=30 maxlength=60', true);
+        $form->assign('uploadSize', $uploadSize);
+        $form->add('file', 'uploadFile', ts('Import Data File'), 'size=30 maxlength=60', true);
 
-        $this->setMaxFileSize($uploadFileSize);
-        $this->addRule('uploadFile', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize);
-        $this->addRule('uploadFile', ts('Input file must be in CSV format'), 'utf8File');
-        $this->addRule('uploadFile', ts('A valid file must be uploaded.'), 'uploadedfile');
+        $form->setMaxFileSize($uploadFileSize);
+        $form->addRule('uploadFile', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize);
+        $form->addRule('uploadFile', ts('Input file must be in CSV format'), 'utf8File');
+        $form->addRule('uploadFile', ts('A valid file must be uploaded.'), 'uploadedfile');
 
-        $this->addElement('checkbox', 'skipColumnHeader', ts('First row contains column headers'));
-
-        // FIXME: test this
-        // FIXME: perhaps this should go to the common form?
-        if (!empty($config->geocodeMethod)) {
-            $this->addElement('checkbox', 'doGeocodeAddress', ts('Lookup mapping info during import?'));
-        }
-
-        require_once 'CRM/Core/Form/Date.php';
-        CRM_Core_Form_Date::buildAllowedDateFormats($this);
-
+        $form->addElement('checkbox', 'skipColumnHeader', ts('First row contains column headers'));
     }
 
     function postProcess(&$params, &$db)
     {
+        $file = $params['uploadFile']['name'];
+#       $file = '/home/shot/work/CiviCRM/peeps.csv';
+
+        $table = self::_CsvToTable($db, $file, $params['skipColumnHeader']);
+
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob($table);
+        $this->set('importTableName', $importJob->getTableName());
+    }
+
+    /**
+     * Create a table that matches the CSV file and populate it with the file's contents
+     *
+     * @param object $db     handle to the database connection
+     * @param string $file   file name to load
+     * @param bool $headers  whether the first row contains headers
+     *
+     * @return string  name of the created table
+     */
+    private static function _CsvToTable(&$db, $file, $headers = false)
+    {
+        $fd = fopen($file, 'r');
+        if (!$fd) CRM_Core_Error::fatal("Could not read $file");
+
+        $config =& CRM_Core_Config::singleton();
+        $firstrow = fgetcsv($fd, 0, $config->fieldSeparator);
+
+        // create the column names from the CSV header or as col_0, col_1, etc.
+        if ($headers) {
+            $columns = array_map('strtolower', $firstrow);
+            $columns = str_replace(' ', '_', $columns);
+            $columns = preg_replace('/[^a-z_]/', '', $columns);
+        } else {
+            $columns = array();
+            foreach ($firstrow as $i => $_) $columns[] = "col_$i";
+        }
+
+        // FIXME: we should regen this table's name if it exists rather than drop it
+        $table = 'civicrm_import_job_' . md5(uniqid(rand(), true));
+        $db->query("DROP TABLE IF EXISTS $table");
+
+        $create = "CREATE TABLE $table (" . implode(' text, ', $columns) . " text)";
+        $db->query($create);
+
+        $load = "LOAD DATA LOCAL INFILE '$file' INTO TABLE $table FIELDS TERMINATED BY '$config->fieldSeparator' OPTIONALLY ENCLOSED BY '\"'";
+        if ($headers) $load .= ' IGNORE 1 LINES';
+        $db->query($load);
+
+        return $table;
     }
 }

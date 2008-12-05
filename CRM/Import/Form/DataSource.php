@@ -148,6 +148,14 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         $this->setDefaults(array('contactType' =>
                                  CRM_Import_Parser::CONTACT_INDIVIDUAL));
         
+        require_once 'CRM/Core/Form/Date.php';
+        CRM_Core_Form_Date::buildAllowedDateFormats($this);
+
+        $config = CRM_Core_Config::singleton();
+        if (!empty($config->geocodeMethod)) {
+            $form->addElement('checkbox', 'doGeocodeAddress', ts('Lookup mapping info during import?'));
+        }
+
         $this->addButtons( array( 
                                  array ( 'type'         => 'next',
                                          'name'         => ts('Continue >>'),
@@ -164,7 +172,6 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         $config = CRM_Core_Config::singleton();
         $dataSourceDir = $config->importDataSourceDir;
         $dataSources = array( );
-        #print "DataSource dir: $dataSourceDir<br/><br/>\n";
         if (!is_dir($dataSourceDir)) {
             CRM_Core_Error::fatal( "Import DataSource directory $dataSourceDir does not exist" );
         }
@@ -203,11 +210,17 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
                              'onDuplicate' );
             $contactType  = $this->controller->exportValue( $this->_name, 
                              'contactType' );
+            $dateFormats  = $this->controller->exportValue( $this->_name,
+                             'dateFormats' );
             $savedMapping = $this->controller->exportValue( $this->_name, 
                              'savedMapping' );
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
+            $this->set('dateFormats', $dateFormats);
             $this->set('savedMapping', $savedMapping);
+
+            $session =& CRM_Core_Session::singleton();
+            $session->set('dateTypes', $dateFormats);
 
             // Get the PEAR::DB object
             $dao = new CRM_Core_DAO();

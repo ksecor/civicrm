@@ -75,22 +75,15 @@ class CRM_Import_ImportJob {
         $dao = new CRM_Core_DAO();
         $db = $dao->getDatabaseConnection();
         if ( !$tableName ) {
-            // looks like we need to create a new table for ourselves
             if ( !$createSql ) {
-                CRM_Core_Error::fatal('import', "You must specify the SQL to create the import table if you don't specify the table name to use");
+                CRM_Core_Error::fatal('Either an existing table name or an SQL query to build one are required');
             }
-            $tableSuffix = time();
-            $newTableName = "civicrm_import_job_$tableSuffix";
-            $dropQuery = "DROP TABLE IF EXISTS $newTableName";
-            $db->query($dropQuery);
-            # ??? what if $createSql is something like 'DROP DATABASE civicrm'?
-            $createQuery = "CREATE TABLE $newTableName $createSql";
-            $db->query($createQuery);
-            # ??? we've just (sub-)executed $createSql, why re-execute it?
-            $result = CRM_Core_DAO::executeQuery( $createSql, array(), true, null, true );
-            if ( !$result ) {
-                CRM_Core_Error::fatal('import', "Import table creation failed: Error message goes here");
-            }
+
+            // FIXME: we should regen this table's name if it exists rather than drop it
+            $newTableName = 'civicrm_import_job_' . md5(uniqid(rand(), true));
+            $db->query("DROP TABLE IF EXISTS $newTableName");
+            $db->query("CREATE TABLE $newTableName $createSql");
+
             $this->_tableName = $newTableName;
         } else {
             // we're being instantiated to wrap an existing import table

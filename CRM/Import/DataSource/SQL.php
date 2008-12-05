@@ -32,36 +32,48 @@
  * $Id$
  *
  */
- 
- require_once 'CRM/Import/DataSource.php';
- 
- class CRM_Import_DataSource_SQL extends CRM_Import_DataSource {
-     
-     // docs inherited from parent
-     public function getInfo() {
-         return array( 'title' => 'SQL Import' );
-     }
-     
-     // docs inherited from parent
-     public function preProcess( &$form ) {
-         // nop
-     }
-     
-     // docs inherited from parent
-     public function buildQuickForm( &$form ) {
-         $form->add( 'hidden', 'hidden_dataSource', 'CRM_Import_DataSource_SQL' );
-         $form->add( 'textarea', 'sqlQuery', ts('Specify SQL Query' ),
-             'rows=10 cols=45');
-     }
-     
-     // docs inherited from parent
-     public function postProcess( &$params, &$db ) {
-         $sqlQuery = $params['sqlQuery'];
-         
-         require_once 'CRM/Import/ImportJob.php';
-         $importJob = new CRM_Import_ImportJob( null, $sqlQuery );
-         
-         // Set some session variables
-         $this->set( 'importTableName', $importJob->getTableName() );
-     }
- }
+
+require_once 'CRM/Import/DataSource.php';
+
+class CRM_Import_DataSource_SQL extends CRM_Import_DataSource
+{
+
+    public function getInfo()
+    {
+        return array('title' => 'SQL Import');
+    }
+
+    public function preProcess(&$form)
+    {
+    }
+
+    public function buildQuickForm(&$form)
+    {
+        $form->add('hidden', 'hidden_dataSource', 'CRM_Import_DataSource_SQL');
+        $form->add('textarea', 'sqlQuery', ts('Specify SQL Query'), 'rows=10 cols=45');
+        $form->addFormRule(array('CRM_Import_DataSource_SQL', 'formRule'), $form);
+    }
+
+    static function formRule(&$fields, &$files, &$form)
+    {
+        $errors = array();
+
+        // poor man's query validation (case-insensitive regex matching on word boundaries)
+        $forbidden = array('ALTER', 'CREATE', 'DELETE', 'DESCRIBE', 'DROP', 'SHOW', 'UPDATE', 'information_schema');
+        foreach ($forbidden as $pattern) {
+            if (preg_match("/\\b$pattern\\b/i", $fields['sqlQuery'])) {
+                $errors['sqlQuery'] = ts("The query contains the forbidden $pattern command.");
+            }
+        }
+
+        return $errors ? $errors : true;
+    }
+
+
+    public function postProcess(&$params, &$db)
+    {
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob(null, $params['sqlQuery']);
+        $this->set('importTableName', $importJob->getTableName());
+    }
+}
