@@ -203,8 +203,6 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
-hide('attachments');
-show('attachments_show');
 hide('sendcopy');
 show('sendcopy_show');
 hide('follow-up');
@@ -280,3 +278,4 @@ function buildContact( count, pref )
 </script>
 {/literal}
 {/if }
+{include file="CRM/common/showHide.tpl"}

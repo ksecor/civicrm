@@ -307,7 +307,7 @@ class CRM_Case_Form_Activity_OpenCase
         if ( $form->_context == 'caseActivity' ) {
             return;
         }
-
+       
         if (!$form->_currentlyViewedContactId   ||
             !$form->_currentUserId        ||
             !$params['case_id'] ||
@@ -321,7 +321,10 @@ class CRM_Case_Form_Activity_OpenCase
                                'contact_id' => $form->_currentlyViewedContactId
                                );
         CRM_Case_BAO_Case::addCaseToContact( $contactParams );
-        
+        //handle time stamp for Opencase
+        $time =  date("His");
+        $params['start_date'] =  $params['start_date'].$time;
+    
         // 2. initiate xml processor
         $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
         $xmlProcessorParams = array( 'clientID'           => $form->_currentlyViewedContactId,

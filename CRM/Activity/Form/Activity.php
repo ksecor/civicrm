@@ -99,7 +99,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @var int
      */
     public $_currentUserId;
-
+    /**
+     * The default variable to check attached file
+     *
+     * @var int
+     */
+    public $_currentAttachmentURL;
     /**
      * The array of filelds
      *
@@ -710,7 +715,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              $params,
                                              'civicrm_activity',
                                              $this->_activityId );
-        
+              
         // format target params
         if ( $this->_single ) {
             $params['target_contact_id']   = empty($params['target_contact']) ?  

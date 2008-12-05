@@ -66,11 +66,15 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      * @access public
      */
     function preProcess( ) 
-    {    
+    { 
         $this->_context = 'caseActivity';
         $this->_crmDir  = 'Case';
         $result = parent::preProcess( );
-
+        
+        
+        if ( $this->_currentAttachmentURL ) {  
+            $this->assign( 'attachmentURL', $this->_currentAttachmentURL );
+        }
         if ( $this->_cdType ) {
             return $result;
         }
@@ -134,11 +138,32 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
     function setDefaultValues( ) 
     {
         $this->_defaults = parent::setDefaultValues( );
+        
+        //return form for ajax
+        if ( $this->_cdType ) {
+            return $this->_defaults;
+        }
 
-        $this->_defaults['due_date_time'] = array( );
-        CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
-        $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
+        if ( !isset($this->_defaults['due_date_time']) ) {
+            $this->_defaults['due_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
+            $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
+        }
 
+        
+        //assign show hide to templates
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+        
+        if ( $this->_currentAttachmentURL ) {
+            $showHide->addShow( "attachments" );
+            $showHide->addHide( "attachments_show" );
+        } else {
+            $showHide->addShow( "attachments_show" );
+            $showHide->addHide( "attachments" );
+        }
+        $showHide->addToTemplate( );        
+        
         return $this->_defaults;
     }
     
