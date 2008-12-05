@@ -339,10 +339,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             // call end post process, after the activity has been created/updated.
             $this->endPostProcess( $params, $activity );
         } else {
-            // only set is_current_revision field to false
-            $activity = CRM_Core_DAO::setFieldValue( 'CRM_Activity_DAO_Activity', 
-                                                     $this->_activityId, 
-                                                     'is_current_revision', 0 );
+            // since the params we need to set are very few, and we don't want rest of the 
+            // work done by bao create method , lets use dao object to make the changes 
+            $activity =& new CRM_Activity_DAO_Activity( );
+            $activity->copyValues( $params );
+            $activity->save( );        
         }
 
         // create a new version of activity if activity was found to
