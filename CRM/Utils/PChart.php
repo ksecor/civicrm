@@ -44,7 +44,7 @@ class CRM_Utils_PChart
     static function buildPieChart( $params ) 
     {        
         $byMonth   = $byYear      = false;
-        $monthName = $monthValues = $yearNames = $yearValues = $filesPath = array( );
+        $monthName = $monthValues = $yearNames = $yearValues = $filesValues = array( );
         
         //format the month params.
         if ( !empty( $params['by_month']  ) ) {
@@ -128,12 +128,14 @@ class CRM_Utils_PChart
             //Draw the pie chart
             $monthChart->setFontProperties( $pChartPath.'tahoma.ttf', 10 );
             $monthChart->AntialiasQuality = 0;
-            $monthChart->setShadowProperties( 1, 1, 60, 60, 60, 10 , 0 );
+            $monthChart->setShadowProperties( 1, 1, 60, 60, 60, 15 , 0 );
             $monthChart->drawPieGraph( $monthDataSet->GetData( ),
                                        $monthDataSet->GetDataDescription( ), 
                                        $xPosition, $yPosition, $radius, 
                                        PIE_PERCENTAGE_LABEL, TRUE, $skew, $spliceHeight, $spliceDistance );
             
+            //get the coordinates.
+            $allCoords = $monthChart->coordinates( );
             $monthChart->drawPieLegend( $xSize-60, 10, $monthDataSet->GetData( ),
                                         $monthDataSet->GetDataDescription( ), 250, 250, 250 );
             
@@ -145,10 +147,23 @@ class CRM_Utils_PChart
             $monthChart->Render( $uploadDirPath . $monthFileName );
             
             //get the created file path.
-            $filesPath['by_month_file'] = $uploadDirURL . $monthFileName;
+            $filesValues['by_month']['file_name'] = $uploadDirURL . $monthFileName;
+            
+            //format the month cordinates
+            $position = 0;
+            $monthCoords = array( );
+            foreach ( $params['by_month']['values'] as $name => $value ) {
+                if ( $value ) {
+                    foreach ( $allCoords as $type => $coords ) {
+                        $monthCoords[$name][$type] = implode( ',', $coords[$position] );
+                    }
+                    $position++;
+                }
+            }
+            $filesValues['by_month']['coords'] = $monthCoords;   
         }
         
-        //2. build Pie Braph By Year.
+        //2. build Pie graph By Year.
         if ( $byYear ) {
             $yearDataSet = new pData;
             $yearDataSet->AddPoint( $yearNames, "Serie2");
@@ -169,11 +184,14 @@ class CRM_Utils_PChart
             //Draw the pie chart
             $yearChart->setFontProperties( $pChartPath.'tahoma.ttf', 10 );
             $yearChart->AntialiasQuality = 0;
-            $yearChart->setShadowProperties( 1, 1, 60, 60, 60, 10 , 0 );
+            $yearChart->setShadowProperties( 1, 1, 60, 60, 60, 15, 0 );
             $yearChart->drawPieGraph( $yearDataSet->GetData( ),
                                       $yearDataSet->GetDataDescription( ), 
                                       $xPosition, $yPosition, $radius, 
                                       PIE_PERCENTAGE_LABEL, TRUE, $skew, $spliceHeight, $spliceDistance );
+            
+            //get the coordinates.
+            $allCoords = $yearChart->coordinates( );
             
             $yearChart->drawPieLegend( $xSize-70, 10, $yearDataSet->GetData( ),
                                        $yearDataSet->GetDataDescription( ), 250, 250, 250 );
@@ -186,10 +204,23 @@ class CRM_Utils_PChart
             $yearChart->Render( $uploadDirPath . $yearFileName );
             
             //get the created file path
-            $filesPath['by_year_file'] = $uploadDirURL . $yearFileName;
+            $filesValues['by_year']['file_name'] = $uploadDirURL . $yearFileName;
+            
+            //format the co-ordinates for map.
+            $position = 0;
+            $yearCoords = array( );
+            foreach ( $params['by_year']['values'] as $name => $value ) {
+                if ( $value ) {
+                    foreach ( $allCoords as $type => $coords ) {
+                        $yearCoords[$name][$type] = implode( ',', $coords[$position] );
+                    }
+                    $position++;
+                }
+            }
+            $filesValues['by_year']['coords'] = $yearCoords;
         }
         
-        return $filesPath;
+        return $filesValues;
     }
     
     /**
@@ -207,7 +238,7 @@ class CRM_Utils_PChart
     {
         //build the formatted arrays.
         $byMonth = $byYear = false;
-        $monthName = $monthValues = $yearNames = $yearValues = $filesPath = array( );
+        $monthName = $monthValues = $yearNames = $yearValues = $filesValues = array( );
         
         //format the month params.
         if ( !empty( $params['by_month']  ) ) {
@@ -295,6 +326,7 @@ class CRM_Utils_PChart
             $monthChart->drawGraphArea(255,255,255,TRUE);
             $monthChart->drawScale($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),
                                    SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
+
             $monthChart->drawGrid(4,TRUE,230,230,230,50);
             
             //Draw the bar chart
@@ -302,6 +334,9 @@ class CRM_Utils_PChart
             
             $monthChart->setColorPalette( 0, 69, 139, 0 );
             $monthChart->drawBarGraph($monthDataSet->GetData(),$monthDataSet->GetDataDescription(),TRUE,80);
+            
+            //get the co-ordinates
+            $coords = $monthChart->coordinates( );
             
             //get the series values and write at top.
             $monthChart->setColorPalette( 0, 0, 0, 255 );
@@ -316,7 +351,19 @@ class CRM_Utils_PChart
             $monthChart->Render( $uploadDirPath . $monthFileName );
             
             //get the file path.
-            $filesPath['by_month_file'] = $uploadDirURL . $monthFileName;
+            $filesValues['by_month']['file_name'] = $uploadDirURL . $monthFileName;
+            
+            //format the coordinates to make graph clickable.
+            $position = 0;
+            $monthCoords = array( );
+            foreach ( $params['by_month']['values'] as $name => $value ) {
+                $monthCoords[$name] = implode( ',', array( $coords['xCoords'][$position],
+                                                          $coords['yCoords'][$position], 
+                                                          $coords['xCoords'][$position] + $divisionWidth/2,
+                                                          $monthY2) );
+                $position++;
+            }
+            $filesValues['by_month']['coords'] = $monthCoords;
         }
         
         //2. build By Year chart
@@ -360,6 +407,9 @@ class CRM_Utils_PChart
             $yearChart->setColorPalette( 0, 69, 139, 0 );
             $yearChart->drawBarGraph($yearDataSet->GetData(),$yearDataSet->GetDataDescription(),TRUE, 80 );
             
+            //get the co-ordinates
+            $coords = $yearChart->coordinates( );
+            
             //get the series values and write at top.
             $yearChart->setColorPalette( 0, 0, 0, 255 );
             $yearDataDesc = $yearDataSet->GetDataDescription( );
@@ -373,10 +423,22 @@ class CRM_Utils_PChart
             $yearChart->Render( $uploadDirPath . $yearFileName );
             
             //get the file path.
-            $filesPath['by_year_file'] = $uploadDirURL . $yearFileName;
+            $filesValues['by_year']['file_name'] = $uploadDirURL . $yearFileName;
+            
+            //format the coordinates to make graph clickable.
+            $position = 0;
+            $yearCoords = array( );
+            foreach ( $params['by_year']['values'] as $name => $value ) {
+                $yearCoords[$name] = implode( ',', array( $coords['xCoords'][$position],
+                                                          $coords['yCoords'][$position], 
+                                                          $coords['xCoords'][$position] + $divisionWidth/2,
+                                                          $monthY2) );
+                $position++;
+            }
+            $filesValues['by_year']['coords'] = $yearCoords;
         }
         
-        return $filesPath;
+        return $filesValues;
     }
 }
 
