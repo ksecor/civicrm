@@ -1,5 +1,5 @@
 <div id="help">
-    {ts}You can search All Contacts for duplicates, or search within a specific group (this will be faster).{/ts} 
+    {ts}You can search all contacts for duplicates or limit the search to a specific group.{/ts} 
 </div>
 <div class="form-item">
 <fieldset>
