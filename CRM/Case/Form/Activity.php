@@ -290,21 +290,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
         $params['activity_type_id']   = $this->_activityTypeId;
         
-        // update existing case record if needed
-        $caseParams       = $params;
-        $caseParams['id'] = $this->_caseId;
-        if ( CRM_Utils_Array::value('case_type_id', $caseParams ) ) {
-            $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR .
-                $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
-        }
-        if ( CRM_Utils_Array::value('case_status_id', $caseParams) ) {
-            $caseParams['status_id'] = $caseParams['case_status_id'];
-        }
-        // unset params intended for activities only
-        unset($caseParams['subject'], $caseParams['details'], $caseParams['status_id']);
-        $case = CRM_Case_BAO_Case::create( $caseParams );
-
-
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             if ( $this->_activityId && $this->_defaults['is_auto'] == 0 ) {
@@ -406,6 +391,21 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             // copy back params to original var
             $params = $newActParams;
         }
+
+        // update existing case record if needed
+        $caseParams       = $params;
+        $caseParams['id'] = $this->_caseId;
+        if ( CRM_Utils_Array::value('case_type_id', $caseParams ) ) {
+            $caseParams['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR .
+                $caseParams['case_type_id'] . CRM_Case_BAO_Case::VALUE_SEPERATOR;
+        }
+        if ( CRM_Utils_Array::value('case_status_id', $caseParams) ) {
+            $caseParams['status_id'] = $caseParams['case_status_id'];
+        }
+        // unset params intended for activities only
+        unset($caseParams['subject'], $caseParams['details'], $caseParams['status_id']);
+        $case = CRM_Case_BAO_Case::create( $caseParams );
+
 
         // create case activity record
         $caseParams = array( 'activity_id' => $activity->id,
