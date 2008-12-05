@@ -198,6 +198,19 @@ class CRM_Utils_Hook {
                   '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclWhereClause\' );' );  
     }
 
+    /** 
+     * This hook is called when composing the ACL where clause to restrict
+     * visibility of contacts to the logged in user
+     * 
+     * @param int    $type          the type of permission needed
+     * @param int    $contactID     the contactID for whom the check is made
+     * @param string $tableName     the tableName which is being permissioned
+     * @param array  $allGroups     the set of all the objects for the above table
+     * @param array  $currentGroups the set of objects that are currently permissioned for this contact
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */
     static function aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -207,6 +220,14 @@ class CRM_Utils_Hook {
                   '::invoke( 5, $type, $contactID, $tableName, $allGroups, $currentGroups, \'civicrm_aclGroup\' );' );  
     }
 
+    /** 
+     * This hook is called when building the menu table
+     * 
+     * @param array $files The current set of files to process
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */
     static function xmlMenu( &$files ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -266,6 +287,17 @@ class CRM_Utils_Hook {
             eval( 'return ' .
                   $config->userHookClass .
                   '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenValues\' );' );
+    }
+
+    static function pageRun( &$page ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $page, $null, $null, $null, $null, \'civicrm_pageRun\' );' );
     }
 
 }

@@ -196,6 +196,23 @@ function civitest_civicrm_buildAmount( $pageType,
     }
 }
 
+function civitest_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
+    // only process saved search
+    if ( $tableName != 'civicrm_saved_search' ) {
+        return;
+    }
+
+    hrd_initialize( );
+
+    $currentGroups = $allGroups;
+
+    if ( ! CRM_Core_Permission::check( 'access secure contacts' ) ) {
+        unset( $currentGroups[HRD_SECURE_GROUP_ID] );
+    }
+
+    $currentGroups = array_keys( $currentGroups );
+}
+
 function civicrm_civicrm_tabs( &$tabs, $contactID ) {
 
     // unset the contribition tab
@@ -252,3 +269,12 @@ GROUP BY contact_id
     }
 }
 
+
+function civicrm_civicrm_pageRun( &$page ) {
+    // You can assign variables to the template using:
+    // $page->assign( 'varName', $varValue );
+    // in your template, {$varName} will output the contents of $varValue
+    // you should customize your template if doing so
+
+    $page->assign( 'varName', 'This is a variable assigned by the hook' );
+}
