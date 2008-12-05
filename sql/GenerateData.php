@@ -1583,7 +1583,6 @@ VALUES
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
     
-    
     function addContribution( ) 
     {
         $query = "
@@ -1627,6 +1626,24 @@ VALUES
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
+    function addSoftContribution( )
+    {
+
+        $sql = "SELECT id from civicrm_contribution where contact_id = 92";
+        $contriId1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
+        
+        $sql = "SELECT id from civicrm_contribution where contact_id = 34";
+        $contriId2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray );
+        
+        $query = "
+INSERT INTO `civicrm_contribution_soft`
+      ( contribution_id, contact_id ,amount ,pcp_id , pcp_display_in_roll ,pcp_roll_nickname,pcp_personal_note )
+VALUES
+    ( $contriId1, 92, 10.00, 1, 1, 'Jones Family', 'Helping Hands'),
+    ( $contriId2, 34, 250.00, 1, 1, 'Annie and the kids', 'Annie Helps');
+ ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
 
     function addPledge( )
     {
@@ -1689,6 +1706,7 @@ $obj1->createEvent( );
 $obj1->addParticipant();
 $obj1->addContribution();
 $obj1->addPCP();
+$obj1->addSoftContribution();
 $obj1->addPledge();
 $obj1->addPledgePayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
