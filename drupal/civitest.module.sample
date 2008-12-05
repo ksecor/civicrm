@@ -213,7 +213,7 @@ function civitest_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, 
     $currentGroups = array_keys( $currentGroups );
 }
 
-function civicrm_civicrm_tabs( &$tabs, $contactID ) {
+function civitest_civicrm_tabs( &$tabs, $contactID ) {
 
     // unset the contribition tab
     unset( $tabs[1] );
@@ -269,8 +269,7 @@ GROUP BY contact_id
     }
 }
 
-
-function civicrm_civicrm_pageRun( &$page ) {
+function civitest_civicrm_pageRun( &$page ) {
     // You can assign variables to the template using:
     // $page->assign( 'varName', $varValue );
     // in your template, {$varName} will output the contents of $varValue
