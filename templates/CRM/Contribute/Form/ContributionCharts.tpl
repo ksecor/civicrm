@@ -8,10 +8,10 @@
 	{foreach from=$monthCoords item=values key=field}
 	   {if $chartType eq 'pie'}   
 	       {foreach from=$values item=coordinates}
-	       <area shape="{$shape}" coords="{$coordinates}" href="{$monthUrls.$field}"/>
+	       <area shape="{$shape}" coords="{$coordinates}" href="{$monthUrls.$field}" title="{ts 1=$field}Contribution(s) for the month of %1{/ts}"/>
 	       {/foreach}
 	   {else}	
-	        <area shape="{$shape}" coords="{$values}" href="{$monthUrls.$field}"/>
+	        <area shape="{$shape}" coords="{$values}" href="{$monthUrls.$field}" title="{ts 1=$field}Contribution(s) for the month of %1{/ts}"/>
 	   {/if}
 	{/foreach}
 	</map>
@@ -24,10 +24,10 @@
 	{foreach from=$yearCoords item=values key=field}
 	   {if $chartType eq 'pie'}   
 	       {foreach from=$values item=coordinates}
-	       <area shape="{$shape}" coords="{$coordinates}" href="{$yearUrls.$field}"/>
+	       <area shape="{$shape}" coords="{$coordinates}" href="{$yearUrls.$field}" title="{ts 1=$field}Contribution(s) for the year of %1{/ts}"/>
 	       {/foreach}
 	   {else}
-	       <area shape="{$shape}" coords="{$values}" href="{$yearUrls.$field}"/>	
+	       <area shape="{$shape}" coords="{$values}" href="{$yearUrls.$field}" title="{ts 1=$field}Contribution(s) for the year of %1{/ts}"/>	
 	   {/if}
 	{/foreach}
 	</map>
