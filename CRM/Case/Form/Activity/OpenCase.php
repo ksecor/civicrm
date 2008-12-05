@@ -212,7 +212,7 @@ class CRM_Case_Form_Activity_OpenCase
                 //Dedupe couldn't recognize "email-Primary".So modify params temporary.
                 require_once 'CRM/Dedupe/Finder.php';
                 $dedupeParams = CRM_Dedupe_Finder::formatParams( $contactParams, 'Individual' );
-                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual' );
+                $ids          = CRM_Dedupe_Finder::dupesByParams( $dedupeParams, 'Individual', 'Fuzzy' );
                 
                 // if we find more than one contact, use the first one
                 if ( is_array($ids) ) {
