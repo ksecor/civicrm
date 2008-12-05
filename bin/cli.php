@@ -25,7 +25,7 @@
 */
 
 /**
- * A PHP shell script
+ * A PHP shell script wrapper. See ImportTags.php as an example on how to use it
 
 On drupal if you have a symlink to your civi module, don't forget to create a new file - settings_location.php
 Enter the following code (substitute the actual location of your <drupal root>/sites directory)
@@ -45,7 +45,7 @@ class civicrm_CLI {
 //	$include_path = "packages/" . get_include_path( );
 //	set_include_path( $include_path );
 	require_once 'Console/Getopt.php';
-	$shortOptions = "s:u:p:k:";
+	$shortOptions = "s:u:p:";
 	$longOptions  = array( 'site=','user','pass'  );
 
 	$getopt  = new Console_Getopt( );
@@ -56,7 +56,6 @@ class civicrm_CLI {
 	$vars = array(
 		  'user' => 'u',
 		  'pass' => 'p',
-		  'key' => 'k',
 		  'site' => 's'
 		  );
 
@@ -69,11 +68,10 @@ class civicrm_CLI {
 		    }
 		}
 		if ( ! $$var ) {
-		    die ("\nUsage: $ php5 ". $_SERVER['PHP_SELF']." -k key -u user -p password -s yoursite.org\n");
+		    die ("\nUsage: $ php5 ". $_SERVER['PHP_SELF']." -u user -p password -s yoursite.org\n");
 		}
 	 }
 	 $this->site=$site;
-         $this->key=$key; 
 	 $this->setEnv();
 	 $this->authenticate($user,$pass);
     }
@@ -95,7 +93,6 @@ class civicrm_CLI {
 		// so the configuration works with php-cli
 		$_SERVER['PHP_SELF' ] ="/index.php";
 		$_SERVER['HTTP_HOST']= $this->site;
-		$_REQUEST['key']= $this->key;
 		require_once ("./civicrm.config.php");
     }
 }

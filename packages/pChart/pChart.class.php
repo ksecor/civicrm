@@ -193,6 +193,14 @@
    var $tmpFolder        = "tmp/";
    var $MapID            = NULL;
 
+   //get the coords
+   var $coordinates = array( );
+   
+   /* This function return the coordinates of graph*/
+   function coordinates( ) {
+       return $this->_coordinates;
+   }
+   
    /* This function create the background picture */
    function pChart($XSize,$YSize)
     {
@@ -1418,7 +1426,7 @@
           {
            $Value = $Data[$Key][$Serie];
            $YPos = $this->GArea_Y2 - (($Value-$this->VMin) * $this->DivisionRatio);
-
+           
            $Positions = imagettfbbox($this->FontSize,0,$this->FontName,$Value);
            $Width  = $Positions[2] - $Positions[6]; $XOffset = $XPos - ($Width/2); 
            $Height = $Positions[3] - $Positions[7]; $YOffset = $YPos - 4;
@@ -1953,7 +1961,7 @@
             {
              $Value = $Data[$Key][$ColName];
              $YPos = $this->GArea_Y2 - (($Value-$this->VMin) * $this->DivisionRatio);
-
+             
              /* Save point into the image map if option activated */
              if ( $this->BuildMap )
               {
@@ -1966,10 +1974,19 @@
              $this->drawFilledRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,$this->Palette[$ColorID]["R"],$this->Palette[$ColorID]["G"],$this->Palette[$ColorID]["B"],TRUE,$Alpha);
             }
           }
+         
+         //get the cords.
+         $xCoords[] = $XPos;
+         $yCoords[] = $YPos;
+         
          $XPos = $XPos + $this->DivisionWidth;
         }
        $SerieID++;
       }
+     
+     //get the coords
+     $this->_coordinates = array( 'xCoords' => $xCoords, 'yCoords' => $yCoords );
+     
     }
 
    /* This function draw a stacked bar graph */
@@ -2748,6 +2765,9 @@
        for($j=0;$j<=count($aTopPlots[$Key])-4;$j=$j+2)
         $this->drawLine($aTopPlots[$Key][$j],$aTopPlots[$Key][$j+1],$aTopPlots[$Key][$j+2],$aTopPlots[$Key][$j+3],$this->Palette[$Key]["R"]+$En,$this->Palette[$Key]["G"]+$En,$this->Palette[$Key]["B"]+$En);
       }
+     
+     //get the coords.
+     $this->_coordinates = array( 'topCoords' => $TopPlots, 'botCoords' => $BotPlots );
     }
 
    /* This function can be used to set the background color */

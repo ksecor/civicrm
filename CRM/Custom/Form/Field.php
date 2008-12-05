@@ -688,7 +688,7 @@ SELECT count(*)
                     $_rowError = 1;
                 } 
                 
-                if ($_emptyRow) {
+                if (!empty($_emptyRow)) {
                     $_showHide->addHide($showBlocks);
                 } else {
                     $_showHide->addShow($showBlocks);

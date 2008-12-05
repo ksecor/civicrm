@@ -38,28 +38,29 @@ class CRM_Contact_Form_Search_Criteria {
     static function basic( &$form ) {
         $form->addElement( 'hidden', 'hidden_basic', 1 );
 
-        // add checkboxes for contact type
-        $contact_type = array( );
-        foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
-            if ( ! empty( $k ) ) {
-                $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
+        if ( $form->_searchOptions['contactType'] ) {
+            // add checkboxes for contact type
+            $contact_type = array( );
+            foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
+                if ( ! empty( $k ) ) {
+                    $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
+                }
+            }
+            $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
+        }
+
+        if ( $form->_searchOptions['groups'] ) {
+            // checkboxes for groups
+            foreach ($form->_group as $groupID => $group) {
+                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
             }
         }
-        $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
 
-        // checkboxes for groups
-        foreach ($form->_group as $groupID => $group) {
-            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
-        }
-
-        // checkboxes for categories
-	require_once 'CRM/Core/BAO/Tag.php';
-	$tags = new CRM_Core_BAO_Tag ();
-	$tree =$tags->getTree();
-        $form->assign       ( 'tree'  , $tags->getTree() );
-
-        foreach ($form->_tag as $tagID => $tagName) {
-            $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
+        if ( $form->_searchOptions['tags'] ) {
+            // checkboxes for categories
+            foreach ($form->_tag as $tagID => $tagName) {
+                $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
+            }
         }
 
         // add text box for last name, first name, street name, city
@@ -120,17 +121,17 @@ class CRM_Contact_Form_Search_Criteria {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
  
         $elements = array( 
-                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
-                          'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
-                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
-                          'county'                 => array( ts('County')            ,  $attributes['county_id'], 'county' ),
-                          'state_province'         => array( ts('State / Province')  ,  $attributes['state_province_id'],'stateProvince' ),
-                          'country'                => array( ts('Country')           ,  $attributes['country_id'], 'country' ), 
-                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null ), 
+                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null, null ),
+                          'city'                   => array( ts('City')              ,  $attributes['city'] , null, null ),
+                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null, null ),
+                          'county'                 => array( ts('County')            ,  $attributes['county_id'], 'county', false ),
+                          'state_province'         => array( ts('State / Province')  ,  $attributes['state_province_id'], 'stateProvince', true ),
+                          'country'                => array( ts('Country')           ,  $attributes['country_id'], 'country', false ), 
+                          'address_name'           => array( ts('Address Name')      ,  $attributes['address_name'], null, null ), 
                            );
  
         foreach ( $elements as $name => $v ) {
-            list( $title, $attributes, $select ) = $v;
+            list( $title, $attributes, $select, $multiSelect ) = $v;
             
             if ( ! $addressOptions[$name] ) {
                 continue;
@@ -142,7 +143,10 @@ class CRM_Contact_Form_Search_Criteria {
             
             if ( $select ) {
                 $selectElements = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::$select( );
-                $form->addElement('select', $name, $title, $selectElements );
+                $element = $form->addElement('select', $name, $title, $selectElements );
+                if ( $multiSelect ) {
+                    $element->setMultiple( true );
+                }
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
@@ -178,31 +182,13 @@ class CRM_Contact_Form_Search_Criteria {
         // textbox for Activity Type
         $form->_activityType =
             array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::activityType( );
-
-        // we need to remove some activity types
-        CRM_Utils_Array::crmArraySplice( $form->_activityType, 4, 9);
-
+            CRM_Core_PseudoConstant::activityType( true, true );
+        
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,
                    false);
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->civiHRD ) {
-            $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
-            $form->add('select', 'activity_activitytag1_id',  ts( 'Case Activity Type' ),  
-                       array( '' => ts( '-select case activity-' ) ) + $caseActivityType );
-            
-            $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
-            $form->add('select', 'activity_activitytag2_id',  ts( 'Activity Medium' ),  
-                       array( '' => ts( '-select-' ) ) + $comunicationMedium );
-            
-            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
-                              $caseViolation , array("size"=>"5",  "multiple"));
-            
-            $form->addElement( 'text', 'activity_details', ts( 'Content' ) );
-        }
 
         // Date selects for activity date
         $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
@@ -227,6 +213,25 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'activity_subject', ts('Subject'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name'));
 
         $form->addElement('checkbox', 'test_activities', ts('Find Test Activities?'));
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $activity = array( 'Activity' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $activity );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('activityGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
     }
 
     static function changeLog( &$form ) {
@@ -273,6 +278,24 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addRadio( 'relation_status', ts( 'Relationship Status' ), $relStatusOption);
         $form->setDefaults(array('relation_status' => 0));
         
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $relationship = array( 'Relationship' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $relationship );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('relationshipGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
     }
     
     static function demographics( &$form ) {
@@ -342,6 +365,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function CiviCase( &$form ) {
+        //Looks like obsolete code, since CiviCase is a component, but might be used by HRD
         $form->add( 'hidden', 'hidden_CiviCase', 1 );
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );

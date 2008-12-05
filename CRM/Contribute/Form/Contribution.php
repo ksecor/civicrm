@@ -632,7 +632,15 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
 
-        $this->addElement('text', 'soft_credit_to'      , ts('Soft Credit To')  );
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
+                             'mode'           => 'remote',
+                             'store'          => 'contactStore',
+                             'pageSize'       => 10  );
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "reset=1",
+                                          false, null, false );
+        $this->assign('dataUrl',$dataUrl );                                          
+        $this->addElement('text', 'soft_credit_to'      , ts('Soft Credit To'), $attributes  );
 
         $js = null;
         if ( !$this->_mode && $this->userEmail ) {

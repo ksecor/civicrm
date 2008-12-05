@@ -58,6 +58,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
     protected $_title;
     protected $_groupElement;
     protected $_group;
+    protected $_defaults;
 
     /**
      * Function to set variables up before form is built
@@ -263,6 +264,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
             $showHide->addToTemplate( );
         }
+        $this->_defaults = $defaults;      
         return $defaults;
     }
 
@@ -291,7 +293,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             // get the submitted form values.
             $params = $ids = array( );
             $params = $this->controller->exportValues( $this->_name );
-        
+           
+            if ( ! array_key_exists( 'is_cms_user', $params ) ){
+                $params = array_merge( $this->_defaults, $params );
+            }
+            
             if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
                 $ids['ufgroup'] = $this->_id;
             
