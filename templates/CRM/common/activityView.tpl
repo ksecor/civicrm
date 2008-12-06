@@ -1,11 +1,8 @@
 {literal}
 <script type="text/javascript">
-	window.onload = function() {
-	      var actCont = document.getElementById("activity-content");
-	      actCont.style.overflow = "auto";
-	      actCont.style.height = "560px";
-	      actCont.style.width  = "680px";
-	};
+	$(document).ready(function() {
+	        $("#activity-content").css({'overflow':'auto', 'width':'680px', 'height':'560px'});
+	});
 
 	function viewActivity( activityID, contactID ) {
 		cj("#view-activity").show( );
