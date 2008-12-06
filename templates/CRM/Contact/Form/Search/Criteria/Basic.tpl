@@ -55,18 +55,17 @@
 
 {if $form.tag}
             {* Choose regular or 'tall' listing-box class for Tag select box based on # of groups. *}
-            {if $form.tag|@count GT 8}
-                {assign var="boxClass" value="listing-box-tall"}
-            {else}
-                {assign var="boxClass" value="listing-box"}
-            {/if}
             <td colspan="2"><label>{ts}Tag(s){/ts}</label>
-                <div class="{$boxClass}">
+                <div id="Tag" class="listing-box">
+                {if $form.tag|@count GT 8}
+                   {include file="CRM/Tag/Form/Search.tpl"}
+                {else}
                     {foreach from=$form.tag item="tag_val"} 
-                    <div class="{cycle values="odd-row,even-row"}">
-                    {$tag_val.html}
-                    </div>
+                      <div class="{cycle values="odd-row,even-row"}">
+                      {$tag_val.html}
+                      </div>
                     {/foreach}
+                {/if}
                 </div>
             </td>
 {else}

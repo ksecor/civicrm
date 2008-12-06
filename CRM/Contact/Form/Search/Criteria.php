@@ -58,6 +58,10 @@ class CRM_Contact_Form_Search_Criteria {
 
         if ( $form->_searchOptions['tags'] ) {
             // checkboxes for categories
+   	    require_once 'CRM/Core/BAO/Tag.php';
+	    $tags = new CRM_Core_BAO_Tag ();
+	    $tree =$tags->getTree();
+            $form->assign       ( 'tree'  , $tags->getTree() );
             foreach ($form->_tag as $tagID => $tagName) {
                 $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
