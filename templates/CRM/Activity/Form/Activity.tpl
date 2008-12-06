@@ -2,7 +2,7 @@
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {elseif $atypefile }
-   {if $activityTypeFile}{include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}{/if}
+   {if $activityTypeFile}{include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}{/if}
 {elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
@@ -95,7 +95,7 @@
 
              {* Include special processing fields if any are defined for this activity type. *}
              {if $activityTypeFile}
-                {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
+                {include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}
              {else}
                 {* if user going to select the activity type, provide space for dynamically injecting the form fields.*}
                 <tr>

@@ -87,62 +87,34 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      */
     public    $_caseId;
     protected $_single;
+
     /**
      * The flag for case enabled or not
      *
      * @var boolean
      */
     public $_caseEnabled = false;
+
     /**
      * The id of the logged in user, used when add / edit 
      *
      * @var int
      */
     public $_currentUserId;
+
     /**
      * The default variable to check attached file
      *
      * @var int
      */
     public $_currentAttachmentURL;
+
     /**
-     * The array of filelds
+     * The array of form field attributes
      *
      * @var array
      */
-    public $_fields = array(
-                             'subject'            =>  array( 'type'        => 'text',
-                                                             'label'       => 'Subject',
-                                                             'attribiutes' => "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' )",
-                                                             'required'    => true
-                                                             ),
-                             'activity_date_time' =>  array( 'type'        => 'date',
-                                                             'label'       => 'Date and Time',
-                                                             'attribiutes' => "CRM_Core_SelectValues::date('activityDatetime')" ,
-                                                             'required'    => true
-                                                           ),
-                             'duration'           =>  array( 'type'        => 'text',
-                                                             'label'       => 'Duration',
-                                                             'attribiutes' => "array( 'size'=> 4,'maxlength' => 8 )",
-                                                             'required'    => false
-                                                             ),
-                         
-                             'location'           =>  array(  'type'       => 'text',
-                                                              'label'      => 'Location',
-                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' )",
-                                                              'required'   => false
-                                                              ),
-                             'details'            => array(   'type'       => 'textarea',
-                                                              'label'      => 'Details',
-                                                              'attribiutes'=> "CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' )" ,
-                                                              'required'   => false 
-                                                              ),
-                             'status_id'         =>  array(   'type'       => 'select',
-                                                              'label'      => 'Status',
-                                                              'attribiutes'=> "CRM_Core_PseudoConstant::activityStatus( )",
-                                                              'required'   => true 
-                                                              )
-                           );
+    public $_fields;
 
     /**
      * The the directory inside CRM, to include activity type file from 
@@ -150,6 +122,65 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @var string
      */
     protected $_crmDir = 'Activity';
+
+    /**
+     * The _fields var can be used by sub class to set/unset/edit the 
+     * form fields based on their requirement  
+     *
+     */
+    function setFields() {
+        $this->_fields = 
+            array(
+                  'subject'            =>  array( 'type'        => 'text',
+                                                  'label'       => 'Subject',
+                                                  'attributes'  =>  
+                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                             'subject' ),
+                                                  'required'    => true,
+                                                  ),
+                  'activity_date_time' =>  array( 'type'        => 'date',
+                                                  'label'       => 'Date and Time',
+                                                  'attributes'  => 
+                                                  CRM_Core_SelectValues::date('activityDatetime'),
+                                                  'required'    => true,
+                                                  ),
+                  'duration'           =>  array( 'type'        => 'text',
+                                                  'label'       => 'Duration',
+                                                  'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
+                                                  'required'    => false,
+                                                  ),
+                  
+                  'location'           =>  array( 'type'       => 'text',
+                                                  'label'      => 'Location',
+                                                  'attributes' => 
+                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                             'location' ),
+                                                  'required'   => false,
+                                                  ),
+                  'details'            => array(  'type'       => 'textarea',
+                                                  'label'      => 'Details',
+                                                  'attributes' => 
+                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                             'details' ),
+                                                  'required'   => false, 
+                                                  ),
+                  'status_id'          =>  array( 'type'       => 'select',
+                                                  'label'      => 'Status',
+                                                  'attributes' => 
+                                                  CRM_Core_PseudoConstant::activityStatus( ),
+                                                  'required'   => true, 
+                                                  ),
+                  'source_contact_id'  =>  array( 'type'       => 'text',
+                                                  'label'      => 'Added By',
+                                                  'attributes' => 
+                                                  array('dojoType'=> 'civicrm.FilteringSelect',
+                                                        'mode'    => 'remote',
+                                                        'store'   => 'contactStore',
+                                                        'pageSize'=> 10  ),
+                                                  'required'   => false,
+                                                  ),
+                  );
+    }
 
     /**
      * Function to build the form
@@ -337,7 +368,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             
             require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
             $this->assign( 'activityTypeFile', $this->_activityTypeFile );
+            $this->assign( 'crmDir', $this->_crmDir );
         }
+
+        $this->setFields( );
 
         if ( $this->_activityTypeFile ) {
             eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
@@ -508,9 +542,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
        
         foreach ( $this->_fields as $field => $values ) {
-             
             if( CRM_Utils_Array::value($field, $this->_fields ) ) {
-                eval('$attribute ='. $values['attribiutes'].';');
+                $attribute = null;
+                if( CRM_Utils_Array::value('attributes', $values ) ) {
+                    $attribute = $values['attributes'];
+                }
                 $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
             }
         }
@@ -521,12 +557,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
        
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-
-        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                             'mode'           => 'remote',
-                             'store'          => 'contactStore',
-                             'pageSize'       => 10  );
-
+        
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "reset=1",
                                           false, null, false );
@@ -535,7 +566,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('admin', $admin);
 
-        $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
+        $sourceContactField =& $this->add( $this->_fields['source_contact_id']['type'],
+                                           'source_contact_id', 
+                                           $this->_fields['source_contact_id']['label'], 
+                                           $this->_fields['source_contact_id']['attributes'], 
+                                           $admin );
+
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
         } else if ( $this->_sourceContactId ) {
