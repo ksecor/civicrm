@@ -1377,7 +1377,7 @@ SELECT $select
             if ( $key === 'info' ) {
                 continue;
             }
-
+			
             foreach ( $group['fields'] as $k => $properties ) {
 				$groupID = $group['id'];
                 if ( !empty( $properties['customValue'] ) ) {
@@ -1398,7 +1398,10 @@ SELECT $select
                                                                                                            CRM_Utils_Array::value('data_type',
                                                                                                                                   $properties),
                                                                                                            CRM_Utils_Array::value('option_group_id', 
-                                                                                                                                  $properties) ),
+                                                                                                                                  $properties),
+																										   CRM_Utils_Array::value('date_parts',
+																																	$properties)																																		
+ 																																	),
                                                                                  'options_per_line' => CRM_Utils_Array::value('options_per_line',
                                                                                                                               $properties) ) ;
                     }
@@ -1424,7 +1427,7 @@ SELECT $select
      * Format custom value according to data, view mode
      *
      */
-    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id )
+    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts )
     {
         $value = $values['data'];
 		
@@ -1437,7 +1440,8 @@ SELECT $select
 		switch ( $dataType ) {
 
         case 'Date':
-			$retValue = CRM_Utils_Date::customFormat( $value );
+        	$parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+			$retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
 			break;	
 
         case 'Boolean':
