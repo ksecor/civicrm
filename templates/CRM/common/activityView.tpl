@@ -1,5 +1,11 @@
 {literal}
 <script type="text/javascript">
+	window.onload = function() {
+	      var actCont = document.getElementById("activity-content");
+	      actCont.style.overflow = "auto";
+	      actCont.style.height = "560px";
+	      actCont.style.width  = "680px";
+	};
 
 	function viewActivity( activityID, contactID ) {
 		cj("#view-activity").show( );
@@ -26,7 +32,7 @@
 					cj(this).dialog("close"); 
 					cj(this).dialog("destroy"); 
 				}
-			} 
+			}
 		});
 	}
 
