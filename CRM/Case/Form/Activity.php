@@ -403,7 +403,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $caseParams['status_id'] = $caseParams['case_status_id'];
         }
         // unset params intended for activities only
-        unset($caseParams['subject'], $caseParams['details'], $caseParams['status_id']);
+        unset($caseParams['subject'], $caseParams['details'], 
+              $caseParams['status_id'], $caseParams['custom']);
         $case = CRM_Case_BAO_Case::create( $caseParams );
 
 
