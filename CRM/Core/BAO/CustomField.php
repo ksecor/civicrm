@@ -1258,6 +1258,10 @@ SELECT $columnName
             $value  =  $filename;
         }
 
+		if ( !is_array( $customFormatted ) ) {
+			$customFormatted = array( );
+		}
+		
         if ( ! array_key_exists( $customFieldId, $customFormatted ) ) {
             $customFormatted[$customFieldId] = array( );
         }
