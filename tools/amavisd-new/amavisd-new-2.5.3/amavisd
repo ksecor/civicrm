@@ -17716,6 +17716,12 @@ sub process($$) {
         MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('To')));
     my ($dest, $domainId, $jobId, $qId, $hash) =
         ($verpInfo =~ m/(\w+)\.(\d+)\.(\d+)\.(\d+)\.([0-9A-F]+)\@.*/i);
+    unless ($dest) {
+      ($dest, $domainId, $jobId) = ($verpInfo =~ m/(s|subscribe)\.(\d+).(\d+)\@.*/);
+    }
+    unless ($dest) {
+      ($dest, $jobId, $qId, $hash) = ($verpInfo =~ m/(b|c|e|o|r|u)\.(\d+)\.(\d+)\.([0-9A-F]+)\@.*/i);
+    }
     
     my $result;
     
@@ -17725,7 +17731,7 @@ sub process($$) {
       authenticate($domainId);
     }
     
-    if (defined($hash)) {
+    if ($dest) {
         if ($dest eq 'bounce' || $dest eq 'b') {
             # bounce
             my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
@@ -17828,7 +17834,7 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed unsubscribe event: $verpInfo");
             }
-        } elsif ($dest eq 'resubscribe' || $dest eq 're' ) {
+        } elsif ($dest eq 'resubscribe' || $dest eq 're' || $dest eq 'e') {
             # resubscription
             while (1) {
                 $result = 
@@ -17894,10 +17900,7 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed opt-out event: $verpInfo");
             }
-        }
-    } else {
-        my ($dest, $dId, $gId) =
-            ($verpInfo =~ m/(subscribe)\.(\d+).(\d+)\@.*/) or return;
+        } elsif ($dest eq 'subscribe' || $dest eq 's') {
 
         my $email = 
             MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
@@ -17906,7 +17909,7 @@ sub process($$) {
         while (1) {
             $result = 
                 $soapClient->mailer_event_subscribe( 
-                                        $soapKey, $from, $gId);
+                                        $soapKey, $from, $jobId);
 
             last unless $result->fault;
             if ($attempt < 1) {
@@ -17920,6 +17923,7 @@ sub process($$) {
             do_log(2, "CiviCRM: succesful subscribe event: $verpInfo");
         } else {
             do_log(1, "CiviCRM: failed subscribe event: $verpInfo");
+          }
         }
     }
 }
