@@ -8,7 +8,7 @@
   <div>{$form.hidden}</div>
 {/if}
 
-{if count($form.errors) gt 0}
+{if ! $suppressForm and count($form.errors) gt 0}
    <div class="messages error">
    {ts}Please correct the following errors in the form fields below:{/ts}
    <ul id="errorList">
