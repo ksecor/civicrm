@@ -1436,7 +1436,7 @@ SELECT $select
 		}
 		$freezeString = "";
 		$freezeStringChecked = "";
-
+		
 		switch ( $dataType ) {
 
         case 'Date':
@@ -1472,12 +1472,11 @@ SELECT $select
 			}
 
         case 'String':
-			if ( $htmlType == 'Text' ) {
-				$retValue = $value;
-				break;
-			}
-
         case 'Int':
+            if ( $htmlType == 'Text' ) {
+                $retValue = $value;
+                break;
+            }			
         case 'StateProvince':
         case 'Country':
 			//added check for Multi-Select in the below if-statement
@@ -1515,8 +1514,8 @@ SELECT $select
 
             case 'CheckBox': 
             case 'Multi-Select':
-				$customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
-
+                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+            
             default:
 				$query = "
 					SELECT label, value
