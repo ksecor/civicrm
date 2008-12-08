@@ -240,9 +240,18 @@ class CRM_Case_BAO_Query
             return;
 
         case 'case_owner':
-            $query->_where[$grouping][] = "civicrm_case_contact.contact_id $op $value";
-            $query->_qill[$grouping ][] = ts( 'Case %1 My Cases', array( 1 => $op ) );
-            $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
+            if ( $value == 0 ) {
+                $session =& CRM_Core_Session::singleton();
+                $userID  = $session->get('userID');
+                $query->_where[$grouping][] = "civicrm_case_contact.contact_id $op $userID";
+                $query->_qill[$grouping ][] = ts( 'Case %1 My Cases', array( 1 => $op ) );
+                $query->_tables['civicrm_case_contact'] = $query->_whereTables['civicrm_case_contact'] = 1;
+            } else {
+                $query->_qill[$grouping ][] = ts( 'Case %1 All Cases', array( 1 => $op ) );
+                $query->_where[$grouping][] = "civicrm_case_contact.contact_id = contact_a.id";
+                $query->_tables['civicrm_case']         = 1;
+                $query->_tables['civicrm_case_contact'] =  $query->_whereTables['civicrm_case_contact'] = 1; 
+            }
             return;
 
         case 'case_deleted':
