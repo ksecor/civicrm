@@ -147,43 +147,65 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                 //assign shape for map
                 $this->assign( 'shape', 'poly');
                 $this->assign( 'chartType', 'pie');
+                
+                $chartParams = array( );
+                if ( $monthlyData ) {
+                    $chartParams = array( $pChartParams['by_month'], $pChartParams['by_year'] );  
+                } else {
+                    $chartParams = array( $pChartParams['by_year'] );  
+                }
+                
                 //build the pie graph
-                $filesValues = CRM_Utils_PChart::buildPieChart( $pChartParams );
+                $filesValues = CRM_Utils_PChart::pieChart( $chartParams );
             } else {
                 //assign shape for map
                 $this->assign( 'shape', 'rect');
                 $this->assign( 'chartType', 'bar');
+                
+                $chartParams = array( );
+                if ( $monthlyData ) {
+                    $chartParams = array( $pChartParams['by_month'], $pChartParams['by_year'] );  
+                } else {
+                    $chartParams = array( $pChartParams['by_year'] );  
+                }
+                
                 //build the bar graph.
-                $filesValues = CRM_Utils_PChart::buildBarChart( $pChartParams );
+                $filesValues = CRM_Utils_PChart::barChart( $chartParams );
             }
             
-            //assign all coordinates.
-            $this->assign( 'monthCoords', $filesValues['by_month']['coords'] );
-            $this->assign( 'yearCoords', $filesValues['by_year']['coords'] );
-            
-            //assign all files path.
-            $this->assign( 'monthFilePath', CRM_Utils_Array::value('file_name', $filesValues['by_month'] ) );
-            $this->assign( 'yearFilePath',  CRM_Utils_Array::value('file_name',  $filesValues['by_year'] ) );
-            
-            //build the urls for map.
-            foreach ( $filesValues['by_month']['coords'] as $month => $value )  {
-                $monthCount =  array_search( $month, $abbrMonthNames );
-                $startDate = CRM_Utils_Date::format( array( 'Y' => $selectedYear, 'M' => $monthCount ) );
-                $endDate = date( 'Ymd', mktime(0, 0, 0, $monthCount+1, 0, $selectedYear ) );
-                $url = CRM_Utils_System::url( 'civicrm/contribute/search',
-                                              "reset=1&force=1&status=1&start={$startDate}&end={$endDate}&test=0");
-                $filesValues['by_month']['urls'][$month] = $url;
+            $formatMonthly = true;
+            foreach ( $filesValues as $chartIndex => $values ) {
+                if ( $monthlyData && $formatMonthly ) {
+                    
+                    $this->assign( 'monthCoords',   $values['coords'   ] );
+                    $this->assign( 'monthFilePath', $values['file_name'] );
+                    
+                    //build the month urls for map.
+                    $monthUrls = array( );
+                    foreach ( $values['coords'] as $month => $value )  {
+                        $monthPosition     = array_search( $month, $abbrMonthNames );
+                        $startDate         = CRM_Utils_Date::format( array( 'Y' => $selectedYear, 'M' => $monthPosition ) );
+                        $endDate           = date( 'Ymd', mktime(0, 0, 0, $monthPosition+1, 0, $selectedYear ) );
+                        $monthUrls[$month] = CRM_Utils_System::url( 'civicrm/contribute/search',
+                                                                    "reset=1&force=1&status=1&start={$startDate}&end={$endDate}&test=0");
+                    }
+                    $this->assign( 'monthUrls', $monthUrls );
+                    $formatMonthly = false;
+                } else {
+                    $this->assign( 'yearCoords',   $values['coords'   ] );
+                    $this->assign( 'yearFilePath', $values['file_name'] );
+                    
+                    //build year urls for map
+                    $yearUrls = array( );
+                    foreach ( $values['coords'] as $year => $value )  {
+                        $startDate       = CRM_Utils_Date::format( array( 'Y' => $year ) );
+                        $endDate         = date( 'Ymd', mktime(0, 0, 0, 13, 0, $year ) );
+                        $yearUrls[$year] = CRM_Utils_System::url( 'civicrm/contribute/search',
+                                                                  "reset=1&force=1&status=1&start={$startDate}&end={$endDate}&test=0");
+                    }
+                    $this->assign( 'yearUrls', $yearUrls );
+                }
             }
-            $this->assign( 'monthUrls', $filesValues['by_month']['urls'] );
-            
-            foreach ( $filesValues['by_year']['coords'] as $year => $value )  {
-                $startDate = CRM_Utils_Date::format( array( 'Y' => $year ) );
-                $endDate = date( 'Ymd', mktime(0, 0, 0, 13, 0, $year ) );
-                $url = CRM_Utils_System::url( 'civicrm/contribute/search',
-                                              "reset=1&force=1&status=1&start={$startDate}&end={$endDate}&test=0");
-                $filesValues['by_year']['urls'][$year] = $url;
-            }
-            $this->assign( 'yearUrls', $filesValues['by_year']['urls'] );
         }
     }
 }
