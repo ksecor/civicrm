@@ -285,7 +285,6 @@ AND        ca.case_id = %3
         } else {
             $activityParams = array( 'activity_type_id'    => $activityTypeID,
                                      'source_contact_id'   => $params['creatorID'],
-                                     'subject'             => ' ',
                                      'is_auto'             => true,
                                      'is_current_revision' => 1,
                                      'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
