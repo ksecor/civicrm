@@ -1,11 +1,11 @@
 {*common template for compose mail*}
 <dl>
   <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
-  <dt>{$form.token1.label}<br />{help id="id-token-text"}</dt>
+  <dt>{$form.token1.label}<br />{help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}</dt>
     <dd>{$form.token1.html}</dd>
-  <dt>{$form.text_message.label}<br />{help id="id-message-text"}</dt>
+  <dt>{$form.text_message.label}<br />{help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp"}</dt>
     <dd>{$form.text_message.html}</dd></dl>
-  <dt>{$form.token2.label}<br />{help id="id-token-html"}</dt>
+  <dt>{$form.token2.label}<br />{help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}</dt>
     <dd>{$form.token2.html}</dd>
   <dt>{$form.html_message.label}</dt>
     <dd>{$form.html_message.html}</dd>
