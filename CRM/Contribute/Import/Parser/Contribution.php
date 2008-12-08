@@ -64,8 +64,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
-        //$this->_mapperLocType =& $mapperLocType;
-        //$this->_mapperPhoneType =& $mapperPhoneType;
     }
 
     /**
@@ -86,8 +84,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $this->_newContributions = array();
 
         $this->setActiveFields( $this->_mapperKeys );
-        //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
-        //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
 
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
@@ -150,10 +146,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        /*if ($response != CRM_Contribute_Import_Parser::VALID) {
-            array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
-            return CRM_Contribute_Import_Parser::ERROR;
-        }*/
         
         $params =& $this->getActiveFieldParams( );
         require_once 'CRM/Import/Parser/Contact.php';
@@ -207,7 +199,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         //date-Format part ends
 
-        //$params['contact_type'] =  $this->_contactType;
         $params['contact_type'] =  'Contribution';
         
         //checking error in custom data
@@ -376,7 +367,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                //$cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
                 $cIndieFields = $cTempIndieFields;
             }
@@ -409,16 +399,14 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    //$value['contact_type'] = 'Individual';
                     $value['contact_type'] = $this->_contactType;
                 }
                 _civicrm_add_formatted_param($value, $contactFormatted);
             }
 
-            //$contactFormatted['contact_type'] = 'Individual';
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);        
                 if (count( $matchedIDs) >1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The contribution was not imported");
@@ -520,33 +508,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     function fini( ) 
     {
     }
-
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Array $error A valid Error array
-     *  
-     *  @return true if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error) 
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;     
-
-    }
-
 
 }
 

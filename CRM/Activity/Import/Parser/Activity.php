@@ -49,8 +49,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     private $_activityTypeIndex;
     private $_activityNameIndex;
     private $_activityDateIndex;
-    //protected $_mapperLocType;
-    //protected $_mapperPhoneType;
+
     /**
      * Array of succesfully imported activity id's
      *
@@ -65,8 +64,6 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
-        //$this->_mapperLocType =& $mapperLocType;
-        //$this->_mapperPhoneType =& $mapperPhoneType;
     }
 
     /**
@@ -89,8 +86,6 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $this->_newActivity = array();
         
         $this->setActiveFields( $this->_mapperKeys );
-        //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
-        //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
         
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
@@ -157,13 +152,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        
         $index = -1;
-        
-        /*if ($response != CRM_Activity_Import_Parser::VALID) {
-            array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
-            return CRM_Activity_Import_Parser::ERROR;
-        }*/
         $errorRequired = false;
         
         if ( $this->_activityTypeIndex > 0 && $this->_activityNameIndex > 0 ) {
@@ -348,7 +337,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
 
             $contactFormatted['contact_type'] = 'Individual';
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if (count( $matchedIDs) > 1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The activity was not imported");
@@ -426,31 +415,6 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     {
     }
 
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Object $error Avalid Error object
-     *  
-     *  @return ture if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-
-    function isDuplicate($error) 
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;     
-    }
 }
 
 

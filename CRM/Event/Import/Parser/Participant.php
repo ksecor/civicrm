@@ -225,7 +225,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         //date-Format part ends
         
-        //$params['contact_type'] =  $this->_contactType;
         $params['contact_type'] = 'Participant';
         //checking error in custom data
         CRM_Import_Parser_Contact::isErrorInCustomData($params, $errorMessage);
@@ -398,7 +397,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             }
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate( $error ) ) {
                 $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
@@ -486,30 +485,5 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     {
     }
     
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param Array $error A valid Error array
-     *  
-     *  @return true if error is duplicate contact error 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error)
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;     
-
-    }
 }
 
