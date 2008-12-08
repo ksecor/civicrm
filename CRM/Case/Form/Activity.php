@@ -71,14 +71,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_crmDir  = 'Case';
         $result = parent::preProcess( );
         
-        
-        if ( $this->_currentAttachmentURL ) {  
-            $this->assign( 'attachmentURL', $this->_currentAttachmentURL );
-        }
         if ( $this->_cdType ) {
             return $result;
         }
-
+        
         if ( !$this->_caseId ||
              (!$this->_activityId && !$this->_activityTypeId) ) {
             CRM_Core_Error::fatal('required params missing.');            
@@ -143,37 +139,22 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( $this->_cdType ) {
             return $this->_defaults;
         }
-
+        
         if ( !isset($this->_defaults['due_date_time']) ) {
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
-            $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
         }
 
-        
-        //assign show hide to templates
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks( );
-        
-        if ( $this->_currentAttachmentURL ) {
-            $showHide->addShow( "attachments" );
-            $showHide->addHide( "attachments_show" );
-        } else {
-            $showHide->addShow( "attachments_show" );
-            $showHide->addHide( "attachments" );
-        }
-        $showHide->addToTemplate( );        
-        
         return $this->_defaults;
     }
     
     public function buildQuickForm( ) 
     {
-        // FIXME: Need to add "Case Role" field as spec'd in CRM-3743
-
+        // modify core Activity fields
         $this->_fields['activity_date_time']['label']    = 'Actual Date'; 
         $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['subject']['required']            = false;
+        $this->_fields['source_contact_id']['label']     = 'Reported By'; 
 
         $result = parent::buildQuickForm( );
 
@@ -403,7 +384,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $caseParams['status_id'] = $caseParams['case_status_id'];
         }
         // unset params intended for activities only
-        unset($caseParams['subject'], $caseParams['details'], $caseParams['status_id']);
+        unset($caseParams['subject'], $caseParams['details'], 
+              $caseParams['status_id'], $caseParams['custom']);
         $case = CRM_Case_BAO_Case::create( $caseParams );
 
 

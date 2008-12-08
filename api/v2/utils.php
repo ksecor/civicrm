@@ -32,17 +32,40 @@
  *
  */
 
-function _civicrm_initialize( ) {
+function _civicrm_initialize( ) 
+{
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
 }
 
-function &civicrm_create_error( $msg, $data = null ) {
+function &civicrm_create_error( $msg, $data = null ) 
+{
     return CRM_Core_Error::createAPIError( $msg, $data );
 }
 
-function civicrm_create_success( $result = 1 ) {
+function civicrm_create_success( $result = 1 ) 
+{
     return CRM_Core_Error::createAPISuccess( $result );
+}
+
+/**
+ *  function to check if an error is actually a duplicate contact error
+ *  
+ *  @param array $error (array of) valid Error values
+ *  
+ *  @return true if error is duplicate contact error, false otherwise 
+ *  
+ *  @access public 
+ */
+function civicrm_duplicate($error)
+{  
+    if ( is_array( $error )  && civicrm_error( $error ) ) {
+        $code = $error['error_message']['code'];
+        if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+            return true ;
+        }
+    }
+    return false;
 }
 
 /**
@@ -54,7 +77,8 @@ function civicrm_create_success( $result = 1 ) {
  * @static void
  * @access public
  */
-function civicrm_error( $params ) {
+function civicrm_error( $params ) 
+{
     if ( is_array( $params ) ) {
         return ( array_key_exists( 'is_error', $params ) &&
                  $params['is_error'] ) ? true : false;
@@ -62,7 +86,8 @@ function civicrm_error( $params ) {
     return false;
 }
 
-function _civicrm_store_values( &$fields, &$params, &$values ) {
+function _civicrm_store_values( &$fields, &$params, &$values ) 
+{
     $valueFound = false;
     
     foreach ($fields as $name => $field) {
@@ -732,7 +757,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
  * @return array|CRM_Error
  * @access public
  */
-function _civicrm_contribute_formatted_param( &$params, &$values, $create=false ) {
+function _civicrm_contribute_formatted_param( &$params, &$values, $create=false ) 
+{
     // copy all the contribution fields as is
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );

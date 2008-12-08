@@ -408,16 +408,34 @@ class CRM_Core_PseudoConstant
     {
         // convert to integer for array index
         $index      = (int) $all . '_' . (int) $includeCaseActivities;
-
+               
+        $componentIds = array( );
+        $compInfo        = CRM_Core_Component::getEnabledComponents();
+        foreach ( $compInfo as $compName => $compObj ) {
+            if ( $compName != 'CiviCase' ) {
+                $componentIds[] = $compObj->componentID;
+            } else if ( $includeCaseActivities ) {
+                $componentIds[] = $compObj->componentID;
+            }
+            $index = $index .'_'.(int)$compObj->componentID;
+        }
+        
         if ( ! array_key_exists( $index, self::$activityType ) ) {
             require_once 'CRM/Core/OptionGroup.php';
             $condition = null;
             if ( !$all ) {
                 $condition = 'AND filter = 0';
             } 
-            if ( !$includeCaseActivities ) {
-                $condition .= ' AND ( v.component_id is NULL OR  v.component_id != 7 )';
+            $condition .= " AND ";
+            $clause     = " v.component_id IS NULL";
+            
+            if ( count($componentIds) ) {
+                $componentIds = implode( ',', $componentIds );
+                $clause .= " OR v.component_id IN ($componentIds)";
+                $clause  = "( ".$clause." )";
             }
+            $condition = $condition.$clause;
+
             self::$activityType[$index] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
         }
         return self::$activityType[$index];

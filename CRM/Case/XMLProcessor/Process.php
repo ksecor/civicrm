@@ -285,7 +285,6 @@ AND        ca.case_id = %3
         } else {
             $activityParams = array( 'activity_type_id'    => $activityTypeID,
                                      'source_contact_id'   => $params['creatorID'],
-                                     'subject'             => ' ',
                                      'is_auto'             => true,
                                      'is_current_revision' => 1,
                                      'status_id'           => CRM_Core_OptionGroup::getValue( 'case_status',
@@ -306,14 +305,15 @@ AND        ca.case_id = %3
                 $activityParams['custom'] = $params['custom'];
             }
         } else {
+            $dueDateTime = $params['dueDateTime'];
+            $datetime    = new DateTime( $dueDateTime );
+            $activityDueTime = CRM_Utils_Date::unformat( $datetime->format('Y:m:d:H:i:s'), ':' );
+
             if ( (int ) $activityTypeXML->reference_offset ) {
-                $dueDateTime = $params['dueDateTime'] + 
-                (int ) $activityTypeXML->reference_offset * 24 * 3600; // this might cause a DST issue
-            } else {
-                $dueDateTime = $params['dueDateTime'];
+                $activityDueTime = 
+                    CRM_Utils_Date::intervalAdd( 'day', (int ) $activityTypeXML->reference_offset, 
+                                                 $activityDueTime );
             }
-            $activityDueTime                 = CRM_Utils_Date::unformat( date( 'Y:m:d:H:i', $dueDateTime ), ':' );
-            $activityDueTime['i']            = (integer)( $activityDueTime['i'] / 15 ) * 15;
             $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
         }
 

@@ -162,6 +162,10 @@ class CRM_Core_Page {
         self::$_template->assign( 'mode'   , $this->_mode );
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
 
+        // invoke the pagRun hook, CRM-3906
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pageRun( $this );
+
         if ( $this->_print ) {
             if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ||
                  $this->_print == CRM_Core_Smarty::PRINT_PDF ) {

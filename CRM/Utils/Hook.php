@@ -198,6 +198,19 @@ class CRM_Utils_Hook {
                   '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclWhereClause\' );' );  
     }
 
+    /** 
+     * This hook is called when composing the ACL where clause to restrict
+     * visibility of contacts to the logged in user
+     * 
+     * @param int    $type          the type of permission needed
+     * @param int    $contactID     the contactID for whom the check is made
+     * @param string $tableName     the tableName which is being permissioned
+     * @param array  $allGroups     the set of all the objects for the above table
+     * @param array  $currentGroups the set of objects that are currently permissioned for this contact
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */
     static function aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -207,6 +220,14 @@ class CRM_Utils_Hook {
                   '::invoke( 5, $type, $contactID, $tableName, $allGroups, $currentGroups, \'civicrm_aclGroup\' );' );  
     }
 
+    /** 
+     * This hook is called when building the menu table
+     * 
+     * @param array $files The current set of files to process
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */
     static function xmlMenu( &$files ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -217,6 +238,14 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $files, $null, $null, $null, $null, \'civicrm_xmlMenu\' );' );
     }
 
+    /** 
+     * This hook is called when rendering the dashboard (q=civicrm/dashboard)
+     * 
+     * @param int $contactID - the contactID for whom the dashboard is being rendered
+     *  
+     * @return string the html snippet to include in the dashboard
+     * @access public 
+     */
     static function dashboard( $contactID ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -227,6 +256,16 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $contactID, $null, $null, $null, $null, \'civicrm_dashboard\' );' );
     }
 
+    /** 
+     * This hook is called when building the amount structure for a Contribution or Event Page
+     * 
+     * @param int    $pageType - is this a contribution or event page
+     * @param object $form     - reference to the form object
+     * @param array  $amount   - the amount structure to be displayed
+     *  
+     * @return null
+     * @access public 
+     */
     static function buildAmount( $pageType, &$form, &$amount ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -237,6 +276,15 @@ class CRM_Utils_Hook {
                   '::invoke( 3, $pageType, $form, $amount, $null, $null, \'civicrm_buildAmount\' );' );
     }
 
+    /** 
+     * This hook is called when rendering the tabs for a contact (q=civicrm/contact/view)c
+     * 
+     * @param array $tabs      - the array of tabs that will be displayed
+     * @param int   $contactID - the contactID for whom the dashboard is being rendered
+     *  
+     * @return null
+     * @access public 
+     */
     static function tabs( &$tabs, $contactID ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -247,6 +295,14 @@ class CRM_Utils_Hook {
                   '::invoke( 2, $tabs, $contactID, $null, $null, $null, \'civicrm_tabs\' );' );
     }
 
+    /** 
+     * This hook is called when sending an email / printing labels
+     * 
+     * @param array $tokens    - the list of tokens that can be used for the contact
+     *  
+     * @return null
+     * @access public 
+     */
     static function tokens( &$tokens ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -257,6 +313,16 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $tokens, $null, $null, $null, $null, \'civicrm_tokens\' );' );
     }
 
+    /** 
+     * This hook is called when sending an email / printing labels to get the values for all the 
+     * tokens returned by the 'tokens' hook
+     * 
+     * @param array       $details    - the array to store the token values indexed by contactIDs (unless it a single)
+     * @param int / array $contactIDs - an array of contactIDs, in some situations we also send a single contactID. 
+     *  
+     * @return null
+     * @access public 
+     */
     static function tokenValues( &$details, &$contactIDs ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -266,6 +332,26 @@ class CRM_Utils_Hook {
             eval( 'return ' .
                   $config->userHookClass .
                   '::invoke( 2, $details, $contactIDs, $null, $null, $null, \'civicrm_tokenValues\' );' );
+    }
+
+    /** 
+     * This hook is called before a CiviCRM Page is rendered. You can use this hook to insert smarty variables
+     * in a  template
+     * 
+     * @param object $page - the page that will be rendered
+     *  
+     * @return null
+     * @access public 
+     */
+    static function pageRun( &$page ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $page, $null, $null, $null, $null, \'civicrm_pageRun\' );' );
     }
 
 }

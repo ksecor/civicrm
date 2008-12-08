@@ -38,8 +38,15 @@
 
 {literal}
 <script type="text/javascript">
-    hide('attachments_show');
+var attachmentUrl = {/literal}'{$currentAttachmentURL}'{literal};
+if ( attachmentUrl ) {
+show( "attachments" );
+hide( "attachments_show" );
+} else {
+hide( "attachments" );
+show( "attachments_show" );
+}
 </script>
 {/literal}
-
 {/if}
+

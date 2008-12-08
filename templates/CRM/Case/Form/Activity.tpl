@@ -278,4 +278,3 @@ function buildContact( count, pref )
 </script>
 {/literal}
 {/if }
-{include file="CRM/common/showHide.tpl"}

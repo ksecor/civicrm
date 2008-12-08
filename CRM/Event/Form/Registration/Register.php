@@ -891,8 +891,13 @@ WHERE  id IN ($optionIDs)
      */ 
     function checkRegistration($fields, &$self, $isAdditional = false)
     {
+        // CRM-3907, skip check for preview registrations
+        if ($self->_mode == 'test') {
+            return false;
+        }
+
         $session =& CRM_Core_Session::singleton( );
-        if( !$isAdditional ) {
+        if( ! $isAdditional ) {
             $contactID = $session->get( 'userID' );
         }
         if ( ! $contactID &&
@@ -913,11 +918,8 @@ WHERE  id IN ($optionIDs)
             $participant->contact_id = $contactID;
             $participant->event_id   = $self->_values['event']['id'];
             $participant->role_id    = $self->_values['event']['default_role_id'];
-            if ($self->_mode == 'test') {
-                $participant->is_test = 1;
-            } else {
-                $participant->is_test = 0;
-            }
+            $participant->is_test    = 0;
+
             $participant->find( );
             require_once 'CRM/Event/PseudoConstant.php';
             $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );

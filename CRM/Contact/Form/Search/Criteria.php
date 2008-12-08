@@ -58,6 +58,10 @@ class CRM_Contact_Form_Search_Criteria {
 
         if ( $form->_searchOptions['tags'] ) {
             // checkboxes for categories
+   	    require_once 'CRM/Core/BAO/Tag.php';
+	    $tags = new CRM_Core_BAO_Tag ();
+	    $tree =$tags->getTree();
+            $form->assign       ( 'tree'  , $tags->getTree() );
             foreach ($form->_tag as $tagID => $tagName) {
                 $form->_tagElement =& $form->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
@@ -179,10 +183,13 @@ class CRM_Contact_Form_Search_Criteria {
     {
         $form->add( 'hidden', 'hidden_activity', 1 );
 
+        $activityOptions = CRM_Core_PseudoConstant::activityType( true, true );
+        asort( $activityOptions );
+
         // textbox for Activity Type
         $form->_activityType =
-            array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::activityType( true, true );
+            array( ''   => ' - select activity - ' ) + $activityOptions;
+           
         
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,

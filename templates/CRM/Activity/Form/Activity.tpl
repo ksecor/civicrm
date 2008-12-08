@@ -2,7 +2,7 @@
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
 {elseif $atypefile }
-   {if $activityTypeFile}{include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}{/if}
+   {if $activityTypeFile}{include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}{/if}
 {elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
@@ -95,7 +95,7 @@
 
              {* Include special processing fields if any are defined for this activity type. *}
              {if $activityTypeFile}
-                {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
+                {include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}
              {else}
                 {* if user going to select the activity type, provide space for dynamically injecting the form fields.*}
                 <tr>
@@ -142,12 +142,7 @@
              </tr> 
              <tr>
              {if $action eq 4} 
-                {if $currentAttachmentURL}
-                    <td class="label">{ts}Current Attachments{/ts}</td>
-                    <td class="view-value">{$currentAttachmentURL}</td>
-                {else}  
-                    <td colspan=2>&nbsp;</td>
-                {/if}
+                <td colspan=2>&nbsp;</td>
              {else}
                 <td colspan="2">
                     {include file="CRM/Form/attachment.tpl"}
@@ -207,8 +202,6 @@
 
 {if $action eq 1 or $action eq 2}
 {literal}
-hide('attachments');
-show('attachments_show');
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {

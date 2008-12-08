@@ -12,40 +12,8 @@
      {if $permission EQ 'edit'}{ts 1=$newCaseURL}Click <a href='%1'>New Case</a> to add a case record for this contact.{/ts}{/if}
 </div>
 
-{if $cases}
-    {if $action eq 16 and $permission EQ 'edit'}
-        <div class="action-link">
-        <a accesskey="N" href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
-        </div>
-        <br /><br />
-    {/if}
-    <div class="form-item" id=case_page>
-    {strip}
-        <table class="selector">  
-         <tr class="columnheader">
-            <th>{ts}Status{/ts}</th>
-            <th>{ts}Case Type{/ts}</th>
-            <th>{ts}My Role{/ts}</th>
-            <th>{ts}Most Recent Activity{/ts}</th>
-            <th>{ts}Next Scheduled Activity{/ts}</th>
-            <th>&nbsp;</th>
-        </tr>
-        {foreach from=$cases item=case}
-        <tr class="{cycle values="odd-row,even-row"}{if $case.case_status eq 'Resolved' } disabled{/if}">
-            <td>{$case.case_status}</td>
-            <td>{$case.case_type}</td>
-            <td>{if $case.case_role}{$case.case_role}{else}---{/if}</td>
-            <td>{$case.case_recent_activity_type}<br />{$case.case_recent_activity_date |crmDate}</td>
-            <td>{$case.case_scheduled_activity_type}<br />{$case.case_scheduled_activity_date |crmDate}</td>
-            <td>{$case.action}</td>
-        </tr>
-        {/foreach}
-        </table>
-    {/strip}
-
-
-    </div>
-
+{if $rows}
+    {include file="CRM/Case/Form/Selector.tpl"}
 {else}
    <div class="messages status">
        <dl>

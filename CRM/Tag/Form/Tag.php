@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/Tag.php';
 require_once 'CRM/Core/BAO/EntityTag.php';
 
 /**
@@ -66,10 +67,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
     {
         // get categories for the contact id
         $entityTag =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
-        
+        $this->assign('tagged', $entityTag);
+    
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();
-        
         // need to append the array with the " checked " if contact is tagged with the tag
         foreach ($allTag as $tagID => $varValue) {
             if( in_array($tagID, $entityTag)) {
@@ -83,6 +84,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
 
         $this->addGroup($tagChk, 'tagList', null, null, true);
         
+	$tags = new CRM_Core_BAO_Tag ();
+	$tree =$tags->getTree();
+        $this->assign       ( 'tree'  , $tags->getTree() );
+      
         $this->assign('tag', $allTag);
 
         if ( $this->_action & CRM_Core_Action::BROWSE ) {

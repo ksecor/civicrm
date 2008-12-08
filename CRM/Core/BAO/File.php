@@ -301,7 +301,6 @@ AND       CEF.entity_id    = %2";
             $form->add( 'checkbox', 'is_delete_attachment', ts( 'Delete Current Attachment(s)' ) );
             $form->assign( 'currentAttachmentURL',
                            $attachmentInfo );
-            $form->_currentAttachmentURL = 1;
         } else {
             $form->assign( 'currentAttachmentURL', null );
         }

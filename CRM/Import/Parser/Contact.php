@@ -498,7 +498,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
             $error = _civicrm_duplicate_formatted_contact($formatted);
-            if ( self::isDuplicate($error) ) {
+            if ( civicrm_duplicate($error) ) { 
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
                 if ( count( $matchedIDs) >= 1 ) {
                         $updateflag = true;
@@ -569,14 +569,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $relationship = true;
             $newContact = clone( $newContact );
             $this->_newContacts[] = $newContact->id;
-        } else if ( self::isDuplicate( $newContact ) ) {
+        } else if ( civicrm_duplicate( $newContact ) ) {
             $relationship = true;
             $this->_newContacts[] = $newContact['error_message']['params'][0]; 
         }
         
         if ( $relationship ) {
             $primaryContactId = null;
-            if ( self::isDuplicate($newContact) ) {
+            if ( civicrm_duplicate($newContact) ) {
                 if ( CRM_Utils_Rule::integer( $newContact['error_message']['params'][0] ) ) {
                     $primaryContactId = $newContact['error_message']['params'][0];
                 }
@@ -584,7 +584,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $primaryContactId = $newContact->id;
             }
                         
-            if ( ( self::isDuplicate($newContact)  || is_a( $newContact, 'CRM_Contact_BAO_Contact' ) ) 
+            if ( ( civicrm_duplicate($newContact)  || is_a( $newContact, 'CRM_Contact_BAO_Contact' ) ) 
                  && $primaryContactId ) {
                 
                 //relationship contact insert
@@ -663,7 +663,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     
                     $matchedIDs = array(  );
                     if ( is_array( $relatedNewContact ) && civicrm_error( $relatedNewContact ) ) {
-                        if ( self::isDuplicate($relatedNewContact) ) {
+                        if ( civicrm_duplicate($relatedNewContact) ) {
                             $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
                             //update the relative contact if dupe 
                             if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE || 
@@ -681,7 +681,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $matchedIDs[] = $relatedNewContact->id;
                     }
                     static $relativeContact = array( ) ;
-                    if ( self::isDuplicate( $relatedNewContact ) ) {
+                    if ( civicrm_duplicate( $relatedNewContact ) ) {
                         if ( count( $matchedIDs ) >= 1 ) {
                             $relContactId = $matchedIDs[0];
                             //add relative contact to count during update & fill mode.
@@ -701,7 +701,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_newRelatedContacts[] = $relativeContact[] = $relContactId;
                     }
                     
-                    if ( self::isDuplicate( $relatedNewContact ) ||
+                    if ( civicrm_duplicate( $relatedNewContact ) ||
                          ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
                         //fix for CRM-1993.Checks for duplicate related contacts
                         if ( count( $matchedIDs ) >= 1 ) {
@@ -846,32 +846,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function fini( ) 
     {
     }
-
-    /**
-     *  function to check if an error is actually a duplicate contact error
-     *  
-     *  @param array/object $error (array of) valid Error object (values)
-     *  
-     *  @return true if error is duplicate contact error, false otherwise 
-     *  
-     *  @access public 
-     */
-    function isDuplicate($error)
-    {
-        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
-            return false;
-        }
-        
-        if ( is_array( $error )  && civicrm_error( $error ) ) {
-            $code = $error['error_message']['code'];
-            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
-                return true ;
-            }
-        }
-        
-        return false;
-    }
-
+   
     /**
      *  function to check if an error in custom data
      *  

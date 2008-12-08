@@ -702,7 +702,7 @@ SELECT count(*)
             }
         } elseif ( isset( $dataField ) && 
                    in_array( $dataField, $optionFields ) &&
-                   $dataType != 'Boolean' ) {
+                   !in_array( $dataType, array( 'Boolean', 'Country', 'StateProvince' ) ) ) {
             if ( ! $fields['option_group_id'] ) {
                 $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse an existing set.' );
             } else {

@@ -1078,50 +1078,76 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
      *
      * @static
      */
-    static function getNextScheduledActivity( $cases ) {
+    static function getNextScheduledActivity( $cases, $type ='upcomming' ) {
         
         $caseID    = implode ( ',', $cases['case_id']);
         
         $contactID = implode ( ',', $cases['contact_id'] );
+
+        if ( $type == 'upcomming' ) {
+            $status = " = 'Scheduled'";
+        } else {
+            $status = "!= 'Scheduled'";
+        }
         $query = "
-             SELECT
-                  civicrm_case.id as case_id, 
-                  civicrm_activity.due_date_time as case_scheduled_activity_date,
-                  aov.label                      as case_scheduled_activity_type  
-             FROM civicrm_case
+             SELECT civicrm_case.id as case_id, ";
+        if ( $type == 'upcomming') {
+            $query .= " civicrm_activity.due_date_time as case_scheduled_activity_date,
+                        aov.label                      as case_scheduled_activity_type";
+
+        } else {
+            $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
+                         aov.label                           as case_recent_activity_type ";      
+        }  
+        
+        $query .=  
+            " FROM civicrm_case
                   INNER JOIN civicrm_case_activity
-                        ON civicrm_case_activity.case_id = civicrm_case.id              
+                         ON civicrm_case_activity.case_id = civicrm_case.id              
                   LEFT JOIN civicrm_case_contact ON civicrm_case.id = civicrm_case_contact.case_id
                   LEFT JOIN civicrm_contact ON civicrm_case_contact.contact_id = civicrm_contact.id  
                   LEFT JOIN civicrm_activity
-                       ON ( civicrm_case_activity.activity_id = civicrm_activity.id
-                            AND civicrm_activity.is_current_revision = 1
-                            AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) 
-                                             
-                  LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
-                  LEFT JOIN civicrm_option_value cov_actstatus 
-                       ON ( civicrm_activity.status_id = cov_actstatus.value
-                            AND cog_actstatus.id = cov_actstatus.option_group_id ) 
-                         LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
-                  LEFT JOIN civicrm_option_value aov
-                        ON ( civicrm_activity.activity_type_id = aov.value
-                             AND aog.id = aov.option_group_id )  
+                         ON ( civicrm_case_activity.activity_id = civicrm_activity.id
+                              AND civicrm_activity.is_current_revision = 1";
+        if ( $type == 'upcomming') {
+            $query .= " AND civicrm_activity.due_date_time <= DATE_ADD( NOW(), INTERVAL 14 DAY ) ) ";
+        } else {
+            $query .= " AND civicrm_activity.activity_date_time <= NOW() 
+                        AND civicrm_activity.activity_date_time >= DATE_SUB( NOW(), INTERVAL 14 DAY ) )";
+        }
+        $query .= " LEFT JOIN civicrm_option_group cog_actstatus ON cog_actstatus.name = 'activity_status'
+                    LEFT JOIN civicrm_option_value cov_actstatus 
+                         ON ( civicrm_activity.status_id = cov_actstatus.value
+                              AND cog_actstatus.id = cov_actstatus.option_group_id ) 
+                    LEFT JOIN civicrm_option_group aog  ON aog.name = 'activity_type'
+                    LEFT JOIN civicrm_option_value aov
+                         ON ( civicrm_activity.activity_type_id = aov.value
+                              AND aog.id = aov.option_group_id )  
                  
-             WHERE cov_actstatus.name = 'Scheduled'  
+             WHERE cov_actstatus.name {$status} 
                    AND civicrm_case_contact.contact_id IN( {$contactID} )
                    AND civicrm_activity.is_deleted = {$cases['case_deleted']}
                    AND civicrm_case.id IN( {$caseID})
                    AND civicrm_case.is_deleted = {$cases['case_deleted']} 
  
-             GROUP BY civicrm_case.id
-             ORDER BY case_scheduled_activity_date ASC"; 
+             GROUP BY civicrm_case.id ";
+        if ( $type =='upcomming') {
+            $query .= " ORDER BY case_scheduled_activity_date ASC"; 
+        } else {
+            $query .= " ORDER BY case_recent_activity_date DESC"; 
+        }
         
         $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-
+        //CRM_Core_Error::debug( '$query', $query );
         $activityInfo = array();
         while( $res->fetch() ) {
-            $activityInfo[$res->case_id]['date']    = $res->case_scheduled_activity_date;
-            $activityInfo[$res->case_id]['type']    = $res->case_scheduled_activity_type;
+            if ( $type == 'upcomming' ) {
+                $activityInfo[$res->case_id]['date']    = $res->case_scheduled_activity_date;
+                $activityInfo[$res->case_id]['type']    = $res->case_scheduled_activity_type;
+            } else {
+                $activityInfo[$res->case_id]['date']    = $res->case_recent_activity_date;
+                $activityInfo[$res->case_id]['type']    = $res->case_recent_activity_type;
+            }
         } 
         return $activityInfo;
     }
@@ -1144,6 +1170,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
 
             $fields['case']['case_start_date'] = array( 'title' => ts('Case Start Date') );
             $fields['case']['case_end_date']   = array( 'title' => ts('Case End Date') );
+            $fields['case']['case_role']       = array( 'title' => ts('Role in Case') );
             //set title to activity fields
             $fields['activity'] = array( 
                                         'case_subject'                 => array( 'title' => ts('Activity Subject') ),

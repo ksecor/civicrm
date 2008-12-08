@@ -37,7 +37,7 @@ require_once 'CRM/Core/Page.php';
 class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        for ( $i = 1; $i <= 3; $i++ ) {
+        for ( $i = 1; $i <= 4; $i++ ) {
             $this->runForm( $i );
         }
         
@@ -58,7 +58,7 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
             CRM_Core_Error::fatal( $error );
         }
 
-        if ( $stepID == 3 ) {
+        if ( $stepID == 4 ) {
             return;
         }
 

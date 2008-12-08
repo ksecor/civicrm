@@ -320,12 +320,13 @@ class CRM_Case_Form_Search extends CRM_Core_Form
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
-        if ( ! $this->_formValues['case_owner'] && ! $this->_force ) {
-            $session = & CRM_Core_Session::singleton();
-            $this->_formValues['case_owner']  = $session->get('userID');
-        } else {
-            unset( $this->_formValues['case_owner'] );
+        //search for civicase
+        if ( array_key_exists('case_owner', $this->_formValues ) && ! $this->_formValues['case_owner'] && ! $this->_force ) {
+            $this->_formValues['case_owner']  = 0;
+        } else if ( array_key_exists('case_owner', $this->_formValues ) ) {
+            $this->_formValues['case_owner'] = 1;
         } 
+ 
         if ( ! CRM_Utils_Array::value( 'case_deleted', $this->_formValues ) ) {
             $this->_formValues['case_deleted'] = 0;
         }

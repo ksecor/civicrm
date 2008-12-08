@@ -2502,7 +2502,7 @@ WHERE  id IN ( $groupIDs )
             
         switch ( $name ) {
         case 'activity_type_id':
-            $types  = CRM_Core_PseudoConstant::activityType( );
+            $types  = CRM_Core_PseudoConstant::activityType( true, true );
             $this->_where[$grouping][] = " civicrm_activity.activity_type_id = {$value}";
             $this->_qill[$grouping][]  = ts( 'Activity Type') . " $op '$types[$value]'";
             break;

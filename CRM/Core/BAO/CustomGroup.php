@@ -615,13 +615,19 @@ SELECT $select
                 $clause[] = "civicrm_custom_group.extends = '$e'";
             }
             $where .= " AND ( " . implode( ' OR ', $clause ) . " ) ";
+
+            //include case activitiescustomdata if case is enabled
+            if ( in_array('Activity', $extends) ) {
+                $extendValues = implode( ',', array_keys(CRM_Core_PseudoConstant::activityType( true, true )) );
+                $where .= " AND ( civicrm_custom_group.extends_entity_column_value IN ($extendValues) OR civicrm_custom_group.extends_entity_column_value IS NULL ) ";
+            } 
         }
 
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
 
         // final query string
         $queryString = $select . $from . $where . $orderBy;
-
+             
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
         
@@ -927,7 +933,9 @@ SELECT $select
                      if (isset($value)) {
                          $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
                          foreach($checkedValue as $val) {
-                             $defaults[$elementName][$val]  =  $val;
+							 if ( $val ) {
+								$defaults[$elementName][$val]  =  $val;
+							 }	
                          } 
                      }
                      break;
@@ -1377,7 +1385,7 @@ SELECT $select
             if ( $key === 'info' ) {
                 continue;
             }
-
+			
             foreach ( $group['fields'] as $k => $properties ) {
 				$groupID = $group['id'];
                 if ( !empty( $properties['customValue'] ) ) {
@@ -1398,7 +1406,10 @@ SELECT $select
                                                                                                            CRM_Utils_Array::value('data_type',
                                                                                                                                   $properties),
                                                                                                            CRM_Utils_Array::value('option_group_id', 
-                                                                                                                                  $properties) ),
+                                                                                                                                  $properties),
+																										   CRM_Utils_Array::value('date_parts',
+																																	$properties)																																		
+ 																																	),
                                                                                  'options_per_line' => CRM_Utils_Array::value('options_per_line',
                                                                                                                               $properties) ) ;
                     }
@@ -1424,20 +1435,21 @@ SELECT $select
      * Format custom value according to data, view mode
      *
      */
-    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id )
+    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts )
     {
         $value = $values['data'];
-
+		
 		if ( !isset( $value ) ) {
 			return; 
 		}
 		$freezeString = "";
 		$freezeStringChecked = "";
-
+		
 		switch ( $dataType ) {
 
         case 'Date':
-			$retValue = CRM_Utils_Date::customFormat( $value );
+        	$parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+			$retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
 			break;	
 
         case 'Boolean':
@@ -1456,6 +1468,10 @@ SELECT $select
             $retValue = $values;
             break;
 
+		case 'Memo': 
+			$retValue = $value;
+			break;	
+
         case 'Float':
         case 'Money':
 			if ( $htmlType == 'Text' ) {
@@ -1464,12 +1480,11 @@ SELECT $select
 			}
 
         case 'String':
-			if ( $htmlType == 'Text' ) {
-				$retValue = $value;
-				break;
-			}
-
         case 'Int':
+            if ( $htmlType == 'Text' ) {
+                $retValue = $value;
+                break;
+            }			
         case 'StateProvince':
         case 'Country':
 			//added check for Multi-Select in the below if-statement
@@ -1507,8 +1522,8 @@ SELECT $select
 
             case 'CheckBox': 
             case 'Multi-Select':
-				$customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
-
+                $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+            
             default:
 				$query = "
 					SELECT label, value

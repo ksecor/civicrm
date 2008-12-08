@@ -75,12 +75,8 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
                                 'case_id',   
                                 'case_status_id', 
                                 'case_type_id',
-                                'case_role',
-                                'case_recent_activity_date',
-                                'case_recent_activity_type', 
-                                'case_scheduled_activity_date',
-                                'case_scheduled_activity_type'
-                                 );
+                                'case_role'
+                                );
 
     /** 
      * are we restricting ourselves to a single contact 
@@ -303,7 +299,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
  
              $scheduledInfo['case_id'][]    = $result->case_id;
              $scheduledInfo['contact_id'][] = $result->contact_id; 
-             $scheduledInfo['case_deleted'] = $result->case_deleted;    
+             $scheduledInfo['case_deleted'] = $result->case_deleted; 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->case_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links( $isDeleted ), $mask ,
@@ -317,13 +313,18 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
              $rows[$result->case_id] = $row;
          }
          
-         //retrive the scheduled Activity type and date for selector
+         //retrive the scheduled & recent Activity type and date for selector
          if( ! empty ( $scheduledInfo ) ) {
              require_once 'CRM/Case/BAO/Case.php';
-             $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo );
+             $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, $type ='upcomming' );
              foreach( $schdeduledActivity as $key => $value) {
                  $rows[$key]['case_scheduled_activity_date'] = $value['date'];
                  $rows[$key]['case_scheduled_activity_type'] = $value['type'];
+             }
+             $recentActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, $type ='recent' );
+             foreach( $recentActivity as $key => $value) {
+                 $rows[$key]['case_recent_activity_date'] = $value['date'];
+                 $rows[$key]['case_recent_activity_type'] = $value['type'];
              }
          }
          return $rows;
@@ -358,12 +359,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'case_status',
+                                                'sort'      => 'case_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Case Type'),
-                                                'sort'      => 'case_type',
+                                                'sort'      => 'case_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
