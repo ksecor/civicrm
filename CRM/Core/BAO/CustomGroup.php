@@ -1283,11 +1283,8 @@ SELECT $select
             return 'civicrm_grant';
             
         case 'Pledge':
-            return 'civicrm_pledge';   
- 
-        case 'Case':
-            return 'civicrm_case';       
-       
+            return 'civicrm_pledge';    
+            
         default:
             CRM_Core_Error::fatal( );
         }

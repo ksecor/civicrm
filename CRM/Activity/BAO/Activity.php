@@ -603,10 +603,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         //handle case related activity if $case is set
         $case = 1;
-        $caseJoin = null;
         if ( $caseId ) {
             $case = "civicrm_case_activity.case_id = {$caseId}";
-            $caseJoin = "left join civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
+            $caseJoin = "LEFT JOIN civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
         } 
 
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
