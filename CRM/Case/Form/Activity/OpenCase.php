@@ -331,7 +331,7 @@ class CRM_Case_Form_Activity_OpenCase
                                      'creatorID'          => $form->_currentUserId,
                                      'standardTimeline'   => 1,
                                      'activityTypeName'   => 'Open Case',
-                                     'dueDateTime'        => time( ),
+                                     'dueDateTime'        => date ('YmdHis'),
                                      'caseID'             => $params['case_id'],
                                      'subject'            => $params['activity_subject'],
                                      'location'           => $params['location'],
