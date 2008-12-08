@@ -225,7 +225,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
             $xmlProcessor->run( $this->_caseType, $xmlProcessorParams );
             $reports      = $xmlProcessor->get( $this->_caseType, 'ActivitySets' );
             
-            CRM_Core_Session::setStatus( ts('Activities has been added for %1 activity set', 
+            CRM_Core_Session::setStatus( ts('Activities from the %1 activity set have been added to this case.', 
                                             array( 1 => $reports[$params['timeline_id']] ) ) );
         }
     }
