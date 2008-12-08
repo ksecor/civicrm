@@ -316,11 +316,14 @@ SELECT label, value
                         $sqlOP    = ' AND ';
                         if ($field['html_type'] == 'CheckBox') {
                             foreach ( $value as $k => $v ) { 
-                                if ( $k == 'CiviCRM_OP_OR' ) {
-                                    $sqlOP = ' OR ';
-                                    continue;
+                                if ( $v ) {
+                                    if ( $k == 'CiviCRM_OP_OR' ) {
+                                        $sqlOP = ' OR ';
+                                        continue;
+                                    }
+                                
+                                    $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                                 }
-                                $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
                             //if user check only 'CiviCRM_OP_OR' check box
                             //of custom checkbox field, then ignore this field.

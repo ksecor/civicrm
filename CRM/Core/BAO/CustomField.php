@@ -627,11 +627,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $customOption = CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $check = array();
             foreach ($customOption as $v => $l) {
-                $check[] =& $qf->createElement('checkbox', $v, null, $l); 
+                //$check[] =& $qf->createElement('checkbox', $v, null, $l); 
+                $check[] =& $qf->addElement('advcheckbox', $v, null, $l); 
             }
             if ( $search &&
                  count( $check ) > 1 ) {
-                $check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
+                //$check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
+                $check[] =& $qf->addElement('advcheckbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
             }
             $qf->addGroup($check, $elementName, $label);
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
@@ -820,19 +822,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             } else {
                 $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                 if ( $html_type == 'CheckBox' ) {
-                    $checkedData = array_flip( $checkedData );
+                    $newData = array( );
+                    foreach ( $checkedData as $v) {
+                        $newData[$v] =1; 
+                    }
+                    $checkedData = $newData;
                 }
             }
 
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $key => $val ) {
-                if ( $key === 'CiviCRM_OP_OR' ) {
+                if ( $key === 'CiviCRM_OP_OR') {
                     continue;
                 }
+
                 if ( $html_type == 'CheckBox' ) {
-                    $p[] = $key;
-                    $v[] = $option[$key];
+                    if ( $val ) {
+                        $p[] = $key;
+                        $v[] = $option[$key];
+                    }
                 } else {
                     $p[] = $val;
                     $v[] = $option[$val];
@@ -1136,16 +1145,20 @@ SELECT id
             $customValueId = CRM_Core_DAO::singleValueQuery( $query );
         }
 
-        //fix checkbox
-        if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {
+        //fix checkbox, now check box always submits values
+        if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {                
             if ( $value ) {
-                $value =
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_keys( $value ) ) .
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-            } else {
-                $value = '';
+                $selectedValues = null;
+                foreach ( $value as $selId => $val ) {
+                    if ( $val ) {
+                        $selectedValues .= $selId . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                    }
+                }
+                if ( $selectedValues ) {
+                    $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $selectedValues;
+                } else {
+                    $value = '';
+                }
             }
         } 
         
@@ -1218,7 +1231,6 @@ SELECT id
             if ( empty($value) ) {
                 return;
             }
-
 
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
@@ -1516,7 +1528,7 @@ ORDER BY html_type";
             foreach ( $customFields as $k => $val ) {
                 if ( ! CRM_Utils_Array::value( $k, $customData ) &&
                      in_array ( $val['html_type'],
-                                array ('CheckBox','Multi-Select', 'Radio') ) ) {
+                                array ('Multi-Select', 'Radio') ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k,
                                                                  $customData,
                                                                  '',
@@ -1525,7 +1537,7 @@ ORDER BY html_type";
                                                                  $entityID );
                 }
             }
-        }		
+        }	
         return $customData;
     }
 
