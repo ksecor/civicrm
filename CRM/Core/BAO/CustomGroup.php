@@ -442,53 +442,53 @@ SELECT $select
                                 $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                                 $idName    = "{$table}_id";
                                 $fieldName = "{$table}_{$column}";
-
+                                
                                 $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
                                 if ( $dataType == 'File' ) {
- 									if ( isset( $dao->$fieldName ) ) { 
-	                                    require_once 'CRM/Core/DAO/File.php';
-	                                    $config =& CRM_Core_Config::singleton( );
-	                                    $fileDAO =& new CRM_Core_DAO_File();
-	                                    $fileDAO->id = $dao->$fieldName;
-
-										if ( $fileDAO->find(true) ) {
-											$entityIDName = "{$table}_entity_id";
-											$customValue['data']    = $fileDAO->uri;
-											$customValue['fid']     = $fileDAO->id;
-											$customValue['fileURL'] = 
-												CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
-											$customValue['displayURL'] = null;
-											$deleteExtra = ts('Are you sure you want to delete attached file.');
-											$deleteURL =
-											array( CRM_Core_Action::DELETE  =>
-											array(
-												'name'  => ts('Delete Attached File'),
-												'url'   => 'civicrm/file',
-												'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
-												'extra' => 
-												'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
-												) 
-												);
-											$customValue['deleteURL'] = 
-											CRM_Core_Action::formLink( $deleteURL,
-												CRM_Core_Action::DELETE,
-												array( 'id'  => $fileDAO->id,
-												'eid' => $dao->$entityIDName,
-												'fid' => $fieldID ) );
-											$customValue['fileName'] = 
-												CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
-											if ( $fileDAO->mime_type =="image/jpeg"  ||
-												$fileDAO->mime_type =="image/pjpeg" ||
-												$fileDAO->mime_type =="image/gif"   ||
-												$fileDAO->mime_type =="image/x-png" ||
-											$fileDAO->mime_type =="image/png" ) {
-												$customValue['displayURL'] = $customValue['fileURL'];
-											}
-										}
-									} else {
-										$customValue = array( 'id'   => $dao->$idName,
-	                                                          'data' => '' );
-									}
+                                    if ( isset( $dao->$fieldName ) ) { 
+                                        require_once 'CRM/Core/DAO/File.php';
+                                        $config =& CRM_Core_Config::singleton( );
+                                        $fileDAO =& new CRM_Core_DAO_File();
+                                        $fileDAO->id = $dao->$fieldName;
+                                        
+                                        if ( $fileDAO->find(true) ) {
+                                            $entityIDName = "{$table}_entity_id";
+                                            $customValue['data']    = $fileDAO->uri;
+                                            $customValue['fid']     = $fileDAO->id;
+                                            $customValue['fileURL'] = 
+                                                CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid={$dao->$entityIDName}" );
+                                            $customValue['displayURL'] = null;
+                                            $deleteExtra = ts('Are you sure you want to delete attached file.');
+                                            $deleteURL =
+                                                array( CRM_Core_Action::DELETE  =>
+                                                       array(
+                                                             'name'  => ts('Delete Attached File'),
+                                                             'url'   => 'civicrm/file',
+                                                             'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
+                                                             'extra' => 
+                                                             'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
+                                                             ) 
+                                                       );
+                                            $customValue['deleteURL'] = 
+                                                CRM_Core_Action::formLink( $deleteURL,
+                                                                           CRM_Core_Action::DELETE,
+                                                                           array( 'id'  => $fileDAO->id,
+                                                                                  'eid' => $dao->$entityIDName,
+                                                                                  'fid' => $fieldID ) );
+                                            $customValue['fileName'] = 
+                                                CRM_Utils_File::cleanFileName( basename( $fileDAO->uri ) );
+                                            if ( $fileDAO->mime_type =="image/jpeg"  ||
+                                                 $fileDAO->mime_type =="image/pjpeg" ||
+                                                 $fileDAO->mime_type =="image/gif"   ||
+                                                 $fileDAO->mime_type =="image/x-png" ||
+                                                 $fileDAO->mime_type =="image/png" ) {
+                                                $customValue['displayURL'] = $customValue['fileURL'];
+                                            }
+                                        }
+                                    } else {
+                                        $customValue = array( 'id'   => $dao->$idName,
+                                                              'data' => '' );
+                                    }
                                 } else {
                                     $customValue = array( 'id'   => $dao->$idName,
                                                           'data' => $dao->$fieldName );
@@ -510,8 +510,6 @@ SELECT $select
 
         return $groupTree;
     }
-
-
    
     /**
      * Get the group title.
@@ -1323,31 +1321,31 @@ SELECT $select
             if ( $key === 'info' ) {
                 continue;
             }
-            
+
             // add group information
             $formattedGroupTree[$key]['name'     ]        = CRM_Utils_Array::value('name', $value);
             $formattedGroupTree[$key]['title'    ]        = CRM_Utils_Array::value('title', $value);
             $formattedGroupTree[$key]['help_pre' ]        = CRM_Utils_Array::value('help_pre', $value);
             $formattedGroupTree[$key]['help_post']        = CRM_Utils_Array::value('help_post', $value);
             $formattedGroupTree[$key]['collapse_display'] = CRM_Utils_Array::value('collapse_display', $value);
-           			
-			// this params needed of bulding multiple values	
-			$formattedGroupTree[$key]['is_multiple']                 = CRM_Utils_Array::value('is_multiple', $value);
-			$formattedGroupTree[$key]['extends']                     = CRM_Utils_Array::value('extends', $value);
-			$formattedGroupTree[$key]['extends_entity_column_id']    = CRM_Utils_Array::value('extends_entity_column_id', $value);
-			$formattedGroupTree[$key]['extends_entity_column_value'] = CRM_Utils_Array::value('extends_entity_column_value', $value);
-			$formattedGroupTree[$key]['max_multiple']                = CRM_Utils_Array::value('max_multiple', $value);
-			
+
+            // this params needed of bulding multiple values	
+            $formattedGroupTree[$key]['is_multiple']                 = CRM_Utils_Array::value('is_multiple', $value);
+            $formattedGroupTree[$key]['extends']                     = CRM_Utils_Array::value('extends', $value);
+            $formattedGroupTree[$key]['extends_entity_column_id']    = CRM_Utils_Array::value('extends_entity_column_id', $value);
+            $formattedGroupTree[$key]['extends_entity_column_value'] = CRM_Utils_Array::value('extends_entity_column_value', $value);
+            $formattedGroupTree[$key]['max_multiple']                = CRM_Utils_Array::value('max_multiple', $value);
+
             // add field information
             foreach ( $value['fields'] as $k => $properties ) {
                 $properties['element_name']  = "custom_{$k}_-{$groupCount}";
                 if ( !empty( $properties['customValue'] ) ) {
                     if ( isset( $properties['customValue'][$groupCount] ) ) {
                         $properties['element_name'] = "custom_{$k}_{$properties['customValue'][$groupCount]['id']}";
-		                if ( $properties['data_type'] == 'File' ) {
+                        if ( $properties['data_type'] == 'File' ) {
                             $properties['element_value'] = $properties['customValue'][$groupCount];
-		                    $uploadNames[]    = $properties['element_name']; 
-		                } else {
+                            $uploadNames[]    = $properties['element_name']; 
+                        } else {
                             $properties['element_value'] = $properties['customValue'][$groupCount]['data'];
                         }
                     }                    
@@ -1363,7 +1361,7 @@ SELECT $select
             if ( is_array( $formUploadNames ) ) {
                 $uploadNames = array_unique( array_merge( $formUploadNames, $uploadNames ) );
             }
-			
+
             $form->set('uploadNames', $uploadNames);
         }
 
@@ -1404,9 +1402,9 @@ SELECT $select
                                                                                                                                   $properties),
                                                                                                            CRM_Utils_Array::value('option_group_id', 
                                                                                                                                   $properties),
-																										   CRM_Utils_Array::value('date_parts',
-																																	$properties)																																		
- 																																	),
+                                                                                                           CRM_Utils_Array::value('date_parts',
+                                                                                                                                  $properties)
+                                                                                                           ),
                                                                                  'options_per_line' => CRM_Utils_Array::value('options_per_line',
                                                                                                                               $properties) ) ;
                     }
@@ -1435,19 +1433,19 @@ SELECT $select
     static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts )
     {
         $value = $values['data'];
-		
-		if ( !isset( $value ) ) {
-			return; 
-		}
+
+        if ( !isset( $value ) ) {
+            return; 
+        }
 		$freezeString = "";
 		$freezeStringChecked = "";
 		
 		switch ( $dataType ) {
 
         case 'Date':
-        	$parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-			$retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
-			break;	
+            $parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+            $retValue = CRM_Utils_Date::customFormat( $value, null, $parts );
+            break;	
 
         case 'Boolean':
 			if ( $value == '1' ) {
@@ -1465,9 +1463,9 @@ SELECT $select
             $retValue = $values;
             break;
 
-		case 'Memo': 
-			$retValue = $value;
-			break;	
+        case 'Memo': 
+            $retValue = $value;
+            break;	
 
         case 'Float':
         case 'Money':

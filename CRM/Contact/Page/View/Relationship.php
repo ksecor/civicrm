@@ -121,22 +121,22 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject ) ) {
-			// delete relationship
-			CRM_Contact_BAO_Relationship::del( $this->_id);
-			
-			// if this is called from case view, we need to redirect back to same page
-			$caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
-			
-			if ( $caseId ) {
-				CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
-				$cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
-				$url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
-				$session->pushUserContext( $url );
-			} 									
-            
+            // delete relationship
+            CRM_Contact_BAO_Relationship::del( $this->_id);
+
+            // if this is called from case view, we need to redirect back to same page
+            $caseId = CRM_Utils_Request::retrieve( 'caseID', 'Integer', $this );
+
+            if ( $caseId ) {
+                CRM_Core_Session::setStatus( ts('Case Role has been deleted successfuly.'), false );
+                $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer', $this, false );
+                $url = CRM_Utils_System::url('civicrm/contact/view/case', "action=view&reset=1&cid={$cid}&id={$caseId}" );
+                $session->pushUserContext( $url );
+            } 									
+
             CRM_Utils_System::redirect($url);
         }
-        
+
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
         $controller->process( );

@@ -743,14 +743,14 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
         }
 
-		// hack to handle to allow initial sorting to be done by query
-		if ( $params['sortname'] == 'undefined' ) {
-			$params['sortname'] = null;
-		}
+        // hack to handle to allow initial sorting to be done by query
+        if ( $params['sortname'] == 'undefined' ) {
+            $params['sortname'] = null;
+        }
 
-		if ( $params['sortorder'] == 'undefined' ) {
-			$params['sortorder'] = null;
-		}
+        if ( $params['sortorder'] == 'undefined' ) {
+            $params['sortorder'] = null;
+        }
 
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
@@ -759,8 +759,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
         } else {
-			$orderBy = " ORDER BY {$sortname} {$sortorder}";
-		}
+            $orderBy = " ORDER BY {$sortname} {$sortorder}";
+        }
         
         $page = $params['page'];
         $rp   = $params['rp'];

@@ -395,11 +395,11 @@ class CRM_Core_Session {
      */
     static function setStatus( $status, $append = true ) {
         if ( isset( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
-			if ( $append ) {
-				self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
-			} else {
-				self::$_singleton->_session[self::$_singleton->_key]['status'] = " $status";
-			}  
+            if ( $append ) {
+                self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+            } else {
+                self::$_singleton->_session[self::$_singleton->_key]['status'] = " $status";
+            }  
         } else {
             self::$_singleton->_session[self::$_singleton->_key]['status'] = $status;
         }

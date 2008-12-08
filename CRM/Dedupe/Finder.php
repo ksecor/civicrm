@@ -219,18 +219,18 @@ class CRM_Dedupe_Finder
         }
 
         $params = array();
-		$supportedFields = CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype);
-		if ( is_array( $supportedFields ) ) {
-			foreach( $supportedFields as $table => $fields) {
-				// for matching on civicrm_address fields, we also need the location_type_id
-				if ($table == 'civicrm_address') $fields['location_type_id'] = '';
-				foreach($fields as $field => $title) {
-					if ( CRM_Utils_Array::value( $field, $flat ) ) {
-						$params[$table][$field] = $flat[$field];
-					}
-				}
-			}
-		}
+        $supportedFields = CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype);
+        if ( is_array( $supportedFields ) ) {
+            foreach( $supportedFields as $table => $fields) {
+                // for matching on civicrm_address fields, we also need the location_type_id
+                if ($table == 'civicrm_address') $fields['location_type_id'] = '';
+                foreach($fields as $field => $title) {
+                    if ( CRM_Utils_Array::value( $field, $flat ) ) {
+                        $params[$table][$field] = $flat[$field];
+                    }
+                }
+            }
+        }
         return $params;
     }
 }

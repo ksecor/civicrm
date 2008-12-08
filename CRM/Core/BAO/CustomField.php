@@ -1284,10 +1284,10 @@ SELECT $columnName
             $value  =  $filename;
         }
 
-		if ( !is_array( $customFormatted ) ) {
-			$customFormatted = array( );
-		}
-		
+        if ( !is_array( $customFormatted ) ) {
+            $customFormatted = array( );
+        }
+
         if ( ! array_key_exists( $customFieldId, $customFormatted ) ) {
             $customFormatted[$customFieldId] = array( );
         }
@@ -1310,9 +1310,9 @@ SELECT $columnName
                                                          'file_id'         => $fileId,
                                                          'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
                                                          );
-		
-		//we need to sort so that custom fields are created in the order of entry
-		krsort( $customFormatted[$customFieldId] );
+
+        //we need to sort so that custom fields are created in the order of entry
+        krsort( $customFormatted[$customFieldId] );
         return $customFormatted;
     }
 

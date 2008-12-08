@@ -120,38 +120,36 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				}
 
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-				cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
-						function( data ) {
-							var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
-							var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
-							var deleteUrl      = {/literal}"{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&caseID=`$caseID`&id=" h=0 }"{literal};	
-							var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>';
-							cj('#relName_' + rowNumber ).html( html );
-							
-							html = '';
-							html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'Are you sure you want to delete this relationship?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
-							cj('#edit_' + rowNumber ).html( html );
-							
-							html = '';
-							if ( data.phone ) {
-								html = data.phone;
-							}	
-							cj('#phone_' + rowNumber ).html( html );
-							
-							html = '';
-							if ( data.email ) {
-								var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q='atype=3&action=add&reset=1&cid=' h=0 }"{literal};
-								html = '<a href=' + activityUrl + data.cid + '><img src="'+resourceBase+'i/EnvelopeIn.gif" alt="Send Email"/></a>&nbsp;';
-							} 
-							cj('#email_' + rowNumber ).html( html );
-							
-					   	}, 'json' 
-					);
+                cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+                    function( data ) {
+                        var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
+                        var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
+                        var deleteUrl      = {/literal}"{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&caseID=`$caseID`&id=" h=0 }"{literal};	
+                        var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>';
+                        cj('#relName_' + rowNumber ).html( html );
+
+                        html = '';
+                        html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'Are you sure you want to delete this relationship?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
+                        cj('#edit_' + rowNumber ).html( html );
+
+                        html = '';
+                        if ( data.phone ) {
+                            html = data.phone;
+                        }	
+                        cj('#phone_' + rowNumber ).html( html );
+
+                        html = '';
+                        if ( data.email ) {
+                            var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q='atype=3&action=add&reset=1&cid=' h=0 }"{literal};
+                            html = '<a href=' + activityUrl + data.cid + '><img src="'+resourceBase+'i/EnvelopeIn.gif" alt="Send Email"/></a>&nbsp;';
+                        } 
+                        cj('#email_' + rowNumber ).html( html );
+
+                        }, 'json' 
+                    );
 
 				cj(this).dialog("close"); 
 				cj(this).dialog("destroy"); 
-
-				//window.location.reload();
 			},
 
 			"Cancel": function() { 
@@ -241,34 +239,34 @@ cj(document).ready(function(){
 <script type="text/javascript">
 cj(document).ready(function(){
 
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
 
-	dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
+    dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
 
-	cj("#activities-selector").flexigrid
-	(
-		{
-			url: dataUrl,
-			dataType: 'json',
-			colModel : [
-			{display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
-			{display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
-			{display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
-			{display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
-			{display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
-			{display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
-			{display: '',        name : 'links',       width : 70,  align: 'left'}
-			],
-			usepager: true,
-			useRp: true,
-			rp: 10,
-			showToggleBtn: false,
-			width: 680,
-			height: 'auto',
-			nowrap: false,
-			onSuccess:setSelectorClass
-		}
-	);	
+    cj("#activities-selector").flexigrid
+    (
+        {
+            url: dataUrl,
+            dataType: 'json',
+            colModel : [
+            {display: 'Due',     name : 'due_date',    width : 70,  sortable : true, align: 'left'},
+            {display: 'Actual',  name : 'actual_date', width : 70,  sortable : true, align: 'left'},
+            {display: 'Subject', name : 'subject',     width : 100, sortable : true, align: 'left'},
+            {display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
+            {display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
+            {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
+            {display: '',        name : 'links',       width : 70,  align: 'left'}
+            ],
+            usepager: true,
+            useRp: true,
+            rp: 10,
+            showToggleBtn: false,
+            width: 680,
+            height: 'auto',
+            nowrap: false,
+            onSuccess:setSelectorClass
+        }
+    );	
 }
 );
 
@@ -290,10 +288,10 @@ function search(com)
 
     var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
 
-	var activity_deleted = 0;
-	if ( cj("#activity_deleted:checked").val() == 1 ) {
-		activity_deleted = 1;
-	}
+    var activity_deleted = 0;
+    if ( cj("#activity_deleted:checked").val() == 1 ) {
+        activity_deleted = 1;
+    }
     cj('#activities-selector').flexOptions({
 	    newp:1, 
 		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
@@ -309,60 +307,60 @@ function search(com)
 }
 
 function checkSelection( field ) {
-	var validationMessage = '';
-	var validationField   = '';
-	var successAction     = '';
-	
-	var fName = field.name;
-	
-	switch ( fName )  {
-		case '_qf_CaseView_next' :
-				validationMessage = 'Please select an activity set from the list.';
-				validationField   = 'timeline_id';
-				successAction     = "confirm('Are you sure you want to add a set of scheduled activities to this case?');";
-				break;
+    var validationMessage = '';
+    var validationField   = '';
+    var successAction     = '';
 
-		case 'new_activity' :
-				validationMessage = 'Please select an activity type from the list.';
-				validationField   = 'activity_type_id';
-				successAction     = "window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value";
-				break;
+    var fName = field.name;
 
-		case 'case_report' :
-				validationMessage = 'Please select a report from the list.';
-				validationField   = 'report_id';
-				successAction     = "window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value";
-				break;
-	}	
+    switch ( fName )  {
+        case '_qf_CaseView_next' :
+            validationMessage = 'Please select an activity set from the list.';
+            validationField   = 'timeline_id';
+            successAction     = "confirm('Are you sure you want to add a set of scheduled activities to this case?');";
+            break;
 
-	if ( document.getElementById( validationField ).value == '' ) {
-		alert( validationMessage );
-		return false;
-	} else {
-		return eval( successAction );
-	}
+        case 'new_activity' :
+            validationMessage = 'Please select an activity type from the list.';
+            validationField   = 'activity_type_id';
+            successAction     = "window.location='{/literal}{$newActivityUrl}{literal}' + document.getElementById('activity_type_id').value";
+            break;
+
+        case 'case_report' :
+            validationMessage = 'Please select a report from the list.';
+            validationField   = 'report_id';
+            successAction     = "window.location='{/literal}{$reportUrl}{literal}' + document.getElementById('report_id').value";
+            break;
+    }	
+
+    if ( document.getElementById( validationField ).value == '' ) {
+        alert( validationMessage );
+        return false;
+    } else {
+        return eval( successAction );
+    }
 }
 
 
 function setSelectorClass( ) {
 
-	var currentDate = new Date();
-	var ct = currentDate.getTime();
+    var currentDate = new Date();
+    var ct = currentDate.getTime();
 
-	cj("#activities-selector tbody tr td:first-child").each( function( ) {
-		var dueDate = cj(this).text();
-		dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
-		var dt = Date.parse(dueDate)
-		
-		if ( ct > dt ) {
-			cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
-		} else{
-			cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
-		}	
-	});
-	
-	cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
-	cj("#activities-selector tbody tr:odd").addClass('erow');
+    cj("#activities-selector tbody tr td:first-child").each( function( ) {
+        var dueDate = cj(this).text();
+        dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
+        var dt = Date.parse(dueDate)
+
+        if ( ct > dt ) {
+            cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
+        } else{
+            cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
+        }	
+    });
+
+    cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+    cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>
 {/literal}
