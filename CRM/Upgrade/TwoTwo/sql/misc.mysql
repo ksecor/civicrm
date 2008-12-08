@@ -107,11 +107,17 @@ INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) V
 ALTER TABLE `civicrm_relationship`
   ADD `case_id` int(10) unsigned DEFAULT NULL COMMENT 'FK to civicrm_case' AFTER is_permission_b_a,
   ADD CONSTRAINT FK_civicrm_case_id FOREIGN KEY (case_id) REFERENCES civicrm_case(id) ON DELETE CASCADE;
- 
+
+ALTER TABLE `civicrm_case`
+ ADD `is_deleted` tinyint   DEFAULT 0;
+
 ALTER TABLE `civicrm_activity`
   ADD `medium` int(10) unsigned default NULL COMMENT 'Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.',
   ADD `is_auto` tinyint(4) default '0' COMMENT 'if true - activity is auto populated while case review',
   ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
+  ADD `is_current_revision` tinyint   DEFAULT 1 ,
+  ADD `original_id` int unsigned    COMMENT 'Activity ID of the first activity record in versioning chain.',
+  ADD `is_deleted` tinyint   DEFAULT 0,  
   ADD CONSTRAINT FK_civicrm_relationship_id FOREIGN KEY (relationship_id) REFERENCES civicrm_relationship(id) ON DELETE SET NULL;
 
 ALTER TABLE `civicrm_custom_group`

@@ -43,8 +43,8 @@ function run( ) {
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
 
-    require_once 'CRM/Upgrade/TwoOne/Page/Upgrade.php';
-    $page = new CRM_Upgrade_TwoOne_Page_Upgrade( );
+    require_once 'CRM/Upgrade/TwoTwo/Page/Upgrade.php';
+    $page = new CRM_Upgrade_TwoTwo_Page_Upgrade( );
     return $page->run( );
 }
 
