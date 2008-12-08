@@ -75,12 +75,12 @@ class CRM_Core_BAO_CustomValueTable
                 case 'StateProvince':
                     $type = 'Integer';
                     if ( is_array( $value ) ) {
-    					$value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                        $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         $type  = 'String';
                     } else if ( ! is_numeric( $value ) ) {
                         $states = array( );
                         $states['state_province'] = $value;
-                        
+
                         CRM_Utils_Array::lookupValue( $states, 'state_province', 
                                                       CRM_Core_PseudoConstant::stateProvince(), true );
                         if ( !$states['state_province_id'] ) {
@@ -97,7 +97,7 @@ class CRM_Core_BAO_CustomValueTable
                         $type  = 'Timestamp';
                     }
                     break;
-                    
+
                 case 'Country':
                     $type = 'Integer';
                     if ( is_array( $value ) ) {
@@ -106,7 +106,7 @@ class CRM_Core_BAO_CustomValueTable
                     } else if ( ! is_numeric( $value ) ) {
                         $countries = array( );
                         $countries['country'] = $value;
-                        
+
                         CRM_Utils_Array::lookupValue( $countries, 'country', 
                                                       CRM_Core_PseudoConstant::country(), true );
                         if ( ! $countries['country_id'] ) {
@@ -142,7 +142,7 @@ class CRM_Core_BAO_CustomValueTable
                     $value = $field['file_id'];
                     $type  = 'String';
                     break;
-                    
+
                 case 'Date':
                     $value = CRM_Utils_Date::isoToMysql($value);
                     break;
@@ -150,7 +150,7 @@ class CRM_Core_BAO_CustomValueTable
                 case 'RichTextEditor':
                     $type  = 'String';
                     break;
-                    
+
                 default:
                     break;
 
