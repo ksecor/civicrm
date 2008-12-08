@@ -64,7 +64,8 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $returnProperties = array( 'case_type_id', 'subject', 'status_id' );
         CRM_Core_DAO::commonRetrieve('CRM_Case_BAO_Case', $params, $values, $returnProperties );
         
-        $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $values ) );
+        $values['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, 
+                                           CRM_Utils_Array::value( 'case_type_id' , $values ) );
 
         $statuses  = CRM_Case_PseudoConstant::caseStatus( );
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseID );

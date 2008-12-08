@@ -193,9 +193,17 @@ class CRM_Contact_Form_Task_EmailCommon
 
         if ( $form->_single ) {
             // also fix the user context stack
-            $url = CRM_Utils_System::url('civicrm/contact/view',
-                                         "&show=1&action=browse&cid={$form->_contactIds[0]}&selectedChild=activity" );
-             
+            if ( $form->_caseId ) {
+                $ccid = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseContact', $form->_caseId,
+                                                     'contact_id', 'case_id' );
+                $url  = 
+                    CRM_Utils_System::url('civicrm/contact/view/case',
+                                          "&reset=1&action=view&cid={$ccid}&id={$form->_caseId}");
+            } else {
+                $url = 
+                    CRM_Utils_System::url('civicrm/contact/view',
+                                          "&show=1&action=browse&cid={$form->_contactIds[0]}&selectedChild=activity");
+            }
             $session->replaceUserContext( $url );
             $form->addDefaultButtons( ts('Send Email'), $buttonType, 'cancel' );
         } else {
@@ -365,11 +373,10 @@ class CRM_Contact_Form_Task_EmailCommon
             $status[] = $statusDisplay;
         }
         
-        $caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $form );
-        if ( $caseId ) {
+        if ( $form->_caseId ) {
             // if case-id is found in the url, create case activity record
             $caseParams = array( 'activity_id' => $activityId,
-                                 'case_id'     => $caseId      );
+                                 'case_id'     => $form->_caseId );
             require_once 'CRM/Case/BAO/Case.php';
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );
         }
