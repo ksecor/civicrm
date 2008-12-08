@@ -87,7 +87,7 @@ class CRM_Core_BAO_CustomValueTable
                             foreach ( $mulValues as $key => $stateVal ) {
                                 $states = array( );
                                 $states['state_province'] = trim($stateVal);
-                            
+
                                 CRM_Utils_Array::lookupValue( $states, 'state_province', 
                                                               CRM_Core_PseudoConstant::stateProvince(), true );
                                 if ( !$states['state_province_id'] ) {
@@ -106,7 +106,7 @@ class CRM_Core_BAO_CustomValueTable
                             $type  = 'Timestamp';
                         }
                         break;
-                    
+
                     case 'Country':
                         $type = 'Integer';
                         if ( is_array( $value ) ) {
@@ -157,7 +157,7 @@ class CRM_Core_BAO_CustomValueTable
                         $value = $field['file_id'];
                         $type  = 'String';
                         break;
-                    
+
                     case 'Date':
                         $value = CRM_Utils_Date::isoToMysql($value);
                         break;
@@ -165,13 +165,13 @@ class CRM_Core_BAO_CustomValueTable
                     case 'RichTextEditor':
                         $type  = 'String';
                         break;
-                    
+
                     case 'Boolean':
                         //fix for CRM-3290
                         if ( $value == null ) {
                             $type  = 'Timestamp';  
                         }
-                    
+
                     default:
                         break;
 
@@ -203,7 +203,7 @@ class CRM_Core_BAO_CustomValueTable
                     } else {
                         $query = "$sqlOP SET $setClause $where";
                     }
-                    
+
                     $dao = CRM_Core_DAO::executeQuery( $query, $params );
                     $dao->free( );
 
