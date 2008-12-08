@@ -103,13 +103,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     public $_currentUserId;
 
     /**
-     * The default variable to check attached file
-     *
-     * @var int
-     */
-    public $_currentAttachmentURL;
-
-    /**
      * The array of form field attributes
      *
      * @var array

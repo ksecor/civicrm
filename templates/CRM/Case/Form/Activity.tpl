@@ -278,6 +278,3 @@ function buildContact( count, pref )
 </script>
 {/literal}
 {/if }
-{if $action neq 8 AND $action neq 32768 }
-    {include file="CRM/common/showHide.tpl"}
-{/if}
