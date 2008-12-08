@@ -292,10 +292,10 @@ SELECT label, value
                  ! $values ) {
                 continue;
             }
-           
+
             foreach ( $values as $tuple ) {
                 list( $name, $op, $value, $grouping, $wildcard ) = $tuple;
-                
+
                 // fix $value here to escape sql injection attacks
                 $field = $this->_fields[$id];
                 $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
@@ -361,14 +361,14 @@ SELECT label, value
                                 $val = "%$val%";
                                 $op  = 'LIKE';
                             }
-			    
+
                             //FIX for custom data query fired against no value(NULL/NOT NULL)
                             $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $sql, $op, $val, $field['data_type'] );
                             $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }
                     } 
                     continue;
-                
+
                 case 'Int':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
@@ -377,7 +377,7 @@ SELECT label, value
                         $this->_qill[$grouping][]  = $field['label'] . " $op $value";
                     }
                     continue;
-                
+
                 case 'Boolean':
                     $value = (int ) $value;
                     $value = ( $value == 1 ) ? 1 : 0;
@@ -385,12 +385,12 @@ SELECT label, value
                     $value = $value ? ts('Yes') : ts('No');
                     $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     continue;
-                    
+
                 case 'Link':
                     $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
                     $this->_qill[$grouping][]  = $field['label'] . " $op $value";
                     continue;
-                    
+
                 case 'Float':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
@@ -399,7 +399,7 @@ SELECT label, value
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;                    
-                
+
                 case 'Money':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
                         foreach( $value as $key => $val ) {
@@ -415,12 +415,12 @@ SELECT label, value
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;
-                
+
                 case 'Memo':
                     $this->_where[$grouping][] = CRM_Contact_BAO_Query::buildClause( $fieldName, $op, $value, 'String' );
                     $this->_qill[$grouping][] = "$field[label] $op $value";
                     continue;
-                
+
                 case 'Date':
                     $fromValue = CRM_Utils_Array::value( 'from', $value );
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
@@ -452,7 +452,7 @@ SELECT label, value
                         }
                     }
                     continue;
-                
+
                 case 'StateProvince':
                     $states =& CRM_Core_PseudoConstant::stateProvince();
                     if ( ! is_numeric( $value ) ) {
@@ -463,7 +463,7 @@ SELECT label, value
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$states[$value]}";
                     }
                     continue;
-                
+
                 case 'Country':
                     $countries =& CRM_Core_PseudoConstant::country();
                     if ( ! is_numeric( $value ) ) {
@@ -476,7 +476,7 @@ SELECT label, value
                     continue;
 
                 }
-            
+
             }
             //CRM_Core_Error::debug( 'w', $this->_where );
         }
