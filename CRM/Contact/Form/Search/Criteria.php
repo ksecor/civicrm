@@ -183,10 +183,13 @@ class CRM_Contact_Form_Search_Criteria {
     {
         $form->add( 'hidden', 'hidden_activity', 1 );
 
+        $activityOptions = CRM_Core_PseudoConstant::activityType( true, true );
+        asort( $activityOptions );
+
         // textbox for Activity Type
         $form->_activityType =
-            array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::activityType( true, true );
+            array( ''   => ' - select activity - ' ) + $activityOptions;
+           
         
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,

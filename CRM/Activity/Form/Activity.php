@@ -518,8 +518,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_viewOptions['CiviCase'] && in_array('CiviCase', $config->enableComponents) ) {
             $this->_caseEnabled = true;
         }
+
+        $activityOPtions = CRM_Core_PseudoConstant::ActivityType( false );
+        asort( $activityOPtions );
         $this->_activityType = array( ''   => 
-                                      ' - select activity - ' ) + CRM_Core_PseudoConstant::ActivityType( false );
+                                      ' - select activity - ' ) + $activityOPtions;
         
         unset( $this->_activityType[8] );
         $element =& $this->add('select', 

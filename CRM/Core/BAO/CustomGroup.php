@@ -615,13 +615,19 @@ SELECT $select
                 $clause[] = "civicrm_custom_group.extends = '$e'";
             }
             $where .= " AND ( " . implode( ' OR ', $clause ) . " ) ";
+
+            //include case activitiescustomdata if case is enabled
+            if ( in_array('Activity', $extends) ) {
+                $extendValues = implode( ',', array_keys(CRM_Core_PseudoConstant::activityType( true, true )) );
+                $where .= " AND ( civicrm_custom_group.extends_entity_column_value IN ($extendValues) OR civicrm_custom_group.extends_entity_column_value IS NULL ) ";
+            } 
         }
 
         $orderBy = " ORDER BY civicrm_custom_group.weight, civicrm_custom_field.weight";
 
         // final query string
         $queryString = $select . $from . $where . $orderBy;
-
+             
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
         
