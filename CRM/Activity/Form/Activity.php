@@ -422,6 +422,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign( 'source_contact_value'  , 
                                CRM_Utils_Array::value( 'source_contact', $defaults ) );
             }
+            $defaults['activity_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+            $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;            
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
