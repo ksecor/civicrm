@@ -403,7 +403,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             if ( !CRM_Utils_Array::value('activity_date_time', $defaults) ) {
                 $defaults['activity_date_time'] = array( );
                 CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
-                $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
             }
 
             $this->assign('caseSubject', $defaults['case_subject']);
@@ -442,7 +441,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
-            $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
         }
 
         if (  $this->_activityTypeId ) {

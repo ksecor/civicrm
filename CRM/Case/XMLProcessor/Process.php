@@ -312,7 +312,6 @@ AND        ca.case_id = %3
                 $dueDateTime = $params['dueDateTime'];
             }
             $activityDueTime                 = CRM_Utils_Date::unformat( date( 'Y:m:d:H:i', $dueDateTime ), ':' );
-            $activityDueTime['i']            = (integer)( $activityDueTime['i'] / 15 ) * 15;
             $activityParams['due_date_time'] = CRM_Utils_Date::format( $activityDueTime );
         }
 

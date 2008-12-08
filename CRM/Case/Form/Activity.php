@@ -147,7 +147,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( !isset($this->_defaults['due_date_time']) ) {
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
-            $this->_defaults['due_date_time']['i'] = (int ) ( $this->_defaults['due_date_time']['i'] / 15 ) * 15;
         }
 
         
