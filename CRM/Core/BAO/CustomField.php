@@ -871,7 +871,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( empty( $value ) ) {
                 $display = '';
             } else {
-                $display = CRM_Core_PseudoConstant::stateProvince($value);
+                $states = CRM_Core_PseudoConstant::stateProvince( );
+                $display = null;
+                foreach ( $value as $stateID ) {
+                    if ( $display ) {
+                        $display .= ", ";
+                    }
+                    $display .= $states[$stateID];
+                }
             }
             break;
             
@@ -887,7 +894,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( empty( $value ) ) {
                 $display = '';
             } else {
-                $display = CRM_Core_PseudoConstant::country($value);
+                $countries = CRM_Core_PseudoConstant::country( );
+                $display = null;
+                foreach ( $value as $countryID ) {
+                    if ( $display ) {
+                        $display .= ", ";
+                    }
+                    $display .= $countries[$countryID];
+                }
             }
             break;
 
