@@ -409,21 +409,21 @@ SELECT label, value
                     $fromValue = CRM_Utils_Array::value( 'from', $value );
                     $toValue   = CRM_Utils_Array::value( 'to'  , $value );
                     if ( ! $fromValue && ! $toValue ) {
-		      if ( $op == 'IS NULL' ||
-			   $op == 'IS NOT NULL' ) {
-			$this->_where[$grouping][] = "$fieldName {$op}";
-                        $this->_qill[$grouping][]  = "{$field['label']} {$op}";
-		      } else {
-                        $date = CRM_Utils_Date::format( $value );
-                        if ( ! $date ) { 
-                            continue; 
-                        } 
+		      			if ( $op == 'IS NULL' ||
+			   				$op == 'IS NOT NULL' ) {
+							$this->_where[$grouping][] = "$fieldName {$op}";
+                       		$this->_qill[$grouping][]  = "{$field['label']} {$op}";
+		      			} else {
+	                        $date = CRM_Utils_Date::format( $value );
+	                        if ( ! $date ) { 
+	                            continue; 
+	                        } 
                     
-                        $this->_where[$grouping][] = "$fieldName {$op} {$date}";
-                        $date = CRM_Utils_Date::format( $value, '-' ); 
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} " . 
-                            CRM_Utils_Date::customFormat( $date ); 
-		      }
+	                        $this->_where[$grouping][] = "$fieldName {$op} {$date}";
+	                        $date = CRM_Utils_Date::format( $value, '-' ); 
+	                        $this->_qill[$grouping][]  = $field['label'] . " {$op} " . 
+	                            CRM_Utils_Date::customFormat( $date ); 
+		      			}
                     } else {
                         $fromDate = CRM_Utils_Date::format( $fromValue );
                         $toDate   = CRM_Utils_Date::format( $toValue   );
@@ -444,30 +444,30 @@ SELECT label, value
                         }
                     }
                     continue;
-                
                 case 'StateProvince':
-                    $states =& CRM_Core_PseudoConstant::stateProvince();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $states );
-                    }
-                    if ( $value ) {
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$states[$value]}";
-                    }
-                    continue;
-                
-                case 'Country':
-                    $countries =& CRM_Core_PseudoConstant::country();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $countries );
-                    }
-                    if ( $value ) {
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
-                    }
-                    continue;
-                }
-            
+				case 'Country':
+					if ( ! is_array( $value ) ) {
+						$this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
+						$this->_qill[$grouping][]  = $field['label'] . " {$op} {$qillValue}";
+					} else {
+						$sqlOP    = ' AND ';
+						foreach ( $value as $k => $v ) { 
+							if ( $v == 'CiviCRM_OP_OR' ) {
+								$sqlOP = ' OR ';
+								continue;
+							}
+							$sqlValue[] = "( $fieldName like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
+						}
+
+						//if user select only 'CiviCRM_OP_OR' value
+						//of custom multi select field, then ignore this field.
+						if ( !empty( $sqlValue ) ) {
+							$this->_where[$grouping][] = " ( " . implode( $sqlOP, $sqlValue ) . " ) ";
+							$this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+						}
+					}					
+					continue;
+               }
             }
             //CRM_Core_Error::debug( 'w', $this->_where );
         }
