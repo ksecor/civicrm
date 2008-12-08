@@ -947,24 +947,63 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     
     function getContactActivity( $contactId )
     {
-        $query ="SELECT * FROM civicrm_activity activity, civicrm_activity_target target
-                 WHERE activity.id = target.activity_id
-                 AND target.target_contact_id =$contactId";
-                
-        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $activities = array();
-        while( $dao->fetch( ) ){
-            $activities[$dao->activity_id]['source_contact_id'] = $dao->source_contact_id;
-            $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
-            $activities[$dao->activity_id]['subject']           = $dao->subject;
-            $activities[$dao->activity_id]['location']          = $dao->location;
-            $activities[$dao->activity_id]['activity_date_time']= $dao->activity_date_time;
-            $activities[$dao->activity_id]['details']           = $dao->details;
-            $activities[$dao->activity_id]['status_id']         = $dao->status_id;
-            $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',
-                                                                                                 $dao->activity_type_id );
-            $activities[$dao->activity_id]['status']            = CRM_Core_OptionGroup::getLabel('activity_status',
-                                                                                                 $dao->status_id );
+        
+        // First look for activities where contactId is one of the targets
+        $query = "SELECT activity_id FROM civicrm_activity_target
+                  WHERE  target_contact_id = $contactId";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $activities[$dao->activity_id]['targets'][] = $contactId;
+        }
+        
+        // Then get activities where contactId is an asignee
+        $query = "SELECT activity_id FROM civicrm_activity_assignment
+                  WHERE  assignee_contact_id = $contactId";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $activities[$dao->activity_id]['asignees'][] = $contactId;
+        }
+        
+        // Then get activities that contactId created
+        $query = "SELECT id AS activity_id FROM civicrm_activity
+                  WHERE  source_contact_id = $contactId";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $activities[$dao->activity_id]['source_contact_id'][] = $contactId;
+        }         
+        
+        // Then look up the activity details for each activity_id we saw above
+        require_once 'CRM/Core/OptionGroup.php';
+        foreach ( $activities as $activityId => $dummy ) {
+            $query = "SELECT * FROM civicrm_activity activity
+                      LEFT JOIN     civicrm_activity_target target
+                      ON            activity.id = target.activity_id
+                      LEFT JOIN     civicrm_activity_assignment assignment
+                      ON            activity.id = assignment.activity_id
+                      WHERE         activity.id = $activityId";
+                
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            while ( $dao->fetch( ) ) {
+                $activities[$activityId]['source_contact_id'] = $dao->source_contact_id;
+                if ( $dao->target_contact_id ) {
+                    $activities[$activityId]['targets'][]     = $dao->target_contact_id;
+                }
+                if ( $dao->asignee_contact_id ) {
+                    $activities[$activityId]['asignees'][]    = $dao->asignee_contact_id;
+                }
+                $activities[$activityId]['activity_type_id']  = $dao->activity_type_id;
+                $activities[$activityId]['subject']           = $dao->subject;
+                $activities[$activityId]['location']          = $dao->location;
+                $activities[$activityId]['activity_date_time']= $dao->activity_date_time;
+                $activities[$activityId]['details']           = $dao->details;
+                $activities[$activityId]['status_id']         = $dao->status_id;
+                $activities[$activityId]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',
+                                                                                                     $dao->activity_type_id );
+                $activities[$activityId]['status']            = CRM_Core_OptionGroup::getLabel('activity_status',
+                                                                                                     $dao->status_id );
+            }                                                                              
         }
         return $activities;
     }
