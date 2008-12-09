@@ -263,6 +263,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        //set parent id if its edit mode
+        if ( $parentId = CRM_Utils_Array::value( 'parent_id', $this->_defaults ) ) {
+            $params['parent_id'] = $parentId;
+        }
+
         $params['now'] = date("YmdhisA");
 
         if( !CRM_Utils_Array::value( 'activity_date_time', $params ) ) {
