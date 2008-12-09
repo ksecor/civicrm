@@ -230,7 +230,8 @@ class CRM_Utils_PChart
                 $shades++;
             }
             $legend = CRM_Utils_Array::value('legend', $chartValues );
-            $maxScale = round( ( max( $chartValues['values'] ) + 300 ) / 100 ) * 100;
+            //calculate max scale for graph.
+            $maxScale =  ceil( max( $values ) * 1.1 );
             
             //Initialise the co-ordinates.
             $x1    = 60;
