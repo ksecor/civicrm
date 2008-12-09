@@ -411,5 +411,11 @@ SELECT @region_id   := max(id) from civicrm_worldregion where name = "unassigned
 
 UPDATE `civicrm_country` SET `region_id` = @region_id WHERE `civicrm_country`.`iso_code` IN( "JE","GG","IM" ) AND `civicrm_country`.`region_id` IS null; 
 
+
+-- update minute increment to 1 in activitydatetime in preferences_date
+  
+UPDATE `civicrm_preferences_date` SET `minute_increment` = 1 WHERE `name`  = `activityDatetime`;
+
+
 -- ******************************************************
 -- END OF THE UPGRADE
