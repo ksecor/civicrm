@@ -58,7 +58,7 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
        
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
-        $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID );
+        $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID, true );
         $this->assign('report', $report );
 
         $latestRevisionID = CRM_Activity_BAO_Activity::getLatestActivityId( $activityID );

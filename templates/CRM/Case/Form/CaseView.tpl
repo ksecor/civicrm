@@ -140,7 +140,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 
                         html = '';
                         if ( data.email ) {
-                            var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q='atype=3&action=add&reset=1&cid=' h=0 }"{literal};
+                            var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&caseid=`$caseID`&cid=" h=0 }"{literal};
                             html = '<a href=' + activityUrl + data.cid + '><img src="'+resourceBase+'i/EnvelopeIn.gif" alt="Send Email"/></a>&nbsp;';
                         } 
                         cj('#email_' + rowNumber ).html( html );
