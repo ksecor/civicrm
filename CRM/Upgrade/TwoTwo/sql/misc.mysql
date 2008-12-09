@@ -208,25 +208,37 @@ VALUES
   (@option_group_id_pt, 'Voicemail' ,    5, 'Voicemail'  , NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL, NULL);
 
 
-ALTER TABLE `civicrm_phone` ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
+ALTER TABLE `civicrm_phone`         ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
+ALTER TABLE `civicrm_mapping_field` ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
+ALTER TABLE `civicrm_uf_field`      ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
 
 SELECT @phonevalue := value FROM civicrm_option_value, civicrm_option_group 
 	WHERE civicrm_option_group.name = 'phone_type' && civicrm_option_value.name = 'Phone';
-UPDATE civicrm_phone SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type = 'Phone';
+UPDATE civicrm_phone         SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type         = 'Phone';
+UPDATE civicrm_mapping_field SET phone_type_id = @phonevalue WHERE civicrm_mapping_field.phone_type = 'Phone';
+UPDATE civicrm_uf_field      SET phone_type_id = @phonevalue WHERE civicrm_uf_field.phone_type      = 'Phone';
 
 SELECT @phonevalue := value FROM civicrm_option_value, civicrm_option_group 
 	WHERE civicrm_option_group.name = 'phone_type' && civicrm_option_value.name = 'Mobile';
-UPDATE civicrm_phone SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type = 'Mobile';
+UPDATE civicrm_phone         SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type         = 'Mobile';
+UPDATE civicrm_mapping_field SET phone_type_id = @phonevalue WHERE civicrm_mapping_field.phone_type = 'Mobile';
+UPDATE civicrm_uf_field      SET phone_type_id = @phonevalue WHERE civicrm_uf_field.phone_type      = 'Mobile';
 
 SELECT @phonevalue := value FROM civicrm_option_value, civicrm_option_group 
 	WHERE civicrm_option_group.name = 'phone_type' && civicrm_option_value.name = 'Fax';
-UPDATE civicrm_phone SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type = 'Fax';
+UPDATE civicrm_phone         SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type         = 'Fax';
+UPDATE civicrm_mapping_field SET phone_type_id = @phonevalue WHERE civicrm_mapping_field.phone_type = 'Fax';
+UPDATE civicrm_uf_field      SET phone_type_id = @phonevalue WHERE civicrm_uf_field.phone_type      = 'Fax';
 
 SELECT @phonevalue := value FROM civicrm_option_value, civicrm_option_group 
 	WHERE civicrm_option_group.name = 'phone_type' && civicrm_option_value.name = 'Pager';
-UPDATE civicrm_phone SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type = 'Pager';
+UPDATE civicrm_phone         SET phone_type_id = @phonevalue WHERE civicrm_phone.phone_type         = 'Pager';
+UPDATE civicrm_mapping_field SET phone_type_id = @phonevalue WHERE civicrm_mapping_field.phone_type = 'Pager';
+UPDATE civicrm_uf_field      SET phone_type_id = @phonevalue WHERE civicrm_uf_field.phone_type      = 'Pager';
 
-ALTER TABLE `civicrm_phone` DROP `phone_type`;
+ALTER TABLE `civicrm_phone`         DROP `phone_type`;
+ALTER TABLE `civicrm_mapping_field` DROP `phone_type`;
+ALTER TABLE `civicrm_uf_field`      DROP `phone_type`;
 
 
 -- custom Group table 
@@ -234,9 +246,27 @@ ALTER TABLE civicrm_custom_group
   ADD  min_multiple int unsigned   DEFAULT 0 COMMENT 'minimum number of multiple records (typically 0?)',
   ADD  max_multiple int unsigned   DEFAULT 0 COMMENT 'maximum number of multiple records, if 0 - no max'; 
 
+ALTER TABLE civicrm_custom_field
+  ADD text_length int unsigned    COMMENT 'field length if alphanumeric' AFTER options_per_line;
+
 -- need to add update statement for site preference options to enable 
 -- preferences for contact_type / groups / tags, CRM-2794
+
+SELECT @option_group_id_aso  := max(id) from civicrm_option_group where name = 'advanced_search_options';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES
+  (@option_group_id_aso, 'Contact Type', 16, 'contactType', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_aso, 'Groups',       17, 'groups',      NULL, 0, NULL, 17, NULL, 0, 0, 1, NULL, NULL),
+  (@option_group_id_aso, 'Tags',         18, 'tags',        NULL, 0, NULL, 18, NULL, 0, 0, 1, NULL, NULL);
+
+
 UPDATE civicrm_preferences SET advanced_search_options = CONCAT(advanced_search_options, '161718');
+
+ALTER TABLE civicrm_preferences
+  ADD mailing_backend text COMMENT 'Smtp Backend configuration.';
+
 
 -- /**
 --  * add new mailing fields
@@ -248,6 +278,7 @@ ALTER TABLE civicrm_mailing
   ADD override_verp tinyint   DEFAULT 0 AFTER msg_template_id,
   ADD created_id int unsigned NULL DEFAULT NULL AFTER override_verp,
   ADD scheduled_id int unsigned NULL DEFAULT NULL AFTER created_id,
+  ADD is_archived tinyint   DEFAULT 0 COMMENT 'Is this mailing archived?', 	
   ADD CONSTRAINT FK_civicrm_mailing_created_id FOREIGN KEY (created_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,
   ADD CONSTRAINT FK_civicrm_mailing_scheduled_id FOREIGN KEY (scheduled_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE;
 
@@ -273,7 +304,7 @@ ALTER TABLE `civicrm_case`
  ADD `is_deleted` tinyint   DEFAULT 0;
 
 ALTER TABLE `civicrm_activity`
-  ADD `medium` int(10) unsigned default NULL COMMENT 'Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.',
+  ADD `medium_id` int(10) unsigned default NULL COMMENT 'Activity Medium, Implicit FK to civicrm_option_value where option_group = activity_medium.',
   ADD `is_auto` tinyint(4) default '0' COMMENT 'if true - activity is auto populated while case review',
   ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
   ADD `is_current_revision` tinyint   DEFAULT 1 ,
