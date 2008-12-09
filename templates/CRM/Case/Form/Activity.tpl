@@ -197,14 +197,19 @@
     </script>
     {/literal}
 {/if}
+
 {if $action neq 8 and $action neq 32768} 
-{* Build add contact *}
-{literal}
 <script type="text/javascript">
-hide('sendcopy');
-show('sendcopy_show');
+{if $searchRows}
+    hide('sendcopy');
+    show('sendcopy_show');
+{/if}
+
 hide('follow-up');
 show('follow-up_show');
+
+{* Build add contact *}
+{literal}
 buildContact( 1, 'assignee_contact' );
 
 var caseType = {/literal}"{$caseType}"{literal};
@@ -273,6 +278,6 @@ function buildContact( count, pref )
 	            }
 	});
 }
-</script>
 {/literal}
+</script>
 {/if }
