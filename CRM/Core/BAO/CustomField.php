@@ -833,13 +833,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
         case 'Multi-Select State/Province':
+            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             if ( empty( $value ) ) {
                 $display = '';
             } else {
 				$states = CRM_Core_PseudoConstant::stateProvince( );
-				$display = null;
-				foreach ( $value as $stateID ) {
-					if ( $display ) {
+                $display = null;
+				foreach ( $checkedData as $stateID ) {
+                    if ( $display ) {
 						$display .= ", ";
 					}
 					$display .= $states[$stateID];
@@ -856,12 +857,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Multi-Select Country':
+            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             if ( empty( $value ) ) {
                 $display = '';
             } else {
 				$countries = CRM_Core_PseudoConstant::country( );
 				$display = null;
-				foreach ( $value as $countryID ) {
+				foreach ( $checkedData as $countryID ) {
 					if ( $display ) {
 						$display .= ", ";
 					}
