@@ -712,10 +712,6 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
-        if ( $params['is_current_revision'] ) {
-            $where .= " AND ca.is_current_revision = 1";
-        }
-		
 		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
             $where .= " AND ca.is_deleted = 1";
         } else {
@@ -729,18 +725,22 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
         $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
+        $toDueDate   = $toDueDate ? $toDueDate . '235959' : null;
 
-        if ( $params['date_range'] == 0 ) {
-            //pass
-        } else if ( $params['date_range'] == 1 ) {
-            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+        if ( $params['date_range'] == 1 ) {
+            if ( $fromDueDate ) {
+                $where .= " AND ca.due_date_time >= '{$fromDueDate}'";
+            }
+            if ( $toDueDate ) {
+                $where .= " AND ca.due_date_time <= '{$toDueDate}'";
+            }
         } else if ( $params['date_range'] == 2 ) {
-            $where .= " AND ( ca.activity_date_time >= '{$fromDueDate}' AND ca.activity_date_time <= '{$toDueDate}' ) ";
-        } else {
-            $fromDueDate = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")-14, date("Y")) );
-            $toDueDate   = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")+14, date("Y")) );
-
-            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+            if ( $fromDueDate ) {
+                $where .= " AND ca.activity_date_time >= '{$fromDueDate}'";
+            }
+            if ( $toDueDate ) {
+                $where .= " AND ca.activity_date_time <= '{$toDueDate}'";
+            }
         }
 
         // hack to handle to allow initial sorting to be done by query
