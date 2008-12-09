@@ -833,18 +833,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
         case 'Multi-Select State/Province':
-            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-            if ( empty( $value ) ) {
-                $display = '';
+            if ( is_array( $value ) ) {    
+                $checkedData = $value;
             } else {
-				$states = CRM_Core_PseudoConstant::stateProvince( );
-                $display = null;
-				foreach ( $checkedData as $stateID ) {
-                    if ( $display ) {
-						$display .= ", ";
-					}
-					$display .= $states[$stateID];
-				}
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+            }
+
+            $states = CRM_Core_PseudoConstant::stateProvince( );
+            $display = null;
+            foreach ( $checkedData as $stateID ) {
+                if ( $display ) {
+                    $display .= ", ";
+                }
+                $display .= $states[$stateID];
             }
             break;
             
@@ -857,18 +858,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Multi-Select Country':
-            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-            if ( empty( $value ) ) {
-                $display = '';
+            if ( is_array( $value ) ) {    
+                $checkedData = $value;
             } else {
-				$countries = CRM_Core_PseudoConstant::country( );
-				$display = null;
-				foreach ( $checkedData as $countryID ) {
-					if ( $display ) {
-						$display .= ", ";
-					}
-					$display .= $countries[$countryID];
-				}
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+            }
+
+            $countries = CRM_Core_PseudoConstant::country( );
+            $display = null;
+            foreach ( $checkedData as $countryID ) {
+                if ( $display ) {
+                    $display .= ", ";
+                }
+                $display .= $countries[$countryID];
             }
             break;
 
