@@ -288,10 +288,12 @@ WHERE      a.id = %1
                                       'value' => $activityDAO->details,
                                       'type'  => 'Memo' );
         
-        $activity['fields'][] = array( 'label' => 'Duration',
-                                      'value' => $activityDAO->duration . ' ' . ts('minutes'),
-                                      'type'  => 'Int' );
-        
+        // Skip Duration field if empty (to avoid " minutes" output). Might want to do this for all fields at some point. dgg
+        if ( $activityDAO->duration ) {
+            $activity['fields'][] = array( 'label' => 'Duration',
+                                          'value' => $activityDAO->duration . ' ' . ts('minutes'),
+                                          'type'  => 'Int' );
+        }        
         $activity['fields'][] = array( 'label' => 'Status',
                                        'value' => CRM_Core_OptionGroup::getLabel( 'activity_status',
                                                                                   $activityDAO->status_id ),
