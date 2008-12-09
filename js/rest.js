@@ -1,4 +1,9 @@
 /*
+On the template page that includes this js, you have to define a global variable to set the url of the server to be used for the rest
+<script type="text/javascript">
+civicrm_resourceURL="{$config->userFrameworkResourceURL}";
+</script>
+
 eg. CiviREST (contact/search,array(...))
 CiviREST(entitytag,add)
 
@@ -18,14 +23,8 @@ it also should use closure so we can properly interface the result of the call t
 function civiREST (entity,action,params) {
   params ['q']="civicrm/"+entity+"/"+action;
   params ['json'] = 1;
-  //$.post("/sites/all/modules/civicrm/extern/rest.php?json=1",{q:"civicrm/"+entity+"/"+action},
-/*  $.get("/sites/all/modules/civicrm/extern/rest.php",params,
-  function(data){
-    alert("Data Loaded: " + data);
-); 
-  }*/
   jQuery('#restmsg').removeClass('msgok').removeClass('msgnok').html("");
-  $.getJSON("/sites/all/modules/civicrm/extern/rest.php",params,function(result){
+  $.getJSON(civicrm_resourceURL+"extern/rest.php",params,function(result){
   if (result.is_error == 1) {
     jQuery('#restmsg').addClass('msgnok').html(result.error_message);
     return false;
