@@ -44,12 +44,14 @@
       <type>int unsigned</type> 
       <comment>FK to Solicitor ID</comment> 
       <add>1.4</add> 
+      <drop>2.2</drop>
   </field> 
   <foreignKey> 
        <name>solicitor_id</name> 
        <table>civicrm_contact</table> 
        <key>id</key> 
        <add>1.4</add> 
+      <drop>2.2</drop>
        <onDelete>SET NULL</onDelete>
   </foreignKey> 
   <field>  

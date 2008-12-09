@@ -340,6 +340,14 @@ ALTER TABLE `civicrm_group`
 ALTER TABLE `civicrm_contribution`
   ADD `address_id` int(10) unsigned default NULL COMMENT 'Conditional foreign key to civicrm_address.id. We insert an address record for each contribution when we have associated billing name and address data.';
 
+-- Removing solicitor_id as per CRM-3917
+INSERT INTO civicrm_contribution_soft (contribution_id, contact_id, amount) 
+SELECT id, solicitor_id, total_amount FROM civicrm_contribution;
+ALTER TABLE `civicrm_contribution` 
+  DROP FOREIGN KEY `FK_civicrm_contribution_solicitor_id`;
+DROP INDEX FK_civicrm_contribution_solicitor_id ON civicrm_contribution;
+ALTER TABLE civicrm_contribution DROP solicitor_id;
+
 -- Make sure is_billing flag is true for all address records where location type is Billing
 -- Using hard-coded location_type_id since we don't have a non-translatable name for location types
 UPDATE `civicrm_address`

@@ -157,7 +157,7 @@ class CRM_Dedupe_Merger
                 'civicrm_activity_target'         => array('target_contact_id'),
                 'civicrm_case_contact'            => array('contact_id'),
                 'civicrm_contact'                 => array('primary_contact_id'),
-                'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
+                'civicrm_contribution'            => array('contact_id', 'honor_contact_id'),
                 'civicrm_contribution_recur'      => array('contact_id'),
                 'civicrm_entity_tag'              => array('contact_id'),
                 'civicrm_grant'                   => array('contact_id'),
