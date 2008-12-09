@@ -69,6 +69,15 @@ class CRM_Utils_PChart
         
         $chartCount  = 0;
         $filesValues = array( );
+        
+        //colors.
+        $colors = array( array( 'R' => 213, 'G' => 43,  'B' => 89  ),
+                         array( 'R' => 255, 'G' => 147, 'B' => 46  ),
+                         array( 'R' => 56,  'G' => 139, 'B' => 218 ),
+                         array( 'R' => 81,  'G' => 205, 'B' => 71  ),
+                         array( 'R' => 69,  'G' => 139, 'B' => 0   ), 
+                         );
+        
         foreach ( $params as $chartIndex => $chartValues ) {
             $chartCount++;
             $shades = 0;
@@ -78,8 +87,8 @@ class CRM_Utils_PChart
                     $names[]  = $indexName;
                     $values[] = $indexValue;
                     $lengths[] = strlen( $indexName );
+                    $shades++;
                 }
-                $shades++;
             }
             $legend = CRM_Utils_Array::value('legend', $chartValues );
             
@@ -99,16 +108,22 @@ class CRM_Utils_PChart
             $spliceDistance = 0;
             $legendLength   = 45 + 7 * max( $lengths );
             
+            //resize vertically if more values.
+            if ( count( $values ) > 11 ) {
+                $ySize = $ySize + 15 *( count( $values ) - 11 );
+            }
+            
             //make the graph resizable
             $xSize = 300 + $legendLength;
             
             //Initialise the graph
             $chart = new pChart( $xSize, $ySize );
+            
             $chart->drawFilledRoundedRectangle( 0, 0,  $xSize, $ySize,  5, 240, 240, 240 );
             $chart->drawRoundedRectangle( 0, 0,  $xSize, $ySize, 5, 230, 230, 230 );
             
-            //set colors.
-            $chart->createColorGradientPalette( 195, 204, 56, 223, 110, 41, $shades );
+            //set color shades.
+            $chart->setColorShades( $shades, $colors );
             
             //Draw the pie chart
             $chart->setFontProperties( $pChartPath.'tahoma.ttf', 10 );
@@ -192,6 +207,14 @@ class CRM_Utils_PChart
             CRM_Utils_File::createDir( $uploadDirPath ); 
         }
         
+        //colors.
+        $colors = array( array( 'R' => 69,  'G' => 139, 'B' => 0   ), 
+                         array( 'R' => 213, 'G' => 43,  'B' => 89  ),
+                         array( 'R' => 255, 'G' => 147, 'B' => 46  ),
+                         array( 'R' => 56,  'G' => 139, 'B' => 218 ),
+                         array( 'R' => 81,  'G' => 205, 'B' => 71  ),
+                         );
+        
         require_once 'packages/pChart/pData.class.php';
         require_once 'packages/pChart/pChart.class.php';
         
@@ -204,6 +227,7 @@ class CRM_Utils_PChart
             foreach ( $chartValues['values'] as $indexName => $indexValue ) {
                 $names[] = $indexName;
                 $values[] = $indexValue;
+                $shades++;
             }
             $legend = CRM_Utils_Array::value('legend', $chartValues );
             $maxScale = round( ( max( $chartValues['values'] ) + 300 ) / 100 ) * 100;
@@ -211,8 +235,8 @@ class CRM_Utils_PChart
             //Initialise the co-ordinates.
             $x1    = 60;
             $y1    = 27;
-            $y2    = 270;
             $ySize = 300;
+            $y2    = $ySize - 30;
             
             //calculate x axis size as per number of months.
             $divisionWidth = 44;
@@ -229,7 +253,7 @@ class CRM_Utils_PChart
             //Initialise the graph
             $chart = new pChart( $xSize, $ySize );
             $chart->setFontProperties( $pChartPath ."tahoma.ttf", 8 );
-            $chart->setGraphArea( $x1, $y1, ($xSize-20), ($ySize-30) );
+            $chart->setGraphArea( $x1, $y1, $x2, $y2 );
             
             //set the y axis scale.
             $chart->setFixedScale( 0, $maxScale, 1 );
@@ -243,11 +267,14 @@ class CRM_Utils_PChart
             
             $chart->drawGrid( 4, TRUE, 230, 230, 230, 50 );
             
-            //Draw the bar chart
+            
             $chart->setFontProperties( $pChartPath.'tahoma.ttf', 8 );
             
-            $chart->setColorPalette( 0, 69, 139, 0 );
-            $chart->drawBarGraph( $dataSet->GetData( ), $dataSet->GetDataDescription( ), TRUE, 80 );
+            //set colors.
+            $chart->setColorShades( $shades, $colors );
+            
+            //Draw the bar chart
+            $chart->drawBarGraph( $dataSet->GetData( ), $dataSet->GetDataDescription( ), TRUE, 80, true );
             
             //get the co-ordinates
             $coords = $chart->coordinates( );

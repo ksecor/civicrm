@@ -274,7 +274,26 @@
        $this->Palette[$i]["B"] = $B1+$BFactor*$i;
       }
     }
-
+   
+   /* Set Palette colors for given number of shades with given color array
+    * eg $colors = array( array( 'R' => 69,  'G' => 139, 'B' => 0 ) );
+    */
+   function setColorShades( $shades, $colors )
+   {
+       //set colors.
+       $count = 0;
+       for ( $i = 0; $i < $shades; $i++ ) {
+           if ( array_key_exists( $count, $colors ) ) {
+               $this->Palette[$i] = $colors[$count];
+               $count++;
+           } else {
+               $count = 0;
+               $this->Palette[$i] = $colors[$count];
+               $count++;
+           }
+       }
+   }
+   
    /* Load Color Palette from file */
    function loadColorPalette($FileName,$Delimiter=",")
     {
@@ -1930,7 +1949,7 @@
     }
 
    /* This function draw a bar graph */
-   function drawBarGraph($Data,$DataDescription,$Shadow=FALSE,$Alpha=100)
+   function drawBarGraph($Data,$DataDescription,$Shadow=FALSE,$Alpha=100, $multiColors = false )
     {
      /* Validate the Data and DataDescription array */
      $this->validateDataDescription("drawBarGraph",$DataDescription);
@@ -1967,11 +1986,15 @@
               {
                $this->addToImageMap($XPos+1,min($YZero,$YPos),$XPos+$SeriesWidth-1,max($YZero,$YPos),$DataDescription["Description"][$ColName],$Data[$Key][$ColName].$DataDescription["Unit"]["Y"],"Bar");
               }
-           
+             
              if ( $Shadow && $Alpha == 100 )
-              $this->drawRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,25,25,25,TRUE,$Alpha);
-
-             $this->drawFilledRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,$this->Palette[$ColorID]["R"],$this->Palette[$ColorID]["G"],$this->Palette[$ColorID]["B"],TRUE,$Alpha);
+                 $this->drawRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,25,25,25,TRUE,$Alpha);
+             //draw bars in different colors.
+             if ( $multiColors ) {
+                 $this->drawFilledRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,$this->Palette[$Key]["R"],$this->Palette[$Key]["G"],$this->Palette[$Key]["B"],TRUE,$Alpha);
+             } else {
+                 $this->drawFilledRectangle($XPos+1,$YZero,$XPos+$SeriesWidth-1,$YPos,$this->Palette[$ColorID]["R"],$this->Palette[$ColorID]["G"],$this->Palette[$ColorID]["B"],TRUE,$Alpha);
+             }
             }
           }
          
