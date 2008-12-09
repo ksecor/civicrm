@@ -298,15 +298,28 @@
     <tr>
         <td>
             <div class="label">{ts}Group(s){/ts}</div>
-            <div class="listing-box">
-            <table id="selector" class="selector" style="border:none;">
-                   <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
-            </table> 
-            </div>
+            {* Put Groups table in a scrollable listing box if more than 8 groups. *}
+            {if $groupCount GT 8}
+                <div class="listing-box-tall">
+                <table id="selector" class="selector" style="width: auto; margin: -5px 0px -5px 0px;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+                </div>
+            {else}
+                <table id="selector" class="selector" style="width: auto;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+            {/if}
         </td>
         <td>
             <div class="label">{ts}Tag(s){/ts}</div>
-            <div class="listing-box">
+            {* Choose regular or 'tall' listing-box class for Tag select box based on # of tags. *}
+            {if $tagCount GT 8}
+                {assign var="boxClass" value="listing-box-tall"}
+            {else}
+                {assign var="boxClass" value="listing-box"}
+            {/if}
+            <div class="{$boxClass}">
                 {$form.tag.html}
             </div>
         </td>
