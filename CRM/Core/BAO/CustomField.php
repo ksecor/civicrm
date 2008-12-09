@@ -439,6 +439,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         
         $importableFields = array();
         foreach ($fields as $id => $values) {
+            // for now we should not allow multiple fields in profile / export etc, hence unsetting
+            if ( CRM_Utils_Array::value('is_multiple', $values) ) {
+                continue;
+            }
             /* generate the key for the fields array */
             $key = "custom_$id";
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
