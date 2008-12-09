@@ -235,7 +235,7 @@ class InstallRequirements {
 
 		$this->errors = null;
 		
-        $this->requirePHPVersion('5.2.1', array("PHP Configuration", "PHP5 installed", null, "PHP version " . phpversion()));
+        $this->requirePHPVersion('5.2.0', array("PHP Configuration", "PHP5 installed", null, "PHP version " . phpversion()));
 
 		// Check that we can identify the root folder successfully
 		$this->requireFile($crmPath . DIRECTORY_SEPARATOR . 'README.txt',
