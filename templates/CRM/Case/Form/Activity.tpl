@@ -31,9 +31,9 @@
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt> 
              <dd> 
              {if $action eq 8}
-                {ts}Click Delete to move this activity to the Trash.{/ts}
+                {ts 1=$activityTypeName}Click Delete to move this &quot;%1&quot; activity to the Trash.{/ts}
              {else}
-                {ts}Click Restore to retrieve this activity from the Trash.{/ts}
+                {ts 1=$activityTypeName}Click Restore to retrieve this &quot;%1&quot; activity from the Trash.{/ts}
              {/if}  
              </dd> 
           </dl> 
@@ -156,9 +156,7 @@
             <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
                 <table class="form-layout-compressed">
                     <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
-                        <td>{$form.followup_activity.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}<br />
-                            <span class="description">Begin typing to select from a list of available activity types.</span>
-                        </td>
+                        <td>{$form.followup_activity_type_id.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}</td>
                     </tr>
                 </table>
             </fieldset>

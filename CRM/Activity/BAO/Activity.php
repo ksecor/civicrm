@@ -1271,8 +1271,7 @@ AND cl.modified_id  = c.id
         $followupParams['status_id']         = 
             CRM_Core_OptionGroup::getValue( 'activity_status', 'Scheduled', 'name' );
         
-        $activityTypes = CRM_Case_PseudoConstant::activityType( );
-        $followupParams['activity_type_id']  = $activityTypes[$params['followup_activity']]['id'];
+        $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
         
         CRM_Utils_Date::getAllDefaultValues( $currentDate );
         $followupParams['due_date_time']        = 

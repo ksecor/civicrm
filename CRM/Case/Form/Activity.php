@@ -81,8 +81,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         $caseType  = CRM_Case_PseudoConstant::caseTypeName( $this->_caseId );
-        $caseType  = $caseType['name'];
-        $this->assign('caseType', $caseType);
+        $this->_caseType  = $caseType['name'];
+        $this->assign('caseType', $this->_caseType);
 
         $clientName = $this->_getDisplayNameById( $this->_currentlyViewedContactId );
         $this->assign( 'client_name', $clientName );
@@ -90,7 +90,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         if ( !$this->_activityId ) { 
             // check if activity count is within the limit
             $xmlProcessor  = new CRM_Case_XMLProcessor_Process( );
-            $activityInst  = $xmlProcessor->getMaxInstance($caseType);
+            $activityInst  = $xmlProcessor->getMaxInstance($this->_caseType);
 
             // If not bounce back and also provide activity edit link
             if ( isset( $activityInst[$this->_activityTypeName] ) ) {
@@ -144,7 +144,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );
         }
-
         return $this->_defaults;
     }
     
@@ -179,8 +178,14 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
         $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
                        'positiveInteger');  
-       
-        $this->add( 'text', 'followup_activity', ts('Followup Activity') );
+
+        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+        // remove Open Case activity type since we're inside an existing case
+        $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
+        unset( $aTypes[$openCaseID] );
+        asort( $aTypes );        
+        $this->add('select', 'followup_activity_type_id',  ts( 'Followup Activity' ), array( '' => ts( '- select activity type -' ) ) + $aTypes );
 
         $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
         foreach ( $freqUnits as $name => $label ) {
@@ -421,19 +426,22 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
 
         // create follow up activity if needed
-        if ( CRM_Utils_Array::value('followup_activity', $params) ) {
+        $followupStatus = '';
+        if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
             $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
 
             if ( $followupActivity ) {
                 $caseParams = array( 'activity_id' => $followupActivity->id,
                                      'case_id'     => $this->_caseId   );
                 CRM_Case_BAO_Case::processCaseActivity( $caseParams );
+                $followupStatus = "A followup activity has been scheduled.";
             }
         }
         
-        CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3", 
+        CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3 %4", 
                                         array('1' => $this->_activityTypeName, 
-                                              '2' => $recordStatus, 
-                                              '3' => $mailStatus)) );
+                                              '2' => $recordStatus,
+                                              '3' => $followupStatus,
+                                              '4' => $mailStatus)) );
     }
 }
