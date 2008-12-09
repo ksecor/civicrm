@@ -102,6 +102,14 @@ function &civicrm_activity_create( &$params )
 }
 
 /**
+ * Wrapper to make this function compatible with the REST API
+ *
+ */
+function civicrm_activity_get_contact( $params ) {
+    return civicrm_activities_get_contact( $params );
+}
+
+/**
  * Retrieve a set of activities, specific to given input params.
  *
  * @param  array  $params (reference ) input parameters.
@@ -378,6 +386,12 @@ function civicrm_activity_process_email( $file, $activiyTypeID ) {
     return civicrm_activity_create( $params );
 }
 
+/**
+ * Function to retrieve activity types
+ *
+ * @return array $activityTypes activity types keyed by id
+ * @access public
+ */
 function civicrm_activity_get_types( ) {
     require_once 'CRM/Core/OptionGroup.php';
     $activityTypes = CRM_Core_OptionGroup::values( 'activity_type' );

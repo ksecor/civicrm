@@ -137,12 +137,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 	
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-			for ( $i; $i <= $_POST['hidden_custom_group_count'][$this->_groupID]; $i++ )  {
-				CRM_Custom_Form_CustomData::preProcess( $this, null, null, $i );
-	            CRM_Custom_Form_CustomData::buildQuickForm( $this );
-	            CRM_Custom_Form_CustomData::setDefaultValues( $this );
-			}
-			
+            for ( $i; $i <= $_POST['hidden_custom_group_count'][$this->_groupID]; $i++ )  {
+                CRM_Custom_Form_CustomData::preProcess( $this, null, null, $i );
+                CRM_Custom_Form_CustomData::buildQuickForm( $this );
+                CRM_Custom_Form_CustomData::setDefaultValues( $this );
+            }
         }
     }
     
@@ -191,16 +190,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                                          $this,
                                                          $this->_tableID,
                                                          $this->_groupID );
-
-		if ( !CRM_Utils_Array::value( "hidden_custom_group_count", $_POST ) ) { 
-			// custom data building in edit mode (required to handle multi-value)
-        	$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType, $this, $this->_tableID, $this->_groupID);
-        	$customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true, $this->_groupID );
-		} else {
-			$customValueCount = $_POST['hidden_custom_group_count'][$this->_groupID];
-		}
-		$this->assign("customValueCount", $customValueCount );
-		
+                                                     
+        if ( !CRM_Utils_Array::value( "hidden_custom_group_count", $_POST ) ) { 
+            // custom data building in edit mode (required to handle multi-value)
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_contactType, $this, $this->_tableID, $this->_groupID);
+            $customValueCount = CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree, true, $this->_groupID );
+        } else {
+            $customValueCount = $_POST['hidden_custom_group_count'][$this->_groupID];
+        }
+        
+        $this->assign("customValueCount", $customValueCount );
+	    
         $defaults = array();
         return $defaults;
     }

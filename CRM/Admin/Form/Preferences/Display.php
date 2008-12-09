@@ -48,7 +48,7 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
         $this->_cbs = array(
                             'contact_view_options'    => ts( 'Viewing Contacts'   ),
                             'contact_edit_options'    => ts( 'Editing Contacts'   ),
-                            'advanced_search_options' => ts( 'Advanced Search'),
+                            'advanced_search_options' => ts( 'Contact Search'),
                             'user_dashboard_options'  => ts( 'Contact Dashboard' ),
                             );
     }

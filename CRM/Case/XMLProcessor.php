@@ -68,11 +68,11 @@ class CRM_Case_XMLProcessor {
         return self::$_xml[$caseType];
     }
 
-    function &allActivityTypes( $indexName = true ) {
+    function &allActivityTypes( $indexName = true, $all = false ) {
         static $activityTypes = null;
         if ( ! $activityTypes ) {
             require_once 'CRM/Case/PseudoConstant.php';
-            $activityTypes = CRM_Case_PseudoConstant::activityType( $indexName );
+            $activityTypes = CRM_Case_PseudoConstant::activityType( $indexName, $all );
         }
         return $activityTypes; 
     }

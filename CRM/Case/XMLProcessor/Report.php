@@ -197,10 +197,10 @@ AND    ac.case_id = %1
         }
     }
 
-    function &getActivityInfo( $clientID, $activityID ) {
+    function &getActivityInfo( $clientID, $activityID, $anyActivity = false ) {
         static $activityInfos = array( );
         
-        $index = $clientID . '_' . $activityID;
+        $index = $clientID . '_' . $activityID . '_' . (int) $anyActivity;
 
         if ( ! array_key_exists($index, $activityInfos) ) {
             $activityInfos[$index] = array( );
@@ -214,8 +214,9 @@ WHERE      a.id = %1
             $params = array( 1 => array( $activityID, 'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
             if ( $dao->fetch( ) ) {
-                $activityTypes    = $this->allActivityTypes( false );
+                $activityTypes    = $this->allActivityTypes( false, $anyActivity );
                 $activityTypeInfo = null;
+
                 if ( isset($activityTypes[$dao->activity_type_id]) ) {
                     $activityTypeInfo = $activityTypes[$dao->activity_type_id];
                 }

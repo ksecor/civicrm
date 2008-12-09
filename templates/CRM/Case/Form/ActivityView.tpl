@@ -48,7 +48,7 @@
 {/if}
 </table>
 {else}
-    <div class="messages status">{ts}This activity is not attached to any case. OR the activity-type-id of this activity doesn't belong to CiviCase component. Please investigate.{/ts}</div>
+    <div class="messages status">{ts}This activity might not be attached to any case. Please investigate.{/ts}</div>
 {/if}
 {/if}
 

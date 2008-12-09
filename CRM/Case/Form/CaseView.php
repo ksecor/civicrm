@@ -103,17 +103,6 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
         $defaults = array( );
         $defaults['date_range'] = 1;
 
-        $prevDate  = getdate( mktime(0, 0, 0, date("m")  , date("d")-14, date("Y")) );
-        
-        $defaults['activity_date_low']['M'] = $prevDate['mon'];
-        $defaults['activity_date_low']['d'] = $prevDate['mday'];
-        $defaults['activity_date_low']['Y'] = $prevDate['year'];
-
-        $nextDate  = getdate( mktime(0, 0, 0, date("m")  , date("d")+14, date("Y")) );
-        $defaults['activity_date_high']['M'] = $nextDate['mon'];
-        $defaults['activity_date_high']['d'] = $nextDate['mday'];
-        $defaults['activity_date_high']['Y'] = $nextDate['year'];
-        
         return $defaults;
     }
 
@@ -218,7 +207,7 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
                                         'clientID'           => $this->_contactID,
                                         'creatorID'          => $this->_uid,
                                         'standardTimeline'   => 0,
-                                        'dueDateTime'        => time( ),
+                                        'dueDateTime'        => date ('YmdHis'),
                                         'caseID'             => $this->_caseID,
                                         'caseType'           => $this->_caseType,
                                         'activitySetName'    => $params['timeline_id'] 

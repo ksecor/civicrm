@@ -1639,8 +1639,8 @@ VALUES
 INSERT INTO `civicrm_contribution_soft`
       ( contribution_id, contact_id ,amount ,pcp_id , pcp_display_in_roll ,pcp_roll_nickname,pcp_personal_note )
 VALUES
-    ( $contriId1, 92, 10.00, 1, 1, 'Jones Family', 'Helping Hands'),
-    ( $contriId2, 34, 250.00, 1, 1, 'Annie and the kids', 'Annie Helps');
+    ( $contriId1, {$this->individual[3]}, 10.00, 1, 1, 'Jones Family', 'Helping Hands'),
+    ( $contriId2, {$this->individual[3]}, 250.00, 1, 1, 'Annie and the kids', 'Annie Helps');
  ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }

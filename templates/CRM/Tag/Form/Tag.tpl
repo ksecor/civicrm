@@ -14,6 +14,7 @@
 #restmsg.msgnok {ldelim}display:block;background:red;color:white;{rdelim}
 </style>
 <script type="text/javascript">
+civicrm_resourceURL="{$config->userFrameworkResourceURL}";
 contactID={$contactId};
 {literal}
 

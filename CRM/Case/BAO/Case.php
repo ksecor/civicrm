@@ -137,13 +137,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $id = $params['contact_id'];
         } 
 
-        //handle custom data.
-        if ( CRM_Utils_Array::value( 'custom', $params ) &&
-             is_array( $params['custom'] ) ) {
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_case', $case->id );
-        }
-
         // Log the information on successful add/edit of Case
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(
@@ -719,10 +712,6 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $where .= " AND ca.status_id = ".CRM_Utils_Type::escape( $params['status_id'], 'Integer' );
         }
 
-        if ( $params['is_current_revision'] ) {
-            $where .= " AND ca.is_current_revision = 1";
-        }
-		
 		if ( CRM_Utils_Array::value( 'activity_deleted', $params ) ) {
             $where .= " AND ca.is_deleted = 1";
         } else {
@@ -736,28 +725,32 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
 
         $fromDueDate = CRM_Utils_Type::escape( $params['activity_date_low'], 'Date' );
         $toDueDate   = CRM_Utils_Type::escape( $params['activity_date_high'], 'Date' );
+        $toDueDate   = $toDueDate ? $toDueDate . '235959' : null;
 
-        if ( $params['date_range'] == 0 ) {
-            //pass
-        } else if ( $params['date_range'] == 1 ) {
-            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+        if ( $params['date_range'] == 1 ) {
+            if ( $fromDueDate ) {
+                $where .= " AND ca.due_date_time >= '{$fromDueDate}'";
+            }
+            if ( $toDueDate ) {
+                $where .= " AND ca.due_date_time <= '{$toDueDate}'";
+            }
         } else if ( $params['date_range'] == 2 ) {
-            $where .= " AND ( ca.activity_date_time >= '{$fromDueDate}' AND ca.activity_date_time <= '{$toDueDate}' ) ";
-        } else {
-            $fromDueDate = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")-14, date("Y")) );
-            $toDueDate   = date( 'Ymd', mktime(0, 0, 0, date("m"), date("d")+14, date("Y")) );
-
-            $where .= " AND ( ca.due_date_time >= '{$fromDueDate}' AND ca.due_date_time <= '{$toDueDate}' ) ";
+            if ( $fromDueDate ) {
+                $where .= " AND ca.activity_date_time >= '{$fromDueDate}'";
+            }
+            if ( $toDueDate ) {
+                $where .= " AND ca.activity_date_time <= '{$toDueDate}'";
+            }
         }
 
-		// hack to handle to allow initial sorting to be done by query
-		if ( $params['sortname'] == 'undefined' ) {
-			$params['sortname'] = null;
-		}
+        // hack to handle to allow initial sorting to be done by query
+        if ( $params['sortname'] == 'undefined' ) {
+            $params['sortname'] = null;
+        }
 
-		if ( $params['sortorder'] == 'undefined' ) {
-			$params['sortorder'] = null;
-		}
+        if ( $params['sortorder'] == 'undefined' ) {
+            $params['sortorder'] = null;
+        }
 
         $sortname  = $params['sortname'];
         $sortorder = $params['sortorder'];
@@ -766,8 +759,8 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         if ( !$sortname AND !$sortorder ) {
             $orderBy = " ORDER BY status_id ASC, due_date_time ASC";
         } else {
-			$orderBy = " ORDER BY {$sortname} {$sortorder}";
-		}
+            $orderBy = " ORDER BY {$sortname} {$sortorder}";
+        }
         
         $page = $params['page'];
         $rp   = $params['rp'];

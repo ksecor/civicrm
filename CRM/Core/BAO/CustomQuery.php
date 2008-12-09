@@ -115,8 +115,7 @@ class CRM_Core_BAO_CustomQuery
                                'Relationship' => 'civicrm_relationship',
                                'Event'        => 'civicrm_event',
                                'Activity'     => 'civicrm_activity',
-                               'Pledge'       => 'civicrm_pledge',
-                               'Case'         => 'civicrm_case'
+                               'Pledge'       => 'civicrm_pledge'
                                );
 
     /**
@@ -250,8 +249,6 @@ SELECT label, value
                 $joinTable = 'civicrm_membership';
             } else if ( $field['extends'] == 'civicrm_pledge' ) {
                 $joinTable = 'civicrm_pledge';
-            } else if ( $field['extends'] == 'civicrm_case' ) {
-                $joinTable = 'civicrm_case';
             } else  if ( $field['extends'] == 'civicrm_activity' ) {
                 $joinTable = 'civicrm_activity';
             } else  if ( $field['extends'] == 'civicrm_relationship' ) {
@@ -319,11 +316,14 @@ SELECT label, value
                         $sqlOP    = ' AND ';
                         if ($field['html_type'] == 'CheckBox') {
                             foreach ( $value as $k => $v ) { 
-                                if ( $k == 'CiviCRM_OP_OR' ) {
-                                    $sqlOP = ' OR ';
-                                    continue;
+                                if ( $v ) {
+                                    if ( $k == 'CiviCRM_OP_OR' ) {
+                                        $sqlOP = ' OR ';
+                                        continue;
+                                    }
+                                
+                                    $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                                 }
-                                $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
                             //if user check only 'CiviCRM_OP_OR' check box
                             //of custom checkbox field, then ignore this field.
@@ -452,29 +452,30 @@ SELECT label, value
                         }
                     }
                     continue;
-
+                
                 case 'StateProvince':
-                    $states =& CRM_Core_PseudoConstant::stateProvince();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $states );
-                    }
-                    if ( $value ) {
-                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$states[$value]}";
-                    }
-                    continue;
-
                 case 'Country':
-                    $countries =& CRM_Core_PseudoConstant::country();
-                    if ( ! is_numeric( $value ) ) {
-                        $value  = array_search( $value, $countries );
-                    }
-                    if ( $value ) {
+                    if ( ! is_array( $value ) ) {
                         $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
-                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
-                    }
-                    continue;
+                        $this->_qill[$grouping][]  = $field['label'] . " {$op} {$qillValue}";
+                    } else {
+                        $sqlOP    = ' AND ';
+                        foreach ( $value as $k => $v ) { 
+                            if ( $v == 'CiviCRM_OP_OR' ) {
+                                $sqlOP = ' OR ';
+                                continue;
+                            }
+                            $sqlValue[] = "( $fieldName like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
+                        }
 
+                        //if user select only 'CiviCRM_OP_OR' value
+                        //of custom multi select field, then ignore this field.
+                        if ( !empty( $sqlValue ) ) {
+                            $this->_where[$grouping][] = " ( " . implode( $sqlOP, $sqlValue ) . " ) ";
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                        }
+                    }					
+                    continue;
                 }
 
             }

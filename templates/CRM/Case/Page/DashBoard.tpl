@@ -73,8 +73,8 @@
         </div>
     {/if}
 
-	{*include activity view js file*}
-	{include file="CRM/common/activityView.tpl"}
-	<div id="view-activity">
-	     <div id="activity-content"></div>
-	</div>
+    {*include activity view js file*}
+    {include file="CRM/common/activityView.tpl"}
+    <div id="view-activity">
+        <div id="activity-content"></div>
+    </div>

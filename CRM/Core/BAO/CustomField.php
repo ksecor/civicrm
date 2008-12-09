@@ -439,6 +439,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         
         $importableFields = array();
         foreach ($fields as $id => $values) {
+            // for now we should not allow multiple fields in profile / export etc, hence unsetting
+            if ( CRM_Utils_Array::value('is_multiple', $values) ) {
+                continue;
+            }
             /* generate the key for the fields array */
             $key = "custom_$id";
             $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
@@ -627,11 +631,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $customOption = CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $check = array();
             foreach ($customOption as $v => $l) {
-                $check[] =& $qf->createElement('checkbox', $v, null, $l); 
+                //$check[] =& $qf->createElement('checkbox', $v, null, $l); 
+                $check[] =& $qf->addElement('advcheckbox', $v, null, $l); 
             }
             if ( $search &&
                  count( $check ) > 1 ) {
-                $check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
+                //$check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
+                $check[] =& $qf->addElement('advcheckbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
             }
             $qf->addGroup($check, $elementName, $label);
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
@@ -820,19 +826,26 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             } else {
                 $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                 if ( $html_type == 'CheckBox' ) {
-                    $checkedData = array_flip( $checkedData );
+                    $newData = array( );
+                    foreach ( $checkedData as $v) {
+                        $newData[$v] =1; 
+                    }
+                    $checkedData = $newData;
                 }
             }
 
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $key => $val ) {
-                if ( $key === 'CiviCRM_OP_OR' ) {
+                if ( $key === 'CiviCRM_OP_OR') {
                     continue;
                 }
+
                 if ( $html_type == 'CheckBox' ) {
-                    $p[] = $key;
-                    $v[] = $option[$key];
+                    if ( $val ) {
+                        $p[] = $key;
+                        $v[] = $option[$key];
+                    }
                 } else {
                     $p[] = $val;
                     $v[] = $option[$val];
@@ -862,7 +875,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( empty( $value ) ) {
                 $display = '';
             } else {
-                $display = CRM_Core_PseudoConstant::stateProvince($value);
+                $states = CRM_Core_PseudoConstant::stateProvince( );
+                $display = null;
+                foreach ( $value as $stateID ) {
+                    if ( $display ) {
+                        $display .= ", ";
+                    }
+                    $display .= $states[$stateID];
+                }
             }
             break;
             
@@ -878,7 +898,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( empty( $value ) ) {
                 $display = '';
             } else {
-                $display = CRM_Core_PseudoConstant::country($value);
+                $countries = CRM_Core_PseudoConstant::country( );
+                $display = null;
+                foreach ( $value as $countryID ) {
+                    if ( $display ) {
+                        $display .= ", ";
+                    }
+                    $display .= $countries[$countryID];
+                }
             }
             break;
 
@@ -1136,16 +1163,20 @@ SELECT id
             $customValueId = CRM_Core_DAO::singleValueQuery( $query );
         }
 
-        //fix checkbox
-        if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {
+        //fix checkbox, now check box always submits values
+        if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {                
             if ( $value ) {
-                $value =
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_keys( $value ) ) .
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-            } else {
-                $value = '';
+                $selectedValues = null;
+                foreach ( $value as $selId => $val ) {
+                    if ( $val ) {
+                        $selectedValues .= $selId . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                    }
+                }
+                if ( $selectedValues ) {
+                    $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $selectedValues;
+                } else {
+                    $value = '';
+                }
             }
         } 
         
@@ -1219,7 +1250,6 @@ SELECT id
                 return;
             }
 
-
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
 
@@ -1258,10 +1288,10 @@ SELECT $columnName
             $value  =  $filename;
         }
 
-		if ( !is_array( $customFormatted ) ) {
-			$customFormatted = array( );
-		}
-		
+        if ( !is_array( $customFormatted ) ) {
+            $customFormatted = array( );
+        }
+
         if ( ! array_key_exists( $customFieldId, $customFormatted ) ) {
             $customFormatted[$customFieldId] = array( );
         }
@@ -1284,9 +1314,9 @@ SELECT $columnName
                                                          'file_id'         => $fileId,
                                                          'is_multiple'     => $customFields[$customFieldId]['is_multiple'],
                                                          );
-		
-		//we need to sort so that custom fields are created in the order of entry
-		krsort( $customFormatted[$customFieldId] );
+
+        //we need to sort so that custom fields are created in the order of entry
+        krsort( $customFormatted[$customFieldId] );
         return $customFormatted;
     }
 
@@ -1516,7 +1546,7 @@ ORDER BY html_type";
             foreach ( $customFields as $k => $val ) {
                 if ( ! CRM_Utils_Array::value( $k, $customData ) &&
                      in_array ( $val['html_type'],
-                                array ('CheckBox','Multi-Select', 'Radio') ) ) {
+                                array ('Multi-Select', 'Radio') ) ) {
                     CRM_Core_BAO_CustomField::formatCustomField( $k,
                                                                  $customData,
                                                                  '',
@@ -1525,7 +1555,7 @@ ORDER BY html_type";
                                                                  $entityID );
                 }
             }
-        }		
+        }	
         return $customData;
     }
 

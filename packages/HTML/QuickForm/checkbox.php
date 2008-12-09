@@ -130,8 +130,8 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      */
     function toHtml()
     {
-		$attributes = $this->getAttributes();
-			
+        $attributes = $this->getAttributes();
+
         if (0 == strlen($this->_text)) {
             $label = '';
         } elseif ($this->_flagFrozen || isset( $attributes['skiplabel']) ) {
@@ -139,8 +139,8 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         } else {
             $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
-		
-		unset( $attributes['skipLabel'] );
+
+        unset( $attributes['skipLabel'] );
         return HTML_QuickForm_input::toHtml() . $label;
     } //end func toHtml
     
