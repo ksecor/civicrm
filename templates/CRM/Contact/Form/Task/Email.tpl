@@ -8,7 +8,7 @@
 <legend>{ts}Send an Email{/ts}</legend>
 {if $suppressedEmails > 0}
     <div class="status">
-        <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL.'}Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL.{/ts}</p>
+        <p>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased).'}Email will NOT be sent to %count contact - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased).{/ts}</p>
     </div>
 {/if}
 <dl>
