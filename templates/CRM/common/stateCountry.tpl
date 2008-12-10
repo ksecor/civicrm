@@ -3,14 +3,14 @@
 {foreach from=$config->stateCountryMap item=stateCountryMap}
 {if $stateCountryMap.country && $stateCountryMap.state_province}
 {literal}
-$(function()
+cj(function()
 {
 {/literal}
         countryID       = "#{$stateCountryMap.country}"
 	    stateProvinceID = "#{$stateCountryMap.state_province}"
         callbackURL     = "{crmURL p='civicrm/ajax/jqState'}"
 {literal}
-	$(countryID).chainSelect(stateProvinceID, callbackURL, null );
+	cj(countryID).chainSelect(stateProvinceID, callbackURL, null );
 });
 {/literal}
 {/if}

@@ -1,15 +1,15 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
-$(function()
+cj(function()
 {
 {/literal}
         countryID       = '#country_id'
-	stateProvinceID = '#state_province_id'
+	    stateProvinceID = '#state_province_id'
         callbackURL     = '{$stateCountryURL}'
 {literal}
-	$(countryID).chainSelect(stateProvinceID,
+	cj(countryID).chainSelect(stateProvinceID,
                                   callbackURL,
-				  null);
+				                  null);
 });
 </script>
 {/literal}

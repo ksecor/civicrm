@@ -132,9 +132,9 @@
            hide('customGreeting');      
       }     
   }
-$(document).ready(function(){ 
-	$('#selector tr:even').addClass('odd-row ');
-	$('#selector tr:odd ').addClass('even-row');
+cj(document).ready(function(){ 
+	cj('#selector tr:even').addClass('odd-row ');
+	cj('#selector tr:odd ').addClass('even-row');
 });
 </script>
 {/literal}

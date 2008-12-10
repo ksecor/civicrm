@@ -120,8 +120,7 @@
 		<td>{$form.organization_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='organization_name' id=$contactId}{/if}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
-                <td>{$form.contact_source.label}</td>
-        
+        <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
         <td>{$form.organization_name.html|crmReplace:class:big}</td>
@@ -131,7 +130,7 @@
     </tr>
     <tr>
         <td>{$form.home_URL.label}</td>
-	<td>{$form.nick_name.label}</td>
+	    <td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
 	</tr>
     <tr>
@@ -159,7 +158,7 @@
     {include file="CRM/common/customData.tpl"}
 	{literal}
 		<script type="text/javascript">
-			$(document).ready(function() {
+			cj(document).ready(function() {
 				var contact_type = {/literal}"{$contact_type}"{literal};
 				buildCustomData( contact_type );
 			});
@@ -230,11 +229,11 @@
 {if $contact_type eq 'Individual' and $currentEmployer }
 {literal}
 <script type="text/javascript">
-	dojo.addOnLoad( function( ) 
-	{
-		var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
-		dijit.byId( 'current_employer' ).setValue(currentEmployer);
-	}); 
+dojo.addOnLoad( function( ) 
+{
+	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
+	dijit.byId( 'current_employer' ).setValue(currentEmployer);
+}); 
 </script>
 {/literal} 
 {/if}
@@ -242,17 +241,17 @@
 {if $contact_type eq 'Individual' or $contact_type eq 'Household'}
 {literal}
 <script type="text/javascript">
-    showGreeting( );
-    function showGreeting( )
-    {
-        if (document.getElementById("greeting_type_id").value == 4) {
-	    show('greetingLabel');
-	    show('greetingHtml');	
-        } else {
-	    hide('greetingLabel');
-	    hide('greetingHtml');
-        }
+showGreeting( );
+function showGreeting( )
+{
+    if (document.getElementById("greeting_type_id").value == 4) {
+        show('greetingLabel');
+        show('greetingHtml');	
+    } else {
+        hide('greetingLabel');
+        hide('greetingHtml');
     }
+}
 </script>
 {/literal}
 {/if}
@@ -332,9 +331,9 @@
 </div>
 {literal}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#selector tr:even').addClass('odd-row ');
-        $('#selector tr:odd ').addClass('even-row');
+    cj(document).ready(function(){
+        cj('#selector tr:even').addClass('odd-row ');
+        cj('#selector tr:odd ').addClass('even-row');
     });
 </script>
 {/literal}

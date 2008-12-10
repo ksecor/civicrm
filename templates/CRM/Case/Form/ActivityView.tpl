@@ -58,13 +58,13 @@
 function viewRevision( activityId ) {
       var cid= {/literal}"{$contactID}"{literal};
       var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-  	  $("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
+  	  cj("#activity-content").load( viewUrl + "&cid="+cid + "&aid=" + activityId);
 }
 
 function listRevisions( activityId ) {
       var cid= {/literal}"{$contactID}"{literal};
       var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-  	  $("#activity-content").load( viewUrl + "&cid=" + cid + "&aid=" + activityId + "&revs=1" );
+  	  cj("#activity-content").load( viewUrl + "&cid=" + cid + "&aid=" + activityId + "&revs=1" );
 }
 </script>
 {/literal}

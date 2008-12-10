@@ -66,11 +66,11 @@
 show('caseRole_show');
 hide('caseRole');
 
-$("#dialog").hide( );
+cj("#dialog").hide( );
 function createRelationship( relType, contactID, relID, rowNumber ) {
-    $("#dialog").show( );
+    cj("#dialog").show( );
 
-	$("#dialog").dialog({
+	cj("#dialog").dialog({
 		title: "Assign Case Role",
 		modal: true, 
 		overlay: { 
@@ -79,32 +79,32 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 		},
 
 		open:function() {
-			$(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+			cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
 
 			/* set defaults if editing */
-			$("#rel_contact").val( "" );
-			$("#rel_contact_id").val( null );
+			cj("#rel_contact").val( "" );
+			cj("#rel_contact_id").val( null );
 			if ( contactID ) {
-				$("#rel_contact_id").val( contactID );
-				$("#rel_contact").val( $("#relName_" + rowNumber).text( ) );
+				cj("#rel_contact_id").val( contactID );
+				cj("#rel_contact").val( cj("#relName_" + rowNumber).text( ) );
 			}
 
 			var contactUrl = {/literal}"{crmURL p='civicrm/ajax/contactlist' h=0 }"{literal};
 
-			$("#rel_contact").autocomplete( contactUrl, {
+			cj("#rel_contact").autocomplete( contactUrl, {
 				width: 260,
 				selectFirst: false 
 			});
 			
-			$("#rel_contact").focus();
-			$("#rel_contact").result(function(event, data, formatted) {
-				$("input[@id=rel_contact_id]").val(data[1]);
+			cj("#rel_contact").focus();
+			cj("#rel_contact").result(function(event, data, formatted) {
+				cj("input[@id=rel_contact_id]").val(data[1]);
 			});		    
 		},
 
 		buttons: { 
 			"Ok": function() { 	    
-				if ( ! $("#rel_contact").val( ) ) {
+				if ( ! cj("#rel_contact").val( ) ) {
 					alert('Select valid contact from the list.');
 					return false;
 				}
@@ -112,7 +112,7 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				var sourceContact = {/literal}"{$contactID}"{literal}
 				var caseID        = {/literal}"{$caseID}"{literal}
 
-				var v1 = $("#rel_contact_id").val( );
+				var v1 = cj("#rel_contact_id").val( );
 
 				if ( ! v1 ) {
 					alert('Select valid contact from the list.');
@@ -120,57 +120,54 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 				}
 
 				var postUrl = {/literal}"{crmURL p='civicrm/ajax/relation' h=0 }"{literal};
-                $.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
+                cj.post( postUrl, { rel_contact: v1, rel_type: relType, contact_id: sourceContact, rel_id: relID, case_id: caseID },
                     function( data ) {
                         var resourceBase   = {/literal}"{$config->resourceBase}"{literal};
                         var contactViewUrl = {/literal}"{crmURL p='civicrm/contact/view' q='action=view&reset=1&cid=' h=0 }"{literal};	
                         var deleteUrl      = {/literal}"{crmURL p='civicrm/contact/view/rel' q="action=delete&reset=1&cid=`$contactID`&caseID=`$caseID`&id=" h=0 }"{literal};	
                         var html = '<a href=' + contactViewUrl + data.cid +' title="view contact record">' +  data.name +'</a>';
-                        $('#relName_' + rowNumber ).html( html );
+                        cj('#relName_' + rowNumber ).html( html );
 
                         html = '';
                         html = '<img src="' +resourceBase+'i/edit.png" title="edit case role" onclick="createRelationship( ' + relType +','+ data.cid +', ' + data.rel_id +', ' + rowNumber +' );">&nbsp;&nbsp; <a href=' + deleteUrl + data.rel_id +' onclick = "if (confirm(\'Are you sure you want to delete this relationship?\') ) this.href +=\'&confirmed=1\'; else return false;"><img title="remove contact from case role" src="' +resourceBase+'i/delete.png"/></a>';
-                        $('#edit_' + rowNumber ).html( html );
+                        cj('#edit_' + rowNumber ).html( html );
 
                         html = '';
                         if ( data.phone ) {
                             html = data.phone;
                         }	
-                        $('#phone_' + rowNumber ).html( html );
+                        cj('#phone_' + rowNumber ).html( html );
 
                         html = '';
                         if ( data.email ) {
                             var activityUrl = {/literal}"{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&caseid=`$caseID`&cid=" h=0 }"{literal};
                             html = '<a href=' + activityUrl + data.cid + '><img src="'+resourceBase+'i/EnvelopeIn.gif" alt="Send Email"/></a>&nbsp;';
                         } 
-                        $('#email_' + rowNumber ).html( html );
+                        cj('#email_' + rowNumber ).html( html );
 
                         }, 'json' 
                     );
 
-				$(this).dialog("close"); 
-				$(this).dialog("destroy"); 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
 			},
 
 			"Cancel": function() { 
-				$(this).dialog("close"); 
-				$(this).dialog("destroy"); 
+				cj(this).dialog("close"); 
+				cj(this).dialog("destroy"); 
 			} 
 		} 
 
 	});
 }
 
-$(document).ready(function(){
-   $("#searchOptions").hide( );
-});
-
 function showHideSearch( ) {
-    $("#searchOptions").toggle( );
+   cj("#searchOptions").toggle( );
 }
 
-$(document).ready(function(){
-   $("#view-activity").hide( );
+cj(document).ready(function(){
+   cj("#searchOptions").hide( );
+   cj("#view-activity").hide( );
 });
 </script>
 {/literal}
@@ -237,13 +234,13 @@ $(document).ready(function(){
 
 {literal}
 <script type="text/javascript">
-$(document).ready(function(){
+cj(document).ready(function(){
 
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/activity' h=0 q='snippet=4&caseID='}{$caseID}"{literal};
 
     dataUrl = dataUrl + '&cid={/literal}{$contactID}{literal}';
 
-    $("#activities-selector").flexigrid
+    cj("#activities-selector").flexigrid
     (
         {
             url: dataUrl,
@@ -272,38 +269,38 @@ $(document).ready(function(){
 
 function search(com)
 {   
-    var month  = $("select#activity_date_low\\[M\\]").val( );
+    var month  = cj("select#activity_date_low\\[M\\]").val( );
     if ( month.length == 1 ) month = "0" + month;
 
-    var day  = $("select#activity_date_low\\[d\\]").val( );
+    var day  = cj("select#activity_date_low\\[d\\]").val( );
     if ( day.length == 1 ) day = "0" + day;
 
-    var activity_date_low  = $("select#activity_date_low\\[Y\\]").val() + month + day;
+    var activity_date_low  = cj("select#activity_date_low\\[Y\\]").val() + month + day;
 
-    var month  = $("select#activity_date_high\\[M\\]").val( );
+    var month  = cj("select#activity_date_high\\[M\\]").val( );
     if ( month.length == 1 ) month = "0" + month;
 
-    var day  = $("select#activity_date_high\\[d\\]").val( );
+    var day  = cj("select#activity_date_high\\[d\\]").val( );
     if ( day.length == 1 ) day = "0" + day;
 
-    var activity_date_high  =  $("select#activity_date_high\\[Y\\]").val() + month + day;
+    var activity_date_high  =  cj("select#activity_date_high\\[Y\\]").val() + month + day;
 
     var activity_deleted = 0;
-    if ( $("#activity_deleted:checked").val() == 1 ) {
+    if ( cj("#activity_deleted:checked").val() == 1 ) {
         activity_deleted = 1;
     }
-    $('#activities-selector').flexOptions({
+    cj('#activities-selector').flexOptions({
 	    newp:1, 
-		params:[{name:'reporter_id', value: $("select#reporter_id").val()},
-			{name:'status_id', value: $("select#status_id").val()},
-			{name:'date_range', value: $("*[name=date_range]:checked").val()},
+		params:[{name:'reporter_id', value: cj("select#reporter_id").val()},
+			{name:'status_id', value: cj("select#status_id").val()},
+			{name:'date_range', value: cj("*[name=date_range]:checked").val()},
 			{name:'activity_date_low', value: activity_date_low },
 			{name:'activity_date_high', value: activity_date_high},
 			{name:'activity_deleted', value: activity_deleted }
 			]
 		});
     
-    $("#activities-selector").flexReload(); 
+    cj("#activities-selector").flexReload(); 
 }
 
 function checkSelection( field ) {
@@ -347,20 +344,20 @@ function setSelectorClass( ) {
     var currentDate = new Date();
     var ct = currentDate.getTime();
 
-    $("#activities-selector tbody tr td:first-child").each( function( ) {
-        var dueDate = $(this).text();
+    cj("#activities-selector tbody tr td:first-child").each( function( ) {
+        var dueDate = cj(this).text();
         dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
         var dt = Date.parse(dueDate)
 
         if ( ct > dt ) {
-            $(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
+            cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
         } else{
-            $(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
+            cj(this).parent().attr( 'class','status-pending').find(":contains('Scheduled')");
         }	
     });
 
-    $("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
-    $("#activities-selector tbody tr:odd").addClass('erow');
+    cj("#activities-selector tbody tr").find(":contains('Completed')").parent().attr( 'class','status-completed');
+    cj("#activities-selector tbody tr:odd").addClass('erow');
 }
 </script>
 {/literal}

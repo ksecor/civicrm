@@ -1,13 +1,13 @@
 {literal}
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#activity-content").css({'overflow':'auto', 'width':'680px', 'height':'560px'});
+cj(document).ready(function(){
+	cj("#activity-content").css({'overflow':'auto', 'width':'680px', 'height':'560px'});
 });
 	
 function viewActivity( activityID, contactID ) {
-    $("#view-activity").show( );
+    cj("#view-activity").show( );
 
-    $("#view-activity").dialog({
+    cj("#view-activity").dialog({
         title: "View Activity",
         modal: true, 
         width : 700,
@@ -18,16 +18,16 @@ function viewActivity( activityID, contactID ) {
             background: "black" 
         },
         open:function() {
-            $(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-            $("#activity-content").html("");
+            cj(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+            cj("#activity-content").html("");
             var viewUrl = {/literal}"{crmURL p='civicrm/case/activity/view' h=0 q="snippet=4" }"{literal};
-            $("#activity-content").load( viewUrl + "&cid="+contactID + "&aid=" + activityID);
+            cj("#activity-content").load( viewUrl + "&cid="+contactID + "&aid=" + activityID);
         },
 
         buttons: { 
             "Done": function() { 	    
-                $(this).dialog("close"); 
-                $(this).dialog("destroy"); 
+                cj(this).dialog("close"); 
+                cj(this).dialog("destroy"); 
             }
         }
     });
