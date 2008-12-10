@@ -326,6 +326,13 @@ WHERE      a.id = %1
                     $value = CRM_Core_BAO_CustomField::getDisplayValue( $dao->$columnName,
                                                                         $typeValue['fieldID'],
                                                                         $options );
+                    
+                    // Note: this is already taken care in getDisplayValue above, but sometimes 
+                    // strings like '^A^A' creates problem. So to fix this special case -
+                    if ( strstr($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR) ) {
+                        $value = trim($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
+                    }
+
                     $customGroup[] = array( 'label'  => $typeValue['label'],
                                             'value'  => $value,
                                             'type'   => $typeValue['type'] );
