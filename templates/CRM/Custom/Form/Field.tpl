@@ -105,7 +105,11 @@
              document.getElementById("optionsPerLineDef").style.display="none";
         }
 
+{/literal}
+{if $action eq 1}
         clearSearchBoxes( );
+{/if}
+{/literal}
     }
 </script>
 {/literal}
