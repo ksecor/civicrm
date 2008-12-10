@@ -595,6 +595,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
                 foreach ( $params['group'] as $key => $val ) {
+                    if ( ! $val ) {
+                        unset( $params['group'][$key] );
+                        continue;
+                    }
                     $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
                                                                $key, 'group_type', 'id' );
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
