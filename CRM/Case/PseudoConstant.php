@@ -52,7 +52,7 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      * @var array
      * @static
      */
-    static $caseType;
+    static $caseType = array( );
 
     /**
      * activity type
@@ -95,15 +95,17 @@ class CRM_Case_PseudoConstant extends CRM_Core_PseudoConstant
      * @static
      */
 
-    public static function caseType( )
+    public static function caseType( $column = 'label' )
     {
-        if ( ! self::$caseType ) {
-            self::$caseType = array( );
-        
+        if ( ! array_key_exists($column, self::$caseType) ) {
+            self::$caseType[$column] = array( );
+            
             require_once 'CRM/Core/OptionGroup.php';
-            self::$caseType = CRM_Core_OptionGroup::values('case_type');
+            self::$caseType[$column] = 
+                CRM_Core_OptionGroup::values( 'case_type', false, false, 
+                                              false, null, $column );
         }
-        return self::$caseType;
+        return self::$caseType[$column];
     }
 
     /**
