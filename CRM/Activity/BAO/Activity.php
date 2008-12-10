@@ -415,7 +415,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                            'entity_table'  => 'civicrm_activity' ,
                            'entity_id'     => $activity->id,
                            'modified_id'   => $id,
-                           'modified_date' => date('Ymd'),
+                           'modified_date' => date('YmdHis'),
                            'data'          => $logMessage
                            );
         CRM_Core_BAO_Log::add( $logParams );

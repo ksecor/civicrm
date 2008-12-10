@@ -143,7 +143,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                            'entity_table'  => 'civicrm_case',
                            'entity_id'     => $case->id,
                            'modified_id'   => $id,
-                           'modified_date' => date('Ymd')
+                           'modified_date' => date('YmdHis')
                            );
         
         CRM_Core_BAO_Log::add( $logParams );
