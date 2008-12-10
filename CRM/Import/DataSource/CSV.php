@@ -69,7 +69,6 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
     function postProcess(&$params, &$db)
     {
         $file = $params['uploadFile']['name'];
-#       $file = '/home/shot/work/CiviCRM/peeps.csv';
 
         $table = self::_CsvToTable($db, $file, $params['skipColumnHeader']);
 
@@ -112,9 +111,23 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
         $create = "CREATE TABLE $table (" . implode(' text, ', $columns) . " text)";
         $db->query($create);
 
-        $load = "LOAD DATA LOCAL INFILE '$file' INTO TABLE $table FIELDS TERMINATED BY '$config->fieldSeparator' OPTIONALLY ENCLOSED BY '\"'";
-        if ($headers) $load .= ' IGNORE 1 LINES';
-        $db->query($load);
+        // the proper approach, but some MySQL installs do not have this enabled
+        // $load = "LOAD DATA LOCAL INFILE '$file' INTO TABLE $table FIELDS TERMINATED BY '$config->fieldSeparator' OPTIONALLY ENCLOSED BY '\"'";
+        // if ($headers) $load .= ' IGNORE 1 LINES';
+        // $db->query($load);
+
+        // parse the CSV line by line and build one big INSERT (while MySQL-escaping the CSV contents)
+        if (!$headers) rewind($fd);
+        $sql = "INSERT IGNORE INTO $table VALUES ";
+        $rows = array();
+        while ($row = fgetcsv($fd, 0, $config->fieldSeparator)) {
+            $row = array_map('mysql_real_escape_string', $row);
+            $rows[] = "('" . implode("', '", $row) . "')";
+        }
+        $sql .= implode(', ', $rows);
+        $db->query($sql);
+
+        fclose($fd);
 
         return $table;
     }
