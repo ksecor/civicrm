@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/OptionGroup.php';        
 require_once "CRM/Case/PseudoConstant.php";
+require_once "CRM/Case/BAO/Case.php";
 require_once 'CRM/Case/XMLProcessor/Process.php';
 require_once "CRM/Activity/Form/Activity.php";
 require_once 'CRM/Contact/BAO/Contact.php';
@@ -45,6 +46,13 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
 {
+    /**
+     * The default variable defined
+     *
+     * @var int
+     */
+    public $_caseId;
+
     /**
      * The default values of an activity
      *
@@ -75,6 +83,15 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
             return $result;
         }
         
+        $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
+        if ( !$this->_caseId && $this->_activityId ) {
+            $this->_caseId  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $this->_activityId,
+                                                           'case_id', 'activity_id' );
+        }
+        if ( $this->_caseId ) {
+            $this->assign( 'caseId', $this->_caseId );
+        }
+
         if ( !$this->_caseId ||
              (!$this->_activityId && !$this->_activityTypeId) ) {
             CRM_Core_Error::fatal('required params missing.');            
@@ -155,17 +172,17 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_fields['subject']['required']            = false;
         $this->_fields['source_contact_id']['label']     = 'Reported By'; 
             
-        $aTypes = array( );
         if ( $this->_caseType ) {
             $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
             $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
-
+            
             // remove Open Case activity type since we're inside an existing case
             $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
             unset( $aTypes[$openCaseID] );
             asort( $aTypes );        
+            $this->_fields['followup_activity_type_id']['attributes'] = 
+                array('' => '- select activity type -') + $aTypes;
         }
-        $this->_fields['followup_activity_type_id']['attributes'] = $aTypes;
 
         $result = parent::buildQuickForm( );
 
@@ -184,11 +201,6 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         $this->add('date', 'due_date_time', ts('Due Date'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('due_date_time', ts('Select a valid date.'), 'qfDate');
-        
-        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
-              
-        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
-                       'positiveInteger');  
         
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {

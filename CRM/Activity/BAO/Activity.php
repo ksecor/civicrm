@@ -1287,27 +1287,28 @@ AND cl.modified_id  = c.id
      *
      * @param int  $activityTypeId  activity id
      *
-     * @return if file exists returns $caseAction activity filename otherwise false.
+     * @return if file exists returns $activityTypeFile activity filename otherwise false.
      *
      * @static
      */
     static function getFileForActivityTypeId( $activityTypeId, $crmDir = 'Activity' ) 
     {
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
+        require_once "CRM/Case/PseudoConstant.php";
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false, true );
         
         if ( $activityTypes[$activityTypeId]['name'] ) {
             require_once 'CRM/Utils/String.php';
-            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
+            $activityTypeFile = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
         } else {
             return false;
         }
         
         global $civicrm_root;
-        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$caseAction}.php") ) {
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$activityTypeFile}.php") ) {
             return false;
         }
 
-        return $caseAction;
+        return $activityTypeFile;
     }
 
     /**

@@ -40,7 +40,6 @@ require_once 'CRM/Core/BAO/Preferences.php';
 require_once "CRM/Contact/Form/AddContact.php";
 require_once "CRM/Contact/Form/Task.php";
 require_once "CRM/Activity/BAO/Activity.php";
-require_once "CRM/Case/BAO/Case.php";
 require_once "CRM/Custom/Form/CustomData.php";
 
 /**
@@ -80,20 +79,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     protected $_targetContactId;
     protected $_asigneeContactId;
     
-    /**
-     * The default variable defined
-     *
-     * @var int
-     */
-    public    $_caseId;
     protected $_single;
-
-    /**
-     * The flag for case enabled or not
-     *
-     * @var boolean
-     */
-    public $_caseEnabled = false;
 
     /**
      * The id of the logged in user, used when add / edit 
@@ -174,19 +160,28 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   'followup_activity_type_id' =>  array( 'type'       => 'select',
                                                          'label'      => 'Followup Activity',
-                                                         'attributes' =>
-                                                         CRM_Core_PseudoConstant::ActivityType( false )
+                                                         'attributes' => array('' => '-select-') +
+                                                         CRM_Core_PseudoConstant::ActivityType( false ),
                                                          ),
                   'interval'                  =>  array( 'type'       => 'text',
                                                          'label'      => 'in',
                                                          'attributes' => 
-                                                         array( 'size'=> 4,'maxlength' => 8 )
+                                                         array( 'size'=> 4,'maxlength' => 8 ),
                                                          ),
                   'interval_unit'             =>  array( 'type'       => 'select',
                                                          'label'      =>  null,
+                                                         'attributes' => 
+                                                         CRM_Core_OptionGroup::values('recur_frequency_units', 
+                                                                                      false, false, false, 
+                                                                                      null, 'name'),
                                                          ),
-                                                         
+                  
                   );
+
+        // append (s) for interval_unit attribute list
+        foreach ( $this->_fields['interval_unit']['attributes'] as $name => $label ) {
+            $this->_fields['interval_unit']['attributes'][$name] = $label . '(s)';
+        }
     }
 
     /**
@@ -307,22 +302,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
-              
-        $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-        if ( !$this->_caseId && $this->_activityId ) {
-            $this->_caseId  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $this->_activityId,
-                                                           'case_id', 'activity_id' );
-        }
-        if ( $this->_caseId ) {
-            $this->assign( 'caseId', $this->_caseId );
-        }
-
         // set user context
         if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
-        } else if ( $this->_context == 'case' ) {
-            $url = CRM_Utils_System::url('civicrm/contact/view/case',
-                                         "action=view&reset=1&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&selectedChild=case" );
         } else if ( $this->_context == 'activity' ) {
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
@@ -381,7 +363,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->setFields( );
 
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
         }
     }
     
@@ -411,8 +393,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $defaults['activity_date_time'] = array( );
                 CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             }
-
-            $this->assign('caseSubject', $defaults['case_subject']);
 
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
@@ -462,7 +442,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         if ( $this->_activityTypeFile ) {
-            eval('$defaults += CRM_Case_Form_Activity_'. $this->_activityTypeFile . '::setDefaultValues($this);');
+            eval('$defaults += CRM_{$this->_crmDir}_Form_Activity_'. 
+                 $this->_activityTypeFile . '::setDefaultValues($this);');
         }
         return $defaults;
     }
@@ -525,13 +506,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //enable form element
         $this->assign( 'suppressForm', false );
             
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        
-        $config =& CRM_Core_Config::singleton( );
-        if ( $this->_viewOptions['CiviCase'] && in_array('CiviCase', $config->enableComponents) ) {
-            $this->_caseEnabled = true;
-        }
-
         $activityOPtions = CRM_Core_PseudoConstant::ActivityType( false );
         asort( $activityOPtions );
         $this->_activityType = array( ''   => 
@@ -558,14 +532,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                     $attribute = $values['attributes'];
                 }
 
-                if ( $field == 'interval_unit' ) {
-                    $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
-                    foreach ( $freqUnits as $name => $label ) {
-                        $freqUnits[$name] = $label . '(s)';
-                    }
-                    $attribute = $freqUnits;
-                }
-                
                 $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
             }
         }
@@ -641,12 +607,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::buildQuickForm( \$this );");
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}::buildQuickForm( \$this );");
         }
 
         if ( $this->_activityTypeFile ) {
             eval('$this->addFormRule' . 
-                 "(array('CRM_Case_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
+                 "(array('CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
         }
 
         $this->addFormRule( array( 'CRM_Activity_Form_Activity', 'formRule' ), $this );
@@ -704,10 +670,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
         
-        if ( CRM_Utils_Array::value( 'case_id', $fields) && !is_numeric($fields['case_id'] ) ) {
-            $errors['case_id'] = ts('Plesase select valid Case.');
-        }
-
         return $errors;
     }
     
@@ -723,12 +685,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
             CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
-            return;
-        }
-        
-        if ( $this->_action & CRM_Core_Action::DETACH ) { 
-            CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );
-            CRM_Core_Session::setStatus( ts("Selected Activity has been sucessfully detached from a case.") );
             return;
         }
         
@@ -794,13 +750,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
-        // add case activity
-        if ( $this->_caseEnabled && $params['case_id']  ) {
-            $caseParams = array( 'activity_id' => $activity->id,
-                                 'case_id'     => $params['case_id'] );
-            CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
-        }
-
         // call end post process. Idea is to let injecting file do any
         // processing needed, after the activity has been added/updated.
         $this->endPostProcess( $params, $activity );
