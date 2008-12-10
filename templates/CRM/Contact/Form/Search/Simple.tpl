@@ -1,13 +1,13 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
-cj(function()
+$(function()
 {
 {/literal}
         countryID       = '#country_id'
 	stateProvinceID = '#state_province_id'
         callbackURL     = '{$stateCountryURL}'
 {literal}
-	cj(countryID).chainSelect(stateProvinceID,
+	$(countryID).chainSelect(stateProvinceID,
                                   callbackURL,
 				  null);
 });

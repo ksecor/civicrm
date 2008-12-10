@@ -150,7 +150,7 @@
 			dataUrl = dataUrl + '&discountId=' + discountId;	
 		}
 
-		cj("#feeBlock").load( dataUrl );	
+		$("#feeBlock").load( dataUrl );	
 	}
 </script>
 {/literal}
@@ -159,7 +159,7 @@
 {include file="CRM/common/customData.tpl"}
 {literal}
 <script type="text/javascript">
-	cj(document).ready(function() {				
+	$(document).ready(function() {				
 		{/literal}
 		buildCustomData( '{$customDataType}', 'null', 'null' );
 		{if $roleID}

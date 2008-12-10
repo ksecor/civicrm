@@ -56,7 +56,7 @@
     {include file="CRM/common/customData.tpl"}	
 	{literal}
 		<script type="text/javascript">
-			cj(document).ready(function() {
+			$(document).ready(function() {
 				{/literal}
 				buildCustomData( '{$customDataType}' );
 				{if $customDataSubType}

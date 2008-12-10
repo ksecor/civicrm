@@ -11,9 +11,9 @@ function buildCustomData( type, subType, subName, cgCount, groupID, isMultiple )
 
 	if ( subName ) {
 		dataUrl = dataUrl + '&subName=' + subName;
-		cj('#customData' + subName ).show();
+		$('#customData' + subName ).show();
 	} else {
-		cj('#customData').show();		
+		$('#customData').show();		
 	}
 	
 	{/literal}
@@ -44,7 +44,7 @@ function buildCustomData( type, subType, subName, cgCount, groupID, isMultiple )
 
 	if ( isMultiple ) {
 		var fname = '#custom_group_' + groupID + '_' + prevCount;
-		cj("#add-more-link-"+prevCount).hide();
+		$("#add-more-link-"+prevCount).hide();
 	} else {
 		if ( subName ) {		
 			var fname = '#customData' + subName ;
@@ -53,12 +53,12 @@ function buildCustomData( type, subType, subName, cgCount, groupID, isMultiple )
 		}		
 	}
 	
-	var response = cj.ajax({
+	var response = $.ajax({
 						url: dataUrl,
 						async: false
 					}).responseText;
 
-	cj( fname ).html( response );
+	$( fname ).html( response );
 }
 
 </script>

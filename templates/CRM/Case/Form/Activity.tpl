@@ -186,7 +186,7 @@
    {include file="CRM/common/customData.tpl"}
     {literal}
     <script type="text/javascript">
-	cj(document).ready(function() {
+	$(document).ready(function() {
 		{/literal}
 		buildCustomData( '{$customDataType}' );
 		{if $customDataSubType}
@@ -216,12 +216,12 @@ var caseType = {/literal}"{$caseType}"{literal};
 if ( caseType ) {
     var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}"{literal} + caseType;
 
-    cj("#followup_activity").autocomplete( activityUrl, {
+    $("#followup_activity").autocomplete( activityUrl, {
 	    width: 260,
 	    selectFirst: false  
     });
 
-    cj("#followup_activity").result(function(event, data, formatted) {
+    $("#followup_activity").result(function(event, data, formatted) {
     });		    
 }
 
