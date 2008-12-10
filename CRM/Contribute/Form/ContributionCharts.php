@@ -56,7 +56,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
     {
         //p3 = Three dimensional pie chart.
         //bvg = Vertical bar chart
-        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => ts('Bar'), 'p3'=> ts('Pie') ) );
+        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'p3'=> ts('Pie'), 'bvg' => ts('Bar') ) );
         
         //take available years from database to show in drop down
         if ( !empty( $this->_years ) ) {
@@ -143,7 +143,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         if ( !empty( $pChartParams ) ) {
             $filesValues = array( );
             require_once 'CRM/Utils/PChart.php';
-            if ( 'p3' == CRM_Utils_Array::value( 'chart_type', $submittedValues, 'bvg' ) ) {
+            if ( 'p3' == CRM_Utils_Array::value( 'chart_type', $submittedValues, 'p3' ) ) {
                 //assign shape for map
                 $this->assign( 'shape', 'poly');
                 $this->assign( 'chartType', 'pie');
@@ -156,7 +156,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                 }
                 
                 //build the pie graph
-                $filesValues = CRM_Utils_PChart::pieChart( $chartParams );
+                $filesValues = CRM_Utils_PChart::pieGraph( $chartParams );
             } else {
                 //assign shape for map
                 $this->assign( 'shape', 'rect');
@@ -170,7 +170,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                 }
                 
                 //build the bar graph.
-                $filesValues = CRM_Utils_PChart::barChart( $chartParams );
+                $filesValues = CRM_Utils_PChart::barGraph( $chartParams );
             }
             
             $formatMonthly = true;

@@ -275,20 +275,26 @@
       }
     }
    
-   /* Set Palette colors for given number of shades with given color array
-    * eg $colors = array( array( 'R' => 69,  'G' => 139, 'B' => 0 ) );
+   /* Set Palette colors for given number of shades 
+    * with given colors array in R-G-B format.
+    * eg $colors = array( array(  69,  139,  0 ) );
     */
    function setColorShades( $shades, $colors )
    {
        //set colors.
        $count = 0;
        for ( $i = 0; $i < $shades; $i++ ) {
-           if ( array_key_exists( $count, $colors ) ) {
-               $this->Palette[$i] = $colors[$count];
+           if ( is_array( $colors[$count] ) ) {
+               $this->Palette[$i]['R'] = $colors[$count][0];
+               $this->Palette[$i]['G'] = $colors[$count][1];
+               $this->Palette[$i]['B'] = $colors[$count][2];
                $count++;
-           } else {
+           } else if ( $count != 0 ) {
                $count = 0;
-               $this->Palette[$i] = $colors[$count];
+               //if shades > count( colors ) repeat the sequence
+               $this->Palette[$i]['R'] = $colors[$count][0];
+               $this->Palette[$i]['G'] = $colors[$count][1];
+               $this->Palette[$i]['B'] = $colors[$count][2];
                $count++;
            }
        }

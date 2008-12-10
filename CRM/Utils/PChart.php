@@ -31,7 +31,25 @@
 class CRM_Utils_PChart 
 {
     /**
-     * Build The Pie Chart images with given params 
+     * colors in R-G-B format
+     * @var array
+     * @static
+     */
+    private static $_colors = array( array( 195,   204,   56 ),
+                                     array( 200.6, 185.2, 53 ),
+                                     array( 206.2, 166.4, 50 ),
+                                     array( 211.8, 147.6, 47 ),
+                                     array( 217.4, 128.8, 44 ),
+                                     array( 250,   105,   0  ),
+                                     array( 220,   155,   87 ),
+                                     array( 247,   143,   1  ),
+                                     array( 90,    181,   110),
+                                     array( 111,   128,   105),
+                                     array( 201,   34,    0  ), 
+                                     array( 235,   108,   92 ));
+    
+    /**
+     * Build The Pie Graph images with given params 
      * and store in upload/pChart directory.
      *
      * @param  array $params    an assoc array of name/value pairs          
@@ -39,7 +57,7 @@ class CRM_Utils_PChart
      *
      * @static
      */
-    static function pieChart( $params ) 
+    static function pieGraph( $params ) 
     {        
         if ( empty( $params ) ) {
             return;
@@ -69,15 +87,6 @@ class CRM_Utils_PChart
         
         $chartCount  = 0;
         $filesValues = array( );
-        
-        //colors.
-        $colors = array( array( 'R' => 213, 'G' => 43,  'B' => 89  ),
-                         array( 'R' => 255, 'G' => 147, 'B' => 46  ),
-                         array( 'R' => 56,  'G' => 139, 'B' => 218 ),
-                         array( 'R' => 81,  'G' => 205, 'B' => 71  ),
-                         array( 'R' => 69,  'G' => 139, 'B' => 0   ), 
-                         );
-        
         foreach ( $params as $chartIndex => $chartValues ) {
             $chartCount++;
             $shades = 0;
@@ -98,45 +107,45 @@ class CRM_Utils_PChart
             $dataSet->AddAllSeries( );
             $dataSet->SetAbsciseLabelSerie( "Serie2" );
             
-            //Initialise the co-ordinates.
-            $ySize          = 220;
-            $radius         = 95;
-            $skew           = 45;
-            $yPosition      = 120;
-            $xPosition      = 140;
-            $spliceHeight   = 15;
-            $spliceDistance = 0;
+            //Initialise the graph variables.
+            //with only radius we can resize entire image.
+            $radius         = 110;
+            $skew           = 50;
+            $spliceHeight   = 20;
+            $spliceDistance = 4;
+            
+            //get the length for legend.
             $legendLength   = 45 + 7 * max( $lengths );
             
+            //cofigure all other parameters at run time.
+            $xSize = 2 * ( $radius + $legendLength ) + 60;
+            $ySize = ( 2 * $radius ) + 40;
+            
             //resize vertically if more values.
-            if ( count( $values ) > 11 ) {
-                $ySize = $ySize + 15 *( count( $values ) - 11 );
+            if ( count( $values ) > 18 ) {
+                $ySize = $ySize + 15 *( count( $values ) - 18 );
             }
             
-            //make the graph resizable
-            $xSize = 300 + $legendLength;
+            $xPosition = ( $xSize - $legendLength )/2;
+            $yPosition = $ySize/2;
             
             //Initialise the graph
             $chart = new pChart( $xSize, $ySize );
-            
             $chart->drawFilledRoundedRectangle( 0, 0,  $xSize, $ySize,  5, 240, 240, 240 );
             $chart->drawRoundedRectangle( 0, 0,  $xSize, $ySize, 5, 230, 230, 230 );
             
             //set color shades.
-            $chart->setColorShades( $shades, $colors );
+            $chart->setColorShades( $shades, self::$_colors );
             
             //Draw the pie chart
             $chart->setFontProperties( $pChartPath.'tahoma.ttf', 10 );
             $chart->AntialiasQuality = 0;
-            $chart->setShadowProperties( 1, 1, 60, 60, 60, 15 , 0 );
             
             $chart->drawPieGraph( $dataSet->GetData( ),
                                   $dataSet->GetDataDescription( ), 
                                   $xPosition, $yPosition, $radius, 
-                                  PIE_PERCENTAGE_LABEL, TRUE, $skew, $spliceHeight, $spliceDistance );
+                                  PIE_PERCENTAGE_LABEL, FALSE, $skew, $spliceHeight, $spliceDistance );
             
-            //get the coordinates.
-            $allCoords = $chart->coordinates( );
             $chart->drawPieLegend( ($xSize - $legendLength), 10, $dataSet->GetData( ),
                                    $dataSet->GetDataDescription( ), 250, 250, 250 );
             
@@ -151,6 +160,9 @@ class CRM_Utils_PChart
             
             //get the created file path.
             $filesValues[$chartIndex]['file_name'] = $uploadDirURL . $fileName;
+            
+            //get the coordinates.
+            $allCoords = $chart->coordinates( );
             
             //format the month cordinates
             $position = 0;
@@ -174,7 +186,7 @@ class CRM_Utils_PChart
     }
     
     /**
-     * Build The Bar Chart image with given params 
+     * Build The Bar Gharph image with given params 
      * and store in upload/pChart directory.
      *
      * @param  array  $params    an assoc array of name/value pairs          
@@ -182,7 +194,7 @@ class CRM_Utils_PChart
      *
      * @static
      */
-    static function barChart( $params ) 
+    static function barGraph( $params ) 
     {
         if ( empty( $params ) ) {
             return;
@@ -206,14 +218,6 @@ class CRM_Utils_PChart
         } else {
             CRM_Utils_File::createDir( $uploadDirPath ); 
         }
-        
-        //colors.
-        $colors = array( array( 'R' => 69,  'G' => 139, 'B' => 0   ), 
-                         array( 'R' => 213, 'G' => 43,  'B' => 89  ),
-                         array( 'R' => 255, 'G' => 147, 'B' => 46  ),
-                         array( 'R' => 56,  'G' => 139, 'B' => 218 ),
-                         array( 'R' => 81,  'G' => 205, 'B' => 71  ),
-                         );
         
         require_once 'packages/pChart/pData.class.php';
         require_once 'packages/pChart/pChart.class.php';
@@ -268,17 +272,13 @@ class CRM_Utils_PChart
             
             $chart->drawGrid( 4, TRUE, 230, 230, 230, 50 );
             
-            
             $chart->setFontProperties( $pChartPath.'tahoma.ttf', 8 );
             
             //set colors.
-            $chart->setColorShades( $shades, $colors );
+            $chart->setColorShades( $shades, self::$_colors );
             
             //Draw the bar chart
             $chart->drawBarGraph( $dataSet->GetData( ), $dataSet->GetDataDescription( ), TRUE, 80, true );
-            
-            //get the co-ordinates
-            $coords = $chart->coordinates( );
             
             //get the series values and write at top.
             $chart->setColorPalette( 0, 0, 0, 255 );
@@ -296,6 +296,9 @@ class CRM_Utils_PChart
             
             //get the file path.
             $filesValues[$chartIndex]['file_name'] = $uploadDirURL . $fileName;
+            
+            //get the co-ordinates
+            $coords = $chart->coordinates( );
             
             //format the coordinates to make graph clickable.
             $position = 0;
