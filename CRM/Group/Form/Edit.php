@@ -240,8 +240,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 		//build custom data
 		CRM_Custom_Form_Customdata::buildQuickForm( $this );
 
-        // make this form an upload since we dont know if the custom data injected dynamically
-        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      =>
