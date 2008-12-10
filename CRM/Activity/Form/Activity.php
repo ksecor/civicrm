@@ -124,54 +124,68 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     function setFields() {
         $this->_fields = 
             array(
-                  'subject'            =>  array( 'type'        => 'text',
-                                                  'label'       => 'Subject',
-                                                  'attributes'  =>  
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'subject' ),
-                                                  'required'    => true,
-                                                  ),
-                  'activity_date_time' =>  array( 'type'        => 'date',
-                                                  'label'       => 'Date and Time',
-                                                  'attributes'  => 
-                                                  CRM_Core_SelectValues::date('activityDatetime'),
-                                                  'required'    => true,
-                                                  ),
-                  'duration'           =>  array( 'type'        => 'text',
-                                                  'label'       => 'Duration',
-                                                  'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
-                                                  'required'    => false,
-                                                  ),
+                  'subject'                  =>  array( 'type'        => 'text',
+                                                        'label'       => 'Subject',
+                                                        'attributes'  =>  
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'subject' ),
+                                                        'required'    => true,
+                                                        ),
+                  'activity_date_time'      =>  array( 'type'        => 'date',
+                                                       'label'       => 'Date and Time',
+                                                       'attributes'  => 
+                                                       CRM_Core_SelectValues::date('activityDatetime'),
+                                                       'required'    => true,
+                                                       ),
+                  'duration'                 =>  array( 'type'        => 'text',
+                                                        'label'       => 'Duration',
+                                                        'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
+                                                        'required'    => false,
+                                                        ),
                   
-                  'location'           =>  array( 'type'       => 'text',
-                                                  'label'      => 'Location',
-                                                  'attributes' => 
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'location' ),
-                                                  'required'   => false,
-                                                  ),
-                  'details'            => array(  'type'       => 'textarea',
-                                                  'label'      => 'Details',
-                                                  'attributes' => 
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'details' ),
-                                                  'required'   => false, 
-                                                  ),
-                  'status_id'          =>  array( 'type'       => 'select',
-                                                  'label'      => 'Status',
-                                                  'attributes' => 
-                                                  CRM_Core_PseudoConstant::activityStatus( ),
-                                                  'required'   => true, 
-                                                  ),
-                  'source_contact_id'  =>  array( 'type'       => 'text',
-                                                  'label'      => 'Added By',
-                                                  'attributes' => 
-                                                  array('dojoType'=> 'civicrm.FilteringSelect',
-                                                        'mode'    => 'remote',
-                                                        'store'   => 'contactStore',
-                                                        'pageSize'=> 10  ),
-                                                  'required'   => false,
-                                                  ),
+                  'location'                 =>  array( 'type'       => 'text',
+                                                        'label'      => 'Location',
+                                                        'attributes' => 
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'location' ),
+                                                        'required'   => false,
+                                                        ),
+                  'details'                  => array(  'type'       => 'textarea',
+                                                        'label'      => 'Details',
+                                                        'attributes' => 
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'details' ),
+                                                        'required'   => false, 
+                                                        ),
+                  'status_id'                 =>  array( 'type'       => 'select',
+                                                         'label'      => 'Status',
+                                                         'attributes' => 
+                                                         CRM_Core_PseudoConstant::activityStatus( ),
+                                                         'required'   => true, 
+                                                         ),
+                  'source_contact_id'         =>  array( 'type'       => 'text',
+                                                         'label'      => 'Added By',
+                                                         'attributes' => 
+                                                         array('dojoType'=> 'civicrm.FilteringSelect',
+                                                               'mode'    => 'remote',
+                                                               'store'   => 'contactStore',
+                                                               'pageSize'=> 10  ),
+                                                         'required'   => false,
+                                                         ),
+                  'followup_activity_type_id' =>  array( 'type'       => 'select',
+                                                         'label'      => 'Followup Activity',
+                                                         'attributes' =>
+                                                         CRM_Core_PseudoConstant::ActivityType( false )
+                                                         ),
+                  'interval'                  =>  array( 'type'       => 'text',
+                                                         'label'      => 'in',
+                                                         'attributes' => 
+                                                         array( 'size'=> 4,'maxlength' => 8 )
+                                                         ),
+                  'interval_unit'             =>  array( 'type'       => 'select',
+                                                         'label'      =>  null,
+                                                         ),
+                                                         
                   );
     }
 
@@ -543,6 +557,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 if( CRM_Utils_Array::value('attributes', $values ) ) {
                     $attribute = $values['attributes'];
                 }
+
+                if ( $field == 'interval_unit' ) {
+                    $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
+                    foreach ( $freqUnits as $name => $label ) {
+                        $freqUnits[$name] = $label . '(s)';
+                    }
+                    $attribute = $freqUnits;
+                }
+                
                 $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
             }
         }
@@ -550,7 +573,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
         
-       
+        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
+        
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+                       'positiveInteger');  
+        
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         
@@ -778,9 +805,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // processing needed, after the activity has been added/updated.
         $this->endPostProcess( $params, $activity );
 
+        // create follow up activity if needed
+        $followupStatus = '';
+        if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
+            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
+            $followupStatus = "A followup activity has been scheduled.";
+        }
+
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
-                                        array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2.', 
+                                        array( 1 => $params['subject'],
+                                               2 => $followupStatus ) ) );
 
         return array( 'activity' => $activity );
     }

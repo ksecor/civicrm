@@ -117,7 +117,7 @@
                       </span>
                    {/if}  
                 </td>
-             </tr> 
+             </tr>
              <tr>
                 <td class="label">{$form.duration.label}</td>
                 <td class="view-value">
@@ -148,7 +148,24 @@
                     {include file="CRM/Form/attachment.tpl"}
                 </td>
             {/if} 
-            </tr>
+             </tr>
+             <tr>
+                <td colspan="2">
+                 <div id="follow-up_show" class="section-hidden section-hidden-border">
+                  <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+                 </div>
+                      
+                 <div id="follow-up" class="section-shown">
+                   <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+                    <table class="form-layout-compressed">
+                       <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
+                           <td>{$form.followup_activity_type_id.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}                          </td>
+                       </tr>
+                    </table>
+                   </fieldset>
+                 </div>
+                </td>
+             </tr>
         {elseif $action eq 8}
              <tr>
                 <td colspan="2">
@@ -181,6 +198,9 @@
 		{/if}
 		{literal}
 	});
+
+  hide('follow-up');
+  show('follow-up_show');
     </script>
     {/literal}
 {/if}

@@ -154,6 +154,18 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_fields['activity_date_time']['required'] = false;
         $this->_fields['subject']['required']            = false;
         $this->_fields['source_contact_id']['label']     = 'Reported By'; 
+            
+        $aTypes = array( );
+        if ( $this->_caseType ) {
+            $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
+            $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
+
+            // remove Open Case activity type since we're inside an existing case
+            $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
+            unset( $aTypes[$openCaseID] );
+            asort( $aTypes );        
+        }
+        $this->_fields['followup_activity_type_id']['attributes'] = $aTypes;
 
         $result = parent::buildQuickForm( );
 
@@ -175,24 +187,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
               
-        $this->add( 'text', 'interval',ts('in'),array( 'size'=> 4,'maxlength' => 8 ) );
         $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
                        'positiveInteger');  
-
-        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $aTypes       = $xmlProcessor->get( $this->_caseType, 'ActivityTypes' );
-        // remove Open Case activity type since we're inside an existing case
-        $openCaseID = CRM_Core_OptionGroup::getValue('activity_type', 'Open Case', 'name' );
-        unset( $aTypes[$openCaseID] );
-        asort( $aTypes );        
-        $this->add('select', 'followup_activity_type_id',  ts( 'Followup Activity' ), array( '' => ts( '- select activity type -' ) ) + $aTypes );
-
-        $freqUnits = CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' );
-        foreach ( $freqUnits as $name => $label ) {
-            $freqUnits[$name] = $label . '(s)';
-        }
-        $this->add( 'select', 'interval_unit', null, $freqUnits );
-
+        
         $this->_relatedContacts = CRM_Case_BAO_Case::getRelatedContacts( $this->_caseId );
         if ( ! empty($this->_relatedContacts) ) {
             $checkBoxes = array( );
