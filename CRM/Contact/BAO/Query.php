@@ -1793,14 +1793,19 @@ class CRM_Contact_BAO_Query
                 continue;
 
             case 'civicrm_activity':
-                if (  self::$_activityRole == 0 ) {
-                    $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
-                } else if (  self::$_activityRole == 1 ) {
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                // special condition to fetch case activities, may not be right place to put this condition ?
+                if ( $mode != CRM_Contact_BAO_Query::MODE_CASE ) {
+                    if (  self::$_activityRole == 0 ) {
+                        $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
+                    } else if (  self::$_activityRole == 1 ) {
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                    } else {
+                        $from .= " $side JOIN civicrm_activity_assignment ON civicrm_activity_assignment.assignee_contact_id = contact_a.id ";
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_assignment.activity_id ";
+                    }
                 } else {
-                    $from .= " $side JOIN civicrm_activity_assignment ON civicrm_activity_assignment.assignee_contact_id = contact_a.id ";
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_assignment.activity_id ";
+                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = case_activity.id ";
                 }
                 continue;
 

@@ -68,6 +68,27 @@ class CRM_Export_BAO_Export
         $paymentFields    = false;
 
         $phoneTypes = CRM_Core_PseudoConstant::phoneType();
+        
+        $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
+        
+        switch ( $exportMode )  {
+        case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
+            break;
+        case CRM_Export_Form_Select::EVENT_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+            break;
+        case CRM_Export_Form_Select::MEMBER_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
+            break;
+        case CRM_Export_Form_Select::PLEDGE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_PLEDGE;
+            break;
+        case CRM_Export_Form_Select::CASE_EXPORT :
+            $queryMode = CRM_Contact_BAO_Query::MODE_CASE;
+            break;
+        }
+        
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -111,7 +132,7 @@ class CRM_Export_BAO_Export
             } else if ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) {
                 $returnProperties['case_id'] = 1;
             }
-        } else {
+         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
 
@@ -131,31 +152,23 @@ class CRM_Export_BAO_Export
             
             $extraReturnProperties = array( );
             $paymentFields = false;
-            $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
             
-            switch ( $exportMode )  {
-            case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
-                break;
-            case CRM_Export_Form_Select::EVENT_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+            switch ( $queryMode )  {
+            case CRM_Contact_BAO_Query::MODE_EVENT :
                 $paymentFields  = true;
                 $paymentTableId = "participant_id";
                 break;
-            case CRM_Export_Form_Select::MEMBER_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
+            case CRM_Contact_BAO_Query::MODE_MEMBER :
                 $paymentFields  = true;
                 $paymentTableId = "membership_id";
                 break;
-            case CRM_Export_Form_Select::PLEDGE_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_PLEDGE;
+            case CRM_Contact_BAO_Query::MODE_PLEDGE :
                 require_once 'CRM/Pledge/BAO/Query.php';
                 $extraReturnProperties = CRM_Pledge_BAO_Query::extraReturnProperties( $queryMode );
                 $paymentFields  = true;
                 $paymentTableId = "pledge_payment_id";
                 break;
-            case CRM_Export_Form_Select::CASE_EXPORT :
-                $queryMode = CRM_Contact_BAO_Query::MODE_CASE;
+            case CRM_Contact_BAO_Query::MODE_CASE :
                 require_once 'CRM/Case/BAO/Query.php';
                 $extraReturnProperties = CRM_Case_BAO_Query::extraReturnProperties( $queryMode );
                 break;
