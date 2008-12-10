@@ -121,18 +121,14 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
     { 
         $className = CRM_Utils_System::getClassName($this);
         $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $this->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) 
-             && $className == 'CRM_Event_Form_ManageEvent_EventInfo' ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-
+        
         $buttons = array( );
         if ( $this->_single ) {
+
+            // make this form an upload since we dont know if the custom data injected dynamically
+            // is of type file etc $uploadNames = $this->get( 'uploadNames' );
             $this->addButtons(array(
-                                    array ( 'type'      => $buttonType,
+                                    array ( 'type'      => 'upload',
                                             'name'      => ts('Save'),
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true   ),

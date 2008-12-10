@@ -97,10 +97,9 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
         $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
-        $buttonType = $this->buttonType( );
 
         $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',

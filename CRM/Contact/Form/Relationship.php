@@ -385,18 +385,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign('customDataSubType',  $this->_relationshipTypeId );
         $this->assign('entityID',  $this->_relationshipId );
        
-        $uploadNames = $this->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-        
+        // make this form an upload since we dont know if the custom data injected dynamically
+        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Save Relationship'),
                                          'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
+                                 array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
                            );

@@ -100,19 +100,16 @@ class CRM_Member_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $uploadNames = $this->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
         if ( $this->_action & CRM_Core_Action::RENEW ) {
             $name = ts('Renew');
         } else {
             $name = ts('Save');
         }
+
+        // make this form an upload since we dont know if the custom data injected dynamically
+        // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      => $name,
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
