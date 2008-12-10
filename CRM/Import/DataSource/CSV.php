@@ -119,12 +119,13 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
         // parse the CSV line by line and build one big INSERT (while MySQL-escaping the CSV contents)
         if (!$headers) rewind($fd);
         $sql = "INSERT IGNORE INTO $table VALUES ";
-        $rows = array();
+        $first = true;
         while ($row = fgetcsv($fd, 0, $config->fieldSeparator)) {
+            if (!$first) $sql .= ', ';
+            $first = false;
             $row = array_map('mysql_real_escape_string', $row);
-            $rows[] = "('" . implode("', '", $row) . "')";
+            $sql .= "('" . implode("', '", $row) . "')";
         }
-        $sql .= implode(', ', $rows);
         $db->query($sql);
 
         fclose($fd);
