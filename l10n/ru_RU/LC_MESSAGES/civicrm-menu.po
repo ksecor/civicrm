@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-09-23 14:04-0700\n"
-"Last-Translator: Alexandr <a.kolesnikov@mail.ru>\n"
+"PO-Revision-Date: 2008-12-11 01:48-0800\n"
+"Last-Translator: jabax <admin@una.by>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,16 +33,16 @@ msgid "Activity"
 msgstr "Действие"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Типы деятельности"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Дополнительная информация"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Форма доп. информации"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Адресные предпочтения"
 
 msgid "Administer CiviCRM"
 msgstr "CiviCRM Настройка"
@@ -54,7 +54,7 @@ msgid "Assign Users to ACL Roles"
 msgstr ""
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Просмотреть закаченые файлы"
 
 msgid "Case"
 msgstr "Портфель"
@@ -90,7 +90,7 @@ msgid "CiviMail"
 msgstr "CiviПочта"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviУчасник"
 
 msgid "CiviPledge"
 msgstr ""
@@ -126,7 +126,7 @@ msgid "Custom Data"
 msgstr "Настраиваемые данные"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Поля настраиваемых данных"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -135,10 +135,10 @@ msgid "Custom Field - Options"
 msgstr ""
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Настраиваемые поисковые запросы"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Форматирование даты"
 
 msgid "Debugging"
 msgstr "Отладка"
@@ -192,10 +192,10 @@ msgid "Find Contributions"
 msgstr "Найти вложения"
 
 msgid "Find Grants"
-msgstr ""
+msgstr "Найти права"
 
 msgid "Find Members"
-msgstr ""
+msgstr "Начти участников"
 
 msgid "Find Participants"
 msgstr "Найти участников"
@@ -211,7 +211,7 @@ msgid "From Email Address"
 msgstr "Адрес отправителя"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Выбор пола"
 
 msgid "Global Settings"
 msgstr "Глобальные настройки"
@@ -257,7 +257,7 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr "Местоположение"
+msgstr "Локализация"
 
 msgid "Location Types (Home, Work...)"
 msgstr "Типы местоположения (Дом, Работа...)"
