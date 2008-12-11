@@ -107,7 +107,9 @@ VALUES
     (@option_group_id_activity_type, 'Earliest return to any work activity', (SELECT @max_val := @max_val+1), 'Earliest return to any work activity',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Beginning of period of restricted duties', (SELECT @max_val := @max_val+1), 'Beginning of period of restricted duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Beginning of period of attempted full duties', (SELECT @max_val := @max_val+1), 'Beginning of period of attempted full duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-    (@option_group_id_activity_type, 'Beginning of period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );  
+    (@option_group_id_activity_type, 'Beginning of period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Notify service provider', (SELECT @max_val := @max_val+1), 'Notify service provider',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );  
+
 
 SELECT @at1        := max(value) from civicrm_option_value where name = 'Open Case';
 SELECT @at2        := max(value) from civicrm_option_value where name = 'Follow up';
@@ -133,6 +135,7 @@ SELECT @at20       := max(value) from civicrm_option_value where name = 'Conduct
 SELECT @at21       := max(value) from civicrm_option_value where name = 'Debrief intervention';
 SELECT @at22       := max(value) from civicrm_option_value where name = 'Facilitate first appointment';
 SELECT @at23       := max(value) from civicrm_option_value where name = 'Survey client satisfaction Referral to counselor';
+SELECT @at24       := max(value) from civicrm_option_value where name = 'Notify service provider';
 
 
 -- /*******************************************************
@@ -533,6 +536,14 @@ VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 
 INSERT INTO `civicrm_value_intake_questions_2` (`entity_id`, `caller_4`, `severity_rating_5`, `problem_person_6`, `how_hear_7`, `self_care_8`, `hcp_9`, `hcp_last_seen_10`, `complexity_rating_11`, `major_concerns_12`)
 VALUES
  (@actId,'Physician','1','Caller','Personal knowledge', '',0,NULL,1,'');
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
+VALUES (@cid1,NULL,@at24,' ',NULL,DATE_ADD(NOW(), INTERVAL 2 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
+SELECT @actId := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId1,@actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);
+INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
+VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,NOW());
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
 VALUES (@cid1,NULL,@at22,' ',NULL,DATE_ADD(NOW(), INTERVAL 2 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
