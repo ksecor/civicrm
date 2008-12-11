@@ -1286,11 +1286,13 @@ AND cl.modified_id  = c.id
         $followupActivity = self::create( $followupParams );
         
         //create target contact for followup
-        if ( $followupActivity ) {
-            $targetParams = array( );
-            $targetParams['target_contact_id'] = $params['source_contact_id'];
-            $targetParams['activity_id']       = $followupActivity->id;
-            self::createActivityTarget( $targetParams );
+        if ( $followupActivity && !empty($params['target_contact_id']) ) {
+            foreach ( $params['target_contact_id'] as $cid ) {
+                $targetParams = array( );
+                $targetParams['target_contact_id'] = $cid;
+                $targetParams['activity_id']       = $followupActivity->id;
+                self::createActivityTarget( $targetParams );
+            }
         }
         
         return $followupActivity;
