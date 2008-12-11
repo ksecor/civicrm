@@ -75,15 +75,16 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
      */
     function preProcess( ) 
     { 
+        $this->_caseId  = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
         $this->_context = 'caseActivity';
         $this->_crmDir  = 'Case';
+
         $result = parent::preProcess( );
         
         if ( $this->_cdType ) {
             return $result;
         }
         
-        $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
         if ( !$this->_caseId && $this->_activityId ) {
             $this->_caseId  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $this->_activityId,
                                                            'case_id', 'activity_id' );
