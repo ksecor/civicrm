@@ -1522,6 +1522,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         }
                         
                         switch( $customFields[substr($name,7,9)]['html_type'] ) {
+                        case 'Multi-Select State/Province':
+                        case 'Multi-Select Country':
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {

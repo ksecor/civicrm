@@ -4,16 +4,16 @@
         <td class="label-left">{$form.template.label}</td><td>{$form.template.html}</td>
     </tr>
     <tr>
-        <td class="label-left">{$form.token1.label} {help id="id-token-text"}</td>
+        <td class="label-left">{$form.token1.label} {help id="id-token-text" file="CRM/Contact/Form/Task/Email.hlp"}</td>
         <td>{$form.token1.html}</td>
     </tr>
     <tr>
-        <td colspan="2">{$form.text_message.label} {help id="id-message-text"}<br />
+        <td colspan="2">{$form.text_message.label} {help id="id-message-text" file="CRM/Contact/Form/Task/Email.hlp}<br />
             {$form.text_message.html}
         </td>
     </tr>
     <tr>
-        <td class="label-left">{$form.token2.label} {help id="id-token-html"}</td>
+        <td class="label-left">{$form.token2.label} {help id="id-token-html" file="CRM/Contact/Form/Task/Email.hlp"}</td>
         <td>{$form.token2.html}</td>
     </tr>
     <tr>

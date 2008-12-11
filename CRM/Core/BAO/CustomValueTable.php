@@ -110,7 +110,7 @@ class CRM_Core_BAO_CustomValueTable
                     case 'Country':
                         $type = 'Integer';
                         if ( is_array( $value ) ) {
-                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;    
+                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                             $type  = 'String';
                         } else if ( ! is_numeric( $value ) ) {
                             //fix for multi select country, CRM-3437

@@ -87,9 +87,11 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
     }
 
     static function store( &$groupID, &$values ) {
+        $processed = false;
 
         // to avoid long strings, lets do NUM_CONTACTS_TO_INSERT values at a time
         while ( ! empty( $values ) ) {
+            $processed = true;
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
             $str   = implode( ',', $input );
             $sql = "REPLACE INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
@@ -97,16 +99,19 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
                                         CRM_Core_DAO::$_nullArray );
         }
 
-        // also update the group with cache date information
-        $now = date('YmdHis');
-        $groupIDs = implode( ',', $groupID );
-        $sql = "
+        // only update cache entry if we had any values
+        if ( $processed ) {
+            // also update the group with cache date information
+            $now = date('YmdHis');
+            $groupIDs = implode( ',', $groupID );
+            $sql = "
 UPDATE civicrm_group
 SET    cache_date = $now
 WHERE  id IN ( $groupIDs )
 ";
-        CRM_Core_DAO::executeQuery( $sql,
-                                    CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $sql,
+                                        CRM_Core_DAO::$_nullArray );
+        }
     }
 
     static function remove( $groupID = null, $onceOnly = true ) {

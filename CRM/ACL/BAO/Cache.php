@@ -71,6 +71,11 @@ SELECT acl_id
  WHERE contact_id = %1
 ";
         $params = array( 1 => array( $id, 'Integer' ) );
+
+        if ( $id == 0 ) {
+            $query .= " OR contact_id IS NULL";
+        }
+
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $cache = array( );

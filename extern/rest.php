@@ -35,10 +35,12 @@ $rest =& new CRM_Utils_REST();
 
 $config =& CRM_Core_Config::singleton();
 
-if ($_GET['json'])
-  header( 'Content-Type: text/javascript' );
-else
-  header( 'Content-Type: text/xml' );
+if ( $_GET['json'] ) {
+    header( 'Content-Type: text/javascript' );
+} else {
+    header( 'Content-Type: text/xml' );
+}
+
 echo $rest->run( $config );
 
 

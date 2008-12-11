@@ -604,7 +604,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           substr( $groupTypes, 1, -1 ) );
                     //filter group of mailing type and unset it from params
-                    if ( CRM_Utils_Array::key( '2', $groupType ) ) {
+                    if ( in_array( 2, $groupType ) ) {
                         //if group is already subscribed , ignore it 
                         $groupExist = CRM_Utils_Array::key( $key, $contactGroup );
                         if ( ! isset( $groupExist ) ) {

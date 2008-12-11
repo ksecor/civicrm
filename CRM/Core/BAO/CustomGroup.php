@@ -931,9 +931,9 @@ SELECT $select
                      if (isset($value)) {
                          $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
                          foreach($checkedValue as $val) {
-							 if ( $val ) {
-								$defaults[$elementName][$val]  =  $val;
-							 }	
+                             if ( $val ) {
+                                 $defaults[$elementName][$val]  =  $val;
+                             }	
                          } 
                      }
                      break;
