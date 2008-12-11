@@ -342,7 +342,9 @@ ALTER TABLE `civicrm_contribution`
 
 -- Removing solicitor_id as per CRM-3917
 INSERT INTO civicrm_contribution_soft (contribution_id, contact_id, amount) 
-SELECT id, solicitor_id, total_amount FROM civicrm_contribution;
+SELECT id, solicitor_id, total_amount FROM civicrm_contribution
+WHERE solicitor_id IS NOT NULL;
+
 ALTER TABLE `civicrm_contribution` 
   DROP FOREIGN KEY `FK_civicrm_contribution_solicitor_id`;
 DROP INDEX FK_civicrm_contribution_solicitor_id ON civicrm_contribution;
@@ -453,7 +455,7 @@ UPDATE `civicrm_country` SET `region_id` = @region_id WHERE `civicrm_country`.`i
 
 -- update minute increment to 1 in activitydatetime in preferences_date
   
-UPDATE `civicrm_preferences_date` SET `minute_increment` = 1 WHERE `name`  = `activityDatetime`;
+UPDATE `civicrm_preferences_date` SET `minute_increment` = 1 WHERE `name`  = 'activityDatetime';
 
 
 -- ******************************************************
