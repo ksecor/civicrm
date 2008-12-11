@@ -66,6 +66,10 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
             $this->assign('myCases', false );
             $allCases = true;
         }
+        $this->assign('newClient', false );
+        if ( CRM_Core_Permission::check('add contacts')) {
+            $this->assign('newClient', true );
+        }
         require_once 'CRM/Case/BAO/Case.php';
         $summary  = CRM_Case_BAO_Case::getCasesSummary( );
         $upcoming = CRM_Case_BAO_Case::getCases( $allCases, $userID, $type = 'upcoming');
