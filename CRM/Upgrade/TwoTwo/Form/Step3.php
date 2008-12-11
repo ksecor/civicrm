@@ -48,6 +48,9 @@ class CRM_Upgrade_TwoTwo_Form_Step3 extends CRM_Upgrade_Form {
         //1.upgared the domain from email address. 
         self::upgradeDomainFromEmail( );
         
+        //2.preserve mailer preferences.
+        self::mailerPreferences( );
+        
         $this->setVersion( '2.13' );
     }
     
@@ -258,6 +261,32 @@ ALTER TABLE `civicrm_domain`
             
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
+    }
+    
+    /* preserve the mailer setting from config backend to
+     * civicrm_preferences as we removed from backend.
+     */
+    function mailerPreferences( )
+    {
+        require_once 'CRM/Core/BAO/Setting.php';
+        require_once 'CRM/Core/BAO/Preferences.php';
+        
+        $settings = $mailerValues = array( );
+        
+        //get the settings values.
+        CRM_Core_BAO_Setting::retrieve( $settings );
+        
+        $mailerFields = array( 'outBound_option', 'smtpServer', 'smtpPort', 'smtpAuth', 
+                               'smtpUsername', 'smtpPassword', 'sendmail_path', 'sendmail_args' );
+        
+        foreach ( $mailerFields as $field ) {
+            $mailerValues[$field] = CRM_Utils_Array::value( $field, $settings );
+        }
+        
+        $mailingDomain =& new CRM_Core_DAO_Preferences();
+        $mailingDomain->find( true );
+        $mailingDomain->mailing_backend = serialize( $mailerValues );
+        $mailingDomain->save( );
     }
 }
 
