@@ -17,6 +17,10 @@
           <dt>{ts}Grant Report Received?{/ts}</dt> <dd>{if $grant_report_received}{ts}Yes{/ts} {else}{ts}No{/ts}{/if} </dd>  
           <dt>{ts}Rationale{/ts}             </dt> <dd>{$rationale}</dd>
           <dt>{ts}Notes{/ts}                 </dt> <dd>{$note}</dd>
+{if $attachment}
+	  <div class="spacer"></div>
+          <dt>{ts}Attachment(s){/ts}         </dt> <dd>{$attachment}</dd>
+{/if}
 	  <div class="spacer"></div>
            {include file="CRM/Custom/Page/CustomDataView.tpl"} 
      </dl>

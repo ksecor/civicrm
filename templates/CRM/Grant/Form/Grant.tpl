@@ -57,6 +57,11 @@
 			<tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html}</td></tr>
 			<tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
 			<tr><td colspan=2>{include file="CRM/Custom/Form/CustomData.tpl"}</td></tr>
+                        <tr>
+                          <td colspan="2">
+                            {include file="CRM/Form/attachment.tpl"}
+                          </td>
+                        </tr>
 			<tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr> 
 		</table>
 	</div>
