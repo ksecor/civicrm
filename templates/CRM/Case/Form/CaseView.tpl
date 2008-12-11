@@ -252,7 +252,8 @@ cj(document).ready(function(){
             {display: 'Type',    name : 'type',        width : 85,  sortable : true, align: 'left'},
             {display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
             {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
-            {display: '',        name : 'links',       width : 70,  align: 'left'}
+            {display: '',        name : 'links',       width : 70,  align: 'left'},
+            {name : 'unix_due_date', hide: true}, // this col is use only for calculation
             ],
             usepager: true,
             useRp: true,
@@ -342,13 +343,11 @@ function checkSelection( field ) {
 function setSelectorClass( ) {
 
     var currentDate = new Date();
-    var ct = currentDate.getTime();
+    var ct = currentDate.getTime() / 1000;
 
-    cj("#activities-selector tbody tr td:first-child").each( function( ) {
-        var dueDate = cj(this).text();
-        dueDate = dueDate.replace(/((rd)|(st)|(nd)|(th))/,"")
-        var dt = Date.parse(dueDate)
-
+    cj("#activities-selector tbody tr td:last-child").each( function( ) {
+        var dt = cj(this).text();
+ 
         if ( ct > dt ) {
             cj(this).parent().attr( 'class','status-overdue').find(":contains('Scheduled')");
         } else{

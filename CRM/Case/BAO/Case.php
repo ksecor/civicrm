@@ -803,6 +803,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
             $values[$dao->id]['type']              = $activityTypes[$dao->type]['label'];
             $values[$dao->id]['reporter']          = $dao->reporter;
             $values[$dao->id]['due_date']          = CRM_Utils_Date::customFormat( $dao->due_date );
+            $values[$dao->id]['unix_due_date']     = CRM_Utils_Date::unixTime( $dao->due_date); // this field is only used for calculation
             $values[$dao->id]['actual_date']       = CRM_Utils_Date::customFormat( $dao->actual_date );
             $values[$dao->id]['status']            = $activityStatus[$dao->status];
             $values[$dao->id]['subject']           = "<a href='javascript:viewActivity( {$dao->id}, {$contactID} );' title='{$viewTitle}'>{$dao->subject}</a>";
