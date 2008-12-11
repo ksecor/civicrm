@@ -32,6 +32,5 @@ function viewActivity( activityID, contactID ) {
         }
     });
 }
-
 </script>
 {/literal}

@@ -163,10 +163,10 @@
 		{/literal}
 		buildCustomData( '{$customDataType}', 'null', 'null' );
 		{if $roleID}
-		buildCustomData( '{$customDataType}', {$roleID}, {$roleCustomDataTypeID} );
+		    buildCustomData( '{$customDataType}', {$roleID}, {$roleCustomDataTypeID} );
 		{/if}
 		{if $eventID}
-		buildCustomData( '{$customDataType}', {$eventID}, {$eventNameCustomDataTypeID} );
+		    buildCustomData( '{$customDataType}', {$eventID}, {$eventNameCustomDataTypeID} );
 		{/if}
 		{literal}
 	});

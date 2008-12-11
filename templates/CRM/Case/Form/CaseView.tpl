@@ -56,7 +56,7 @@
  </fieldset>
 </div>
 <div id="dialog">
-     {ts}Begin typing to select contact.{/ts}<br/>
+     {ts}Begin typing last name of contact.{/ts}<br/>
      <input type="text" id="rel_contact"/>
      <input type="hidden" id="rel_contact_id" value="">
 </div>
@@ -161,15 +161,12 @@ function createRelationship( relType, contactID, relID, rowNumber ) {
 	});
 }
 
-cj(document).ready(function(){
-   cj("#searchOptions").hide( );
-});
-
 function showHideSearch( ) {
-    cj("#searchOptions").toggle( );
+   cj("#searchOptions").toggle( );
 }
 
 cj(document).ready(function(){
+   cj("#searchOptions").hide( );
    cj("#view-activity").hide( );
 });
 </script>

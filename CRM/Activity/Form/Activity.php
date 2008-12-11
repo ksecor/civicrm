@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -40,7 +40,6 @@ require_once 'CRM/Core/BAO/Preferences.php';
 require_once "CRM/Contact/Form/AddContact.php";
 require_once "CRM/Contact/Form/Task.php";
 require_once "CRM/Activity/BAO/Activity.php";
-require_once "CRM/Case/BAO/Case.php";
 require_once "CRM/Custom/Form/CustomData.php";
 
 /**
@@ -80,20 +79,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     protected $_targetContactId;
     protected $_asigneeContactId;
     
-    /**
-     * The default variable defined
-     *
-     * @var int
-     */
-    public    $_caseId;
     protected $_single;
-
-    /**
-     * The flag for case enabled or not
-     *
-     * @var boolean
-     */
-    public $_caseEnabled = false;
 
     /**
      * The id of the logged in user, used when add / edit 
@@ -124,55 +110,78 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     function setFields() {
         $this->_fields = 
             array(
-                  'subject'            =>  array( 'type'        => 'text',
-                                                  'label'       => 'Subject',
-                                                  'attributes'  =>  
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'subject' ),
-                                                  'required'    => true,
-                                                  ),
-                  'activity_date_time' =>  array( 'type'        => 'date',
-                                                  'label'       => 'Date and Time',
-                                                  'attributes'  => 
-                                                  CRM_Core_SelectValues::date('activityDatetime'),
-                                                  'required'    => true,
-                                                  ),
-                  'duration'           =>  array( 'type'        => 'text',
-                                                  'label'       => 'Duration',
-                                                  'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
-                                                  'required'    => false,
-                                                  ),
+                  'subject'                  =>  array( 'type'        => 'text',
+                                                        'label'       => 'Subject',
+                                                        'attributes'  =>  
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'subject' ),
+                                                        'required'    => true,
+                                                        ),
+                  'activity_date_time'      =>  array( 'type'        => 'date',
+                                                       'label'       => 'Date and Time',
+                                                       'attributes'  => 
+                                                       CRM_Core_SelectValues::date('activityDatetime'),
+                                                       'required'    => true,
+                                                       ),
+                  'duration'                 =>  array( 'type'        => 'text',
+                                                        'label'       => 'Duration',
+                                                        'attributes'  => array( 'size'=> 4,'maxlength' => 8 ),
+                                                        'required'    => false,
+                                                        ),
                   
-                  'location'           =>  array( 'type'       => 'text',
-                                                  'label'      => 'Location',
-                                                  'attributes' => 
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'location' ),
-                                                  'required'   => false,
-                                                  ),
-                  'details'            => array(  'type'       => 'textarea',
-                                                  'label'      => 'Details',
-                                                  'attributes' => 
-                                                  CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
-                                                                             'details' ),
-                                                  'required'   => false, 
-                                                  ),
-                  'status_id'          =>  array( 'type'       => 'select',
-                                                  'label'      => 'Status',
-                                                  'attributes' => 
-                                                  CRM_Core_PseudoConstant::activityStatus( ),
-                                                  'required'   => true, 
-                                                  ),
-                  'source_contact_id'  =>  array( 'type'       => 'text',
-                                                  'label'      => 'Added By',
-                                                  'attributes' => 
-                                                  array('dojoType'=> 'civicrm.FilteringSelect',
-                                                        'mode'    => 'remote',
-                                                        'store'   => 'contactStore',
-                                                        'pageSize'=> 10  ),
-                                                  'required'   => false,
-                                                  ),
+                  'location'                 =>  array( 'type'       => 'text',
+                                                        'label'      => 'Location',
+                                                        'attributes' => 
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'location' ),
+                                                        'required'   => false,
+                                                        ),
+                  'details'                  => array(  'type'       => 'textarea',
+                                                        'label'      => 'Details',
+                                                        'attributes' => 
+                                                        CRM_Core_DAO::getAttribute('CRM_Activity_DAO_Activity', 
+                                                                                   'details' ),
+                                                        'required'   => false, 
+                                                        ),
+                  'status_id'                 =>  array( 'type'       => 'select',
+                                                         'label'      => 'Status',
+                                                         'attributes' => 
+                                                         CRM_Core_PseudoConstant::activityStatus( ),
+                                                         'required'   => true, 
+                                                         ),
+                  'source_contact_id'         =>  array( 'type'       => 'text',
+                                                         'label'      => 'Added By',
+                                                         'attributes' => 
+                                                         array('dojoType'=> 'civicrm.FilteringSelect',
+                                                               'mode'    => 'remote',
+                                                               'store'   => 'contactStore',
+                                                               'pageSize'=> 10  ),
+                                                         'required'   => false,
+                                                         ),
+                  'followup_activity_type_id' =>  array( 'type'       => 'select',
+                                                         'label'      => 'Followup Activity',
+                                                         'attributes' => array('' => '-select-') +
+                                                         CRM_Core_PseudoConstant::ActivityType( false ),
+                                                         ),
+                  'interval'                  =>  array( 'type'       => 'text',
+                                                         'label'      => 'in',
+                                                         'attributes' => 
+                                                         array( 'size'=> 4,'maxlength' => 8 ),
+                                                         ),
+                  'interval_unit'             =>  array( 'type'       => 'select',
+                                                         'label'      =>  null,
+                                                         'attributes' => 
+                                                         CRM_Core_OptionGroup::values('recur_frequency_units', 
+                                                                                      false, false, false, 
+                                                                                      null, 'name'),
+                                                         ),
+                  
                   );
+
+        // append (s) for interval_unit attribute list
+        foreach ( $this->_fields['interval_unit']['attributes'] as $name => $label ) {
+            $this->_fields['interval_unit']['attributes'][$name] = $label . '(s)';
+        }
     }
 
     /**
@@ -293,22 +302,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
-              
-        $this->_caseId      = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-        if ( !$this->_caseId && $this->_activityId ) {
-            $this->_caseId  = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity', $this->_activityId,
-                                                           'case_id', 'activity_id' );
-        }
-        if ( $this->_caseId ) {
-            $this->assign( 'caseId', $this->_caseId );
-        }
-
         // set user context
         if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
-        } else if ( $this->_context == 'case' ) {
-            $url = CRM_Utils_System::url('civicrm/contact/view/case',
-                                         "action=view&reset=1&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&selectedChild=case" );
         } else if ( $this->_context == 'activity' ) {
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
@@ -367,7 +363,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->setFields( );
 
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}::preProcess( \$this );");
         }
     }
     
@@ -397,8 +393,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $defaults['activity_date_time'] = array( );
                 CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             }
-
-            $this->assign('caseSubject', $defaults['case_subject']);
 
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
@@ -448,7 +442,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         if ( $this->_activityTypeFile ) {
-            eval('$defaults += CRM_Case_Form_Activity_'. $this->_activityTypeFile . '::setDefaultValues($this);');
+            eval('$defaults += CRM_'.$this->_crmDir.'_Form_Activity_'. 
+                 $this->_activityTypeFile . '::setDefaultValues($this);');
         }
         return $defaults;
     }
@@ -511,13 +506,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //enable form element
         $this->assign( 'suppressForm', false );
             
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        
-        $config =& CRM_Core_Config::singleton( );
-        if ( $this->_viewOptions['CiviCase'] && in_array('CiviCase', $config->enableComponents) ) {
-            $this->_caseEnabled = true;
-        }
-
         $activityOPtions = CRM_Core_PseudoConstant::ActivityType( false );
         asort( $activityOPtions );
         $this->_activityType = array( ''   => 
@@ -543,6 +531,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 if( CRM_Utils_Array::value('attributes', $values ) ) {
                     $attribute = $values['attributes'];
                 }
+
                 $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
             }
         }
@@ -550,7 +539,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->addRule('duration', 
                        ts('Please enter the duration as number of minutes (integers only).'), 'positiveInteger');  
         
-       
+        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
+        
+        $this->addRule('interval', ts('Please enter the valid interval as number (integers only).'), 
+                       'positiveInteger');  
+        
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         
@@ -614,12 +607,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         if ( $this->_activityTypeFile ) {
-            eval("CRM_Case_Form_Activity_{$this->_activityTypeFile}::buildQuickForm( \$this );");
+            eval("CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}::buildQuickForm( \$this );");
         }
 
         if ( $this->_activityTypeFile ) {
             eval('$this->addFormRule' . 
-                 "(array('CRM_Case_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
+                 "(array('CRM_{$this->_crmDir}_Form_Activity_{$this->_activityTypeFile}', 'formrule'), \$this);");
         }
 
         $this->addFormRule( array( 'CRM_Activity_Form_Activity', 'formRule' ), $this );
@@ -637,7 +630,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    {  
+    { 
         // skip form rule if deleting
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
@@ -677,10 +670,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
         
-        if ( CRM_Utils_Array::value( 'case_id', $fields) && !is_numeric($fields['case_id'] ) ) {
-            $errors['case_id'] = ts('Plesase select valid Case.');
-        }
-
+        if ( CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) && !CRM_Utils_Array::value( 'interval', $fields ) ) {
+            $errors['interval'] = ts('Interval is required field.');
+        } 
         return $errors;
     }
     
@@ -696,12 +688,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
             CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
-            return;
-        }
-        
-        if ( $this->_action & CRM_Core_Action::DETACH ) { 
-            CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );
-            CRM_Core_Session::setStatus( ts("Selected Activity has been sucessfully detached from a case.") );
             return;
         }
         
@@ -767,20 +753,21 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $activity = CRM_Activity_BAO_Activity::create( $params );
         
-        // add case activity
-        if ( $this->_caseEnabled && $params['case_id']  ) {
-            $caseParams = array( 'activity_id' => $activity->id,
-                                 'case_id'     => $params['case_id'] );
-            CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
-        }
-
         // call end post process. Idea is to let injecting file do any
         // processing needed, after the activity has been added/updated.
         $this->endPostProcess( $params, $activity );
 
+        // create follow up activity if needed
+        $followupStatus = '';
+        if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
+            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
+            $followupStatus = "A followup activity has been scheduled.";
+        }
+
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', 
-                                        array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved. %2.', 
+                                        array( 1 => $params['subject'],
+                                               2 => $followupStatus ) ) );
 
         return array( 'activity' => $activity );
     }

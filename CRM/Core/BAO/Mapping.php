@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -390,12 +390,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CASE_EXPORT ) ) {
             if ( CRM_Core_Permission::access( 'CiviCase' ) ) {
                 require_once 'CRM/Case/BAO/Case.php';
+                $fields['Case']    =& CRM_Case_BAO_Case::exportableFields( );
+                $compArray['Case'] = 'Case';
+                
                 require_once 'CRM/Activity/BAO/Activity.php';
-                $allFields = & CRM_Case_BAO_Case::exportableFields( );
-                $fields['Case']        = $allFields['case'];
-                $fields['Activity']    = $allFields['activity'];
-                $compArray['Case']     = 'Case';
-                $compArray['Activity'] = 'Activity';
+                $fields['Activity']    =& CRM_Activity_BAO_Activity::exportableFields( );
+                $compArray['Activity'] = 'Case Activity';
+
                 unset($fields['Case']['case_contact_id']);
             }
         }

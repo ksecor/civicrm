@@ -30,11 +30,11 @@ DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case
 INSERT INTO
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
 VALUES
-    (@option_group_id_case_type, 'Inpatient treatment',  1, 'inpatient_treatment', NULL, 0,  0, 1, 'Inpatient treatment case', 0, 0, 1),
-    (@option_group_id_case_type, 'Intervention',  2, 'intervention', NULL, 0,  0, 2, 'Intervention case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to counselor',  3, 'referral_to_counselor', NULL, 0,  0, 3, 'Referral to counselor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to family doctor',  4, 'referral_to_family_doctor', NULL, 0,  0, 4, 'Referral to family doctor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to specialist',  5, 'referral_to_specialist', NULL, 0,  0, 5, 'Referral to specialist case', 0, 0, 1),
+    (@option_group_id_case_type, 'Inpatient treatment',  1, 'inpatient_treatment', NULL, 0,  0, 4, 'Inpatient treatment case', 0, 0, 1),
+    (@option_group_id_case_type, 'Intervention',  2, 'intervention', NULL, 0,  0, 5, 'Intervention case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to counselor',  3, 'referral_to_counselor', NULL, 0,  0, 1, 'Referral to counselor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to family doctor',  4, 'referral_to_family_doctor', NULL, 0,  0, 2, 'Referral to family doctor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to specialist',  5, 'referral_to_specialist', NULL, 0,  0, 3, 'Referral to specialist case', 0, 0, 1),
     (@option_group_id_case_type, 'Relapse prevention',  6, 'relapse_prevention', NULL, 0,  0, 6, 'Relapse prevention case', 0, 0, 1),
     (@option_group_id_case_type, 'Return to work',  7, 'return_to_work', NULL, 0,  0, 7, 'Return to work case', 0, 0, 1);
 
@@ -82,10 +82,11 @@ VALUES
     (@option_group_id_activity_type, 'Rehearse intervention', (SELECT @max_val := @max_val+1), 'Rehearse intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
     (@option_group_id_activity_type, 'Conduct intervention', (SELECT @max_val := @max_val+1), 'Conduct intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),      
     (@option_group_id_activity_type, 'Debrief intervention', (SELECT @max_val := @max_val+1), 'Debrief intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to counselor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Determine needs and preferences (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Facilitate first appointment', (SELECT @max_val := @max_val+1), 'Facilitate first appointment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
+    (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to counselor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Determine needs and preferences (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Where does the client live\? Are there any GP\'s that the client would prefer not to see\?', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Call client and deliver names', (SELECT @max_val := @max_val+1), 'Call client and deliver names',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
     (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Determine needs and preferences (Specialist referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Prescreen referral target', (SELECT @max_val := @max_val+1), 'Prescreen referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
@@ -130,7 +131,8 @@ SELECT @at18       := max(value) from civicrm_option_value where name = 'Plan in
 SELECT @at19       := max(value) from civicrm_option_value where name = 'Rehearse intervention';
 SELECT @at20       := max(value) from civicrm_option_value where name = 'Conduct intervention';
 SELECT @at21       := max(value) from civicrm_option_value where name = 'Debrief intervention';
-SELECT @at22       := max(value) from civicrm_option_value where name = 'Survey client satisfaction Referral to counselor';
+SELECT @at22       := max(value) from civicrm_option_value where name = 'Facilitate first appointment';
+SELECT @at23       := max(value) from civicrm_option_value where name = 'Survey client satisfaction Referral to counselor';
 
 
 -- /*******************************************************
@@ -533,7 +535,15 @@ VALUES
  (@actId,'Physician','1','Caller','Personal knowledge', '',0,NULL,1,'');
 
 INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
-VALUES (@cid1,NULL,@at22,' ',NULL,DATE_ADD(NOW(), INTERVAL 21 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
+VALUES (@cid1,NULL,@at22,' ',NULL,DATE_ADD(NOW(), INTERVAL 2 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
+SELECT @actId := max(id) from civicrm_activity;
+INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId1,@actId);
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);
+INSERT INTO `civicrm_log` (`entity_table`, `entity_id`, `data`, `modified_id`, `modified_date`)
+VALUES ('civicrm_activity',@actId,CONCAT('Activity created for source=', @cid1, 'target=', @cid2),@cid1,NOW());
+
+INSERT INTO `civicrm_activity` (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`, `medium_id`, `is_auto`, `relationship_id`, `is_current_revision`, `original_id`, `is_deleted`)
+VALUES (@cid1,NULL,@at23,' ',NULL,DATE_ADD(NOW(), INTERVAL 21 DAY),NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,NULL,1,NULL,1,NULL,0);
 SELECT @actId := max(id) from civicrm_activity;
 INSERT INTO `civicrm_case_activity` (`case_id`, `activity_id`) VALUES (@caseId1,@actId);
 INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`) VALUES (@actId, @cid2);

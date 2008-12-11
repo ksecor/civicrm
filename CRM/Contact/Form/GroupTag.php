@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -118,6 +118,7 @@ WHERE  id $ids
             
 	        if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
+                $form->assign('groupCount', count($elements));
                 if ( $isRequired ) {
                     $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
                 }
@@ -137,6 +138,7 @@ WHERE  id $ids
             }
             if ( ! empty( $elements ) ) { 
                 $form->addGroup( $elements, $fName, $tagName, '<br />' );
+                $form->assign('tagCount', count($elements));
             }
             
             if ( $isRequired ) {

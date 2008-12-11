@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -595,12 +595,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
                 foreach ( $params['group'] as $key => $val ) {
+                    if ( ! $val ) {
+                        unset( $params['group'][$key] );
+                        continue;
+                    }
                     $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
                                                                $key, 'group_type', 'id' );
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           substr( $groupTypes, 1, -1 ) );
                     //filter group of mailing type and unset it from params
-                    if ( CRM_Utils_Array::key( '2', $groupType ) ) {
+                    if ( in_array( 2, $groupType ) ) {
                         //if group is already subscribed , ignore it 
                         $groupExist = CRM_Utils_Array::key( $key, $contactGroup );
                         if ( ! isset( $groupExist ) ) {

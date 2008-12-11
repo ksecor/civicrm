@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -45,12 +45,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
     
     /**
-     * static field for all the activity information that we can potentially import
+     * static field for all the activity information that we can potentially export
      *
      * @var array
      * @static
      */
-    static $_importableFields = null;
+    static $_exportableFields = null;
 
     /**
      * Check if there is absolute minimum of data to add the object
@@ -415,7 +415,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                            'entity_table'  => 'civicrm_activity' ,
                            'entity_id'     => $activity->id,
                            'modified_id'   => $id,
-                           'modified_date' => date('Ymd'),
+                           'modified_date' => date('YmdHis'),
                            'data'          => $logMessage
                            );
         CRM_Core_BAO_Log::add( $logParams );
@@ -1287,27 +1287,28 @@ AND cl.modified_id  = c.id
      *
      * @param int  $activityTypeId  activity id
      *
-     * @return if file exists returns $caseAction activity filename otherwise false.
+     * @return if file exists returns $activityTypeFile activity filename otherwise false.
      *
      * @static
      */
     static function getFileForActivityTypeId( $activityTypeId, $crmDir = 'Activity' ) 
     {
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
+        require_once "CRM/Case/PseudoConstant.php";
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false, true );
         
         if ( $activityTypes[$activityTypeId]['name'] ) {
             require_once 'CRM/Utils/String.php';
-            $caseAction = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
+            $activityTypeFile = CRM_Utils_String::munge( ucwords($activityTypes[$activityTypeId]['name']), '', 0 );
         } else {
             return false;
         }
         
         global $civicrm_root;
-        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$caseAction}.php") ) {
+        if ( !file_exists(rtrim($civicrm_root, '/') . "/CRM/{$crmDir}/Form/Activity/{$activityTypeFile}.php") ) {
             return false;
         }
 
-        return $caseAction;
+        return $activityTypeFile;
     }
 
     /**
@@ -1328,4 +1329,45 @@ AND cl.modified_id  = c.id
 
         return $result;
     }
+    
+    /**
+     * Get the exportable fields for Activities
+     *     
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( ) 
+    {
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+
+            // TO DO, ideally we should retrieve all fields from xml, in this case since activity processing is done
+            // my case hence we have defined fields as case_*
+            //require_once 'CRM/Activity/DAO/Activity.php';            
+            //$fields = CRM_Activity_DAO_Acivity::export( );
+            
+            //set title to activity fields
+            $fields= array( 
+                            'case_subject'                 => array( 'title' => ts('Activity Subject') ),
+                            'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
+                            'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
+                            'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
+                            'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),
+                            'case_activity_status_id'      => array( 'title' => ts('Activity Status') ),
+                            'case_activity_duration'       => array( 'title' => ts('Activity Duration') ),
+                            'case_activity_medium_id'      => array( 'title' => ts('Activity Medium') ),
+                            'case_activity_details'        => array( 'title' => ts('Activity Details') ),
+                            'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?') )
+                            );
+            
+            // add custom data for case activities
+            $fields = array_merge( $fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity') );
+            
+            self::$_exportableFields = $fields;
+        }
+        return self::$_exportableFields;
+    }
+    
 }

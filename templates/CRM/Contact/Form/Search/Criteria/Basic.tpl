@@ -54,9 +54,9 @@
 {/if}
 
 {if $form.tag}
-            {* Choose regular or 'tall' listing-box class for Tag select box based on # of groups. *}
             <td colspan="2"><label>{ts}Tag(s){/ts}</label>
                 <div id="Tag" class="listing-box">
+                {* Choose regular or heirarchical style of Tag selection based on # of tags. *}
                 {if $form.tag|@count GT 8}
                    {include file="CRM/Tag/Form/Search.tpl"}
                 {else}

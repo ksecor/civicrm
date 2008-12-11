@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -128,9 +128,6 @@ class CRM_Contact_Task {
                                   17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
                                                   'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
                                                                      'CRM_Contact_Form_Task_Batch' ),
-                                                  'result' => true ),
-                                  19    => array( 'title'  => ts( 'Record Case for Contacts'  ),
-                                                  'class'  => 'CRM_Case_Form_Case',
                                                   'result' => true ),
                                   );
            

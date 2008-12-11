@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -154,7 +154,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $value = '%' . $value . '%';
                 }
                 
-            } else {
+            } else if ($field['html_type'] == 'Multi-Select State/Province' || $field['html_type'] == 'Multi-Select Country') {
+                $value = CRM_Utils_Request::retrieve( $name, 'String', $this, false, null, 'REQUEST' );
+                if ( ! is_array($value) ) $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+             } else {
                 $value = CRM_Utils_Request::retrieve( $name, 'String',
                                                       $this, false, null, 'REQUEST' );
             }
@@ -172,7 +175,8 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
                     // reset checkbox because a form does not send null checkbox values
-                    if ( in_array( $customField['html_type'], array( 'Multi-Select', 'CheckBox' ) ) ) {
+                    if ( in_array( $customField['html_type'], 
+                                   array( 'Multi-Select', 'CheckBox', 'Multi-Select State/Province', 'Multi-Select Country' ) ) ) {
                         // only reset on a POST submission if we dont see any value
                         $value = null;
                         $this->set( $name, $value );

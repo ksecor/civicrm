@@ -38,16 +38,9 @@
           <div id="help">{$activityTypeDescription}</div>
         {/if}
       
-        {edit}
-        {if $caseEnabled AND ! $hasCases}
-            {capture assign=newCaseUrl}{crmURL p='civicrm/contact/view/case' q="reset=1&action=add&cid=$contactId&context=case"}{/capture}
-            <div class="status messages">{ts}There are no Cases for this contact.{/ts}{if $permission EQ 'edit'} {ts 1=$newCaseUrl}If you want to associate this activity with a case, you will need to <a href='%1'>create one first</a>.{/ts}{/if}</div>
-        {/if}
-        {/edit}
-        
          <table class="form-layout">
          {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
-             {if $context eq 'standalone' or $context eq 'case' or $context eq 'search' }
+             {if $context eq 'standalone' or $context eq 'search' }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
@@ -60,24 +53,26 @@
                    </div>
                 </td>
              </tr>
+             
              {if $single eq false}
              <tr>
                 <td class="label">{ts}With Contact(s){/ts}</td>
-                <td class="view-value">{$with|escape}</td>
+                <td class="view-value" style="white-space: normal">{$with|escape}</td>
              </tr>
              {elseif $action neq 4}
              <tr>
                 <td class="label">{ts}With Contact{/ts}</td>
                 <td class="tundra">
-		    <div id="target_contact_1"></div>
+                    <div id="target_contact_1"></div>
                 </td>
              </tr>
 		     {else}
              <tr>
-    		<td class="label">{ts}With Contact{/ts}</td>
-                <td class="view-value">{$target_contact_value}</td>
+                <td class="label">{ts}With Contact{/ts}</td>
+                <td class="view-value" style="white-space: normal">{$target_contact_value}</td>
              </tr>
              {/if}
+             
              <tr>
              {if $action neq 4}
                 <td class="label">{ts}Assigned To {/ts}</td>
@@ -117,7 +112,7 @@
                       </span>
                    {/if}  
                 </td>
-             </tr> 
+             </tr>
              <tr>
                 <td class="label">{$form.duration.label}</td>
                 <td class="view-value">
@@ -140,25 +135,37 @@
                 {/if} 
                 </td>
              </tr> 
+
              <tr>
-             {if $action eq 4} 
-                <td colspan=2>&nbsp;</td>
-             {else}
                 <td colspan="2">
                     {include file="CRM/Form/attachment.tpl"}
                 </td>
-            {/if} 
-            </tr>
+             </tr>
+
+             {if $action neq 4} {* Don't include "Schedule Follow-up" section in View mode. *}
+                 <tr>
+                    <td colspan="2">
+                     <div id="follow-up_show" class="section-hidden section-hidden-border">
+                      <a href="#" onclick="hide('follow-up_show'); show('follow-up'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Schedule Follow-up{/ts}</label><br />
+                     </div>
+                          
+                     <div id="follow-up" class="section-shown">
+                       <fieldset><legend><a href="#" onclick="hide('follow-up'); show('follow-up_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Schedule Follow-up{/ts}</legend>
+                        <table class="form-layout-compressed">
+                           <tr><td class="label">{ts}Schedule Follow-up Activity{/ts}</td>
+                               <td>{$form.followup_activity_type_id.html}&nbsp;{$form.interval.label}&nbsp;{$form.interval.html}&nbsp;{$form.interval_unit.html}                          </td>
+                           </tr>
+                        </table>
+                       </fieldset>
+                     </div>
+                    </td>
+                 </tr>
+             {/if}
+
         {elseif $action eq 8}
              <tr>
                 <td colspan="2">
                     <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
-                </td>
-             </tr>  
-        {elseif $action eq 32768}
-             <tr>
-                <td colspan="2">
-                    <div class="status">{ts 1=$delName}Are you sure you want to detach '%1' from this case?{/ts}</div>
                 </td>
              </tr>  
         {/if}
@@ -181,6 +188,9 @@
 		{/if}
 		{literal}
 	});
+
+  hide('follow-up');
+  show('follow-up_show');
     </script>
     {/literal}
 {/if}

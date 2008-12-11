@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -133,11 +133,14 @@ class CRM_Case_Form_Activity_ChangeCaseType
             return;
         }
 
-        $caseType = CRM_Case_PseudoConstant::caseTypeName( $form->_caseId );
-        $caseType = $caseType['name'];
-
+        $caseTypes = CRM_Case_PseudoConstant::caseType( );
+        if ( isset($caseTypes[$params['case_type_id']]) ) {
+            $caseType  = $caseTypes[$params['case_type_id']];
+        }
+        
         if ( ! $form->_currentlyViewedContactId  ||
              ! $form->_currentUserId             ||
+             ! $params['case_type_id']           ||
              ! $caseType
              ) {
             CRM_Core_Error::fatal('Required parameter missing for ChangeCaseType - end post processing');

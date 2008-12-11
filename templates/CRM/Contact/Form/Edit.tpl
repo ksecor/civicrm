@@ -120,8 +120,7 @@
 		<td>{$form.organization_name.label} {if $action == 2}{include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact' field='organization_name' id=$contactId}{/if}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
-                <td>{$form.contact_source.label}</td>
-        
+        <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
         <td>{$form.organization_name.html|crmReplace:class:big}</td>
@@ -131,7 +130,7 @@
     </tr>
     <tr>
         <td>{$form.home_URL.label}</td>
-	<td>{$form.nick_name.label}</td>
+	    <td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
 	</tr>
     <tr>
@@ -230,11 +229,11 @@
 {if $contact_type eq 'Individual' and $currentEmployer }
 {literal}
 <script type="text/javascript">
-	dojo.addOnLoad( function( ) 
-	{
-		var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
-		dijit.byId( 'current_employer' ).setValue(currentEmployer);
-	}); 
+dojo.addOnLoad( function( ) 
+{
+	var currentEmployer   = "{/literal}{$currentEmployer}{literal}";
+	dijit.byId( 'current_employer' ).setValue(currentEmployer);
+}); 
 </script>
 {/literal} 
 {/if}
@@ -242,17 +241,17 @@
 {if $contact_type eq 'Individual' or $contact_type eq 'Household'}
 {literal}
 <script type="text/javascript">
-    showGreeting( );
-    function showGreeting( )
-    {
-        if (document.getElementById("greeting_type_id").value == 4) {
-	    show('greetingLabel');
-	    show('greetingHtml');	
-        } else {
-	    hide('greetingLabel');
-	    hide('greetingHtml');
-        }
+showGreeting( );
+function showGreeting( )
+{
+    if (document.getElementById("greeting_type_id").value == 4) {
+        show('greetingLabel');
+        show('greetingHtml');	
+    } else {
+        hide('greetingLabel');
+        hide('greetingHtml');
     }
+}
 </script>
 {/literal}
 {/if}
@@ -298,15 +297,28 @@
     <tr>
         <td>
             <div class="label">{ts}Group(s){/ts}</div>
-            <div class="listing-box">
-            <table id="selector" class="selector" style="border:none;">
-                   <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
-            </table> 
-            </div>
+            {* Put Groups table in a scrollable listing box if more than 8 groups. *}
+            {if $groupCount GT 8}
+                <div class="listing-box-tall">
+                <table id="selector" class="selector" style="width: auto; margin: -5px 0px -5px 0px;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+                </div>
+            {else}
+                <table id="selector" class="selector" style="width: auto;">
+                    <tr><td>{$form.group.html} {* quickform add closing </td> </tr>*}
+                </table> 
+            {/if}
         </td>
         <td>
             <div class="label">{ts}Tag(s){/ts}</div>
-            <div class="listing-box">
+            {* Choose regular or 'tall' listing-box class for Tag select box based on # of tags. *}
+            {if $tagCount GT 8}
+                {assign var="boxClass" value="listing-box-tall"}
+            {else}
+                {assign var="boxClass" value="listing-box"}
+            {/if}
+            <div class="{$boxClass}">
                 {$form.tag.html}
             </div>
         </td>

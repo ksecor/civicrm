@@ -35,8 +35,13 @@
 						{/if}
 						{/if}
 						{/foreach}
+                        {if $element.html_type eq 'Radio'}
+                        <td>			            
+	                      &nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
+                        </td>
+				        {/if}
 					</tr>
-				</table>
+                </table>
 			</dd>
 			{if $element.help_post}
 			<dt></dt><dd class="html-adjust description">{$element.help_post}</dd>

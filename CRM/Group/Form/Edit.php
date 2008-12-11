@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -203,13 +203,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         $this->add( 'select', 'visibility', ts('Visibility'),
                     CRM_Core_SelectValues::ufVisibility( ), true ); 
         
-        $uploadNames = $this->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-
         $groupNames =& CRM_Core_PseudoConstant::group();
 
         $parentGroups = array( );
@@ -248,7 +241,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 		CRM_Custom_Form_Customdata::buildQuickForm( $this );
 
         $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
+                                 array ( 'type'      => 'upload',
                                          'name'      =>
                                          ( $this->_action == CRM_Core_Action::ADD ) ?
                                          ts('Continue') : ts('Save'),

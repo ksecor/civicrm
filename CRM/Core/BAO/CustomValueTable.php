@@ -2,9 +2,9 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.1                                                |
+   | CiviCRM version 2.2                                                |
    +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2008                                |
+   | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -28,7 +28,7 @@
   /**
    *
    * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
+   * @copyright CiviCRM LLC (c) 2004-2009
    * $Id$
    *
    */
@@ -110,7 +110,7 @@ class CRM_Core_BAO_CustomValueTable
                     case 'Country':
                         $type = 'Integer';
                         if ( is_array( $value ) ) {
-                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;    
+                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                             $type  = 'String';
                         } else if ( ! is_numeric( $value ) ) {
                             //fix for multi select country, CRM-3437

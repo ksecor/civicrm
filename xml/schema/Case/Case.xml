@@ -105,15 +105,21 @@
   </field>
     <field>
      <name>start_date</name>
+     <uniqueName>case_start_date</uniqueName>
+     <title>Case Start Date</title>
+     <import>true</import>
      <type>date</type>
      <comment>Date on which given case starts.</comment>
-       <add>1.8</add>
+     <add>1.8</add>
   </field>
   <field>
      <name>end_date</name>
+     <uniqueName>case_end_date</uniqueName>
+     <title>Case End Date</title>
+     <import>true</import>    
      <type>date</type>
      <comment>Date on which given case ends.</comment>
-       <add>1.8</add>
+     <add>1.8</add>
   </field>
   <field>
       <name>details</name>

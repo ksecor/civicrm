@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -1522,6 +1522,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         }
                         
                         switch( $customFields[substr($name,7,9)]['html_type'] ) {
+                        case 'Multi-Select State/Province':
+                        case 'Multi-Select Country':
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {

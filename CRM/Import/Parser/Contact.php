@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -475,10 +475,41 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             $formatted[$key] = $v2['value'];
                         }
                     }
+                } else if( $type == 'Multi-Select State/Province' ) {
+                    $mulValues = explode( ',' , $field );
+                    $formatted[$key] = $stateValues = array();
+                    $stateAbbr = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
+                    $stateName = CRM_Core_PseudoConstant::stateProvince();
+                    
+                    foreach( $mulValues as $values ) {
+                        if ( $val = CRM_Utils_Array::key( $values,$stateAbbr ) ) { 
+                            $formatted[$key][] = $val;
+                        }else if ( $val = CRM_Utils_Array::key( $values,$stateName ) ) { 
+                            $formatted[$key][] = $val;
+                        }
+                    } 
+                } else if( $type == 'Multi-Select Country' ) {
+                    $formatted[$key] = array();
+                    CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
+                                                       true, 'name', 'is_active' );
+                    CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
+                                                       'CRM_Core_DAO_Country',true, 
+                                                       'iso_code');
+                    $config =& CRM_Core_Config::singleton();
+                    $limitCodes = $config->countryLimit( );
+                    $mulValues = explode( ',' , $field );
+                    foreach( $mulValues as $values ) {
+                        if ( $val = CRM_Utils_Array::key( $values,$countryNames ) ) { 
+                            $formatted[$key][] = $val;
+                        }else if ($val = CRM_Utils_Array::key( $values,$countryIsoCodes ) ) { 
+                            $formatted[$key][] = $val;
+                        }else if ($val = CRM_Utils_Array::key( $values,$limitCodes ) ) { 
+                            $formatted[$key][] = $val;
+                        }
+                    }
                 }
             }
         }
-        
         //check if external identifier exists in database
         if ( isset( $params['external_identifier'] ) ) {
             require_once "CRM/Contact/BAO/Contact.php";
@@ -882,9 +913,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                     }
                     // need not check for label filed import
-                    $htmlType = array('CheckBox','Multi-Select','Select','Radio');
+                    $htmlType = array('CheckBox','Multi-Select','Select','Radio','Multi-Select State/Province' ,'Multi-Select Country' );
                     if ( ! in_array( $customFields[$customFieldID]['html_type'], $htmlType ) || $customFields[$customFieldID]['data_type'] =='Boolean' ) {
-
+                        
                         $valid = CRM_Core_BAO_CustomValue::typecheck(
                                                                      $customFields[$customFieldID]['data_type'], $value);
                         if (! $valid) {
@@ -919,6 +950,40 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                         if (! $flag ) {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
+                        }
+                    }else if ($customFields[$customFieldID][3] == 'Multi-Select State/Province' ) {
+                        $mulValues = explode( ',' , $value );
+                        foreach( $mulValues as $stateValue ) {
+                            if ( $stateValue) {
+                                if( self::in_value($stateValue,CRM_Core_PseudoConstant::stateProvinceAbbreviation()) 
+                                    || self::in_value($stateValue, CRM_Core_PseudoConstant::stateProvince())) {
+                                    continue;
+                                } else {
+                                    self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                                }
+                            }
+                        } 
+                    }else if ($customFields[$customFieldID][3] == 'Multi-Select Country' ) {
+                        $mulValues = explode( ',' , $value );
+                        foreach($mulValues as $countryValue ) {
+                            if ( $countryValue) {
+                                CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
+                                                                   true, 'name', 'is_active' );
+                                CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
+                                                                   'CRM_Core_DAO_Country',true, 
+                                                                   'iso_code');
+                                $config =& CRM_Core_Config::singleton();
+                                $limitCodes = $config->countryLimit( );
+                                if ( $val = CRM_Utils_Array::key( $values,$countryNames ) ) { 
+                                    continue;
+                                }else if ($val = CRM_Utils_Array::key( $values,$countryIsoCodes ) ) { 
+                                    continue;
+                                }else if ($val = CRM_Utils_Array::key( $values,$limitCodes ) ) { 
+                                    continue;
+                                }else {
+                                    self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                                }
+                            }
                         }
                     }
                 }

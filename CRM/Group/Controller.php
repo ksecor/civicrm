@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -55,17 +55,20 @@ class CRM_Group_Controller extends CRM_Core_Controller {
         // add all the actions
         $config =& CRM_Core_Config::singleton( );
         
-        //changes for custom data type File
+        // to handle file type custom data
+        $uploadDir = $config->uploadDir;
+        require_once 'CRM/Core/BAO/File.php';
+
         $uploadNames = $this->get( 'uploadNames' );
-        $config =& CRM_Core_Config::singleton( );
-        
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $uploadArray = $uploadNames;
-            $this->addActions( $config->customFileUploadDir, $uploadArray );
-            $uploadNames = $this->set( 'uploadNames', null );
+        if ( ! empty( $uploadNames ) ) {
+            $uploadNames = array_merge( $uploadNames,
+                                        CRM_Core_BAO_File::uploadNames( ) );
         } else {
-            $this->addActions( );
+            $uploadNames = CRM_Core_BAO_File::uploadNames( );
         }
+
+        // add all the actions
+        $this->addActions( $uploadDir, $uploadNames );
     }
 
     function run( ) {

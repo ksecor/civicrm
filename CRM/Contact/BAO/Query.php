@@ -2,9 +2,9 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.1                                                |
+   | CiviCRM version 2.2                                                |
    +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2008                                |
+   | Copyright CiviCRM LLC (c) 2004-2009                                |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -28,7 +28,7 @@
   /**
    *
    * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
+   * @copyright CiviCRM LLC (c) 2004-2009
    * $Id$
    *
    */
@@ -352,13 +352,6 @@ class CRM_Contact_BAO_Query
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
-            if ( array_key_exists( 'activity_role', $_POST ) ) {
-                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
-            }
-            if ( array_key_exists( 'relation_status', $_POST ) ) {
-                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Relationship'));
-            }
-
             $this->_fields = array_merge( $this->_fields, $fields );
            
         }
@@ -1800,14 +1793,19 @@ class CRM_Contact_BAO_Query
                 continue;
 
             case 'civicrm_activity':
-                if (  self::$_activityRole == 0 ) {
-                    $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
-                } else if (  self::$_activityRole == 1 ) {
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                // special condition to fetch case activities, may not be right place to put this condition ?
+                if ( $mode != CRM_Contact_BAO_Query::MODE_CASE ) {
+                    if (  self::$_activityRole == 0 ) {
+                        $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
+                    } else if (  self::$_activityRole == 1 ) {
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                    } else {
+                        $from .= " $side JOIN civicrm_activity_assignment ON civicrm_activity_assignment.assignee_contact_id = contact_a.id ";
+                        $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_assignment.activity_id ";
+                    }
                 } else {
-                    $from .= " $side JOIN civicrm_activity_assignment ON civicrm_activity_assignment.assignee_contact_id = contact_a.id ";
-                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_assignment.activity_id ";
+                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = case_activity.id ";
                 }
                 continue;
 

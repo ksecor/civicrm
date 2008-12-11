@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -143,7 +143,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                            'entity_table'  => 'civicrm_case',
                            'entity_id'     => $case->id,
                            'modified_id'   => $id,
-                           'modified_date' => date('Ymd')
+                           'modified_date' => date('YmdHis')
                            );
         
         CRM_Core_BAO_Log::add( $logParams );
@@ -1144,6 +1144,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
         } 
         return $activityInfo;
     }
+
     /**
      * combine all the exportable fields from the lower levels object
      *     
@@ -1157,28 +1158,9 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
                 self::$_exportableFields = array();
             }
             require_once 'CRM/Case/DAO/Case.php';
-            require_once 'CRM/Activity/DAO/Activity.php';
             
-            $fields['case'] = CRM_Case_DAO_Case::import( );
-
-            $fields['case']['case_start_date'] = array( 'title' => ts('Case Start Date') );
-            $fields['case']['case_end_date']   = array( 'title' => ts('Case End Date') );
-            $fields['case']['case_role']       = array( 'title' => ts('Role in Case') );
-            //set title to activity fields
-            $fields['activity'] = array( 
-                                        'case_subject'                 => array( 'title' => ts('Activity Subject') ),
-                                        'case_source_contact_id'       => array( 'title' => ts('Activity Reporter') ),
-                                        'case_recent_activity_date'    => array( 'title' => ts('Activity Actual Date') ),
-                                        'case_scheduled_activity_date' => array( 'title' => ts('Activity Due Date') ),
-                                        'case_recent_activity_type'    => array( 'title' => ts('Activity Type') ),
-                                        'case_activity_status_id'      => array( 'title' => ts('Activity Status') ),
-                                        'case_activity_duration'       => array( 'title' => ts('Activity Duration') ),
-                                        'case_activity_medium_id'      => array( 'title' => ts('Activity Medium') ),
-                                        'case_activity_details'        => array( 'title' => ts('Activity Details') ),
-                                        'case_activity_is_auto'        => array( 'title' => ts('Activity Auto-generated?') )
-                                        );
-            
-            //$fields = array_merge($impFields, $expFieldsActivity );
+            $fields = CRM_Case_DAO_Case::import( );
+            $fields['case_role']       = array( 'title' => ts('Role in Case') );
             
             self::$_exportableFields = $fields;
         }

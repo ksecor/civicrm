@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -931,9 +931,9 @@ SELECT $select
                      if (isset($value)) {
                          $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
                          foreach($checkedValue as $val) {
-							 if ( $val ) {
-								$defaults[$elementName][$val]  =  $val;
-							 }	
+                             if ( $val ) {
+                                 $defaults[$elementName][$val]  =  $val;
+                             }	
                          } 
                      }
                      break;

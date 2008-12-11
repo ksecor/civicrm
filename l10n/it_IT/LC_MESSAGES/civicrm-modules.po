@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-12-02 23:40-0800\n"
-"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
+"PO-Revision-Date: 2008-12-09 07:41-0800\n"
+"Last-Translator: Francesco Moretto <francesco.moretto@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2652,7 +2652,7 @@ msgstr "Elenca Partecipanti"
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
 #, fuzzy
 msgid "Skip Participant >>|"
-msgstr "Visualizza partecipante"
+msgstr "Salta partecipante"
 
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
 #, fuzzy
@@ -2726,7 +2726,7 @@ msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "How many additional people?"
-msgstr ""
+msgstr "Quante persone aggiuntive?"
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "Fee Level is a required field."
@@ -2795,7 +2795,7 @@ msgstr "Inserire una data valida di fine evento"
 #: CRM/Event/Form/Search.php
 #, fuzzy
 msgid "Participant Name or Email"
-msgstr "Nome Partecipante"
+msgstr "Nome o Email del Partecipante"
 
 #: CRM/Event/Form/Search.php
 msgid "Please select valid event."

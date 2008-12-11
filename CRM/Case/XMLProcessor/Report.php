@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2009                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2008
+ * @copyright CiviCRM LLC (c) 2004-2009
  * $Id$
  *
  */
@@ -288,10 +288,12 @@ WHERE      a.id = %1
                                       'value' => $activityDAO->details,
                                       'type'  => 'Memo' );
         
-        $activity['fields'][] = array( 'label' => 'Duration',
-                                      'value' => $activityDAO->duration . ' ' . ts('minutes'),
-                                      'type'  => 'Int' );
-        
+        // Skip Duration field if empty (to avoid " minutes" output). Might want to do this for all fields at some point. dgg
+        if ( $activityDAO->duration ) {
+            $activity['fields'][] = array( 'label' => 'Duration',
+                                          'value' => $activityDAO->duration . ' ' . ts('minutes'),
+                                          'type'  => 'Int' );
+        }        
         $activity['fields'][] = array( 'label' => 'Status',
                                        'value' => CRM_Core_OptionGroup::getLabel( 'activity_status',
                                                                                   $activityDAO->status_id ),
@@ -324,6 +326,13 @@ WHERE      a.id = %1
                     $value = CRM_Core_BAO_CustomField::getDisplayValue( $dao->$columnName,
                                                                         $typeValue['fieldID'],
                                                                         $options );
+                    
+                    // Note: this is already taken care in getDisplayValue above, but sometimes 
+                    // strings like '^A^A' creates problem. So to fix this special case -
+                    if ( strstr($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR) ) {
+                        $value = trim($value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
+                    }
+
                     $customGroup[] = array( 'label'  => $typeValue['label'],
                                             'value'  => $value,
                                             'type'   => $typeValue['type'] );
