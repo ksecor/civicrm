@@ -78,7 +78,7 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         require_once 'CRM/Core/BAO/Preferences.php';
         $searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options' );
         
-        if ( CRM_Utils_Array::value( 'contact_type', $searchOptions ) ) {
+        if ( CRM_Utils_Array::value( 'contactType', $searchOptions ) ) {
             $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
         }
 
