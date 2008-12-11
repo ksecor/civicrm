@@ -253,7 +253,7 @@ cj(document).ready(function(){
             {display: 'Reporter',name : 'reporter',    width : 90,  sortable : true, align: 'left'},
             {display: 'Status',  name : 'status',      width : 60,  sortable : true, align: 'left'},
             {display: '',        name : 'links',       width : 70,  align: 'left'},
-            {name : 'unix_due_date', hide: true}, // this col is use only for calculation
+            {name : 'unix_due_date', hide: true} // this col is use only for calculation
             ],
             usepager: true,
             useRp: true,
