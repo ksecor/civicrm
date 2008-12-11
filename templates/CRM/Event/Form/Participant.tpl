@@ -23,8 +23,8 @@
 	</div>  
 	{/if}
 
-	<table class="form-layout">
-		{if $action eq 8} {* If action is Delete *}
+    {if $action eq 8} {* If action is Delete *}
+        <table class="form-layout">
 		<tr>
 			<td>
 				<div class="messages status">
@@ -42,21 +42,22 @@
 				</div> 
 			</td>
 		</tr>
-		<tr>
-			{else} {* If action is other than Delete *}
-			{if $single}
+        </table>
+    {else} {* If action is other than Delete *}
+        <table class="form-layout">
+        {if $single}
 			<tr><td class="right font-size12pt bold">{ts}Participant Name{/ts}&nbsp;&nbsp;</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
-			{/if}
-			<tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td>
-				<tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
+        {/if}
+        <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td>
+        <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
 					{if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
 					{if $is_test}
 					{ts}(test){/ts}
 					{/if}
-				</td>
-			</tr> 
-			<tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
-			<tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
+            </td>
+        </tr> 
+        <tr><td class="label">{$form.role_id.label}</td><td>{$form.role_id.html}</td></tr>
+        <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
 				{if $hideCalender neq true}<br />
 				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event doTime=1}
 				{include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=10 doTime=1  trigger=trigger_event ampm=1}       
@@ -72,36 +73,36 @@
 		<tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
 		<tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
-	</table>
+        </table>
 
-	{* Fee block (EventFees.tpl) is injected here when an event is selected. *}
-	<div id="feeBlock"></div>
+        {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
+        <div id="feeBlock"></div>
 
-	<div class="form-item">
-		<fieldset>
-			<dl>
-				<dt style="vertical-align: top">{$form.note.label}</dt><dd class="html-adjust">{$form.note.html}</dd>
-			</dl>
-		</fieldset>
-	</div>
+        <div class="form-item">
+            <fieldset>
+                <dl>
+                    <dt style="vertical-align: top">{$form.note.label}</dt><dd class="html-adjust">{$form.note.html}</dd>
+                </dl>
+            </fieldset>
+        </div>
 
-	<table class="form-layout">
-		<tr>
-			<td colspan=2>
-				<div id="customData"></div>  {* Participant Custom data *}
-				<div id="customData{$eventNameCustomDataTypeID}"></div> {* Event Custom Data *}
-				<div id="customData{$roleCustomDataTypeID}"></div> {* Role Custom Data *}	
-			</td>
-		</tr>
-	</table>
+        <table class="form-layout">
+            <tr>
+                <td colspan=2>
+                    <div id="customData"></div>  {* Participant Custom data *}
+                    <div id="customData{$eventNameCustomDataTypeID}"></div> {* Event Custom Data *}
+                    <div id="customData{$roleCustomDataTypeID}"></div> {* Role Custom Data *}	
+                </td>
+            </tr>
+        </table>
 	{/if}
 	
 	<div class="form-item"><dl><dt></dt><dd>{$form.buttons.html}</dd></dl></div> 
 
 
-{if $accessContribution and $action eq 2 and $rows.0.contribution_id}
-{include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
-{/if}
+    {if $accessContribution and $action eq 2 and $rows.0.contribution_id}
+        {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
+    {/if}
 </fieldset> 
 
 {if $action eq 1 or $action eq 2}
