@@ -1259,7 +1259,7 @@ AND cl.modified_id  = c.id
      * 
      * @access public
      */
-    static function createFollowupActivity( $activityId, $params )
+    static function createFollowupActivity( $activityId, $params, $isCaseActivity = false )
     { 
         if ( !$activityId ) {
             return;
@@ -1274,12 +1274,26 @@ AND cl.modified_id  = c.id
         $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
         
         CRM_Utils_Date::getAllDefaultValues( $currentDate );
-        $followupParams['due_date_time']        = 
-            CRM_Utils_Date::intervalAdd($params['interval_unit'], 
-                                        $params['interval'], $currentDate); 
-        $followupParams['due_date_time']     =  CRM_Utils_Date::format($followupParams['due_date_time']);
+        $followupDate = CRM_Utils_Date::intervalAdd( $params['interval_unit'], $params['interval'], $currentDate );
+        $followupDate = CRM_Utils_Date::format( $followupDate );
         
-        return self::create( $followupParams );
+        if ( $isCaseActivity ) {
+            $followupParams['due_date_time']      = $followupDate;
+        } else {
+            $followupParams['activity_date_time'] = $followupDate;
+        }
+        
+        $followupActivity = self::create( $followupParams );
+        
+        //create target contact for followup
+        if ( $followupActivity ) {
+            $targetParams = array( );
+            $targetParams['target_contact_id'] = $params['source_contact_id'];
+            $targetParams['activity_id']       = $followupActivity->id;
+            self::createActivityTarget( $targetParams );
+        }
+        
+        return $followupActivity;
     }
 
     /**

@@ -443,7 +443,7 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         // create follow up activity if needed
         $followupStatus = '';
         if ( CRM_Utils_Array::value('followup_activity_type_id', $params) ) {
-            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params );
+            $followupActivity = CRM_Activity_BAO_Activity::createFollowupActivity( $activity->id, $params, true );
 
             if ( $followupActivity ) {
                 $caseParams = array( 'activity_id' => $followupActivity->id,
