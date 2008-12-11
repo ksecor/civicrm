@@ -74,14 +74,14 @@
              {/if}
              
              <tr>
-             {if $action neq 4}
+             {if $action eq 4}
+                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
+             {else}
                 <td class="label">{ts}Assigned To {/ts}</td>
                 <td class="tundra">                  
                    <div id="assignee_contact_1"></div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
-             {else}
-                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
              {/if}
              </tr>
              <tr>
@@ -227,6 +227,10 @@ if ( targetContactCount ) {
     }
 }
 
+{/literal}
+{/if}
+
+{literal}
 function buildContact( count, pref )
 {
     if ( count > 1 ) {
@@ -260,6 +264,11 @@ function buildContact( count, pref )
 function injectActTypeFileFields( type ) {
 	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&atype='}"{literal} + type; 
     dataUrl = dataUrl + '&atypefile=1';
+
+{/literal}{if $urlPathVar}
+	dataUrl = dataUrl + '&' + '{$urlPathVar}'
+{/if}{literal}
+
     fetchurl(dataUrl, 'atypefields', false);
 }
 
@@ -294,7 +303,5 @@ function fetchurl(dataUrl, fieldname, parsefield) {
 </script>
 
 {/literal}
-
-{/if} {* closing add contact widget condition*}
 
 {/if} {* end of snippet if*}	

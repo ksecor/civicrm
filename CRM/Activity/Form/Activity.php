@@ -160,7 +160,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                          ),
                   'followup_activity_type_id' =>  array( 'type'       => 'select',
                                                          'label'      => 'Followup Activity',
-                                                         'attributes' => array('' => '-select-') +
+                                                         'attributes' => array('' => '- select activity -') +
                                                          CRM_Core_PseudoConstant::ActivityType( false ),
                                                          ),
                   'interval'                  =>  array( 'type'       => 'text',
@@ -182,6 +182,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         foreach ( $this->_fields['interval_unit']['attributes'] as $name => $label ) {
             $this->_fields['interval_unit']['attributes'][$name] = $label . '(s)';
         }
+
+        asort( $this->_fields['followup_activity_type_id']['attributes'] );
     }
 
     /**
@@ -506,19 +508,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //enable form element
         $this->assign( 'suppressForm', false );
             
-        $activityOPtions = CRM_Core_PseudoConstant::ActivityType( false );
-        asort( $activityOPtions );
-        $this->_activityType = array( ''   => 
-                                      ' - select activity - ' ) + $activityOPtions;
-        
-        unset( $this->_activityType[8] );
-        $element =& $this->add('select', 
-                               'activity_type_id', 
-                               ts('Activity Type'),
-                               $this->_activityType,
-                               false, 
-                               array('onchange' => 
-                                     "buildCustomData( 'Activity', this.value );injectActTypeFileFields( this.value );") );
+        $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
+                               $this->_fields['followup_activity_type_id']['attributes'],
+                               false, array('onchange' => 
+                                            "buildCustomData( 'Activity', this.value );injectActTypeFileFields( this.value );") );
 
         //freeze for update mode.
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
