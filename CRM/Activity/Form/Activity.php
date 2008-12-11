@@ -442,7 +442,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         if ( $this->_activityTypeFile ) {
-            eval('$defaults += CRM_{$this->_crmDir}_Form_Activity_'. 
+            eval('$defaults += CRM_'.$this->_crmDir.'_Form_Activity_'. 
                  $this->_activityTypeFile . '::setDefaultValues($this);');
         }
         return $defaults;
@@ -630,7 +630,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    {  
+    { 
         // skip form rule if deleting
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
@@ -670,6 +670,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
         
+        if ( CRM_Utils_Array::value( 'followup_activity_type_id', $fields ) && !CRM_Utils_Array::value( 'interval', $fields ) ) {
+            $errors['interval'] = ts('Interval is required field.');
+        } 
         return $errors;
     }
     
