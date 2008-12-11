@@ -105,6 +105,10 @@ class CRM_Core_IDS {
     html[]              = help_pre
     html[]              = help_post
     html[]              = msg_html
+    html[]              = confirm_title
+    html[]              = confirm_text
+    html[]              = confirm_footer_text
+    html[]              = confirm_email_text
 ";
             file_put_contents( $configFile, $contents );
         }
