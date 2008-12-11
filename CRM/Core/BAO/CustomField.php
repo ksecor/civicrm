@@ -1250,6 +1250,7 @@ SELECT id
         $fileId = null;
 
         if ( $customFields[$customFieldId]['data_type'] == 'File' ) {
+            CRM_Core_Error::debug( $value );
             if ( empty($value) ) {
                 return;
             }
