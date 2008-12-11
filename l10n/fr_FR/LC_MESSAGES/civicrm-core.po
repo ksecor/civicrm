@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-08-24 09:38-0700\n"
-"Last-Translator: Loic Dachary <loic@dachary.org>\n"
+"PO-Revision-Date: 2008-12-11 00:27-0800\n"
+"Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1441,7 +1441,7 @@ msgstr "Carte du Contact"
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr "Contact %%Message de Status%%"
+msgstr "Contact %%StatusMessage%%"
 
 #: CRM/Contact/Task.php CRM/Core/Menu.php
 msgid "Export Contacts"
@@ -6559,9 +6559,8 @@ msgid "Search Groups"
 msgstr "Sélectionner un Groupe"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Group %%StatusMessage%%"
-msgstr "Contact %%Message de Status%%"
+msgstr "Groupe %%StatusMessage%%"
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -7479,7 +7478,7 @@ msgstr ""
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
-msgstr ""
+msgstr "Contact %%StatusMessage%%"
 
 #: CRM/Utils/Pager.php
 msgid "%1 - %2 of %3"
