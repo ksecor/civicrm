@@ -438,7 +438,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults["activity_type_id"] =  $this->_activityTypeId;
         }
         
-        // DRAFTING: Check this in the template
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
             $this->assign( 'delName', $defaults['subject'] );
         }
@@ -579,10 +578,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             if ( isset( $this->_groupTree ) ) {
 				CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $this->_groupTree );
             }
-            
-            // since other-activity won't show up properly due to freeze, 
-            // lets don't display it at all
-            $this->assign('showOtherActivityLink', false);            
 
             $this->freeze();
             $this->addButtons( array(
@@ -682,7 +677,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
-            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
+            CRM_Core_Session::setStatus( ts("Selected Activity has been deleted sucessfully.") );
             return;
         }
         

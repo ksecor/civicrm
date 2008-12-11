@@ -34,12 +34,20 @@
        {$activityTypeName}
     </legend>
       
-        { if $activityTypeDescription }  
-          <div id="help">{$activityTypeDescription}</div>
-        {/if}
-      
-         <table class="form-layout">
-         {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
+        {if $action eq 8} {* Delete action. *}
+            <table class="form-layout">
+             <tr>
+                <td colspan="2">
+                    <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
+                </td>
+             </tr>
+               
+        {elseif $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
+            { if $activityTypeDescription }  
+                <div id="help">{$activityTypeDescription}</div>
+            {/if}
+
+            <table class="form-layout">
              {if $context eq 'standalone' or $context eq 'search' }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
@@ -161,18 +169,11 @@
                     </td>
                  </tr>
              {/if}
-
-        {elseif $action eq 8}
-             <tr>
-                <td colspan="2">
-                    <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
-                </td>
-             </tr>  
-        {/if}
-             <tr>
-                <td>&nbsp;</td><td>{$form.buttons.html}</td>
-             </tr> 
-         </table>   
+        {/if} {* End Delete vs. Add / Edit action *}
+        <tr>
+            <td>&nbsp;</td><td>{$form.buttons.html}</td>
+        </tr> 
+        </table>   
       </fieldset> 
 
 {if $action eq 1 or $action eq 2 or $context eq 'search'}
