@@ -263,30 +263,39 @@ ALTER TABLE `civicrm_domain`
         }
     }
     
-    /* preserve the mailer setting from config backend to
-     * civicrm_preferences as we removed from backend.
+    /* preserve the mailer preferences from config backend to
+     * civicrm_preferences and unset these from config backend. 
      */
     function mailerPreferences( )
     {
-        require_once 'CRM/Core/BAO/Setting.php';
+        require_once "CRM/Core/DAO/Domain.php"; 
         require_once 'CRM/Core/BAO/Preferences.php';
         
-        $settings = $mailerValues = array( );
-        
-        //get the settings values.
-        CRM_Core_BAO_Setting::retrieve( $settings );
-        
+        $mailerValues = array( );
         $mailerFields = array( 'outBound_option', 'smtpServer', 'smtpPort', 'smtpAuth', 
                                'smtpUsername', 'smtpPassword', 'sendmail_path', 'sendmail_args' );
         
-        foreach ( $mailerFields as $field ) {
-            $mailerValues[$field] = CRM_Utils_Array::value( $field, $settings );
+        //get the mailer preferences from backend 
+        //store in civicrm_preferences and unset from backend.
+        $domain =& new CRM_Core_DAO_Domain( );
+        $domain->find( true );
+        if ( $domain->config_backend ) {
+            $backendValues = unserialize( $domain->config_backend );
+            foreach ( $mailerFields as $field ) {
+                $mailerValues[$field] = CRM_Utils_Array::value( $field, $backendValues );
+                if ( array_key_exists( $field, $backendValues ) ) {
+                    unset( $backendValues[$field] );
+                }
+            }
+            
+            $domain->config_backend = serialize( $backendValues );
+            $domain->save( ); 
+            
+            $mailingDomain =& new CRM_Core_DAO_Preferences( );
+            $mailingDomain->find( true );
+            $mailingDomain->mailing_backend = serialize( $mailerValues );
+            $mailingDomain->save( );
         }
-        
-        $mailingDomain =& new CRM_Core_DAO_Preferences();
-        $mailingDomain->find( true );
-        $mailingDomain->mailing_backend = serialize( $mailerValues );
-        $mailingDomain->save( );
     }
 }
 
