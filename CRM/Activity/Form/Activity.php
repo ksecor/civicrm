@@ -507,7 +507,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         //enable form element
         $this->assign( 'suppressForm', false );
-            
+
         $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
                                $this->_fields['followup_activity_type_id']['attributes'],
                                false, array('onchange' => 
@@ -580,6 +580,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 				CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $this->_groupTree );
             }
             
+            // since other-activity won't show up properly due to freeze, 
+            // lets don't display it at all
+            $this->assign('showOtherActivityLink', false);            
+
             $this->freeze();
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
