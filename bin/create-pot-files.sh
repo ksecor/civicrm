@@ -8,13 +8,13 @@ tempfile=`tempfile`
 
 
 # build POT headers
-echo "# Copyright CiviCRM LLC (c) 2004-2008
+echo "# Copyright CiviCRM LLC (c) 2004-2009
 # This file is distributed under the same license as the CiviCRM package.
 # If you contribute heavily to a translation and deem your work copyrightable,
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid \"\"
 msgstr \"\"
-\"Project-Id-Version: CiviCRM 2.1\n\"
+\"Project-Id-Version: CiviCRM 2.2\n\"
 \"POT-Creation-Date: `date +'%F %R%z'`\n\"
 \"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n\"
 \"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n\"

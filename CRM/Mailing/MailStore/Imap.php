@@ -61,8 +61,8 @@ class CRM_Mailing_MailStore_Imap extends CRM_Mailing_MailStore
         $this->_transport->authenticate($username, $password);
         $this->_transport->selectMailbox($folder);
 
-        $this->_ignored   = 'CiviMail.ignored';
-        $this->_processed = 'CiviMail.processed';
+        $this->_ignored   = 'CiviMailIgnored';
+        $this->_processed = 'CiviMailProcessed';
         $boxes = $this->_transport->listMailboxes();
 
         if ($this->_debug) print 'mailboxes found: ' . implode(', ', $boxes) . "\n";
