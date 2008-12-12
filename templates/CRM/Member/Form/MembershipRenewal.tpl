@@ -52,7 +52,7 @@
             <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
                 <span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
             <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-            <dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd>
+            <div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd></div>
 	    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
             <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
 	</dl>
@@ -127,6 +127,14 @@
     invert              = 0
 }
 {/if}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
 {literal}
 <script type="text/javascript">
 function checkPayment()

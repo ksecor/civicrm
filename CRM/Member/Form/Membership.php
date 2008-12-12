@@ -362,8 +362,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
             $this->add('select', 'payment_instrument_id', 
                        ts( 'Paid By' ), 
-                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                       );
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                       false, array( 'onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);"));
             $this->add('text', 'trxn_id', ts('Transaction ID'));
             $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
                             'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );

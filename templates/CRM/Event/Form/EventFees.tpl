@@ -95,7 +95,7 @@
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
                 {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}</dd> 
                 <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-        	<dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd>      
+        	<div id="checkNumber"><dt class="label">{$form.check_number.label}</dt><dd>{$form.check_number.html}</dd></div>
 	        {if $showTransactionId }	
                     <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
                 {/if}	
@@ -271,3 +271,13 @@ function addPrice(priceVal, priceId) {
 }
 </script>
 {/literal}
+{if $action eq 1} 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+{/if} {* ADD mode if *}    
