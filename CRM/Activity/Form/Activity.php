@@ -452,6 +452,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     public function buildQuickForm( ) 
     {
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
+            //enable form element (ActivityLinks sets this true)
+            $this->assign( 'suppressForm', false );
+
             $button = ts('Delete');
             if (  $this->_action & CRM_Core_Action::RENEW ) {
                 $button = ts('Restore');
@@ -504,7 +507,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
-        //enable form element
+        //enable form element (ActivityLinks sets this true)
         $this->assign( 'suppressForm', false );
 
         $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
