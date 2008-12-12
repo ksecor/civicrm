@@ -407,21 +407,6 @@ class CRM_Core_PseudoConstant
     public static function &activityType( $all = true, $includeCaseActivities = false )
     {
         $index        = (int) $all . '_' . (int) $includeCaseActivities;
-               
-        $componentIds = array( );
-        $compInfo     = CRM_Core_Component::getEnabledComponents( );
-
-        // build filter for listing activity types only if their 
-        // respective components are enabled
-        foreach ( $compInfo as $compName => $compObj ) {
-            if ( $compName !== 'CiviCase' ) {
-                $componentIds[] = $compObj->componentID;
-            } else if ( $includeCaseActivities ) {
-                $componentIds[] = $compObj->componentID;
-            }
-            
-            $index = $index . '_' . (int)$compObj->componentID;
-        }
         
         if ( ! array_key_exists( $index, self::$activityType ) ) {
             require_once 'CRM/Core/OptionGroup.php';
@@ -430,13 +415,27 @@ class CRM_Core_PseudoConstant
                 $condition    = 'AND filter = 0';
             } 
             $componentClause  = " v.component_id IS NULL";
+
+            $componentIds = array( );
+            $compInfo     = CRM_Core_Component::getEnabledComponents( );
+            
+            // build filter for listing activity types only if their 
+            // respective components are enabled
+            foreach ( $compInfo as $compName => $compObj ) {
+                if ( $compName !== 'CiviCase' ) {
+                    $componentIds[] = $compObj->componentID;
+                } else if ( $includeCaseActivities ) {
+                    $componentIds[] = $compObj->componentID;
+                }
+                
+            }
             
             if ( count($componentIds) ) {
                 $componentIds     = implode( ',', $componentIds );
                 $componentClause  = " ($componentClause OR v.component_id IN ($componentIds))";
             }
             $condition = $condition . ' AND ' . $componentClause;
-
+            
             self::$activityType[$index] = CRM_Core_OptionGroup::values( 'activity_type', false, false, 
                                                                         false, $condition );
         }
