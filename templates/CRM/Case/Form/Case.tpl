@@ -62,11 +62,6 @@
     <tr><td class="label font-size12pt">{ts}Client{/ts}</td><td class="font-size12pt bold view-value">{$clientName}</td></tr>
 {/if}
 
-{* injection *}
-{if $activityTypeFile}
-    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
-{/if}
-
 {* activity fields *}
 {if $form.activity_subject.html}
     <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
@@ -99,6 +94,12 @@
       </td>
     </tr> 
 {/if}
+
+{* inject activity type-specific form fields *}
+{if $activityTypeFile}
+    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
+{/if}
+
 {/if}	
 
     <tr>
