@@ -72,8 +72,8 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
         }
         require_once 'CRM/Case/BAO/Case.php';
         $summary  = CRM_Case_BAO_Case::getCasesSummary( );
-        $upcoming = CRM_Case_BAO_Case::getCases( $allCases, $userID, $type = 'upcoming');
-        $recent   = CRM_Case_BAO_Case::getCases( $allCases, $userID, $type = 'recent');
+        $upcoming = CRM_Case_BAO_Case::getCases( $allCases, $userID, 'upcoming');
+        $recent   = CRM_Case_BAO_Case::getCases( $allCases, $userID, 'recent');
         
         $this->assign('casesSummary',  $summary);
         if( !empty( $upcoming ) ) {
@@ -101,5 +101,4 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
         
         return parent::run( );
     }
-
 }
