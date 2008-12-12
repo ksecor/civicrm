@@ -76,6 +76,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
+	<tr id="checkNumber"><td class="label">{$form.check_number.label}</td><td>{$form.check_number.html}</td></tr>
 	<tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
 	{if $email and $outBound_option != 2}
@@ -88,6 +89,7 @@
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
 	<tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}
 	{if $contribution_status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
+
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelInfo"> 
            <td>&nbsp;</td> 
@@ -155,7 +157,6 @@
 
     {literal}
     <script type="text/javascript">
-
      function verify( ) {
        var element = document.getElementsByName("is_email_receipt");
         if ( element[0].checked ) {
@@ -197,6 +198,15 @@
     invert              = 0
 }
 {/if} 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="payment_instrument_id"
+    trigger_value       = '4'
+    target_element_id   ="checkNumber" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+
 {/if} {* not delete mode if*}      
 {/if}
 {* closing of main custom data if*}

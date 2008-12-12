@@ -574,8 +574,9 @@ WHERE  contribution_id = {$this->_id}
         
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
-                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                               );
+                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                               false, array( 'onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);"));
+
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -605,6 +606,8 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
         }
+        $this->add( 'text', 'check_number', ts('Check Number'), $attributes['check_number'] );
+       
         $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
         
@@ -944,9 +947,8 @@ WHERE  contribution_id = {$this->_id}
             }
                         
             // get the required field value only.
-            $formValues = $submittedValues;
-            $params     = array( );
-            $ids        = array( );
+            $formValues    = $submittedValues;
+            $params = $ids = array( );
             
             $params['contact_id'] = $this->_contactID;
             $params['currency'  ] = $config->defaultCurrency;
@@ -956,6 +958,7 @@ WHERE  contribution_id = {$this->_id}
                              'payment_instrument_id',
                              'cancel_reason',
                              'source',
+                             'check_number',
                              'soft_credit_to'
                              );
             
@@ -997,6 +1000,7 @@ WHERE  contribution_id = {$this->_id}
             //create contribution.
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
+
             
             //process associated membership / participant
             if ( $this->_action & CRM_Core_Action::UPDATE ) {

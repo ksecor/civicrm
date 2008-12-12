@@ -371,6 +371,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                        ts('Payment Status'), 
                        CRM_Contribute_PseudoConstant::contributionStatus( )
                        );
+            $this->add( 'text', 'check_number', ts('Check Number'), 
+                        CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
         }
         $this->addElement('checkbox', 
                           'send_receipt', 
@@ -593,16 +595,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
-        
-        if ( CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
-            $recordContribution = array(
-                                        'total_amount',
-                                        'contribution_type_id', 
-                                        'payment_instrument_id',
-                                        'trxn_id',
-                                        'contribution_status_id'
-                                        );
 
+        if ( CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
+            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id', 'trxn_id', 'contribution_status_id', 'check_number' );
+            
             foreach ( $recordContribution as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }

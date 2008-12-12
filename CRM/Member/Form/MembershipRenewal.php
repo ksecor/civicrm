@@ -259,6 +259,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $this->add('select', 'contribution_status_id', ts('Payment Status'), 
                        CRM_Contribute_PseudoConstant::contributionStatus( )
                        );
+            
+            $this->add( 'text', 'check_number', ts('Check Number'), 
+                        CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
         }
         $this->addElement('checkbox', 'send_receipt', ts('Send Confirmation and Receipt?'), null, 
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
@@ -457,7 +460,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $contributionParams['receipt_date'         ] = $formValues['send_receipt'] ? 
                                                            $contributionParams['receive_date'] : 'null';
                        
-            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id','trxn_id', 'contribution_status_id','invoice_id','is_test' );
+            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id','trxn_id', 'contribution_status_id', 'invoice_id', 'check_number', 'is_test' );
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $formValues );
             }   

@@ -345,6 +345,10 @@ class CRM_Event_Form_EventFees
                            ts('Payment Status'), 
                            CRM_Contribute_PseudoConstant::contributionStatus( )
                            );
+                
+                $form->add( 'text', 'check_number', ts('Check Number'), 
+                            CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
+
             }
         } else {
             $form->add( 'text', 'amount', ts('Event Fee(s)') );

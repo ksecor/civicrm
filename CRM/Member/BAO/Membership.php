@@ -241,29 +241,18 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         //record contribution for this membership
         if ( CRM_Utils_Array::value( 'contribution_status_id', $params ) ) {
             $contributionParams = array( );
-            $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'  ] = $config->defaultCurrency;
-            $contributionParams['receive_date'] = $params['receive_date'];
             $contributionParams['receipt_date'] = $params['receipt_date'] ? $params['receipt_date'] : 'null';
             $contributionParams['source']       = $params['contribution_source'];
             $contributionParams['non_deductible_amount'] = 'null';
-            $contributionParams['invoice_id']   = $params['invoice_id'];
-            $contributionParams['is_test']      = $params['is_test'];
-            $recordContribution = array(
-                                        'total_amount',
-                                        'contribution_type_id', 
-                                        'payment_instrument_id',
-                                        'trxn_id',
-                                        'contribution_status_id'
-                                        );
+            $recordContribution = array( 'contact_id', 'total_amount', 'receive_date', 'contribution_type_id', 'payment_instrument_id', 'trxn_id', 'invoice_id', 'is_test', 'contribution_status_id', 'check_number' );
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
             }
-          
+            
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
-            
             
             //insert payment record for this membership
             if( !$ids['contribution'] ) {
