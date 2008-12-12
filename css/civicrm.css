@@ -12,9 +12,10 @@
 #crm-container .twenty {width: 20em;}
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
+#crm-container .huge {width: 25em;}
 #crm-container textarea.big {width: 35em; height: 4em;}
 #crm-container textarea.huge {width: 45em; height: 16em;}
-#crm-container .huge {width: 25em;}
+#crm-container textarea.nowrap {width: 45em; height: 4.5em; white-space: nowrap; overflow: auto;}
 
 /*
 ** Override line-height from style.css
