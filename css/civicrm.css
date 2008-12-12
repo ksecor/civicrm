@@ -447,6 +447,11 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   display: inline;
 }
 
+/* Normal weight labels for advanced search - too busy otherwise */
+#crm-container #Advanced label {
+  font-weight: normal;
+}
+
 #crm-container .notorg {
   font-weight: normal;
 }
@@ -879,10 +884,6 @@ div.crm-pager a {
   height: 15em;
   overflow: auto;
   border: 1px solid #92B6EC;
-}
-
-#crm-container .listing-box label, #crm-container .listing-box-tall label {
- font-weight: normal;
 }
 
 /* Image Styles */
