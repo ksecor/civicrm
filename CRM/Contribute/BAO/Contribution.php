@@ -179,6 +179,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     {
         require_once 'CRM/Utils/Money.php';
         require_once 'CRM/Utils/Date.php';
+        require_once 'CRM/Contribute/PseudoConstant.php';
 
         // FIXME: a cludgy hack to fix the dates to MySQL format
         $dateFields = array('receive_date', 'cancel_date', 'receipt_date', 'thankyou_date');
@@ -187,6 +188,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
             }
         }
+
+        $params['check_number'] = $params['payment_instrument_id'] == array_search( 'Check', CRM_Contribute_PseudoConstant::paymentInstrument( ) ) ?  $params['check_number'] : 'null';
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
