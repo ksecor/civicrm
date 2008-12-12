@@ -255,7 +255,7 @@ AND        ca.case_id = %3
         $activityTypeInfo = CRM_Utils_Array::value( $activityTypeName, $activityTypes );
 
         if ( ! $activityTypeInfo ) {
-            CRM_Core_Error::fatal( );
+            CRM_Core_Error::fatal( "Activity type '$activityTypeName' found in config file, is not present in the db. Please investigate." );
             return false;
         }
         $activityTypeID = $activityTypeInfo['id'];

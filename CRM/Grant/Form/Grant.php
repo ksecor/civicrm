@@ -161,6 +161,12 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         //build custom data
         CRM_Custom_Form_Customdata::buildQuickForm( $this );
         
+        // add attachments part
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_grant',
+                                            $this->_id );
+
         // make this form an upload since we dont know if the custom data injected dynamically
         // is of type file etc $uploadNames = $this->get( 'uploadNames' );
         $this->addButtons(array( 
@@ -209,7 +215,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-        
+
         if (!$params['grant_report_received']){
             $params['grant_report_received'] = "null";
         }
@@ -224,16 +230,22 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         if ( $this->_noteId ) {
             $ids['note']['id']   = $this->_noteId;
         }
-        
+
 		// process custom data
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Grant' );
         $params['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                       $customFields,
-                                                                       $this->_id,
-                                                                       'Grant' );
+                                                                   $customFields,
+                                                                   $this->_id,
+                                                                   'Grant' );
+
+        // add attachments as needed
+        CRM_Core_BAO_File::formatAttachment( $params,
+                                             $params,
+                                             'civicrm_grant',
+                                             $this->_id );
 
         require_once 'CRM/Grant/BAO/Grant.php';
-        CRM_Grant_BAO_Grant::create($params ,$ids);
+        $grant =& CRM_Grant_BAO_Grant::create($params, $ids);
     }
 }
 

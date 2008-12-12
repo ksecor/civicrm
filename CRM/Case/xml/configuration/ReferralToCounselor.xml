@@ -8,6 +8,9 @@
       <max_instances>1</max_instances>
      </ActivityType>
     <ActivityType>
+      <name>Notify service provider</name>
+    </ActivityType>
+    <ActivityType>
       <name>Facilitate first appointment</name>
     </ActivityType>
     <ActivityType>
@@ -56,6 +59,12 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
+        </ActivityType>
+		<ActivityType>
+          <name>Notify service provider</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>2</reference_offset>
+          <reference_select>newest</reference_select>
         </ActivityType>
 		<ActivityType>
           <name>Facilitate first appointment</name>

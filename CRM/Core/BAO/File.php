@@ -386,6 +386,7 @@ AND       CEF.entity_id    = %2";
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
             $names[] = "attachFile_{$i}";
         }
+        $names[] = 'uploadFile';
         return $names;
     }
 

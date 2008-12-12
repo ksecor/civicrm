@@ -5,6 +5,7 @@
 <style>
 .hit {ldelim}padding-left:10px;{rdelim}
 .tree li {ldelim}padding-left:10px;{rdelim}
+#crm-container #Tag ul#tagtree {ldelim}margin-left:-10px;{rdelim}
 #crm-container td #Tag ul {ldelim}margin:0 0 0.5em;padding:0{rdelim}
 #crm-container td #Tag li {ldelim}padding-bottom:0;margin:0 0 0 0.5em;{rdelim}
 
@@ -22,6 +23,7 @@ function initTagTree() {
 		collapsed: true,
 		unique: true
           });
+        $('#tagtree>li:odd').addClass('even-row');
         $("#tagtree ul input:checked").each (function(){
           $(this).parents("li").children(".hit").addClass('highlighted');
         });

@@ -143,7 +143,7 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
                                       'name'      => ts('<< Previous'), 
                                       'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' );
             }
-            $buttons[] = array ( 'type'      => $buttonType,
+            $buttons[] = array ( 'type'      => 'upload',
                                  'name'      => ts('Continue >>'),
                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'isDefault' => true   );

@@ -328,9 +328,8 @@ class CRM_Event_Form_EventFees
                 
                 $form->add('select', 'payment_instrument_id', 
                            ts( 'Paid By' ), 
-                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                           );
-                
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                           false, array( 'onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);"));
                 // don't show transaction id in batch update mode
                 $path = CRM_Utils_System::currentPath( );
                 $form->assign('showTransactionId', false );
@@ -345,6 +344,10 @@ class CRM_Event_Form_EventFees
                            ts('Payment Status'), 
                            CRM_Contribute_PseudoConstant::contributionStatus( )
                            );
+                
+                $form->add( 'text', 'check_number', ts('Check Number'), 
+                            CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution', 'check_number' ) );
+
             }
         } else {
             $form->add( 'text', 'amount', ts('Event Fee(s)') );

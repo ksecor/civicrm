@@ -289,6 +289,12 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             CRM_Core_BAO_CustomValueTable::store($params['custom'], 'civicrm_grant', $grant->id);
         }
         
+        // check and attach and files as needed
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::processAttachment( $params,
+                                              'civicrm_grant',
+                                              $grant->id );
+
         $transaction->commit( );
         
         return $grant;

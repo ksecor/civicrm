@@ -329,4 +329,17 @@
     <add>2.2</add> 
     <onDelete>SET NULL</onDelete>
   </foreignKey>
+  <field>        
+    <name>check_number</name>     
+    <title>Check Number</title>
+    <type>varchar</type>     
+    <length>255</length>  
+    <import>true</import>
+    <add>2.2</add>     
+  </field>  
+  <index>
+    <name>check_number</name>
+    <fieldName>check_number</fieldName>
+    <add>2.2</add>
+  </index>
 </table>

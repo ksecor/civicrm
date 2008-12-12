@@ -49,9 +49,20 @@ class CRM_Event_Controller_ManageEvent extends CRM_Core_Controller {
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
 
+        $config  =& CRM_Core_Config::singleton( );
+        $uploadDir = $config->uploadDir;
+
+        require_once 'CRM/Core/BAO/File.php';
+        $uploadNames = $this->get( 'uploadNames' );
+        if ( ! empty( $uploadNames ) ) {
+            $uploadNames = array_merge( $uploadNames,
+                                        CRM_Core_BAO_File::uploadNames( ) );
+        } else {
+            $uploadNames = CRM_Core_BAO_File::uploadNames( );
+        }
+
         // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+        $this->addActions( $uploadDir, $uploadNames );
     }
 
 }

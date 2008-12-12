@@ -59,6 +59,16 @@ class CRM_Case_Form_ActivityView extends CRM_Core_Form
         require_once 'CRM/Case/XMLProcessor/Report.php';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $report       = $xmlProcessor->getActivityInfo( $contactID, $activityID, true );
+        
+        require_once 'CRM/Core/BAO/File.php';
+        $attachmentUrl = CRM_Core_BAO_File::attachmentInfo( 'civicrm_activity', $activityID );
+        if ( $attachmentUrl ) {
+            $report['fields'][] = array ( 'label' => 'Attachment(s)',
+                                          'value' => $attachmentUrl,
+                                          'type'  => 'Link'
+                                          );
+        }  
+        
         $this->assign('report', $report );
 
         $latestRevisionID = CRM_Activity_BAO_Activity::getLatestActivityId( $activityID );

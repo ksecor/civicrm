@@ -225,6 +225,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // this is used for setting dojo tabs
         if ( ! $this->_context ) {
             $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
+            if ( !$this->_context ) {
+                $this->_context = CRM_Utils_Request::retrieve('selectedChild', 'String', $this );
+            }
         }
         $this->assign( 'context', $this->_context );
 
@@ -438,7 +441,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults["activity_type_id"] =  $this->_activityTypeId;
         }
         
-        // DRAFTING: Check this in the template
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
             $this->assign( 'delName', $defaults['subject'] );
         }
@@ -453,6 +455,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     public function buildQuickForm( ) 
     {
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
+            //enable form element (ActivityLinks sets this true)
+            $this->assign( 'suppressForm', false );
+
             $button = ts('Delete');
             if (  $this->_action & CRM_Core_Action::RENEW ) {
                 $button = ts('Restore');
@@ -505,9 +510,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
-        //enable form element
+        //enable form element (ActivityLinks sets this true)
         $this->assign( 'suppressForm', false );
-            
+
         $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
                                $this->_fields['followup_activity_type_id']['attributes'],
                                false, array('onchange' => 
@@ -579,7 +584,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             if ( isset( $this->_groupTree ) ) {
 				CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $this->_groupTree );
             }
-            
+
             $this->freeze();
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
@@ -587,10 +592,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                      )
                                );
         } else {
-            $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
-            $buttonType = $this->buttonType( );
             $this->addButtons( array(
-                                     array ( 'type'      => $buttonType,
+                                     array ( 'type'      => 'upload',
                                              'name'      => ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
@@ -680,7 +683,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
-            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
+            CRM_Core_Session::setStatus( ts("Selected Activity has been deleted sucessfully.") );
             return;
         }
         

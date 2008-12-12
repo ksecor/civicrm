@@ -255,7 +255,7 @@ class CRM_Core_PseudoConstant
      * @var array
      * @static
      */
-    private static $activityStatus;
+    private static $activityStatus = array( );
 
     /**
      * wysiwyg Editor
@@ -1267,14 +1267,17 @@ WHERE  id = %1";
      * @static
      * @return array - array reference of all activty statuses
      */
-    public static function &activityStatus( )
+    public static function &activityStatus( $column = 'label' )
     {
-        if ( ! self::$activityStatus ) {
+        if ( ! array_key_exists($column, self::$activityStatus) ) {
+            self::$activityStatus[$column] = array( );
+
             require_once 'CRM/Core/OptionGroup.php';
-            self::$activityStatus = CRM_Core_OptionGroup::values('activity_status');
+            self::$activityStatus[$column] = CRM_Core_OptionGroup::values('activity_status', false, 
+                                                                          false, false, null, $column);
         }
 
-        return self::$activityStatus;
+        return self::$activityStatus[$column];
     }
 
   /**

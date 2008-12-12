@@ -83,8 +83,18 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */
     function preProcess( ) 
     {        
-        $this->_caseId        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-      
+        $this->_caseId                   = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+
+        $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
+        if ( $this->_action & CRM_Core_Action::ADD && ! $this->_currentlyViewedContactId ) {
+            // check for add contacts permissions
+            require_once 'CRM/Core/Permission.php';
+            if ( ! CRM_Core_Permission::check( 'add contacts' ) ) {
+                CRM_Utils_System::permissionDenied( );
+                return;
+            }
+        }
         if ( $this->_action & CRM_Core_Action::DELETE || $this->_action & CRM_Core_Action::RENEW ) {
             return true;
         }
@@ -100,8 +110,6 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_activityTypeId]['label'])));
         $this->assign('activityType', $details[$this->_activityTypeId]['label']);
        
-        $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
         if ( isset($this->_currentlyViewedContactId) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             $contact =& new CRM_Contact_DAO_Contact( );

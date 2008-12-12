@@ -47,22 +47,22 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
      * @return void  
      * @access public  
      */
-    public function preProcess( ) {
+    public function preProcess( ) 
+    {
+        $id     = $this->get( 'id' );
+        $values = $ids = array( ); 
+        $params = array( 'id' => $id ); 
+        
         require_once 'CRM/Contribute/BAO/Contribution.php';
+        CRM_Contribute_BAO_Contribution::getValues( $params, $values, $ids );            
 
-        $values = array( ); 
-        $ids    = array( ); 
-        $params = array( 'id' => $this->get( 'id' ) ); 
-        CRM_Contribute_BAO_Contribution::getValues( $params, 
-                                                    $values,  
-                                                    $ids );            
         $softParams = array( 'contribution_id' => $values['contribution_id'] );
         if( $softContribution = CRM_Contribute_BAO_Contribution::getSoftContribution( $softParams, true ) ) {
             $values = array_merge( $values, $softContribution );
         } 
-        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
         
-        if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
+        if ( isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
             $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
             $dao = &new CRM_Core_DAO();
             $dao->query($sql);
@@ -76,9 +76,8 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this, $this->get( 'id' ),0,$values['contribution_type_id'] );
 		CRM_Core_BAO_CustomGroup::buildCustomDataView( $this, $groupTree );
-
+        
         $premiumId = null;
-        $id        = $this->get( 'id' );
         if ( $id ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();

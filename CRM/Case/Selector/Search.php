@@ -316,12 +316,12 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base
          //retrive the scheduled & recent Activity type and date for selector
          if( ! empty ( $scheduledInfo ) ) {
              require_once 'CRM/Case/BAO/Case.php';
-             $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, $type ='upcomming' );
+             $schdeduledActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, 'upcoming' );
              foreach( $schdeduledActivity as $key => $value) {
                  $rows[$key]['case_scheduled_activity_date'] = $value['date'];
                  $rows[$key]['case_scheduled_activity_type'] = $value['type'];
              }
-             $recentActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, $type ='recent' );
+             $recentActivity = CRM_Case_BAO_Case::getNextScheduledActivity( $scheduledInfo, 'recent' );
              foreach( $recentActivity as $key => $value) {
                  $rows[$key]['case_recent_activity_date'] = $value['date'];
                  $rows[$key]['case_recent_activity_type'] = $value['type'];

@@ -46,6 +46,11 @@
 	<dt>{ts}Paid By{/ts}</dt>
 	<dd>{$payment_instrument}&nbsp;</dd>
 
+	{if $payment_instrument eq 'Check'}
+	<dt>{ts}Check Number{/ts}</dt>
+	<dd>{$check_number}&nbsp;</dd>
+	{/if}
+
 	<dt>{ts}Source{/ts}</dt>
 	<dd>{$source}&nbsp;</dd>
 

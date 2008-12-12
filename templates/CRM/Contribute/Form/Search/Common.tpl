@@ -19,8 +19,11 @@
 	{$form.contribution_status_id.html} </td>
 </tr>
 <tr>
-	<td><label>{ts}Paid By{/ts}</label> <br />
-	{$form.contribution_payment_instrument_id.html}</td>
+	<td><label>{ts}Paid By{/ts}</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	{$form.contribution_check_number.label} <br />
+	{$form.contribution_payment_instrument_id.html}&nbsp;&nbsp;&nbsp;&nbsp;
+	{$form.contribution_check_number.html}
+	</td>
 	<td>{$form.contribution_transaction_id.label} <br />
 	{$form.contribution_transaction_id.html}</td>
 </tr>
@@ -52,6 +55,7 @@
 	<td>{$form.contribution_pcp_display_in_roll.label}
 	{$form.contribution_pcp_display_in_roll.html}&nbsp;&nbsp;<a href="javascript:unselectRadio('contribution_pcp_display_in_roll','Search')">unselect</a></td>
 </tr>
+
 {if $contributeGroupTree}
 <tr>
 	<td colspan="2">

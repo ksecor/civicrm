@@ -904,20 +904,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 unset($params['note']);
                 
                 //build contribution params 
-                           
                 $contributionParams['currency'             ] = $config->defaultCurrency;
-                $contributionParams['contact_id'           ] = $params['contact_id'];
                 $contributionParams['source'               ] = "{$eventTitle}: Offline registration (by {$userName})";
                 $contributionParams['non_deductible_amount'] = 'null';
+                $contributionParams['receipt_date'         ] = $params['send_receipt'] ? $contributionParams['receive_date'] : 'null';
                 
-                $contributionParams['receive_date'         ] = $params['receive_date'];
-                
-                $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
-                    $contributionParams['receive_date'] : 'null';
-                $recordContribution = array( 'contribution_type_id', 
-                                             'payment_instrument_id',
-                                             'trxn_id',
-                                             'contribution_status_id' );
+                $recordContribution = array( 'contact_id', 'contribution_type_id', 'payment_instrument_id', 'trxn_id', 'contribution_status_id', 'receive_date', 'check_number' );
                 
                 foreach ( $recordContribution as $f ) {
                     $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );

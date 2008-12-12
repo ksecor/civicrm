@@ -96,7 +96,6 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Thermometer') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
-        $this->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',

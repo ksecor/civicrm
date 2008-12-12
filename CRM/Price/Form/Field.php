@@ -200,9 +200,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         $_showHide->addToTemplate();                
 
-        // is_enter_qty
-        $this->add('checkbox', 'is_enter_qty', ts('Enter Quantity?') );
-
         // is_display_amounts
         $this->add('checkbox', 'is_display_amounts', ts('Display Amount?') );
 
@@ -489,12 +486,14 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         } else {
             $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
 
-            // fix option_value
-            $value = 1;
-            $params['option_value'] = array( );
-            if ( isset( $params['option_name'] ) ) {
-                foreach ( $params['option_name'] as $key => $dontCare ) {
-                    $params['option_value'][$key] = $value++;
+            if ($this->_action & CRM_Core_Action::ADD) {
+                // fix option_value
+                $value = 1;
+                $params['option_value'] = array( );
+                if ( isset( $params['option_name'] ) ) {
+                    foreach ( $params['option_name'] as $key => $dontCare ) {
+                        $params['option_value'][$key] = $value++;
+                    }
                 }
             }
         }

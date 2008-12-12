@@ -3,11 +3,13 @@
 
 <div class="float-right">
   <table class="form-layout-compressed">
+   {if $newClient}	
     <tr>
       <td>
         <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case for New Client{/ts}</span></a>
       </td>
     </tr>
+   {/if}
    {if $myCases}
     <tr>
       <td class="right">

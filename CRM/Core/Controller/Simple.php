@@ -90,7 +90,7 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
             } else if ( $imageUpload ) {
                 $this->addActions( $config->imageUploadDir, array( 'uploadFile' ));
             } else {
-                $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+                $this->addActions( );
             }
         }
         
