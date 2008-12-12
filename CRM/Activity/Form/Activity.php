@@ -225,9 +225,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // this is used for setting dojo tabs
         if ( ! $this->_context ) {
             $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
-            if ( !$this->_context ) {
-                $this->_context = CRM_Utils_Request::retrieve('selectedChild', 'String', $this );
-            }
         }
         $this->assign( 'context', $this->_context );
 
@@ -310,7 +307,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // set user context
         if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
-        } else if ( $this->_context == 'activity' ) {
+        } else if ( $this->_context != 'caseActivity' ) {
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
         }

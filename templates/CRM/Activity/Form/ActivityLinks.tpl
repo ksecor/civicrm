@@ -9,10 +9,10 @@
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
 {/if}
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`&context=activity"}"><img src="{$config->resourceBase}i/meeting.gif" alt="{ts}Meeting{/ts}"/></a>&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`&context=activity"}">{ts}Meeting{/ts}</a>&nbsp;&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=2&action=add&reset=1&cid=`$contactId`&context=activity"}"><img src="{$config->resourceBase}i/tel.gif" alt="{ts}Phone Call{/ts}"/></a>&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=2&action=add&reset=1&cid=`$contactId`&context=activity"}">{ts}Phone Call{/ts}</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/meeting.gif" alt="{ts}Meeting{/ts}"/></a>&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`"}">{ts}Meeting{/ts}</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=2&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/tel.gif" alt="{ts}Phone Call{/ts}"/></a>&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=2&action=add&reset=1&cid=`$contactId`"}">{ts}Phone Call{/ts}</a>&nbsp;&nbsp;
    {* Only display next link if there are activity_type entries for this domain. *}
    {if $showOtherActivityLink}
         &nbsp;&nbsp;
