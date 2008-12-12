@@ -621,12 +621,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                                           $this->_values['custom']['amount_id'])];
                 $this->assign( 'amount_level', $params['amount_level'] );
             } else {
-                $lineItem = array( );
-                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
-                                                                             $params, $lineItem[0] );
-                $this->set( 'lineItem', $lineItem );
-                $this->assign( 'lineItem', $lineItem );
-                $this->_lineItem = $lineItem;
+                if ( ! $this->_online ) {
+                    $lineItem = array( );
+                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                                                                                 $params,
+                                                                                 $lineItem[0] );
+                    $this->set( 'lineItem', $lineItem );
+                    $this->assign( 'lineItem', $lineItem );
+                    $this->_lineItem = $lineItem;
+                }
             }
             
             $params['fee_level']                = $params['amount_level'];
