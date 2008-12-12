@@ -43,7 +43,7 @@
             <td><label>{ts}Group(s){/ts}</label>
                 <div class="{$boxClass}">
                     {foreach from=$form.group item="group_val"}
-                    <div class="{cycle values="odd-row,even-row"}">
+                    <div class="{cycle values="even-row,odd-row"}">
                     {$group_val.html}
                     </div>
                     {/foreach}

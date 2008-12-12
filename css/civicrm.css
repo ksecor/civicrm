@@ -881,6 +881,10 @@ div.crm-pager a {
   border: 1px solid #92B6EC;
 }
 
+#crm-container .listing-box label, #crm-container .listing-box-tall label {
+ font-weight: normal;
+}
+
 /* Image Styles */
 #crm-container .action-icon {
   vertical-align: middle;
