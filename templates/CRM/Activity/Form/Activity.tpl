@@ -200,14 +200,14 @@
 <script type="text/javascript">
 {/literal}
 {if $action eq 1 or $context eq 'search'}
-{literal}
-   buildContact( 1, 'assignee_contact' );
-{/literal}   
+   dojo.addOnLoad( function( ) {ldelim}	
+      buildContact( 1, 'assignee_contact' );
+   {rdelim} );
 {/if}
 {if $action eq 1 }
-{literal}
-   buildContact( 1, 'target_contact' );
-{/literal}   
+   dojo.addOnLoad( function( ) {ldelim}	
+      buildContact( 1, 'target_contact' );
+   {rdelim} );
 {/if}
 
 {if $action eq 1 or $action eq 2}
