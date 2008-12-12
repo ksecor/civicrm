@@ -1273,6 +1273,11 @@ AND cl.modified_id  = c.id
         
         $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
         
+        //create target contact for followup
+        if ( CRM_Utils_Array::value('target_contact_id', $params) ) {
+            $followupParams['target_contact_id'] = $params['target_contact_id'];
+        }
+        
         CRM_Utils_Date::getAllDefaultValues( $currentDate );
         $followupDate = CRM_Utils_Date::intervalAdd( $params['interval_unit'], $params['interval'], $currentDate );
         $followupDate = CRM_Utils_Date::format( $followupDate );
@@ -1284,16 +1289,6 @@ AND cl.modified_id  = c.id
         }
         
         $followupActivity = self::create( $followupParams );
-        
-        //create target contact for followup
-        if ( $followupActivity && !empty($params['target_contact_id']) ) {
-            foreach ( $params['target_contact_id'] as $cid ) {
-                $targetParams = array( );
-                $targetParams['target_contact_id'] = $cid;
-                $targetParams['activity_id']       = $followupActivity->id;
-                self::createActivityTarget( $targetParams );
-            }
-        }
         
         return $followupActivity;
     }
