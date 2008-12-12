@@ -125,6 +125,13 @@ class CRM_Contribute_BAO_Query
             $query->_whereTables['civicrm_contribution'] = 1;
             $query->_whereTables['contribution_payment_instrument'] = 1;
         }
+
+        if ( CRM_Utils_Array::value( 'check_number', $query->_returnProperties ) ) {
+            $query->_select['contribution_check_number']  = "civicrm_contribution.check_number as contribution_check_number";
+            $query->_element['contribution_check_number'] = 1;
+            $query->_tables['civicrm_contribution'] = 1;
+            $query->_whereTables['civicrm_contribution'] = 1;
+        }
     }
 
     static function where( &$query ) 
@@ -300,6 +307,14 @@ class CRM_Contribute_BAO_Query
             $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.trxn_id)" : "civicrm_contribution.trxn_id";
             $query->_where[$grouping][] = "$wc $op '$value'";
             $query->_qill[$grouping][]  = "Transaction ID $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+            
+        case 'contribution_check_number':
+            $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.check_number)" : "civicrm_contribution.check_number";
+            $query->_where[$grouping][] = "$wc $op '$value'";
+            $query->_qill[$grouping][]  = "Check Number $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
@@ -504,6 +519,7 @@ class CRM_Contribute_BAO_Query
                                 'total_amount'            => 1,
                                 'accounting_code'         => 1,
                                 'payment_instrument'      => 1,
+                                'check_number'            => 1,
                                 'non_deductible_amount'   => 1,
                                 'fee_amount'              => 1,
                                 'net_amount'              => 1,
@@ -616,7 +632,8 @@ class CRM_Contribute_BAO_Query
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
         $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
-
+        $form->addElement('text', 'contribution_check_number', ts('Check Number') );
+        
         //add field for pcp display in roll search
         $options = array(); 
         $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Yes'), 1 );
