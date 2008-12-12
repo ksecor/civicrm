@@ -256,6 +256,10 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             $label = $field->label;
         }
 
+	if ( isset($qf->_online) ) {
+	  $useRequired = false;
+	}
+
         switch($field->html_type) {
         case 'Text':
             if ($field->is_display_amounts) {
@@ -268,7 +272,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             }
             $element =& $qf->add(
                                  'text', $elementName, $label, 'size="4"',
-                                 ( $useRequired || ( $useRequired && $field->is_required ) )
+                                 $useRequired && $field->is_required
                                  );
             
             // integers will have numeric rule applied to them.
@@ -293,7 +297,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             }
             $element =& $qf->addGroup($choice, $elementName, $label);
             
-            if ( ( $useRequired || ( $useRequired && $field->is_required) ) ) {
+            if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
@@ -310,7 +314,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             }
             $element =& $qf->add('select', $elementName, $label,
                                  array( '' => ts('- select -')) + $selectOption,
-                                 ( ( $useRequired || ($useRequired && $field->is_required) ) ) );
+                                 $useRequired && $field->is_required );
             break;
             
         case 'CheckBox':
@@ -324,8 +328,8 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label']); 
             }
             $element =& $qf->addGroup($check, $elementName, $label);
-            if ( ( $useRequired ||( $useRequired && $field->is_required) ) ) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            if ( $useRequired && $field->is_required ) {
+	      $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             
