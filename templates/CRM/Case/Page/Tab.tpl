@@ -12,6 +12,13 @@
      {if $permission EQ 'edit'}{ts 1=$newCaseURL}Click <a href='%1'>New Case</a> to add a case record for this contact.{/ts}{/if}
 </div>
 
+{if $action eq 16 and $permission EQ 'edit'}
+    <div class="action-link">
+    <a accesskey="N" href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
+    </div>
+    <br /><br />
+{/if}
+
 {if $rows}
     {include file="CRM/Case/Form/Selector.tpl"}
 {else}
