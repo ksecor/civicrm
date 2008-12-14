@@ -9,7 +9,11 @@
 
 	<dt>{ts}Total Amount{/ts}</dt>
 	<dd class="bold">{$total_amount|crmMoney}&nbsp; 
-	{if $contribution_recur_id} {ts}(Recurring Contribution){/ts} {/if}</dd>
+{if $contribution_recur_id}
+  &nbsp; <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
+  {ts}Installments{/ts}: {$recur_installments} {$recur_frequency}(s)
+{/if}
+</dd>
 
 	{if $non_deductible_amount}
 	<dt>{ts}Non-deductible Amount{/ts}</dt>
