@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-12-11 01:17-0800\n"
+"PO-Revision-Date: 2008-12-11 01:43-0800\n"
 "Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1217,10 +1217,10 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email) (OR Invoice ID or "
 "Transaction ID or Contribution ID if update mode.)"
 msgstr ""
-"Champs contact manquant. (Il doit d'abord y avoir Prénom ET Nom ou Email "
-"principal ou Prénom, Nom ET Email principal)(OU numéro de facture ou numéro "
-"de la transaction ou numéro de la contribution si on est en mode mise à "
-"jour.)"
+"Il manque un champs requis de correspondance pour les contact. Ce peut être "
+"Nom&Prénom ou Email Primaire ou Nom&Prénom&Email Primaire (ou ID de facture "
+"ou ID de transaction ou ID de contribution dans le processus de mise à "
+"jour)."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #, fuzzy
@@ -2711,7 +2711,7 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter a monetary value for the Minimum Fee."
-msgstr "Veuillez indiquer une valeur monétaire pour ces frais minimums."
+msgstr "Veuillez indiquer la valeur des frais minimums."
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Duration Interval"
@@ -2722,9 +2722,8 @@ msgid "Membership Organization"
 msgstr "Organisation de l'adhésion"
 
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Fixed Period Rollover Day"
-msgstr "Jours tournants de période fixe"
+msgstr "Jour de renouvellement de la période fixe"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Message"
@@ -2740,12 +2739,11 @@ msgstr "Changer"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter a valid fixed period start day"
-msgstr "Veuillez entrer un jour de début de période fixe valide"
+msgstr "Veuillez entrer un jour valide de début de période fixe "
 
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Please enter a valid fixed period rollover day"
-msgstr "Veuillez entrer un jour variable de période fixe valide"
+msgstr "Veuillez entrer un jour valide de renouvellement de période fixe"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter renewal reminder days."
@@ -2784,15 +2782,14 @@ msgid "Print Members"
 msgstr "Imprimer les membres"
 
 #: CRM/Member/Import/Form/MapField.php
-#, fuzzy
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
-"Champs de contact manquants. (Il doit y avoir Prénom ET Nom ou Email "
-"principal ouo Prénom, Nom ET Email principal.) (OU Numéro d'adhésion en mode "
-"mise à jour.)"
+"Il manque un champs requis de correspondance pour les contact. Ce peut être "
+"Nom&Prénom ou Email Primaire ou Nom&Prénom&Email Primaire (ou l'ID "
+"d'adhésion dans le processus de mise à jour)."
 
 #: CRM/Member/Import/Form/MapField.php
 #, fuzzy
