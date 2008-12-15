@@ -161,7 +161,7 @@ function civicrm_config( &$config ) {
         $params['baseURL']        = civicrm_cms_base( )  . 'standalone/';
     }
 
-    $str = file_get_contents( $tplPath . 'civicrm.settings.php.sample.tpl' );
+    $str = file_get_contents( $tplPath . 'civicrm.settings.php.tpl' );
     foreach ( $params as $key => $value ) { 
         $str = str_replace( '%%' . $key . '%%', $value, $str ); 
     } 

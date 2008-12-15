@@ -118,7 +118,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
         $this->addRule( 'location_count', ts( 'Location count must be a positive integer (e.g. 1 or 2 or ...).' ), 'positiveInteger' );
 
         // address formatting options
-        $this->addElement('text','individual_name_format', ts('Individual Name Format'));
+        $this->addElement('textarea','individual_name_format', ts('Individual Name Format'), array("class"=>"nowrap","wrap"=>"off"));
         $this->addElement('textarea','mailing_format', ts('Mailing Label Format'));  
         $this->addElement('textarea','address_format', ts('Display Format'));  
 

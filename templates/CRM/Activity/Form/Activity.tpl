@@ -197,112 +197,59 @@
 {/if}
 
 {* Build add contact *}
-{literal}
 <script type="text/javascript">
-{/literal}
-{if $action eq 1 or $context eq 'search'}
-{literal}
-   buildContact( 1, 'assignee_contact' );
-{/literal}   
-{/if}
-{if $action eq 1 }
-{literal}
-   buildContact( 1, 'target_contact' );
-{/literal}   
-{/if}
-
-{if $action eq 1 or $action eq 2}
-{literal}
-
-var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
-if ( assigneeContactCount ) {
-    for ( var i = 1; i <= assigneeContactCount; i++ ) {
-	buildContact( i, 'assignee_contact' );
-    }
-}
-
-var targetContactCount = {/literal}"{$targetContactCount}"{literal}
-if ( targetContactCount ) {
-    for ( var i = 1; i <= targetContactCount; i++ ) {
-	buildContact( i, 'target_contact' );
-    }
-}
-
-{/literal}
-{/if}
-
-{literal}
-function buildContact( count, pref )
-{
-    if ( count > 1 ) {
-	prevCount = count - 1;
-    {/literal}
-    {if $action eq 1  OR $action eq 2}
     {literal}
-	hide( pref + '_' + prevCount + '_show');
-    {/literal} 
-    {/if}
-    {literal}
-    }
 
-    // do not recreate if combo widget is already created
-    if ( dijit.byId( pref + '[' + count + ']' ) ) {
-	return;
-    }
+    cj(document).ready(function(){
+        {/literal}
+        {if $action eq 1 or $context eq 'search'}
+            {literal}
+                buildContact( 1, 'assignee_contact' );
+            {/literal}   
+        {/if}
+        {if $action eq 1 }
+            {literal}
+                buildContact( 1, 'target_contact' );
+            {/literal}   
+        {/if}
 
-    var context = {/literal}"{$context}"{literal}
-    var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
+        {if $action eq 1 or $action eq 2}
+            {literal}
 
-{/literal}
-{if $urlPathVar}
-	dataUrl = dataUrl + '&' + '{$urlPathVar}'
-{/if}
-{literal}
-
-    fetchurl(dataUrl, pref + '_' + count, pref + '_' + count);
-}
-
-function injectActTypeFileFields( type ) {
-	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&atype='}"{literal} + type; 
-    dataUrl = dataUrl + '&atypefile=1';
-
-{/literal}{if $urlPathVar}
-	dataUrl = dataUrl + '&' + '{$urlPathVar}'
-{/if}{literal}
-
-    fetchurl(dataUrl, 'atypefields', false);
-}
-
-function fetchurl(dataUrl, fieldname, parsefield) {
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-	sync: true,
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs) {
-                if (response instanceof Error) {
-        		    if (response.dojoType == "cancel") {
-    	    		//The request was canceled by some other JavaScript code.
-        			console.debug("Request canceled.");
-        		    } else if (response.dojoType == "timeout") {
-        			//The request took over 5 seconds to complete.
-        			console.debug("Request timed out.");
-        		    } else {
-        			//Some other error happened.
-        			console.error(response);
-        		    }
-                } else {
-		            // on success
-    		        document.getElementById( fieldname ).innerHTML = response;
-                    if ( parsefield ) {
-	    	            dojo.parser.parse( parsefield );
+                var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
+                if ( assigneeContactCount ) {
+                    for ( var i = 1; i <= assigneeContactCount; i++ ) {
+                        buildContact( i, 'assignee_contact' );
                     }
-        		}
-        	    }
-	});
-}
+                }
+
+                var targetContactCount = {/literal}"{$targetContactCount}"{literal}
+                if ( targetContactCount ) {
+                    for ( var i = 1; i <= targetContactCount; i++ ) {
+                        buildContact( i, 'target_contact' );
+                    }
+                }
+
+            {/literal}
+        {/if}
+  {literal}        
+  });
+  
+  function injectActTypeFileFields( type ) {
+      var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&atype='}"{literal} + type; 
+      dataUrl = dataUrl + '&atypefile=1';
+
+      {/literal}{if $urlPathVar}
+         dataUrl = dataUrl + '&' + '{$urlPathVar}'
+      {/if}{literal}
+
+  	  cj( '#atypefields' ).load( dataUrl );
+  }
+  
+  {/literal}
 </script>
 
-{/literal}
+{*include add contact js file*}
+{include file="CRM/common/addContact.tpl"}
 
 {/if} {* end of snippet if*}	

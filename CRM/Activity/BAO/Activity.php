@@ -471,7 +471,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         // Filter on component IDs.
         $componentClause = "civicrm_option_value.component_id IS NULL";
-
+        $componentsIn    = null;
         $compInfo        = CRM_Core_Component::getEnabledComponents();
         foreach ( $compInfo as $compObj ) {
             if ( $compObj->info['showActivitiesInCore'] ) {
@@ -602,7 +602,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $statusClause = " civicrm_activity.status_id = 1 "; 
         }
         //handle case related activity if $case is set
-        $case = 1;
+        $case     = 1;
+        $caseJoin = null;
         if ( $caseId ) {
             $case = "civicrm_case_activity.case_id = {$caseId}";
             $caseJoin = "LEFT JOIN civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
@@ -1273,6 +1274,11 @@ AND cl.modified_id  = c.id
         
         $followupParams['activity_type_id']  = $params['followup_activity_type_id'];
         
+        //create target contact for followup
+        if ( CRM_Utils_Array::value('target_contact_id', $params) ) {
+            $followupParams['target_contact_id'] = $params['target_contact_id'];
+        }
+        
         CRM_Utils_Date::getAllDefaultValues( $currentDate );
         $followupDate = CRM_Utils_Date::intervalAdd( $params['interval_unit'], $params['interval'], $currentDate );
         $followupDate = CRM_Utils_Date::format( $followupDate );
@@ -1284,16 +1290,6 @@ AND cl.modified_id  = c.id
         }
         
         $followupActivity = self::create( $followupParams );
-        
-        //create target contact for followup
-        if ( $followupActivity && !empty($params['target_contact_id']) ) {
-            foreach ( $params['target_contact_id'] as $cid ) {
-                $targetParams = array( );
-                $targetParams['target_contact_id'] = $cid;
-                $targetParams['activity_id']       = $followupActivity->id;
-                self::createActivityTarget( $targetParams );
-            }
-        }
         
         return $followupActivity;
     }

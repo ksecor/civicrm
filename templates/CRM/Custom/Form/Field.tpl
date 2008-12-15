@@ -116,7 +116,7 @@
 {if $action eq 1}
         clearSearchBoxes( );
 {/if}
-{/literal}
+{literal}
     }
 </script>
 {/literal}

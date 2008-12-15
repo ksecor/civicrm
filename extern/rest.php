@@ -35,7 +35,8 @@ $rest =& new CRM_Utils_REST();
 
 $config =& CRM_Core_Config::singleton();
 
-if ( $_GET['json'] ) {
+if ( isset( $_GET['json'] ) &&
+     $_GET['json'] ) {
     header( 'Content-Type: text/javascript' );
 } else {
     header( 'Content-Type: text/xml' );

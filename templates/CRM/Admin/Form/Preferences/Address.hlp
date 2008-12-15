@@ -3,6 +3,7 @@
 <div class="form-item">
 <table style="">
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.contact_name}{/literal}</td><td>{ts}Used for mailing labels only. Replaced by the configurable Individual Name format for individuals and the display name for Organizations and Households.{/ts}</td></tr>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.current_employer}{/literal}</td><td>{ts}Current employer name as configured in the individual contact edit form. If you are printing labels for Organizations and Households AS WELL AS Individuals, then consider putting this token in the Individual Name Format field below (rather than here).{/ts}</td></tr>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.street_address}{/literal}</td><td>{ts}Full street address (e.g. 110 Main Street).{/ts}</td>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.supplemental_address_1}{/literal}</td><td>{ts}Supplemental address 1 (line is skipped if empty).{/ts}</td>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.supplemental_address_2}{/literal}</td><td>{ts}Supplemental address 2 (line is skipped if empty).{/ts}</td>
@@ -42,6 +43,7 @@
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.first_name}{/literal}</td><td>{ts}Contact's first name.{/ts}</td>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.middle_name}{/literal}</td><td>{ts}Contact's middle name.{/ts}</td>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.last_name}{/literal}</td><td>{ts}Contact's last name.{/ts}</td>
+<tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{contact.current_employer}{/literal}</td><td>{ts}Current employer name as configured in the individual contact edit form. You will probably want this on a separate line, so use the Enter key to create a line-break after the name fields.{/ts}</td></tr>
 <tr style="vertical-align:top;"><td style="padding-right:1em;">{literal}{, }{/literal}</td><td>{ts}Add spaces or punctuation to layout by surrounding them with brackets.{/ts}</td>
 </table>
 </div>

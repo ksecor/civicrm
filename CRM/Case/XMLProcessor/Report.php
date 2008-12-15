@@ -312,7 +312,7 @@ WHERE      a.id = %1
     function getCustomData( $clientID,
                             $activityDAO,
                             &$activityTypeInfo ) {
-        list( $typeValues, $options, $sql ) = $this->getActivityTypeCustomSQL( $activityTypeInfo['id'] );
+        list( $typeValues, $options, $sql ) = $this->getActivityTypeCustomSQL( $activityTypeInfo['id'], '%Y-%m-%d' );
 
         $params = array( 1 => array( $activityDAO->id, 'Integer' ) );
 
@@ -344,7 +344,7 @@ WHERE      a.id = %1
         return empty( $customGroups ) ? null : $customGroups;
     }
 
-    function getActivityTypeCustomSQL( $activityTypeID ) {
+    function getActivityTypeCustomSQL( $activityTypeID, $dateFormat = null ) {
         static $cache = array( );
 
         if ( ! isset( $cache[$activityTypeID] ) ) {
@@ -382,6 +382,10 @@ AND    cg.extends_entity_column_value = %1
                 $options[$dao->fieldID]['attributes'] = array( 'label'     => $dao->label,
                                                                'data_type' => $dao->dataType, 
                                                                'html_type' => $dao->htmlType );
+                // since we want to add ISO date format.
+                if ( $dateFormat && $dao->htmlType == 'Select Date' ) {
+                    $options[$dao->fieldID]['attributes']['format'] = $dateFormat;
+                }
                 if ( $dao->optionGroupID ) {
                     $query = "
 SELECT label, value

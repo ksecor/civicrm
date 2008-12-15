@@ -23,7 +23,8 @@ function initTagTree() {
 		collapsed: true,
 		unique: true
           });
-        $('#tagtree>li:odd').addClass('even-row');
+        $('#tagtree>li:odd').addClass('odd-row');
+        $('#tagtree>li:even').addClass('even-row');
         $("#tagtree ul input:checked").each (function(){
           $(this).parents("li").children(".hit").addClass('highlighted');
         });
