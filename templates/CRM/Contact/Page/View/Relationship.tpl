@@ -29,26 +29,26 @@
         </tr>
 
         {foreach from=$currentRelationships item=rel}
-          {*assign var = "rtype" value = "" }
-          {if $rel.contact_a eq $contactId }
-            {assign var = "rtype" value = "a_b" }
-          {else}
-            {assign var = "rtype" value = "b_a" }
-          {/if*}
-          <tr class="{cycle values="odd-row,even-row"}">
-           {if $relationshipTabContext}
-            <td class="bold"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            {*assign var = "rtype" value = "" }
+            {if $rel.contact_a eq $contactId }
+                {assign var = "rtype" value = "a_b" }
             {else}
-              <td class="bold">{$rel.relation}</strong></td>
-              <td>{$rel.name}</td>
+                {assign var = "rtype" value = "b_a" }
+            {/if*}
+            <tr class="{cycle values="odd-row,even-row"}">
+            {if $relationshipTabContext}
+                <td class="bold"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
+                <td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            {else}
+                <td class="bold">{$rel.relation}</strong></td>
+                <td>{$rel.name}</td>
             {/if}
-            <td>{$rel.city}</td>
-            <td>{$rel.state}</td>
-            <td>{$rel.email}</td>
-            <td>{$rel.phone}</td> 
-            <td class="nowrap">{$rel.action}</td>
-         </tr>
+                <td>{$rel.city}</td>
+                <td>{$rel.state}</td>
+                <td>{$rel.email}</td>
+                <td>{$rel.phone}</td> 
+                <td class="nowrap">{$rel.action}</td>
+            </tr>
         {/foreach}
         </table>
         {/strip}
@@ -66,6 +66,8 @@
            <dd>
                 {if $permission EQ 'edit'}
                     {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
+                {elseif ! $relationshipTabContext}
+                    {ts}There are no related contacts / organizations on record for you.{/ts}
                 {else}
                     {ts}There are no Relationships entered for this contact.{/ts}
                 {/if}

@@ -31,7 +31,7 @@
 <div class="messages status">
 <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-	<dd>{ts}You do not own any Personal Campaign Pages.{/ts}</dd>
+	<dd>{ts}You do not have any active Personal Campaign pages.{/ts}</dd>
 </dl>
 </div>
 {/if}
@@ -40,10 +40,10 @@
 {if $pcpBlock} 
 {strip}
 
-<div class="label">{ts}Contribution Pages with Personal Campaign Pages enabled{/ts}</div>
+<div class="label">{ts}Become a supporter by creating a Personal Campaign Page{/ts}</div>
 <table class="selector">
 	<tr class="columnheader">
-		<th>{ts}Contribution Page{/ts}</th>
+		<th>{ts}Campaign{/ts}</th>
 		<th>{ts}Start Date{/ts}</th>
 		<th>{ts}End Date{/ts}</th>
 		<th>{ts}Action{/ts}</th>
