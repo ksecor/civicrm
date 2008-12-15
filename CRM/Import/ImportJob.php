@@ -128,7 +128,7 @@ class CRM_Import_ImportJob {
         }
     }
     
-    public function runImport($form, $timeout = 55) {
+    public function runImport(&$form, $timeout = 55) {
         $mapper = $this->_mapper;
         foreach ($mapper as $key => $value) {
             $this->_mapperKeys[$key] = $mapper[$key][0];
