@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-12-03 04:22-0800\n"
-"Last-Translator: Lydia Bindrich <lyd@cogitor.de>\n"
+"PO-Revision-Date: 2008-12-12 14:07-0800\n"
+"Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,10 @@ msgid "Access Control"
 msgstr "Zugangskontrolle"
 
 msgid "ACL"
-msgstr "Zugriffssteuerungsliste"
+msgstr "ACL"
 
-#, fuzzy
 msgid "ACL Roles"
-msgstr "Rollen im Rahmen der Zugriffssteuerungsliste"
+msgstr "ACL Rollen"
 
 msgid "Activities"
 msgstr "Aktivitäten"
@@ -42,9 +41,8 @@ msgstr "Zusätzliche Infos"
 msgid "AdditionalInfo Form"
 msgstr "Formular für zusätzliche Infos"
 
-#, fuzzy
 msgid "Address Preferences"
-msgstr "Bevorzugte Adressen"
+msgstr "Adressen Vorlieben"
 
 msgid "Administer CiviCRM"
 msgstr "CiviCRM verwalten"
@@ -59,13 +57,11 @@ msgid "Browse Uploaded files"
 msgstr "Hochgeladene Files im Browser anzeigen"
 
 # Most probably it should say Gross/Klein-Schrift
-#, fuzzy
 msgid "Case"
-msgstr "Fall"
+msgstr "Case"
 
-#, fuzzy
 msgid "Case Types"
-msgstr "Fallgruppen"
+msgstr "Case Typen"
 
 msgid "CiviContribute"
 msgstr "CiviContribute (Spenden)"
@@ -115,15 +111,14 @@ msgstr "Kontakte"
 msgid "Contact Summary"
 msgstr "Kontakt Zusammenfassung"
 
-#, fuzzy
 msgid "Contribution Chart"
-msgstr "Zuwendungstabelle /-diagramm"
+msgstr "Spenden Diagramm"
 
 msgid "Contributions"
-msgstr "Zuwendungen"
+msgstr "Spenden"
 
 msgid "Contribution Types"
-msgstr "Zuwendungsarten"
+msgstr "Spenden Typen"
 
 msgid "Create New Group"
 msgstr "Neue Gruppe erstellen"
@@ -155,13 +150,12 @@ msgstr "Kontakt löschen"
 msgid "Delete Location"
 msgstr "Standort löschen"
 
-#, fuzzy
 msgid "Domain Information"
-msgstr "Domain-Information"
+msgstr "Domain Information"
 
 # This message is actually used for downloading a detailed error report, that is, a download of errors, not as the previous translation indicated, errors while downloading.
 msgid "Download Errors"
-msgstr "Fehler herunterladen"
+msgstr "Herunterladen Fehler"
 
 msgid "Draft and Unscheduled Mailings"
 msgstr "Entwurf und ungeplanter Versand"
@@ -182,7 +176,7 @@ msgid "Event Registration"
 msgstr "Anmeldung zur Veranstaltung"
 
 msgid "Event Types"
-msgstr "Veranstaltungsarten"
+msgstr "Veranstaltungs Typ"
 
 msgid "Export Contacts"
 msgstr "Kontakte exportieren"
@@ -197,7 +191,7 @@ msgid "Find Contacts"
 msgstr "Kontakte finden"
 
 msgid "Find Contributions"
-msgstr "Zuwendungen finden"
+msgstr "Spenden finden"
 
 #, fuzzy
 msgid "Find Grants"
@@ -243,9 +237,8 @@ msgstr "Importieren"
 msgid "Import Contributions"
 msgstr "Spenden importieren"
 
-#, fuzzy
 msgid "Import/Export Mappings"
-msgstr "Mappings importieren / exportieren"
+msgstr "Importieren / Exportieren Karten"
 
 msgid "Import Members"
 msgstr "Mitglieder importieren"
@@ -266,9 +259,8 @@ msgstr "Individuelle Namensvorsätze (Dr., ...)"
 msgid "Instant Messenger Services"
 msgstr "SMS Dienste"
 
-#, fuzzy
 msgid "Localization"
-msgstr "Lokalisierung"
+msgstr "Lokalisierung (Sprache)"
 
 msgid "Location Types (Home, Work...)"
 msgstr "Standortstypen (zu Hause / privat, Arbeit..)"
@@ -279,18 +271,17 @@ msgstr "Abmelden"
 msgid "Mailer Settings"
 msgstr "Konfiguration Versand"
 
-#, fuzzy
 msgid "Mailing Event"
-msgstr "Versandanlass"
+msgstr "Email Versand Anlass"
 
 msgid "Mailing Report"
 msgstr "Versandbericht"
 
 msgid "Manage ACLs"
-msgstr "Zugriffssteuerungslisten verwalten"
+msgstr "ACL verwalten"
 
 msgid "Manage Contribution Pages"
-msgstr "Bearbeite Spendenseiten"
+msgstr "Verwalte Spendenseiten"
 
 msgid "Manage Custom Searches"
 msgstr "Erweiterte Suche verwalten"
@@ -304,9 +295,8 @@ msgstr "Gruppen verwalten"
 msgid "Manage Pledges"
 msgstr "Unterstützungszusagen verwalten"
 
-#, fuzzy
 msgid "Manage Premiums"
-msgstr "Prämien verwalten"
+msgstr "Premiums verwalten"
 
 msgid "Manage Price Sets"
 msgstr "Preislisten verwalten"
@@ -314,13 +304,11 @@ msgstr "Preislisten verwalten"
 msgid "Map Event Location"
 msgstr ""
 
-#, fuzzy
 msgid "Map Location(s)"
 msgstr "Standortkarte ermitteln"
 
-#, fuzzy
 msgid "Mapping and Geocoding"
-msgstr "Zuordnung und Laenderspezifisches"
+msgstr "Karten und geographise Kodierung"
 
 msgid "Memberships"
 msgstr "Mitgliedschaft"
@@ -350,7 +338,7 @@ msgid "New Contact"
 msgstr "Neuer Kontakt"
 
 msgid "New Contact Dialog"
-msgstr "Dialog Neuer Kontakt"
+msgstr "Neuer Kontakt Dialog"
 
 msgid "New Event"
 msgstr "Neue Veranstaltung"
@@ -382,20 +370,17 @@ msgstr "Teilnehmerstatus"
 msgid "Payment Instruments"
 msgstr "Zahlungsdienst"
 
-#, fuzzy
 msgid "Payment Processor"
-msgstr "Zahlungsbearbeiter"
+msgstr "Zahlungs Prozessor"
 
-#, fuzzy
 msgid "Payment Processor Type"
-msgstr "Zahlungsbearbeiter Typ"
+msgstr "Zahlungsprozessor Typ"
 
 msgid "PledgeBank"
 msgstr "Bank der Unterstützungszusage"
 
-#, fuzzy
 msgid "Pledge Payments"
-msgstr "Zahlungen im Rahmen von Unterstützungszusagen"
+msgstr "Zahlungen aus Unterstützungszusagen"
 
 msgid "Pledges"
 msgstr "Unterstützungszusagen"
@@ -427,11 +412,9 @@ msgstr "Beziehgungsarten"
 msgid "Resubscribe"
 msgstr "Erneut abonnieren"
 
-#, fuzzy
 msgid "Safe File Extension Options"
-msgstr "Optionen für Dateinamenerweiterungen speichern"
+msgstr "Sichere Datei Extension Optionen "
 
-#, fuzzy
 msgid "Scheduled and Sent Mailings"
 msgstr "geplanter und erfolgter Emailversand"
 
@@ -459,7 +442,6 @@ msgstr "Tageslicht"
 msgid "Synchronize Users to Contacts"
 msgstr "Benutzer mit Kontakt synchronisieren"
 
-#, fuzzy
 msgid "System Preferences"
 msgstr "Systempräferenzen"
 
@@ -481,7 +463,6 @@ msgstr "Abbestellen"
 msgid "Upcoming Events"
 msgstr "Kommende Veranstaltungen"
 
-#, fuzzy
 msgid "Update Directory Path and URL"
 msgstr "Verzeichnispfad und URL aktualisieren"
 
