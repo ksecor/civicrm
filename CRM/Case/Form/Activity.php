@@ -290,7 +290,8 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
         $params['due_date_time']      = CRM_Utils_Date::format( $params['due_date_time'] );
         $params['activity_type_id']   = $this->_activityTypeId;
-        
+        $params['target_contact_id'] = $params['source_contact_id'];
+
         // format activity custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             if ( $this->_activityId && $this->_defaults['is_auto'] == 0 ) {
