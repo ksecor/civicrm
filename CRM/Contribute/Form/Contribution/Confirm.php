@@ -560,9 +560,25 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
                             'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
                             );
+
+            //Fixed For CRM-3901
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $daoContrProd = & new CRM_Contribute_DAO_ContributionProduct();
+            $daoContrProd->contribution_id = $contribution->id;
+            if ( $daoContrProd->find(true) ) {
+                $params['id'] = $daoContrProd->id;
+            }
             
             require_once 'CRM/Contribute/BAO/Contribution.php';
             CRM_Contribute_BAO_Contribution::addPremium($params);
+        } else if ( $selectProduct == 'no_thanks' ) {
+            //Fixed For CRM-3901
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $daoContrProd = & new CRM_Contribute_DAO_ContributionProduct();
+            $daoContrProd->contribution_id = $contribution->id;
+            if ( $daoContrProd->find(true) ) {
+                $daoContrProd->delete();  
+            }
         }
     }
 
