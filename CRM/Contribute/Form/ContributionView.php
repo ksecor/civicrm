@@ -75,12 +75,13 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         }
         
         if ( CRM_Utils_Array::value( 'contribution_recur_id', $values ) ) {
-            $sql    = "SELECT  installments, frequency_unit FROM civicrm_contribution_recur WHERE id = %1";
+            $sql    = "SELECT  installments, frequency_interval, frequency_unit FROM civicrm_contribution_recur WHERE id = %1";
             $params = array( 1 => array( $values['contribution_recur_id'], 'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $sql, $params );
             if ( $dao->fetch() ) {
-                $values["recur_installments"] = $dao->installments  ;
-                $values["recur_frequency"]    = $dao->frequency_unit;
+                $values["recur_installments"]       = $dao->installments  ;
+                $values["recur_frequency_unit"]     = $dao->frequency_unit;
+                $values["recur_frequency_interval"] = $dao->frequency_interval;
             }
         }
 

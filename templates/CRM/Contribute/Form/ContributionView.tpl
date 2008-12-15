@@ -10,8 +10,8 @@
 	<dt>{ts}Total Amount{/ts}</dt>
 	<dd class="bold">{$total_amount|crmMoney}&nbsp; 
 {if $contribution_recur_id}
-  &nbsp; <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
-  {ts}Installments{/ts}: {$recur_installments} {$recur_frequency}(s)
+  <strong>{ts}Recurring Contribution{/ts}</strong> <br/>
+  {ts}Installments{/ts}: {$recur_installments}, {ts}Interval{/ts}: {$recur_frequency_interval} {$recur_frequency_unit}(s)
 {/if}
 </dd>
 

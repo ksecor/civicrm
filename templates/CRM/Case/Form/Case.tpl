@@ -1,4 +1,4 @@
-{* Base template for case activities like - Open Case, Change Case Type/Status ..
+{* Base template for Open Case. May be used for other special activity types at some point ..
    Note: 1. We will include all the activity fields here however each activity type file may build (via php) only those required by them. 
          2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
 *}
@@ -63,14 +63,18 @@
 {/if}
 
 {* activity fields *}
-{if $form.activity_subject.html}
-    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
-{/if}
 {if $form.medium_id.html and $form.activity_location.html}
     <tr>
         <td class="label">{$form.medium_id.label}</td>
         <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.activity_location.label} &nbsp;{$form.activity_location.html}</td>
     </tr> 
+{/if}
+
+{if $form.activity_details.html}
+    <tr>
+        <td class="label">{$form.activity_details.label} {help id="id-details" file="CRM/Case/Form/Case.hlp"}</td>
+        <td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
+    </tr>
 {/if}
 
 {* custom data group *}
@@ -80,9 +84,13 @@
     </tr>
 {/if}
 
-{if $form.activity_details.html}
-    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
-    </tr>
+{if $form.activity_subject.html}
+    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
+{/if}
+
+{* inject activity type-specific form fields *}
+{if $activityTypeFile}
+    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
 {/if}
 
 {if $form.duration.html}
@@ -95,10 +103,6 @@
     </tr> 
 {/if}
 
-{* inject activity type-specific form fields *}
-{if $activityTypeFile}
-    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
-{/if}
 
 {/if}	
 

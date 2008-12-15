@@ -1,0 +1,14 @@
+{* Help file is currently only used for "New Case" activity.
+    - However, it may be invoked by other special case activities at some point so use $activityTypeFile condition
+      when adding help specific to "New Cases". *}
+
+{htxt id="id-details"}
+{if $activityTypeFile EQ 'OpenCase'}
+    <ul>
+    <li>{ts}Introduce yourself as an intake person and explain the organization's privacy policy.{/ts}</li>
+    <li>{ts}Invite open-ended narrative.{/ts}
+    </ul>
+{else}
+    {ts}Record details about this activity here.{/ts}
+{/if}
+{/htxt}

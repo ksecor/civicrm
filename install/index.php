@@ -691,9 +691,15 @@ class Installer extends InstallRequirements {
 }
 
 function getSiteDir( $str ) {
-    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7;
-    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
-    $siteDir = substr($_SERVER['SCRIPT_FILENAME'], strpos($_SERVER['SCRIPT_FILENAME'], DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7, ($pos2 - $pos1));
+    $pos1    = strpos($_SERVER['SCRIPT_FILENAME'], 
+                      DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7;
+    $pos2    = strpos($_SERVER['SCRIPT_FILENAME'], 
+                      DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
+    $siteDir = substr($_SERVER['SCRIPT_FILENAME'],
+                      strpos($_SERVER['SCRIPT_FILENAME'], 
+                             DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR) + 7, 
+                      ($pos2 - $pos1));
+
     if ( preg_match('/^[a-zA-Z0-9_.]+$/', $siteDir) && ($siteDir != 'all') ) {
         return $siteDir;
     }

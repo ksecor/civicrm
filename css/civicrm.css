@@ -1033,7 +1033,7 @@ commented since it is overwiting simple td
     font: normal 12px arial, sans-serif;
     height: 24px;
     margin-right: 6px;
-    padding-right: 14px; /* sliding doors padding */
+    padding: 0 14px 0 0; /* sliding doors padding */
     text-decoration: none;
 }
 

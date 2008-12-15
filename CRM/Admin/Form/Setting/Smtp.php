@@ -195,12 +195,26 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      */
     function setDefaultValues( ) 
     {
-        $this->_defaults = array( );
-        require_once "CRM/Core/DAO/Preferences.php";
-        $mailingDomain =& new CRM_Core_DAO_Preferences();
-        $mailingDomain->find(true);
-        if ( $mailingDomain->mailing_backend ) {
-            $this->_defaults = unserialize( $mailingDomain->mailing_backend );     
+        if ( ! $this->_defaults ) {
+            $this->_defaults = array( );
+
+            require_once "CRM/Core/DAO/Preferences.php";
+            $mailingDomain =& new CRM_Core_DAO_Preferences();
+            $mailingDomain->find(true);
+            if ( $mailingDomain->mailing_backend ) {
+                $this->_defaults = unserialize( $mailingDomain->mailing_backend );     
+            } else {
+                if ( ! isset( $this->_defaults['smtpServer'] ) ) {
+                    $this->_defaults['smtpServer'] = 'localhost';
+                    $this->_defaults['smtpPort'  ] = 25;
+                    $this->_defaults['smtpAuth'  ] = 0;
+                }
+                
+                if ( ! isset( $this->_defaults['sendmail_path'] ) ) {
+                    $this->_defaults['sendmail_path'] = '/usr/bin/sendmail';
+                    $this->_defaults['sendmail_args'] = '-i';
+                }
+            }
         }
         return $this->_defaults;
     }

@@ -179,10 +179,11 @@ function civicrm_cms_base( ) {
         $numPrevious = 2;
     }
 
-    if ( array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] == 'on' ) {
-        $url = 'https://' . $_SERVER['HTTP_HOST'];
-    } else {
+    if ( ! isset( $_SERVER['HTTPS'] ) ||
+         strtolower( $_SERVER['HTTPS'] )  == 'off' ) {
         $url = 'http://' . $_SERVER['HTTP_HOST'];
+    } else {
+        $url = 'https://' . $_SERVER['HTTP_HOST'];
     }
 
     $baseURL = $_SERVER['SCRIPT_NAME'];

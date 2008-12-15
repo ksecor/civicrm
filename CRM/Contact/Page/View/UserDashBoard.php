@@ -165,7 +165,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         if ( $this->_userOptions['PCP'] ) {
             require_once 'CRM/Contribute/BAO/PCP.php';
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contribute/Page/PcpUserDashboard.tpl',
-                                          'sectionTitle' => ts( 'Your Personal Campaign Pages' ),
+                                          'sectionTitle' => ts( 'Personal Campaign Pages' ),
                                           'weight'       => 40 );
             list( $pcpBlock, $pcpInfo) = CRM_Contribute_BAO_PCP::getPcpDashboardInfo( $this->_contactId );
             $this->assign( 'pcpBlock', $pcpBlock );
