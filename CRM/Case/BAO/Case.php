@@ -531,7 +531,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
     {
         $condition = null;
         if ( !$allCases ) {
-            $condition = " AND civicrm_case_contact.contact_id = {$userID}";
+            $condition = " AND case_relationship.contact_id_b = {$userID}";
         }
 
         $condition .= " 
