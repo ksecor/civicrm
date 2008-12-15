@@ -198,6 +198,11 @@ class CRM_Core_BAO_CMSUser
             }
             
         } 
+        $loginUrl =  $config->userFrameworkBaseURL;
+        if ( $isJoomla ) {
+            $loginUrl =  substr( $loginUrl, 0, -14 );
+        }
+        $form->assign( 'loginUrl', $loginUrl );
         $form->assign( 'showCMS', $showCMS ); 
     } 
     
