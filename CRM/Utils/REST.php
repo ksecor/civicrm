@@ -36,7 +36,7 @@
 class CRM_Utils_REST
 {
     /**
-     * Number of seconds we should let a soap process idle
+     * Number of seconds we should let a REST process idle
      * @static
      */
     static $rest_timeout = 0;
@@ -53,10 +53,11 @@ class CRM_Utils_REST
      * @param  string $uf       The userframework class
      */
     public function __construct() {
-        // any external program which call SoapServer is responsible for
+        // any external program which call Rest Server is responsible for
         // creating and attaching the session
         $args = func_get_args( );
         $this->ufClass = array_shift( $args );
+	
     }
 
     /**
@@ -66,11 +67,11 @@ class CRM_Utils_REST
      * @return string       $var
      * @access public
      */
-    public function ping($var) {
+    public function ping($var = NULL) {
         $session =& CRM_Core_Session::singleton();
         $key = $session->get('key');
-        $session->set( 'key', $var );
-        return self::simple( array( 'message' => "PONG: $var ($key)" ) );
+        //$session->set( 'key', $var );
+        return self::simple( array( 'message' => "PONG: $key" ) );
     }
 
 
@@ -85,11 +86,8 @@ class CRM_Utils_REST
      */
     public function authenticate($name, $pass) {
         require_once 'CRM/Utils/System.php';
-        
-        // first check for civicrm site key
-        if ( ! CRM_Utils_System::authenticateKey( false ) ) {
-            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
-        }
+        require_once 'CRM/Core/DAO.php';
+
 
         $result =& CRM_Utils_System::authenticate($name, $pass);
         
@@ -97,13 +95,31 @@ class CRM_Utils_REST
             return self::error( 'Could not authenticate user, invalid name / password.' );
         }
         
+	//print_r($result);
+	
         $session =& CRM_Core_Session::singleton();
-        $session->set('rest_key', $result[2]);
+	$api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
+	
+	if ( empty($api_key) ) {
+	  // These two lines can be used to set the initial value of the key.  A better means is needed.
+	  //CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key', sha1($result[2]) );
+	  //$api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
+	  return self::error("This user does not have a valid API key in the database, and therefore cannot authenticate through this interface");
+	}
+	
+	// Test to see if I can pull the data I need, since I know I have a good value.
+	$user =& CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $api_key, 'id', $api_key);
+	//print $user;
+	
+        $session->set('api_key', $api_key);
+	$session->set('key', $result[2]);
         $session->set('rest_time', time());
+	$session->set('PHPSESSID', session_id() );
         
-        return self::simple( array( 'key' => sha1( $result[2]), 'PHPSESSID' => session_id() ) );
+        return self::simple( array( 'api_key' => $api_key, 'PHPSESSID' => session_id(), 'key' => sha1($result[2]) ) );
     }
-
+    
+    // Generates values needed for error messages
     function error( $message = 'Unknown Error' ) {
         $values =
             array( 'error_message' => $message,
@@ -111,6 +127,7 @@ class CRM_Utils_REST
         return $values;
     }
 
+    // Generates values needed for non-error responses.
     function simple( $params ) {
         $values  = array( 'is_error' => 0 );
         $values += $params;
@@ -163,15 +180,28 @@ class CRM_Utils_REST
     }
 
     function handle( $config ) {
-
+        
+        // Get the function name being called from the q parameter in the query string
         $q = CRM_Utils_array::value( 'q', $_GET );
         $args = explode( '/', $q );
+	// If the function isn't in the civicrm namespace, reject the request.
         if ( $args[0] != 'civicrm' ) {
             return self::error( 'Unknown function invocation.' );
         }
-        if ( ( count( $args ) != 3 ) && ( $args[1] != 'login' ) ) {
+
+	// If the query string is malformed, reject the request.
+        if ( ( count( $args ) != 3 ) && ( $args[1] != 'login' ) && ( $args[1] != 'ping') ) {
             return self::error( 'Unknown function invocation.' );
         }
+
+	// Everyone should be required to provide the server key, so the whole 
+	//  interface can be disabled in more change to the configuration file.
+	//  This used to be done in the authenticate function, but that was bad...trust me
+        // first check for civicrm site key
+        if ( ! CRM_Utils_System::authenticateKey( false ) ) {
+            return self::error( 'Could not authenticate user, invalid site key. More info at: http://wiki.civicrm.org/confluence/display/CRMDOC/Command-line+Script+Configuration.' );
+        }
+	
         require_once 'CRM/Utils/Request.php';
 
         $store = null;
@@ -183,10 +213,43 @@ class CRM_Utils_REST
                 return self::error( 'Invalid name / password.' );
             }
             return self::authenticate( $name, $pass );
-        }
-
+        } else if ($args[1] == 'ping' ) {
+	  return self::ping();
+	}
+	
+	// At this point we know we are not calling either login or ping (neither of which 
+	//  require authentication prior to being called.  Therefore, at this point we need
+	//  to make sure we're working with a trusted user.
+	
+	// There are two ways to check for a trusted user:
+	//  First: they can be someone that has a valid session currently
+	//  Second: they can be someone that has provided an API_Key
+	
+	$valid_user = false;
+	// Check for valid session.  Session ID's only appear here if you have
+	// run the rest_api login function.  That might be a problem for the 
+	// AJAX methods.  
+	$session =& CRM_Core_Session::singleton();
+	if ($session->get('PHPSESSID') ) {
+	    $valid_user = true;
+	}
+	
+	// If the user does not have a valid session (most likely to be used by people using
+	// an ajax interface), we need to check to see if they are carring a valid user's 
+	// secret key.
+	if ( !$valid_user ) {
+	    require_once 'CRM/Core/DAO.php';
+	    $api_key = CRM_Utils_Request::retrieve( 'api_key', 'String', $store, false, 'GET' );
+	    $valid_user = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $api_key, 'id', 'api_key');
+	}
+	
+	// If we didn't find a valid user either way, then die.
+	if ( empty($valid_user) ) {
+	  return self::error("Valid session, or user api_key required");
+	}
+	
         $params =& self::buildParamList( );
-
+	
         $fnGroup = ucfirst($args[1]);
         if ( strpos( $fnGroup, '_' ) ) {
             $fnGroup    = explode( '_', $fnGroup );
@@ -202,12 +265,12 @@ class CRM_Utils_REST
         } else {
             return self::error( 'Unknown function invocation.' );
         }
-
+	
         $fnName = "civicrm_{$args[1]}_{$args[2]}";
         if ( ! function_exists( $fnName ) ) {
             return self::error( "Unknown function called: $fnName" );
         }
-
+	
         // trap all fatal errors
         CRM_Core_Error::setCallback( array( 'CRM_Utils_REST', 'fatal' ) );
         $result = $fnName( $params );
