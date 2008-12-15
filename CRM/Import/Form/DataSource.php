@@ -206,10 +206,10 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
 
-            $onDuplicate  = $this->_name['onDuplicate'];
-            $contactType  = $this->_name['contactType'];
-            $dateFormats  = $this->_name['dateFormats'];
-            $savedMapping = $this->_name['savedMapping'];
+            $onDuplicate  = $this->exportValue('onDuplicate');
+            $contactType  = $this->exportValue('contactType');
+            $dateFormats  = $this->exportValue('dateFormats');
+            $savedMapping = $this->exportValue('savedMapping');
 
             $this->set('onDuplicate', $onDuplicate);
             $this->set('contactType', $contactType);
