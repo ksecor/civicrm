@@ -63,14 +63,16 @@
 {/if}
 
 {* activity fields *}
-{if $form.activity_subject.html}
-    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
-{/if}
 {if $form.medium_id.html and $form.activity_location.html}
     <tr>
         <td class="label">{$form.medium_id.label}</td>
         <td class="view-value">{$form.medium_id.html}&nbsp;&nbsp;&nbsp;{$form.activity_location.label} &nbsp;{$form.activity_location.html}</td>
     </tr> 
+{/if}
+
+{if $form.activity_details.html}
+    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
+    </tr>
 {/if}
 
 {* custom data group *}
@@ -80,9 +82,13 @@
     </tr>
 {/if}
 
-{if $form.activity_details.html}
-    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
-    </tr>
+{if $form.activity_subject.html}
+    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
+{/if}
+
+{* inject activity type-specific form fields *}
+{if $activityTypeFile}
+    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
 {/if}
 
 {if $form.duration.html}
@@ -95,10 +101,6 @@
     </tr> 
 {/if}
 
-{* inject activity type-specific form fields *}
-{if $activityTypeFile}
-    {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
-{/if}
 
 {/if}	
 
