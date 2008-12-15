@@ -49,7 +49,7 @@ class CRM_Import_Importer {
         $incompleteImportTables = CRM_Import_ImportJob::getIncompleteImportTables();
         foreach ($incompleteImportTables as $importTable) {
             $importJob = new CRM_Import_ImportJob( $importTable );
-            $importJob->runImport( $timeout );
+            $importJob->runImport(null, $timeout);
             $currentTime = time();
             if ( ( $currentTime - $startTime ) >= $timeout) {
                 break;

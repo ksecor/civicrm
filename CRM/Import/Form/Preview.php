@@ -214,7 +214,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $importJob->setJobParams( $importJobParams );
                
         // run the import
-        $importJob->runImport( );
+        $importJob->runImport($this);
                
         // add all the necessary variables to the form
         $importJob->setFormVariables( $this );

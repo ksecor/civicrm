@@ -128,7 +128,7 @@ class CRM_Import_ImportJob {
         }
     }
     
-    public function runImport( $timeout = 55 ) {
+    public function runImport($form, $timeout = 55) {
         $mapper = $this->_mapper;
         foreach ($mapper as $key => $value) {
             $this->_mapperKeys[$key] = $mapper[$key][0];
@@ -222,15 +222,17 @@ class CRM_Import_ImportJob {
         $contactIds = $this->_parser->getImportedContacts( );
         if ($this->_parser->getRelatedImportedContacts()) array_merge($contactIds, $this->_parser->getRelatedImportedContacts());
         if ( $this->_newGroupName ) {
-            $this->_addImportedContactsToNewGroup( $contactIds, 
-                $this->_newGroupName,
-                $this->_newGroupDesc );
+            $groupAdditions = $this->_addImportedContactsToNewGroup($contactIds,
+                                                                    $this->_newGroupName,
+                                                                    $this->_newGroupDesc);
+            if ($form) $form->set('groupAdditions', $groupAdditions);
         }
         
         if ( $this->_newTagName ) {
-            $this->_tagImportedContactsWithNewTag( $contactIds,
-                $this->_newTagName,
-                $this->_newTagDesc );
+            $tagAdditions = $this->_tagImportedContactsWithNewTag($contactIds,
+                                                                  $this->_newTagName,
+                                                                  $this->_newTagDesc);
+            if ($form) $form->set('tagAdditions', $tagAdditions);
         }
     }
     
