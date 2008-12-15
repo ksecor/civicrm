@@ -256,6 +256,10 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         if (!isset($label)) {
             $label = $field->label;
         }
+	if ( isset($qf->_online) ) {
+	  $useRequired = false;
+	}
+
         switch($field->html_type) {
         case 'Text':
             if ($field->is_display_amounts) {
@@ -272,7 +276,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
              
             $element =& $qf->add(
                                  'text', $elementName, $label, array_merge(array('size' =>"4"), $js),
-                                 ( $useRequired || ( $useRequired && $field->is_required ))
+                                 $useRequired && $field->is_required
                                  );
             
             // integers will have numeric rule applied to them.
@@ -299,7 +303,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             }
             $element =& $qf->addGroup($choice, $elementName, $label);
             
-            if ( ( $useRequired || ( $useRequired && $field->is_required) ) ) {
+            if ( $useRequired && $field->is_required ) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
@@ -317,7 +321,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             $qf->assign('selectarray', html_entity_decode( implode('\',\'',$selectOption ) ));
             $element =& $qf->add('select', $elementName, $label,
                                  array( '' => ts('- select -')) + $selectOption,
-                                 ( ( $useRequired || ($useRequired && $field->is_required) ) ), 
+                                 $useRequired && $field->is_required, 
                                  array('onchange' =>"return addPrice('',this.id);") );
             break;
             
@@ -333,8 +337,8 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                                                array('onclick' =>"return addPrice('".$opt['label']."',this.id);"));
             }
             $element =& $qf->addGroup($check, $elementName, $label);
-            if ( ( $useRequired ||( $useRequired && $field->is_required) ) ) {
-                $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
+            if ( $useRequired && $field->is_required ) {
+	      $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
             break;
             

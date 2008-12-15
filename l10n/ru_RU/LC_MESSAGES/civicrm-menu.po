@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-12-11 01:48-0800\n"
+"PO-Revision-Date: 2008-12-11 01:55-0800\n"
 "Last-Translator: jabax <admin@una.by>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "ACL"
 msgstr ""
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "ACL роли"
 
 msgid "Activities"
 msgstr "Действия"
@@ -93,7 +93,7 @@ msgid "CiviMember"
 msgstr "CiviУчасник"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "CiviЗалог"
 
 msgid "Components"
 msgstr "Компоненты"
@@ -102,7 +102,7 @@ msgid "Confirm"
 msgstr "Подтвердить"
 
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Панель контактов"
 
 msgid "Contacts"
 msgstr "Контакты"
@@ -159,7 +159,7 @@ msgid "Draft and Unscheduled Mailings"
 msgstr ""
 
 msgid "Edit Related Contact"
-msgstr ""
+msgstr "Редактировать связаный контакт"
 
 msgid "Email a Contact"
 msgstr "Написать контакту"
@@ -217,7 +217,7 @@ msgid "Global Settings"
 msgstr "Глобальные настройки"
 
 msgid "Grant Types"
-msgstr ""
+msgstr "Типы разрешений"
 
 msgid "Group Members"
 msgstr "Группы членов"
@@ -254,7 +254,7 @@ msgid "Individual Suffixes (Jr, Sr...)"
 msgstr "Индивидуальные суффиксы (Старший, Младший...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Типы инстант мессенджеров"
 
 msgid "Localization"
 msgstr "Локализация"
@@ -318,13 +318,13 @@ msgid "Membership Types"
 msgstr "Типы членства"
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "Слить вместе контакт"
 
 msgid "Message Templates"
 msgstr "Шаблон сообщения"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Разное"
 
 msgid "Mobile Phone Providers"
 msgstr "Оператор мобильной связи"
@@ -382,7 +382,7 @@ msgid "Pledge Payments"
 msgstr ""
 
 msgid "Pledges"
-msgstr ""
+msgstr "Залоги"
 
 msgid "Preferred Communication Methods"
 msgstr "Предпочитаемый способ связи"
@@ -400,7 +400,7 @@ msgid "Price Sets"
 msgstr "Выборка прайсов"
 
 msgid "Registration Page"
-msgstr ""
+msgstr "Страница регистраций"
 
 msgid "Relationships"
 msgstr "Связи"
@@ -409,7 +409,7 @@ msgid "Relationship Types"
 msgstr ""
 
 msgid "Resubscribe"
-msgstr ""
+msgstr "Переподписаться"
 
 msgid "Safe File Extension Options"
 msgstr ""
