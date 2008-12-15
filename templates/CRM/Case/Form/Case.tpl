@@ -1,4 +1,4 @@
-{* Base template for case activities like - Open Case, Change Case Type/Status ..
+{* Base template for Open Case. May be used for other special activity types at some point ..
    Note: 1. We will include all the activity fields here however each activity type file may build (via php) only those required by them. 
          2. Each activity type file can include its case fields in its own template, so that they will be included during activity edit.
 *}
@@ -71,7 +71,9 @@
 {/if}
 
 {if $form.activity_details.html}
-    <tr><td class="label">{$form.activity_details.label}</td><td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
+    <tr>
+        <td class="label">{$form.activity_details.label} {help id="id-details" file="CRM/Case/Form/Case.hlp"}</td>
+        <td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
     </tr>
 {/if}
 

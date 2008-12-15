@@ -68,7 +68,7 @@
             </td>
         </tr>
 
-        {* Include special processing fields if any are defined for this activity type. *}
+        {* Include special processing fields if any are defined for this activity type (e.g. Change Case Status / Change Case Type). *}
         {if $activityTypeFile}
             {include file="CRM/Case/Form/Activity/$activityTypeFile.tpl"}
         {/if}
