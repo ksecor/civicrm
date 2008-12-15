@@ -163,12 +163,12 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $errorRequired = false;
         $index = -1;
 
-        if ( $this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ) {
+        if ( $this->_eventIndex > -1 && $this->_eventTitleIndex > -1 ) {
             array_unshift($values, ts('Select either EventID OR Event Title'));
             return CRM_Event_Import_Parser::ERROR;
-        } elseif ( $this->_eventTitleIndex > 0 ) {
+        } elseif ( $this->_eventTitleIndex > -1 ) {
             $index = $this->_eventTitleIndex;
-        } elseif ( $this->_eventIndex > 0 ) {
+        } elseif ( $this->_eventIndex > -1 ) {
             $index = $this->_eventIndex;
         }
         $params =& $this->getActiveFieldParams( );
