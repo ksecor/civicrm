@@ -471,7 +471,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         // Filter on component IDs.
         $componentClause = "civicrm_option_value.component_id IS NULL";
-
+        $componentsIn    = null;
         $compInfo        = CRM_Core_Component::getEnabledComponents();
         foreach ( $compInfo as $compObj ) {
             if ( $compObj->info['showActivitiesInCore'] ) {
@@ -602,7 +602,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $statusClause = " civicrm_activity.status_id = 1 "; 
         }
         //handle case related activity if $case is set
-        $case = 1;
+        $case     = 1;
+        $caseJoin = null;
         if ( $caseId ) {
             $case = "civicrm_case_activity.case_id = {$caseId}";
             $caseJoin = "LEFT JOIN civicrm_case_activity ON civicrm_activity.id = civicrm_case_activity.activity_id";
