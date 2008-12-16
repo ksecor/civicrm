@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-11-08 03:26-0800\n"
-"Last-Translator: HTM <tigermood@gmail.com>\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
+"PO-Revision-Date: 2008-12-15 12:12-0800\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,7 +149,7 @@ msgstr "Frequentie interval"
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Installments"
-msgstr ""
+msgstr "Termijn"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
@@ -250,11 +250,6 @@ msgstr "De gevraagde pagina is nu niet beschikbaar."
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< Terug"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr "%1"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 msgid "(s)"
@@ -443,7 +438,7 @@ msgstr "Deelnemer Bron"
 #: CRM/Event/BAO/Query.php CRM/Event/Selector/Search.php
 #: templates/CRM/Event/Form/Task/Print.tpl
 msgid "Fee Level"
-msgstr ""
+msgstr "Kostenniveau"
 
 # Voor event werden zowel activiteit als evenement gebruikt, beter is het natuurlijk om 1 term te gebruiken. Het woordenboek geeft o.a. gebeurtenis en evenement, het laatste maar gekozen om dicht bij het engels te blijven.
 #: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
@@ -928,7 +923,7 @@ msgstr "Bijdrage ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "Solicitor ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receive Date"
@@ -973,7 +968,7 @@ msgstr "Status Periodieke bijdrage(n)"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
-msgstr ""
+msgstr "Datum cyclus"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Next Sched Contribution"
@@ -1169,11 +1164,12 @@ msgstr ""
 "(bijdragebedrag of lidmaatschap). Raadpleeg be webbeheerder."
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 "Deze bijdragepagina kan verschillende bijdragen en lidmaatschapsbetalingen "
 "verwerken. De standaard module voor PayPal-betaalmethode ondersteunt geen "
@@ -1197,11 +1193,11 @@ msgstr "Woeps! U kunt geen betaling voor deze taak doen - taakstatus is %1"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Chart Style"
-msgstr "Kaartstijl"
+msgstr "Diagram stijl"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Bar"
-msgstr "Balken"
+msgstr "Staaf"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Pie"
@@ -1213,7 +1209,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Reload Charts"
-msgstr "Ververs kaart"
+msgstr "Ververs diagram"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -1741,7 +1737,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Pledge payment status should be 'Pending' or  'Overdue'."
-msgstr ""
+msgstr "Status betaling boergstelling moet zijn 'lopend' of 'te laat'."
 
 #: CRM/Contribute/Form/Contribution.php
 msgid ""
@@ -2603,7 +2599,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Bekijk actuele en toekomstige evenementen "
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Zoek op begin- en einddatum "
 
 #: CRM/Event/Form/SearchEvent.php
@@ -2935,7 +2932,7 @@ msgstr "De geselecteerde mailing is verwijderd."
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Insert Tokens"
-msgstr ""
+msgstr "Toevoegen tokens"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Select Template"
@@ -2959,19 +2956,19 @@ msgstr "Patroon"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Hold Threshold"
-msgstr ""
+msgstr "Drempelwaarde"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "weg"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Invalid"
@@ -2979,19 +2976,19 @@ msgstr "Ongeldig"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Lus"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Relay"
-msgstr ""
+msgstr "Doorgeven"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Syntax"
@@ -2999,7 +2996,7 @@ msgstr "Syntax"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Component Name"
-msgstr ""
+msgstr "Naam van de component"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "Welcome"
@@ -3043,7 +3040,7 @@ msgstr "Automatische beantwoorder"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Open Tracking"
-msgstr ""
+msgstr "Open tracking"
 
 #: CRM/Mailing/DAO/Spool.php
 msgid "Recipient Email"
@@ -3398,9 +3395,8 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Contact telefoon"
+msgstr "Contact"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3748,10 +3744,9 @@ msgid "End date must be the same or later than start date."
 msgstr "Einddatum kan niet voor de startdatum liggen."
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid ""
 "There is no valid Membership Status available for selected membership dates."
-msgstr "Geen geldige lidmaatschapstatus voor de ingevoerde data."
+msgstr "Er is geen geldige lidmaatschapstatus voor de ingevoerde datum."
 
 #: CRM/Member/Form/Membership.php
 msgid ""
@@ -4061,11 +4056,11 @@ msgstr "Batch wijzig leden via profiel"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "$%1 - due on %2 (overdue)"
-msgstr ""
+msgstr "%1 - op tijd van %2 (te laat)"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "$%1 - due on %2"
-msgstr ""
+msgstr "%1 - op tijd van %2"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid ""
@@ -4122,10 +4117,9 @@ msgstr "Gedane borgstellingen - Begin"
 
 #: CRM/Pledge/BAO/Query.php
 msgid "Payment Scheduled - From"
-msgstr ""
+msgstr "Betaling gepland - Vanaf"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Find Test Pledges?"
 msgstr "Zoek test-borgstellingen?"
 
@@ -8012,7 +8006,7 @@ msgstr "(gevuld met token waarden van uw contact)"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
-msgstr ""
+msgstr "Bijlage(n):"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Text Version:"
@@ -9197,8 +9191,7 @@ msgid ""
 "If you are searching within a date or amouht range, try a wider range of "
 "values."
 msgstr ""
-"Als u aan het zoeken bent op datum, of donatiebedrag, probeer dan een groter "
-"bereik."
+"Als u aan het zoeken bent op datum of bedrag, probeer dan een groter bereik."
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Click %1 to view pledge payments."
@@ -9313,3 +9306,819 @@ msgstr "Aanmaakdatum"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "Transactie ID"
+
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "U heeft geen toegangsrechten voor deze pagina"
+
+#~ msgid "Contribution Types"
+#~ msgstr "Bijdrage Types"
+
+#~ msgid "Manage Premiums"
+#~ msgstr "Beheer Relatiegeschenken"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Bijdragen importeren"
+
+#~ msgid "DashBoard"
+#~ msgstr "Dashboard"
+
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "Beheer Bijdrage Pagina"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Deelnemer-ID"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Minimum bijdrage tonen"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Deelnemers importeren"
+
+#~ msgid "Manage Events"
+#~ msgstr "Evenementen beheren"
+
+#~ msgid "Subscribe"
+#~ msgstr "Aanmelden"
+
+#~ msgid "Import Members"
+#~ msgstr "Leden importeren"
+
+#~ msgid ""
+#~ "This contribution type can not be deleted because it is being referenced "
+#~ "by one or more of the following types of records: Contributions, "
+#~ "Contribution Pages, or Membership Types. Consider disabling this type "
+#~ "instead if you no longer want it used."
+#~ msgstr ""
+#~ "Dit type bijdrage kan niet worden verwijderd omdat het betrekking heeft "
+#~ "op de volgende type bestanden: bijdragen, bijdragepagina's of "
+#~ "lidmaatschapstypen. Overweeg dit type uit te schakelen als u het niet "
+#~ "langer wilt gebruiken."
+
+#~ msgid "Payment Instrument"
+#~ msgstr "Betaalwijze"
+
+#~ msgid ""
+#~ "This contribution page is configured to support separate contribution and "
+#~ "membership payments. The PayPal Website Payments Standard plugin does not "
+#~ "currently support multiple simultaneous payments. Please contact the site "
+#~ "administrator and notify them of this error"
+#~ msgstr ""
+#~ "Deze bijdragepagina kan verschillende bijdragen en "
+#~ "lidmaatschapsbetalingen verwerken. De standaard module voor PayPal-"
+#~ "betaalmethode ondersteunt geen gelijktijdige betalingen. Neem contact op "
+#~ "met de webbeheerder en informeer hem over deze fout."
+
+#~ msgid "-period-"
+#~ msgstr "-periode-"
+
+#~ msgid "day(s)"
+#~ msgstr "dag(en)"
+
+#~ msgid "week(s)"
+#~ msgstr "week/weken"
+
+#~ msgid "month(s)"
+#~ msgstr "maand(en)"
+
+#~ msgid "year(s)"
+#~ msgstr "jaar/jaren"
+
+#~ msgid ""
+#~ "You can not set up a recurring contribution if you are not paying online "
+#~ "by credit card."
+#~ msgstr ""
+#~ "U kunt alleen een terugkerende bijdrage doen wanneer u online met credit "
+#~ "card betaalt."
+
+#~ msgid "Contribution amount can not be greater than %1"
+#~ msgstr "Bedrag bijdrage is maximaal %1"
+
+#~ msgid "Enable recurring payments"
+#~ msgstr "Inschakelen periodieke betalingen"
+
+#~ msgid "Enable pay later option?"
+#~ msgstr "Later betalen toestaan?"
+
+#~ msgid "You do not have any payment processors that support this feature"
+#~ msgstr "Er zijn geen betaalmethoden met deze optie"
+
+#~ msgid "Submit Contribution"
+#~ msgstr "Geef de bijdrage"
+
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "Online Bijdrage : CiviCRM beheer"
+
+#~ msgid "CiviCRM Contributions"
+#~ msgstr "CiviCRM Bijdragen"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email) (OR Invoice "
+#~ "ID or Transaction ID or Contribution ID if update mode.)"
+#~ msgstr ""
+#~ "Verplicht referentieveld ontbreekt. (Dit moet zijn de voor- EN achternaam "
+#~ "of primair e-mailadres of voor-, achternaam EN primair e-mailadres.) (OF "
+#~ "factuur-ID of transactie-ID of bijdrage-ID wanneer bijgewerkt)"
+
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Bijdrage Betaal Pagina"
+
+#~ msgid ""
+#~ "CiviContribute allows you to configure any number of Premiums which can "
+#~ "be offered to contributors as incentives / thank-you gifts. Define the "
+#~ "premiums you want to offer here."
+#~ msgstr ""
+#~ "Met CiviContribute kunt u hier een aantal relatiegeschenken registreren "
+#~ "die aan donateurs kunnen worden aangeboden als aardigheidje. "
+
+#~ msgid ""
+#~ "Contribution types are used to categorize contributions for reporting and "
+#~ "accounting purposes. These are also referred to as Funds."
+#~ msgstr ""
+#~ "Bijdrage types delen bijdragen in voor het rapporteren en administratieve "
+#~ "doeleinden. Ze worden ook Fondsen genoemd."
+
+#~ msgid ""
+#~ "You may choose to record the payment instrument used for each "
+#~ "contribution. Common payment methods are installed by default (e.g. "
+#~ "Check, Cash, Credit Card...). If your site requires additional payment "
+#~ "methods, add them here."
+#~ msgstr ""
+#~ "U kunt voor elke bijdrage de betaalmethode vastleggen. Standaardwijzen "
+#~ "zijn aanwezig (Cheque, Contant, Creditcard...). Als U aanvullende "
+#~ "betaalwijzen nodig heeft, dan kunt U die hier toevoegen."
+
+#~ msgid "Find Contributions"
+#~ msgstr "Zoek bijdragen"
+
+#~ msgid "CiviCRM Contribution Search"
+#~ msgstr "CiviCRM bijdrage zoeken"
+
+#~ msgid "Event Name"
+#~ msgstr "Evenement naam"
+
+#~ msgid ""
+#~ "This event can not be deleted because there are participant records "
+#~ "linked to it. If you want to delete this event, you must first find the "
+#~ "participants linked to this event and delete them. You can use use <a "
+#~ "href='%1'> CiviEvent >> Find Participants page </a>."
+#~ msgstr ""
+#~ "Het evenement kan niet worden verwijderd omdat er deelnemers zijn. Als u "
+#~ "het evenement wilt verwijderen, dient u eerst deze deelnemers te "
+#~ "verwijderen. U kunt hiervoor <a href='%1'> CiviEvent >> Zoek deelnemers "
+#~ "pagina </a> gebruiken."
+
+#~ msgid "Please enter the text displayed to the user"
+#~ msgstr "Voer de tekst in die aan de gebruiker getoond moet worden."
+
+#~ msgid "Please enter the message to be sent to the user"
+#~ msgstr "Voer het bericht in dat naar de gebruiker verzonden moet worden"
+
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Aantal deelnemers bij evenement: %1"
+
+#~ msgid ""
+#~ "A payment processor must be selected for this event registration page "
+#~ "(contact the site administrator for assistance)."
+#~ msgstr ""
+#~ "Er moet een betaalmethode voor deze pagina ingesteld worden (neem contact "
+#~ "op met de beheerder)."
+
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "Kies een datum na vandaag."
+
+#~ msgid "Search by Date Range"
+#~ msgstr "Zoek op begin- en einddatum "
+
+#~ msgid "CiviCRM Participants"
+#~ msgstr "CiviCRM-deelnemers"
+
+# Ik ken de context niet waar 'update mode' zijn betekenis vandaan moet krijgen.
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.) (OR "
+#~ "Participant ID if update mode.)"
+#~ msgstr ""
+#~ "Verplicht referentieveld ontbreekt. (Dit moet zijn de voor- EN achternaam "
+#~ "of primair e-mailadres of voor-, achternaam EN primair e-mailadres.) (OF "
+#~ "deelnemer-ID wanneer bijgewerkt)"
+
+#~ msgid "Manage Event"
+#~ msgstr "Beheer Evenement"
+
+#~ msgid "CiviEvent DashBoard"
+#~ msgstr "CiviEvent-bashboard"
+
+#~ msgid "Event Listings"
+#~ msgstr "Evenementlijsten"
+
+#~ msgid "Event Participants List"
+#~ msgstr "Evenement deelnemerslijst"
+
+#~ msgid ""
+#~ "Create and edit event configuration including times, locations, online "
+#~ "registration forms, and fees. Links for iCal and RSS syndication."
+#~ msgstr ""
+#~ "Aanmaken en wijzigen van evenementen. Koppelingen met kalender en RSS."
+
+#~ msgid "Event Types"
+#~ msgstr "Evenementtypes"
+
+#~ msgid ""
+#~ "Price sets allow you to offer multiple options with associated fees (e.g. "
+#~ "pre-conference workshops, additional meals, etc.). Configure Price Sets "
+#~ "for events which need more than a single set of fee levels."
+#~ msgstr ""
+#~ "Met behulp van prijs-sets kunt u meerdere opties met daar aan gekoppelde "
+#~ "prijzen aanbieden (bijv. pre-conferentie workshops, maaltijden, enz.). "
+#~ "Gebruik prijs-sets voor evenementen met meerdere prijsniveaus."
+
+#~ msgid "Find Participants"
+#~ msgstr "Zoek deelnemers"
+
+#~ msgid "New Event"
+#~ msgstr "Nieuw Evenement"
+
+#~ msgid "Send a Test Mailing?"
+#~ msgstr "Verzend testmailing?"
+
+#, fuzzy
+#~ msgid "Test"
+#~ msgstr "(test)"
+
+#~ msgid "Mailing Subject"
+#~ msgstr "Onderwerp mailing"
+
+#~ msgid "Mailings"
+#~ msgstr "Mailings"
+
+#~ msgid "The mailing queue has been processed."
+#~ msgstr "De wachtrij van de mail is verwerkt."
+
+#~ msgid "Mailer Settings"
+#~ msgstr "Mail Instellingen"
+
+#~ msgid "Configure spool period, throttling and other mailer settings."
+#~ msgstr ""
+#~ "Instellen van o.a. de tijd tussen twee verzendingen van mail en het "
+#~ "aantal mails per zending."
+
+#~ msgid "Headers, Footers, and Automated Messages"
+#~ msgstr "Kopregels, Voetteksten en Automatische Berichten"
+
+#~ msgid ""
+#~ "Configure the header and footer used for mailings. Customize the content "
+#~ "of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
+#~ msgstr ""
+#~ "Instellen kopregels, voetteksten en berichten voor aanmelden, afmelden "
+#~ "enz."
+
+#~ msgid "Resubscribe"
+#~ msgstr "Opnieuw aanmelden"
+
+#~ msgid "Optout"
+#~ msgstr "Uitschrijven"
+
+#~ msgid "Browse Mailings (Scheduled and Sent)"
+#~ msgstr "Bekijk Mailings (Gepland en Verstuurd)"
+
+#~ msgid "The membership can not be saved."
+#~ msgstr "Lidmaatschap kan niet worden bewaard."
+
+#~ msgid ""
+#~ "The membership can not be saved. No valid membership status for given "
+#~ "dates"
+#~ msgstr ""
+#~ "Dit lidmaatschap kan niet bewaard worden. Geen geldige status voor de "
+#~ "ingevoerde data."
+
+#~ msgid "There are no status present, You can not add membership."
+#~ msgstr "U kunt geen lidmaatschap invoeren."
+
+#~ msgid "This membership status can not be deleted"
+#~ msgstr "Deze status van lidmaatschap kan niet worden verwijderd."
+
+#~ msgid "Change"
+#~ msgstr "Wijzigen"
+
+#~ msgid "CiviCRM Members"
+#~ msgstr "CiviCRM Leden"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.) (OR "
+#~ "Membership ID if update mode.)"
+#~ msgstr ""
+#~ "Verplicht referentieveld ontbreekt. (Dit moet zijn de voor- EN achternaam "
+#~ "of primair e-mailadres of voor-, achternaam EN primair e-mailadres.) (OF "
+#~ "lidmaatschap-ID wanneer bijgewerkt)"
+
+#~ msgid ""
+#~ "Define the types of memberships you want to offer. For each type, you can "
+#~ "specify a 'name' (Gold Member, Honor Society Member...), a description, "
+#~ "duration, and a minimum fee."
+#~ msgstr ""
+#~ "Beschrijf de type lidmaatschappen. Voor elke type kunt u een naam "
+#~ "invoeren (Senior lid, Erelid, ....), een omschrijving, de duur en een "
+#~ "minimum bijdrage."
+
+#~ msgid "Membership Status Rules"
+#~ msgstr "Regels lidmaatschap"
+
+#~ msgid "Find Members"
+#~ msgstr "Zoek Leden"
+
+#~ msgid "CiviCRM Member Search"
+#~ msgstr "CiviCRM Zoek leden"
+
+#~ msgid ""
+#~ "An email receipt will be sent to %1 once the transaction is processed "
+#~ "successfully."
+#~ msgstr ""
+#~ "Een ontvangstbewijs zal naar %1 worden gestuurd na het afronden van de "
+#~ "transactie."
+
+#~ msgid "Additional Details"
+#~ msgstr "Aanvullende informatie"
+
+#~ msgid "Honoree Information"
+#~ msgstr "Erelid Informatie"
+
+#~ msgid "Received Date"
+#~ msgstr "Ontvangstdatum"
+
+#~ msgid "Additional Information"
+#~ msgstr "Aanvullende informatie"
+
+#~ msgid "Automatically email a receipt for this contribution?"
+#~ msgstr "Automatisch een e-mail sturen bij ontvangst van  deze bijdrage?"
+
+#~ msgid "Event Information"
+#~ msgstr "Evenement Informatie"
+
+#~ msgid "Found %count contribution."
+#~ msgid_plural "Found %count contributions."
+#~ msgstr[0] "Gevonden %count bijdrage."
+#~ msgstr[1] "Gevonden %count bijdrages."
+
+#~ msgid ""
+#~ "Use this form to find contributions by contributor name, contribution "
+#~ "date or amount ranges, type of contribution, payment method and / or "
+#~ "status."
+#~ msgstr ""
+#~ "U kunt dit formulier gebruiken om te zoeken op contributantnaam, "
+#~ "donatiebedragen/perioden, type van bijdrage, betaalmethode en status."
+
+#~ msgid "List more contributions"
+#~ msgstr "Toon meer bijdragen"
+
+#~ msgid ""
+#~ "Are you sure you want to delete the selected contributions? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these contributions."
+#~ msgstr ""
+#~ "Wilt u de geselecteerde bijdragen verwijderen? Deze actie kan niet "
+#~ "ongedaan maken en zal alle transacties en de geschiedenis van deze "
+#~ "bijdragen verwijderen."
+
+#~ msgid "One contribution record selected for export."
+#~ msgid_plural "%count contribution records selected for export."
+#~ msgstr[0] "Er is een bijdrage geselecteerd voor export."
+#~ msgstr[1] "Er zijn %count bijdragen geselecteerd voor export."
+
+#~ msgid ""
+#~ "Click <strong>Export Contributions</strong> to download a comma-separated "
+#~ "values (CSV) file of contribution data. Each row will also include "
+#~ "contributor contact information (name, address, email, phone...) as "
+#~ "available."
+#~ msgstr ""
+#~ "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden "
+#~ "bestand van bijdrage data te downloaden. Elke rij in dit bestand bevat "
+#~ "tevens informatie over de contributant (naam, adres,telefoon, etc.)."
+
+#~ msgid ""
+#~ "Set page title, contribution type (donation, campaign contribution, "
+#~ "etc.), payment processor, goal amount, introduction, honoree features, "
+#~ "and page status (active or disabled)."
+#~ msgstr ""
+#~ "Kies de pagina titel, bijdragetype (campagne, donatie, etc.), "
+#~ "introductietekst, betaalmethode, doelbedrag, introductietekst, "
+#~ "erelidopties en status van de pagina."
+
+#~ msgid "Enable recurring contributions."
+#~ msgstr "Inschakelen periodieke contributies."
+
+#~ msgid ""
+#~ "No contribution pages have been created yet. Click <a href='%1'>here</a> "
+#~ "to create a new contribution page using the step-by-step wizard."
+#~ msgstr ""
+#~ "Er zijn nog geen bijdrage pagina's. U kunt een <a href='%1'>Bijdrage "
+#~ "Pagina aanmaken</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviContribute allows you to create customized page(s) for collecting "
+#~ "online contributions."
+#~ msgstr ""
+#~ "Met CiviContribute is het mogelijk om specifieke bijdrage pagina's aan te "
+#~ "maken voor online bijdragen. Beheerders kunnen de online bijdrage "
+#~ "pagina's <a href='%1'>aanmaken en wijzigen</a>."
+
+#~ msgid ""
+#~ "You can also input and track offline contributions. To enter "
+#~ "contributions manually for individual contacts, use <a href='%1'>Find "
+#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
+#~ "go to their summary page and click on the <strong>New Contribution</"
+#~ "strong> link. You can also <a href='%2'>import batches of offline "
+#~ "contributions</a> from other sources."
+#~ msgstr ""
+#~ "Het is mogelijk om offline bijdragen te registreren. Om handmatig "
+#~ "bijdragen voor personen toe te voegen, gebruik dan <a href='%1'>Zoek "
+#~ "contacten</a> om het betreffende contact te zoeken. Daarna klikt u op "
+#~ "<strong>Toon</strong>, om naar het overzicht van dit contact te gaan en "
+#~ "een <strong>Nieuwe Bijdrage</strong> toe te voegen. U kunt ook een lijst "
+#~ "van offline bijdragen <a href='%2'>importeren</a>."
+
+#~ msgid ""
+#~ "This table provides a summary of <strong>Contribution Totals</strong>, "
+#~ "and includes shortcuts to view the contribution details for these "
+#~ "commonly used search periods. To run your own customized searches - click "
+#~ "<a href='%1'>Find Contributions</a>. You can search by Contributor Name, "
+#~ "Amount Range, and a variety of other criteria."
+#~ msgstr ""
+#~ "Deze tabel toont een overzicht van de <strong>Totale Bijdragen</strong>, "
+#~ "en bevat links om bijdrage details over een bepaalde periode te bekijken. "
+#~ "Voor specifieke zoekacties, klikt u op <a href=\"%1\">Zoek bijdragen</a>. "
+#~ "Daar kan op naam, bedrag en andere criteria gezocht worden."
+
+#~ msgid ""
+#~ "Select a pre-configured Price Set to offer multiple individually priced "
+#~ "options for event registrants. Otherwise, select &quot;-none-&quot, and "
+#~ "enter one or more fee levels in the table below. Create or edit Price "
+#~ "Sets <a href='%1'>here</a>."
+#~ msgstr ""
+#~ "Kies een bestaande Prijs-set om meerdere persoonlijke prijs-opties te "
+#~ "bieden aan aanmelders voor een evenement. Of kies &quot;- geen -&quot, en "
+#~ "geef een of meerdere kostenniveau's op in onderstaande tabel. <a href=\"%1"
+#~ "\">Maak of wijzig Prijs-set</a>."
+
+#~ msgid "Fee Levels"
+#~ msgstr "Kosten Niveau's"
+
+#~ msgid ""
+#~ "Use the table below to enter descriptive labels and amounts for up to ten "
+#~ "event fee levels. These will be presented as a list of radio button "
+#~ "options. Both the label and dollar amount will be displayed."
+#~ msgstr ""
+#~ "In de tabel hieronder kunnen (max. 10) kostenniveau's worden ingevuld. De "
+#~ "lijst wordt dan als een keuzelijst getoond. Zowel het label als het "
+#~ "bedrag worden getoond."
+
+#~ msgid "Unit Price"
+#~ msgstr "Prijs per eenheid"
+
+#~ msgid ""
+#~ "Please verify the information below. Click <strong>Go Back</strong> if "
+#~ "you need to make changes. Otherwise, click the <strong>Continue</strong> "
+#~ "button below to complete your registration."
+#~ msgstr ""
+#~ "Controleer a.u.b. de onderstaande informatie. Klik op <strong>terug</"
+#~ "strong> als u gegevens wilt wijzigen. Om te registreren, klik op de knop "
+#~ "<strong>Doorgaan</strong>."
+
+#~ msgid "Found %count participant."
+#~ msgid_plural "Found %count participants."
+#~ msgstr[0] "Gevonden %count  deelnemer."
+#~ msgstr[1] "Gevonden %count deelnemers."
+
+#~ msgid ""
+#~ "Use this form to find participant(s) by participant name, event name, "
+#~ "event start and end dates."
+#~ msgstr ""
+#~ "Gebruik dit formulier om deelnemers te vinden op naam, evenement, datum, "
+#~ "etc."
+
+#~ msgid "List more Event Participants"
+#~ msgstr "Toon meer deelnemers aan evenement"
+
+#~ msgid ""
+#~ "Are you sure you want to delete the selected participations? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these participations."
+#~ msgstr ""
+#~ "Wilt U de geselecteerde deelnames wilt verwijderen? Deze actie kan niet "
+#~ "ongedaan gemaakt worden en zal alle transacties en de geschiedenis van "
+#~ "deze deelnames verwijderen."
+
+#~ msgid "One participant record selected for export."
+#~ msgid_plural "%count participant records selected for export."
+#~ msgstr[0] "Een deelname geselecteerd voor export."
+#~ msgstr[1] "%count deelnames geselecteerd voor export."
+
+#~ msgid ""
+#~ "Click <strong>Export Participants</strong> to download a comma-separated "
+#~ "values (CSV) file of participant data. Each row will also include "
+#~ "participant contact information (name, address, email, phone...) as "
+#~ "available."
+#~ msgstr ""
+#~ "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden "
+#~ "bestand van bijdrage data te downloaden. Elke rij in dit bestand bevat "
+#~ "tevens informatie over de contributant (naam, adres,telefoon, etc.)."
+
+#~ msgid "Participation Status"
+#~ msgstr "Deelname status"
+
+#~ msgid ""
+#~ "CiviEvent allows you to create customized page(s) for creating and "
+#~ "registering online events. Administrators can create <a href='%"
+#~ "1'><strong>new events</strong></a> and <a href='%2'><strong>manage "
+#~ "existing events</strong></a>."
+#~ msgstr ""
+#~ "Met CiviEvent kunnen specifieke pagina's voor  online evenementen worden "
+#~ "gemaakt.  Beheerders kunnen een <a href='%1'><strong>nieuw evenement "
+#~ "aanmaken</strong></a> en een <a href='%2'><strong>bestaand evenement "
+#~ "beheren</strong></a>."
+
+#~ msgid ""
+#~ "You can also input and track offline Events. To enter events manually for "
+#~ "individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
+#~ "contact. Then click <strong>View</strong> to go to their summary page and "
+#~ "click on the <strong>New Event</strong> link. You can also <a href='%"
+#~ "2'><strong>import batches of participants</strong></a> from other sources."
+#~ msgstr ""
+#~ "Het is mogelijk om offline evenementen te registreren en te volgen. Om "
+#~ "handmatig evenementen toe te voegen voor personen, gebruik dan <a href=\"%"
+#~ "1\">Zoek contact</a> om het betreffende contact te zoeken. Daarna klikt u "
+#~ "op <strong>Toon</strong> om naar het overzicht van dit contact te gaan en "
+#~ "op <strong>Nieuw evenement </strong> om een deelname toe te voegen. U "
+#~ "kunt ook een lijst van deelnemers <a href=\"%1\">importeren</a>."
+
+#~ msgid ""
+#~ "This table provides a summary of up to ten scheduled and recent "
+#~ "<strong>Events</strong>. Click the <strong>Event name</strong> to view "
+#~ "the event as it will be displayed to site visitors. Click the "
+#~ "<strong>Participants count</strong> to see a list of participants. To run "
+#~ "your own customized searches - click <a href='%1'>Find Participants</a>. "
+#~ "You can search by Participant Name, Event, Date Range and Status."
+#~ msgstr ""
+#~ "Deze tabel toont een overzicht met maximaal 10 geplande en recente "
+#~ "<strong>Evenementen</strong>, klik op de <strong>Evenementsnaam</strong> "
+#~ "om het te tonen zoals het op de site getoond wordt.  Klik op "
+#~ "<strong>Deelnemers</strong> om de deelnemers te zien. Voor eigen "
+#~ "zoekopdrachten - klik <a href=\"%1\">Zoek deelnemers</a>. Er kan op naam, "
+#~ "evenement, datum en status gezocht worden."
+
+#~ msgid ""
+#~ "Determine if the event is free or paid. For paid events, set the fee level"
+#~ "(s) and contribution type assigned to fees. Give online registrants the "
+#~ "option to 'pay later' (e.g. mail in a check, call in a credit card, etc.)."
+#~ msgstr ""
+#~ "Bepalen of het een gratis of betaald evenement is. Instellen bijdrage "
+#~ "niveau's."
+
+#~ msgid ""
+#~ "Determine whether an online registration page is available. If so, "
+#~ "configure registration page elements."
+#~ msgstr ""
+#~ "Bepalen of online registratie mogelijk is. Indien dit toegestaan is, het "
+#~ "instellen van de registratie-pagina."
+
+#~ msgid "Complete OR partial mailing name."
+#~ msgstr "Volledige of gedeeltelijke naam mailing."
+
+#, fuzzy
+#~ msgid "Tracking"
+#~ msgstr "URL tracking"
+
+#~ msgid "Preview Mailing"
+#~ msgstr "Voorvertoon Mailing"
+
+#~ msgid ""
+#~ "Click your mouse in the upper left corner of the box below to begin "
+#~ "editing your HTML message."
+#~ msgstr ""
+#~ "Klik met de muis in de linkerbovenhoek van onderstaand veld om het HTML-"
+#~ "bericht te maken."
+
+#~ msgid "New Mailing"
+#~ msgstr "Nieuwe Mailing"
+
+#~ msgid ""
+#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
+#~ msgstr ""
+#~ "Er zijn nog geen Mailings. U kunt er een <a href='%1'>aanmaken en "
+#~ "versturen</a>."
+
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Weet u zeker dat u wilt afmelden: %1 (%2)"
+
+#~ msgid "Found %count member."
+#~ msgid_plural "Found %count members."
+#~ msgstr[0] "Gevonden %count lid."
+#~ msgstr[1] "Gevonden %count leden."
+
+#~ msgid ""
+#~ "Use this form to find member(s) by member name or email address, "
+#~ "membership type, status, source, and/or membership period start and end "
+#~ "dates. Multiple selections for Membership Type and Status are combined as "
+#~ "OR criteria (e.g. checking 'Membership Type A' and 'Membership Type B' "
+#~ "will find contacts who have either membership). All other search fields "
+#~ "are combined as AND criteria (e.g. selecting Status is 'Expired' AND "
+#~ "Source is 'Phone-banking' returns only those contacts who meet both "
+#~ "criteria)."
+#~ msgstr ""
+#~ "U kunt zoek naar leden zoeken op naam, e-mailadres, lidmaatschaptype, "
+#~ "status, bron en/of periode lidmaatschap. Bij type en status kunt u "
+#~ "meerdere waarden opgeven (de status moet dan een van de opgegeven waarden "
+#~ "zijn). Als er meerdere velden worden opgegeven moet aan alle waarden zijn "
+#~ "voldaan. (Bijv. Status is Geldig en Periode start ligt in de opgegeven "
+#~ "periode.)"
+
+#~ msgid "List more Memberships"
+#~ msgstr "Toon meer lidmaatschappen"
+
+#~ msgid ""
+#~ "Are you sure you want to delete the selected memberships? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these members."
+#~ msgstr ""
+#~ "Wilt U de geselecteerde lidmaatschappen verwijderen? Deze actie kan niet "
+#~ "ongedaan gemaakt worden en zal alle transacties en de geschiedenis van "
+#~ "deze lidmaatschappen verwijderen."
+
+#~ msgid "One membership record selected for export."
+#~ msgid_plural "%count membership records selected for export."
+#~ msgstr[0] "Een lidmaatschap geselecteerd voor export."
+#~ msgstr[1] "%count lidmaatschappen geselecteerd voor export."
+
+#~ msgid ""
+#~ "Click <strong>Export Memberships</strong> to download a comma-separated "
+#~ "values (CSV) file of membership data. Each row will also include member "
+#~ "contact information (name, address, email, phone...) as available."
+#~ msgstr ""
+#~ "Klik op <strong>Exporteer Lidmaatschappen</strong> om een komma-"
+#~ "gescheiden bestand van lidmaatschapgegevens te downloaden. Elke rij in "
+#~ "dit bestand bevat tevens informatie over het contact  (naam, adres, "
+#~ "telefoon, etc)."
+
+#~ msgid "Start/Renew Date"
+#~ msgstr "Start/Verlengings-datum"
+
+#~ msgid ""
+#~ "CiviMember allows you to create customized membership types as well as "
+#~ "page(s) for online membership sign-up and renewal. Administrators can "
+#~ "create or modify Membership Types <a href='%2'>here</a>, and configure "
+#~ "Online Contribution Pages which include membership sign-up <a href='%"
+#~ "1'>here</a>."
+#~ msgstr ""
+#~ "Met CiviMember kunt u lidmaatschaptypes aanmaken, maar ook pagina's maken "
+#~ "voor online lidmaatschap aanmaken en verlengen. Beheerders kunnen <a href="
+#~ "\"%2\">lidmaatschaptypes aanmaken en beheren</a>, en <a href=\"%1"
+#~ "\">Online Bijdrage Pagina's beheren</a> voor het aanmelden van "
+#~ "lidmaatschap."
+
+#~ msgid ""
+#~ "You can also input and track membership sign-ups offline. To record "
+#~ "memberships manually for individual contacts, use <a href='%1'>Find "
+#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
+#~ "go to their summary page and click on the <strong>New Membership</strong> "
+#~ "link. You can also <a href='%3'>import batches of membership records</a> "
+#~ "from other sources. Refer to the <a href='%2' target='_blank' title='%"
+#~ "4'>CiviMember Guide</a> for more information."
+#~ msgstr ""
+#~ "Het is mogelijk om offline lidmaatschap te registreren. Om handmatig "
+#~ "lidmaatschap voor personen toe te voegen, gebruik dan <a href='%1'>Zoek "
+#~ "contacten</a> om het betreffende contact te zoeken. Daarna klikt u op "
+#~ "<strong>Toon</strong> om naar het overzicht van dit contact te gaan en "
+#~ "klik daarna op <strong>Nieuwe Lidmaatschap</strong>. U kunt ook een lijst "
+#~ "van offline lidmaatschappen <a href='%3'>importeren</a>. Zie <a href='%2' "
+#~ "target='_blank' title='%4'>CiviMember Guide</a> voor meer informatie."
+
+#~ msgid ""
+#~ "This table provides a summary of <strong>Membership Signup and Renewal "
+#~ "Activity</strong>, and includes shortcuts to view the details for these "
+#~ "commonly used search criteria. To run your own customized searches - "
+#~ "click <a href='%1'>Find Members</a>. You can search by Member Name, "
+#~ "Membership Type, Status, and Signup Date Ranges."
+#~ msgstr ""
+#~ "Deze tabel toont een overzicht van de <strong>Nieuwe lidmaatschappen en "
+#~ "verlengingen</strong>, en bevat links om details te tonen. Voor "
+#~ "specifieke zoekacties klikt u op <a href=\"%1\">Zoek Leden</a>. Daar kan "
+#~ "op naam, lidmaatschap, status en datum gezocht worden."
+
+#~ msgid "%1"
+#~ msgstr "%1"
+
+#~ msgid "Contribution ID (match to contribution)"
+#~ msgstr "Contribution ID (koppeling met bijdrage)"
+
+#~ msgid "lifetime"
+#~ msgstr "levensduur"
+
+#~ msgid ""
+#~ "Page title can not be longer than 255 characters and must consist of "
+#~ "letters, numbers, spaces and simple punctuation characters."
+#~ msgstr "Moet er een voortgangsmeter getoond worden tijdens de bijdrage?"
+
+#~ msgid "Event %2 %1"
+#~ msgstr "Evenement %2 %1"
+
+#~ msgid "-- select --"
+#~ msgstr "-- kies --"
+
+#~ msgid "Test Participants Only"
+#~ msgstr "Alleen testdeelnemers"
+
+#~ msgid "Thermometer Title"
+#~ msgstr "Voortgangsmeter"
+
+#~ msgid "Min Amount"
+#~ msgstr "Minimumbedrag"
+
+#~ msgid "Max Amount"
+#~ msgstr "Maximumbedrag"
+
+#~ msgid "Thank-you Title"
+#~ msgstr "Titel voor bedankbericht"
+
+#~ msgid "Thank-you Message"
+#~ msgstr "BedankberichtTekst"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Titel"
+
+#~ msgid "Domain Information"
+#~ msgstr "Domein Informatie"
+
+#~ msgid ""
+#~ "The membership can not be saved.<br/> No valid membership status for "
+#~ "given dates."
+#~ msgstr ""
+#~ "Dit lidmaatschap kan niet bewaard worden. <br/> Geen geldig lidmaatschap "
+#~ "op de ingevoerde data."
+
+#~ msgid ""
+#~ "Display the progress thermometer block when the user is making a "
+#~ "contribution."
+#~ msgstr "Toon de voortgangsmeter aan de donateur."
+
+#~ msgid "Set a title for the progress thermometer block."
+#~ msgstr "Naam van de voortgangsmeter."
+
+#~ msgid ""
+#~ "CiviContribute allows you to create and maintain any number of Online "
+#~ "Contribution Pages. You can create different pages for different programs "
+#~ "or campaigns - and customize text, amounts, types of information "
+#~ "collected from contributors, etc. (<a href=\"%1\" target=\"_blank\" title="
+#~ "\"%2\">read more...</a>)"
+#~ msgstr ""
+#~ "CiviContribute stelt u in staat om een groot aantal online bijdrage "
+#~ "pagina's te creeeren en bij te houden. Er kunnen verschillende pagina's "
+#~ "worden gemaakt voor verschillende programma's of campagnes. Voor elke "
+#~ "pagina zijn de teksten, bijdragen en andere gegevens in te stellen."
+
+#~ msgid ""
+#~ "If your page is enabled, click <strong>Live Page</strong> to view to the "
+#~ "page in <strong>live mode</strong>."
+#~ msgstr ""
+#~ "Als de pagina is ingeschakeld, kunt U met <strong>Live Page</strong> de "
+#~ "pagina zien in <strong>live mode</strong>."
+
+#~ msgid ""
+#~ "Click <a href=\"%1\">New Contribution Page</a> to create and configure a "
+#~ "new online contribution page using the step-by-step wizard."
+#~ msgstr ""
+#~ "Klik op <a href=\"%1'\">Nieuwe bijdrage pagina</a> om een nieuwe bijdrage "
+#~ "pagina aan te maken."
+
+#~ msgid ""
+#~ "This page lists current (in-progress) and upcoming events. Click a column "
+#~ "header to sort by that column. <a href=\"%1\">Click here</a> to browse "
+#~ "completed (past) events (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">read more...</a>)."
+#~ msgstr ""
+#~ "Hier staan de huidige en toekomstige evenementen.  Klik op een kolomkop "
+#~ "om deze kolom te sorteren. Klik <a href=\"%1\">hier</a> om de afgeronde "
+#~ "evenementen te bekijken (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">lees meer...</a>)."
+
+#~ msgid ""
+#~ "This page lists completed (past) events. Click a column header to sort by "
+#~ "that column. <a href=\"%1\">Click here</a> to browse current (in-"
+#~ "progress) and upcoming events (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">read more...</a>)."
+#~ msgstr ""
+#~ "Hier staan de afgeronde evenementen. Klik op een kolomkop om hierop te "
+#~ "sorteren. <a href=\"%1\">Klik hier</a> om de huidige en toekomstige "
+#~ "evenementen te bekijken  (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">lees meer...</a>)."
+
+#~ msgid "Show Past Events"
+#~ msgstr "Bekijk afgeronde evenementen"

@@ -12149,3 +12149,71 @@ msgstr "マンチェスター"
 
 msgid "Gaza"
 msgstr ""
+
+#~ msgid "Georgia"
+#~ msgstr "ジョージア"
+
+#, fuzzy
+#~ msgid "Guam"
+#~ msgstr "グアム"
+
+#, fuzzy
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "北マリアナ諸島"
+
+#, fuzzy
+#~ msgid "Puerto Rico"
+#~ msgstr "プエルトリコ"
+
+#, fuzzy
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "合衆国外諸島"
+
+#~ msgid "Luxembourg"
+#~ msgstr "ルクセンブルグ"
+
+#, fuzzy
+#~ msgid "Belize"
+#~ msgstr "ベリーズ"
+
+#~ msgid "Taiwan"
+#~ msgstr "台湾"
+
+#, fuzzy
+#~ msgid "Hong Kong"
+#~ msgstr "香港"
+
+#, fuzzy
+#~ msgid "Djibouti"
+#~ msgstr "ジブチ"
+
+#~ msgid "Jersey"
+#~ msgstr "ジャージー"
+
+#, fuzzy
+#~ msgid "Mali"
+#~ msgstr "マリ"
+
+#~ msgid "Guatemala"
+#~ msgstr "カタロニア"
+
+#, fuzzy
+#~ msgid "Male"
+#~ msgstr "マレ"
+
+#~ msgid "Mexico"
+#~ msgstr "メキシコ"
+
+#, fuzzy
+#~ msgid "Niger"
+#~ msgstr "ニジェール共和国"
+
+#~ msgid "Panama"
+#~ msgstr "パナマ"
+
+#, fuzzy
+#~ msgid "Saint Helena"
+#~ msgstr "セント・ヘレナ"
+
+#~ msgid "Isle of Man"
+#~ msgstr "マン島"

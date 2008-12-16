@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-10-08 09:42-0700\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -907,6 +907,10 @@ msgid ""
 "code>). This domain (or, more properly, the machine that this domain's MX "
 "record points to) must be configured to handle incoming CiviMail emails (so "
 "it can process the 'actions' like subscribe, optOut, etc.)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp

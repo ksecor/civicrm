@@ -540,16 +540,19 @@ class CRM_Contact_BAO_Query
                 } else if ($name === 'tags') {
                     $this->_useGroupBy  = true;
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
+                    $this->_element[$name              ] = 1;
                     $this->_tables['civicrm_tag'       ] = 1;
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } else if ($name === 'groups') {
                     $this->_useGroupBy  = true;
-                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
-                    $this->_tables['civicrm_group'        ] = 1;
+                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
+                    $this->_element[$name              ] = 1;
+                    $this->_tables['civicrm_group'     ] = 1;
                 } else if ($name === 'notes') {
                     $this->_useGroupBy  = true;
-                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
-                    $this->_tables['civicrm_note'        ] = 1;
+                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
+                    $this->_element[$name              ] = 1;
+                    $this->_tables['civicrm_note'      ] = 1;
                 } else if ($name === 'current_employer') {
                     $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', contact_a.organization_name, NULL ) AS current_employer";
                     $this->_element[$name]   = 1;

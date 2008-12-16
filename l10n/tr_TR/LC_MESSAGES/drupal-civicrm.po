@@ -243,3 +243,17 @@ msgstr "İrtibat Kaydını Görüntüle"
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr "İrtibat Panosunu Görüntüle"
+
+#~ msgid ""
+#~ "For more information please read the configuration and customization "
+#~ "handbook <a href=\"%1\">CiviCRM page</a>."
+#~ msgstr ""
+#~ "Daha fazla bilgi için lütfen yapılandırma ve özelleştime el kitabını "
+#~ "okuyun: <a href=\"%1\">CiviCRM sayfası</a>."
+
+#~ msgid ""
+#~ "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
+#~ "contacts, relationships and groups, and track contact activities."
+#~ msgstr ""
+#~ "Üye İlişkleri Yönetimi (ÜİY). İrtibatları, ilişkileri ve öbekleri "
+#~ "yönetmeyi, ayrıca üye etkinliklerin takibini sağlar."

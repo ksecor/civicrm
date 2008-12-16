@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -3327,10 +3327,6 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -8344,7 +8340,7 @@ msgid "Configure up to five fields to evaluate when searching for 'suspected' du
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -9983,8 +9979,8 @@ msgid "Your setup enforces SMTP authentication, but does not provide SMTP userna
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
-msgid "Email will NOT be sent to %count contact - communication preferences specify DO NOT EMAIL."
-msgid_plural "Email will NOT be sent to %count contacts - communication preferences specify DO NOT EMAIL."
+msgid "Email will NOT be sent to %count contact - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased)."
+msgid_plural "Email will NOT be sent to %count contacts - (no email address on file or communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 

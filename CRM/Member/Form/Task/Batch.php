@@ -188,28 +188,39 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
         $params     = $this->exportValues( );
         
         if ( isset( $params['field'] ) ) {
-            foreach ( $params['field'] as $key => $value ) {
-                //check for custom data
-                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
-                                                                          CRM_Core_DAO::$_nullObject,
-                                                                          $key,
-                                                                          'Membership' );
-                
+            $customFields = array( );
+        	
+            foreach ( $params['field'] as $key => $value ) {               
                 $ids['membership'] = $key;
                 if ($value['membership_source']) {
                     $value['source'] = $value['membership_source'];
                 }
                 
                 unset($value['membership_source']);
-             
+                            
                 //Get the membership status
                 $membership =& new CRM_Member_BAO_Membership();
                 $membership->id = CRM_Utils_Array::value( 'membership', $ids );
                 $membership->find(true);
                 $membership->free();
                 $value['status_id'] = $membership->status_id;
-                $membership = CRM_Member_BAO_Membership::add( $value ,$ids );
                 
+                if ( empty( $customFields ) ) {
+                    // membership type custom data
+                    $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership', false, false, $membership->membership_type_id );
+
+            		$customFields = CRM_Utils_Array::crmArrayMerge( $customFields, 
+            														CRM_Core_BAO_CustomField::getFields( 'Membership',
+            														false, false, null, null, true ) );
+                }
+                //check for custom data
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params['field'][$key],
+                                                                        $customFields,
+                                                                        $key,
+                                                                        'Membership',
+                                                                        $membership->membership_type_id);
+                
+                $membership = CRM_Member_BAO_Membership::add( $value ,$ids );
                 
                 // add custom field values           
                 if ( CRM_Utils_Array::value( 'custom', $value ) &&

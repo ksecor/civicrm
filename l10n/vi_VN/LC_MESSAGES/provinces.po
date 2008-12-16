@@ -12484,3 +12484,100 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr "Gaza"
+
+#~ msgid "Georgia"
+#~ msgstr "Georgia"
+
+#~ msgid "American Samoa"
+#~ msgstr "Samoa Mỹ"
+
+#~ msgid "Guam"
+#~ msgstr "Guam"
+
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "Bắc Quần Đảo Mariana"
+
+#~ msgid "Puerto Rico"
+#~ msgstr "Puerto Rico"
+
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "Các Đảo Nhỏ ở Xa của Mỹ"
+
+#~ msgid "Luxembourg"
+#~ msgstr "Lúc-xăm-buac"
+
+#~ msgid "Belize"
+#~ msgstr "Belize"
+
+#~ msgid "Taiwan"
+#~ msgstr "Đài Loan"
+
+#, fuzzy
+#~ msgid "Hong Kong"
+#~ msgstr "Ang Thong"
+
+#~ msgid "Djibouti"
+#~ msgstr "Djibouti"
+
+#~ msgid "Frederikaberg municipality"
+#~ msgstr "Thành Phố Frederikaberg"
+
+#~ msgid "Copenhagen municipality"
+#~ msgstr "Thành Phố Copenhagen"
+
+#~ msgid "Western Zealand"
+#~ msgstr "Miền Tây Zealand"
+
+#~ msgid "Funen"
+#~ msgstr "Funen"
+
+#~ msgid "Southern Jutland"
+#~ msgstr "Miền Nam Jutland"
+
+#~ msgid "Ringkøbing"
+#~ msgstr "Ringkøbing"
+
+#~ msgid "Aarhus"
+#~ msgstr "Aarhus"
+
+#~ msgid "Northern Jutland"
+#~ msgstr "Miền Bắc Jutland"
+
+#, fuzzy
+#~ msgid "Guernsey"
+#~ msgstr "Ourense"
+
+#, fuzzy
+#~ msgid "Jersey"
+#~ msgstr "New Jersey"
+
+#~ msgid "Mali"
+#~ msgstr "Mali"
+
+#~ msgid "Guatemala"
+#~ msgstr "Guatemala"
+
+#, fuzzy
+#~ msgid "Forli"
+#~ msgstr "Forlì"
+
+#~ msgid "Male"
+#~ msgstr "Male"
+
+#, fuzzy
+#~ msgid "Mexico"
+#~ msgstr "Moxico"
+
+#~ msgid "Niger"
+#~ msgstr "Niger"
+
+#, fuzzy
+#~ msgid "Panama"
+#~ msgstr "Panamá"
+
+#~ msgid "Saint Helena"
+#~ msgstr "Saint Helena"
+
+#, fuzzy
+#~ msgid "Isle of Man"
+#~ msgstr "Đảo Anglesey"

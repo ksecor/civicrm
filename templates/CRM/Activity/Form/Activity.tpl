@@ -94,18 +94,7 @@
              </tr>
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
-             </tr> 
-
-             {* Include special processing fields if any are defined for this activity type. *}
-             {if $activityTypeFile}
-                {include file="CRM/{$crmDir}/Form/Activity/$activityTypeFile.tpl"}
-             {else}
-                {* if user going to select the activity type, provide space for dynamically injecting the form fields.*}
-                <tr>
-                   <td colspan="2"><span id="atypefields"></span></td>
-                </tr>
-             {/if}
-
+             </tr>
              <tr>
                 <td class="label">{$form.location.label}</td><td class="view-value">{$form.location.html}</td>
              </tr> 
@@ -234,18 +223,7 @@
         {/if}
   {literal}        
   });
-  
-  function injectActTypeFileFields( type ) {
-      var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&atype='}"{literal} + type; 
-      dataUrl = dataUrl + '&atypefile=1';
-
-      {/literal}{if $urlPathVar}
-         dataUrl = dataUrl + '&' + '{$urlPathVar}'
-      {/if}{literal}
-
-  	  cj( '#atypefields' ).load( dataUrl );
-  }
-  
+    
   {/literal}
 </script>
 

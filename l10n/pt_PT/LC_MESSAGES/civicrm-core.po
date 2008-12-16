@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-12-07 09:46-0800\n"
 "Last-Translator: José Gaspar <jad.gaspar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -72,7 +72,7 @@ msgstr "Operação"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Data modificada"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +432,8 @@ msgid "Case Activity Type"
 msgstr "Tipo de actividade"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- seleccionar -"
+msgstr "-seleccionar-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1151,9 +1150,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Selecione Data"
+msgstr "Selecionar Tabelas"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1716,9 +1714,8 @@ msgid "Data"
 msgstr "Data"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Tipo de Evento"
+msgstr "Tipo Html"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1799,9 +1796,8 @@ msgstr ""
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefone"
+msgstr "Tipo de Telefone"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2229,7 +2225,7 @@ msgstr "Data / Hora de Fim"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Número de telefone"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -3456,10 +3452,6 @@ msgid "Individual Suffix"
 msgstr "Indivíduo"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefone"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Membro do Grupo %1"
 
@@ -3629,9 +3621,8 @@ msgid "Job Title"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Data de início"
+msgstr "Data de Nascimento"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Is Deceased"
@@ -5573,9 +5564,8 @@ msgid "vCard Location Type"
 msgstr "Tipo de Contribuição"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Local"
+msgstr "Nome da localização"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Column Number"
@@ -5890,9 +5880,8 @@ msgid "Notify"
 msgstr "Nota"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Telemóvel"
+msgstr "Módulo"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9034,7 +9023,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11157,11 +11146,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13939,3 +13928,346 @@ msgstr "Mensagem obstruída por um filtro de conteúdo"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transacção de SMTP"
+
+#~ msgid "Contact"
+#~ msgstr "Contacto"
+
+#~ msgid "Import"
+#~ msgstr "Importar"
+
+#~ msgid "Custom Data"
+#~ msgstr "Dados personalizados"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "Tipo de Processamento do Pagamento"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Pesquisa avançada"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "Painel de contactos"
+
+#~ msgid "Global Settings"
+#~ msgstr "Definições globais"
+
+#~ msgid "Components"
+#~ msgstr "Componentes"
+
+#~ msgid "Configure"
+#~ msgstr "Configurar"
+
+#~ msgid "Manage"
+#~ msgstr "Gerir"
+
+#, fuzzy
+#~ msgid "Option Lists"
+#~ msgstr "Listas de opções"
+
+#~ msgid "File System Paths"
+#~ msgstr "Endereços do sistema de ficheiros"
+
+#~ msgid "Site URLs"
+#~ msgstr "URLS dos sites"
+
+#~ msgid "Localization"
+#~ msgstr "Localização"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Vários"
+
+#~ msgid "Notes"
+#~ msgstr "Notas"
+
+#~ msgid "Delete Location"
+#~ msgstr "Apagar localização"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Administrar CiviCRM"
+
+#~ msgid "Activities"
+#~ msgstr "Actividades"
+
+#~ msgid "Relationships"
+#~ msgstr "Relações"
+
+#~ msgid "Contributions"
+#~ msgstr "Contribuições"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Pesquisar contactos"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "Home do CiviCRM"
+
+#~ msgid "Groups"
+#~ msgstr "Grupos"
+
+#~ msgid "Tags"
+#~ msgstr "Etiquetas"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Exportar contactos"
+
+#~ msgid "New Contact"
+#~ msgstr "Novo Contacto"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Encontrar Contactos Duplicados"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Regras de Contactos Duplicados"
+
+#~ msgid "Contacts"
+#~ msgstr "Contactos"
+
+#~ msgid "Group Members"
+#~ msgstr "Membros do Grupo"
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "O ficheiro em anexo foi apagado."
+
+#~ msgid "User Language"
+#~ msgstr "Língua do Utilizador"
+
+#~ msgid "System Configuration"
+#~ msgstr "Configuração de Sistema"
+
+#~ msgid "Online Payment"
+#~ msgstr "Pagamento Online"
+
+#~ msgid "Activity"
+#~ msgstr "Actividade"
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "A sua Subscrição foi Activada"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "O Grupo '%1' foi apagado."
+
+#~ msgid "Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "Download Errors"
+#~ msgstr "Download Erros"
+
+#~ msgid ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+#~ msgstr ""
+#~ "Ficheiros a serem submetidos têm de estar no formato 'valores-separados-"
+#~ "por-vírgulas' (CSV). A maior parte das aplicações permite exportar "
+#~ "registos neste formato. Consulte a documentação da sua aplicação se não "
+#~ "sabe como fazer isto. Grave o ficheiro no seu disco rígido (ou num disco "
+#~ "acessível pela rede) - e está agora pronto para o passo 1 (Submeter "
+#~ "Dados)."
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Página de contacto"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no grant recorded for this contact. You can <a href='%1'>enter "
+#~ "one now</a>."
+#~ msgstr ""
+#~ "Não existem campos do perfil CiviCRM \"%1\", pode adicionar um <a href=\"%"
+#~ "2\">agora</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Notes for this contact. You can <a href='%1'>add one</a>."
+#~ msgstr ""
+#~ "Não existem campos do perfil CiviCRM \"%1\", pode adicionar um <a href=\"%"
+#~ "2\">agora</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no event registrations recorded for this contact. You can <a "
+#~ "href='%1'>enter one now</a>."
+#~ msgstr ""
+#~ "Não existem campos do perfil CiviCRM \"%1\", pode adicionar um <a href=\"%"
+#~ "2\">agora</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Relationships entered for this contact. You can <a href='%"
+#~ "1'>add one</a>."
+#~ msgstr ""
+#~ "Não existem campos do perfil CiviCRM \"%1\", pode adicionar um <a href=\"%"
+#~ "2\">agora</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: 'Contact ID', 'Participant Role')."
+#~ msgstr ""
+#~ "Clique nesta caixa se a primeira linha consiste em campos do tipo nomes "
+#~ "(Exemplo: \"Contacto ID\", \"Tipo de Actividade\", \"Data da Actividade"
+#~ "\")."
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Removido"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Grupo"
+
+#~ msgid "No available Groups match your search criteria. Suggestions:"
+#~ msgstr ""
+#~ "Nenhum Grupo foi encontrado por este critério de pesquisa. Sugestões:"
+
+#~ msgid "Total rows (contact records) in uploaded file."
+#~ msgstr "Total de linhas (registos de contactos) submetidos pelo ficheiro."
+
+#, fuzzy
+#~ msgid "Create a new group from imported records"
+#~ msgstr ""
+#~ "&raquo; <label> Criar novo grupo a partir dos registos importados</label>"
+
+#~ msgid ""
+#~ "WARNING: Deleting this price set will result in the loss of all %1 data."
+#~ msgstr ""
+#~ "AVISO: Apagar esta definição preço vai resultar na perda de todos os "
+#~ "dados \"%1\"."
+
+#~ msgid "Please enter the phrase as displayed in the image"
+#~ msgstr "Por favor insira a frase tal como é mostrada na imagem."
+
+#~ msgid "Advanced Settings"
+#~ msgstr "Configurações Avançadas"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "Cartões de Crédito Aceitáveis"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Instrumentos de Pagamento"
+
+#~ msgid "phone"
+#~ msgstr "telefone"
+
+#~ msgid "Contact Type -"
+#~ msgstr "Tipo de Contacto -"
+
+#~ msgid "Group Status -"
+#~ msgstr "Estado do Grupo -"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Adicionar contactos à organização"
+
+#~ msgid " -select- "
+#~ msgstr " -seleccionar- "
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Data e Hora Marcada"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Duração em horas"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Duração em minutos"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "A reunião seleccionada foi apagada com sucesso."
+
+#~ msgid " is a numeric field"
+#~ msgstr " é um campo numérico"
+
+#, fuzzy
+#~ msgid "Delete Activity History"
+#~ msgstr "Apagar histórico de actividade"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "Histórico de actividades do CiviCRM"
+
+#~ msgid "Sent Date"
+#~ msgstr "Data de envio"
+
+#~ msgid " must be a numeric value"
+#~ msgstr "tem de ser numérico"
+
+#~ msgid "Record Number"
+#~ msgstr "Registo Número"
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Seleccione Número de Telefone"
+
+#~ msgid "OR New Phone"
+#~ msgstr "Ou Novo Telefone"
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Chamada telefónica seleccionada foi apagada."
+
+#~ msgid "New Activity History"
+#~ msgstr "Novo Histórico de Actividade"
+
+#~ msgid "Edit Activity History"
+#~ msgstr "Editar Histórico de Actividade"
+
+#~ msgid ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\"?"
+#~ msgstr ""
+#~ "Tem a certeza que deseja apagar o Histórico de Actividade datado de \"%2"
+#~ "\" do tipo \"%1\" com a descrição \"%3\"?"
+
+#~ msgid "Total rows (activity history records) in uploaded file."
+#~ msgstr ""
+#~ "Total de linhas (registos de histórico de actividade) no ficheiro "
+#~ "submetido."
+
+#~ msgid ""
+#~ "Rows which are duplicates of existing CiviCRM activity history records."
+#~ msgstr "Linhas em duplicado do histórico de actividade do CiviCRM."
+
+#~ msgid ""
+#~ "The Activity History Import Wizard allows you to easily upload activity "
+#~ "history from other applications into CiviCRM. Contacts must already exist "
+#~ "in your CiviCRM database prior to importing activity history. Use Import "
+#~ "Contacts to create contact records first, if necessary. Then you can "
+#~ "match activities to contacts by Name and Email, or by Contact ID."
+#~ msgstr ""
+#~ "O Assistente de Importar Histórico permite facilmente submeter o "
+#~ "histórico de actividade de outras aplicações no CiviCRM. Os contactos já "
+#~ "devem constar da base de dados CiviCRM antes de importar o histórico de "
+#~ "actividade. Depois pode fazer corresponder actividades a contactos por "
+#~ "Nome e Email, ou Contacto ID."
+
+#~ msgid "No activity history for this contact."
+#~ msgstr "Nenhum histórico de actividade para este contacto."
+
+#~ msgid "(test)"
+#~ msgstr "(teste)"
+
+#~ msgid "Schedule a meeting"
+#~ msgstr "Marque um encontro"
+
+#~ msgid "This is the Header"
+#~ msgstr "Este é o Cabeçalho"
+
+#, fuzzy
+#~ msgid "HTML Body of Header"
+#~ msgstr "Corpo HTML do Cabeçalho"
+
+#~ msgid "This is the Footer"
+#~ msgstr "Este é o Rodapé"
+
+#, fuzzy
+#~ msgid "HTML Body of Footer"
+#~ msgstr "Corpo HTML do Rodapé"
+
+#~ msgid "Welcome"
+#~ msgstr "Bem-Vindo(a)"
+
+#~ msgid "Goodbye"
+#~ msgstr "Adeus"
+
+#~ msgid "Automated response"
+#~ msgstr "Resposta automática"

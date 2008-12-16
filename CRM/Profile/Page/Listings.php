@@ -154,10 +154,11 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $value = '%' . $value . '%';
                 }
                 
-            } else if ($field['html_type'] == 'Multi-Select State/Province' || $field['html_type'] == 'Multi-Select Country') {
+            } else if ( CRM_Utils_Array::value( 'html_type', $field ) == 'Multi-Select State/Province' 
+                        || CRM_Utils_Array::value( 'html_type', $field ) == 'Multi-Select Country') {
                 $value = CRM_Utils_Request::retrieve( $name, 'String', $this, false, null, 'REQUEST' );
                 if ( ! is_array($value) ) $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-             } else {
+            } else {
                 $value = CRM_Utils_Request::retrieve( $name, 'String',
                                                       $this, false, null, 'REQUEST' );
             }

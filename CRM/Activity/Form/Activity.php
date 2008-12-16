@@ -512,7 +512,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $element =& $this->add('select', 'activity_type_id', ts('Activity Type'),
                                $this->_fields['followup_activity_type_id']['attributes'],
                                false, array('onchange' => 
-                                            "buildCustomData( 'Activity', this.value );injectActTypeFileFields( this.value );") );
+                                            "buildCustomData( 'Activity', this.value );") );
 
         //freeze for update mode.
         if ( $this->_action & CRM_Core_Action::UPDATE ) {

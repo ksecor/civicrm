@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-08-13 23:03-0700\n"
 "Last-Translator: Kenzo Fujii <fujii.kenzo@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -112,9 +112,8 @@ msgid "Grant"
 msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "受信日"
+msgstr "更新日"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -1529,7 +1528,7 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 msgid "Participant"
-msgstr ""
+msgstr "参加者"
 
 #: CRM/Contact/Form/Search/Custom/Group.php CRM/Core/DAO/Cache.php
 #: CRM/Custom/Form/Group.php
@@ -1840,9 +1839,8 @@ msgstr "インラインにする"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "電話"
+msgstr "電話種別"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2272,9 +2270,8 @@ msgid "Due Date Time"
 msgstr "日付と時間"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "行番号"
+msgstr "電話番号"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2283,7 +2280,7 @@ msgstr "活動日"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -3503,10 +3500,6 @@ msgid "Individual Suffix"
 msgstr "個人"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "電話"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr ""
 
@@ -3655,9 +3648,8 @@ msgid "Image Url"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "希望するEmail:"
+msgstr "希望する郵送先書式"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3736,14 +3728,12 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "名前"
+msgstr "名前 A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "名前"
+msgstr "名前 B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
@@ -5351,7 +5341,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "タイムゾーン"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5373,14 +5363,12 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "郵便番号"
+msgstr "ISOコード"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "国"
+msgstr "国コード"
 
 #: CRM/Core/DAO/Country.php
 #, fuzzy
@@ -5399,20 +5387,19 @@ msgstr "寄付"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
-msgstr ""
+msgstr "通貨"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "シンボル"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Numeric Code"
 msgstr ""
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Full Name"
-msgstr "項目名"
+msgstr "氏名"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
@@ -5563,9 +5550,8 @@ msgid "Reset Date"
 msgstr "受領日"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Mime Type"
-msgstr "タイプ別メンバーリスト"
+msgstr "Mime 型"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
@@ -5603,9 +5589,8 @@ msgid "vCard Location Type"
 msgstr "連絡先"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "場所"
+msgstr "連絡先の呼び名"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5919,9 +5904,8 @@ msgid "Notify"
 msgstr "ノート"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "携帯電話"
+msgstr "モジュール"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9017,7 +9001,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11130,11 +11114,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -13439,7 +13423,7 @@ msgstr "作業中"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Overdue"
-msgstr ""
+msgstr "期限切れ"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Registered"
@@ -13811,3 +13795,410 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Contact"
+#~ msgstr "コンタクト"
+
+#, fuzzy
+#~ msgid "Import"
+#~ msgstr "インポート"
+
+#, fuzzy
+#~ msgid "Access Control"
+#~ msgstr "アクセスコントロール"
+
+#~ msgid "Case"
+#~ msgstr "ケース"
+
+#~ msgid "View Activity"
+#~ msgstr "活動をみる"
+
+#, fuzzy
+#~ msgid "Advanced Search"
+#~ msgstr "絞込み検索"
+
+#, fuzzy
+#~ msgid "Global Settings"
+#~ msgstr "全般の設定"
+
+#~ msgid "Customize"
+#~ msgstr "カスタマイズ"
+
+#, fuzzy
+#~ msgid "Configure"
+#~ msgstr "設定"
+
+#, fuzzy
+#~ msgid "Manage"
+#~ msgstr "管理"
+
+#~ msgid "Option Lists"
+#~ msgstr "オプション設定"
+
+#~ msgid "Site URLs"
+#~ msgstr "サイトのURL"
+
+#, fuzzy
+#~ msgid "Localization"
+#~ msgstr "ローカライズ"
+
+#, fuzzy
+#~ msgid "Miscellaneous"
+#~ msgstr "その他の設定"
+
+#, fuzzy
+#~ msgid "Notes"
+#~ msgstr "付記"
+
+#~ msgid "Domain Information"
+#~ msgstr "ドメインの情報"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "CiviCRMの管理"
+
+#~ msgid "Activities"
+#~ msgstr "活動"
+
+#~ msgid "Relationships"
+#~ msgstr "関係"
+
+#~ msgid "Contributions"
+#~ msgstr "寄付"
+
+#~ msgid "Find Contacts"
+#~ msgstr "コンタクトをさがす"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM ホーム"
+
+#~ msgid "Groups"
+#~ msgstr "グループ一覧"
+
+#, fuzzy
+#~ msgid "Tags"
+#~ msgstr "タグ"
+
+#, fuzzy
+#~ msgid "Log out"
+#~ msgstr "ログアウト"
+
+#~ msgid "Map Event Location"
+#~ msgstr "イベント会場を地図で表示"
+
+#~ msgid "New Contact"
+#~ msgstr "新しい連絡先"
+
+#~ msgid "Message Templates"
+#~ msgstr "メッセージのテンプレート"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "コンタクトの重複を確認"
+
+#~ msgid "Price Sets"
+#~ msgstr "価格表"
+
+#~ msgid "Manage Groups"
+#~ msgstr "グループ管理"
+
+#~ msgid "Contacts"
+#~ msgstr "連絡先"
+
+#~ msgid "Group Members"
+#~ msgstr "グループメンバー"
+
+#, fuzzy
+#~ msgid "Money Transferred"
+#~ msgstr "電話(任意)"
+
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "設定 - SMTP接続"
+
+#, fuzzy
+#~ msgid "System Configuration"
+#~ msgstr "システムの設定情報"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr "郵便番号 - \"%1\""
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr "郵便番号 - \"%1\""
+
+#~ msgid "Create new household"
+#~ msgstr "世帯情報を新たに作成する"
+
+#~ msgid "Select existing household"
+#~ msgstr "登録済みの世帯情報を選択する"
+
+#~ msgid "EMPTY"
+#~ msgstr "（空）"
+
+#~ msgid "Location: %1"
+#~ msgstr "場所: %1"
+
+#~ msgid "Participant Status"
+#~ msgstr "参加状況"
+
+#~ msgid "Participant Role"
+#~ msgstr "参加者種別"
+
+#, fuzzy
+#~ msgid "Delete Contact"
+#~ msgstr "コンタクトの削除"
+
+#~ msgid "Merge Contact"
+#~ msgstr "連絡先のマージ"
+
+#, fuzzy
+#~ msgid "Simple Search"
+#~ msgstr "シンプル検索"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "設定"
+
+#~ msgid "CiviMail Settings"
+#~ msgstr "CiviMailの設定"
+
+#~ msgid "System Preferences"
+#~ msgstr "システム設定"
+
+#~ msgid "Address Preferences"
+#~ msgstr "連絡先設定"
+
+#~ msgid "Activity Types"
+#~ msgstr "活動の種類"
+
+#~ msgid "Instant Messenger Services"
+#~ msgstr "インスタントメッセンジャーの利用"
+
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "連絡先の種類 (自宅, 職場...)"
+
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "携帯電話会社"
+
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "希望する連絡手段"
+
+#~ msgid "Tags (Categories)"
+#~ msgstr "タグ (カテゴリー)"
+
+#~ msgid "Quick Registration"
+#~ msgstr "かんたん登録"
+
+#, fuzzy
+#~ msgid "Create New Group"
+#~ msgstr "新しいグループの作成"
+
+#~ msgid "Notes about the Person"
+#~ msgstr "人物についての付記"
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "ドメイン情報 \"%1\" は保存されました。"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "ドメイン情報 \"%1\" は保存されました。"
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "受信日"
+
+#, fuzzy
+#~ msgid "Name:"
+#~ msgstr "名前:"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "コンタクトの検索"
+
+#~ msgid "Outbound Email (SMTP)"
+#~ msgstr "Email送信サーバ(SMTP)"
+
+#~ msgid "Click to select date/time from calendar."
+#~ msgstr "カレンダー画面から日付を選択できます。"
+
+#~ msgid "selected records only"
+#~ msgstr "選択したレコードのみ"
+
+#~ msgid "Min"
+#~ msgstr "- 分 -"
+
+#~ msgid "Received date"
+#~ msgstr "受信日"
+
+#, fuzzy
+#~ msgid "Contributor"
+#~ msgstr "投稿者"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "購読停止"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "確認"
+
+#, fuzzy
+#~ msgid ""
+#~ "Check 'Access Control' you want to use this group to assign access "
+#~ "permissions to a set of contacts (<a href='%1' target='_blank' title='%"
+#~ "3'>more info...</a>). Check 'Mailing List' if you are using this group as "
+#~ "a mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail "
+#~ "component</a>."
+#~ msgstr ""
+#~ "このグループでコンタクトのアクセス制限を行う場合は'Access Control'をクリッ"
+#~ "クしてください(<a href=\"%1\" target=\"_blank\" title=\"%3\">詳しい説明</"
+#~ "a>)。このグループを<a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail "
+#~ "component</a>のメーリングリストに使う場合は'Mailing List'をチェックしてく"
+#~ "ださい。"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "削除"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "グループ"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "クレジットカード受付"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "支払い方法"
+
+#~ msgid "phone"
+#~ msgstr "電話"
+
+#, fuzzy
+#~ msgid "Export"
+#~ msgstr "エクスポート"
+
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "ロゴ"
+
+#~ msgid "Due Date"
+#~ msgstr "期日"
+
+#, fuzzy
+#~ msgid "Priority"
+#~ msgstr "優先度"
+
+#~ msgid "Target"
+#~ msgstr "ターゲット"
+
+#~ msgid "Status Details"
+#~ msgstr "ステータスの詳細"
+
+#, fuzzy
+#~ msgid "Created"
+#~ msgstr "作成"
+
+#~ msgid "Backup Data"
+#~ msgstr "データのバックアップ"
+
+#~ msgid "State %2 \"%1\""
+#~ msgstr "都道府県 %2 \"%1\""
+
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "都道府県 (%2) %3 \"%1\""
+
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "国 %2 \"%1\""
+
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "国 (%2) %3 \"%1\""
+
+#~ msgid "County %2 \"%1\""
+#~ msgstr "国名 %2 \"%1\""
+
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "都道府県 (%2) %3 \"%1\""
+
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "ジェンダー %2 \"%1\""
+
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "ノート %2 - \"%1\""
+
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Eメール %2 - \"%1\""
+
+#~ msgid "Task: %1"
+#~ msgstr "タスク: %1"
+
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "CiviMailドメイン情報"
+
+#~ msgid " -select- "
+#~ msgstr " - 選択 - "
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "予定日時"
+
+#~ msgid "Duration Hours"
+#~ msgstr "所要時間"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "これまでの活動履歴を消去する"
+
+#~ msgid "Sent Date"
+#~ msgstr "送信日"
+
+#~ msgid "Import Activity History"
+#~ msgstr "これまでの活動をインポートする"
+
+#~ msgid " -select role- "
+#~ msgstr " - 役職を選択 - "
+
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "\"%1\" は活動履歴に記録されました"
+
+#~ msgid "Activity Summary"
+#~ msgstr "活動の概要"
+
+#, fuzzy
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Log a Meeting"
+#~ msgstr "会合を記録"
+
+#~ msgid "Schedule a Meeting"
+#~ msgstr "会議のスケジュール"
+
+#~ msgid ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ msgstr "「完了」になると会合の情報はこれまでの活動履歴へ移動します。"
+
+#~ msgid ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+#~ msgstr "「完了」になると活動の情報はこれまでの活動履歴へ移動します。"
+
+#~ msgid "Format date input and display."
+#~ msgstr "日時のフォーマット"
+
+#~ msgid " - type first letter(s) - "
+#~ msgstr " - ローマ字入力で検索します -"
+
+#~ msgid "move?"
+#~ msgstr "移動?"
+
+#~ msgid "Schedule Meeting"
+#~ msgstr "会議のスケジュール"
+
+#~ msgid "No activities are currently scheduled."
+#~ msgstr "現在予定されている活動はありません。"
+
+#~ msgid "Edit Activity History"
+#~ msgstr "これまでの活動を編集"
+
+#~ msgid "(test)"
+#~ msgstr "(テスト)"
+
+#~ msgid "Schedule a meeting"
+#~ msgstr "会議のスケジュール"

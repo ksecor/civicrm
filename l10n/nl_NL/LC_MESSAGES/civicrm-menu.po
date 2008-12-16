@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-09-30 05:27-0700\n"
+"PO-Revision-Date: 2008-12-15 11:32-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -203,9 +203,8 @@ msgstr "Zoek Deelnemers"
 msgid "Find Pledges"
 msgstr "Zoek Borgstellingen"
 
-#, fuzzy
 msgid "Find Signers"
-msgstr "Zoek Leden"
+msgstr "Zoek Intekenaars"
 
 msgid "From Email Address"
 msgstr "E-mailadres afzender"
@@ -235,7 +234,7 @@ msgid "Import Contributions"
 msgstr "Importeer Bijdragen"
 
 msgid "Import/Export Mappings"
-msgstr "Im- of Exporteer mappings "
+msgstr "Im- of Exporteer mappings"
 
 msgid "Import Members"
 msgstr "Importeer Leden"
@@ -243,9 +242,8 @@ msgstr "Importeer Leden"
 msgid "Import Participants"
 msgstr "Importeer Deelnemers"
 
-#, fuzzy
 msgid "Import Signers"
-msgstr "Importeer Leden"
+msgstr "Importeer Intekenaars"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Persoonlijke voorvoegsels"
@@ -289,9 +287,8 @@ msgstr "Beheer Evenementen"
 msgid "Manage Groups"
 msgstr "Beheer Groepen"
 
-#, fuzzy
 msgid "Manage Pledges"
-msgstr "Annuleer borgstelling"
+msgstr "Beheer Borgstellingen"
 
 msgid "Manage Premiums"
 msgstr "Beheer Geschenken"
@@ -330,7 +327,7 @@ msgid "Mobile Phone Providers"
 msgstr "Mobiele telefoon providers"
 
 msgid "New Activity"
-msgstr "Nieuwe Activiteit"
+msgstr "Nieuwe activiteit"
 
 msgid "New Contact"
 msgstr "Nieuw Contact"
@@ -342,7 +339,7 @@ msgid "New Event"
 msgstr "Nieuw Evenement"
 
 msgid "New Mailing"
-msgstr "Nieuwe Mailing "
+msgstr "Nieuwe Mailing"
 
 msgid "New Pledge"
 msgstr "Nieuwe Borgstelling"
@@ -360,7 +357,7 @@ msgid "Optout"
 msgstr "Uitschrijven"
 
 msgid "Participant Role"
-msgstr "Regel Deelneming"
+msgstr "Rol Deelnemer"
 
 msgid "Participant Status"
 msgstr "Status Deelneming"
@@ -465,7 +462,7 @@ msgid "Update Directory Path and URL"
 msgstr ""
 
 msgid "Upgrade 2.0 => 2.1"
-msgstr ""
+msgstr "Upgrade 2.0 naar 2.1"
 
 msgid "User Framework Settings"
 msgstr ""

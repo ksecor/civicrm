@@ -34,17 +34,23 @@
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
           {foreach name=outer key=key item=item from=$form.$n}
-          {if $index < 10}
+          {if $index < 10} {* Hack to skip QF field properties that aren't checkbox elements. *}
               {assign var="index" value=`$index+1`}
           {else}
-              <td class="labels font-light">{$form.$n.$key.html}</td>
-              {if $count == $field.options_per_line}
-                  </tr>
-                   <tr>
-                   {assign var="count" value="1"}
+              {if $field.html_type EQ 'CheckBox' AND  $smarty.foreach.outer.last EQ 1} {* Put 'match ANY / match ALL' checkbox in separate row. *}
+                    </tr>
+                    <tr>
+                        <td class="op-checkbox" colspan="{$field.options_per_line}" style="padding-top: 0px;">{$form.$n.$key.html}</td>
               {else}
-          	       {assign var="count" value=`$count+1`}
-              {/if}
+                    <td class="labels font-light">{$form.$n.$key.html}</td>
+                    {if $count EQ $field.options_per_line}
+                        </tr>
+                        <tr>
+                        {assign var="count" value="1"}
+                    {else}
+                        {assign var="count" value=`$count+1`}
+                    {/if}
+                {/if}
           {/if}
           {/foreach}
         </tr>

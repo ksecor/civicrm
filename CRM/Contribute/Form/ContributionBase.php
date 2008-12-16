@@ -450,8 +450,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         if ( ! empty($this->_membershipBlock) &&
              $this->_membershipBlock["is_separate_payment"] &&
-             $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
-            CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
+             ( ! ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) ) ) {
+            CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. This %1 plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error',
+                                       array( 1 => $this->_paymentProcessor['payment_processor_type'] ) ) );
         }
 
         $this->_contributeMode = $this->get( 'contributeMode' );

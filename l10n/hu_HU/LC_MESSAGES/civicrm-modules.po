@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-10-26 05:43-0700\n"
 "Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -126,14 +126,13 @@ msgstr "Hívás ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "Dátum törlés"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "Beérkezés dátuma"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
@@ -147,9 +146,8 @@ msgstr "Frekvenciaegység"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Frekvenciaegység"
+msgstr "Frekvenciaidőköz"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
@@ -159,7 +157,7 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "week"
-msgstr ""
+msgstr "hét"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -186,7 +184,7 @@ msgstr "Korabeli típus"
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr ""
+msgstr "Meghatározott időszak kezdőnapja"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
@@ -201,7 +199,7 @@ msgstr ""
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Button Title"
-msgstr ""
+msgstr "Gomb Cím"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
@@ -217,7 +215,7 @@ msgstr ""
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
-msgstr ""
+msgstr "Minimális hozzájárulási összeg"
 
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -253,11 +251,6 @@ msgstr "A kért lap jelenleg nem elérhető."
 msgid "<< Go Back"
 msgstr "<< Vissza"
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
-
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
 msgid "(s)"
@@ -281,11 +274,11 @@ msgstr "Kérem adjon meg egy érvényes hitelkártya számot"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Minimális összeg "
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Maximum összeg"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -332,7 +325,7 @@ msgstr "Bevezető Üzenet"
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Footer Message"
-msgstr ""
+msgstr "Lábléc Üzenet"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -365,7 +358,7 @@ msgstr "Ez a tranzakciós ID már megtalálható az adatbázisban. "
 #: templates/CRM/Contribute/Page/ContributionHonor.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Received"
-msgstr ""
+msgstr "Beérkezett"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Pledge/Form/Pledge.php
 msgid "Honor First Name and Last Name OR an email should be set."
@@ -455,7 +448,7 @@ msgstr ""
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
 msgid "Event ID"
-msgstr ""
+msgstr "Esemény ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -475,7 +468,7 @@ msgstr "Cím"
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Event Summary"
-msgstr ""
+msgstr "Esemény Összefoglalás"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -500,7 +493,7 @@ msgstr "Fizetési modul"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 msgid "Participant ID"
-msgstr ""
+msgstr "Résztvevő ID"
 
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
@@ -511,12 +504,12 @@ msgstr "Ez a név már szerepel az adatbázisban."
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
 msgid "Payment Status"
-msgstr ""
+msgstr "Fizetési Állapot"
 
 #: CRM/Event/Form/EventFees.php CRM/Event/Form/ManageEvent/Fee.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr ""
+msgstr "Esemény Díj(ak)"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
@@ -940,7 +933,6 @@ msgid "Receipt Text"
 msgstr "Nyugta névből "
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Title"
 msgstr "Honor Block cím"
 
@@ -1225,9 +1217,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2199,7 +2191,7 @@ msgstr "Kapcsolat típus"
 
 #: CRM/Event/BAO/Query.php
 msgid "Event Date - From"
-msgstr ""
+msgstr "Esemény Időpontja -tól"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2322,11 +2314,11 @@ msgstr ""
 
 #: CRM/Event/Form/EventFees.php
 msgid "Send Confirmation?"
-msgstr ""
+msgstr "Megerősítés Küldése?"
 
 #: CRM/Event/Form/EventFees.php
 msgid "Confirmation Message"
-msgstr ""
+msgstr "Megerősítő Üzenet"
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
@@ -2540,7 +2532,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Online Registration"
-msgstr ""
+msgstr "Online Regisztráció"
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
 #, fuzzy
@@ -2706,7 +2698,8 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Keresés Dátum Szerint"
 
 #: CRM/Event/Form/SearchEvent.php
@@ -4231,7 +4224,7 @@ msgstr ""
 
 #: CRM/Member/Task.php
 msgid "Export Members"
-msgstr ""
+msgstr "Exportálás Tagok"
 
 #: CRM/Member/Task.php
 msgid "Batch Update Members Via Profile"
@@ -8887,3 +8880,239 @@ msgstr "Készítés"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "Tranzakció ID"
+
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "Nincs jogosultsága az oldal megtekintéséhez"
+
+#~ msgid "Contribution Types"
+#~ msgstr "Hozzájárulás típusok"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Hozzájárulások importálása"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "Hozzájárulás oldal"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Kapcsolatok keresése"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Vezetéknév"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Kapcsolat export"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Események Kezelése"
+
+#~ msgid "Subscribe"
+#~ msgstr "Felíratkozás"
+
+#~ msgid "Import Members"
+#~ msgstr "Importálás Tagok"
+
+#~ msgid "Payment Instrument"
+#~ msgstr "Fizetési Mód"
+
+#~ msgid "-period-"
+#~ msgstr "-időtartam-"
+
+#, fuzzy
+#~ msgid "day(s)"
+#~ msgstr "Nap(ok)"
+
+#~ msgid "week(s)"
+#~ msgstr "Hét (Hetek)"
+
+#~ msgid "month(s)"
+#~ msgstr "Hónap (Hónapok)"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "Év(ék)"
+
+#~ msgid "Contribution amount can not be greater than %1"
+#~ msgstr "A hozzájárulás összege nem lehet nagyobb mint %1"
+
+#~ msgid "Enable recurring payments"
+#~ msgstr "Ismétlődő fizetések engedélyezése"
+
+#~ msgid "Enable pay later option?"
+#~ msgstr "Engedélyezi a később fizetés opciót?"
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "Hozzájárulás oldal"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Hozzájárulás oldal"
+
+#~ msgid "CiviCRM Contribution Search"
+#~ msgstr "CiviCRM Hozzájárulás Keresés"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Esemény Név"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Összes kiválasztott kapcsolat(ok): %1"
+
+#~ msgid "Search by Date Range"
+#~ msgstr "Keresés Dátum Szerint"
+
+#~ msgid "CiviCRM Participants"
+#~ msgstr "CiviCRM Résztvevők"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Kezelés"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "Helyszín"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Kapcsolat típus"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "Kapcsolatok keresése"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "Törlés"
+
+#~ msgid "Test"
+#~ msgstr "Teszt"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Befejezése"
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "Címke"
+
+#, fuzzy
+#~ msgid "Participation Status"
+#~ msgstr "Hozzájárulás státusz"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Mégsem"
+
+#, fuzzy
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Törlés"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Cím"
+
+#~ msgid "Thermometer Title"
+#~ msgstr "Thermometer cím"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Válasszon kapcsolat típust"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "%1 kötelező mező"
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Helyes időpont kiválasztás"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "Előzmények"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Törlés"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Mégsem"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "Név vagy email"
+
+#~ msgid "Is Active"
+#~ msgstr "Aktív"
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "Vezetéknév"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Második név"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Keresztnév"
+
+#, fuzzy
+#~ msgid "- none -"
+#~ msgstr "- országok -"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Kezdete"
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Cím"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Tárgy"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Szöveg"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Tárgy"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "Összeg"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Dátum"
+
+#, fuzzy
+#~ msgid "Fee(s)"
+#~ msgstr "Címke(ék)"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-03-25 13:59-0700\n"
 "Last-Translator: Benjamin Yau <benymh@yahoo.com.hk>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -108,7 +108,7 @@ msgstr "授予"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "修改日期"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,7 +432,6 @@ msgid "Case Activity Type"
 msgstr "活動類型"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- 選擇 -"
 
@@ -3400,10 +3399,6 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -8781,7 +8776,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -10862,11 +10857,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -13497,3 +13492,41 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "聯絡人"
+
+#~ msgid "Import"
+#~ msgstr "匯入"
+
+#~ msgid "Custom Data"
+#~ msgstr "自定資料"
+
+#~ msgid "Access Control"
+#~ msgstr "權限控制"
+
+#~ msgid "Case"
+#~ msgstr "事例"
+
+#~ msgid "Load Mapping"
+#~ msgstr "載入配對"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "群組"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "聯絡人"
