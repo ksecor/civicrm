@@ -1701,22 +1701,32 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Core/BAO/Note.php";
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::getValues( $params, $values );
-            
+ 
+            $formattedGroupTree = array( );
             foreach ($fields as $name => $field ) {
                 $fldName = "field[$componentId][$name]";
                 if ( array_key_exists($name,$values[$componentId]) ) {
                     $defaults[$fldName] = $values[$componentId][$name];
-                }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
-                                                                        $componentId, 0, $values[$componentId]['membership_type_id']); 
-                    $groupTrees[] = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, $form ); 
-                        
-                     foreach ( $groupTrees as $groupTree ) {
-                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
-                                
-                         $defaults[$fldName] = CRM_Utils_Array::value( $name . '_1', $defaults );
-                         unset($defaults[$name. '_1']);
-                     }
+                }  else if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $name, true ) ) {               
+                    if ( empty( $formattedGroupTree ) ) {
+                        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
+                                                                             $componentId, 0, $values[$componentId]['membership_type_id']); 
+                        $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, $form ); 
+                        CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
+                    }
+                    
+                    //FIX ME: We need to loop defaults, but once we move to custom_1_x convention this code can be simplified.
+                    foreach ( $defaults as $customKey => $customValue ) {
+                        if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
+                            if ( $name == 'custom_'. $customFieldDetails[0] ) {
+                                $fName = "{$name}_{$customFieldDetails[1]}";
+                                $defaults[$fldName] = $customValue;
+                                unset($defaults[$customKey]);
+                                break;
+                            }
+                        }
+                    }
+                    
                 }  
             }
         }
