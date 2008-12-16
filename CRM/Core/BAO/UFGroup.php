@@ -1707,12 +1707,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( array_key_exists($name,$values[$componentId]) ) {
                     $defaults[$fldName] = $values[$componentId][$name];
                 }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
-                                                                        $componentId, 0, null); 
+                    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
+                                                                        $componentId, 0, $values[$componentId]['membership_type_id']); 
+                    $groupTrees[] = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, $form ); 
+                        
                      foreach ( $groupTrees as $groupTree ) {
-                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
-                         $defaults[$fldName] = CRM_Utils_Array::value( $name, $defaults );
-                         unset($defaults[$name]);
+                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+                                
+                         $defaults[$fldName] = CRM_Utils_Array::value( $name . '_1', $defaults );
+                         unset($defaults[$name. '_1']);
                      }
                 }  
             }
