@@ -159,8 +159,8 @@
 
 function setDefaultAddress()
 {
-    var country   = {/literal}"{$form.location.1.address.country_id.value}"{literal};
-    var state     = {/literal}"{$form.location.1.address.state_province_id.value}"{literal};
+    var country   = {/literal}"{$form.location.1.address.country_id.value.0}"{literal};
+    var state     = {/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
     
    
     {/literal}{if $action eq 2}
@@ -176,10 +176,10 @@ function setDefaultAddress()
     {/if}
     {literal} 
     if ( country ) {
-	dijit.byId( 'location_1_address_country_id' ).setValue( country );
+	document.getElementById('location_1_address_country_id').value = country;
     }
     if ( state && country) {
-	dijit.byId( 'location_1_address_state_province_id' ).setValue( state );
+	document.getElementById('location_1_address_state_province_id').value = state;
     } else if ( state ) {
 	document.getElementById('location_1_address_state_province_id').value = 
 	    {/literal}"{$form.location.1.address.state_province_id.value.0}"{literal};
