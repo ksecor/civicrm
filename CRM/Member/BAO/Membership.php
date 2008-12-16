@@ -934,7 +934,11 @@ AND civicrm_membership.is_test = %2";
             $dao =& new CRM_Member_DAO_MembershipPayment();    
             $dao->membership_id   = $membership->id;
             $dao->contribution_id = $contribution[$index]->id;
-            $dao->save();
+            //Fixed for avoiding duplicate entry error when user goes
+            //back and forward during payment mode is notify
+            if ( !$dao->find(true) ) {
+                $dao->save();
+            }
         }
         
         require_once 'CRM/Core/BAO/CustomValueTable.php';
