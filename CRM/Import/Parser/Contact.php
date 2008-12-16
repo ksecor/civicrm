@@ -190,7 +190,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         $this->_updateWithId = false;
-        if ( in_array('id',$this->_mapperKeys)) {
+        if ( in_array('id',$this->_mapperKeys) || $this->_externalIdentifierIndex > 0 ) {
             $this->_updateWithId = true;
         }
     }
@@ -335,7 +335,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
         if ( $errorMessage ) {
-            $tempMsg = "Invalid value for field(s) : $errorMessage";
+            if ( $errorMessage != 'custom_greeting' ) { 
+                $tempMsg = "Invalid value for field(s) : $errorMessage";
+            } else {
+                $tempMsg = "Missing required field : Greeting Type";
+            }
             // put the error message in the import record in the DB
             $importRecordParams = array($statusFieldName => 'ERROR', "${statusFieldName}Msg" => $tempMsg);
             $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
@@ -512,7 +516,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
         }
         //check if external identifier exists in database
-        if ( isset( $params['external_identifier'] ) ) {
+        if ( isset( $params['external_identifier'] ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_UPDATE) ) {
             require_once "CRM/Contact/BAO/Contact.php";
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                               $params['external_identifier'],
@@ -528,7 +532,28 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         $relationship = false;
         // Support Match and Update Via Contact ID
-        if ( $this->_updateWithId ) {
+        if ( $this->_updateWithId && $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
+            if ( $params['id'] &&  $params['external_identifier'] ) {
+                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $params['external_identifier'], 'id',
+                                                    'external_identifier' );
+                if ( $cid !=  $params['id'] ) {
+                    $message ="Mismatched External Id for".$params['id'] ;
+                    array_unshift($values, $message);
+                    $this->_retCode = CRM_Import_Parser::NO_MATCH;  
+                }
+            } else if ( $params['external_identifier'] ) {
+                $cid = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $params['external_identifier'], 'id',
+                                                    'external_identifier' );
+                if ( $cid ) {
+                    $params['id'] =  $cid; 
+                } else {
+                    $message ="No contact ID found for this External Identifier:".$params['external_identifier'] ;
+                    array_unshift($values, $message);
+                    $this->_retCode = CRM_Import_Parser::NO_MATCH; 
+                }  
+            } 
             $error = _civicrm_duplicate_formatted_contact($formatted);
             if ( civicrm_duplicate($error) ) { 
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
@@ -595,6 +620,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
+            $formatted['greeting_type']     = CRM_Core_OptionGroup::getValue( 'greeting_type', (string)$formatted['greeting'] );
             
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
             
@@ -758,6 +784,26 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             CRM_Contact_BAO_Relationship::relatedMemberships( $primaryContactId, 
                                                                               $relationParams,
                                                                               $relationIds );
+                            //handle current employer, CRM-3532
+                            if ( $valid ) {
+                                require_once 'CRM/Core/PseudoConstant.php';
+                                $allRelationships   = CRM_Core_PseudoConstant::relationshipType( );
+                                $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''),  $key );
+                                $relationshipType   = str_replace( $relationshipTypeId . '_', '', $key );
+                                $orgId = $individualId = null;
+                                if ( $allRelationships[$relationshipTypeId]["name_{$relationshipType}"] == 'Employee of' ) {
+                                    $orgId = $relContactId;
+                                    $individualId = $primaryContactId;
+                                } else if ( $allRelationships[$relationshipTypeId]["name_{$relationshipType}"] == 'Employer of' ) {
+                                    $orgId = $primaryContactId;
+                                    $individualId = $relContactId;
+                                }
+                                if ( $orgId && $individualId ) {
+                                    $currentEmpParams[$individualId] = $orgId;
+                                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                                    CRM_Contact_BAO_Contact_Utils::setCurrentEmployer( $currentEmpParams ); 
+                                }
+                            }
                         }
                     }
                 }
@@ -910,7 +956,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         } else {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
-                    } else if ( $customFields[$customFieldID]['data_type'] == 'Boolean') {
+                    } else if ( $customFields[$customFieldID]['label'] == 'Boolean') {
                         if (CRM_Utils_String::strtoboolstr($value) === false) {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
@@ -1066,6 +1112,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Individual Suffix', $errorMessage);
                     }   
                     break;
+                case 'greeting_type':
+                    if ( !self::in_value($value,CRM_Core_PseudoConstant::greeting()) ) {
+                        self::addToErrorMsg('Greeting Type', $errorMessage);
+                    }   
+                    break;     
                 case 'state_province':
                     if ( ! empty( $value )) {
                         foreach($value as $stateValue ) {
@@ -1138,6 +1189,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
                         }
                     }
+                    break;
+                case 'custom_greeting' :
+                     $greetingTypeLabel = CRM_Core_DAO::getFieldValue( 
+                                                                         'CRM_Core_DAO_OptionValue', 
+                                                                         'Customized', 
+                                                                         'label', 
+                                                                         'name'
+                                                                          );
+                     
+                    if ( CRM_Utils_Array::value( 'greeting_type', $params ) != $greetingTypeLabel ) {
+                        self::addToErrorMsg('custom_greeting', $errorMessage);
+                    }
+                    break;
                 default : 
                     if ( is_array( $params[$key] ) && 
                          isset( $params[$key]["contact_type"] ) ) {
