@@ -8511,3 +8511,6 @@ msgstr "新建"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Test"
+#~ msgstr "测试"

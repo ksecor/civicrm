@@ -88,7 +88,6 @@ msgid "Full street address (e.g. 110 Main Street)."
 msgstr "Vollständige Adresse (z.B. Heideläuferweg 61a)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid "Supplemental address 1 (line is skipped if empty)."
 msgstr "Erste Adress-Zusatzzeile (Zeile wird ausgelassen wenn leer)"
 
@@ -2439,3 +2438,6 @@ msgstr ""
 "CAPTCHA erfordert eine dynamische Seitengeneration. Erstellen eines Stand-"
 "Alone Formulars mit eingeschaltetem CAPTCHA Modul wird immer mit einem "
 "CAPTCHA Überprüfungsfehler geantwortet."
+
+#~ msgid "more info"
+#~ msgstr "mehr Informationen"

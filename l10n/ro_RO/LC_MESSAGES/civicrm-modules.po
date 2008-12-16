@@ -45,14 +45,14 @@ msgstr "Sursă Contribuţie"
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Vă rugăm introduceţi o cantitate validă de bani (ex. 9.99)."
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Vă rugăm introduceţi o valoare validă de bani (ex. 99.99)."
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -126,7 +126,6 @@ msgstr "ID Factură"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "Dată Renunţare"
 
@@ -147,19 +146,16 @@ msgstr "Unitate Frecvenţă"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Unitate Frecvenţă"
+msgstr "Interval Frecvenţă"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
-msgstr "rate"
+msgstr "Rate"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "săptămâna"
 
@@ -280,11 +276,11 @@ msgstr "Introduceţi un număr valid de verificare al cadului de credit"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Cantitate Minimă"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Cantitate Maximă"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -616,9 +612,8 @@ msgid "Component Type"
 msgstr "Tip Componentă"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Corp Text"
+msgstr "Corp HTML"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -642,7 +637,7 @@ msgstr "Motiv Lovitură"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Marcă Timp"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -716,7 +711,7 @@ msgstr "Membru Curent?"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Onorariu Minim"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
@@ -913,9 +908,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Contribuţii"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Mesaj Introductiv"
+msgstr "Text intro"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -923,14 +917,12 @@ msgid "Recur Frequency Unit"
 msgstr "Unitate Frecvenţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Text"
-msgstr "Mulţumire Trimisă"
+msgstr "Text 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
-msgstr "Subsol pagină 'Vă mulţumim'"
+msgstr "Subsol 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -938,28 +930,24 @@ msgid "On Behalf Of Organization"
 msgstr "Organizaţie nouă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
 msgstr "CC chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "CC chitanţă"
+msgstr "BCC chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Data chitanţă"
+msgstr "Text chitanţă"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Title"
-msgstr "Scţiunea de onoare activată"
+msgstr "Titlu Bloc Onoare"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
-msgstr ""
+msgstr "Bloc text onoare"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -977,22 +965,19 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "ID solicitator"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "Data recepţie"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "Motiv Lovitură"
+msgstr "Motiv anulare"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Mulţumire Trimisă"
+msgstr "Dată 'Vă mulţumim'"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -1000,29 +985,25 @@ msgid "Amount Label"
 msgstr "Cantitate"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Editează opţiune"
+msgstr "Opţiune produs"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Cantitate"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "Dată Renunţare"
+msgstr "Dată finalizare"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Componente"
+msgstr "Comentariu"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
-#, fuzzy
 msgid "Create Date"
-msgstr "Dată finalizare"
+msgstr "Dată creere"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -1030,98 +1011,84 @@ msgid "Recurring Contribution Status"
 msgstr "Contribuţii periodice"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Cycle Day"
-msgstr "Dată Renunţare"
+msgstr "Zi ciclu"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Next Sched Contribution"
-msgstr "Şterge contribuţie"
+msgstr "Următoarea contribuţie planificată"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
-msgstr "Ţări Disponibile"
+msgstr "Număr eşecuri"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "Data reîncercare "
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Auto înnoire"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
-msgstr "Data finală"
+msgstr "Dată Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
-msgstr "Tip coordonate"
+msgstr "Tip Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Cod rezultat Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Site"
+msgstr "Debit"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Card credit"
+msgstr "Credit"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Active"
-msgstr "Activaţi secţiune premium?"
+msgstr "Premium-uri active"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "Titlu pentru secţiune Premium"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
-msgstr ""
+msgstr "Intro text premium"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "Email contact"
+msgstr "Email contact premium"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "Telefon contact"
+msgstr "Telefon contact premium"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "Afişează suma minimă contribuţie?"
+msgstr "Contribuţia min premium"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "Nume grup"
+msgstr "Nume produs"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "Fotogramă"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "Cantitate Minimă Contribuţie"
+msgstr "Contribuţie minimă"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Host"
+msgstr "Cost"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
@@ -3169,9 +3136,8 @@ msgid "Template Title"
 msgstr "Titlu şablon"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Pager"
+msgstr "Şablon"
 
 #: CRM/Mailing/DAO/BounceType.php
 #, fuzzy
@@ -3180,7 +3146,7 @@ msgstr "Familie"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
@@ -3188,16 +3154,15 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "Inline"
+msgstr "Invalid"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Salt"
 
 #: CRM/Mailing/DAO/BounceType.php
 #, fuzzy
@@ -3205,23 +3170,20 @@ msgid "Quota"
 msgstr "Caută"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Răspuns"
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
 msgstr "Sintaxă"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Tip Componentă"
+msgstr "Nume componentă"
 
 #: CRM/Mailing/DAO/Component.php
 #, fuzzy
@@ -3229,28 +3191,24 @@ msgid "Welcome"
 msgstr "Mesaj de bun venit"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
-msgstr "Opt-Out"
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Include grup(uri)"
+msgstr "Include"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "Exclude"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Prenume"
+msgstr "Nume Formular"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Chitanţă de la Email"
+msgstr "Email Formular"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3267,9 +3225,8 @@ msgid "Forward Replies"
 msgstr "Redirectare"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Răspuns automat"
+msgstr "Auto Responder"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3303,7 +3260,7 @@ msgstr "Şters"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3817,9 +3774,8 @@ msgid "New Title"
 msgstr "Titlu"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Text"
-msgstr "Text notă"
+msgstr "Text nou"
 
 #: CRM/Member/DAO/MembershipBlock.php
 #, fuzzy
@@ -3832,9 +3788,8 @@ msgid "Renewal Text"
 msgstr "Ziuă Alarmă Reînnoire"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Is Required"
-msgstr "Necesar"
+msgstr "Este necesar"
 
 #: CRM/Member/DAO/MembershipLog.php
 #, fuzzy
@@ -3880,9 +3835,8 @@ msgid "Admin Assigned Only?"
 msgstr "Doar administrator?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Default Status?"
-msgstr "Valoare Implicită"
+msgstr "Stare implicită?"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -3890,24 +3844,20 @@ msgid "Is Reserved"
 msgstr "Rezervat"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "start_date"
-msgstr "dată start"
+msgstr "start_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "end_date"
-msgstr "dată sfârşit"
+msgstr "end_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "join_date"
-msgstr "data intrare"
+msgstr "join_date"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Visible"
-msgstr "Dezactivează"
+msgstr "Vizibil"
 
 #: CRM/Member/DAO/MembershipType.php
 #, fuzzy
@@ -9108,3 +9058,476 @@ msgstr "Crează"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "ID Tranzacţie"
+
+#, fuzzy
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
+
+#~ msgid "Contribution Types"
+#~ msgstr "Tip Contribuţie"
+
+#~ msgid "Manage Premiums"
+#~ msgstr "Gestionează Premium"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Contribuţii"
+
+#~ msgid "DashBoard"
+#~ msgstr "Tablou de Bord"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "Pagină Contribuţie"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Vizualizare activitate"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Prenume"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Export contacte"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Gestionează"
+
+#~ msgid "Subscribe"
+#~ msgstr "Abonează"
+
+#, fuzzy
+#~ msgid "Import Members"
+#~ msgstr "Editează membru"
+
+#~ msgid "Payment Instrument"
+#~ msgstr "Instrument plată"
+
+#, fuzzy
+#~ msgid ""
+#~ "This contribution page is configured to support separate contribution and "
+#~ "membership payments. The PayPal Website Payments Standard plugin does not "
+#~ "currently support multiple simultaneous payments. Please contact the site "
+#~ "administrator and notify them of this error"
+#~ msgstr ""
+#~ "Acestă pagină de contribuţie este configurată să accepte contribuţie "
+#~ "separată\n"
+#~ "şi plăţi membrii. Pugin-urile de paltă standard ale website-ului PayPal\n"
+#~ "nu suportă plăţi multiple simultane. Vă rugăm contactaţi\n"
+#~ "administratorul sitului şi anunţaţi acestă eroare"
+
+#, fuzzy
+#~ msgid "day(s)"
+#~ msgstr "Etichete"
+
+#, fuzzy
+#~ msgid "week(s)"
+#~ msgstr "săptămâna"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "luna"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "an"
+
+#~ msgid "Enable recurring payments"
+#~ msgstr "Activează plăţi periodice"
+
+#, fuzzy
+#~ msgid "You do not have any payment processors that support this feature"
+#~ msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "Contribuţie minimă"
+
+#, fuzzy
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "Contribuţie Online:"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Pagină Contribuţie"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Nume componentă"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Total contacte selectate: %1"
+
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "Selectaţi o dată validă mai mare decât astăzi."
+
+#, fuzzy
+#~ msgid "CiviCRM Participants"
+#~ msgstr "Scurtături CiviCRM"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Gestionează"
+
+#, fuzzy
+#~ msgid "CiviEvent DashBoard"
+#~ msgstr "Tablou de Bord"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "Selectaţi locaţia"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Tip Componentă"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "Caută contacte"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "Text nou"
+
+#~ msgid "Test"
+#~ msgstr "Test"
+
+#~ msgid "Mailing Subject"
+#~ msgstr "Subiect mailing"
+
+#~ msgid "Mailings"
+#~ msgstr "Mailing-uri"
+
+#, fuzzy
+#~ msgid "Mailer Settings"
+#~ msgstr "Titlu şi configuraţie"
+
+#, fuzzy
+#~ msgid "Resubscribe"
+#~ msgstr "Abonează"
+
+#, fuzzy
+#~ msgid "Optout"
+#~ msgstr "OptOut"
+
+#~ msgid "Change"
+#~ msgstr "Schimbă"
+
+#~ msgid "Find Members"
+#~ msgstr "Găseşte membri"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Data recepţie"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "Informaţii Testare"
+
+#, fuzzy
+#~ msgid "Event Information"
+#~ msgstr "Informaţii Testare"
+
+#, fuzzy
+#~ msgid ""
+#~ "No contribution pages have been created yet. Click <a href='%1'>here</a> "
+#~ "to create a new contribution page using the step-by-step wizard."
+#~ msgstr ""
+#~ "Acestă contribuţie a fost deja trimisă.  Click <a href=\"%1\">aici</a> "
+#~ "dacă doriţi să cotribuiţi din nou."
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "Etichetă Câmp"
+
+#, fuzzy
+#~ msgid "Unit Price"
+#~ msgstr "Preţ"
+
+#, fuzzy
+#~ msgid "Participation Status"
+#~ msgstr "Stare Contribuţie"
+
+#, fuzzy
+#~ msgid "Preview Mailing"
+#~ msgstr "Previzualizare"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Previzualizare"
+
+#, fuzzy
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Sigur dezactivaţi acest %1?"
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Ţara %2 \"%1\""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Contribuţii"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Titlu"
+
+#~ msgid "Custom Elements (%1)"
+#~ msgstr "Elemente personalizate (%1)"
+
+#~ msgid "Custom Page Elements"
+#~ msgstr "Elemente personalizate pagină"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "Informaţii Testare"
+
+#~ msgid "Thermometer Title"
+#~ msgstr "Titlu Termometru"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Selectaţi un tip de relaţie."
+
+#~ msgid "Membership Types"
+#~ msgstr "Tip Membru"
+
+#~ msgid "Min Amount"
+#~ msgstr "Canitate min"
+
+#~ msgid "Max Amount"
+#~ msgstr "Cantitate max"
+
+#~ msgid "Thank-you Title"
+#~ msgstr "Titlu 'Vă mulţumim'"
+
+#~ msgid "Sort Position"
+#~ msgstr "Poziţie sortare"
+
+#~ msgid "Image"
+#~ msgstr "Imagine"
+
+#~ msgid " -period-"
+#~ msgstr "- perioada -"
+
+#~ msgid ""
+#~ " The Membership you have selected requires a minimum contribution of %1"
+#~ msgstr "Membrul selectat necesită o contribuţie minimă de %1"
+
+#~ msgid "This amount has to be greater than %1"
+#~ msgstr "Acestă sumă trebuie să fie ma mare de %1"
+
+#~ msgid "This amount has to be less than %1"
+#~ msgstr "Acestă sumă trebuie să fie mai mică de %1"
+
+#~ msgid "Should a thermometer block be displayed during a contribution?"
+#~ msgstr "Afişează un bloc termometru în timpul unei contribuţii?"
+
+#~ msgid ""
+#~ "You must enter a contribution page Goal Amount if you want to track "
+#~ "progress by enabling the Progress Thermometer block."
+#~ msgstr ""
+#~ "Introduceţi o sumă ţintă dacă doriţi urmărirea progresului prin activarea "
+#~ "blocului termometru."
+
+#~ msgid "Thank-you Message"
+#~ msgstr "Mesaj 'Vă mulţumim'"
+
+#, fuzzy
+#~ msgid "Contribution is In Honor Of"
+#~ msgstr "Contribuţii"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "%1 este un câmp obligatoriu"
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Selectaţi o dată validă"
+
+#, fuzzy
+#~ msgid "You do not have access to this page"
+#~ msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
+
+#, fuzzy
+#~ msgid "You do not have access to this page."
+#~ msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
+
+#, fuzzy
+#~ msgid "Event Registration"
+#~ msgstr "Înregistrare utilizator"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "Contribuţia selectată a fost ştearsă."
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "Contribuţia selectată a fost ştearsă."
+
+#~ msgid "Action"
+#~ msgstr "Acţiune"
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "Istoric Activitate"
+
+#, fuzzy
+#~ msgid "Show Past Events"
+#~ msgstr "Start Eveniment"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Şterge"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Renunţă"
+
+#~ msgid "Email Address"
+#~ msgstr "Adresă Email:"
+
+#~ msgid "\"%1 Administrator\" <%2>"
+#~ msgstr "\"%1 Administrator\" <%2>"
+
+#~ msgid "Group Type"
+#~ msgstr "Tip grup"
+
+#~ msgid "Exclude Group(s)"
+#~ msgstr "Exclude grup(uri)"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "Email Formular"
+
+#~ msgid "Upload Message"
+#~ msgstr "Încarcă mesaj"
+
+#~ msgid "Is Active"
+#~ msgstr "Este activ"
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
+#~ msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR nu este stabilit."
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "Prenume"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Prenume 2"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Nume"
+
+#~ msgid "Card Number"
+#~ msgstr "Număr card"
+
+#~ msgid "Security Code"
+#~ msgstr "Cod securitate"
+
+#~ msgid "Expiration Date"
+#~ msgstr "Data expirării"
+
+#~ msgid "Card Type"
+#~ msgstr "Tip card"
+
+#~ msgid ""
+#~ "Please enter a valid value for your card security code. This is usually "
+#~ "the last 3-4 digits on the card's signature panel."
+#~ msgstr ""
+#~ "Introduceţi o valoare validă pentru codul de siguranţă al cardului. De "
+#~ "regulă e vorba de ultimele 3-4 cifre de pe suprafaţa de semnătură."
+
+#~ msgid "Configure Online Contribution Pages"
+#~ msgstr "Configurează Pagina de Contribuţii Online"
+
+#, fuzzy
+#~ msgid "Online Event Registration:"
+#~ msgstr "Contribuţie Online:"
+
+#, fuzzy
+#~ msgid "- none -"
+#~ msgstr "- orice ţară -"
+
+#~ msgid "Membership Status"
+#~ msgstr "Stare Membru"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr ""
+#~ "Data de încheiere a relaţiei nu poate fi mai mică decât cea de start."
+
+#, fuzzy
+#~ msgid "Participant status"
+#~ msgstr "Tipăreşte contacte"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Dată start"
+
+#, fuzzy
+#~ msgid "Selected message template can not be deleted."
+#~ msgstr "Contribuţia selectată a fost ştearsă."
+
+#, fuzzy
+#~ msgid "Selected message templates has been deleted."
+#~ msgstr "Contribuţia selectată a fost ştearsă."
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Titlu"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Subiect"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "Message Title"
+#~ msgstr "Mesaj"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Subiect"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "Mesaj"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "Mesaj"
+
+#, fuzzy
+#~ msgid "Are you sure you want to disable this message tempate?"
+#~ msgstr "Sunteţi sigur că doriţi dezactivarea acestui tip de membru?"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "Cantitate"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Data"
+
+#, fuzzy
+#~ msgid "Fee(s)"
+#~ msgstr "săptămâna"
+
+#, fuzzy
+#~ msgid "Do you want to delete this message template ?"
+#~ msgstr "Sigur ştergeţi acest Grup Inteligent?"

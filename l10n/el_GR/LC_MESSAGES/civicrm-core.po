@@ -72,7 +72,7 @@ msgstr "Διαδικασία"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Όλα"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Ημερομηνία Αλλαγής"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +432,8 @@ msgid "Case Activity Type"
 msgstr "Είδος Δραστηριότητας"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- επιλέξτε -"
+msgstr "-επιλέξτε-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1142,9 +1141,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Επιλογή Ημερομηνίας"
+msgstr "Επιλογή Πινάκων"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1710,7 +1708,7 @@ msgstr "Ημερομηνία"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
-msgstr ""
+msgstr "Τύπος HTML"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1789,9 +1787,8 @@ msgstr ""
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Τηλέφωνο"
+msgstr "Τύπος Τηλεφώνου"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2089,9 +2086,8 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Αφαιρέθηκε"
+msgstr "Κατάργηση"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2220,7 +2216,7 @@ msgstr "Ημερομηνία και Ώρα"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Αριθμός Τηλεφώνου"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -5516,9 +5512,8 @@ msgid "vCard Location Type"
 msgstr "Είδος Συνεισφοράς"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Τοποθεσία"
+msgstr "Όνομα Τοποθεσίας"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Column Number"
@@ -5823,9 +5818,8 @@ msgid "Notify"
 msgstr "Σημείωση"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Κινητό"
+msgstr "Μονάδες"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -13683,3 +13677,146 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "Επαφή"
+
+#~ msgid "Import"
+#~ msgstr "Εισαγωγή"
+
+#~ msgid "Custom Data"
+#~ msgstr "Προσαρμοσμένα Δεδομένα"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Προηγμένη Αναζήτηση"
+
+#~ msgid "Global Settings"
+#~ msgstr "Γενικές Ρυθμίσεις"
+
+#~ msgid "Manage"
+#~ msgstr "Διαχείριση"
+
+#~ msgid "File System Paths"
+#~ msgstr "Διαδρομές Συστήματος Αρχείων"
+
+#~ msgid "Site URLs"
+#~ msgstr "Διευθύνσεις Ιστοσελίδας"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Διάφορα"
+
+#~ msgid "Notes"
+#~ msgstr "Παρατηρήσεις"
+
+#~ msgid "Delete Location"
+#~ msgstr "Διαγραφή Τοποθεσίας"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Διαχείριση CiviCRM"
+
+#~ msgid "Activities"
+#~ msgstr "Δραστηριότητες"
+
+#~ msgid "Relationships"
+#~ msgstr "Συσχετισμοί"
+
+#~ msgid "Contributions"
+#~ msgstr "Εισφορές"
+
+#~ msgid "Memberships"
+#~ msgstr "Συνδρομές Μελών"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Αναζήτηση Επαφών"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "Αρχική Σελίδα CiviCRM"
+
+#~ msgid "Groups"
+#~ msgstr "Ομάδες"
+
+#~ msgid "Tags"
+#~ msgstr "Ετικέτες"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Εξαγωγή Επαφών"
+
+#~ msgid "New Contact"
+#~ msgstr "Νέα Επαφή"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Προσαρμοσμένα Πεδία Δεδομένων"
+
+#~ msgid "Message Templates"
+#~ msgstr "Πρότυπα Μηνυμάτων"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Εύρεση Διπλότυπων Επαφών"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Κανόνες Διπλότυπων Επαφών"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Διαχείρηση Ομάδων"
+
+#~ msgid "Contacts"
+#~ msgstr "Επαφές"
+
+#~ msgid "Group Members"
+#~ msgstr "Μέλη Ομάδας"
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "Το επισυναπτόμενο αρχείο διαγράφηκε."
+
+#, fuzzy
+#~ msgid ""
+#~ "The requested Profile (gid=%1) is disabled, OR it is not configured to be "
+#~ "used for 'Profile' listings in its Settings, or there is no Profile with "
+#~ "that ID. Contact the site administrator if you need assistance."
+#~ msgstr ""
+#~ "Το προφίλ δεν έχει ρυθμιστεί για αυτή την πράξη. Μιλήστε με τον "
+#~ "διαχειριστή του συστήματος εάν θέλετε βοήθεια."
+
+#~ msgid "Activity"
+#~ msgstr "Δραστηριότητα"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Η Ομάδα \"%1\" διαγράφηκε."
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Σελίδα Επαφής"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Αφαιρέθηκε"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Ομάδα"
+
+#~ msgid " -select- "
+#~ msgstr "-επιλέξτε-"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Διάρκεια Ώρες"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Διάρκεια Λεπτά"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Η επιλεγμένη συνάντηση διαγράφηκε"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Διαγραφή Ιστορικού Δραστηριότητας"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "Ιστορικό Δραστηριοτήτων CiviCRM"
+
+#~ msgid "Import Activity History"
+#~ msgstr "Εισαγωγή Ιστορικού Δραστηριοτήτων"
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Επιλογή Αριθμού Τηλεφώνου"

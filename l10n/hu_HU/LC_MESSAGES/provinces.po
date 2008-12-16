@@ -11494,3 +11494,51 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
+
+#~ msgid "Georgia"
+#~ msgstr "Georgia"
+
+#~ msgid "American Samoa"
+#~ msgstr "American Samoa"
+
+#~ msgid "Guam"
+#~ msgstr "Guam"
+
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "Northern Mariana Islands"
+
+#~ msgid "Puerto Rico"
+#~ msgstr "Puerto Rico"
+
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "United States Minor Outlying Islands"
+
+#~ msgid "Luxembourg"
+#~ msgstr "Luxemburg"
+
+#~ msgid "Belize"
+#~ msgstr "Belize"
+
+#~ msgid "Hong Kong"
+#~ msgstr "Hong Kong"
+
+#~ msgid "Djibouti"
+#~ msgstr "Djibouti"
+
+#~ msgid "Mali"
+#~ msgstr "Mali"
+
+#~ msgid "Guatemala"
+#~ msgstr "Guatemala"
+
+#~ msgid "Mexico"
+#~ msgstr "Mexikó"
+
+#~ msgid "Niger"
+#~ msgstr "Niger"
+
+#~ msgid "Panama"
+#~ msgstr "Panama"
+
+#~ msgid "Saint Helena"
+#~ msgstr "Saint Helena"

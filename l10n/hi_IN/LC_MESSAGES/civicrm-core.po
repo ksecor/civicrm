@@ -62,9 +62,8 @@ msgstr "संपादन करना"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "समर्थ करना"
+msgstr "इकाई टेबल "
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -72,7 +71,7 @@ msgstr "परीचालन"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "सब"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -107,9 +106,8 @@ msgid "Grant"
 msgstr "अनुदान"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "संशोधित के बीच"
+msgstr "तारीख सुधारना"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +430,8 @@ msgid "Case Activity Type"
 msgstr "क्रिया का प्रकार"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- चुने -"
+msgstr "-चयन-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1703,9 +1700,8 @@ msgid "Data"
 msgstr "तारीख"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "अनुदान प्रकार"
+msgstr "एचटीएमअल नमूना"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1715,14 +1711,13 @@ msgstr "मूल मान"
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr ""
+msgstr "पूर्व सहायता"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "मेज़बान"
+msgstr "उत्तर सहायता"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1731,7 +1726,7 @@ msgstr "आच्छद"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "जावास्क्रिप्ट"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1768,9 +1763,8 @@ msgid "Multi-Select State/Province"
 msgstr "राज्य चुने"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "मुद्रा प्रदर्शित"
+msgstr "संक्षिप्त प्रदर्शित"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1787,9 +1781,8 @@ msgstr "इनलाइन"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "आदर प्रकार"
+msgstr "फाेन का प्रकार"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2070,13 +2063,12 @@ msgid "Administer"
 msgstr "व्यवस्था करना"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "पीछ्ला नाम"
+msgstr "ACL नाम"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "नकारना"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -2088,9 +2080,8 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "हटाएँ"
+msgstr "उठा देना"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2216,18 +2207,16 @@ msgid "Due Date Time"
 msgstr "समाप्ति तिथि / समय"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "रेखा अंक"
+msgstr "दूरभाष क्रमांक"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Status Label"
-msgstr "गतिविधि स्थिति"
+msgstr "गतिविधि स्थिति लेबल"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
-msgstr ""
+msgstr "परीक्षण"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -3522,17 +3511,14 @@ msgid "Contact Sub Type"
 msgstr "सम्पर्क प्रकार"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "मेल न करे"
+msgstr "ईमेल न करे"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
 msgstr "फोन न करे"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "मेल न करे"
 
@@ -3563,18 +3549,16 @@ msgid "Display Name"
 msgstr "प्रदर्शन नाम"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "घर"
+msgstr "हाेम URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "छवि"
+msgstr "तसवीर का Url"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr ""
+msgstr "अधिमान्य डाक संरूप"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3598,9 +3582,8 @@ msgid "Job Title"
 msgstr "कार्य का पद"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "प्रारंभ दिनांक"
+msgstr "जन्म दिन"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -5862,9 +5845,8 @@ msgid "Notify"
 msgstr "नाेट"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "सेल फ़ोन"
+msgstr "मापदंड"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -13745,5 +13727,440 @@ msgstr ""
 msgid "Error in SMTP transaction"
 msgstr ""
 
+#~ msgid "Contact"
+#~ msgstr "सम्पर्क"
+
+#~ msgid "Import"
+#~ msgstr "बाहर से लाना"
+
+#~ msgid "Custom Data"
+#~ msgstr "कस्टम डाटा"
+
+#~ msgid "Case"
+#~ msgstr "मामला"
+
+#~ msgid "Load Mapping"
+#~ msgstr "प्रतिचित्रण भरीये"
+
+#~ msgid "View Activity"
+#~ msgstr "क्रिया दृश्य"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "भुगतान संसाधित्र प्रकार"
+
+#~ msgid "Advanced Search"
+#~ msgstr "अग्रवर्ती खोज"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "सम्पर्क दिखावट फलक"
+
+#~ msgid "Global Settings"
+#~ msgstr "सार्विक अनुकूलन"
+
+#~ msgid "Components"
+#~ msgstr "घटक"
+
+#~ msgid "Customize"
+#~ msgstr "रुचि के अनुसार बनाना"
+
+#~ msgid "Configure"
+#~ msgstr "समनुरूप बनाना"
+
+#~ msgid "Manage"
+#~ msgstr "प्रबन्ध करना"
+
+#~ msgid "Option Lists"
+#~ msgstr "विकल्प सूची"
+
+#~ msgid "File System Paths"
+#~ msgstr "पथ फ़ाइल प्रणाली"
+
+#~ msgid "Site URLs"
+#~ msgstr "साइट URLs"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "मिलान और Geocoding"
+
+#~ msgid "Localization"
+#~ msgstr "स्थानीयकरण"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "मीला- जुला"
+
+#~ msgid "Debugging"
+#~ msgstr "दोषमार्जन"
+
+#~ msgid "Notes"
+#~ msgstr "नोट"
+
+#~ msgid "Delete Location"
+#~ msgstr "स्थान मिटाइये"
+
+#~ msgid "Domain Information"
+#~ msgstr "प्रक्षेत्र जानकारी"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "CiviCRM व्यवस्थापक"
+
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr "प्रवेश उपयोगकर्ता खाते का संपर्क रिकार्ड - ' %1' - हटाए नहीं जा सकता है।"
+
+#~ msgid "Activities"
+#~ msgstr "घटनाएँ"
+
+#~ msgid "Relationships"
+#~ msgstr "संबंध"
+
+#~ msgid "Contributions"
+#~ msgstr "योगदान"
+
+#~ msgid "Memberships"
+#~ msgstr "सदस्यता"
+
+#~ msgid "Find Contacts"
+#~ msgstr "सदस्य काे खाेजे"
+
+#~ msgid "Email a Contact"
+#~ msgstr "संर्पक काे ईमेल भेजे"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM होम"
+
+#~ msgid "Groups"
+#~ msgstr "समुह"
+
+#~ msgid "Tags"
+#~ msgstr "लेबल"
+
+#~ msgid "Export Contacts"
+#~ msgstr "सदस्य बाहर भेजना"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "New Activity"
+#~ msgstr "नयी घटना"
+
+#~ msgid "CiviGrant"
+#~ msgstr "सिवीग्रांटस्"
+
+#~ msgid "Map Event Location"
+#~ msgstr "कार्यक्रम जगह काे मानचित्र से देखिये"
+
+#~ msgid "Search Builder"
+#~ msgstr "शाेध बनायिये"
+
+#~ msgid "New Contact"
+#~ msgstr "नया संर्पक"
+
+#~ msgid "Message Templates"
+#~ msgstr "पत्र नमुना"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "डुप्लिकेट संपर्क खोजें"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "संपर्क नकल नियम"
+
+#~ msgid "Contact Matching"
+#~ msgstr "संपर्क मिलान"
+
+#~ msgid "Price Sets"
+#~ msgstr "मूल्य समूह"
+
+#~ msgid "Manage Groups"
+#~ msgstr "समूह काे संभालिये"
+
+#~ msgid "Tell a Friend"
+#~ msgstr "दाेस्त काे बतायिएे"
+
+#~ msgid "Contacts"
+#~ msgstr "सदस्य"
+
+#~ msgid "Group Members"
+#~ msgstr "समूह के सदस्य"
+
+#~ msgid "Grant Status"
+#~ msgstr "अनुदान स्थिती"
+
+#~ msgid "Application Received"
+#~ msgstr "आवेदन प्राप्त"
+
+#~ msgid "Money Transferred"
+#~ msgstr "धन स्थानांतरण"
+
+#~ msgid "Amount Requested"
+#~ msgstr "राशि अनुरोधित"
+
+#~ msgid "Amount Granted"
+#~ msgstr "अनुदान राशि"
+
+#~ msgid "Delete Grants"
+#~ msgstr "अनुदान निकाले"
+
+#~ msgid "add contacts"
+#~ msgstr "सदस्य बनाईये"
+
+#~ msgid "view all contacts"
+#~ msgstr "सब सदस्य काे देखिईये"
+
+#~ msgid "edit all contacts"
+#~ msgstr "सब सदस्य का संपादन किजिये"
+
+#~ msgid "edit groups"
+#~ msgstr "समूह का संपादन किजिये"
+
+#~ msgid "administer CiviCRM"
+#~ msgstr "CiviCRM प्रशासन"
+
+#~ msgid "access uploaded files"
+#~ msgstr "फाइल अपलोड पहुँच"
+
+#~ msgid "access CiviCRM"
+#~ msgstr "अभिगम CiviCRM"
+
+#~ msgid "access Contact Dashboard"
+#~ msgstr "अभिगम संपर्क फलक"
+
+#~ msgid "Monetary Display"
+#~ msgstr "मुद्रा प्रदर्शित"
+
+#~ msgid "Create new household"
+#~ msgstr "नया परिवार संबन्धी बनाये"
+
+#~ msgid "Select existing household"
+#~ msgstr "विद्यमान परिवार संबन्धी चुने"
+
+#~ msgid "Export PRIMARY contact fields"
+#~ msgstr "प्राथमिक संपर्क क्षेत्रों निर्यात करे"
+
+#~ msgid "View Contribution"
+#~ msgstr "योगदान देखें"
+
+#~ msgid "Edit Contribution"
+#~ msgstr "योगदान संपादन"
+
+#~ msgid "Delete Contribution"
+#~ msgstr "योगदान मिटाएँ"
+
+#~ msgid "Renew Membership"
+#~ msgstr "सदस्यता नवीनीकृत"
+
+#~ msgid "Create Membership"
+#~ msgstr "सदस्यता बनाएँ"
+
+#~ msgid "View Membership"
+#~ msgstr "सदस्यता देखें"
+
+#~ msgid "Edit Membership"
+#~ msgstr "सदस्यता संपादन"
+
+#~ msgid "Renew"
+#~ msgstr "नवीनीकृत"
+
+#~ msgid "Delete Membership"
+#~ msgstr "सदस्यता मिटाएँ"
+
+#~ msgid "Edit Membership Type"
+#~ msgstr "सदस्यता प्रकार संपादन"
+
+#~ msgid "Please contact CiviCRM support for help"
+#~ msgstr "कृपया मदद के लिये CiviCRM समर्थन से संर्पक करे"
+
+#~ msgid "Participant Status"
+#~ msgstr "प्रतिभागि की स्थिति"
+
+#~ msgid "Participant Role"
+#~ msgstr "सहभाग की भूमिका"
+
+#~ msgid "CiviContribute"
+#~ msgstr "सिवीकाँन्ट्रीब्यट"
+
+#~ msgid "CiviEvent"
+#~ msgstr "सिवीईव्हेंट"
+
+#~ msgid "CiviMember"
+#~ msgstr "सिवीमेंबर"
+
+#~ msgid "CiviMail"
+#~ msgstr "सिवीमेल"
+
+#~ msgid "View Tags"
+#~ msgstr "लेबल दृश्य"
+
+#~ msgid "View Groups"
+#~ msgstr "समुह देखें"
+
+#~ msgid "System Preferences"
+#~ msgstr "सिस्टिम ग्राह्यता"
+
+#~ msgid "Address Preferences"
+#~ msgstr "पता ग्राह्यता"
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "CiviCRM प्रोफाइल"
+
+#~ msgid "Synchronize Users to Contacts"
+#~ msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ करे।"
+
+#~ msgid "Import/Export Mappings"
+#~ msgstr "आयात / निर्यात मिलान"
+
+#~ msgid "Activity Types"
+#~ msgstr "घटनाएँ प्रकार"
+
+#~ msgid "Gender Options"
+#~ msgstr "लिंग विक्लप"
+
+#~ msgid "Individual Prefixes (Ms, Mr...)"
+#~ msgstr "व्यक्तिगत उपसर्ग ( सुश्री श्री .. )"
+
+#~ msgid "Individual Suffixes (Jr, Sr...)"
+#~ msgstr "व्यक्तिगत प्रत्यय ( जूनियर , वरिष्ठ .. )"
+
+#~ msgid "Instant Messenger Services"
+#~ msgstr "इन्स्टैंट मैसेन्जर सेवा"
+
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "स्थान प्रकार ( घर, काम ... )"
+
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "मोबाइल फोन प्रदाता"
+
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "पसंदीदा संचार तरीके"
+
+#~ msgid "Relationship Types"
+#~ msgstr "संबंध प्रकार"
+
+#~ msgid "Tags (Categories)"
+#~ msgstr "लेबल ( श्रेणी )"
+
+#~ msgid "Payment Processor"
+#~ msgstr "प्रोसेसर भुगतान"
+
+#~ msgid "Contact Summary"
+#~ msgstr "संपर्क सारांश"
+
+#~ msgid "Create New Group"
+#~ msgstr "नया समूह बनाये"
+
+#~ msgid "Activity"
+#~ msgstr "घटना"
+
+#~ msgid "- all contacts -"
+#~ msgstr "- सब सदस्य -"
+
+#~ msgid "Test Payment Processor"
+#~ msgstr "परिक्षण भुगतान प्रोसेसर"
+
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "आपका समूह %1 ' सुरक्षित कर दिया है।"
+
+#~ msgid "Grant Type %2 %1"
+#~ msgstr "अनुदान प्रकार %2 %1"
+
+#~ msgid "Grant Status %2 %1"
+#~ msgstr "अनुदान स्थिती %2 %1"
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "अनुदान निर्णय तारीख - से"
+
+#~ msgid "Grant Decision Date - From"
+#~ msgstr "अनुदान निर्णय तारीख - से"
+
+#, fuzzy
+#~ msgid "Grant Decision"
+#~ msgstr "अनुदान निर्णय तारीख"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "अनुदान प्रकार"
+
+#~ msgid "Rationale"
+#~ msgstr "तर्क"
+
+#~ msgid "Name:"
+#~ msgstr "नाम:"
+
+#~ msgid "Outbound Email (SMTP)"
+#~ msgstr "आउटबाउंड ईमेल ( SMTP )"
+
+#~ msgid "Active Memberships"
+#~ msgstr "सक्रिय सदस्यताएँ"
+
+#~ msgid "Inactive Memberships"
+#~ msgstr "निष्क्रिय सदस्यताएँ"
+
+#~ msgid "Membership Types"
+#~ msgstr "सदस्यता प्रकार"
+
+#~ msgid "Period"
+#~ msgstr "अवधि"
+
+#~ msgid "Fixed Start"
+#~ msgstr "निश्चित प्रारंभ"
+
+#~ msgid "Minimum Fee"
+#~ msgstr "न्यूनतम शुल्क"
+
+#~ msgid "View Contact Dashboard"
+#~ msgstr "डैशबोर्ड संपर्क देखें"
+
+#~ msgid "Received date"
+#~ msgstr "प्राप्त तिथि"
+
+#~ msgid "Receipt Sent"
+#~ msgstr "रसीद प्रेषित"
+
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "( पुनरावृत्ति योगदान )"
+
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "पुनरावृत्ति अंशदान"
+
+#~ msgid "Terms:"
+#~ msgstr "नियम:"
+
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "पुनरावृत्ति योगदान बदलें"
+
+#~ msgid "Your Contribution(s)"
+#~ msgstr "आपकी याेगदान राशि"
+
+#~ msgid "Your Membership(s)"
+#~ msgstr "आपकी सदस्यताएँ"
+
+#~ msgid "Your Event(s)"
+#~ msgstr "आपकी घटनाएँ"
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "अनुदानित राशि"
+
+#~ msgid "Subgroups"
+#~ msgstr "उप समूह"
+
+#~ msgid "Remove?"
+#~ msgstr "हटाना?"
+
+#~ msgid "Subgroup"
+#~ msgstr "उप समूह"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "स्वीकृत क्रेडिट कार्ड"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "भुगतान उपकरण"
+
+#~ msgid "Event Registration"
+#~ msgstr "घटना पंजीकरण"
+
 #~ msgid "Tell A Friend"
 #~ msgstr "दाेस्त काे बतायिएे"
+
+#~ msgid " -select- "
+#~ msgstr " -चयन-"

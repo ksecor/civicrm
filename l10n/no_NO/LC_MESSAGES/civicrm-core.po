@@ -108,9 +108,8 @@ msgid "Grant"
 msgstr "Tilordne"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Sluttdato"
+msgstr "Sist endret"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -440,7 +439,6 @@ msgid "Case Activity Type"
 msgstr "Aktivitetstype"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- velg -"
 
@@ -2240,9 +2238,8 @@ msgid "Due Date Time"
 msgstr "Dato og Tid"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "linjenummer"
+msgstr "Telefonnummer"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -3613,9 +3610,8 @@ msgid "Sort Name"
 msgstr "Sorter Navn"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Fornavn"
+msgstr "Vis Navn"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
@@ -5590,9 +5586,8 @@ msgid "vCard Location Type"
 msgstr "Kontakttype"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Sted"
+msgstr "Stedsnavn"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -13809,3 +13804,158 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Feil i SMTP-transaksjon"
+
+#~ msgid "Contact"
+#~ msgstr "Kontakt"
+
+#~ msgid "Import"
+#~ msgstr "Importer"
+
+#~ msgid "Access Control"
+#~ msgstr "Tilgangskontroll"
+
+#, fuzzy
+#~ msgid "Contact Dashboard"
+#~ msgstr "Kontakttype"
+
+#, fuzzy
+#~ msgid "Components"
+#~ msgstr "Ferdig"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurer"
+
+#~ msgid "Manage"
+#~ msgstr "Behandle"
+
+#, fuzzy
+#~ msgid "Localization"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Delete Location"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Map Event Location"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Message Templates"
+#~ msgstr "Velg en gyldig dato"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "CiviCRM Kontaktsøk"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "Valgt møte er slettet"
+
+#, fuzzy
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "CiviCRM Kontaktsøk"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Velg en gyldig dato"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Kjønn"
+
+#, fuzzy
+#~ msgid "Manage ACLs"
+#~ msgstr "Behandle"
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Valgt møte er slettet"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Valgt møte er slettet"
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Stedsnavn"
+
+#~ msgid "Name:"
+#~ msgstr "Navn:"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "CiviCRM Kontaktsøk"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "Konfigurer"
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Fjernet"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Gruppe"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid " -select- "
+#~ msgstr "- velg -"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Valgt møte er slettet"
+
+#~ msgid " is a numeric field"
+#~ msgstr "er et numerisk felt"
+
+#, fuzzy
+#~ msgid " -select role- "
+#~ msgstr "- velg -"
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Konfigurer"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Fjernet"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Avtalt Dato Klokkeslett"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "Aktivitetstype"
+
+#~ msgid "Setup"
+#~ msgstr "Oppsett"

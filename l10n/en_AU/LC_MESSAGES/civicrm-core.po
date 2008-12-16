@@ -64,9 +64,8 @@ msgstr "Edit"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Enable"
+msgstr "Entity Table"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -74,7 +73,7 @@ msgstr "Operation"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "All"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -109,7 +108,6 @@ msgid "Grant"
 msgstr "Grant"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
 msgstr "Modified Date"
 
@@ -436,9 +434,8 @@ msgid "Case Activity Type"
 msgstr "New Activity Type"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- select -"
+msgstr "-select-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1098,9 +1095,8 @@ msgid "Legal Name"
 msgstr "Legal Name"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Custom Option"
+msgstr "Custom Greeting"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1153,16 +1149,15 @@ msgstr "Visibility"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Where Clause"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Select Date"
+msgstr "Select Tables"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Where Tables"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1729,9 +1724,8 @@ msgid "Data"
 msgstr "Date"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Data Type"
+msgstr "Html Type"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1740,16 +1734,14 @@ msgstr "Default Value"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Create Profile"
+msgstr "Help Pre"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Host"
+msgstr "Help Post"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1758,7 +1750,7 @@ msgstr "Mask"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1795,7 +1787,6 @@ msgid "Multi-Select State/Province"
 msgstr "Select State"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
 msgstr "Collapse Display"
 
@@ -1815,9 +1806,8 @@ msgstr "Inline"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Bounce Type"
+msgstr "Phone Type"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -1832,7 +1822,7 @@ msgstr "Option Value"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Suffix for PHP class name implementation"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -2107,27 +2097,24 @@ msgid "Administer"
 msgstr "Administer"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Last Name"
+msgstr "ACL Name"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Deny"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Subject Label"
+msgstr "Object Table"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Acl Table"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Removed"
+msgstr "Revoke"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2253,9 +2240,8 @@ msgid "Due Date Time"
 msgstr "End Date"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Number"
+msgstr "Phone Number"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2269,7 +2255,7 @@ msgstr "Text"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Contact ID (match to contact)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3689,9 +3675,8 @@ msgid "Contact Sub Type"
 msgstr "Contact Type"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Do not mail"
+msgstr "Do Not Email"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3699,25 +3684,22 @@ msgid "Do Not Phone"
 msgstr "Do Not Phone"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
-msgstr "Do not mail"
+msgstr "Do Not Mail"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "Do not trade"
+msgstr "Do Not Trade"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "No Bulk Mail (Opted-out)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Legal Identifier"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
 msgstr "External Identifier"
 
@@ -3731,9 +3713,8 @@ msgid "Display Name"
 msgstr "Display Style"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Image Url"
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3746,7 +3727,6 @@ msgid "Preferred Mail Format"
 msgstr "Preferred Mail Format"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
 msgstr "Hash"
 
@@ -3756,9 +3736,8 @@ msgid "Source of Contact Data"
 msgstr "View Contact Details"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Greeting"
+msgstr "Greeting Type"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3767,9 +3746,8 @@ msgid "Job Title"
 msgstr "Job Title"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Start Date"
+msgstr "Birth Date"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3782,9 +3760,8 @@ msgid "Deceased Date"
 msgstr "Contact is Deceased"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "SIC Code"
+msgstr "Sic Code"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3792,23 +3769,20 @@ msgid "Unique ID (OpenID)"
 msgstr "Unique Tracked Opens"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Female"
+msgstr "Formal"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Informal"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Honorific"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Customised"
+msgstr "Custom"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3826,33 +3800,28 @@ msgid "Children"
 msgstr "Child of"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Name"
+msgstr "Name A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Name"
+msgstr "Name B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
 msgstr "Submitted Form Values"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Tracking"
-msgstr "Url Tracking"
+msgstr "Tracking"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Website"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4323,7 +4292,7 @@ msgstr "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Range-From"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4602,9 +4571,8 @@ msgid "Distance"
 msgstr "Disable"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr " - any group - "
+msgstr "- any country -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5554,31 +5522,28 @@ msgstr ""
 "CiviCRM >> Global Settings</a> to set the SMTP Server."
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "vCard File:"
+msgstr "Street Number"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Street Number Suffix"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Street Number Predirectional"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Street Name"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Component Type"
+msgstr "Street Type"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Street Number Postdirectional"
 
 #: CRM/Core/DAO/Address.php
 #, fuzzy
@@ -5586,35 +5551,32 @@ msgid "Street Unit"
 msgstr "Street Unit"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Street Address"
+msgstr "Supplemental Address 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Street Address"
+msgstr "Supplemental Address 2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Street Address"
+msgstr "Supplemental Address 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Code 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Code 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Timezone"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5636,24 +5598,20 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "SIC Code"
+msgstr "Iso Code"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Country"
+msgstr "Country Code"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Prefix"
+msgstr "Idd Prefix"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Prefix"
+msgstr "Ndd Prefix"
 
 #: CRM/Core/DAO/County.php
 #, fuzzy
@@ -5661,13 +5619,12 @@ msgid "County Abbreviation"
 msgstr "Country Abbreviation"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
-msgstr "Current Group Memberships"
+msgstr "Currency"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "Symbol"
 
 #: CRM/Core/DAO/Currency.php
 #, fuzzy
@@ -5684,9 +5641,8 @@ msgid "Data Type"
 msgstr "Data Type"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Contributions"
+msgstr "Attributes"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5705,7 +5661,7 @@ msgstr "Date Data"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Note Columns"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5718,28 +5674,24 @@ msgid "Column Name"
 msgstr "Location Name"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Settings"
+msgstr "String"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
-msgstr "Integer"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr ""
+msgstr "Float"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Boolean"
 msgstr "Boolean"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "StateProvince"
-msgstr "State"
+msgstr "StateProvince"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5751,17 +5703,16 @@ msgid "RichTextEditor"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
 msgstr "Extends"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
-msgstr ""
+msgstr "Extends Entity Column Name"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Value"
-msgstr ""
+msgstr "Extends Entity Column Value"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
@@ -5821,12 +5772,10 @@ msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "End Date"
+msgstr "Hold Date"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
 msgstr "Reset Date"
 
@@ -5849,33 +5798,28 @@ msgid "Upload Date"
 msgstr "Upload Data"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Street Name"
+msgstr "IM Screen Name"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
-msgstr ""
+msgstr "Qty"
 
 #: CRM/Core/DAO/LineItem.php
-#, fuzzy
 msgid "Unit Price"
-msgstr "Profile Name"
+msgstr "Unit Price"
 
 #: CRM/Core/DAO/LineItem.php
-#, fuzzy
 msgid "Line Total"
-msgstr "Totals"
+msgstr "Line Total"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Location Types"
+msgstr "vCard Location Type"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Location Types"
+msgstr "Location Name"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5899,43 +5843,43 @@ msgstr "Operation"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
-msgstr ""
+msgstr "="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
-msgstr ""
+msgstr "IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
-msgstr ""
+msgstr "NOT IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "LIKE"
-msgstr ""
+msgstr "LIKE"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT LIKE"
-msgstr ""
+msgstr "NOT LIKE"
 
 #: CRM/Core/DAO/Menu.php
 #, fuzzy
@@ -5996,7 +5940,7 @@ msgstr "Text"
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Msg Html"
-msgstr ""
+msgstr "Msg Html"
 
 #: CRM/Core/DAO/MessageTemplates.php
 #, fuzzy
@@ -6029,36 +5973,31 @@ msgstr "File"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
-msgstr ""
+msgstr "Payment Processor variable name to be used in code"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Payment Processor Title"
-msgstr "Payment Processor Type"
+msgstr "Payment Processor Title"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
-msgstr ""
+msgstr "Label for User Name if used"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for password"
-msgstr "Invalid Email address"
+msgstr "Label for password"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for Signature"
-msgstr "Signature"
+msgstr "Label for Signature"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Label for Subject"
-msgstr "Message Subject"
+msgstr "Label for Subject"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Site URL"
-msgstr "Live Site URL"
+msgstr "Default Live Site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 #, fuzzy
@@ -6066,33 +6005,28 @@ msgid "Default API Site URL"
 msgstr "Test Site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Recurring Payments URL"
-msgstr "Live Recurring Payments URL"
+msgstr "Default Live Recurring Payments URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Live Button URL"
-msgstr "Live Button URL"
+msgstr "Default Live Button URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Site URL"
-msgstr "Test Site URL"
+msgstr "Default Test Site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Default Test API URL"
 msgstr ""
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Recurring Payment URL"
-msgstr "Test Recurring Payments URL"
+msgstr "Default Test Recurring Payment URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Default Test Button URL"
-msgstr "Test Button URL"
+msgstr "Default Test Button URL"
 
 #: CRM/Core/DAO/PreferencesDate.php
 #, fuzzy
@@ -6160,7 +6094,7 @@ msgstr "Add To Organisation"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "County Abbreviation"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6169,12 +6103,11 @@ msgstr "Duration"
 
 #: CRM/Core/DAO/Timezone.php
 msgid "Gmt"
-msgstr ""
+msgstr "Gmt"
 
 #: CRM/Core/DAO/Timezone.php
-#, fuzzy
 msgid "Offset"
-msgstr "Off"
+msgstr "Offset"
 
 #: CRM/Core/DAO/UFField.php
 #, fuzzy
@@ -6192,9 +6125,8 @@ msgid "Post Url"
 msgstr "Postal"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Add Captcha"
-msgstr "Captcha Font"
+msgstr "Add Captcha"
 
 #: CRM/Core/DAO/UFGroup.php
 #, fuzzy
@@ -6207,9 +6139,8 @@ msgid "Notify"
 msgstr "Note"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Mobile"
+msgstr "Module"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -7250,7 +7181,7 @@ msgstr "Custom Option"
 
 #: CRM/Dedupe/DAO/RuleGroup.php templates/CRM/Admin/Page/DedupeFind.tpl
 msgid "Threshold"
-msgstr ""
+msgstr "Threshold"
 
 #: CRM/Dedupe/DAO/Rule.php
 msgid "Rule Table"
@@ -7262,9 +7193,8 @@ msgid "Rule Field"
 msgstr "Price Field"
 
 #: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
 msgid "Rule Length"
-msgstr "Length"
+msgstr "Rule Length"
 
 #: CRM/Dedupe/DAO/Rule.php
 #, fuzzy
@@ -12075,7 +12005,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "OR"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -15016,7 +14946,7 @@ msgstr "In Progress"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Overdue"
-msgstr ""
+msgstr "Overdue"
 
 #: xml/templates/civicrm_data.tpl
 #, fuzzy
@@ -15400,6 +15330,1558 @@ msgstr "Message caught by a content filter"
 msgid "Error in SMTP transaction"
 msgstr "Error in SMTP transaction"
 
+#~ msgid "Contact"
+#~ msgstr "Contact"
+
+#~ msgid "Import"
+#~ msgstr "Import"
+
+#~ msgid "Custom Data"
+#~ msgstr "Custom Data"
+
+#~ msgid "Access Control"
+#~ msgstr "Access Control"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Load Mapping"
+
+#~ msgid "View Activity"
+#~ msgstr "View Activity"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "Payment Processor Type"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Advanced Search"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "Contact Dashboard"
+
+#~ msgid "Global Settings"
+#~ msgstr "Global Settings"
+
+#~ msgid "Components"
+#~ msgstr "Components"
+
+#~ msgid "Configure"
+#~ msgstr "Configure"
+
+#~ msgid "Manage"
+#~ msgstr "Manage"
+
+#~ msgid "Option Lists"
+#~ msgstr "Option Lists"
+
+#~ msgid "File System Paths"
+#~ msgstr "File System Paths"
+
+#~ msgid "Site URLs"
+#~ msgstr "Site URLs"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Mapping and Geocoding"
+
+#~ msgid "Localization"
+#~ msgstr "Localisation"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Miscellaneous"
+
+#~ msgid "Debugging"
+#~ msgstr "Debugging"
+
+#~ msgid "Notes"
+#~ msgstr "Notes"
+
+#~ msgid "Delete Location"
+#~ msgstr "Delete Location"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "Add Contacts to Organisation"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Administer CiviCRM"
+
+#, fuzzy
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - \"%1\" - can not be deleted."
+
+#~ msgid "Activities"
+#~ msgstr "Activities"
+
+#~ msgid "Relationships"
+#~ msgstr "Relationships"
+
+#~ msgid "Contributions"
+#~ msgstr "Contributions"
+
+#~ msgid "Memberships"
+#~ msgstr "Memberships"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Find Contacts"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Email a Contact"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Home"
+
+#~ msgid "Groups"
+#~ msgstr "Groups"
+
+#~ msgid "Tags"
+#~ msgstr "Tags"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Export Contacts"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#, fuzzy
+#~ msgid "Log out"
+#~ msgstr "Loop"
+
+#~ msgid "Map Event Location"
+#~ msgstr "Map Event Location"
+
+#~ msgid "Search Builder"
+#~ msgstr "Search Builder"
+
+#~ msgid "New Contact"
+#~ msgstr "New Contact"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Custom Data Fields"
+
+#~ msgid "Message Templates"
+#~ msgstr "Message Templates"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Find Duplicate Contacts"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Duplicate Contact Rules"
+
+#~ msgid "Contact Matching"
+#~ msgstr "Contact Matching"
+
+#~ msgid "Price Sets"
+#~ msgstr "Price Sets"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Manage Groups"
+
+#~ msgid "Contacts"
+#~ msgstr "Contacts"
+
+#~ msgid "Group Members"
+#~ msgstr "Group Members"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Reset Date"
+
+#, fuzzy
+#~ msgid "Money Transferred"
+#~ msgstr "Money Transfer Date"
+
+#~ msgid "Amount Requested"
+#~ msgstr "Amount Requested"
+
+#, fuzzy
+#~ msgid "Amount Granted"
+#~ msgstr "Country"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+#~ msgstr ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+
+#, fuzzy
+#~ msgid "Missing required contact matching field: Contact ID."
+#~ msgstr "Missing required fields"
+
+#~ msgid "Match On:"
+#~ msgstr "Match On:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Contact Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+#~ msgstr ""
+#~ "The Duplicate Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "The Duplicate Matching rule has been saved."
+
+#, fuzzy
+#~ msgid "User Language"
+#~ msgstr "Default Value"
+
+#, fuzzy
+#~ msgid "Monetary Display"
+#~ msgstr "Collapse Display"
+
+#, fuzzy
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "CiviCRM Search"
+
+#~ msgid "Captcha Font Path"
+#~ msgstr "Captcha Font Path"
+
+#~ msgid "Captcha Font"
+#~ msgstr "Captcha Font"
+
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "Settings - SMTP Configuration"
+
+#~ msgid "Edit DupeMatch"
+#~ msgstr "Edit DupeMatch"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete this mapping? This operation can not be "
+#~ "undone"
+#~ msgstr ""
+#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
+#~ "cannot be undone."
+
+#, fuzzy
+#~ msgid "System Configuration"
+#~ msgstr "Add Contacts to Organisation"
+
+#~ msgid "Online Payment"
+#~ msgstr "Online Payment"
+
+#~ msgid "Address Formatting"
+#~ msgstr "Address Formatting"
+
+#~ msgid "This is an unexpected place to be in, contact support"
+#~ msgstr "This is an unexpected place to be in, contact support"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr "greater than \"%1\""
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr "Postal code -"
+
+#~ msgid "The Location Type should be set if there is any location information"
+#~ msgstr ""
+#~ "The Location Type should be set if there is any location information"
+
+#~ msgid "Two locations cannot have same location type"
+#~ msgstr "Two locations cannot have same location type"
+
+#, fuzzy
+#~ msgid "Create new household"
+#~ msgstr "Head of household."
+
+#~ msgid "Select existing household"
+#~ msgstr "Select existing household"
+
+#, fuzzy
+#~ msgid "shared options"
+#~ msgstr "Disable Relationship"
+
+#~ msgid "Please specify a new household"
+#~ msgstr "Please specify a new household"
+
+#, fuzzy
+#~ msgid ""
+#~ "One matching household: %1, was found. You can specify it through 'Select "
+#~ "existing household' option or click 'Save With Duplicate Household' "
+#~ "button below."
+#~ msgid_plural ""
+#~ "%count matching households: %1, were found. You can specify them through "
+#~ "'Select existing household' option or click 'Save With Duplicate "
+#~ "Household' button below."
+#~ msgstr[0] "One matching contact was found. You can edit it here: %1"
+#~ msgstr[1] "%count matching contacts were found. You can edit them here: %1"
+
+#~ msgid "EMPTY"
+#~ msgstr "EMPTY"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Location"
+
+#, fuzzy
+#~ msgid "Quest"
+#~ msgstr "Text"
+
+#~ msgid "TMF"
+#~ msgstr "TMF"
+
+#, fuzzy
+#~ msgid ""
+#~ "This contact record is linked to the currently logged in user account - '%"
+#~ "1' - and can not be deleted."
+#~ msgstr ""
+#~ "This contact record is linked to the currently logged in user account - "
+#~ "\"%1\" - and can not be deleted."
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Select Date"
+
+#, fuzzy
+#~ msgid "Update Template"
+#~ msgstr "Update Tags"
+
+#, fuzzy
+#~ msgid "Save as New Template"
+#~ msgstr "Mailing Template?"
+
+#, fuzzy
+#~ msgid "Template Title"
+#~ msgstr "Profile Title"
+
+#, fuzzy
+#~ msgid ""
+#~ "Email not sent to contact(s) (no email address on file or communication "
+#~ "preferences specify DO NOT EMAIL): %1"
+#~ msgstr ""
+#~ "Email not sent to contact(s) (no email address on file or communication "
+#~ "preferences specify DO NOT EMAIL): %1  <br />Details : "
+
+#, fuzzy
+#~ msgid "Export PRIMARY contact fields"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "Primary Location"
+
+#~ msgid ""
+#~ "This contact's primary address does not contain latitude/longitude "
+#~ "information and can not be mapped."
+#~ msgstr ""
+#~ "This contact's primary address does not contain latitude/longitude "
+#~ "information and can not be mapped."
+
+#, fuzzy
+#~ msgid "Your user record does not have a valid user ID"
+#~ msgstr "Your user record does not have a valid email address"
+
+#, fuzzy
+#~ msgid "View Contribution"
+#~ msgstr "View Contact"
+
+#, fuzzy
+#~ msgid "Edit Contribution"
+#~ msgstr "Edit Option"
+
+#, fuzzy
+#~ msgid "Delete Contribution"
+#~ msgstr "Delete Contacts"
+
+#, fuzzy
+#~ msgid "View Membership"
+#~ msgstr "New Group Membership"
+
+#, fuzzy
+#~ msgid "Edit Membership"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Delete Membership"
+#~ msgstr "Past Memberships"
+
+#~ msgid "Please contact CiviCRM support for help"
+#~ msgstr "Please contact CiviCRM support for help"
+
+#, fuzzy
+#~ msgid ""
+#~ "The requested Profile (gid=%1) is disabled, OR it is not configured to be "
+#~ "used for 'Profile' listings in its Settings, or there is no Profile with "
+#~ "that ID. Contact the site administrator if you need assistance."
+#~ msgstr ""
+#~ "This profile is not configured for the requested action. Contact the site "
+#~ "administrator if you need assistance."
+
+#, fuzzy
+#~ msgid "Participant Status"
+#~ msgstr "Status?"
+
+#~ msgid "Participant Role"
+#~ msgstr "Participant Role"
+
+#~ msgid "CiviContribute"
+#~ msgstr "CiviContribute"
+
+#~ msgid "CiviEvent"
+#~ msgstr "CiviEvent"
+
+#~ msgid "CiviMember"
+#~ msgstr "CiviMember"
+
+#~ msgid "CiviMail"
+#~ msgstr "CiviMail"
+
+#, fuzzy
+#~ msgid "Could not retrieve object name: %1, id: %2"
+#~ msgstr "Could not get a contact_id and/or contact_type"
+
+#, fuzzy
+#~ msgid "Delete Contact"
+#~ msgstr "Delete Contacts"
+
+#, fuzzy
+#~ msgid "Could not retrieve a valid contact"
+#~ msgstr "Could not get a contact_id and/or contact_type"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Find Target Contact"
+
+#, fuzzy
+#~ msgid "Simple Search"
+#~ msgstr "Save Search"
+
+#~ msgid "View Location Types"
+#~ msgstr "View Location Types"
+
+#~ msgid "View Payment Processors"
+#~ msgstr "View Payment Processors"
+
+#~ msgid "View Payment Processor Type"
+#~ msgstr "View Payment Processor Type"
+
+#~ msgid "View Relationship Types"
+#~ msgstr "View Relationship Types"
+
+#~ msgid "View Tags"
+#~ msgstr "View Tags"
+
+#, fuzzy
+#~ msgid "View Mapping"
+#~ msgstr "View Tags"
+
+#, fuzzy
+#~ msgid "View Options"
+#~ msgstr "View Groups"
+
+#~ msgid "Sync Drupal Users"
+#~ msgstr "Sync Drupal Users"
+
+#, fuzzy
+#~ msgid "View Option Groups"
+#~ msgstr "View Groups"
+
+#, fuzzy
+#~ msgid "View Option Values"
+#~ msgstr "Option Value"
+
+#, fuzzy
+#~ msgid "Options"
+#~ msgstr "Operation"
+
+#, fuzzy
+#~ msgid "CiviMail Settings"
+#~ msgstr "Mailing Settings"
+
+#~ msgid "Import Contacts"
+#~ msgstr "Import Contacts"
+
+#~ msgid "View Groups"
+#~ msgstr "View Groups"
+
+#, fuzzy
+#~ msgid "System Preferences"
+#~ msgstr "Communication Preferences"
+
+#, fuzzy
+#~ msgid "Address Preferences"
+#~ msgstr "String"
+
+#~ msgid "Smtp Server"
+#~ msgstr "Smtp Server"
+
+#, fuzzy
+#~ msgid "Date Formatting"
+#~ msgstr "Date Data"
+
+#~ msgid "Browse Uploaded files"
+#~ msgstr "Browse Uploaded files"
+
+#~ msgid ""
+#~ "Configure custom fields to collect and store custom data which is not "
+#~ "included in the standard CiviCRM forms."
+#~ msgstr ""
+#~ "Configure custom fields to collect and store custom data which is not "
+#~ "included in the standard CiviCRM forms."
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "CiviCRM Profile"
+
+#~ msgid ""
+#~ "Profiles allow you to aggregate groups of fields and include them in your "
+#~ "site as input forms, contact display pages, and search and listings "
+#~ "features."
+#~ msgstr ""
+#~ "Profiles allow you to aggregate groups of fields and include them in your "
+#~ "site as input forms, contact display pages, and search and listings "
+#~ "features."
+
+#~ msgid "CiviCRM Profile Fields"
+#~ msgstr "CiviCRM Profile Fields"
+
+#~ msgid ""
+#~ "Use configured duplicate matching rules to identify suspected duplicate "
+#~ "contact records in your database."
+#~ msgstr ""
+#~ "Use configured duplicate matching rules to identify suspected duplicate "
+#~ "contact records in your database."
+
+#, fuzzy
+#~ msgid "Synchronize Users to Contacts"
+#~ msgstr "Send Email to Contacts"
+
+#~ msgid ""
+#~ "Automatically create a CiviCRM contact record for each CMS user record."
+#~ msgstr ""
+#~ "Automatically create a CiviCRM contact record for each CMS user record."
+
+#~ msgid ""
+#~ "Configure Global Settings for your site, including: Enabled Components, "
+#~ "Site Preferences for screens and forms, Directory Paths and Resource "
+#~ "URLs, Address formats, Localization, Payment Processor, Outbound Email, "
+#~ "Mapping, and Debugging."
+#~ msgstr ""
+#~ "Configure Global Settings for your site, including: Enabled Components, "
+#~ "Site Preferences for screens and forms, Directory Paths and Resource "
+#~ "URLs, Address formats, Localisation, Payment Processor, Outbound Email, "
+#~ "Mapping, and Debugging."
+
+#~ msgid ""
+#~ "Rules used to identify potentially duplicate contact records, and to "
+#~ "match imported data to existing contact records."
+#~ msgstr ""
+#~ "Rules used to identify potentially duplicate contact records, and to "
+#~ "match imported data to existing contact records."
+
+#~ msgid "Import/Export Mappings"
+#~ msgstr "Import/Export Mappings"
+
+#~ msgid ""
+#~ "Import and Export mappings allow you to easily run the same job multiple "
+#~ "times. This option allows you to rename or delete existing mappings."
+#~ msgstr ""
+#~ "Import and Export mappings allow you to easily run the same job multiple "
+#~ "times. This option allows you to rename or delete existing mappings."
+
+#~ msgid ""
+#~ "Message templates allow you to save and re-use messages with layouts "
+#~ "which you can use when sending email to one or more contacts."
+#~ msgstr ""
+#~ "Message templates allow you to save and re-use messages with layouts "
+#~ "which you can use when sending email to one or more contacts."
+
+#~ msgid ""
+#~ "Configure primary contact name, email, return-path and address "
+#~ "information. This information is used by CiviMail to identify the sending "
+#~ "organization."
+#~ msgstr ""
+#~ "Configure primary contact name, email, return-path and address "
+#~ "information. This information is used by CiviMail to identify the sending "
+#~ "organisation."
+
+#~ msgid "Activity Types"
+#~ msgstr "Activity Types"
+
+#~ msgid ""
+#~ "CiviCRM has several built-in activity types (meetings, phone calls, "
+#~ "emails sent). Track other types of interactions by creating custom "
+#~ "activity types here."
+#~ msgstr ""
+#~ "CiviCRM has several built-in activity types (meetings, phone calls, "
+#~ "emails sent). Track other types of interactions by creating custom "
+#~ "activity types here."
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "View Groups"
+
+#~ msgid ""
+#~ "Options for assigning gender to individual contacts (e.g. Male, Female, "
+#~ "Transgender)."
+#~ msgstr ""
+#~ "Options for assigning gender to individual contacts (e.g. Male, Female, "
+#~ "Transgender)."
+
+#, fuzzy
+#~ msgid "Individual Prefixes (Ms, Mr...)"
+#~ msgstr "New Individual"
+
+#~ msgid "Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.)."
+#~ msgstr "Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.)."
+
+#, fuzzy
+#~ msgid "Individual Suffixes (Jr, Sr...)"
+#~ msgstr "Individual"
+
+#, fuzzy
+#~ msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
+#~ msgstr "Individual"
+
+#, fuzzy
+#~ msgid "Instant Messenger Services"
+#~ msgstr "Instant Messenger Service"
+
+#~ msgid ""
+#~ "List of IM services which can be used when recording screen-names for "
+#~ "contacts."
+#~ msgstr ""
+#~ "List of IM services which can be used when recording screen-names for "
+#~ "contacts."
+
+#, fuzzy
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "Location Types"
+
+#~ msgid ""
+#~ "Options for categorizing contact addresses and phone numbers (e.g. Home, "
+#~ "Work, Billing, etc.)."
+#~ msgstr ""
+#~ "Options for categorising contact addresses and phone numbers (e.g. Home, "
+#~ "Work, Billing, etc.)."
+
+#, fuzzy
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "Mobile Phone Provider"
+
+#~ msgid ""
+#~ "List of mobile phone providers which can be assigned when recording "
+#~ "contact phone numbers."
+#~ msgstr ""
+#~ "List of mobile phone providers which can be assigned when recording "
+#~ "contact phone numbers."
+
+#, fuzzy
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "Preferred Communication Method"
+
+#~ msgid ""
+#~ "One or more preferred methods of communication can be assigned to each "
+#~ "contact. Customize the available options here."
+#~ msgstr ""
+#~ "One or more preferred methods of communication can be assigned to each "
+#~ "contact. Customise the available options here."
+
+#~ msgid "Relationship Types"
+#~ msgstr "Relationship Types"
+
+#~ msgid ""
+#~ "Contacts can be linked to each other through Relationships (e.g. Spouse, "
+#~ "Employer, etc.). Define the types of relationships you want to record "
+#~ "here."
+#~ msgstr ""
+#~ "Contacts can be linked to each other through Relationships (e.g. Spouse, "
+#~ "Employer, etc.). Define the types of relationships you want to record "
+#~ "here."
+
+#~ msgid "Tags (Categories)"
+#~ msgstr "Tags (Categories)"
+
+#~ msgid ""
+#~ "Tags are useful for segmenting the contacts in your database into "
+#~ "categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit "
+#~ "available tags here."
+#~ msgstr ""
+#~ "Tags are useful for segmenting the contacts in your database into "
+#~ "categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit "
+#~ "available tags here."
+
+#~ msgid "Payment Processor"
+#~ msgstr "Payment Processor"
+
+#~ msgid "Payment Processor setup for CiviCRM transactions"
+#~ msgstr "Payment Processor setup for CiviCRM transactions"
+
+#~ msgid "Payment Processor type information"
+#~ msgstr "Payment Processor type information"
+
+#~ msgid ""
+#~ "Grant or deny access to actions (view, edit...), features and components."
+#~ msgstr ""
+#~ "Grant or deny access to actions (view, edit...), features and components."
+
+#, fuzzy
+#~ msgid "Quick Registration"
+#~ msgstr "Registration"
+
+#, fuzzy
+#~ msgid "Manage ACLs"
+#~ msgstr "Range"
+
+#~ msgid "Contact Summary"
+#~ msgstr "Contact Summary"
+
+#~ msgid "Create New Group"
+#~ msgstr "Create New Group"
+
+#~ msgid "Activity"
+#~ msgstr "Activity"
+
+#, fuzzy
+#~ msgid "Add Contact Information"
+#~ msgstr "Add Contacts to Organisation"
+
+#~ msgid "Notes about the Person"
+#~ msgstr "Notes about the Person"
+
+#~ msgid "Dummy payment processor can not be used for live transactions"
+#~ msgstr "Dummy payment processor can not be used for live transactions"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "The relationship end date cannot be prior to the start date."
+
+#~ msgid "- all contacts -"
+#~ msgstr "- all contacts -"
+
+#~ msgid "life time"
+#~ msgstr "life time"
+
+#~ msgid "Test Payment Processor"
+#~ msgstr "Test Payment Processor"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Group '%1' has not been deleted! You must Delete all custom fields in "
+#~ "this group prior to deleting the group"
+#~ msgstr ""
+#~ "The Group \"%1\" has not been deleted! You must Delete all custom fields "
+#~ "in this group prior to deleting the group"
+
+#~ msgid "Please enter 1 or 0 as default value."
+#~ msgstr "Please enter 1 or 0 as default value."
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Your custom field \"%1\" has been saved"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Your Group \"%1\" has been saved."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your Group '%1' has been added. You can <a href='%2'>add custom fields</"
+#~ "a> to this group now."
+#~ msgstr ""
+#~ "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom "
+#~ "fields</a> to this group now."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Activity Dates - From"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "Grant Report Received"
+
+#, fuzzy
+#~ msgid "Grant Report Received?"
+#~ msgstr "Grant Report Received"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Option Value"
+
+#, fuzzy
+#~ msgid "Amount Requested<br />(original currency)"
+#~ msgstr "Amount Requested"
+
+#~ msgid "Name:"
+#~ msgstr "Name:"
+
+#~ msgid "Join new contacts to existing group(s)"
+#~ msgstr "Join new contacts to existing group(s)"
+
+#, fuzzy
+#~ msgid "Please enter a valid value for this field."
+#~ msgstr "Please enter a valid number."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add "
+#~ "fields</a> to this Profile now."
+#~ msgstr ""
+#~ "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2"
+#~ "\">add fields</a> to this group now."
+
+#~ msgid "Error initializing CAPTCHA library"
+#~ msgstr "Error initializing CAPTCHA library"
+
+#~ msgid "Error generating CAPTCHA image"
+#~ msgstr "Error generating CAPTCHA image"
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image."
+#~ msgstr "Please enter a valid integer."
+
+#~ msgid "Could not interpert return values from function"
+#~ msgstr "Could not interpert return values from function"
+
+#~ msgid "Unknown function called"
+#~ msgstr "Unknown function called"
+
+#, fuzzy
+#~ msgid ""
+#~ "Creates a link for recipients to unsubscribe from the group(s) to which "
+#~ "this mailing is being sent."
+#~ msgstr ""
+#~ "Link to allow contacts to unsubscribe from target groups of this mailing."
+
+#~ msgid "Download Errors"
+#~ msgstr "Download Errors"
+
+#~ msgid ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+#~ msgstr ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+
+#, fuzzy
+#~ msgid "There are no duplicates matching this rule."
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "Save Duplicate Contact"
+
+#, fuzzy
+#~ msgid "Advanced Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Delete Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Configure Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete this Duplicate Matching Rule?"
+#~ msgstr "Are you sure you want to delete this note?"
+
+#~ msgid ""
+#~ "Select up to five contact field(s) to use when comparing a new Individual "
+#~ "contact to existing contact records for duplicate matching. If some of "
+#~ "the fields in your matching rule are OPTIONAL, then all <strong>non-"
+#~ "empty</strong> fields in the incoming data are used."
+#~ msgstr ""
+#~ "Select up to five contact field(s) to use when comparing a new Individual "
+#~ "contact to existing contact records for duplicate matching. If some of "
+#~ "the fields in your matching rule are OPTIONAL, then all <strong>non-"
+#~ "empty</strong> fields in the incoming data are used."
+
+#~ msgid ""
+#~ "For example, using the default matching rule of <strong>Email AND First "
+#~ "Name AND Last Name</strong>... Jane Doe jane.doe@example.org exists in "
+#~ "your database. Now someone tries to add a new contact with the same email "
+#~ "address and leaves the first and last name blank. The new contact will be "
+#~ "flagged as a potential duplicate."
+#~ msgstr ""
+#~ "For example, using the default matching rule of <strong>Email AND First "
+#~ "Name AND Last Name</strong>... Jane Citizen jane.citizen@example.org.au "
+#~ "exists in your database. Now someone tries to add a new contact with the "
+#~ "same email address and leaves the first and last name blank. The new "
+#~ "contact will be flagged as a potential duplicate."
+
+#, fuzzy
+#~ msgid "Advanced Configuration"
+#~ msgstr "Add Contacts to Organisation"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
+#~ "can not be undone."
+#~ msgstr "Are you sure you want to delete <b>%1</b> Tag?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Language used for this installation. Installed 'translations' are listed "
+#~ "in langageCode_countryCode format. Check the <a href='%1' "
+#~ "target='_blank'>CiviCRM downloads page</a> for additional translations if "
+#~ "the one you need is not listed."
+#~ msgstr ""
+#~ "Language used for this installation. Installed \"translations\" are "
+#~ "listed in langageCode_countryCode format. Check the <a href=\"%1\" target="
+#~ "\"_blank\">CiviCRM downloads page</a> for additional translations if the "
+#~ "one you need is not listed."
+
+#~ msgid ""
+#~ "Do you want CiviCRM to automatically check availablity of a newer version "
+#~ "of the software? If enabled, new version alerts will be displayed on the "
+#~ "main CiviCRM Administration page.."
+#~ msgstr ""
+#~ "Do you want CiviCRM to automatically check availablity of a newer version "
+#~ "of the software? If enabled, new version alerts will be displayed on the "
+#~ "main CiviCRM Administration page."
+
+#~ msgid ""
+#~ "Filename for a suitable true-type font (*.ttf) to render the CAPTCHA "
+#~ "image. <strong>IMPORTANT: A valid CAPTCHA font and path are required if "
+#~ "you have enabled the CAPTCHA feature for any of your CiviCRM Profile "
+#~ "input forms.</strong>"
+#~ msgstr ""
+#~ "Filename for a suitable true-type font (*.ttf) to render the CAPTCHA "
+#~ "image. <strong>IMPORTANT: A valid CAPTCHA font and path are required if "
+#~ "you have enabled the CAPTCHA feature for any of your CiviCRM Profile "
+#~ "input forms.</strong>"
+
+#~ msgid ""
+#~ "Absolute file-system path to the directory where the CAPTCHA font file is "
+#~ "located."
+#~ msgstr ""
+#~ "Absolute file-system path to the directory where the CAPTCHA font file is "
+#~ "located."
+
+#~ msgid ""
+#~ "If you are sending emails to contacts using CiviCRM - then you need to "
+#~ "enter settings for your SMTP server. If you're unsure of the correct "
+#~ "values, check with your system administrator, ISP or hosting provider."
+#~ msgstr ""
+#~ "If you are sending emails to contacts using CiviCRM - then you need to "
+#~ "enter settings for your SMTP server. If you're unsure of the correct "
+#~ "values, check with your system administrator, ISP or hosting provider."
+
+#~ msgid ""
+#~ "<strong>Find Duplicate Contacts</strong> searches through your existing "
+#~ "contacts to identify 'suspected' duplicate records - using the <strong><a "
+#~ "href='%3'>Duplicate Contact Rules</a></strong> which you've configured "
+#~ "for your site (<a href='%1' target='_blank' title='%2'>read more...</a>)"
+#~ msgstr ""
+#~ "<strong>Find Duplicate Contacts</strong> searches through your existing "
+#~ "contacts to identify 'suspected' duplicate records - using the <strong><a "
+#~ "href='%3'>Duplicate Contact Rules</a></strong> which you've configured "
+#~ "for your site (<a href='%1' target='_blank' title='%2'>read more...</a>)"
+
+#~ msgid ""
+#~ "Click <strong>Use Rule</strong> next to the type of contact for which you "
+#~ "want to look for duplicates."
+#~ msgstr ""
+#~ "Click <strong>Use Rule</strong> next to the type of contact for which you "
+#~ "want to look for duplicates."
+
+#~ msgid ""
+#~ "<strong>Duplicate Contact Rules</strong> are used by the <strong><a "
+#~ "href='%3'>Find Duplicate Contact</a></strong> feature - which searches "
+#~ "through your existing contacts and identifies 'suspected' duplicate "
+#~ "contact records. Click <strong>Edit Rule</strong> to review or modify the "
+#~ "rules for each type of contact (<a href='%1' target='_blank' title='%"
+#~ "2'>read more...</a>)."
+#~ msgstr ""
+#~ "<strong>Duplicate Contact Rules</strong> are used by the <strong><a "
+#~ "href='%3'>Find Duplicate Contact</a></strong> feature - which searches "
+#~ "through your existing contacts and identifies 'suspected' duplicate "
+#~ "contact records. Click <strong>Edit Rule</strong> to review or modify the "
+#~ "rules for each type of contact (<a href='%1' target='_blank' title='%"
+#~ "2'>read more...</a>)."
+
+#~ msgid ""
+#~ "NOTE: These rules are NOT used for matching and synchronizing %1 users to "
+#~ "CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</"
+#~ "a>."
+#~ msgstr ""
+#~ "NOTE: These rules are NOT used for matching and synchronizing %1 users to "
+#~ "CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</"
+#~ "a>."
+
+#~ msgid ""
+#~ "The <strong>Contact Matching Rule</strong> is used to determine when a "
+#~ "new %2 User record should be matched and linked to an existing CiviCRM "
+#~ "contact record. It is also used to alert you of a matching Individual "
+#~ "contact record when you create a new Individual. Finally, contact "
+#~ "<strong>Import</strong> uses this rule to determine whether a row in your "
+#~ "import file is a duplicate of an existing record. The default rule "
+#~ "compares email address AND first name AND last name. Click <a href='%"
+#~ "1'>Edit Rule</a> to modify the set of contact fields used for matching "
+#~ "(<a href='%3' target='_blank' title='%4'>read more...</a>)."
+#~ msgstr ""
+#~ "The <strong>Contact Matching Rule</strong> is used to determine when a "
+#~ "new %2 User record should be matched and linked to an existing CiviCRM "
+#~ "contact record. It is also used to alert you of a matching Individual "
+#~ "contact record when you create a new Individual. Finally, contact "
+#~ "<strong>Import</strong> uses this rule to determine whether a row in your "
+#~ "import file is a duplicate of an existing record. The default rule "
+#~ "compares email address AND first name AND last name. Click <a href='%"
+#~ "1'>Edit Rule</a> to modify the set of contact fields used for matching "
+#~ "(<a href='%3' target='_blank' title='%4'>read more...</a>)."
+
+#~ msgid ""
+#~ "NOTE: These rules are NOT used to <strong>Find Duplicate Contacts</"
+#~ "strong>. That feature searches your existing contact records, and "
+#~ "identifies 'suspected' duplicates. It uses <a href='%1'>Duplicate Contact "
+#~ "Rules</a>."
+#~ msgstr ""
+#~ "NOTE: These rules are NOT used to <strong>Find Duplicate Contacts</"
+#~ "strong>. That feature searches your existing contact records, and "
+#~ "identifies 'suspected' duplicates. It uses <a href='%1'>Duplicate Contact "
+#~ "Rules</a>."
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Contact Matching"
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM stores configurable choices for various drop-down fields as "
+#~ "'option groups'. Choices used by core fields are reserved and can not be "
+#~ "modified. If a group is editable, you can click <strong>Multiple Choice "
+#~ "Options</strong> to view and modify the available choices."
+#~ msgstr ""
+#~ "CiviCRM stores configurable choices for various drop-down fields as "
+#~ "\"option groups\". Choices used by core fields are reserved and can not "
+#~ "be modified. If a group is editable, you can click <strong>Multiple "
+#~ "Choice Options</strong> to view and modify the available choices."
+
+#~ msgid ""
+#~ "You may choose to record the Payment Instrument used for each "
+#~ "Contribution. The common payment methods are installed by default and can "
+#~ "not be modified (e.g. Check, Cash, Credit Card...). If your site requires "
+#~ "additional payment methods, you can add them here."
+#~ msgstr ""
+#~ "You may choose to record the Payment Instrument used for each "
+#~ "Contribution. The common payment methods are installed by default and can "
+#~ "not be modified (e.g. Check, Cash, Credit Card...). If your site requires "
+#~ "additional payment methods, you can add them here."
+
+#~ msgid ""
+#~ "Configure screen and form elements for Viewing Contacts, Editing "
+#~ "Contacts, Advanced Search and the Contact Dashboard."
+#~ msgstr ""
+#~ "Configure screen and form elements for Viewing Contacts, Editing "
+#~ "Contacts, Advanced Search and the Contact Dashboard."
+
+#~ msgid "Outbound Email (SMTP)"
+#~ msgstr "Outbound Email (SMTP)"
+
+#~ msgid "SMTP server, port and authentication settings for outbound email."
+#~ msgstr "SMTP server, port and authentication settings for outbound email."
+
+#~ msgid ""
+#~ "Enable version checking and configure optional CAPTCHA feature for "
+#~ "Profile forms."
+#~ msgstr ""
+#~ "Enable version checking and configure optional CAPTCHA feature for "
+#~ "Profile forms."
+
+#~ msgid "Click to select date/time from calendar."
+#~ msgstr "Click to select date/time from calendar."
+
+#~ msgid ""
+#~ "Enter the first letters of the name of the household to see available "
+#~ "households with their addresses."
+#~ msgstr ""
+#~ "Enter the first letters of the name of the household to see available "
+#~ "households with their addresses."
+
+#~ msgid "(for %1)"
+#~ msgstr "(for %1)"
+
+#, fuzzy
+#~ msgid ""
+#~ "To search by first AND last name, enter 'lastname, firstname'. Example: "
+#~ "'Doe, Jane'. For partial name search, use '%partialname' ('%' equals "
+#~ "'begins with any combination of letters'). To search by email address, "
+#~ "use <a href='%1'>Advanced Search</a>."
+#~ msgstr ""
+#~ "To search by first AND last name, enter 'lastname, firstname'. Example: "
+#~ "'Citizen, Jane'. For partial name search, use '%partialname' ('%' equals "
+#~ "'begins with any combination of letters'). To search by email address, "
+#~ "use <a href=\"%1\">Advanced Search</a>."
+
+#~ msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
+#~ msgstr "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
+
+#~ msgid ""
+#~ "Location search uses the PRIMARY location for each contact by default. To "
+#~ "search by specific location types (e.g. Home, Work...), check one or more "
+#~ "boxes above."
+#~ msgstr ""
+#~ "Location search uses the PRIMARY location for each contact by default. To "
+#~ "search by specific location types (e.g. Home, Work...), check one or more "
+#~ "boxes above."
+
+#, fuzzy
+#~ msgid ""
+#~ "The members of the <strong>%1</strong> group are listed below. Use the "
+#~ "'Find Members...' criteria below to search for specific members. Use the "
+#~ "'Group Status...' checkboxes to view members with 'Pending' status and/or "
+#~ "members who have been 'Removed' from this group."
+#~ msgstr ""
+#~ "<p>The members of the <strong>%1</strong> group are listed below. Use the "
+#~ "'Find Members...' criteria below to search for specific members. Use the "
+#~ "'Group Status...' checkboxes to view members with 'Pending' status and/or "
+#~ "members who have been 'Removed' from this group.</p>\n"
+#~ "        <p>Use the <a href=\"%2\">Add Members...</a> screen if you want "
+#~ "to add new members to this group.</p>"
+
+#, fuzzy
+#~ msgid ""
+#~ "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
+#~ "members to this group."
+#~ msgstr ""
+#~ "Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
+#~ "members to this group."
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
+#~ "search query used for this 'smart' group."
+#~ msgstr ""
+#~ "Click <a href=\"%1\">Edit Smart Group Search Criteria...</a> to change "
+#~ "the search query used for this 'smart' group."
+
+#~ msgid ""
+#~ "Use the Search form to find contacts to add to %1. Mark the contacts you "
+#~ "want to add and click 'Add Contacts...'."
+#~ msgstr ""
+#~ "Use the Search form to find contacts to add to %1. Mark the contacts you "
+#~ "want to add and click 'Add Contacts...'."
+
+#, fuzzy
+#~ msgid ""
+#~ "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
+#~ "'Volunteer%' as your Activity Type to match any activity whose type is "
+#~ "'Volunteer' + any other words (e.g. Volunteer for Open House)."
+#~ msgstr ""
+#~ "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
+#~ "\"Volunteer%\" as your Activity Type to match any activity whose type is "
+#~ "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
+
+#, fuzzy
+#~ msgid ""
+#~ "Use the Search Criteria form to find contacts by name, type of contact, "
+#~ "group membership, tags, etc. You can then view or edit contact details, "
+#~ "print a contact list, or you can use the More Actions drop down list to "
+#~ "assign tags, add to Groups, create Smart Groups, export contact data to a "
+#~ "spreadsheet, etc."
+#~ msgstr ""
+#~ "Use the Search Criteria form to find contacts by name, type of contact, "
+#~ "group membership, tags, etc. You can then view or edit contact details, "
+#~ "print a contact list, assign tags, export contact data to a spreadsheet, "
+#~ "etc."
+
+#, fuzzy
+#~ msgid ""
+#~ "If you've changed search criteria for this 'smart group' and want to save "
+#~ "your changes, select <strong>Update Smart Group</strong> from the '- more "
+#~ "actions -' drop-down menu, and then click Go."
+#~ msgstr ""
+#~ "If you've changed search criteria for this 'smart group' and want to save "
+#~ "your changes, select <strong>Update Smart Group</strong> from the '- more "
+#~ "actions -' drop-down menu."
+
+#~ msgid "Found %count group member"
+#~ msgid_plural "Found %count group members"
+#~ msgstr[0] "Found %count group member"
+#~ msgstr[1] "Found %count group members"
+
+#~ msgid "Found %count contact"
+#~ msgid_plural "Found %count contacts"
+#~ msgstr[0] "Found %count contact"
+#~ msgstr[1] "Found %count contacts"
+
+#~ msgid "selected records only"
+#~ msgstr "selected records only"
+
+#~ msgid "the found record"
+#~ msgid_plural "all %count records"
+#~ msgstr[0] "the found record"
+#~ msgstr[1] "all %count records"
+
+#~ msgid ""
+#~ "Your setup enforces SMTP authentication, but does not provide SMTP "
+#~ "username and/or password. Please fix your civicrm.settings.php file."
+#~ msgstr ""
+#~ "Your setup enforces SMTP authentication, but does not provide SMTP "
+#~ "username and/or password. Please fix your civicrm.settings.php file."
+
+#~ msgid ""
+#~ "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
+#~ "used data values. This includes primary address information, preferred "
+#~ "phone and email."
+#~ msgstr ""
+#~ "<strong>Export PRIMARY contact fields</strong> provides the most commonly "
+#~ "used data values. This includes primary address information, preferred "
+#~ "phone and email."
+
+#~ msgid "Select a Different Mapping"
+#~ msgstr "Select a Different Mapping"
+
+#, fuzzy
+#~ msgid "Record an Activity"
+#~ msgstr "Schedule an Activity"
+
+#~ msgid "Min"
+#~ msgstr "Min"
+
+#, fuzzy
+#~ msgid "Contributions received from %1 since inception."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>Record Offline Contribution</a> to record a new "
+#~ "offline contribution received from this contact."
+#~ msgstr ""
+#~ "Click <a href=\"%1\">Record Offline Contribution</a> to record a new "
+#~ "offline contribution received from this contact."
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>Submit Credit Card Contribution</a> to process a new "
+#~ "contribution on behalf of the contributor using their credit or debit "
+#~ "card."
+#~ msgstr ""
+#~ "Click <a href=\"%1\">Submit Credit Card Contribution</a> to process a new "
+#~ "contribution on behalf of the contributor using their credit or debit "
+#~ "card."
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Submit Credit Card Contribution"
+#~ msgstr "Edit Option"
+
+#, fuzzy
+#~ msgid "No contributions have been recorded from this contact."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Contributions made in honor of %1."
+#~ msgstr "Notes (3 of %1)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>New Grant</a> to register this contact for a Grant."
+#~ msgstr ""
+#~ "Click <a href=\"%1\">New Event Registration</a> to register this contact "
+#~ "for an event."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no grant recorded for this contact. You can <a href='%1'>enter "
+#~ "one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "Click <a href='%1'>New Membership</a> to record a new membership."
+#~ msgstr "Click <a href=\"%1\">New Membership</a> to record a new membership."
+
+#, fuzzy
+#~ msgid "Active Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Inactive Memberships"
+#~ msgstr "Past Memberships"
+
+#~ msgid ""
+#~ "The following Membership Types are associated with this organization. "
+#~ "Click <strong>Members</strong> for a listing of all contacts who have "
+#~ "memberships of that type. Click <strong>Edit</strong> to modify the "
+#~ "settings for that type."
+#~ msgstr ""
+#~ "The following Membership Types are associated with this organisation. "
+#~ "Click <strong>Members</strong> for a listing of all contacts who have "
+#~ "memberships of that type. Click <strong>Edit</strong> to modify the "
+#~ "settings for that type."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Notes for this contact. You can <a href='%1'>add one</a>."
+#~ msgstr ""
+#~ "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
+
+#, fuzzy
+#~ msgid "This page lists all event registrations for %1 since inception."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>New Event Registration</a> to register this contact "
+#~ "for an event."
+#~ msgstr ""
+#~ "Click <a href=\"%1\">New Event Registration</a> to register this contact "
+#~ "for an event."
+
+#, fuzzy
+#~ msgid "New Event Registration"
+#~ msgstr "Registration"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no event registrations recorded for this contact. You can <a "
+#~ "href='%1'>enter one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "There are no event registrations recorded for this contact."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Relationships entered for this contact. You can <a href='%"
+#~ "1'>add one</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "View Contact Dashboard"
+#~ msgstr "View Contact Details"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Reset Date"
+
+#, fuzzy
+#~ msgid "Receipt Sent"
+#~ msgstr "Recipients"
+
+#, fuzzy
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "Find Contacts"
+
+#~ msgid ""
+#~ "Contact us for information about contributions prior to those listed "
+#~ "above."
+#~ msgstr ""
+#~ "Contact us for information about contributions prior to those listed "
+#~ "above."
+
+#, fuzzy
+#~ msgid "There are no contributions on record for you."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Notes (3 of %1)"
+
+#, fuzzy
+#~ msgid "Contributor"
+#~ msgstr "Continue"
+
+#, fuzzy
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Terms:"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "Find Contacts"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Unsubscribe"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "Continue"
+
+#~ msgid "Renew Now"
+#~ msgstr "Renew Now"
+
+#, fuzzy
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "There are no memberships on record for you."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#~ msgid "Click on the event name for more information."
+#~ msgstr "Click on the event name for more information."
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Sent Date"
+
+#~ msgid "You are not registered for any current or upcoming Events."
+#~ msgstr "You are not registered for any current or upcoming Events."
+
+#, fuzzy
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Your Membership(s)"
+#~ msgstr "Group Memberships"
+
+#~ msgid "Your Event(s)"
+#~ msgstr "Your Event(s)"
+
+#~ msgid ""
+#~ "WARNING: Deleting this custom group will result in the loss of all %1 "
+#~ "data."
+#~ msgstr ""
+#~ "WARNING: Deleting this custom group will result in the loss of all %1 "
+#~ "data."
+
+#~ msgid ""
+#~ "Is this field included in the Advanced and component search forms? NOTE: "
+#~ "This feature is available to custom fields used for <strong>Contacts</"
+#~ "strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and "
+#~ "<strong>Event Participants</strong> at this time."
+#~ msgstr ""
+#~ "Is this field included in the Advanced and component search forms? NOTE: "
+#~ "This feature is available to custom fields used for <strong>Contacts</"
+#~ "strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and "
+#~ "<strong>Event Participants</strong> at this time."
+
+#, fuzzy
+#~ msgid "Select the status of this grant."
+#~ msgstr ""
+#~ "Select the type of record that this group of custom data is available for."
+
+#, fuzzy
+#~ msgid "Amount requested for grant."
+#~ msgstr "Amount Requested"
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Country"
+
+#, fuzzy
+#~ msgid ""
+#~ "You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
+#~ "correct them, and import the new file with the corrected data."
+#~ msgstr ""
+#~ "You can <a href=\"%1\">Download Errors</a>. You may then correct them, "
+#~ "and import the new file with the corrected data."
+
+#, fuzzy
+#~ msgid ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: 'Contact ID', 'Participant Role')."
+#~ msgstr ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: \"First Name\",\"Last Name\",\"Email\")"
+
+#~ msgid ""
+#~ "Select 'Organization' or 'Household' if you are importing event "
+#~ "participation data for contacts of that type."
+#~ msgstr ""
+#~ "Select 'Organisation' or 'Household' if you are importing event "
+#~ "participation data for contacts of that type."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviGrant allows you to input and track grants to Organizations, "
+#~ "Individuals or Households. The grantee must first be entered as a contact "
+#~ "in CiviCRM. Use <a href='%1'>Find Contacts</a> to see if there's already "
+#~ "a record for the grantee. Once you've located or created the contact "
+#~ "record, click <strong>View</strong> to go to their summary page, select "
+#~ "the <strong>Grants</strong> tab and click <strong>New Grant</strong>."
+#~ msgstr ""
+#~ "CiviGrant allows you to input and track grants to Organisations, "
+#~ "Individuals or Households. The grantee must first be entered as a contact "
+#~ "in CiviCRM.\n"
+#~ "    Use <a href=\"%1\">Find Contacts</a> to see if there's already a "
+#~ "record for the grantee. Once you've located    or created the contact "
+#~ "record, click <strong>View</strong> to go to their summary page, select "
+#~ "the <strong>Grants</strong> tab and click <strong>New Grant</strong>."
+
+#~ msgid ""
+#~ "Select 'User and User Admin Only' if membership in this group is "
+#~ "controlled by authorized CiviCRM users only. If you want to allow "
+#~ "contacts to join and remove themselves from this group via the "
+#~ "Registration and Account Profile forms, select 'Public User Pages'. If "
+#~ "you also want to include group membership search and sharing in the "
+#~ "Profile screens, select 'Public User Pages and Listings'."
+#~ msgstr ""
+#~ "Select 'User and User Admin Only' if membership in this group is "
+#~ "controlled by authorized CiviCRM users only. If you want to allow "
+#~ "contacts to join and remove themselves from this group via the "
+#~ "Registration and Account Profile forms, select 'Public User Pages'. If "
+#~ "you also want to include group membership search and sharing in the "
+#~ "Profile screens, select 'Public User Pages and Listings'."
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Removed"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Group"
+
+#~ msgid "Total rows (contact records) in uploaded file."
+#~ msgstr "Total rows (contact records) in uploaded file."
+
+#, fuzzy
+#~ msgid "Create a new group from imported records"
+#~ msgstr "Create a new group from imported records"
+
+#, fuzzy
+#~ msgid "Tagged imported contacts"
+#~ msgstr "Import Contacts"
+
+#~ msgid ""
+#~ "WARNING: Deleting this price set will result in the loss of all %1 data."
+#~ msgstr ""
+#~ "WARNING: Deleting this price set will result in the loss of all %1 data."
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image"
+#~ msgstr "Please enter a valid integer."
+
+#, fuzzy
+#~ msgid "Advanced Settings"
+#~ msgstr "String"
+
+#~ msgid ""
+#~ "Check this box if you want to include a links in the listings to view "
+#~ "contacts' %1 user account information (e.g. their 'My Account' page). "
+#~ "This link will only be included for contacts who have a user account on "
+#~ "your website."
+#~ msgstr ""
+#~ "Check this box if you want to include a links in the listings to view "
+#~ "contacts' %1 user account information (e.g. their 'My Account' page). "
+#~ "This link will only be included for contacts who have a user account on "
+#~ "your website."
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "Accepted Credit Cards"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Payment Instruments"
+
 #, fuzzy
 #~ msgid "phone"
 #~ msgstr "Phone"
@@ -15437,3 +16919,954 @@ msgstr "Error in SMTP transaction"
 #, fuzzy
 #~ msgid "Unknown function called: %1"
 #~ msgstr "Unknown function called"
+
+#~ msgid "Owner Entity Table"
+#~ msgstr "Owner Entity Table"
+
+#, fuzzy
+#~ msgid "Rule"
+#~ msgstr "Module"
+
+#~ msgid "Export"
+#~ msgstr "Export"
+
+#, fuzzy
+#~ msgid "Export Contributions"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Import Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Import Contacts"
+
+#~ msgid "Form Type"
+#~ msgstr "Form Type"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Reset Date"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Reset Date"
+
+#~ msgid "Money Transfer Date"
+#~ msgstr "Money Transfer Date"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Out Date"
+
+#~ msgid "Grant Report Received"
+#~ msgstr "Grant Report Received"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Country"
+
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "Loop"
+
+#, fuzzy
+#~ msgid "Project Owner ID"
+#~ msgstr "Projected"
+
+#, fuzzy
+#~ msgid "Task Type"
+#~ msgstr "Data Type"
+
+#~ msgid "Task Owner ID"
+#~ msgstr "Task Owner ID"
+
+#, fuzzy
+#~ msgid "Parent Entity Table"
+#~ msgstr "Target Entity Table"
+
+#, fuzzy
+#~ msgid "Task Parent"
+#~ msgstr "Parent of"
+
+#, fuzzy
+#~ msgid "Due Date"
+#~ msgstr "Out Date"
+
+#, fuzzy
+#~ msgid "Priority"
+#~ msgstr "Print"
+
+#~ msgid "Task Class"
+#~ msgstr "Task Class"
+
+#, fuzzy
+#~ msgid "Responsible Entity Table"
+#~ msgstr "Entity Table"
+
+#~ msgid "Responsible"
+#~ msgstr "Responsible"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Target Entity Table"
+
+#, fuzzy
+#~ msgid "Target"
+#~ msgstr "Tag"
+
+#, fuzzy
+#~ msgid "Status Details"
+#~ msgstr "Details"
+
+#, fuzzy
+#~ msgid "Created"
+#~ msgstr "Create"
+
+#, fuzzy
+#~ msgid "Last Modified"
+#~ msgstr "Modified Date"
+
+#, fuzzy
+#~ msgid "- any county -"
+#~ msgstr "- any country -"
+
+#~ msgid "Organization(s)"
+#~ msgstr "Organisation(s)"
+
+#, fuzzy
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Are you sure you want to remove %1 from %2?"
+
+#~ msgid ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+#~ msgstr ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+
+#~ msgid ""
+#~ "We could not find the mysqldump program. Check the configuration variable "
+#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
+#~ msgstr ""
+#~ "We could not find the mysqldump program. Check the configuration variable "
+#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
+
+#, fuzzy
+#~ msgid "Backup Data"
+#~ msgstr "Date Data"
+
+#~ msgid "Create a backup file containing your CiviCRM data."
+#~ msgstr "Create a backup file containing your CiviCRM data."
+
+#, fuzzy
+#~ msgid "State %2 \"%1\""
+#~ msgstr "County - \"%1\""
+
+#, fuzzy
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "County - \"%1\""
+
+#, fuzzy
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Country - \"%1\""
+
+#, fuzzy
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Country - \"%1\""
+
+#, fuzzy
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Country - \"%1\""
+
+#, fuzzy
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "Country - \"%1\""
+
+#, fuzzy
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Country - \"%1\""
+
+#~ msgid "Contact Type -"
+#~ msgstr "Contact Type -"
+
+#~ msgid "Group Status -"
+#~ msgstr "Group Status -"
+
+#, fuzzy
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "County - \"%1\""
+
+#, fuzzy
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Email"
+
+#, fuzzy
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "Postal code -"
+
+#~ msgid "Location type -"
+#~ msgstr "Location type -"
+
+#, fuzzy
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Activity Type"
+
+#, fuzzy
+#~ msgid "Changed by: %1"
+#~ msgstr "Created By"
+
+#, fuzzy
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 - %2 of %3"
+
+#~ msgid "Task: %1"
+#~ msgstr "Task: %1"
+
+#, fuzzy
+#~ msgid "Task Status: %1"
+#~ msgstr "Status:"
+
+#, fuzzy
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "Your Group \"%1\" has been saved."
+
+#~ msgid "Your civicrm profile field \"%1\" has been saved."
+#~ msgstr "Your civicrm profile field \"%1\" has been saved."
+
+#~ msgid ""
+#~ "Subject for email message. Tokens may be included (<a href=\"%1\" target="
+#~ "\"_blank\" title=\"%2\">token documentation</a>)."
+#~ msgstr ""
+#~ "Subject for email message. Tokens may be included (<a href=\"%1\" target="
+#~ "\"_blank\" title=\"%2\">token documentation</a>)."
+
+#~ msgid ""
+#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
+#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
+#~ "contact name."
+#~ msgstr ""
+#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
+#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
+#~ "contact name."
+
+#, fuzzy
+#~ msgid "Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "Add Contacts to Organization"
+
+#, fuzzy
+#~ msgid "- Contribution Fields -"
+#~ msgstr "%1 - Custom Fields"
+
+#, fuzzy
+#~ msgid "You do not have permission to edit this contact"
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "We could not find your logged in user ID"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Add Contacts to Organization"
+
+#~ msgid ""
+#~ "Select 'Inline' to include this group of fields in the main contact Add/"
+#~ "Edit form and Contact Summary screens. Select 'Tab' to create a separate "
+#~ "navigation tab for display and editing these values (generally for less "
+#~ "frequently accessed and/or larger sets of fields)."
+#~ msgstr ""
+#~ "Select 'Inline' to include this group of fields in the main contact Add/"
+#~ "Edit form and Contact Summary screens. Select 'Tab' to create a separate "
+#~ "navigation tab for display and editing these values (generally for less "
+#~ "frequently accessed and/or larger sets of fields)."
+
+#~ msgid " -select- "
+#~ msgstr "-select-"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Scheduled Date Time"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Duration Hours"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Duration Minutes"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Selected Meeting is deleted sucessfully."
+
+#~ msgid " is a numeric field"
+#~ msgstr " is a numeric field"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Delete Activity History"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "CiviCRM Activity History"
+
+#~ msgid "Sent Date"
+#~ msgstr "Sent Date"
+
+#~ msgid "Import Activity History"
+#~ msgstr "Import Activity History"
+
+#~ msgid " must be a numeric value"
+#~ msgstr " must be a numeric value"
+
+#~ msgid "Record Number"
+#~ msgstr "Record Number"
+
+#~ msgid " -select role- "
+#~ msgstr " -select role- "
+
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "\"%1\" has been logged to Activity History."
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Select Phone Number"
+
+#~ msgid "OR New Phone"
+#~ msgstr "OR New Phone"
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Selected Phone Call is deleted sucessfully."
+
+#~ msgid " VERP Separator"
+#~ msgstr " VERP Separator"
+
+#, fuzzy
+#~ msgid "Could not find location id"
+#~ msgstr "We could not find your logged in user ID"
+
+#, fuzzy
+#~ msgid "Location name %1 '%2'"
+#~ msgstr "City Name like - \"%1\""
+
+#, fuzzy
+#~ msgid "Contact Meetings"
+#~ msgstr "Log a Meeting"
+
+#, fuzzy
+#~ msgid "Contact Other Activity"
+#~ msgstr "Other Activities"
+
+#, fuzzy
+#~ msgid "Contact Calls"
+#~ msgstr "Contacts"
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete this activity record?"
+#~ msgstr "Are you sure you want to delete this activity?"
+
+#~ msgid "Open Activities %%StatusMessage%%"
+#~ msgstr "Open Activities %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "From: %1; Subject: %2"
+#~ msgstr "To: %1; Subject: %2"
+
+#~ msgid "To: %1; Subject: %2"
+#~ msgstr "To: %1; Subject: %2"
+
+#, fuzzy
+#~ msgid "CiviContribute Progress Meter"
+#~ msgstr "Continue"
+
+#, fuzzy
+#~ msgid "Callback Method"
+#~ msgstr "Callback"
+
+#~ msgid "Activity Summary"
+#~ msgstr "Activity Summary"
+
+#, fuzzy
+#~ msgid "Phonecall"
+#~ msgstr "Phone Call"
+
+#~ msgid "Int Data"
+#~ msgstr "Int Data"
+
+#~ msgid "Float Data"
+#~ msgstr "Float Data"
+
+#~ msgid "Decimal Data"
+#~ msgstr "Decimal Data"
+
+#~ msgid "Char Data"
+#~ msgstr "Char Data"
+
+#, fuzzy
+#~ msgid "Date Data"
+#~ msgstr "Float Data"
+
+#~ msgid "Memo Data"
+#~ msgstr "Memo Data"
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Continue"
+
+#~ msgid "Coord Type"
+#~ msgstr "Coord Type"
+
+#~ msgid "Coord Units"
+#~ msgstr "Coord Units"
+
+#~ msgid "Coord Ogc Wkt String"
+#~ msgstr "Coord Ogc Wkt String"
+
+#~ msgid "LatLong"
+#~ msgstr "LatLong"
+
+#~ msgid "Projected"
+#~ msgstr "Projected"
+
+#~ msgid "Degree"
+#~ msgstr "Degree"
+
+#~ msgid "Grad"
+#~ msgstr "Grad"
+
+#~ msgid "Radian"
+#~ msgstr "Radian"
+
+#~ msgid "Foot"
+#~ msgstr "Foot"
+
+#~ msgid "Meter"
+#~ msgstr "Meter"
+
+#~ msgid "Unhandled transaction type: %1"
+#~ msgstr "Unhandled transaction type: %1"
+
+#~ msgid "Parameters"
+#~ msgstr "Parameters"
+
+#~ msgid "Function Name"
+#~ msgstr "Function Name"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Positive Integer"
+#~ msgstr "Positive Integer"
+
+#, fuzzy
+#~ msgid "Variable Name"
+#~ msgstr "Profile Name"
+
+#~ msgid "Range"
+#~ msgstr "Range"
+
+#~ msgid "Regular Expression Match"
+#~ msgstr "Regular Expression Match"
+
+#~ msgid "Regular Expression No Match"
+#~ msgstr "Regular Expression No Match"
+
+#, fuzzy
+#~ msgid "default - Dear [first] [last]"
+#~ msgstr "default - Dear [first] [last]"
+
+#, fuzzy
+#~ msgid "Could not find callback %1"
+#~ msgstr "Cannot find class \"%1\""
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete this Activity History record?"
+#~ msgstr "Are you sure you want to delete this activity History?"
+
+#~ msgid "View Activity Details"
+#~ msgstr "View Activity Details"
+
+#~ msgid "History %%StatusMessage%%"
+#~ msgstr "History %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "Confirm Price Set Delete"
+#~ msgstr "Confirm Group Delete"
+
+#, fuzzy
+#~ msgid " must be a monetary value"
+#~ msgstr " is a numeric field"
+
+#~ msgid "Log a Meeting"
+#~ msgstr "Log a Meeting"
+
+#~ msgid "Schedule a Meeting"
+#~ msgstr "Schedule a Meeting"
+
+#~ msgid "Edit Scheduled Meeting"
+#~ msgstr "Edit Scheduled Meeting"
+
+#~ msgid "Delete Meeting"
+#~ msgstr "Delete Meeting"
+
+#~ msgid "View Scheduled Meeting"
+#~ msgstr "View Scheduled Meeting"
+
+#~ msgid ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+
+#~ msgid "Schedule an Activity"
+#~ msgstr "Schedule an Activity"
+
+#~ msgid "Edit Scheduled Activity"
+#~ msgstr "Edit Scheduled Activity"
+
+#~ msgid "View Completed Activity"
+#~ msgstr "View Completed Activity"
+
+#~ msgid "View Scheduled Activity"
+#~ msgstr "View Scheduled Activity"
+
+#~ msgid ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+
+#~ msgid ""
+#~ "Cannot display Activity History details since activity type for this "
+#~ "activity has been deleted."
+#~ msgstr ""
+#~ "Cannot display Activity History details since activity type for this "
+#~ "activity has been deleted."
+
+#~ msgid "Log a Phone Call"
+#~ msgstr "Log a Phone Call"
+
+#~ msgid "Schedule a Phone Call"
+#~ msgstr "Schedule a Phone Call"
+
+#~ msgid "Edit Scheduled Call"
+#~ msgstr "Edit Scheduled Call"
+
+#~ msgid "Delete Phone Call"
+#~ msgstr "Delete Phone Call"
+
+#~ msgid "View Scheduled Call"
+#~ msgstr "View Scheduled Call"
+
+#~ msgid "Call will be moved to Activity History when status is 'Completed'."
+#~ msgstr "Call will be moved to Activity History when status is 'Completed'."
+
+#~ msgid ""
+#~ "The standard STMP port is 25. You should only change that value if your "
+#~ "SMTP server is running on a non-standard port."
+#~ msgstr ""
+#~ "The standard STMP port is 25. You should only change that value if your "
+#~ "SMTP server is running on a non-standard port."
+
+#~ msgid ""
+#~ "If your SMTP server requires authentication, enter your Username here. "
+#~ "You must also enter you SMTP password in the CiviCRM settings file "
+#~ "(civicrm.settings.php)."
+#~ msgstr ""
+#~ "If your SMTP server requires authentication, enter your Username here. "
+#~ "You must also enter you SMTP password in the CiviCRM settings file "
+#~ "(civicrm.settings.php)."
+
+#~ msgid ""
+#~ "NOTE: This template feature is not yet integrated with the CiviMail "
+#~ "component. CiviMail message templates must be saved as local text files "
+#~ "and uploaded."
+#~ msgstr ""
+#~ "NOTE: This template feature is not yet integrated with the CiviMail "
+#~ "component. CiviMail message templates must be saved as local text files "
+#~ "and uploaded."
+
+#~ msgid ""
+#~ "Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components."
+#~ msgstr ""
+#~ "Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components."
+
+#~ msgid "Format date input and display."
+#~ msgstr "Format date input and display."
+
+#~ msgid " - type first letter(s) - "
+#~ msgstr " - type first letter(s) - "
+
+#, fuzzy
+#~ msgid " <a href=\"%1\">Delete</a>"
+#~ msgstr ""
+#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Save Duplicate Contact"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Removed"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "Map Contact"
+
+#~ msgid "Move all of..."
+#~ msgstr "Move all of..."
+
+#~ msgid "WARNING: The Duplicate Contact will be deleted!"
+#~ msgstr "WARNING: The Duplicate Contact will be deleted!"
+
+#~ msgid "Schedule Meeting"
+#~ msgstr "Schedule Meeting"
+
+#~ msgid "Schedule Call"
+#~ msgstr "Schedule Call"
+
+#~ msgid "Schedule a Call"
+#~ msgstr "Schedule a Call"
+
+#~ msgid "Log a Call"
+#~ msgstr "Log a Call"
+
+#~ msgid "No activities are currently scheduled."
+#~ msgstr "No activities are currently scheduled."
+
+#~ msgid "Past Relationships"
+#~ msgstr "Past Relationships"
+
+#~ msgid "These relationships have a past End Date."
+#~ msgstr "These relationships have a past End Date."
+
+#~ msgid "Disabled Relationships"
+#~ msgstr "Disabled Relationships"
+
+#~ msgid "These relationships have been marked as disabled (no longer active)."
+#~ msgstr ""
+#~ "These relationships have been marked as disabled (no longer active)."
+
+#~ msgid "New Activity History"
+#~ msgstr "New Activity History"
+
+#~ msgid "Edit Activity History"
+#~ msgstr "Edit Activity History"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\"?"
+#~ msgstr ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\" ?"
+
+#, fuzzy
+#~ msgid "Total rows (activity history records) in uploaded file."
+#~ msgstr "Total rows (contact records) in uploaded file."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected mismatched activity history ID. This record have not "
+#~ "been updated."
+#~ msgid_plural ""
+#~ "CiviCRM has detected mismatched activity history IDs. These records have "
+#~ "not been Updated."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+#~ msgstr[1] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected one record with conflicting transaction ID within "
+#~ "this data file or relative to existing activity history records. This "
+#~ "record have not been imported."
+#~ msgid_plural ""
+#~ "CiviCRM has detected %count records with conflicting transaction IDs "
+#~ "within this data file or relative to existing activity history records. "
+#~ "These records have not been imported."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected %1 records with conflicting email addresses within "
+#~ "this data file or relative to existing contact records. These records "
+#~ "have not been imported. CiviCRM does not allow multiple contact records "
+#~ "to have the same primary email address."
+#~ msgstr[1] ""
+#~ "CiviCRM has detected %1 records with conflicting email addresses within "
+#~ "this data file or relative to existing contact records. These records "
+#~ "have not been imported. CiviCRM does not allow multiple contact records "
+#~ "to have the same primary email address."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "activity history record."
+#~ msgid_plural ""
+#~ "CiviCRM has detected %count records which are duplicates of existing "
+#~ "CiviCRM activity history records."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+#~ "contact records.  "
+#~ msgstr[1] ""
+#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+#~ "contact records.  "
+
+#, fuzzy
+#~ msgid "Rows with mismatched activity history IDs (NOT updated)."
+#~ msgstr "Rows with conflicting email addresses (NOT imported)."
+
+#, fuzzy
+#~ msgid "Download Mismatched Activity History records"
+#~ msgstr "Download Conflicts"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rows which are duplicates of existing CiviCRM activity history records."
+#~ msgstr "Rows which are duplicates of existing CiviCRM contact records.  "
+
+#~ msgid ""
+#~ "The Activity History Import Wizard allows you to easily upload activity "
+#~ "history from other applications into CiviCRM. Contacts must already exist "
+#~ "in your CiviCRM database prior to importing activity history. Use Import "
+#~ "Contacts to create contact records first, if necessary. Then you can "
+#~ "match activities to contacts by Name and Email, or by Contact ID."
+#~ msgstr ""
+#~ "The Activity History Import Wizard allows you to easily upload activity "
+#~ "history from other applications into CiviCRM. Contacts must already exist "
+#~ "in your CiviCRM database prior to importing activity history. Use Import "
+#~ "Contacts to create contact records first, if necessary. Then you can "
+#~ "match activities to contacts by Name and Email, or by Contact ID."
+
+#~ msgid ""
+#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+#~ "href=\"%2\">call</a>."
+#~ msgstr ""
+#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+#~ "href=\"%2\">call</a>."
+
+#~ msgid "There are no open activities for this contact."
+#~ msgstr "There are no open activities for this contact."
+
+#~ msgid "No activity history for this contact."
+#~ msgstr "No activity history for this contact."
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Notes"
+
+#~ msgid ""
+#~ "If you are using this profile as a contact signup form OR using it in an "
+#~ "online contribution page, anonymous users will be given the option to "
+#~ "create a Drupal User Account as part of completing the form. This feature "
+#~ "requires the 'Email Verification' option to be checked (Drupal User "
+#~ "Settings). In addition, you must include a Primary Email Address field in "
+#~ "the profile."
+#~ msgstr ""
+#~ "If you are using this profile as a contact signup form OR using it in an "
+#~ "online contribution page, anonymous users will be given the option to "
+#~ "create a Drupal User Account as part of completing the form. This feature "
+#~ "requires the 'Email Verification' option to be checked (Drupal User "
+#~ "Settings). In addition, you must include a Primary Email Address field in "
+#~ "the profile."
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Schedule a Meeting"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Summary"
+
+#~ msgid "Activity Entity Table"
+#~ msgstr "Activity Entity Table"
+
+#, fuzzy
+#~ msgid "Contact Name:"
+#~ msgstr "Contact Name"
+
+#, fuzzy
+#~ msgid "Email Domain:"
+#~ msgstr "Email Domain"
+
+#, fuzzy
+#~ msgid "Subscription Message to organization"
+#~ msgstr "Find Target Organization"
+
+#, fuzzy
+#~ msgid "Farewell Message"
+#~ msgstr "Mailing Message"
+
+#~ msgid "New CiviCRM Profile Group"
+#~ msgstr "New CiviCRM Profile Group"
+
+#~ msgid "re-subscribe"
+#~ msgstr "re-subscribe"
+
+#~ msgid "(re-subscribe: %1)"
+#~ msgstr "(re-subscribe: %1)"
+
+#~ msgid ""
+#~ "Select a group of contacts who should have this role when logged in to "
+#~ "your site."
+#~ msgstr ""
+#~ "Select a group of contacts who should have this role when logged in to "
+#~ "your site."
+
+#~ msgid ""
+#~ "Set this to the domain (e.g., <code>example.org</code>) that should be "
+#~ "seen in your mailings' \"action\" email addressess (like <code>subscribe."
+#~ "*@example.org</code>). This domain (or, more properly, the machine that "
+#~ "this domain's MX record points to) has to know how to handle incoming "
+#~ "CiviMail emails (so it can process the \"actions\" like subscribe, "
+#~ "optOut, etc.)."
+#~ msgstr ""
+#~ "Set this to the domain (e.g., <code>example.org</code>) that should be "
+#~ "seen in your mailings' \"action\" email addressess (like <code>subscribe."
+#~ "*@example.org.au</code>). This domain (or, more properly, the machine "
+#~ "that this domain's MX record points to) has to know how to handle "
+#~ "incoming CiviMail emails (so it can process the \"actions\" like "
+#~ "subscribe, optOut, etc.)."
+
+#~ msgid ""
+#~ "Use this field to populate the <code>Return-Path</code> mail header "
+#~ "element with a fixed value (e.g., <code>myuser@example.org</code>). Enter "
+#~ "a fully qualified email address which belongs to a valid SMTP account in "
+#~ "your domain. This address will not be seen by \"typical\" email clients. "
+#~ "Consult with your SMTP provider what address to put in here so that the "
+#~ "SMTP server accepts outgoing mail from CiviMail. If this field is left "
+#~ "blank, the <code>From</code> email address will be used as the "
+#~ "<code>Return-Path</code>."
+#~ msgstr ""
+#~ "Use this field to populate the <code>Return-Path</code> mail header "
+#~ "element with a fixed value (e.g., <code>myuser@example.org.au</code>). "
+#~ "Enter a fully qualified email address which belongs to a valid SMTP "
+#~ "account in your domain. This address will not be seen by \"typical\" "
+#~ "email clients. Consult with your SMTP provider what address to put in "
+#~ "here so that the SMTP server accepts outgoing mail from CiviMail. If this "
+#~ "field is left blank, the <code>From</code> email address will be used as "
+#~ "the <code>Return-Path</code>."
+
+#, fuzzy
+#~ msgid "Domain Contact Information"
+#~ msgstr "Add Contacts to Organization"
+
+#~ msgid ""
+#~ "You can add contacts to a group from any set of search results (or when "
+#~ "viewing an individual contact). You can also allow contacts to sign "
+#~ "themselves up for certain groups by setting the group visibility to "
+#~ "'Public User Pages' (use the <strong>Settings</strong> link), and "
+#~ "including the <strong>Groups</strong> element in your CiviCRM Profile."
+#~ msgstr ""
+#~ "You can add contacts to a group from any set of search results (or when "
+#~ "viewing an individual contact). You can also allow contacts to sign "
+#~ "themselves up for certain groups by setting the group visibility to "
+#~ "'Public User Pages' (use the <strong>Settings</strong> link), and "
+#~ "including the <strong>Groups</strong> element in your CiviCRM Profile."
+
+#~ msgid "This is the Header"
+#~ msgstr "This is the Header"
+
+#, fuzzy
+#~ msgid "HTML Body of Header"
+#~ msgstr "HTML"
+
+#, fuzzy
+#~ msgid "Text Body of Header"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "This is the Footer"
+#~ msgstr "hide this phone"
+
+#, fuzzy
+#~ msgid "HTML Body of Footer"
+#~ msgstr "HTML"
+
+#, fuzzy
+#~ msgid "Text Body of Footer"
+#~ msgstr "Text"
+
+#~ msgid "Welcome"
+#~ msgstr "Welcome"
+
+#, fuzzy
+#~ msgid "Unsubscribe results"
+#~ msgstr "Unsubscribe Message"
+
+#, fuzzy
+#~ msgid "Goodbye"
+#~ msgstr "Boolean"
+
+#, fuzzy
+#~ msgid "Automated response"
+#~ msgstr "Auto Responder"
+
+#~ msgid ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+#~ msgstr ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+
+#, fuzzy
+#~ msgid "Contact's Profile"
+#~ msgstr "Create Profile"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Save Duplicate Contact"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Email address conflicts with record %1"
+
+#, fuzzy
+#~ msgid "Duplicate Matching"
+#~ msgstr "No Duplicate Checking"
+
+#, fuzzy
+#~ msgid "Include County?"
+#~ msgstr "Include group(s) "
+
+#~ msgid "Please select at least one membership status."
+#~ msgstr "Please select at least one membership status."
+
+#~ msgid "Add Members to A Group"
+#~ msgstr "Add Members to A Group"
+
+#, fuzzy
+#~ msgid "Add Members to Organization"
+#~ msgstr "Add Members To Organization"
+
+#~ msgid "Remove Members from Group"
+#~ msgstr "Remove Members from Group"
+
+#, fuzzy
+#~ msgid "Zip/Postal Code not valid for %1."
+#~ msgstr "Postal Code"
+
+#, fuzzy
+#~ msgid "Preferred Communication Options"
+#~ msgstr "Preferred Communication Method"
+
+#, fuzzy
+#~ msgid "Delete %1"
+#~ msgstr "Delete"
+
+#, fuzzy
+#~ msgid "Delete Profile Group"
+#~ msgstr "Delete Group"
+
+#~ msgid "Add Members to a Group"
+#~ msgstr "Add Members to a Group"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no contributions recorded from this contact. You can <a href=\"%"
+#~ "1\">enter one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#~ msgid "Defaults"
+#~ msgstr "Defaults"

@@ -45,14 +45,14 @@ msgstr "Lahjoituksen alkuperä"
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Anna kelvollinen summa (esim. 9.99)."
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Anna kelvollinen summa (esim. 99,99)"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -129,7 +129,6 @@ msgstr "Lakun ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "Peruutuspäivä"
 
@@ -288,11 +287,11 @@ msgstr "Anna kelvollinen luottokortin tarkistusnumero"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Minimisumma"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Maksimisumma"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -632,9 +631,8 @@ msgid "Component Type"
 msgstr "Komponeetin tyyppi"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Body teksti"
+msgstr "Body Html"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -658,7 +656,7 @@ msgstr "Hylkäämisen syy"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Aikaleima"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -943,9 +941,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Tulosta lahjoitukset"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Johdantoviesti"
+msgstr "Johdanto"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -968,19 +965,16 @@ msgid "On Behalf Of Organization"
 msgstr "Uusi yhteisö"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
 msgstr "Cc kopio"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "Cc kopio"
+msgstr "Bcc piilokopio"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Kuitin lähettäjä"
+msgstr "Kuitin teksti"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -1010,19 +1004,16 @@ msgid "Solicitor ID"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "Vastaanottopäivä"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
 msgstr "Peruutuksen syy"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Kiitoskirje"
+msgstr "Kiitoskirjeen päivä"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -1083,28 +1074,24 @@ msgid "Auto Renew"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
-msgstr "Päättymispäivä"
+msgstr "Trxn päivä"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
-msgstr "Coord Type"
+msgstr "Trxn tyyppi"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Trxn tuloksen koodi"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Webbisivu"
+msgstr "Debit"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Muokkaa luottokortti"
+msgstr "Credit"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -3222,58 +3209,52 @@ msgid "Template Title"
 msgstr "Viesti"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Haku"
+msgstr "Kaava"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Hold Threshold"
-msgstr "Kotitalous"
+msgstr "Säilytä raja/kynnys"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Poissa"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Invalid"
-msgstr ""
+msgstr "Viallinen"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Loopi"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Quota"
-msgstr "Postilla"
+msgstr "Jonota"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Vastaus"
+msgstr "Vapauta"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
 msgstr "Syntax"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Komponeetin tyyppi"
+msgstr "Komponentin nimi"
 
 #: CRM/Mailing/DAO/Component.php
 #, fuzzy
@@ -3281,33 +3262,28 @@ msgid "Welcome"
 msgstr "Kuitin viesti"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
-msgstr "Opt-ulos"
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Sisällytä ryhmät"
+msgstr "Sisällytä"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "Irrota"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Etunimi"
+msgstr "Alkaen nimestä"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Kuitti sähköpostiosoitteelta"
+msgstr "Lähettäjän sähköposti"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "Kuitti sähköpostiosoitteelta"
+msgstr "Vastaukset sähköpostiin"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3315,19 +3291,16 @@ msgid "Url Tracking"
 msgstr "Url jäljitys"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Forward Replies"
 msgstr "Lähetä vastaukset edelleen"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Automaatti-vastaaja"
+msgstr "Automaattivastaaja"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Url jäljitys"
+msgstr "Avaa jäljitys"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -3356,7 +3329,7 @@ msgstr "Siirretty"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3371,9 +3344,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Org Unsubscribe"
-msgstr "Peruuta kirjautuminen"
+msgstr "Org peruuta rekisteröinti"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -9332,3 +9304,654 @@ msgstr "Muodosta"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "Maksumääräyksen ID"
+
+#, fuzzy
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
+
+#~ msgid "Contribution Types"
+#~ msgstr "Lahjoitustyypit"
+
+#, fuzzy
+#~ msgid "Manage Premiums"
+#~ msgstr "Muokkaa ryhmiä"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Tulosta lahjoitukset"
+
+#~ msgid "DashBoard"
+#~ msgstr "Hallintapaneeli"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "Lahjoitussivu"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Näytä aktiviteetti"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Näytä tyyli"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Tuo yhteystiedot"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Hallinnoi"
+
+#~ msgid "Subscribe"
+#~ msgstr "Tilaa"
+
+#, fuzzy
+#~ msgid "Import Members"
+#~ msgstr "Jäsenet"
+
+#~ msgid "Payment Instrument"
+#~ msgstr "Maksuvälineet"
+
+#, fuzzy
+#~ msgid "day(s)"
+#~ msgstr "Merkki/merkit"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "-kuukausi-"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "-vuosi-"
+
+#, fuzzy
+#~ msgid "Enable recurring payments"
+#~ msgstr "Tuo näkyviin viestikomponentti"
+
+#, fuzzy
+#~ msgid "You do not have any payment processors that support this feature"
+#~ msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "Etsi lahjoituksia"
+
+#, fuzzy
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "Verkkolahjoitus"
+
+#~ msgid "CiviCRM Contributions"
+#~ msgstr "CiviCRM Lahjoitukset"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Lahjoitussivu"
+
+#~ msgid "Find Contributions"
+#~ msgstr "Etsi lahjoituksia"
+
+#~ msgid "CiviCRM Contribution Search"
+#~ msgstr "CiviCRM lahjoituksen haku"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Kadun nimi"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Valitut lahjoitukset yhteensä: %1"
+
+#, fuzzy
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "Anna kelvollinen päiväys"
+
+#, fuzzy
+#~ msgid "CiviCRM Participants"
+#~ msgstr "CiviCRM oikopolut"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Hallinnoi"
+
+#, fuzzy
+#~ msgid "CiviEvent DashBoard"
+#~ msgstr "Hallintapaneeli"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "poista sijaintipaikan tyyppi."
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Komponeetin tyyppi"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "Etsi yhteyksistä"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "Uusi luokka."
+
+#, fuzzy
+#~ msgid "Send a Test Mailing?"
+#~ msgstr "Lähetä testiviesti"
+
+#, fuzzy
+#~ msgid "Test"
+#~ msgstr "Teksti"
+
+#, fuzzy
+#~ msgid "Mailing Subject"
+#~ msgstr "Viestin aihe?"
+
+#~ msgid "Mailings"
+#~ msgstr "Viestit"
+
+#, fuzzy
+#~ msgid "The mailing queue has been processed."
+#~ msgstr "Postikomponetti \"%1\" on tallennettu."
+
+#, fuzzy
+#~ msgid "Mailer Settings"
+#~ msgstr "Otsikko ja asetukset"
+
+#, fuzzy
+#~ msgid "Resubscribe"
+#~ msgstr "Tilaa"
+
+#, fuzzy
+#~ msgid "Optout"
+#~ msgstr "OptOut"
+
+#, fuzzy
+#~ msgid "The membership can not be saved."
+#~ msgstr "Kiitos. Yhteystietosi on tallennettu."
+
+#, fuzzy
+#~ msgid "This membership status can not be deleted"
+#~ msgstr "Valittuja yhteyksiä ei voida poistaa."
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "Väli"
+
+#, fuzzy
+#~ msgid "CiviCRM Members"
+#~ msgstr "CiviCRM valikko"
+
+#, fuzzy
+#~ msgid "Find Members"
+#~ msgstr "Jäsenet"
+
+#, fuzzy
+#~ msgid "CiviCRM Member Search"
+#~ msgstr "CiviCRM haku"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Vastaanottopäivä"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "Lisää yhteystiedot"
+
+#, fuzzy
+#~ msgid "Event Information"
+#~ msgstr "Lisää yhteystiedot"
+
+#, fuzzy
+#~ msgid "Enable recurring contributions."
+#~ msgstr "Ota käyttöön lahjoitustyyppi"
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "Kentän tunnus"
+
+#, fuzzy
+#~ msgid "Unit Price"
+#~ msgstr "Profiili"
+
+#, fuzzy
+#~ msgid "Found %count participant."
+#~ msgid_plural "Found %count participants."
+#~ msgstr[0] "Löydetty %count yhteystieto"
+#~ msgstr[1] "Löydetty %count yhteystietoa"
+
+#, fuzzy
+#~ msgid "Participation Status"
+#~ msgstr "Lahjoituksen tila"
+
+#, fuzzy
+#~ msgid "Tracking"
+#~ msgstr "Url jäljitys"
+
+#, fuzzy
+#~ msgid "Preview Mailing"
+#~ msgstr "Lähetä viesti"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Viestit"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
+#~ msgstr ""
+#~ "Räätälöityjä sukupuolia ei ole määritelty. Voit <a href=\"%1\">lisätä "
+#~ "täällä</a>."
+
+#, fuzzy
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
+
+#, fuzzy
+#~ msgid "Found %count member."
+#~ msgid_plural "Found %count members."
+#~ msgstr[0] "Löydetty %count ryhmän jäsen"
+#~ msgstr[1] "Löydetty %count ryhmän jäsentä"
+
+#, fuzzy
+#~ msgid "Start/Renew Date"
+#~ msgstr "Alkamispäivä"
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Maa - \"%1\""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Etsi lahjoituksia"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Otsikko"
+
+#, fuzzy
+#~ msgid "Custom Elements (%1)"
+#~ msgstr "Räätälöidyt sivuelementit"
+
+#~ msgid "Custom Page Elements"
+#~ msgstr "Räätälöidyt sivuelementit"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "Ensisijainen osoite"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Valitse yhteyden muoto."
+
+#, fuzzy
+#~ msgid "Payment Entity Table"
+#~ msgstr "Kohde taulukko"
+
+#, fuzzy
+#~ msgid "Membership Types"
+#~ msgstr "Yhteystyypit"
+
+#~ msgid "Min Amount"
+#~ msgstr "Minimisumma"
+
+#~ msgid "Max Amount"
+#~ msgstr "Maksimisumma"
+
+#, fuzzy
+#~ msgid "Thank-you Title"
+#~ msgstr "Kiitoksen otsikko"
+
+#, fuzzy
+#~ msgid "Sort Position"
+#~ msgstr "Tuo avustuksia"
+
+#, fuzzy
+#~ msgid "Image"
+#~ msgstr "Kuvan URL"
+
+#~ msgid "This amount has to be greater than %1"
+#~ msgstr "Summan tulee olla suurempi kuin %1"
+
+#~ msgid "This amount has to be less than %1"
+#~ msgstr "Summan tulee olla vähemmän kuin %1"
+
+#, fuzzy
+#~ msgid "Thank-you Message"
+#~ msgstr "Kiitosviesti"
+
+#, fuzzy
+#~ msgid "Contribution is In Honor Of"
+#~ msgstr "Lahjoituksen ID"
+
+#, fuzzy
+#~ msgid " First Name"
+#~ msgstr "Etunimi"
+
+#~ msgid "Accept Credit Cards"
+#~ msgstr "Hyväksy luottokortit"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "Puhelun päivä ja aika ovat pakollisia."
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Anna kelvollinen summa"
+
+#, fuzzy
+#~ msgid "You do not have access to this page"
+#~ msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
+
+#, fuzzy
+#~ msgid "You do not have access to this page."
+#~ msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
+
+#, fuzzy
+#~ msgid "Event Registration"
+#~ msgstr "Käyttäjän rekisteröityminen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "Valittu tapaaminen on peruutettu."
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "Valittu tapaaminen on peruutettu."
+
+#, fuzzy
+#~ msgid "Please select at least one group to include in the mailing."
+#~ msgstr "Valitse ryhmä, jolle lähetät"
+
+#, fuzzy
+#~ msgid "Sent Mailings"
+#~ msgstr "Lähetä uudelleen"
+
+#~ msgid "Action"
+#~ msgstr "Toimenpide"
+
+#, fuzzy
+#~ msgid "Start Date - From"
+#~ msgstr "Alkamispäivä"
+
+#, fuzzy
+#~ msgid "(membership fee - %1)"
+#~ msgstr "Lisää jäseniä ryhmään %1"
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "Toimenpiteen historia."
+
+#, fuzzy
+#~ msgid "Show Past Events"
+#~ msgstr "Alkamispäivä"
+
+#, fuzzy
+#~ msgid " Mailing"
+#~ msgstr "Viestit"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Peruuta"
+
+#~ msgid "Email Address"
+#~ msgstr "Sähköpostiosoite"
+
+#~ msgid "\"%1 Administrator\" <%2>"
+#~ msgstr "\"%1 Administrator\" <%2>"
+
+#~ msgid "Group Type"
+#~ msgstr "Ryhmän tyyppi"
+
+#~ msgid "Body in html format"
+#~ msgstr "Viesti html formaatissa"
+
+#, fuzzy
+#~ msgid "Exclude Group(s)"
+#~ msgstr "Erota ryhmät"
+
+#~ msgid "Include mailing(s)"
+#~ msgstr "Sisällytä postitukset"
+
+#~ msgid "Exclude mailing(s)"
+#~ msgstr "Irrota postitukset"
+
+#~ msgid "Invalid Mailing ID"
+#~ msgstr "Viallinen postituksen ID"
+
+#~ msgid "Retry Date"
+#~ msgstr "Yritä uudelleen (pvm)"
+
+#~ msgid "Retry"
+#~ msgstr "Yritä uudelleen"
+
+#~ msgid "Retry scheduled for mailing: %1"
+#~ msgstr "Aikataulutsu uudelle yritykselle postituksessa: %1"
+
+#~ msgid "The test mailing could not be delivered due to the following error:"
+#~ msgstr "Testiviestiä ei voitui toimittaa seuraavasta syystä"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "Lähettäjän sähköposti"
+
+#~ msgid "Upload Message"
+#~ msgstr "Lataa viesti"
+
+#, fuzzy
+#~ msgid "Text Body"
+#~ msgstr "Teksti"
+
+#, fuzzy
+#~ msgid "HTML Body"
+#~ msgstr "HTML"
+
+#, fuzzy
+#~ msgid "Is Active"
+#~ msgstr "Aktiivinen?"
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "Etunimi"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Toinen etunimi"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Sukunimi"
+
+#~ msgid "Card Number"
+#~ msgstr "Kortin numero"
+
+#~ msgid "Security Code"
+#~ msgstr "Security koodi"
+
+#~ msgid "Expiration Date"
+#~ msgstr "Kelpoisuusajan päättymispäivä"
+
+#~ msgid "Card Type"
+#~ msgstr "Kortin tyyppi"
+
+#~ msgid ""
+#~ "Please enter a valid value for your card security code. This is usually "
+#~ "the last 3-4 digits on the card's signature panel."
+#~ msgstr ""
+#~ "Anna kortin secure koodille oikea arvo. Tämä on yleensä 3-4 numeron sarja "
+#~ "kortin allekirjoituspuolella."
+
+#~ msgid "Configure Online Contribution Pages"
+#~ msgstr "konfiguroi on-line lahjoitusten sivut"
+
+#, fuzzy
+#~ msgid "Online Event Registration:"
+#~ msgstr "Verkkolahjoitus"
+
+#, fuzzy
+#~ msgid "- none -"
+#~ msgstr "- ei ensisijaista -"
+
+#, fuzzy
+#~ msgid "Membership Status"
+#~ msgstr "Ryhmän tila"
+
+#, fuzzy
+#~ msgid "Message Templates"
+#~ msgstr "Sivupohja?"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "Luottokortin kelpoisuude päättymispäivä"
+
+#~ msgid "API Username"
+#~ msgstr "API käyttäjätunnus"
+
+#~ msgid "API Subject"
+#~ msgstr "API aihe"
+
+#~ msgid "API Environment"
+#~ msgstr "API ympäristö"
+
+#~ msgid "API SSL Certificate"
+#~ msgstr "API SSL Certificate"
+
+#~ msgid "File size should be less than 8192 bytes"
+#~ msgstr "Tiedoston koon tulee olla pienempi kuin 8192 b"
+
+#~ msgid "Could not open %1 file for writing"
+#~ msgstr "Tiedostoa %1 ei voi avata kirjoitettavaksi"
+
+#, fuzzy
+#~ msgid ""
+#~ "Your %1 value is: \"%2\". This value must be entered in the Payment "
+#~ "Processor section of the CiviCRM configuration file."
+#~ msgstr ""
+#~ "Your %1 values is: '%2'. This value must be entered in the Payment "
+#~ "Processorsection of the CiviCRM configuration file."
+
+#~ msgid "Create PPD"
+#~ msgstr "Muodosta PPD"
+
+#~ msgid "Create PayPal API Profile"
+#~ msgstr "Luo PayPal API profiili"
+
+#~ msgid "New Online Contribution Page"
+#~ msgstr "Uusi verkkolahjoitussivu"
+
+#, fuzzy
+#~ msgid "Participant status"
+#~ msgstr "Tulosta yhteyslista"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Alkamispäivä"
+
+#~ msgid "Track URLs?"
+#~ msgstr "Jäljitä URL?"
+
+#~ msgid "Upload Text Message"
+#~ msgstr "Lataa tekstiviesti"
+
+#~ msgid "Unsubscriptions"
+#~ msgstr "Tilauksen peruutukset"
+
+#, fuzzy
+#~ msgid "Selected message template can not be deleted."
+#~ msgstr "Valittuja yhteyksiä ei voida poistaa."
+
+#, fuzzy
+#~ msgid "Selected message templates has been deleted."
+#~ msgstr "Valittu sukupuoli on tuhottu."
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Otsikko"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Aihe"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Teksti"
+
+#, fuzzy
+#~ msgid "Message Title"
+#~ msgstr "Viesti"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Viestin aihe?"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "Jätä viesti"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "Lataa HTML viesti"
+
+#, fuzzy
+#~ msgid "The Message Template \"%1\" has been saved."
+#~ msgstr "Kuvaus \"%1\" on tallennettu."
+
+#, fuzzy
+#~ msgid "Are you sure you want to disable this message tempate?"
+#~ msgstr "Oletko varma, että haluat poistaa käytöstä tämän yhteyden?"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "Määrä"
+
+#, fuzzy
+#~ msgid "through"
+#~ msgstr "Klikkaukset"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Päivä"
+
+#, fuzzy
+#~ msgid "Fee(s)"
+#~ msgstr "-vuosi-"
+
+#, fuzzy
+#~ msgid "Edit Message Template"
+#~ msgstr "Sivupohja?"
+
+#, fuzzy
+#~ msgid "Delete Message Template"
+#~ msgstr "Poista sukupuoli"
+
+#, fuzzy
+#~ msgid "Do you want to delete this message template ?"
+#~ msgstr "Oletko varma, että haluat poistaa nämä muistiinpanot"
+
+#, fuzzy
+#~ msgid "Is this template enabled."
+#~ msgstr "Sisällytetäänkö kenttä hakuihin?"
+
+#, fuzzy
+#~ msgid "New Message Templates"
+#~ msgstr "Sivupohja?"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Message Templates  entered. You can <a href=\"%1\">add one</"
+#~ "a>."
+#~ msgstr ""
+#~ "Räätälöityjä sukupuolia ei ole määritelty. Voit <a href=\"%1\">lisätä "
+#~ "täällä</a>."

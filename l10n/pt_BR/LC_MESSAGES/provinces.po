@@ -11499,3 +11499,57 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
+
+#~ msgid "Georgia"
+#~ msgstr "Georgia"
+
+#~ msgid "American Samoa"
+#~ msgstr "American Samoa"
+
+#~ msgid "Guam"
+#~ msgstr "Guam"
+
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "United States Minor Outlying Islands"
+
+#~ msgid "Luxembourg"
+#~ msgstr "Luxemburgo"
+
+#~ msgid "Belize"
+#~ msgstr "Belize"
+
+#~ msgid "Taiwan"
+#~ msgstr "Taiwan"
+
+#~ msgid "Western Zealand"
+#~ msgstr "Western Zealand"
+
+#~ msgid "Funen"
+#~ msgstr "Funen"
+
+#~ msgid "Southern Jutland"
+#~ msgstr "Southern Jutland"
+
+#~ msgid "Aarhus"
+#~ msgstr "Aarhus"
+
+#~ msgid "Northern Jutland"
+#~ msgstr "Northern Jutland"
+
+#~ msgid "Guernsey"
+#~ msgstr "Guernsey"
+
+#~ msgid "Mali"
+#~ msgstr "Mali"
+
+#~ msgid "Guatemala"
+#~ msgstr "Guatemala"
+
+#~ msgid "Male"
+#~ msgstr "Male"
+
+#~ msgid "Mexico"
+#~ msgstr "México"
+
+#~ msgid "Panama"
+#~ msgstr "Panamá"

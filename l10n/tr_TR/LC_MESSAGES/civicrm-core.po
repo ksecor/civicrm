@@ -62,9 +62,8 @@ msgstr "Düzenle"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Etkinleştir"
+msgstr "Varlık Tablosu"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -107,9 +106,8 @@ msgid "Grant"
 msgstr "Bağış"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Değiştirildiği Tarih"
+msgstr "Değişiklik Tarihi"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -435,9 +433,8 @@ msgid "Case Activity Type"
 msgstr "Yeni Etkinlik Türü"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- seç -"
+msgstr "-seç-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1091,9 +1088,8 @@ msgid "Legal Name"
 msgstr "Kanuni Adı"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Özelleştirilmiş Karşılama"
+msgstr "Custom Greeting"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1149,9 +1145,8 @@ msgid "Where Clause"
 msgstr "Yer Şartı"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Tablo Seç"
+msgstr "Tabloları Seç"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1710,14 +1705,12 @@ msgid "Path"
 msgstr "Yol"
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Log.php
-#, fuzzy
 msgid "Data"
-msgstr "Tarih"
+msgstr "Veri"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Veri Türü"
+msgstr "Html Türü"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1726,16 +1719,14 @@ msgstr "Varsayılan Değer"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Create Profile"
+msgstr "Yardım Başlangıcı"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Ev Sahibi"
+msgstr "Yardım Sonu"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1781,9 +1772,8 @@ msgid "Multi-Select State/Province"
 msgstr "İl / Eyalet Seç"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Görünüm Daralt"
+msgstr "Görüntüyü Kapat"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1800,7 +1790,6 @@ msgstr "Satır içi"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
 msgstr "Telefon türü"
 
@@ -2087,27 +2076,24 @@ msgid "Administer"
 msgstr "Yönetim"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "EKS (Erişim Kontrol Seviyesi) Adı"
+msgstr "ACL Adı"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
 msgstr "Engelle"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Etiket Seç"
+msgstr "Object Table"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
 msgstr "EKS Tablosu"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Kaldır"
+msgstr "Revoke"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2221,9 +2207,8 @@ msgid "Activity Content %2 %1"
 msgstr "Etkinlik İçeriği %2 %1"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Etkinlik"
+msgstr "Etkinlik No"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2241,9 +2226,8 @@ msgid "Due Date Time"
 msgstr "Bitiş Tarihi - Zamanı"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Telefon numarası"
+msgstr "Telefon Numarası"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -3630,34 +3614,28 @@ msgid "Invalid relationship type"
 msgstr "Enable Relationship Type"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "İrtibat No"
+msgstr "İç İrtibat No"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "İrtibat Türü"
+msgstr "İrtibat Alt Türü"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Posta Gönderme"
+msgstr "Eposta Gönderme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
 msgstr "Telefon Etme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "Posta Gönderme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "Do not trade"
+msgstr "Do Not Trade"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
@@ -3665,51 +3643,43 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Legal Identifier"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "Dış Kimlik"
+msgstr "External Identifier"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Sıralama Adı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "En düşük Ücreti Göster"
+msgstr "Görüntülenme Adı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Resim URLsi"
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
 msgstr "Resim URLsi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Preferred Mail Format"
+msgstr "Tercih Edilen Posta Biçimi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Nakit"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "İrtibat Detaylarını Göster"
+msgstr "İrtibat Verisinin Kaynağı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Tebrik"
+msgstr "Greeting Type"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3718,24 +3688,20 @@ msgid "Job Title"
 msgstr "İş Ünvanı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Başlangıç Tarihi"
+msgstr "Doğum Tarihi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
-msgstr "Contact is Deceased"
+msgstr "Vefat Etti mi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Vefat tarihi"
+msgstr "Vefat Tarihi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "SIC Code"
+msgstr "Sic Code"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3743,23 +3709,20 @@ msgid "Unique ID (OpenID)"
 msgstr "Unique Tracked Opens"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Biçim"
+msgstr "Resmi"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Resmi olmayan"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Honorific"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Özelleştir"
+msgstr "Özel"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3777,34 +3740,28 @@ msgid "Children"
 msgstr "Çocuğu"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Ad"
+msgstr "Name A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Ad"
+msgstr "Name B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
 msgstr "Submitted Form Values"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Tracking"
-msgstr "Url Tracking"
+msgstr "İzleme"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Web sitesi"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API Bağlantısı"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4262,7 +4219,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Range-From"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4297,9 +4254,8 @@ msgid "Contact Role and Name"
 msgstr "Contact Page"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "İletişim Sayfası"
+msgstr "İrtibat Adı"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4537,9 +4493,8 @@ msgid "Distance"
 msgstr "Geçersiz kıl"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr " - herhangi bir öbek - "
+msgstr "- herhangi bir ülke -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5424,67 +5379,60 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "Satır Sayısı"
+msgstr "Sokak Numarası"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Sokak Numarası Eki"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Sokak Numarası"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Street Name"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Bağış Türü"
+msgstr "Street Type"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Street Number Postdirectional"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Frekans Birimi"
+msgstr "Sokak Birimi"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Kod 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Kod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Saat Dilimi"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5506,32 +5454,26 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "SIC Code"
+msgstr "Iso Kodu"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Ülke"
+msgstr "Ülke kodu"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Önek"
+msgstr "Idd Öneki"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Önek"
+msgstr "Ndd Öneki"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Bağış"
+msgstr "İl/Eyalet Kısaltması"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Para Birimi"
 
@@ -5554,33 +5496,28 @@ msgid "Data Type"
 msgstr "Veri Türü"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Katılımlar"
+msgstr "Özellikler"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Başlangıç Tarihi"
+msgstr "Başlangıç Tarihi Yıllar"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Bitiş Tarihi"
+msgstr "Başlangıç Tarihi Yıllar"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Tarih Biçimi"
+msgstr "Tarih Parçaları"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Note Rows"
-msgstr "Total Rows"
+msgstr "Not Satırları"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5588,29 +5525,24 @@ msgid "Column Name"
 msgstr "Yer Adı"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Ayarlar"
+msgstr "String"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
-msgstr "Tamsayı"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Float"
-msgstr "Biçim"
+msgstr "Float"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Boolean"
-msgstr "Google"
+msgstr "Boolean"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "StateProvince"
-msgstr "İl / Eyalet"
+msgstr "İlEyalet"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5622,7 +5554,6 @@ msgid "RichTextEditor"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
 msgstr "Uzayanlar(?)"
 
@@ -5669,7 +5600,6 @@ msgid "Email Address"
 msgstr "Invalid Email address"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
 msgstr "Eposta Dönüş Yolu"
 
@@ -5692,14 +5622,12 @@ msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "Bitiş Tarihi"
+msgstr "Hold Date"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
-msgstr "Makbuz Tarihi"
+msgstr "Tarihi Sıfırla"
 
 #: CRM/Core/DAO/File.php
 #, fuzzy
@@ -5708,21 +5636,19 @@ msgstr "Alan Türü"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
-msgstr ""
+msgstr "Belge"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Upload Date"
-msgstr "Veri Yükle"
+msgstr "Yükleme Tarihi"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Street Name"
+msgstr "IM Ekran Adı"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5739,19 +5665,16 @@ msgid "Line Total"
 msgstr "Totals"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Konum Türü"
+msgstr "vCard Location Type"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Konum Türü"
+msgstr "Yer Adı"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Satır Sayısı"
+msgstr "Sütun Sayısı"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5759,14 +5682,12 @@ msgid "Relationship Direction"
 msgstr "Relationship A to B"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Grouping"
-msgstr "Öbek"
+msgstr "Öbekleme"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "İşlem"
+msgstr "İşletmen"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
@@ -5885,19 +5806,16 @@ msgid "Allowed To Login"
 msgstr ""
 
 #: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
 msgid "Option Group Name"
-msgstr "Seçenek Öbekleme Adı"
+msgstr "Seçenek Öbeği Adı"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Name"
-msgstr "Seçenek İsmi"
+msgstr "Seçenek Adı"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Filter"
-msgstr "Dosya"
+msgstr "Süz"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6032,7 +5950,7 @@ msgstr "Add To Organization"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "İl Kısaltması"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6078,9 +5996,8 @@ msgid "Notify"
 msgstr "Not"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Cep"
+msgstr "Eklenti"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -11495,7 +11412,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "OR"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -14621,6 +14538,888 @@ msgstr "İleti bir içerik süzgeci tarafından engellendi."
 msgid "Error in SMTP transaction"
 msgstr "SMTP işleminde Hata"
 
+#~ msgid "Contact"
+#~ msgstr "İrtibat"
+
+#~ msgid "Import"
+#~ msgstr "Karşıdan Al (İçeri Aktar)"
+
+#~ msgid "Custom Data"
+#~ msgstr "Özel Veri"
+
+#~ msgid "Access Control"
+#~ msgstr "Erişim Denetimi"
+
+#~ msgid "Case"
+#~ msgstr "Vaka"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Eşlemeyi Yükle"
+
+#~ msgid "View Activity"
+#~ msgstr "Etkinliği Göster"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "Ödeme İşlemcisi Türü"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Ayrıntılı Arama"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "İrtibat Kontrol Paneli"
+
+#~ msgid "Global Settings"
+#~ msgstr "Genel Ayarlar"
+
+#~ msgid "Components"
+#~ msgstr "Bileşenler"
+
+#~ msgid "Customize"
+#~ msgstr "Özelleştir"
+
+#~ msgid "Configure"
+#~ msgstr "Yapılandır"
+
+#~ msgid "Manage"
+#~ msgstr "Yönet"
+
+#, fuzzy
+#~ msgid "Option Lists"
+#~ msgstr "Seçenekler"
+
+#~ msgid "File System Paths"
+#~ msgstr "Dosya Sistemi Yolu"
+
+#~ msgid "Site URLs"
+#~ msgstr "Site URL'leri"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Haritalama ve Koordinatlar"
+
+#~ msgid "Localization"
+#~ msgstr "Yerelleştirme"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Çeşitli"
+
+#~ msgid "Debugging"
+#~ msgstr "Hata Ayıklama"
+
+#~ msgid "Notes"
+#~ msgstr "Notlar"
+
+#~ msgid "Delete Location"
+#~ msgstr "Konum Sil"
+
+#~ msgid "Domain Information"
+#~ msgstr "Alan (Bölge) Bilgisi"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "CiviCRM Yönetimi"
+
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr ""
+#~ "Şu an çevrimiçi olan kullanıcı hesabına - '%1' - ait kullanıcı kaydı "
+#~ "silinemiyor."
+
+#~ msgid "Activities"
+#~ msgstr "Etkinlikler"
+
+#~ msgid "Relationships"
+#~ msgstr "İlişkiler"
+
+#~ msgid "Contributions"
+#~ msgstr "Katılımlar"
+
+#~ msgid "Memberships"
+#~ msgstr "Üyelikler"
+
+#~ msgid "Find Contacts"
+#~ msgstr "İrtibatları Bul"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Bir İrtibata E-posta Gönder"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Ana Sayfa"
+
+#~ msgid "Groups"
+#~ msgstr "Öbekler"
+
+#~ msgid "Tags"
+#~ msgstr "Etiketler"
+
+#~ msgid "Export Contacts"
+#~ msgstr "İrtibatları Gönder (Aktar)"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "New Activity"
+#~ msgstr "Yeni Etkinlik"
+
+#~ msgid "Log out"
+#~ msgstr "Çıkış"
+
+#~ msgid "CiviGrant"
+#~ msgstr "Bağış"
+
+#~ msgid "Map Event Location"
+#~ msgstr "Etkinlik Yeri Seç"
+
+#~ msgid "Search Builder"
+#~ msgstr "Arama Oluşturucu"
+
+#~ msgid "New Contact"
+#~ msgstr "Yeni İrtibat"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Özel Veri Alanları"
+
+#~ msgid "Message Templates"
+#~ msgstr "Mesaj Şablonları"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "İkilenen İrtibatları Bul"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "İkilenen İrtibat Kuralları"
+
+#~ msgid "Contact Matching"
+#~ msgstr "Eşleşen İrtibatlar"
+
+#~ msgid "Price Sets"
+#~ msgstr "Ücret Kümeleri"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Öbekleri Yönet"
+
+#~ msgid "Tell a Friend"
+#~ msgstr "Arkadaşına haber ver"
+
+#~ msgid "Contacts"
+#~ msgstr "İrtibatlar"
+
+#~ msgid "Group Members"
+#~ msgstr "Öbek Üyeleri"
+
+#~ msgid "Grant Status"
+#~ msgstr "Bağış Durumu"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Alınma Tarihi"
+
+#, fuzzy
+#~ msgid "Money Transferred"
+#~ msgstr "Phone (preferred)"
+
+#~ msgid "Amount Requested"
+#~ msgstr "İstenen Miktar"
+
+#~ msgid "Amount Granted"
+#~ msgstr "Bağışlanan Miktar"
+
+#~ msgid "Delete Grants"
+#~ msgstr "Bağışları Sil"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+#~ msgstr ""
+#~ "Kişi Bilgilerinde eşleşmesi zorunlu alanlar eksik. (Ad VE Soyad ya da "
+#~ "Birincil Eposta veya Ad, Soyad VE Birincil Eposta)"
+
+#~ msgid "Missing required contact matching field: Contact ID."
+#~ msgstr "Eksik eşleşmesi zorunlu alan: İrtibat No"
+
+#~ msgid "Match On:"
+#~ msgstr "Eşleşen:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Contact Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+#~ msgstr ""
+#~ "Geçersiz olduğu için İkilenen Eşleme kuralı kaydedilmedi. Kurallar ancak "
+#~ "geçerli alan adları, 'VE', 'VEYA' veya ayraçlar içerebilir."
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "İkilenen Eşleme kuralı kaydedildi."
+
+#~ msgid "User Language"
+#~ msgstr "Kullanıcının Dili"
+
+#~ msgid "Monetary Display"
+#~ msgstr "Para Gösterimi"
+
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "CiviCRM Sürüm Denetimi"
+
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "Ayarlar - SMTP Yapılandırması"
+
+#~ msgid "Edit DupeMatch"
+#~ msgstr "DupeMatch Düzenle"
+
+#~ msgid ""
+#~ "Are you sure you want to delete this mapping? This operation can not be "
+#~ "undone"
+#~ msgstr ""
+#~ "Bu eşleşmeyi silmek istediğinize eimn misiniz? Silme işlemi geri alınamaz."
+
+#, fuzzy
+#~ msgid "System Configuration"
+#~ msgstr "Add Contacts to Organization"
+
+#~ msgid "Online Payment"
+#~ msgstr "Çevrimiçi Ödeme"
+
+#~ msgid "Address Formatting"
+#~ msgstr "Adres Biçimleme"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr " \"%1\" den büyük Posta Kodu"
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr " \"%1\" den küçük Posta Kodu"
+
+#~ msgid "The Location Type should be set if there is any location information"
+#~ msgstr ""
+#~ "The Location Type should be set if there is any location information"
+
+#~ msgid "Two locations cannot have same location type"
+#~ msgstr "İki yer aynı yer türüne sahip olamaz"
+
+#, fuzzy
+#~ msgid "Create new household"
+#~ msgstr "Yerel Başkan."
+
+#, fuzzy
+#~ msgid "shared options"
+#~ msgstr "Seçeneği Geçersiz Kıl"
+
+#, fuzzy
+#~ msgid ""
+#~ "One matching household: %1, was found. You can specify it through 'Select "
+#~ "existing household' option or click 'Save With Duplicate Household' "
+#~ "button below."
+#~ msgid_plural ""
+#~ "%count matching households: %1, were found. You can specify them through "
+#~ "'Select existing household' option or click 'Save With Duplicate "
+#~ "Household' button below."
+#~ msgstr[0] "Aranan irtibat bulundı. Buradan güncelleyebilirsiniz: %1"
+#~ msgstr[1] "% adet irtibat bulundu. Buradan güncelleyebilirsiniz: %1"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Konum"
+
+#~ msgid "Quest"
+#~ msgstr "Görev"
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Tarih Seç"
+
+#, fuzzy
+#~ msgid "Update Template"
+#~ msgstr "Update Tags"
+
+#, fuzzy
+#~ msgid "Save as New Template"
+#~ msgstr "Yeni İleti Taslağı"
+
+#, fuzzy
+#~ msgid "Template Title"
+#~ msgstr "Termometre Başlığı"
+
+#~ msgid "Export PRIMARY contact fields"
+#~ msgstr "BİRİNCİL irtibat alanlarını gönder"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "En Çok Yer"
+
+#~ msgid "Your user record does not have a valid user ID"
+#~ msgstr "Kaydınız geçerli bir kullanıcı no'ya sahip değil."
+
+#~ msgid "View Contribution"
+#~ msgstr "Bağışı Görüntüle"
+
+#~ msgid "Edit Contribution"
+#~ msgstr "Bağışı Düzenle"
+
+#~ msgid "Delete Contribution"
+#~ msgstr "Bağışı Sil"
+
+#~ msgid "View Membership"
+#~ msgstr "Üyeliği Görüntüle"
+
+#~ msgid "Edit Membership"
+#~ msgstr "Üyeliği Düzenle"
+
+#~ msgid "Delete Membership"
+#~ msgstr "Üyeliği Sil"
+
+#, fuzzy
+#~ msgid "Participant Status"
+#~ msgstr "Medeni Durum?"
+
+#~ msgid "CiviContribute"
+#~ msgstr "CiviBağış"
+
+#~ msgid "CiviMember"
+#~ msgstr "CiviÜye"
+
+#~ msgid "CiviMail"
+#~ msgstr "CiviPosta"
+
+#, fuzzy
+#~ msgid "Could not retrieve object name: %1, id: %2"
+#~ msgstr "Could not get a contact_id and/or contact_type"
+
+#~ msgid "Delete Contact"
+#~ msgstr "İrtibatı Sil"
+
+#, fuzzy
+#~ msgid "Could not retrieve a valid contact"
+#~ msgstr "Could not get a contact_id and/or contact_type"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Hedef İrtibat"
+
+#~ msgid "Simple Search"
+#~ msgstr "Basit Arama"
+
+#~ msgid "View Location Types"
+#~ msgstr "Konum Türleri Görüntüle"
+
+#, fuzzy
+#~ msgid "View Payment Processors"
+#~ msgstr "Ödeme İşlemcisi"
+
+#, fuzzy
+#~ msgid "View Payment Processor Type"
+#~ msgstr "Ödeme İşlemcisi"
+
+#~ msgid "View Relationship Types"
+#~ msgstr "İlişki Türlerini Görünütle"
+
+#~ msgid "View Tags"
+#~ msgstr "Etiketleri Görüntüle"
+
+#, fuzzy
+#~ msgid "View Mapping"
+#~ msgstr "View Tags"
+
+#~ msgid "View Options"
+#~ msgstr "Seçenekleri Görüntüle"
+
+#~ msgid "View Option Groups"
+#~ msgstr "Seçenek Öbeklerini Görüntüle"
+
+#, fuzzy
+#~ msgid "View Option Values"
+#~ msgstr "Option Value"
+
+#~ msgid "Options"
+#~ msgstr "Seçenekler"
+
+#~ msgid "CiviMail Settings"
+#~ msgstr "CiviPosta Ayarları"
+
+#~ msgid "Import Contacts"
+#~ msgstr "İrtibatları Al"
+
+#~ msgid "View Groups"
+#~ msgstr "Öbekleri Görüntüle"
+
+#, fuzzy
+#~ msgid "System Preferences"
+#~ msgstr "Communication Preferences"
+
+#, fuzzy
+#~ msgid "Address Preferences"
+#~ msgstr "String"
+
+#~ msgid "Date Formatting"
+#~ msgstr "Tarih Biçimleme"
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "CiviCRM Profili"
+
+#~ msgid "CiviCRM Profile Fields"
+#~ msgstr "CiviCRM Profil Alanları"
+
+#, fuzzy
+#~ msgid "Synchronize Users to Contacts"
+#~ msgstr "İrtibatlara Kısa Mesaj Gönder"
+
+#~ msgid "Activity Types"
+#~ msgstr "Etkinlilk Türleri"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Seçenekleri Görüntüle"
+
+#~ msgid "Individual Prefixes (Ms, Mr...)"
+#~ msgstr "Kişi Ünvanları (Bay, Bayan...)"
+
+#~ msgid "Individual Suffixes (Jr, Sr...)"
+#~ msgstr "Kişi Sonekleri (Jr, Sr...)"
+
+#, fuzzy
+#~ msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
+#~ msgstr "Kişi Sonekleri (Jr, Sr...)"
+
+#~ msgid "Instant Messenger Services"
+#~ msgstr "IM Hizmeti"
+
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "Konum Türleri (Ev, İş...)"
+
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "Cep Telefonu Sağlayıcıları"
+
+#, fuzzy
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "Preferred Communication Method"
+
+#~ msgid "Relationship Types"
+#~ msgstr "İlişki Türleri"
+
+#~ msgid "Payment Processor"
+#~ msgstr "Ödeme İşlemcisi"
+
+#, fuzzy
+#~ msgid "Payment Processor type information"
+#~ msgstr "Ödeme İşlemcisi"
+
+#~ msgid "Quick Registration"
+#~ msgstr "Hızlı Kayıt"
+
+#~ msgid "Manage ACLs"
+#~ msgstr "ACL'leri Yönet"
+
+#~ msgid "Contact Summary"
+#~ msgstr "İletişim Özeti"
+
+#~ msgid "Create New Group"
+#~ msgstr "Yeni Öbek Yarat"
+
+#~ msgid "Activity"
+#~ msgstr "Etkinlik"
+
+#~ msgid "Add Contact Information"
+#~ msgstr "İrtibat Bilgisi Ekle"
+
+#~ msgid "Notes about the Person"
+#~ msgstr "Kişi hakkında Notlar"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "The relationship end date cannot be prior to the start date."
+
+#~ msgid "- all contacts -"
+#~ msgstr "- tüm irtibatlar -"
+
+#, fuzzy
+#~ msgid "Test Payment Processor"
+#~ msgstr "Ödeme İşlemcisi"
+
+#~ msgid "Please enter 1 or 0 as default value."
+#~ msgstr "Please enter 1 or 0 as default value."
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Your custom field \"%1\" has been saved"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Your Group \"%1\" has been saved."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your Group '%1' has been added. You can <a href='%2'>add custom fields</"
+#~ "a> to this group now."
+#~ msgstr ""
+#~ "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom "
+#~ "fields</a> to this group now."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Activity Dates - From"
+
+#~ msgid "Grant report received?"
+#~ msgstr "Bağış raporu alındı mı?"
+
+#, fuzzy
+#~ msgid "Grant Decision"
+#~ msgstr "Bağışlar"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "Bağış raporu alındı mı?"
+
+#, fuzzy
+#~ msgid "Grant Report Received?"
+#~ msgstr "Bağış raporu alındı mı?"
+
+#~ msgid "Rationale"
+#~ msgstr "Gerekçe"
+
+#~ msgid "Name:"
+#~ msgstr "Ad: "
+
+#~ msgid "Join new contacts to existing group(s)"
+#~ msgstr "Join new contacts to existing group(s)"
+
+#~ msgid "Please enter a valid value for this field."
+#~ msgstr "Lütfen bu alan için geçerli bir değer giriniz."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add "
+#~ "fields</a> to this Profile now."
+#~ msgstr ""
+#~ "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2"
+#~ "\">add fields</a> to this group now."
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image."
+#~ msgstr "Please enter a valid integer."
+
+#, fuzzy
+#~ msgid ""
+#~ "Creates a link for recipients to unsubscribe from the group(s) to which "
+#~ "this mailing is being sent."
+#~ msgstr ""
+#~ "Link to allow contacts to unsubscribe from target groups of this mailing."
+
+#~ msgid "Download Errors"
+#~ msgstr "Download Errors"
+
+#~ msgid ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+#~ msgstr ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+
+#, fuzzy
+#~ msgid "There are no duplicates matching this rule."
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "İkilenen İrtibatlar İçin"
+
+#, fuzzy
+#~ msgid "Advanced Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Delete Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Configure Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete this Duplicate Matching Rule?"
+#~ msgstr "Are you sure you want to delete this note?"
+
+#, fuzzy
+#~ msgid "Advanced Configuration"
+#~ msgstr "Add Contacts to Organization"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
+#~ "can not be undone."
+#~ msgstr "Are you sure you want to delete <b>%1</b> Tag?"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "İrtibatın Görüşmeleri"
+
+#~ msgid "(for %1)"
+#~ msgstr "(for %1)"
+
+#, fuzzy
+#~ msgid ""
+#~ "The members of the <strong>%1</strong> group are listed below. Use the "
+#~ "'Find Members...' criteria below to search for specific members. Use the "
+#~ "'Group Status...' checkboxes to view members with 'Pending' status and/or "
+#~ "members who have been 'Removed' from this group."
+#~ msgstr ""
+#~ "<p>The members of the <strong>%1</strong> group are listed below. Use the "
+#~ "'Find Members...' criteria below to search for specific members. Use the "
+#~ "'Group Status...' checkboxes to view members with 'Pending' status and/or "
+#~ "members who have been 'Removed' from this group.</p>\n"
+#~ "        <p>Use the <a href=\"%2\">Add Members...</a> screen if you want "
+#~ "to add new members to this group.</p>"
+
+#~ msgid ""
+#~ "Use the Search form to find contacts to add to %1. Mark the contacts you "
+#~ "want to add and click 'Add Contacts...'."
+#~ msgstr ""
+#~ "Use the Search form to find contacts to add to %1. Mark the contacts you "
+#~ "want to add and click 'Add Contacts...'."
+
+#, fuzzy
+#~ msgid ""
+#~ "Use the Search Criteria form to find contacts by name, type of contact, "
+#~ "group membership, tags, etc. You can then view or edit contact details, "
+#~ "print a contact list, or you can use the More Actions drop down list to "
+#~ "assign tags, add to Groups, create Smart Groups, export contact data to a "
+#~ "spreadsheet, etc."
+#~ msgstr ""
+#~ "Use the Search Criteria form to find contacts by name, type of contact, "
+#~ "group membership, tags, etc. You can then view or edit contact details, "
+#~ "print a contact list, assign tags, export contact data to a spreadsheet, "
+#~ "etc."
+
+#~ msgid "Found %count group member"
+#~ msgid_plural "Found %count group members"
+#~ msgstr[0] "Found %count group member"
+#~ msgstr[1] "Found %count group members"
+
+#~ msgid "Found %count contact"
+#~ msgid_plural "Found %count contacts"
+#~ msgstr[0] "Found %count contact"
+#~ msgstr[1] "Found %count contacts"
+
+#~ msgid "selected records only"
+#~ msgstr "selected records only"
+
+#~ msgid "the found record"
+#~ msgid_plural "all %count records"
+#~ msgstr[0] "the found record"
+#~ msgstr[1] "all %count records"
+
+#, fuzzy
+#~ msgid "Record an Activity"
+#~ msgstr "Schedule an Activity"
+
+#~ msgid "Min"
+#~ msgstr "Min"
+
+#, fuzzy
+#~ msgid "Contributions received from %1 since inception."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Submit Credit Card Contribution"
+#~ msgstr "Bağışı Düzenle"
+
+#, fuzzy
+#~ msgid "No contributions have been recorded from this contact."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Contributions made in honor of %1."
+#~ msgstr "Onuruna Bağış"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no grant recorded for this contact. You can <a href='%1'>enter "
+#~ "one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "Active Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Inactive Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Notes for this contact. You can <a href='%1'>add one</a>."
+#~ msgstr ""
+#~ "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
+
+#, fuzzy
+#~ msgid "This page lists all event registrations for %1 since inception."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "New Event Registration"
+#~ msgstr "Kullanıcı Kaydı"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no event registrations recorded for this contact. You can <a "
+#~ "href='%1'>enter one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "There are no event registrations recorded for this contact."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Relationships entered for this contact. You can <a href='%"
+#~ "1'>add one</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#, fuzzy
+#~ msgid "View Contact Dashboard"
+#~ msgstr "View Contact Details"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Alınma Tarihi"
+
+#~ msgid "Receipt Sent"
+#~ msgstr "Makbuz Gönderildi"
+
+#, fuzzy
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "There are no contributions on record for you."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Onuruna Bağış"
+
+#, fuzzy
+#~ msgid "Contributor"
+#~ msgstr "Continue"
+
+#, fuzzy
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Terms:"
+#~ msgstr "Test"
+
+#, fuzzy
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "Find Contacts"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Ayrıl"
+
+#~ msgid "Confirm"
+#~ msgstr "Onayla"
+
+#, fuzzy
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "There are no memberships on record for you."
+#~ msgstr "There are no Relationships entered for this contact."
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Gönderme Tarihi"
+
+#, fuzzy
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Bağışları Aktar"
+
+#, fuzzy
+#~ msgid "Your Membership(s)"
+#~ msgstr "Öbek Üyelikleri"
+
+#, fuzzy
+#~ msgid "Select the status of this grant."
+#~ msgstr ""
+#~ "Select the type of record that this group of custom data is available for."
+
+#, fuzzy
+#~ msgid "Amount requested for grant."
+#~ msgstr "İstenen Miktar"
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Miktar"
+
+#, fuzzy
+#~ msgid ""
+#~ "You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
+#~ "correct them, and import the new file with the corrected data."
+#~ msgstr ""
+#~ "You can <a href=\"%1\">Download Errors</a>. You may then correct them, "
+#~ "and import the new file with the corrected data."
+
+#, fuzzy
+#~ msgid ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: 'Contact ID', 'Participant Role')."
+#~ msgstr ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: \"First Name\",\"Last Name\",\"Email\")"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Kaldır"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Öbek"
+
+#~ msgid "Total rows (contact records) in uploaded file."
+#~ msgstr "Total rows (contact records) in uploaded file."
+
+#, fuzzy
+#~ msgid "Create a new group from imported records"
+#~ msgstr "Create a new group from imported records"
+
+#, fuzzy
+#~ msgid "Tagged imported contacts"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image"
+#~ msgstr "Please enter a valid integer."
+
+#, fuzzy
+#~ msgid "Advanced Settings"
+#~ msgstr "String"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "Kabul Edilen Kredi Kartları"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Ödeme Araçları"
+
+#~ msgid "Event Registration"
+#~ msgstr "Olay Kaydetme"
+
 #~ msgid "phone"
 #~ msgstr "telefon"
 
@@ -14630,3 +15429,732 @@ msgstr "SMTP işleminde Hata"
 #, fuzzy
 #~ msgid "Invalid name and password"
 #~ msgstr "Invalid Email address"
+
+#~ msgid "Owner Entity Table"
+#~ msgstr "Sahiplerin Varlık Tablosu"
+
+#~ msgid "Rule"
+#~ msgstr "Kural"
+
+#~ msgid "Export"
+#~ msgstr "Gönder"
+
+#~ msgid "Export Contributions"
+#~ msgstr "Bağışları Aktar"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Bağışları Al (Import)"
+
+#~ msgid "Import Memberships"
+#~ msgstr "Üyelikleri İçeri Al"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "İrtibatları Al"
+
+#~ msgid "Form Type"
+#~ msgstr "Form Türü"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Alınma Tarihi"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Vefat Tarihi"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Out Date"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Miktar"
+
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "Loop"
+
+#, fuzzy
+#~ msgid "Project Owner ID"
+#~ msgstr "Projected"
+
+#, fuzzy
+#~ msgid "Task Type"
+#~ msgstr "Data Type"
+
+#, fuzzy
+#~ msgid "Parent Entity Table"
+#~ msgstr "Target Entity Table"
+
+#, fuzzy
+#~ msgid "Task Parent"
+#~ msgstr "Parent of"
+
+#, fuzzy
+#~ msgid "Due Date"
+#~ msgstr "Out Date"
+
+#, fuzzy
+#~ msgid "Priority"
+#~ msgstr "Print"
+
+#, fuzzy
+#~ msgid "Responsible Entity Table"
+#~ msgstr "Entity Table"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Hedef Varlık Tablosu"
+
+#, fuzzy
+#~ msgid "Target"
+#~ msgstr "Tag"
+
+#, fuzzy
+#~ msgid "Status Details"
+#~ msgstr "Details"
+
+#, fuzzy
+#~ msgid "Created"
+#~ msgstr "Create"
+
+#, fuzzy
+#~ msgid "Last Modified"
+#~ msgstr "Modified Date"
+
+#, fuzzy
+#~ msgid "- any county -"
+#~ msgstr "- herhangi bir ülke -"
+
+#, fuzzy
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Are you sure you want to remove %1 from %2?"
+
+#~ msgid "Backup Data"
+#~ msgstr "Veriyi Yedekle"
+
+#~ msgid "State %2 \"%1\""
+#~ msgstr "İl / Eyalet - \"%1\""
+
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "İl / Eyalet (%2) %3 \"%1\""
+
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Ülke %2 \"%1\""
+
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Ülke (%2) %3 \"%1\""
+
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Ülke - \"%1\""
+
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "İl / Eyalet (%2) %3 \"%1\""
+
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Cinsiyet %2 \"%1\""
+
+#~ msgid "Contact Type -"
+#~ msgstr "İrtibat Türü -"
+
+#~ msgid "Group Status -"
+#~ msgstr "Öbek Durumu -"
+
+#, fuzzy
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "İl / Eyalet - \"%1\""
+
+#, fuzzy
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Email"
+
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "Posta Kodu - \"%1\""
+
+#~ msgid "Location type -"
+#~ msgstr "Konum türü -"
+
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Etkinlik Türü %2 '%1'"
+
+#~ msgid "Changed by: %1"
+#~ msgstr "%1 tarafından değiştirildi"
+
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 %2 %3"
+
+#~ msgid "Task: %1"
+#~ msgstr "Görev: %1"
+
+#~ msgid "Task Status: %1"
+#~ msgstr "Görev(İş) Durumu: %1"
+
+#, fuzzy
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "Your Group \"%1\" has been saved."
+
+#~ msgid "Your civicrm profile field \"%1\" has been saved."
+#~ msgstr "Your civicrm profile field \"%1\" has been saved."
+
+#~ msgid ""
+#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
+#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
+#~ "contact name."
+#~ msgstr ""
+#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
+#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
+#~ "contact name."
+
+#, fuzzy
+#~ msgid "Duplicate Matching Rule"
+#~ msgstr "Duplicate Option label"
+
+#, fuzzy
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "Alanadı Bilgisini Düzenle"
+
+#~ msgid "- Contribution Fields -"
+#~ msgstr "- Bağış Alanları -"
+
+#, fuzzy
+#~ msgid "You do not have permission to edit this contact"
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "Geçerli bir irtibat no bulunamadı"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "İrtibat Bilgisi Ekle"
+
+#~ msgid " -select- "
+#~ msgstr "-seç-"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Planlandığı Tarih Saat"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Süre (Saat)"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Süre (Dakika)"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Seçili Görüşme silindi."
+
+#~ msgid " is a numeric field"
+#~ msgstr "sayısal değerdir"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Etkinlik Geçmişini Sil"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "CiviCRM Etkinlik Geçmişi"
+
+#~ msgid "Sent Date"
+#~ msgstr "Gönderme Tarihi"
+
+#~ msgid "Import Activity History"
+#~ msgstr "EtkinlikGeçmişini Al"
+
+#~ msgid " must be a numeric value"
+#~ msgstr "sayısal değer olmalı"
+
+#~ msgid "Record Number"
+#~ msgstr "Kayıt Numarası"
+
+#~ msgid " -select role- "
+#~ msgstr "- rol seç -"
+
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "\"%1\" Etkinlik Geçmişine kaydedildi."
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Select Phone Number"
+
+#~ msgid "OR New Phone"
+#~ msgstr "YA DA Yeni Telefon"
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Selected Phone Call is deleted sucessfully."
+
+#~ msgid " VERP Separator"
+#~ msgstr "VERP Ayracı"
+
+#, fuzzy
+#~ msgid "Could not find location id"
+#~ msgstr "Geçerli bir irtibat no bulunamadı"
+
+#~ msgid "Location name %1 '%2'"
+#~ msgstr "Yer Adı - \"%1\""
+
+#~ msgid "Contact Meetings"
+#~ msgstr "İrtibatın Görüşmeleri"
+
+#~ msgid "Contact Other Activity"
+#~ msgstr "Diğer Etkinlikleri"
+
+#~ msgid "Contact Calls"
+#~ msgstr "Çağrıları"
+
+#~ msgid "Are you sure you want to delete this activity record?"
+#~ msgstr "Bu etkinlik kaydını silmek istediğinize emin misiniz?"
+
+#~ msgid "Open Activities %%StatusMessage%%"
+#~ msgstr "Open Activities %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "From: %1; Subject: %2"
+#~ msgstr "To: %1; Subject: %2"
+
+#~ msgid "To: %1; Subject: %2"
+#~ msgstr "To: %1; Subject: %2"
+
+#, fuzzy
+#~ msgid "CiviContribute Progress Meter"
+#~ msgstr "Continue"
+
+#, fuzzy
+#~ msgid "Callback Method"
+#~ msgstr "Callback"
+
+#~ msgid "Activity Summary"
+#~ msgstr "Etkinlik Özeti"
+
+#~ msgid "Phonecall"
+#~ msgstr "Telefon Çağrısı"
+
+#~ msgid "Int Data"
+#~ msgstr "Int Veri"
+
+#~ msgid "Float Data"
+#~ msgstr "Float Veri"
+
+#~ msgid "Decimal Data"
+#~ msgstr "Onluk Veri"
+
+#~ msgid "Char Data"
+#~ msgstr "Char Veri"
+
+#~ msgid "Date Data"
+#~ msgstr "Tarih Verisi"
+
+#~ msgid "Memo Data"
+#~ msgstr "Memo Veri"
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Continue"
+
+#~ msgid "Coord Type"
+#~ msgstr "Coord Türü"
+
+#~ msgid "Coord Units"
+#~ msgstr "Coord Birimleri"
+
+#~ msgid "Coord Ogc Wkt String"
+#~ msgstr "Coord Ogc Wkt String"
+
+#~ msgid "LatLong"
+#~ msgstr "GenUzun"
+
+#~ msgid "Projected"
+#~ msgstr "Tasarı (Öne sürülen)"
+
+#~ msgid "Degree"
+#~ msgstr "Derece"
+
+#~ msgid "Grad"
+#~ msgstr "Grad"
+
+#~ msgid "Radian"
+#~ msgstr "Radyan"
+
+#~ msgid "Foot"
+#~ msgstr "Foot"
+
+#~ msgid "Meter"
+#~ msgstr "Metre"
+
+#~ msgid "Parameters"
+#~ msgstr "Parametreler"
+
+#~ msgid "Function Name"
+#~ msgstr "İşlev Adı"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Positive Integer"
+#~ msgstr "Positive Integer"
+
+#~ msgid "Variable Name"
+#~ msgstr "Değişken Adı"
+
+#~ msgid "Range"
+#~ msgstr "Aralık"
+
+#~ msgid "Regular Expression Match"
+#~ msgstr "Regular Expression Match"
+
+#~ msgid "Regular Expression No Match"
+#~ msgstr "Regular Expression No Match"
+
+#~ msgid "default - Dear [first] [last]"
+#~ msgstr "varsayılan - Sevgili [ad] [soyad]"
+
+#, fuzzy
+#~ msgid "Could not find callback %1"
+#~ msgstr "Cannot find class \"%1\""
+
+#~ msgid "Are you sure you want to delete this Activity History record?"
+#~ msgstr "Bu Etkinlik Geçmişi kaydını silmek istediğinize emin misiniz?"
+
+#~ msgid "View Activity Details"
+#~ msgstr "View Activity Details"
+
+#~ msgid "History %%StatusMessage%%"
+#~ msgstr "History %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "Confirm Price Set Delete"
+#~ msgstr "Confirm Group Delete"
+
+#, fuzzy
+#~ msgid " must be a monetary value"
+#~ msgstr "sayısal değer olmalı"
+
+#~ msgid "Log a Meeting"
+#~ msgstr "Log a Meeting"
+
+#~ msgid "Schedule a Meeting"
+#~ msgstr "Schedule a Meeting"
+
+#~ msgid "Edit Scheduled Meeting"
+#~ msgstr "Edit Scheduled Meeting"
+
+#~ msgid "Delete Meeting"
+#~ msgstr "Delete Meeting"
+
+#~ msgid "View Scheduled Meeting"
+#~ msgstr "View Scheduled Meeting"
+
+#~ msgid ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+
+#~ msgid "Schedule an Activity"
+#~ msgstr "Schedule an Activity"
+
+#~ msgid "Edit Scheduled Activity"
+#~ msgstr "Edit Scheduled Activity"
+
+#~ msgid "View Completed Activity"
+#~ msgstr "View Completed Activity"
+
+#~ msgid "View Scheduled Activity"
+#~ msgstr "View Scheduled Activity"
+
+#~ msgid ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+
+#~ msgid "Log a Phone Call"
+#~ msgstr "Log a Phone Call"
+
+#~ msgid "Schedule a Phone Call"
+#~ msgstr "Schedule a Phone Call"
+
+#~ msgid "Edit Scheduled Call"
+#~ msgstr "Edit Scheduled Call"
+
+#~ msgid "Delete Phone Call"
+#~ msgstr "Delete Phone Call"
+
+#~ msgid "View Scheduled Call"
+#~ msgstr "View Scheduled Call"
+
+#~ msgid "Call will be moved to Activity History when status is 'Completed'."
+#~ msgstr "Call will be moved to Activity History when status is 'Completed'."
+
+#, fuzzy
+#~ msgid " <a href=\"%1\">Delete</a>"
+#~ msgstr ""
+#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Save Duplicate Contact"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Kaldır"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "İrtibatı Eşle"
+
+#~ msgid "Schedule Meeting"
+#~ msgstr "Görüşme Ayarla"
+
+#~ msgid "Schedule Call"
+#~ msgstr "Çağrı Ayarla"
+
+#~ msgid "Schedule a Call"
+#~ msgstr "Bir Çağrı Ayarla"
+
+#~ msgid "Log a Call"
+#~ msgstr "Bir Çağrı Kaydet"
+
+#~ msgid "Past Relationships"
+#~ msgstr "Past Relationships"
+
+#~ msgid "These relationships have a past End Date."
+#~ msgstr "These relationships have a past End Date."
+
+#~ msgid "Disabled Relationships"
+#~ msgstr "Disabled Relationships"
+
+#~ msgid "These relationships have been marked as disabled (no longer active)."
+#~ msgstr ""
+#~ "These relationships have been marked as disabled (no longer active)."
+
+#~ msgid "New Activity History"
+#~ msgstr "Yeni Etkinlik Geçmişi"
+
+#~ msgid "Edit Activity History"
+#~ msgstr "Etkinlik Geçmişini Düzenle"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\"?"
+#~ msgstr ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\" ?"
+
+#, fuzzy
+#~ msgid "Total rows (activity history records) in uploaded file."
+#~ msgstr "Total rows (contact records) in uploaded file."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected mismatched activity history ID. This record have not "
+#~ "been updated."
+#~ msgid_plural ""
+#~ "CiviCRM has detected mismatched activity history IDs. These records have "
+#~ "not been Updated."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+#~ msgstr[1] ""
+#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
+#~ "These records have not been imported."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected one record with conflicting transaction ID within "
+#~ "this data file or relative to existing activity history records. This "
+#~ "record have not been imported."
+#~ msgid_plural ""
+#~ "CiviCRM has detected %count records with conflicting transaction IDs "
+#~ "within this data file or relative to existing activity history records. "
+#~ "These records have not been imported."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected %1 records with conflicting email addresses within "
+#~ "this data file or relative to existing contact records. These records "
+#~ "have not been imported. CiviCRM does not allow multiple contact records "
+#~ "to have the same primary email address."
+#~ msgstr[1] ""
+#~ "CiviCRM has detected %1 records with conflicting email addresses within "
+#~ "this data file or relative to existing contact records. These records "
+#~ "have not been imported. CiviCRM does not allow multiple contact records "
+#~ "to have the same primary email address."
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+#~ "activity history record."
+#~ msgid_plural ""
+#~ "CiviCRM has detected %count records which are duplicates of existing "
+#~ "CiviCRM activity history records."
+#~ msgstr[0] ""
+#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+#~ "contact records.  "
+#~ msgstr[1] ""
+#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
+#~ "contact records.  "
+
+#, fuzzy
+#~ msgid "Rows with mismatched activity history IDs (NOT updated)."
+#~ msgstr "Rows with conflicting email addresses (NOT imported)."
+
+#, fuzzy
+#~ msgid "Download Mismatched Activity History records"
+#~ msgstr "Download Conflicts"
+
+#, fuzzy
+#~ msgid ""
+#~ "Rows which are duplicates of existing CiviCRM activity history records."
+#~ msgstr "Rows which are duplicates of existing CiviCRM contact records.  "
+
+#~ msgid ""
+#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+#~ "href=\"%2\">call</a>."
+#~ msgstr ""
+#~ "Açık etkinlik yok. Bir <a href=\"%1\">buluşma</a> düzenleyebilir ya da <a "
+#~ "href=\"%2\">cağrı</a> oluşturabilirsiniz."
+
+#~ msgid "There are no open activities for this contact."
+#~ msgstr "İrtibat için açık etkinlik yok."
+
+#~ msgid "No activity history for this contact."
+#~ msgstr "İrtibat için etkinlik geçmişi yok."
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Notlar"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Schedule a Meeting"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Özet"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "Varlık Tablosu"
+
+#~ msgid "Contact Name:"
+#~ msgstr "İrtibat Adı:"
+
+#~ msgid "Email Domain:"
+#~ msgstr "Eposta Alanadı:"
+
+#~ msgid "Subscription Message to organization"
+#~ msgstr "Kuruma Abonelik İletisi"
+
+#~ msgid "Farewell Message"
+#~ msgstr "Uğurlama İletisi"
+
+#~ msgid "New CiviCRM Profile Group"
+#~ msgstr "New CiviCRM Profile Group"
+
+#~ msgid "re-subscribe"
+#~ msgstr "re-subscribe"
+
+#~ msgid "(re-subscribe: %1)"
+#~ msgstr "(re-subscribe: %1)"
+
+#, fuzzy
+#~ msgid "Domain Contact Information"
+#~ msgstr "İrtibat Bilgisi"
+
+#, fuzzy
+#~ msgid "HTML Body of Header"
+#~ msgstr "HTML Gövde"
+
+#, fuzzy
+#~ msgid "Text Body of Header"
+#~ msgstr "Metin Gövde"
+
+#, fuzzy
+#~ msgid "This is the Footer"
+#~ msgstr "bu onuru gizle"
+
+#, fuzzy
+#~ msgid "HTML Body of Footer"
+#~ msgstr "HTML Gövde"
+
+#, fuzzy
+#~ msgid "Text Body of Footer"
+#~ msgstr "Metin Gövde"
+
+#~ msgid "Welcome"
+#~ msgstr "Welcome"
+
+#, fuzzy
+#~ msgid "Unsubscribe results"
+#~ msgstr "Unsubscribe Message"
+
+#, fuzzy
+#~ msgid "Goodbye"
+#~ msgstr "Google"
+
+#, fuzzy
+#~ msgid "Automated response"
+#~ msgstr "Auto Responder"
+
+#, fuzzy
+#~ msgid "Contact's Profile"
+#~ msgstr "Create Profile"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Save Duplicate Contact"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Email address conflicts with record %1"
+
+#~ msgid "Setup"
+#~ msgstr "Kurulum"
+
+#~ msgid "Duplicate Matching"
+#~ msgstr "İkilenen Eşleşme"
+
+#~ msgid "%1 is not set in the config file."
+#~ msgstr "%1 yapılandırma dosyasında yer almıyor."
+
+#~ msgid "Include County?"
+#~ msgstr "Ülke Dahil?"
+
+#~ msgid "Settings - Date Formatting"
+#~ msgstr "Ayarlar - Tarih Biçimlendirme"
+
+#~ msgid "Username - TEST"
+#~ msgstr "Kullaınıcı Adı - TEST"
+
+#~ msgid "Please select at least one membership status."
+#~ msgstr "Please select at least one membership status."
+
+#~ msgid "Add Members to A Group"
+#~ msgstr "Add Members to A Group"
+
+#~ msgid "Add Members to Organization"
+#~ msgstr "Üyeleri Kuruluşa Ekle"
+
+#~ msgid "Remove Members from Group"
+#~ msgstr "Üyeleri Öbekten Çıkar"
+
+#~ msgid "Zip/Postal Code not valid for %1."
+#~ msgstr "%1 için girilen Posta Kodu geçerli değil."
+
+#~ msgid "Preferred Communication Options"
+#~ msgstr "Tercih Edilen İletişim Seçenekleri"
+
+#, fuzzy
+#~ msgid "Delete %1"
+#~ msgstr "Delete"
+
+#, fuzzy
+#~ msgid "Delete Profile Group"
+#~ msgstr "Delete Group"
+
+#~ msgid "Add Members to a Group"
+#~ msgstr "Add Members to a Group"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no contributions recorded from this contact. You can <a href=\"%"
+#~ "1\">enter one now</a>."
+#~ msgstr ""
+#~ "There are no Relationships entered for this contact. You can <a href=\"%1"
+#~ "\">add one</a>."
+
+#~ msgid "Defaults"
+#~ msgstr "Varsayılanlar"

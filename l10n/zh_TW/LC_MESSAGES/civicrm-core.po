@@ -108,7 +108,7 @@ msgstr "授予"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "修改日期"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,7 +432,6 @@ msgid "Case Activity Type"
 msgstr "活動類型"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- 選擇 -"
 
@@ -13493,3 +13492,41 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "聯絡人"
+
+#~ msgid "Import"
+#~ msgstr "匯入"
+
+#~ msgid "Custom Data"
+#~ msgstr "自定資料"
+
+#~ msgid "Access Control"
+#~ msgstr "權限控制"
+
+#~ msgid "Case"
+#~ msgstr "事例"
+
+#~ msgid "Load Mapping"
+#~ msgstr "載入配對"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "聯絡人"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "群組"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "聯絡人"

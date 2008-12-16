@@ -107,7 +107,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "修改日期"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -13433,3 +13433,35 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "联络人"
+
+#~ msgid "Import"
+#~ msgstr "导入"
+
+#~ msgid "Find Contacts"
+#~ msgstr "搜索联络人"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "联络人"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "联络人"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "联络人"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "群组"
+
+#~ msgid " -select- "
+#~ msgstr "选择"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "联络人"

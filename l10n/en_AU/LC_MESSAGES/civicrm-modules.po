@@ -650,9 +650,8 @@ msgid "Component Type"
 msgstr "Component Type"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Body Text"
+msgstr "Body Html"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -676,7 +675,7 @@ msgstr "Bounce Reason"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Time Stamp"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -3260,59 +3259,52 @@ msgid "Template Title"
 msgstr "Profile Title"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Pager"
+msgstr "Pattern"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Hold Threshold"
-msgstr "Household"
+msgstr "Hold Threshold"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Away"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "Inline"
+msgstr "Invalid"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Loop"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Quota"
-msgstr "Totals"
+msgstr "Quota"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Reply"
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
-msgstr "Recipients"
+msgstr "Syntax"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Component Type"
+msgstr "Component Name"
 
 #: CRM/Mailing/DAO/Component.php
 #, fuzzy
@@ -3320,34 +3312,28 @@ msgid "Welcome"
 msgstr "Left Message"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
-msgstr "Opt-Out"
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Included"
+msgstr "Include"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Exclude"
-msgstr "Excluded"
+msgstr "Exclude"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "First Name"
+msgstr "From Name"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
 msgstr "From Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "Reply-to email"
+msgstr "Replyto Email"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3355,19 +3341,16 @@ msgid "Url Tracking"
 msgstr "Url Tracking"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Forward Replies"
 msgstr "Forward Replies"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Auto-responder"
+msgstr "Auto Responder"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Open tracking"
+msgstr "Open Tracking"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -3396,7 +3379,7 @@ msgstr "Removed"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3411,9 +3394,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Org Unsubscribe"
-msgstr "Unsubscribe"
+msgstr "Org Unsubscribe"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -9539,3 +9521,714 @@ msgstr "Create"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Transaction ID"
+#~ msgstr "Organisation"
+
+#, fuzzy
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "Contribution Types"
+#~ msgstr "Location Types"
+
+#, fuzzy
+#~ msgid "Manage Premiums"
+#~ msgstr "Manage Groups"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Print Contact List"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "New Donation Page"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "View Activity"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Display Style"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Import Contacts"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Range"
+
+#~ msgid "Subscribe"
+#~ msgstr "Subscribe"
+
+#, fuzzy
+#~ msgid "Import Members"
+#~ msgstr "Group Members"
+
+#, fuzzy
+#~ msgid "day(s)"
+#~ msgstr "Tag(s)"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "-month-"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "-year-"
+
+#, fuzzy
+#~ msgid "Enable recurring payments"
+#~ msgstr "Enable Mailing Component"
+
+#, fuzzy
+#~ msgid "You do not have any payment processors that support this feature"
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "View Contact"
+
+#, fuzzy
+#~ msgid "CiviCRM Contributions"
+#~ msgstr "CiviCRM Shortcuts"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Donation Page"
+
+#, fuzzy
+#~ msgid ""
+#~ "Credit card options that will be offered to contributors using your "
+#~ "Online Contribution pages."
+#~ msgstr ""
+#~ "Use this form to setup the name, description and more for a customized "
+#~ "donation page."
+
+#, fuzzy
+#~ msgid "Find Contributions"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "CiviCRM Contribution Search"
+#~ msgstr "CiviCRM Contact Search"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Street Name"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Total Selected Contact(s): %1"
+
+#, fuzzy
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "Select a valid date."
+
+#, fuzzy
+#~ msgid "CiviCRM Participants"
+#~ msgstr "CiviCRM Shortcuts"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Range"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "Disable Location Type"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Component Type"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "New Tag"
+
+#, fuzzy
+#~ msgid "Send a Test Mailing?"
+#~ msgstr "Send a test mailing?"
+
+#, fuzzy
+#~ msgid "Test"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "Mailing Subject"
+#~ msgstr "Mailing subject"
+
+#~ msgid "Mailings"
+#~ msgstr "Mailings"
+
+#, fuzzy
+#~ msgid "The mailing queue has been processed."
+#~ msgstr "The mailing component \"%1\" has been saved."
+
+#, fuzzy
+#~ msgid "Mailer Settings"
+#~ msgstr "Mailing Settings"
+
+#, fuzzy
+#~ msgid "Resubscribe"
+#~ msgstr "Subscribe"
+
+#, fuzzy
+#~ msgid "Optout"
+#~ msgstr "OptOut"
+
+#, fuzzy
+#~ msgid "The membership can not be saved."
+#~ msgstr "Thank you. Your contact information has been saved."
+
+#, fuzzy
+#~ msgid "This membership status can not be deleted"
+#~ msgstr "Selected Phone Call has been deleted."
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "Range"
+
+#, fuzzy
+#~ msgid "CiviCRM Members"
+#~ msgstr "CiviCRM Menu"
+
+#, fuzzy
+#~ msgid "Find Members"
+#~ msgstr "Group Members"
+
+#, fuzzy
+#~ msgid "CiviCRM Member Search"
+#~ msgstr "CiviCRM Search"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Reset Date"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "Add Contacts to Organisation"
+
+#, fuzzy
+#~ msgid "Event Information"
+#~ msgstr "Add Contacts to Organisation"
+
+#, fuzzy
+#~ msgid "Found %count contribution."
+#~ msgid_plural "Found %count contributions."
+#~ msgstr[0] "Found %count contact"
+#~ msgstr[1] "Found %count contacts"
+
+#, fuzzy
+#~ msgid "List more contributions"
+#~ msgstr "List Page Sections"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the selected contributions? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these contributions."
+#~ msgstr ""
+#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
+#~ "cannot be undone."
+
+#, fuzzy
+#~ msgid "One contribution record selected for export."
+#~ msgid_plural "%count contribution records selected for export."
+#~ msgstr[0] "There are no records selected for Print."
+#~ msgstr[1] "There are no records selected for Print."
+
+#, fuzzy
+#~ msgid "Enable recurring contributions."
+#~ msgstr "Found %count contact"
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "Field Label"
+
+#, fuzzy
+#~ msgid "Unit Price"
+#~ msgstr "Profile Name"
+
+#, fuzzy
+#~ msgid "Found %count participant."
+#~ msgid_plural "Found %count participants."
+#~ msgstr[0] "Found %count contact"
+#~ msgstr[1] "Found %count contacts"
+
+#, fuzzy
+#~ msgid "List more Event Participants"
+#~ msgstr "List Page Sections"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the selected participations? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these participations."
+#~ msgstr ""
+#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
+#~ "cannot be undone."
+
+#, fuzzy
+#~ msgid "One participant record selected for export."
+#~ msgid_plural "%count participant records selected for export."
+#~ msgstr[0] "There are no records selected for Print."
+#~ msgstr[1] "There are no records selected for Print."
+
+#, fuzzy
+#~ msgid "Participation Status"
+#~ msgstr "Status?"
+
+#, fuzzy
+#~ msgid "Complete OR partial mailing name."
+#~ msgstr "Complete OR partial contact name OR email."
+
+#, fuzzy
+#~ msgid "Tracking"
+#~ msgstr "Url Tracking"
+
+#, fuzzy
+#~ msgid "Preview Mailing"
+#~ msgstr "Send Mailing"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Mailings"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
+#~ msgstr ""
+#~ "There are no Tags entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."
+
+#, fuzzy
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Are you sure you want to disable this component?"
+
+#, fuzzy
+#~ msgid "Found %count member."
+#~ msgid_plural "Found %count members."
+#~ msgstr[0] "Found %count group member"
+#~ msgstr[1] "Found %count group members"
+
+#, fuzzy
+#~ msgid "List more Memberships"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the selected memberships? This delete "
+#~ "operation cannot be undone and will delete all transactions and activity "
+#~ "history associated with these members."
+#~ msgstr ""
+#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
+#~ "cannot be undone."
+
+#, fuzzy
+#~ msgid "One membership record selected for export."
+#~ msgid_plural "%count membership records selected for export."
+#~ msgstr[0] "There are no records selected for Print."
+#~ msgstr[1] "There are no records selected for Print."
+
+#, fuzzy
+#~ msgid "Start/Renew Date"
+#~ msgstr "Start Date"
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Country - \"%1\""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Find Contacts"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Title"
+
+#, fuzzy
+#~ msgid "Status Hold?"
+#~ msgstr "Status?"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "Add Contacts to Organization"
+
+#, fuzzy
+#~ msgid "Thermometer Title"
+#~ msgstr "Profile Title"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Please select a relationship type."
+
+#, fuzzy
+#~ msgid "Payment Entity Table"
+#~ msgstr "Target Entity Table"
+
+#, fuzzy
+#~ msgid "Membership Types"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Min Amount"
+#~ msgstr "Country"
+
+#, fuzzy
+#~ msgid "Max Amount"
+#~ msgstr "Country"
+
+#, fuzzy
+#~ msgid "Thank-you Title"
+#~ msgstr "Intro Title"
+
+#, fuzzy
+#~ msgid "Sort Position"
+#~ msgstr "Work location"
+
+#, fuzzy
+#~ msgid "Image"
+#~ msgstr "Image Url"
+
+#, fuzzy
+#~ msgid "Thank-you Message"
+#~ msgstr "Opt-out Message"
+
+#, fuzzy
+#~ msgid "Contribution is In Honor Of"
+#~ msgstr "Notes (3 of %1)"
+
+#, fuzzy
+#~ msgid " First Name"
+#~ msgstr "First Name"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "Call Date and Time are required."
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Please enter a valid name."
+
+#, fuzzy
+#~ msgid "You do not have access to this page"
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "You do not have access to this page."
+#~ msgstr "You do not have the necessary permission to edit this contact."
+
+#, fuzzy
+#~ msgid "Event Registration"
+#~ msgstr "Registration"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "Selected Meeting has been deleted."
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "Selected Meeting has been deleted."
+
+#, fuzzy
+#~ msgid "Please select at least one group to include in the mailing."
+#~ msgstr "Please select the group."
+
+#, fuzzy
+#~ msgid "Sent Mailings"
+#~ msgstr "Test Mailing"
+
+#~ msgid "Action"
+#~ msgstr "Action"
+
+#, fuzzy
+#~ msgid "Start Date - From"
+#~ msgstr "Start Date"
+
+#, fuzzy
+#~ msgid "(membership fee - %1)"
+#~ msgstr "Group Memberships (3 of %1)"
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "New Activity History"
+
+#, fuzzy
+#~ msgid "Show Past Events"
+#~ msgstr "Start Date"
+
+#, fuzzy
+#~ msgid " Mailing"
+#~ msgstr "Mailings"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Delete"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Cancel"
+
+#~ msgid "Email Address"
+#~ msgstr "Email Address"
+
+#~ msgid "\"%1 Administrator\" <%2>"
+#~ msgstr "\"%1 Administrator\" <%2>"
+
+#~ msgid "Group Type"
+#~ msgstr "Group Type"
+
+#~ msgid "Body in html format"
+#~ msgstr "Body in html format"
+
+#, fuzzy
+#~ msgid "Exclude Group(s)"
+#~ msgstr "Exclude group(s) "
+
+#, fuzzy
+#~ msgid "Include mailing(s)"
+#~ msgstr "Include mailing(s) "
+
+#, fuzzy
+#~ msgid "Exclude mailing(s)"
+#~ msgstr "Exclude mailing(s) "
+
+#, fuzzy
+#~ msgid "Invalid Mailing ID"
+#~ msgstr "Send Mailing"
+
+#, fuzzy
+#~ msgid "Retry Date"
+#~ msgstr "Reset Date"
+
+#, fuzzy
+#~ msgid "Retry"
+#~ msgstr "Relay"
+
+#~ msgid "The test mailing could not be delivered due to the following error:"
+#~ msgstr "The test mailing could not be delivered due to the following error:"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "From Email"
+
+#~ msgid "Upload Message"
+#~ msgstr "Upload Message"
+
+#, fuzzy
+#~ msgid "Retry Mailing: %1"
+#~ msgstr "Test Mailing: "
+
+#~ msgid "Queued"
+#~ msgstr "Queued"
+
+#~ msgid "Delivered"
+#~ msgstr "Delivered"
+
+#~ msgid "Opens"
+#~ msgstr "Opens"
+
+#~ msgid "Totals"
+#~ msgstr "Totals"
+
+#~ msgid "Percentages"
+#~ msgstr "Percentages"
+
+#, fuzzy
+#~ msgid "Text Body"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "HTML Body"
+#~ msgstr "HTML"
+
+#, fuzzy
+#~ msgid "Is Active"
+#~ msgstr "Active"
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "First Name"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Middle Name"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Last Name"
+
+#, fuzzy
+#~ msgid "Card Number"
+#~ msgstr "vCard File:"
+
+#, fuzzy
+#~ msgid "Security Code"
+#~ msgstr "Sic Code"
+
+#, fuzzy
+#~ msgid "Expiration Date"
+#~ msgstr "Birth Date"
+
+#, fuzzy
+#~ msgid "Card Type"
+#~ msgstr "Coord Type"
+
+#, fuzzy
+#~ msgid "Online Event Registration:"
+#~ msgstr "View Contact"
+
+#, fuzzy
+#~ msgid "- none -"
+#~ msgstr "- no preference -"
+
+#, fuzzy
+#~ msgid "Membership Status"
+#~ msgstr "Past Memberships"
+
+#, fuzzy
+#~ msgid "Message Templates"
+#~ msgstr "Mailing Template?"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "The relationship end date cannot be prior to the start date."
+
+#, fuzzy
+#~ msgid "API Subject"
+#~ msgstr "Subject"
+
+#, fuzzy
+#~ msgid "File size should be less than 8192 bytes"
+#~ msgstr "File size should be less than 1 MByte"
+
+#, fuzzy
+#~ msgid "Create PPD"
+#~ msgstr "Create"
+
+#, fuzzy
+#~ msgid "Create PayPal API Profile"
+#~ msgstr "Create Profile"
+
+#, fuzzy
+#~ msgid "New Online Contribution Page"
+#~ msgstr "New Donation Page"
+
+#, fuzzy
+#~ msgid "Participant status"
+#~ msgstr "Print Contact List"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Start Date"
+
+#~ msgid "Track URLs?"
+#~ msgstr "Track URLs?"
+
+#~ msgid "Upload Text Message"
+#~ msgstr "Upload Text Message"
+
+#~ msgid "Unsubscriptions"
+#~ msgstr "Unsubscriptions"
+
+#, fuzzy
+#~ msgid "Selected message template can not be deleted."
+#~ msgstr "Selected Phone Call has been deleted."
+
+#, fuzzy
+#~ msgid "Selected message templates has been deleted."
+#~ msgstr "Selected Meeting has been deleted."
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Title"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Subject"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "Message Title"
+#~ msgstr "Message"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Mailing subject"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "Left Message"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "Upload HTML Message"
+
+#, fuzzy
+#~ msgid "The Message Template \"%1\" has been saved."
+#~ msgstr "The tag \"%1\" has been saved."
+
+#, fuzzy
+#~ msgid "Are you sure you want to disable this message tempate?"
+#~ msgstr "Are you sure you want to disable this relationship?"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "Country"
+
+#, fuzzy
+#~ msgid "through"
+#~ msgstr "Click-throughs"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Date"
+
+#, fuzzy
+#~ msgid "Fee(s)"
+#~ msgstr "-year-"
+
+#, fuzzy
+#~ msgid "Edit Message Template"
+#~ msgstr "Mailing Template?"
+
+#, fuzzy
+#~ msgid "Delete Message Template"
+#~ msgstr "Delete Group"
+
+#, fuzzy
+#~ msgid "Do you want to delete this message template ?"
+#~ msgstr "Are you sure you want to delete this note?"
+
+#, fuzzy
+#~ msgid "Is this template enabled."
+#~ msgstr "Is this Field Searchable?"
+
+#, fuzzy
+#~ msgid "New Message Templates"
+#~ msgstr "Mailing Template?"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Message Templates  entered. You can <a href=\"%1\">add one</"
+#~ "a>."
+#~ msgstr ""
+#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
+#~ "one</a>."

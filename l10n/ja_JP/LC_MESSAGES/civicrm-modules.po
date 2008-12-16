@@ -155,7 +155,6 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "週"
 
@@ -2170,9 +2169,8 @@ msgid "ThankYou Text"
 msgstr ""
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Description"
-msgstr "説明"
+msgstr "イベントの詳細"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -3033,7 +3031,7 @@ msgstr "インラインにする"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "除外ページ"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3074,9 +3072,8 @@ msgid "Recipient Email"
 msgstr "受信者"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Headers"
-msgstr "見出し"
+msgstr "ヘッダ"
 
 #: CRM/Mailing/DAO/Spool.php
 msgid "Body"
@@ -3093,7 +3090,7 @@ msgstr "削除"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -8684,3 +8681,65 @@ msgstr "作成"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "DashBoard"
+#~ msgstr "ダッシュボード"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr " 名"
+
+#~ msgid "Subscribe"
+#~ msgstr "購読"
+
+#~ msgid "day(s)"
+#~ msgstr "日"
+
+#~ msgid "week(s)"
+#~ msgstr "週"
+
+#~ msgid "month(s)"
+#~ msgstr "月"
+
+#~ msgid "year(s)"
+#~ msgstr "年"
+
+#~ msgid "Received Date"
+#~ msgstr "受信日"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "追加インフォメーション"
+
+#~ msgid "Event Information"
+#~ msgstr "イベントの情報"
+
+#~ msgid "RSS 2.0 Feed"
+#~ msgstr "RSS フィード"
+
+#~ msgid "None"
+#~ msgstr "無し"
+
+#~ msgid "-- select --"
+#~ msgstr "-- 選択 --"
+
+#~ msgid "Title "
+#~ msgstr "タイトル "
+
+#~ msgid "Image"
+#~ msgstr "画像"
+
+#, fuzzy
+#~ msgid "Action"
+#~ msgstr "アクション"
+
+#~ msgid " (test) "
+#~ msgstr " (テスト) "
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "削除"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "キャンセル"

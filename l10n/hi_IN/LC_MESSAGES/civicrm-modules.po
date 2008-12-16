@@ -65,14 +65,12 @@ msgid "In Honor Of"
 msgstr "आदर में"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "फूटर पाठ"
+msgstr "वेतन बाद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "पर्चा भेजे?"
+msgstr "वेतन रसीद बाद"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -125,9 +123,8 @@ msgstr "चालान ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
-msgstr "परिवर्तित तिथि"
+msgstr "रद्द दिनांक"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
@@ -146,19 +143,16 @@ msgstr "फ़्रिक्वेंसी इकाई"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "फ़्रिक्वेंसी इकाई"
+msgstr "फ़्रिक्वेंसी अंतराल"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
 msgstr "किश्तों"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "हफ्ते"
 
@@ -279,11 +273,11 @@ msgstr "कृपया वैध क्रेडिट कार्ड सत�
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "न्यूनतम मात्रा"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "अधिकतम मात्रा"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -895,12 +889,11 @@ msgstr "फ़्रिक्वेंसी इकाई"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr ""
+msgstr "धन्यवाद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
-msgstr "डाक फूटर"
+msgstr "फूटर - धन्यवाद"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -918,9 +911,8 @@ msgid "Bcc Receipt"
 msgstr "पर्चा भेजे?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "रसीद प्रेषित"
+msgstr "रसीद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -932,14 +924,12 @@ msgid "Honor Block Text"
 msgstr "आदर प्रकार"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "योगदान पन्ना - %1"
+msgstr "योगदान पृष्ठ आरंभ तिथि"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page End Date"
-msgstr "योगदान पन्ना - %1"
+msgstr "योगदान पृष्ठ समाप्ति तिथि"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID"
@@ -951,14 +941,12 @@ msgid "Solicitor ID"
 msgstr "स्टोर ID"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "प्राप्त तिथि"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "रद्द"
+msgstr "रद्द का कारण"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -966,29 +954,24 @@ msgid "Thank-you Date"
 msgstr "परिवर्तित तिथि"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Amount Label"
-msgstr "अनुदान राशि"
+msgstr "राशि लेबल"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "मूल्य विकल्प"
+msgstr "उत्पाद विकल्प"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Quantity"
-msgstr "मुहैया"
+msgstr "मात्रा"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "अनुसूचित तिथि"
+msgstr "पूरी तिथि"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "घटक"
+msgstr "टिप्पणी"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
@@ -997,9 +980,8 @@ msgid "Create Date"
 msgstr "पूर्ण तिथि"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Recurring Contribution Status"
-msgstr "पुनरावृत्ति अंशदान"
+msgstr "पुनरावृत्ति योगदान स्थिति"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
@@ -1011,18 +993,16 @@ msgid "Next Sched Contribution"
 msgstr "योगदान मिटाएँ"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
-msgstr "उपलब्ध देश"
+msgstr "विफलता गिनती"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "पुनः प्रयास विफलता तिथि"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Auto Renew"
-msgstr "नवीनीकृत"
+msgstr "ऑटो नवीनीकृत"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 #, fuzzy
@@ -1039,14 +1019,12 @@ msgid "Trxn Result Code"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "वेबसाइट"
+msgstr "डेबिट"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "क्रेडिट कार्ड"
+msgstr "क्रेडिट"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -1055,21 +1033,19 @@ msgstr "प्रीमियम"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "प्रीमियम की धारा के लिए शीर्षक"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
 msgstr ""
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "संपर्क सूची छापिऐ"
+msgstr "प्रीमियम संपर्क ईमेल"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "संपर्क फाेन"
+msgstr "प्रीमियम संपर्क फोन"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -1077,53 +1053,48 @@ msgid "Premiums Display Min Contribution"
 msgstr "न्यूनतम योगदान राशि प्रदर्शित?"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "छांटने के लिये नाम"
+msgstr "वस्तु का नाम"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "लघुछवि"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "न्यूनतम योगदान राशि"
+msgstr "न्यूनतम योगदान"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "मेज़बान"
+msgstr "मूल्य"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "Url लोगो"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Homepage"
-msgstr ""
+msgstr "Url मुखपृष्ठ"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Title"
-msgstr "कार्य का पद"
+msgstr "रंग शीर्षक"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Button"
-msgstr ""
+msgstr "रंग बटन"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bar"
-msgstr ""
+msgstr "रंग बार"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Main Text"
-msgstr "फूटर पाठ"
+msgstr "मुख्य रंग पाठ"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main"
-msgstr ""
+msgstr "मुख्य रंग"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Bg"
@@ -2251,9 +2222,8 @@ msgid "show location"
 msgstr "काम का स्थान"
 
 #: CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Register date"
-msgstr "पंजीकृत"
+msgstr "नोंदनी दिनांक"
 
 #: CRM/Event/DAO/Participant.php
 #, fuzzy
@@ -8781,3 +8751,90 @@ msgstr "बनाना"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "लेन देन क्रंमाक"
+
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "आप को इस पन्ने की पहुँच अनुमति नहीं है।"
+
+#~ msgid "Contribution Types"
+#~ msgstr "योगदान प्रकार"
+
+#~ msgid "Manage Premiums"
+#~ msgstr "प्रबंधित प्रीमियम"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "योगदान नष्ट"
+
+#~ msgid "DashBoard"
+#~ msgstr "डैशबोर्ड"
+
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "योगदान प्रबंधित पन्ने"
+
+#~ msgid "Participant"
+#~ msgstr "प्रतिभागि"
+
+#~ msgid "Display Name"
+#~ msgstr "प्रदर्शन नाम"
+
+#~ msgid "Manage Events"
+#~ msgstr "कार्यक्रम प्रबंधित"
+
+#~ msgid "Payment Instrument"
+#~ msgstr "भुगतान साधन"
+
+#~ msgid "-period-"
+#~ msgstr "-अवधि-"
+
+#~ msgid "day(s)"
+#~ msgstr "दिन"
+
+#~ msgid "week(s)"
+#~ msgstr "हफ्ते"
+
+#~ msgid "month(s)"
+#~ msgstr "महीने"
+
+#~ msgid "year(s)"
+#~ msgstr "साल"
+
+#~ msgid "Contribution amount can not be greater than %1"
+#~ msgstr "राशि का योगदान %1 से अधिक नहीं हो सकता"
+
+#~ msgid "Enable recurring payments"
+#~ msgstr "सक्षम पुनरावृत्ति भुगतान"
+
+#~ msgid "Find Contributions"
+#~ msgstr "याेगदान खाेजें"
+
+#~ msgid "Event Name"
+#~ msgstr "कार्यक्रम का नाम"
+
+#~ msgid "Find Participants"
+#~ msgstr "प्रतिभागियाें काे खाेजें"
+
+#~ msgid "Membership Status Rules"
+#~ msgstr "सदस्यता स्थिति के नियम"
+
+#~ msgid "Find Members"
+#~ msgstr "सदस्यों काे खोजें"
+
+#~ msgid ""
+#~ "An email receipt will be sent to %1 once the transaction is processed "
+#~ "successfully."
+#~ msgstr "सौदा सफलतापूर्वक पूर्ण हाेने के बाद एक ईमेल रसीद %1 काे भेजा जाएगी।"
+
+#~ msgid "Additional Details"
+#~ msgstr "अतिरिक्त विवरण"
+
+#~ msgid "Received Date"
+#~ msgstr "प्राप्त तिथि"
+
+#~ msgid "Additional Information"
+#~ msgstr "अतिरिक्त जानकारी"
+
+#~ msgid "Event Information"
+#~ msgstr "कार्यक्रम जानकारी"

@@ -9142,3 +9142,472 @@ msgstr "កាលបរិច្ឆេទ"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Transaction ID"
+#~ msgstr "អង្គការ"
+
+#, fuzzy
+#~ msgid "Contribution Types"
+#~ msgstr "ប្រភេទ​ទីតាំង"
+
+#, fuzzy
+#~ msgid "Manage Premiums"
+#~ msgstr "រៀប​ចំ​ក្រុម"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "អង្គការ​ថ្មី"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "បង្ហាញ​ឈ្មោះ"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "រៀប​ចំ​ក្រុម"
+
+#, fuzzy
+#~ msgid "Subscribe"
+#~ msgstr "ពិពណ៌នា"
+
+#, fuzzy
+#~ msgid "Import Members"
+#~ msgstr "សមាជិក​ក្រុម"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "លុយ"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "ភេទ"
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "ឈ្មោះ​អង្គការ"
+
+#, fuzzy
+#~ msgid "Find Contributions"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "ឈ្មោះ​ផ្លូវ"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "ព័ត៌មាន​ទំនាក់ទំនង​ដែល​បាន​ជ្រើស​ទាំងអស់ ៖ %1"
+
+#, fuzzy
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "ជ្រើស​កាលបរិច្ឆេទ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "រៀប​ចំ​ក្រុម"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "ចំណាំ"
+
+#, fuzzy
+#~ msgid "Send a Test Mailing?"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Mailing Subject"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Mailings"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Mailer Settings"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Resubscribe"
+#~ msgstr "ពិពណ៌នា"
+
+#, fuzzy
+#~ msgid "Optout"
+#~ msgstr "រយៈពេល"
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "រៀប​ចំ​ក្រុម"
+
+#, fuzzy
+#~ msgid "CiviCRM Members"
+#~ msgstr "សមាជិក​ក្រុម"
+
+#, fuzzy
+#~ msgid "Find Members"
+#~ msgstr "សមាជិក​ក្រុម"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#, fuzzy
+#~ msgid "Event Information"
+#~ msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#, fuzzy
+#~ msgid "Found %count contribution."
+#~ msgid_plural "Found %count contributions."
+#~ msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Enable recurring contributions."
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Unit Price"
+#~ msgstr "ឈ្មោះ​កណ្ដាល"
+
+#, fuzzy
+#~ msgid "Found %count participant."
+#~ msgid_plural "Found %count participants."
+#~ msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Tracking"
+#~ msgstr "រយៈពេល"
+
+#, fuzzy
+#~ msgid "Preview Mailing"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Found %count member."
+#~ msgid_plural "Found %count members."
+#~ msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Start/Renew Date"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "ប្រទេស"
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "ចំណងជើង"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#, fuzzy
+#~ msgid "Thermometer Title"
+#~ msgstr "មុខ​តំណែង"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "សូម​បញ្ចូល​ %1 ត្រឹម​ត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Payment Entity Table"
+#~ msgstr "អាច​ប្រើ​បាន"
+
+#, fuzzy
+#~ msgid "Membership Types"
+#~ msgstr "សមាជិក​ក្រុម"
+
+#, fuzzy
+#~ msgid "Min Amount"
+#~ msgstr "ប្រទេស"
+
+#, fuzzy
+#~ msgid "Max Amount"
+#~ msgstr "ប្រទេស"
+
+#, fuzzy
+#~ msgid "Thank-you Title"
+#~ msgstr "មុខ​តំណែង"
+
+#, fuzzy
+#~ msgid "Sort Position"
+#~ msgstr "ទីតាំង"
+
+#, fuzzy
+#~ msgid "Image"
+#~ msgstr "​Url រូបភាព"
+
+#, fuzzy
+#~ msgid "Thank-you Message"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "Contribution is In Honor Of"
+#~ msgstr "កែសម្រួល​ឈ្មោះ​ទំនាក់​ និង ទីតាំង"
+
+#, fuzzy
+#~ msgid " First Name"
+#~ msgstr "នាមខ្លួន"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "ត្រូវការ​កាល​បរិច្ឆេទ​ និង ពេលវេលាហៅ​មួយ"
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Please select at least one group to include in the mailing."
+#~ msgstr "សូម​ជ្រើស​កាលបរិច្ឆេទ​ដែល​បាន​កំណត់​មួយ ។"
+
+#, fuzzy
+#~ msgid "Sent Mailings"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Action"
+#~ msgstr "ទីតាំង"
+
+#, fuzzy
+#~ msgid "Start Date - From"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "(membership fee - %1)"
+#~ msgstr "បន្ថែម​សមាជីក ៖ %1"
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "ប្រវត្តិ​សកម្មភាព​ CivicCRM"
+
+#, fuzzy
+#~ msgid "Show Past Events"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid " Mailing"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "លុប"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "បោះបង់"
+
+#, fuzzy
+#~ msgid "Email Address"
+#~ msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្រឹមត្រូវ"
+
+#, fuzzy
+#~ msgid "Group Type"
+#~ msgstr "ឈ្មោះ​ក្រុម"
+
+#, fuzzy
+#~ msgid "Exclude Group(s)"
+#~ msgstr "ក្រុម"
+
+#, fuzzy
+#~ msgid "Include mailing(s)"
+#~ msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្រឹមត្រូវ"
+
+#, fuzzy
+#~ msgid "Invalid Mailing ID"
+#~ msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្រឹមត្រូវ"
+
+#, fuzzy
+#~ msgid "Retry Date"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "Upload Message"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "Delivered"
+#~ msgstr "លុប"
+
+#, fuzzy
+#~ msgid "Totals"
+#~ msgstr "ព័ត៌មាន​លម្អិត"
+
+#, fuzzy
+#~ msgid "Is Active"
+#~ msgstr "សកម្ម?"
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "នាមខ្លួន"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "ឈ្មោះ​កណ្ដាល"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "គោត្តនាម"
+
+#, fuzzy
+#~ msgid "Card Number"
+#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Security Code"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Expiration Date"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Card Type"
+#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Online Event Registration:"
+#~ msgstr "មើល​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#, fuzzy
+#~ msgid "Membership Status"
+#~ msgstr "សមាជិក​ក្រុម"
+
+#, fuzzy
+#~ msgid "API Subject"
+#~ msgstr "ប្រធានបទ"
+
+#, fuzzy
+#~ msgid "Create PPD"
+#~ msgstr "កាលបរិច្ឆេទ"
+
+#, fuzzy
+#~ msgid "Create PayPal API Profile"
+#~ msgstr "បង្កើត​ក្រុម​ថ្មី"
+
+#, fuzzy
+#~ msgid "New Online Contribution Page"
+#~ msgstr "អង្គការ​ថ្មី"
+
+#, fuzzy
+#~ msgid "Participant status"
+#~ msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#, fuzzy
+#~ msgid "Unsubscriptions"
+#~ msgstr "ពិពណ៌នា"
+
+#, fuzzy
+#~ msgid "Selected message template can not be deleted."
+#~ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Selected message templates has been deleted."
+#~ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "ចំណងជើង"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "ប្រធានបទ"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "ចំណាំ"
+
+#, fuzzy
+#~ msgid "Message Title"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "សារ"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "ប្រទេស"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "កាលបរិច្ឆេទ"
+
+#, fuzzy
+#~ msgid "Fee(s)"
+#~ msgstr "ភេទ"

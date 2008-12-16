@@ -65,14 +65,12 @@ msgid "In Honor Of"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Undertekst"
+msgstr "Betal senere-tekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Send kvittering?"
+msgstr "Betal senere-kvittering"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -156,9 +154,8 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
-msgstr "uke(r)"
+msgstr "uke"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -922,9 +919,8 @@ msgid "Bcc Receipt"
 msgstr "Send kvittering?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Kvitteringsdato"
+msgstr "Kvitteringstekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -8814,3 +8810,147 @@ msgstr "Opprett"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "Transaksjons-id"
+
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "Du har ikke tilgang til denne siden"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Vennligst velg en relasjon"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Kontakttype"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Fornavn"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Slett"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Behandle"
+
+#~ msgid "day(s)"
+#~ msgstr "dag(er)"
+
+#~ msgid "week(s)"
+#~ msgstr "uke(r)"
+
+#~ msgid "month(s)"
+#~ msgstr "måned(er)"
+
+#~ msgid "year(s)"
+#~ msgstr "år"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Sorter Navn"
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Behandle"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "Sted"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Kontakttype"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "Slett"
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Sluttdato"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Avbryt"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Tittel"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Vennligst velg en relasjon"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "%1 er et påkrevd felt."
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Velg en gyldig dato"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "Valgt møte er slettet"
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "Valgt møte er slettet"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Slett"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Avbryt"
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "Fornavn"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Mellomnavn"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Etternavn"
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Startdato"
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Tittel"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Tittel"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Tekst"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Tittel"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "La igjen melding"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "La igjen melding"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Dato"

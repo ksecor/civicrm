@@ -1094,9 +1094,8 @@ msgid "Legal Name"
 msgstr "Juridiskt namn"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Allmän grupp"
+msgstr "Egna hälsningar"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1149,16 +1148,15 @@ msgstr "Visas"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Where uttryck"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Välj datum"
+msgstr "Välj tabeller"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Vilka tabeller"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1723,9 +1721,8 @@ msgid "Data"
 msgstr "Datum"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Typ av kontakt"
+msgstr "HTML-typ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1734,16 +1731,14 @@ msgstr "Standardvärde"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Välj profil"
+msgstr "Hjälp före"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Arrangör"
+msgstr "Hjälp efter"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1751,7 +1746,6 @@ msgstr "Maskera"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
-#, fuzzy
 msgid "Javascript"
 msgstr "Javascript"
 
@@ -1790,9 +1784,8 @@ msgid "Multi-Select State/Province"
 msgstr "Välj flera Län/Landskap"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Valutavisning"
+msgstr "Visa komprimerad"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1809,9 +1802,8 @@ msgstr "Insida"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefon"
+msgstr "Typ av telefon"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2113,27 +2105,24 @@ msgid "Administer"
 msgstr "Administrera"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Efternamn"
+msgstr "ACL-namn"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
 msgstr "Neka"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Etikett för ämne"
+msgstr "Objekttabell"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "ACL-tabell"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Borttaget"
+msgstr "Återkalla"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2259,9 +2248,8 @@ msgid "Due Date Time"
 msgstr "Slutdatum/tid"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Linjenummer"
+msgstr "Telefonnummer"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2274,7 +2262,7 @@ msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Kontakt ID (matcha mot kontakt)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3605,84 +3593,72 @@ msgid "Invalid relationship type"
 msgstr "Ogiltig relationstyp"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Kontakt ID"
+msgstr "Internt kontakt-ID"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Typ av kontakt"
+msgstr "Kontakt undertyp"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Kvitto från, epost:"
+msgstr "Skicka inte Epost"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Ring inte"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
-msgstr "Postnummer"
+msgstr "Skicka inte brev"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Ingen försäljning"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Inga mass-mail"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Juridisk Identifierare"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "Externt ID"
+msgstr "Extern Indentifierare"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Sortera på namn"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Förnamn"
+msgstr "Visa namn"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Webbplatsens URL"
+msgstr "Hemsida"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Bilder"
+msgstr "Bild-URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Epostformat"
+msgstr "Önskat epostformat"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Kontanter"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "Källkontakt existerar inte"
+msgstr "Källa för Kontaktdata"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Typ av kartläggning"
+msgstr "Hälsningstyp"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3691,45 +3667,40 @@ msgid "Job Title"
 msgstr "Yrkestitel"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Startdatum"
+msgstr "Födelsedatum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Is Deceased"
-msgstr ""
+msgstr "Är död"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Mottaget"
+msgstr "Dödsdatum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sic Code"
-msgstr ""
+msgstr "SIC-kod"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Format"
+msgstr "Formell"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Informell"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
-msgstr "Hederspersons Förstavelse (Prefix)"
+msgstr "Artig"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Skräddarsy"
+msgstr "Egen"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3746,32 +3717,28 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Namn"
+msgstr "Namn A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Namn"
+msgstr "Namn B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Skickade formulärdata"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Spårning"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Hemsida"
+msgstr "Webb"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API URL"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4490,9 +4457,8 @@ msgid "Distance"
 msgstr "Avaktivera"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- vilken grupp som helst -"
+msgstr "- vilket som land -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5395,14 +5361,12 @@ msgid "Street Unit"
 msgstr "Enhetsfrekvens"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Gatuadress"
+msgstr "Extra adress 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Gatuadress"
+msgstr "Extra adress 2"
 
 #: CRM/Core/DAO/Address.php
 #, fuzzy
@@ -5415,11 +5379,11 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geografisk kod 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geografisk kod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
@@ -5469,9 +5433,7 @@ msgstr "Förstavelse (Prefix)"
 msgid "County Abbreviation"
 msgstr "Medverkan"
 
-# eller nuvarande
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Valuta"
 
@@ -5659,9 +5621,8 @@ msgid "Upload Date"
 msgstr "Ladda upp data"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Sortera på namn"
+msgstr "IM skärmnamn"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5682,9 +5643,8 @@ msgid "vCard Location Type"
 msgstr "Lägestyp"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Lägestyp"
+msgstr "Platsnamn"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -6017,9 +5977,8 @@ msgid "Notify"
 msgstr "Notering"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Mobil"
+msgstr "Modul"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -14077,6 +14036,529 @@ msgstr "Meddelandet stoppat av ett innehållsfilter"
 msgid "Error in SMTP transaction"
 msgstr "Fel i SMTP-överföring"
 
+#~ msgid "Contact"
+#~ msgstr "Kontakt"
+
+#~ msgid "Import"
+#~ msgstr "Importera"
+
+#~ msgid "Custom Data"
+#~ msgstr "Egen data"
+
+#~ msgid "Access Control"
+#~ msgstr "Åtkomstskydd"
+
+#~ msgid "Case"
+#~ msgstr "Ärende"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Ladda matchning"
+
+#~ msgid "View Activity"
+#~ msgstr "Visa aktivitet"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "Betalningsmotor"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Avancerad sökning"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "Visningsskärm för kontakter"
+
+#~ msgid "Global Settings"
+#~ msgstr "Globala inställningar"
+
+#~ msgid "Components"
+#~ msgstr "Komponenter"
+
+#, fuzzy
+#~ msgid "Customize"
+#~ msgstr "Skräddarsy"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurera"
+
+#~ msgid "Manage"
+#~ msgstr "Hantera"
+
+#~ msgid "Option Lists"
+#~ msgstr "Alternativ"
+
+#~ msgid "File System Paths"
+#~ msgstr "Filsystemets sökväg"
+
+#~ msgid "Site URLs"
+#~ msgstr "Hemsidans URL"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Kartläggning"
+
+#~ msgid "Localization"
+#~ msgstr "Landsinställningar"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Övrigt"
+
+#~ msgid "Debugging"
+#~ msgstr "Felkontroll"
+
+#~ msgid "Notes"
+#~ msgstr "Noteringar"
+
+#~ msgid "Delete Location"
+#~ msgstr "Ta bort plats"
+
+#~ msgid "Domain Information"
+#~ msgstr "Domäninformation"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Administrera CiviCRM"
+
+#~ msgid "Activities"
+#~ msgstr "Aktiviteter"
+
+#~ msgid "Relationships"
+#~ msgstr "Förhållanden"
+
+#~ msgid "Contributions"
+#~ msgstr "Medverkan"
+
+#~ msgid "Memberships"
+#~ msgstr "Medlemsskap"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Hitta kontakter"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Skicka e-post till en kontakt"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Hem"
+
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+
+#~ msgid "Tags"
+#~ msgstr "Märke"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Exportera kontakter"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "New Activity"
+#~ msgstr "Ny aktivitet"
+
+#~ msgid "Log out"
+#~ msgstr "Logga ut"
+
+#~ msgid "Map Event Location"
+#~ msgstr "Placering för kartevenemang"
+
+#~ msgid "Search Builder"
+#~ msgstr "Sökbyggare"
+
+#~ msgid "New Contact"
+#~ msgstr "Ny kontakt"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Egna datafält"
+
+#~ msgid "Message Templates"
+#~ msgstr "Meddelandemallar"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Hitta dublettkontakter"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Regler för dublettkontakter"
+
+#~ msgid "Contact Matching"
+#~ msgstr "Kontaktmatchning"
+
+# Knepig en... prissättning? prisinställning? Men jag tror det har med grupperingar av priser, t ex olika prislistor, att göra
+#~ msgid "Price Sets"
+#~ msgstr "Prisgrupper"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Hantera grupper"
+
+#~ msgid "Tell a Friend"
+#~ msgstr "Tipsa en vän"
+
+#~ msgid "Contacts"
+#~ msgstr "Kontakter"
+
+#~ msgid "Group Members"
+#~ msgstr "Gruppmedlemmar"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Mottaget"
+
+#~ msgid "Amount Requested"
+#~ msgstr "Önskad mängd"
+
+#, fuzzy
+#~ msgid "Amount Granted"
+#~ msgstr "Mängd"
+
+#~ msgid "add contacts"
+#~ msgstr "lägg till kontakter"
+
+#~ msgid "view all contacts"
+#~ msgstr "se alla kontakter"
+
+#~ msgid "edit all contacts"
+#~ msgstr "ändra alla kontakter"
+
+#~ msgid "import contacts"
+#~ msgstr "importera kontakter"
+
+#~ msgid "edit groups"
+#~ msgstr "ändra grupper"
+
+#~ msgid "administer CiviCRM"
+#~ msgstr "administrera CiviCRM"
+
+#~ msgid "access uploaded files"
+#~ msgstr "kom åt uppladdade filer"
+
+#~ msgid "profile listings and forms"
+#~ msgstr "profillistor och formulär"
+
+#~ msgid "Target Contact non-existant!"
+#~ msgstr "Målkontakt existerar inte"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+#~ msgstr ""
+#~ "Det saknas matchning för obligatoriskt kontaktfält. (Skall vara För OCH "
+#~ "Efternamn eller Standarde-post eller Förnamn. Efternamn OCH Standarde-"
+#~ "post)"
+
+#~ msgid "Missing required contact matching field: Contact ID."
+#~ msgstr "Obligatorisk matchande kontaktfält saknas: Kontakt ID"
+
+#~ msgid "Match On:"
+#~ msgstr "Matcha per:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Contact Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+#~ msgstr ""
+#~ "Regeln för dublettmatchningar har inte sparats eftersom regeln inte är "
+#~ "giltig. Regler får bara innehålla giltiga fältnamn, 'AND', 'OR' eller "
+#~ "paranteser."
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "Regeln för dublettmatchningar har sparats."
+
+#~ msgid "User Language"
+#~ msgstr "Användarspråk"
+
+#~ msgid "Monetary Display"
+#~ msgstr "Valutavisning"
+
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "CiviCRM - versionskontroll"
+
+#~ msgid "mysqldump Path"
+#~ msgstr "mysqldump sökväg"
+
+#~ msgid "Captcha Font Path"
+#~ msgstr "Sökväg till Captcha-typsnitt"
+
+#~ msgid "Captcha Font"
+#~ msgstr "Typsnitt för Captcha"
+
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "Inställningar - SMTP"
+
+#~ msgid "Settings - Update Config Backend"
+#~ msgstr "Inställningar- Uppdatera Config Backend"
+
+#~ msgid "Edit DupeMatch"
+#~ msgstr "Ändra DupeMatchning"
+
+#~ msgid ""
+#~ "Are you sure you want to delete this mapping? This operation can not be "
+#~ "undone"
+#~ msgstr ""
+#~ "Är du säker på att du vill ta bort denna mappning? Denna aktivitet kan "
+#~ "inte ångras."
+
+#~ msgid "System Configuration"
+#~ msgstr "Systeminställningar"
+
+#~ msgid "Online Payment"
+#~ msgstr "Online-betalningar"
+
+#~ msgid "Address Formatting"
+#~ msgstr "Adressformat"
+
+#~ msgid "This is an unexpected place to be in, contact support"
+#~ msgstr "Detta är ett oväntat ställe att vara på, kontakta support"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr "Postnummer större än \"%1\""
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr "Postnummer mindre än \"%1\""
+
+#, fuzzy
+#~ msgid "shared options"
+#~ msgstr "Val"
+
+#, fuzzy
+#~ msgid ""
+#~ "One matching household: %1, was found. You can specify it through 'Select "
+#~ "existing household' option or click 'Save With Duplicate Household' "
+#~ "button below."
+#~ msgid_plural ""
+#~ "%count matching households: %1, were found. You can specify them through "
+#~ "'Select existing household' option or click 'Save With Duplicate "
+#~ "Household' button below."
+#~ msgstr[0] ""
+#~ "En matchande kontakt hittades. Du kan ändra den här: %1, eller klicka på "
+#~ "spara kontaktdublett nedan"
+#~ msgstr[1] ""
+#~ "%count matchande kontakter hittades. Du kan ändra dem här: %1, eller "
+#~ "klicka på spara kontaktdublett nedan"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Plats"
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Välj datum"
+
+#, fuzzy
+#~ msgid "Update Template"
+#~ msgstr "Uppdatera Smartgrupp"
+
+#, fuzzy
+#~ msgid "Save as New Template"
+#~ msgstr "Spara och Ny"
+
+#, fuzzy
+#~ msgid "Template Title"
+#~ msgstr "Titel på termometer"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "Högsta belopp"
+
+#~ msgid "View Membership"
+#~ msgstr "Visa Medlemskap"
+
+#~ msgid "Edit Membership"
+#~ msgstr "Ändra medlemskap"
+
+#~ msgid "Delete Membership"
+#~ msgstr "Radera medlemskap"
+
+#, fuzzy
+#~ msgid ""
+#~ "The requested Profile (gid=%1) is disabled, OR it is not configured to be "
+#~ "used for 'Profile' listings in its Settings, or there is no Profile with "
+#~ "that ID. Contact the site administrator if you need assistance."
+#~ msgstr ""
+#~ "Denna profil är ännu inte konfigurerad för önskad aktivitet. Kontakta "
+#~ "webbplatsens administratör om du behöver hjälp."
+
+#~ msgid "CiviContribute"
+#~ msgstr "CiviBidrag"
+
+#~ msgid "CiviEvent"
+#~ msgstr "CiviHändelser"
+
+#~ msgid "CiviMember"
+#~ msgstr "CiviMedlemmar"
+
+#~ msgid "CiviMail"
+#~ msgstr "CiviPost"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Kartlägg kontakt"
+
+#, fuzzy
+#~ msgid "View Payment Processors"
+#~ msgstr "Betalingsmotor"
+
+#, fuzzy
+#~ msgid "View Payment Processor Type"
+#~ msgstr "Betalingsmotor"
+
+#, fuzzy
+#~ msgid "View Options"
+#~ msgstr "Val"
+
+#~ msgid "Options"
+#~ msgstr "Val"
+
+#, fuzzy
+#~ msgid "Address Preferences"
+#~ msgstr "Adress"
+
+#~ msgid "Date Formatting"
+#~ msgstr "Datumformat"
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "CiviCRM Profil"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Val"
+
+#~ msgid "Payment Processor"
+#~ msgstr "Betalningsmotor"
+
+#, fuzzy
+#~ msgid "Payment Processor type information"
+#~ msgstr "Betalingsmotor"
+
+#, fuzzy
+#~ msgid "Manage ACLs"
+#~ msgstr "Hantera"
+
+#~ msgid "Activity"
+#~ msgstr "Aktivitet"
+
+#, fuzzy
+#~ msgid "Test Payment Processor"
+#~ msgstr "Betalingsmotor"
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Gruppen \"%1\" har raderats"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Alternativgruppen \"%1\" har sparats."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Mottaget"
+
+#, fuzzy
+#~ msgid "Grant Decision"
+#~ msgstr "Anslag"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "Skickat den"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Val värde"
+
+#~ msgid "Name:"
+#~ msgstr "Namn:"
+
+#~ msgid "Please enter a valid value for this field."
+#~ msgstr "Skriv in ett korrekt värde för fätet"
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "Radera kontakter"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Kontaktmatchning"
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "Submit Credit Card Contribution"
+#~ msgstr "Importera medverkande"
+
+#, fuzzy
+#~ msgid "Contributions made in honor of %1."
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "View Contact Dashboard"
+#~ msgstr "Ny kontakt"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Mottaget"
+
+#, fuzzy
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "Terms:"
+#~ msgstr "Test"
+
+#, fuzzy
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "Medverkan"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "Konfigurera"
+
+#, fuzzy
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Medlemsskap"
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Skickat den"
+
+#, fuzzy
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Exportera medverkande"
+
+#, fuzzy
+#~ msgid "Your Membership(s)"
+#~ msgstr "Medlemsskap"
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Belopp"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Borttaget"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Grupp"
+
+#, fuzzy
+#~ msgid "Advanced Settings"
+#~ msgstr "Adress"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Betalningsinstrument"
+
+#~ msgid "Event Registration"
+#~ msgstr "Anmälan till händelse"
+
 #~ msgid "phone"
 #~ msgstr "telefon"
 
@@ -14086,3 +14568,226 @@ msgstr "Fel i SMTP-överföring"
 #, fuzzy
 #~ msgid "Could not interpret return values from function"
 #~ msgstr "Kunde inte hitta metainformationen för betalningsmotorn"
+
+#~ msgid "Owner Entity Table"
+#~ msgstr "Ägares enhetstabell"
+
+#~ msgid "Export Contributions"
+#~ msgstr "Exportera medverkande"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Importera medverkande"
+
+#, fuzzy
+#~ msgid "Import Memberships"
+#~ msgstr "Medlemsskap"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Importera medverkande"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Mottaget"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Skickat den"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Skickat den"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Belopp"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Enhetstabell"
+
+#, fuzzy
+#~ msgid "- any county -"
+#~ msgstr "- vilket som land -"
+
+#, fuzzy
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Är det riktigt att du vill radera denna Smartgrupp"
+
+#~ msgid "State %2 \"%1\""
+#~ msgstr "Region %2 \"%1\""
+
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "Region (%2) %3 \"%1\""
+
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Land %2 \"%1\""
+
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Land (%2) %3 \"%1\""
+
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Landskap %2 \"%1\""
+
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "Landskap (%2) %3 \"%1\""
+
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Kön %2 \"%1\""
+
+#~ msgid "Contact Type -"
+#~ msgstr "Kontakttyp - "
+
+#~ msgid "Group Status -"
+#~ msgstr "Gruppstatus - "
+
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "Anteckning %2 - \"%1\""
+
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Epost %2 - \"%1\""
+
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "Postnummer - \"%1\""
+
+#~ msgid "Location type -"
+#~ msgstr "Platstyp - "
+
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Aktivitetstyp %2 '%1'"
+
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 %2 %3"
+
+#~ msgid "Task: %1"
+#~ msgstr "Uppgift: %1"
+
+#~ msgid "Task Status: %1"
+#~ msgstr "Uppgiftsstatus: %1"
+
+#, fuzzy
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "Gruppen \"%1\" har raderats"
+
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "CiviMail Domäninformation"
+
+#~ msgid "- Contribution Fields -"
+#~ msgstr "- Medverkandes Fält - "
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "Kontaktens ID hittades inte"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Informationssida för Domän"
+
+#~ msgid " -select- "
+#~ msgstr "- välj -"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Bokat Datum Tid"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Varaktighet, timmar"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Varaktighet, minuter"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Valt möte togs bort"
+
+#~ msgid " is a numeric field"
+#~ msgstr "är ett numeriskt fält"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Radera aktivitetsrapport"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "CiviCRM´s aktivitetshistorik"
+
+#~ msgid "Sent Date"
+#~ msgstr "Skickat den"
+
+#~ msgid "Import Activity History"
+#~ msgstr "Importera Aktivitetslogg"
+
+#~ msgid " must be a numeric value"
+#~ msgstr "måste vara ett numeriskt värde"
+
+#~ msgid "Record Number"
+#~ msgstr "Registerummer"
+
+#~ msgid " -select role- "
+#~ msgstr "-välj roll-"
+
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "\"%1\" har loggats i aktivitetshistoriken."
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Välj telefonnummer"
+
+#~ msgid "OR New Phone"
+#~ msgstr "ELLER nytt telefonnummer"
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Det valda telefonsamtalet har tagits bort."
+
+#~ msgid " VERP Separator"
+#~ msgstr "_VERP separator"
+
+#~ msgid "Could not find location id"
+#~ msgstr "Kunde inte hitta platsens ID"
+
+#~ msgid "Location name %1 '%2'"
+#~ msgstr "Platsnamn %1 '%2'"
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Konfigurera"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Radera kontakter"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Borttaget"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "Kartlägg kontakt"
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Noteringar"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Bokat Datum Tid"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Summering"
+
+#~ msgid "Activity Entity Table"
+#~ msgstr "Aktivitetsenheter tabell"
+
+#~ msgid "Setup"
+#~ msgstr "Inställningar"
+
+#~ msgid "Duplicate Matching"
+#~ msgstr "Kontrollera dubletter"
+
+#~ msgid "%1 is not set in the config file."
+#~ msgstr "%1 är inte inställt i konfigurationsfilen."
+
+#, fuzzy
+#~ msgid "Include County?"
+#~ msgstr "Välj Land"
+
+#~ msgid "Delete %1"
+#~ msgstr "Radera %1"

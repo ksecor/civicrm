@@ -62,9 +62,8 @@ msgstr "Redigeer"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Aktiveer"
+msgstr "Entiteitstabel"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -108,7 +107,7 @@ msgstr "Toekenning"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Veranderde Datum"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +431,8 @@ msgid "Case Activity Type"
 msgstr "Aktiwiteit Tipe"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- kies -"
+msgstr "-kies-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -2205,7 +2203,7 @@ msgstr "Datum en Tyd"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Foon Nommer"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -13517,3 +13515,43 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "Kontak"
+
+#~ msgid "Import"
+#~ msgstr "Invoer"
+
+#~ msgid "Custom Data"
+#~ msgstr "Gebruiker-Geskepte Data"
+
+#~ msgid "Access Control"
+#~ msgstr "Toegang Beheer"
+
+#~ msgid "Global Settings"
+#~ msgstr "Globale Konfigurasie"
+
+#~ msgid "Components"
+#~ msgstr "Komponente"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Groep"
+
+#~ msgid " -select- "
+#~ msgstr "-kies-"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Geskeduleerde Datum Tyd"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Durasie (ure)"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Durasie (minute)"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Gekiesde Vergadering is suksesvol uitgevee"
+
+#~ msgid " is a numeric field"
+#~ msgstr " is 'n numeriese veld"

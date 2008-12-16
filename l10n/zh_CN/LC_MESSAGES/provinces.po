@@ -11507,3 +11507,93 @@ msgstr ""
 
 msgid "Gaza"
 msgstr "加扎省"
+
+#~ msgid "Georgia"
+#~ msgstr "佐治亚州"
+
+#~ msgid "American Samoa"
+#~ msgstr "美属萨摩亚"
+
+#~ msgid "Guam"
+#~ msgstr "关岛"
+
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "北马里亚纳群岛"
+
+#~ msgid "Puerto Rico"
+#~ msgstr "波多黎各"
+
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "美国本土外小岛屿"
+
+#~ msgid "Luxembourg"
+#~ msgstr "卢森堡"
+
+#~ msgid "Belize"
+#~ msgstr "伯利兹"
+
+#~ msgid "Taiwan"
+#~ msgstr "台湾省"
+
+#~ msgid "Hong Kong"
+#~ msgstr "香港特别行政区"
+
+#~ msgid "Djibouti"
+#~ msgstr "吉布提市"
+
+#~ msgid "Frederikaberg municipality"
+#~ msgstr "菲特烈堡郡"
+
+#~ msgid "Copenhagen municipality"
+#~ msgstr "哥本哈根郡"
+
+#~ msgid "Western Zealand"
+#~ msgstr "西希兰"
+
+#~ msgid "Funen"
+#~ msgstr "菲茵"
+
+#~ msgid "Southern Jutland"
+#~ msgstr "南日德兰"
+
+#~ msgid "Ringkøbing"
+#~ msgstr "灵克宾"
+
+#~ msgid "Aarhus"
+#~ msgstr "奥胡斯"
+
+#~ msgid "Northern Jutland"
+#~ msgstr "北日德兰"
+
+#~ msgid "Guernsey"
+#~ msgstr "根西"
+
+#~ msgid "Jersey"
+#~ msgstr "泽西"
+
+#~ msgid "Mali"
+#~ msgstr "马利"
+
+#~ msgid "Guatemala"
+#~ msgstr "瓜地马拉"
+
+#~ msgid "Forli"
+#~ msgstr "弗利"
+
+#~ msgid "Male"
+#~ msgstr "马累"
+
+#~ msgid "Mexico"
+#~ msgstr "墨西哥州"
+
+#~ msgid "Niger"
+#~ msgstr "尼日尔州"
+
+#~ msgid "Panama"
+#~ msgstr "巴拿马省"
+
+#~ msgid "Saint Helena"
+#~ msgstr "圣赫勒拿岛"
+
+#~ msgid "Isle of Man"
+#~ msgstr "马恩岛"

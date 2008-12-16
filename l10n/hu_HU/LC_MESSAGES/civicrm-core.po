@@ -624,7 +624,7 @@ msgstr "Kitölt"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Térkép Opció"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
@@ -1146,7 +1146,7 @@ msgstr "Láthatóság"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Cikkely holléte"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -1155,7 +1155,7 @@ msgstr "Helyes időpont kiválasztás"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Tábla hollét"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1254,7 +1254,7 @@ msgstr "Új személy"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Household"
-msgstr ""
+msgstr "Új Háztartás"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Organization"
@@ -1699,12 +1699,12 @@ msgstr "Kijelöl"
 #: CRM/Core/BAO/PriceField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Rádió"
 
 #: CRM/Core/BAO/PriceField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "CheckBox"
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
@@ -1747,7 +1747,7 @@ msgstr "javascript"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Options Per Line"
-msgstr ""
+msgstr "Opciók Soronként"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
@@ -1804,12 +1804,12 @@ msgstr "Telefon Típus"
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Opció Cimke"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Opció Érték"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
@@ -2244,9 +2244,8 @@ msgid "Test"
 msgstr "Teszt"
 
 #: CRM/Activity/DAO/ActivityTarget.php
-#, fuzzy
 msgid "Contact ID (match to contact)"
-msgstr "Tartalom ID "
+msgstr "Kapcsolat ID "
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3083,9 +3082,8 @@ msgid "%1 directory does not exist or cannot be written by webserver"
 msgstr "%1 könyvtár nem létezik vagy a webszerver nem tud bele írni"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "Settings - Resource URLs"
-msgstr "Beállítások - Erőforrás URL-ek"
+msgstr "Beállítások - Erőforrás URLS"
 
 #: CRM/Admin/Form/Setting/Url.php
 #, fuzzy
@@ -3643,7 +3641,7 @@ msgstr "Ajánlott levél formátum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3808,7 +3806,6 @@ msgid "Domain information for '%1' has been saved."
 msgstr "Domain információ mentése a(z) '%1'-hez sikeres."
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Greeting"
 msgstr "Üdvözlés"
 
@@ -4103,7 +4100,6 @@ msgstr "Szokásos mezők "
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Demographics"
 msgstr "Demográfia"
 
@@ -5164,7 +5160,7 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Kérem érvényes összeget adjon meg."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
@@ -5393,7 +5389,6 @@ msgid "County Abbreviation"
 msgstr "Hozzájárulás "
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Pénznem"
 
@@ -5504,7 +5499,7 @@ msgstr "Bejegyzett neve"
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Kapcsolat"
 
 #: CRM/Core/DAO/CustomGroup.php
 #, fuzzy
@@ -5601,9 +5596,8 @@ msgid "vCard Location Type"
 msgstr "Hely típusa"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Hely típusa"
+msgstr "Helyszín név"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5979,7 +5973,7 @@ msgstr ""
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
-msgstr ""
+msgstr "Dátum Formátum"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
@@ -6065,7 +6059,7 @@ msgstr "A kapcsolat ID nem található."
 
 #: CRM/Core/Menu.php
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: CRM/Core/Page/Basic.php
 msgid "You do not have permission to make changes to the record"
@@ -6073,7 +6067,7 @@ msgstr ""
 
 #: CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Domain Információs Oldal"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "APILogin is not set for this payment processor"
@@ -6407,15 +6401,15 @@ msgstr "Mutat/Szerkeszt Felhasználó adatok"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
 msgid "Grants"
-msgstr ""
+msgstr "Adomány"
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
-msgstr ""
+msgstr "Felhasználó Regisztráció"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Mutat/Szerkeszt Felhasználó adatok"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
@@ -7170,11 +7164,11 @@ msgstr "Láthatóság"
 
 #: CRM/Group/Form/Search.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Enabled"
-msgstr ""
+msgstr "Engedélyezve"
 
 #: CRM/Group/Form/Search.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Disabled"
-msgstr ""
+msgstr "Letiltva"
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
@@ -7182,7 +7176,7 @@ msgstr ""
 
 #: CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -7490,7 +7484,7 @@ msgstr "Profil választás"
 
 #: CRM/Price/Page/Field.php templates/CRM/Price/Form/Field.tpl
 msgid "Price Field"
-msgstr ""
+msgstr "Ár Mező"
 
 #: CRM/Price/Page/Field.php
 #, fuzzy
@@ -7564,7 +7558,7 @@ msgstr ""
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Ár Beállítás"
 
 #: CRM/Profile/Form/Edit.php
 msgid ""
@@ -7974,7 +7968,7 @@ msgstr ""
 
 #: CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM Profil Mező"
 
 #: CRM/UF/Page/Field.php
 msgid "%1 - CiviCRM Profile Fields"
@@ -10581,19 +10575,19 @@ msgstr ""
 
 #: templates/CRM/common/fatal.tpl
 msgid "Error Code:"
-msgstr ""
+msgstr "Hiba kód:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Database Error Code:"
-msgstr ""
+msgstr "Adatbázis Hiba Kód:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "Fő menü"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Return to home page."
-msgstr ""
+msgstr "Vissza a kezdő oldalra."
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
@@ -11057,7 +11051,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "VAGY"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -13330,7 +13324,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Adomány Típus"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Honor Type"
@@ -13867,8 +13861,531 @@ msgstr ""
 msgid "Error in SMTP transaction"
 msgstr ""
 
+#~ msgid "Contact"
+#~ msgstr "Kapcsolat"
+
+#~ msgid "Import"
+#~ msgstr "Import"
+
+#~ msgid "Custom Data"
+#~ msgstr "Egyedi adat "
+
+#~ msgid "Access Control"
+#~ msgstr "Hozzáférés-szabályozás "
+
+#~ msgid "Case"
+#~ msgstr "Eset"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Térkép Betöltés"
+
+#~ msgid "View Activity"
+#~ msgstr "Megtekintés Tevékenység"
+
+#, fuzzy
+#~ msgid "Payment Processor Type"
+#~ msgstr "Fizetési modul"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Részletes kereső"
+
+#, fuzzy
+#~ msgid "Contact Dashboard"
+#~ msgstr "Kapcsolat típus"
+
+#~ msgid "Global Settings"
+#~ msgstr "Általános beállítások"
+
+#~ msgid "Components"
+#~ msgstr "Komponensek"
+
+#~ msgid "Customize"
+#~ msgstr "Testreszabás"
+
+#~ msgid "Configure"
+#~ msgstr "Konfiguráció"
+
+#~ msgid "Manage"
+#~ msgstr "Kezelés"
+
+#, fuzzy
+#~ msgid "Option Lists"
+#~ msgstr "Beállítások"
+
+#~ msgid "File System Paths"
+#~ msgstr "Fájl útvonala"
+
+#~ msgid "Site URLs"
+#~ msgstr "Web URL"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Térképek"
+
+#, fuzzy
+#~ msgid "Localization"
+#~ msgstr "Honosítás"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Vegyes"
+
+#~ msgid "Debugging"
+#~ msgstr "Hibaelhárítás "
+
+#~ msgid "Notes"
+#~ msgstr "Jegyzet"
+
+#, fuzzy
+#~ msgid "Delete Location"
+#~ msgstr "Helyszín"
+
+#~ msgid "Domain Information"
+#~ msgstr "Domain információ"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "CiviCRM adminisztráció"
+
+#~ msgid "Activities"
+#~ msgstr "Aktivitás"
+
+#~ msgid "Relationships"
+#~ msgstr "Kapcsolatok"
+
+#~ msgid "Contributions"
+#~ msgstr "Hozzájárulások"
+
+#~ msgid "Memberships"
+#~ msgstr "Tagságok"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Kapcsolatok keresése"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Kezdőoldal"
+
+#~ msgid "Groups"
+#~ msgstr "Csoportok"
+
+#~ msgid "Tags"
+#~ msgstr "Címkék"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Kapcsolat export"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "New Activity"
+#~ msgstr "Új Tevékenység"
+
+#~ msgid "Log out"
+#~ msgstr "Kijelentkezés"
+
+#~ msgid "CiviGrant"
+#~ msgstr "CiviGrant"
+
+#, fuzzy
+#~ msgid "Map Event Location"
+#~ msgstr "Helyszín"
+
+#~ msgid "Search Builder"
+#~ msgstr "Keresés Szerkesztő"
+
+#~ msgid "New Contact"
+#~ msgstr "Új Kapcsolat"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Egyéni Adat Mezők"
+
+#, fuzzy
+#~ msgid "Message Templates"
+#~ msgstr "Helyes időpont kiválasztás"
+
+#, fuzzy
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Kapcsolatok keresése"
+
+#, fuzzy
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Kapcsolatok törlése"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "Kapcsolat oldal"
+
+#~ msgid "Price Sets"
+#~ msgstr "Ár Beállítások"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Csoportok Kezelése"
+
+#~ msgid "Tell a Friend"
+#~ msgstr "Mondd el egy barátodnak"
+
+#~ msgid "Contacts"
+#~ msgstr "Kapcsolatok"
+
+#~ msgid "Group Members"
+#~ msgstr "Csoport Tagok"
+
+#~ msgid "Grant Status"
+#~ msgstr "Adomány Állapot"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Befejezése"
+
+#~ msgid "Money Transferred"
+#~ msgstr "Pénz Átutalva"
+
+#~ msgid "Amount Requested"
+#~ msgstr "Kért Összeg"
+
+#, fuzzy
+#~ msgid "Amount Granted"
+#~ msgstr "Összeg"
+
+#~ msgid "Delete Grants"
+#~ msgstr "Törlés Adományok"
+
+#~ msgid "add contacts"
+#~ msgstr "Kapcsolat(ok) Hozzáadása"
+
+#~ msgid "view all contacts"
+#~ msgstr "Összes Kapcsolat Listázása"
+
+#~ msgid "edit all contacts"
+#~ msgstr "Összes Kapcsolat Szerkesztése"
+
+#~ msgid "import contacts"
+#~ msgstr "Importálás Kapcsolat"
+
+#~ msgid "edit groups"
+#~ msgstr "Szerkesztés Csoportok"
+
+#~ msgid "administer CiviCRM"
+#~ msgstr "Adminisztráció CiviCRM"
+
+#~ msgid "access uploaded files"
+#~ msgstr "hozzáférés feltöltött fileok"
+
+#~ msgid "access all custom data"
+#~ msgstr "hozzáférés összes ügyfél adat"
+
+#~ msgid "access CiviCRM"
+#~ msgstr "Hozzáférés CiviCRM"
+
+#~ msgid "access Contact Dashboard"
+#~ msgstr "Hozzáféreés Kapcsolatok"
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#, fuzzy
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "Kapcsolat kereső"
+
+#~ msgid "Address Formatting"
+#~ msgstr "Cím formázás"
+
+#~ msgid "Create new household"
+#~ msgstr "Létrehozás Új Háztartás"
+
+#~ msgid "Select existing household"
+#~ msgstr "Létező Háztartás Kiválasztása"
+
+#~ msgid "Please specify a new household"
+#~ msgstr "Új Háztartás Meghatározása"
+
+#, fuzzy
+#~ msgid ""
+#~ "One matching household: %1, was found. You can specify it through 'Select "
+#~ "existing household' option or click 'Save With Duplicate Household' "
+#~ "button below."
+#~ msgid_plural ""
+#~ "%count matching households: %1, were found. You can specify them through "
+#~ "'Select existing household' option or click 'Save With Duplicate "
+#~ "Household' button below."
+#~ msgstr[0] ""
+#~ "Egyes számEgy összeillő kapcsolatot találtak meg. Tudod szerkeszteni azt "
+#~ "itt: %1, vagy a kattanás Save Duplicate Contact gomb lent.Többes szám%"
+#~ "count összeillő kapcsolatokat találtak meg. Tudod szerkeszteni őket itt: %"
+#~ "1, vagy a kattanás Save Duplicate Contact gomb lent. "
+
+#~ msgid "EMPTY"
+#~ msgstr "Üres"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Helyszín"
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Helyes időpont kiválasztás"
+
+#, fuzzy
+#~ msgid "Update Template"
+#~ msgstr "Smart csoport frissítés"
+
+#, fuzzy
+#~ msgid "Template Title"
+#~ msgstr "Thermometer cím"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "Helyszín"
+
+#~ msgid "View Membership"
+#~ msgstr "Tagok nézet"
+
+#~ msgid "Edit Membership"
+#~ msgstr "Tagok szerkesztés"
+
+#~ msgid "Delete Membership"
+#~ msgstr "Tagok törlése"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Tépkép kapcsolat"
+
+#, fuzzy
+#~ msgid "View Payment Processors"
+#~ msgstr "Fizetési modul"
+
+#, fuzzy
+#~ msgid "View Payment Processor Type"
+#~ msgstr "Fizetési modul"
+
+#~ msgid "Options"
+#~ msgstr "Beállítások"
+
+#~ msgid "Date Formatting"
+#~ msgstr "Dátum formátum"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Beállítások"
+
+#~ msgid "Payment Processor"
+#~ msgstr "Fizetési modul"
+
+#, fuzzy
+#~ msgid "Payment Processor type information"
+#~ msgstr "Fizetési modul"
+
+#~ msgid "Activity"
+#~ msgstr "Aktivitás"
+
+#, fuzzy
+#~ msgid "Test Payment Processor"
+#~ msgstr "Fizetési modul"
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Befejezése"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Helyszín név"
+
+#~ msgid "Name:"
+#~ msgstr "Név"
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "Összes kiválasztott kapcsolat(ok): %1"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Kapcsolat oldal"
+
+#~ msgid "Click to select date from calendar."
+#~ msgstr "Dátum kiválasztása naptárból."
+
+#~ msgid "Click to select date/time from calendar."
+#~ msgstr "Dátum/idő kiválasztása naptárból."
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "Hozzájárulások"
+
+#~ msgid "Active Memberships"
+#~ msgstr "Aktív Tagságok"
+
+#~ msgid "Inactive Memberships"
+#~ msgstr "Inaktív Tagságok"
+
+#~ msgid "Membership Types"
+#~ msgstr "Tagság Típusok"
+
+#~ msgid "Period"
+#~ msgstr "Időtartam"
+
+#~ msgid "Minimum Fee"
+#~ msgstr "Minimum Díj"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Befejezése"
+
+#, fuzzy
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Hozzájárulási forrás "
+
+#, fuzzy
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Hozzájárulások"
+
+#, fuzzy
+#~ msgid "Terms:"
+#~ msgstr "Feltételek:"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Leíratkozás"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "Megerősít"
+
+#~ msgid "Renew Now"
+#~ msgstr "Megújítás Most"
+
+#, fuzzy
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Tagok szerkesztés"
+
+#~ msgid "Click on the event name for more information."
+#~ msgstr "Kattintson az esemény nevén további információért."
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Esemény Időpontja"
+
+#, fuzzy
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Hozzájárulások"
+
+#, fuzzy
+#~ msgid "Your Membership(s)"
+#~ msgstr "Tagságok"
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Összeg"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Eltávolítva"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Csoport"
+
+#, fuzzy
+#~ msgid "Advanced Settings"
+#~ msgstr "Általános beállítások"
+
+#~ msgid "Event Registration"
+#~ msgstr "Esemény Regisztráció"
+
 #~ msgid "phone"
 #~ msgstr "telefon"
 
 #~ msgid "Tell A Friend"
 #~ msgstr "Mondd el egy barátodnak!"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Befejezése"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Aktivitás ideje"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Összeg"
+
+#, fuzzy
+#~ msgid "- any county -"
+#~ msgstr "- országok -"
+
+#~ msgid "- Contribution Fields -"
+#~ msgstr "-Hozzájárulás mező-"
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "A kapcsolat ID nem található."
+
+#, fuzzy
+#~ msgid " -select- "
+#~ msgstr "-választás-"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Beütemezett dátumidő"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Időtartam óra"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Időtartam perc"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "A kiválasztott megbeszélés törölve."
+
+#~ msgid " is a numeric field"
+#~ msgstr "szám mező"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Előzmények törlése"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "CiviCRM aktivitási előzmények"
+
+#, fuzzy
+#~ msgid " -select role- "
+#~ msgstr "-választás-"
+
+#, fuzzy
+#~ msgid "Could not find location id"
+#~ msgstr "A kapcsolat ID nem található."
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Konfiguráció"
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Kapcsolatok törlése"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Eltávolítva"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "Tépkép kapcsolat"
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Jegyzet"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Beütemezett dátumidő"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "Előzmények"
+
+#, fuzzy
+#~ msgid "Setup"
+#~ msgstr "Beállítás"
