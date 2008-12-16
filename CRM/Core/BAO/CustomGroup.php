@@ -1403,6 +1403,8 @@ SELECT $select
                                                                                                            CRM_Utils_Array::value('option_group_id', 
                                                                                                                                   $properties),
                                                                                                            CRM_Utils_Array::value('date_parts',
+                                                                                                                                  $properties),
+                                                                                                           CRM_Utils_Array::value('options_per_line',
                                                                                                                                   $properties)
                                                                                                            ),
                                                                                  'options_per_line' => CRM_Utils_Array::value('options_per_line',
@@ -1430,7 +1432,7 @@ SELECT $select
      * Format custom value according to data, view mode
      *
      */
-    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts )
+    static function formatCustomValues( &$values, $htmlType, $dataType, $option_group_id, $dateParts, $optionPerLine = null )
     {
         $value = $values['data'];
 
@@ -1439,7 +1441,7 @@ SELECT $select
         }
 		$freezeString = "";
 		$freezeStringChecked = "";
-		
+	
 		switch ( $dataType ) {
 
         case 'Date':
@@ -1482,69 +1484,94 @@ SELECT $select
             }			
         case 'StateProvince':
         case 'Country':
-			//added check for Multi-Select in the below if-statement
-			$customData[] = $value;
+    		//added check for Multi-Select in the below if-statement
+    		$customData[] = $value;
 
-			//form custom data for multiple-valued custom data
-			switch ( $htmlType ) {
+    		//form custom data for multiple-valued custom data
+    		switch ( $htmlType ) {
             case 'Multi-Select Country':	 
             case 'Select Country':	 
-				$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-				$query = "
-					SELECT id as value, name as label  
-					FROM civicrm_country";
-				$coDAO  = CRM_Core_DAO::executeQuery( $query );
-				break;
+    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+    			$query = "
+    				SELECT id as value, name as label  
+    				FROM civicrm_country";
+    			$coDAO  = CRM_Core_DAO::executeQuery( $query );
+    			break;
 
             case 'Select State/Province':  
             case 'Multi-Select State/Province':
-				$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-				$query = "
-					SELECT id as value, name as label  
-					FROM civicrm_state_province";
-				$coDAO  = CRM_Core_DAO::executeQuery( $query );
-				break;
+    			$customData = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+    			$query = "
+    				SELECT id as value, name as label  
+    				FROM civicrm_state_province";
+    			$coDAO  = CRM_Core_DAO::executeQuery( $query );
+    			break;
 
             case 'Select': 
-				$query = "
-					SELECT label, value
-					FROM civicrm_option_value
-					WHERE option_group_id = %1
-					ORDER BY weight ASC, label ASC";
-				$params = array( 1 => array( $option_group_id, 'Integer' ) );
-				$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-				break;
+    			$query = "
+    				SELECT label, value
+    				FROM civicrm_option_value
+    				WHERE option_group_id = %1
+    				ORDER BY weight ASC, label ASC";
+    			$params = array( 1 => array( $option_group_id, 'Integer' ) );
+    			$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+    			break;
 
             case 'CheckBox': 
             case 'Multi-Select':
                 $customData = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
-            
+    
             default:
-				$query = "
-					SELECT label, value
-					FROM civicrm_option_value
-					WHERE option_group_id = %1
-					ORDER BY weight ASC, label ASC";
-				$params = array( 1 => array( $option_group_id, 'Integer' ) );
-				$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-			}
+    			$query = "
+    				SELECT label, value
+    				FROM civicrm_option_value
+    				WHERE option_group_id = %1
+    				ORDER BY weight ASC, label ASC";
+    			$params = array( 1 => array( $option_group_id, 'Integer' ) );
+    			$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+    		}
 
-			$counter = 1;
-			while ( $coDAO->fetch( ) ) {
-				//to show only values that are checked
-				if( in_array ( $coDAO->value, $customData ) ) {
-					$checked = in_array ( $coDAO->value, $customData ) ? $freezeStringChecked : $freezeString;
-					if ( $counter != 1 ) {
-						$retValue .= $checked .",&nbsp;".$coDAO->label;
-					} else {
-						$retValue .= $checked .$coDAO->label;
-					}
-					$counter++;
-				}
-			}
+            while ( $coDAO->fetch( ) ) {
+                //to show only values that are checked
+                if ( in_array ( $coDAO->value, $customData ) ) {
+                    $checked = in_array ( $coDAO->value, $customData ) ? $freezeStringChecked : $freezeString;
+                    if ( !$optionPerLine ) {
+                        if ( $retValue ) {
+                            $retValue .= ",&nbsp;";
+                        }
+                        $retValue .= $checked . $coDAO->label;
+                    } else {       
+                        $retValue[] = $checked . $coDAO->label;
+                    }
+                }
+            }
 			break;
 		}
-        
+
+        //special case for option per line formatting
+        if ( $optionPerLine > 1 && is_array( $retValue ) ) {
+            $rowCounter = 0;
+            $fieldCounter = 0;
+            $displayValues = array( );
+            $displayString = null;
+            foreach ( $retValue as $val ) {
+                if ( $displayString ) {
+                    $displayString .=  ",&nbsp;";
+                }
+            
+                $displayString .= $val;
+                $rowCounter++; 
+                $fieldCounter++;
+            
+                if ( ( $rowCounter == $optionPerLine ) || ( $fieldCounter == count( $retValue ) ) ) {
+                    $displayValues[] = $displayString;
+                    $displayString = null;
+                    $rowCounter = 0;
+                }
+            }
+            $retValue = $displayValues;
+        }
+    
         $retValue = isset($retValue) ? $retValue : null ;
 		return $retValue;
 	}
