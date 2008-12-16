@@ -67,13 +67,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton( );
         $uid  = $session->get( 'userID' );
         
-        $this->assign( 'contactId', $uid);
         if ( ! $uid) {
             require_once 'CRM/Utils/System.php';
             CRM_Utils_System::setUFMessage( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
             CRM_Core_Error::statusBounce( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
         }
 
+        $this->assign( 'contactId', $uid);
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'view');
         $this->assign( 'action', $this->_action);
