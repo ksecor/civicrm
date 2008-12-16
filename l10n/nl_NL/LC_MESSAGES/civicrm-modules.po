@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-11-08 03:26-0800\n"
-"Last-Translator: HTM <tigermood@gmail.com>\n"
+"PO-Revision-Date: 2008-12-15 12:12-0800\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1197,11 +1197,11 @@ msgstr "Woeps! U kunt geen betaling voor deze taak doen - taakstatus is %1"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Chart Style"
-msgstr "Kaartstijl"
+msgstr "Diagram stijl"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Bar"
-msgstr "Balken"
+msgstr "Staaf"
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Pie"
@@ -1213,7 +1213,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionCharts.php
 msgid "Reload Charts"
-msgstr "Ververs kaart"
+msgstr "Ververs diagram"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -1741,7 +1741,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Pledge payment status should be 'Pending' or  'Overdue'."
-msgstr ""
+msgstr "Status betaling boergstelling moet zijn 'lopend' of 'te laat'."
 
 #: CRM/Contribute/Form/Contribution.php
 msgid ""
@@ -2935,7 +2935,7 @@ msgstr "De geselecteerde mailing is verwijderd."
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Insert Tokens"
-msgstr ""
+msgstr "Toevoegen tokens"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Select Template"
@@ -3398,9 +3398,8 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Contact telefoon"
+msgstr "Contact"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3748,10 +3747,9 @@ msgid "End date must be the same or later than start date."
 msgstr "Einddatum kan niet voor de startdatum liggen."
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid ""
 "There is no valid Membership Status available for selected membership dates."
-msgstr "Geen geldige lidmaatschapstatus voor de ingevoerde data."
+msgstr "Er is geen geldige lidmaatschapstatus voor de ingevoerde datum."
 
 #: CRM/Member/Form/Membership.php
 msgid ""
@@ -4061,11 +4059,11 @@ msgstr "Batch wijzig leden via profiel"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "$%1 - due on %2 (overdue)"
-msgstr ""
+msgstr "%1 - op tijd van %2 (te laat)"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "$%1 - due on %2"
-msgstr ""
+msgstr "%1 - op tijd van %2"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid ""
@@ -4122,10 +4120,9 @@ msgstr "Gedane borgstellingen - Begin"
 
 #: CRM/Pledge/BAO/Query.php
 msgid "Payment Scheduled - From"
-msgstr ""
+msgstr "Betaling gepland - Vanaf"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Find Test Pledges?"
 msgstr "Zoek test-borgstellingen?"
 
@@ -8012,7 +8009,7 @@ msgstr "(gevuld met token waarden van uw contact)"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Attachment(s):"
-msgstr ""
+msgstr "Bijlage(n):"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Text Version:"
@@ -9197,8 +9194,7 @@ msgid ""
 "If you are searching within a date or amouht range, try a wider range of "
 "values."
 msgstr ""
-"Als u aan het zoeken bent op datum, of donatiebedrag, probeer dan een groter "
-"bereik."
+"Als u aan het zoeken bent op datum of bedrag, probeer dan een groter bereik."
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Click %1 to view pledge payments."
