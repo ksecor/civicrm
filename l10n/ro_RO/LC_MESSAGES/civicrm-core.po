@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-07-16 05:48-0700\n"
 "Last-Translator: tavi toporjinschi <vasike@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -3542,10 +3542,6 @@ msgstr "Prefix individual %2 \"%1\""
 #, fuzzy
 msgid "Individual Suffix"
 msgstr "Sufix Individual %2 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -9411,8 +9407,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
-msgstr ""
+#, fuzzy
+msgid "Opens MYSQL documentation in a new window."
+msgstr "Deschide documentaţia online într-o fereastră nouă."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -11581,15 +11578,16 @@ msgstr ""
 "parolă de SMTP. Vă rugăm corectaţi acesta în fişierul civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
+msgstr[0] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
+msgstr[1] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
+msgstr[2] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -14350,6 +14348,9 @@ msgstr "Mesaj creat de un filtru de conţinut"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Eroare în tranzacţia SMTP"
+
+#~ msgid "phone"
+#~ msgstr "telefon"
 
 #~ msgid "Invalid name and password"
 #~ msgstr "Nume şi parolă invalide"

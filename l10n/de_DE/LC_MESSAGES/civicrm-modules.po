@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-13 08:46-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -250,11 +250,6 @@ msgstr "Die Seite, die Sie erreichen wollten, ist derzeit nicht verfügbar."
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< Zurück"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr "%1"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -1176,11 +1171,12 @@ msgstr ""
 "oder zur Mitgliedschaft. Bitte kontaktieren Sie den Systemadministrator"
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 "Dies Seite ist so konfiguriert, dass sie verschiedene Zahlungen unterstützt. "
 "Allerdings wird dies derzeit nicht von PayPal Website Payments Standard "
@@ -1511,9 +1507,9 @@ msgid ""
 "'Allow Other Amounts' and/or enter at least one row in the 'Fixed "
 "Contribution Amounts' table."
 msgstr ""
-"Wenn sie den Bereich \"Spendenbeträge\" aktivieren wollen, müssen sie entweder "
-"\"Andere Beträge erlauben\" oder mindestens eine Angabe bei festgelegten "
-"Spendenbeträgen machen. "
+"Wenn sie den Bereich \"Spendenbeträge\" aktivieren wollen, müssen sie "
+"entweder \"Andere Beträge erlauben\" oder mindestens eine Angabe bei "
+"festgelegten Spendenbeträgen machen. "
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
@@ -1961,10 +1957,10 @@ msgid ""
 "this premium."
 msgstr ""
 "MITTEILUNG: Es wurde keine Miniatur Bildvorschau für ihr Bild erstellt, da "
-"in Ihrer PHP Installation die \"GD image library\" momentan nicht installiert "
-"ist. Die momentane Konfiguration zeigt die Standard Bildvorschau an. Wenn "
-"sie über eine lokale Bildvorschaudatei verfügen, können sie diese seperat "
-"hochladen und die entsprechende URL in diesem Premium eintragen."
+"in Ihrer PHP Installation die \"GD image library\" momentan nicht "
+"installiert ist. Die momentane Konfiguration zeigt die Standard Bildvorschau "
+"an. Wenn sie über eine lokale Bildvorschaudatei verfügen, können sie diese "
+"seperat hochladen und die entsprechende URL in diesem Premium eintragen."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "The Premium '%1' has been saved."
@@ -2499,7 +2495,8 @@ msgstr "Bitte geben Sie den ABSENDER-Namen für die Bestätigungsemail ein."
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please enter Confirmation Email FROM Email Address."
-msgstr "Bitte geben sie die ABSENDER-Emailadresse für die Bestätigungsemail an."
+msgstr ""
+"Bitte geben sie die ABSENDER-Emailadresse für die Bestätigungsemail an."
 
 # Strittig: Registrierung vs. Anmeldung. Ich finde Anmeldung (für eine Veranstaltung) passender bzw. intuitiver.
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -2686,7 +2683,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Liste der laufenden und zukünftigen Veranstaltungen anzeigen"
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Suche im Zeitraum"
 
 #: CRM/Event/Form/SearchEvent.php
@@ -4750,8 +4748,8 @@ msgid ""
 "Please verify the information below carefully. Click <strong>Go Back</"
 "strong> if you need to make changes."
 msgstr ""
-"Bitte überprüfen Sie die Angaben. Klick auf <strong>Zurück (Go "
-"Back)</stong>, wenn Sie etwas ändern möchten."
+"Bitte überprüfen Sie die Angaben. Klick auf <strong>Zurück (Go Back)</"
+"stong>, wenn Sie etwas ändern möchten."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -6791,9 +6789,9 @@ msgid ""
 "To allow users to see a listing of participants, set this field to "
 "'Name' (list names only), or 'Name and Email' (list names and emails)."
 msgstr ""
-"Setze dieses Feld auf 'Name' (nur Namen anzeigen) oder 'Name und Email' "
-"(Name und Email anzeigen) wenn sie dem Benützer erlauben wollen die Liste "
-"der Teilnehmer zu sehen."
+"Setze dieses Feld auf 'Name' (nur Namen anzeigen) oder 'Name und "
+"Email' (Name und Email anzeigen) wenn sie dem Benützer erlauben wollen die "
+"Liste der Teilnehmer zu sehen."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -6804,8 +6802,8 @@ msgid ""
 msgstr ""
 "Optional kann  die maximale Teilnehmeranzahl für die Veranstaltung angeben "
 "werden. Sobald diese erreicht wird,  verschwindet der Anmelde-Link und der "
-"Text unterhalb wird angezeigt. Teilnehmer mit den Statius \"Ausstehend\" oder "
-"\"Abgebrochen\" werden nicht zur Teilnehmerzahl gezählt."
+"Text unterhalb wird angezeigt. Teilnehmer mit den Statius \"Ausstehend\" "
+"oder \"Abgebrochen\" werden nicht zur Teilnehmerzahl gezählt."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -6824,8 +6822,8 @@ msgid ""
 "under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 "Soll ein Karten-Link zum Veranstaltungsort beigefügt werden? (Ein Online-"
-"Karten Provider muss unter <a href=\"%1\">Globale Einstellungen &raquo; Karten "
-"Zuordnung</a> konfiguriert sein."
+"Karten Provider muss unter <a href=\"%1\">Globale Einstellungen &raquo; "
+"Karten Zuordnung</a> konfiguriert sein."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid "Include this event in iCalendar feeds?"
@@ -8975,8 +8973,7 @@ msgstr "Nicht übereinstimmende Mitgliedschaften herunterladen"
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM membership records."
 msgstr ""
-"Zeilen, die Doubletten von bestehenden CiviCRM Mitgliedschaftseinträgen "
-"sind."
+"Zeilen, die Doubletten von bestehenden CiviCRM Mitgliedschaftseinträgen sind."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
@@ -9062,9 +9059,9 @@ msgid ""
 "new status and rule</a>."
 msgstr ""
 "Die Status-Regeln, die standardmäßig installiert sind, mögen für deine "
-"Zwecke reichen. Dennoch kannst Du sehr einfach die Status-Namen ändern "
-"und/oder die Regeln, durch Klick auf den Bearbeitungslink, anpassen. Du "
-"kannst auch <a href='%1'>neue Stati und Regeln hinzufügen</a>."
+"Zwecke reichen. Dennoch kannst Du sehr einfach die Status-Namen ändern und/"
+"oder die Regeln, durch Klick auf den Bearbeitungslink, anpassen. Du kannst "
+"auch <a href='%1'>neue Stati und Regeln hinzufügen</a>."
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #, fuzzy
@@ -9278,7 +9275,8 @@ msgstr "-Wochentag-"
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #, fuzzy
 msgid "This applies to weekly, monthly and yearly payments."
-msgstr "Dies bezieht sich auf wöchentliche, monatliche und jährliche Zahlungen."
+msgstr ""
+"Dies bezieht sich auf wöchentliche, monatliche und jährliche Zahlungen."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #, fuzzy
@@ -9320,8 +9318,8 @@ msgid ""
 "completed. Overdue pledges are ones with payment(s) past due."
 msgstr ""
 "Unterstützungszusagen sind \"anstehend\", bis die erste Zahlung eingegangen "
-"ist. Sobald eine Zahlung eingegangen ist, lautet der Status \"im Gange\", bis "
-"alle geplanten Zahlungen erfolgt sind. Überfällige Unterstützungszusagen "
+"ist. Sobald eine Zahlung eingegangen ist, lautet der Status \"im Gange\", "
+"bis alle geplanten Zahlungen erfolgt sind. Überfällige Unterstützungszusagen "
 "sind solche, bei denen die Fälligkeit der Zahlungen überschritten sind."
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
@@ -9540,3 +9538,6 @@ msgstr "Datum erstellen"
 #, fuzzy
 msgid "Acknowledgment Sent"
 msgstr "Empfangsbestätigung versandt"
+
+#~ msgid "%1"
+#~ msgstr "%1"

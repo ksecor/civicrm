@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-14 11:33-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2975,8 +2975,8 @@ msgstr "Ein Test E-Mail speichern und versenden"
 msgid ""
 "You have selected \"Disable Outbound Email\". A test email can not be sent."
 msgstr ""
-"Sie haben \"Ausgehende Email deaktivieren\" gewählt. Ein Test Email kann nicht "
-"gesandt werden."
+"Sie haben \"Ausgehende Email deaktivieren\" gewählt. Ein Test Email kann "
+"nicht gesandt werden."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid ""
@@ -3449,10 +3449,6 @@ msgstr "Individuelle Anrede (\"Prefix\")"
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
 msgstr "Individueller Namenszusatz (\"Suffix\")"
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "Telefonnummer"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -4551,8 +4547,8 @@ msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL or Contact is deceased): %1"
 msgstr ""
-"An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine "
-"E-Mail Adresse vorhanden oder Vorgabe NICHT EMAIL SENDEN spezifiziert oder "
+"An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine E-"
+"Mail Adresse vorhanden oder Vorgabe NICHT EMAIL SENDEN spezifiziert oder "
 "Kontakt gestorben): %1"
 
 #: CRM/Contact/Form/Task/Label.php
@@ -5002,8 +4998,7 @@ msgstr "Unbekannter Fehler"
 #: CRM/Core/BAO/CustomValueTable.php
 msgid "No values found for the specified entity ID and custom field(s)."
 msgstr ""
-"Keine Werte für  spezifiziertes Entity ID und individualle Feld(er) "
-"gefunden."
+"Keine Werte für  spezifiziertes Entity ID und individualle Feld(er) gefunden."
 
 #: CRM/Core/BAO/File.php
 msgid "Attach File"
@@ -5220,9 +5215,9 @@ msgid ""
 "There is no valid sendmail path setting. Click <a href='%1'>Administer "
 "CiviCRM >> Global Settings</a> to set the Sendmail Server."
 msgstr ""
-"Es gibt keine gültigen sendmail Konfiguration. Klicke auf <a "
-"href=\"%1\">CiviCRM administieren >> Allgemeine Einstellungen</a> um den "
-"sendmail Server einzurichten."
+"Es gibt keine gültigen sendmail Konfiguration. Klicke auf <a href=\"%1"
+"\">CiviCRM administieren >> Allgemeine Einstellungen</a> um den sendmail "
+"Server einzurichten."
 
 #: CRM/Core/Config.php
 msgid ""
@@ -6035,8 +6030,8 @@ msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
-"Geben sie einen gültigen Wert für den Karten Sicherheits Code ein. Das sind "
-" normalerweise die letzten 3-4 Zeichen auf  Unterschifts Seite der Karte"
+"Geben sie einen gültigen Wert für den Karten Sicherheits Code ein. Das sind  "
+"normalerweise die letzten 3-4 Zeichen auf  Unterschifts Seite der Karte"
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date cannot be a past date."
@@ -6571,8 +6566,8 @@ msgid ""
 "Your custom data group '%1' has been added. You can add custom fields to "
 "this group now."
 msgstr ""
-"Ihre individuelle Daten Gruppe \"%1\" wurde hinzugefügt. Sie können nun eigene "
-"Felder zu dieser Gruppe zufügen."
+"Ihre individuelle Daten Gruppe \"%1\" wurde hinzugefügt. Sie können nun "
+"eigene Felder zu dieser Gruppe zufügen."
 
 #: CRM/Custom/Form/MoveField.php
 msgid "Custom Field Move: %1"
@@ -6610,8 +6605,8 @@ msgid ""
 "spaces and underline ( _ ) characters. The length of the variable string "
 "should be less than 31 characters"
 msgstr ""
-"Bitte geben Sie einen gültigen Wert für dieses Feld ein. Sie können a-z, "
-"A-Z, 1-9, _ und Leerzeichen verwenden. die Länge der variablen Zeichenkette "
+"Bitte geben Sie einen gültigen Wert für dieses Feld ein. Sie können a-z, A-"
+"Z, 1-9, _ und Leerzeichen verwenden. die Länge der variablen Zeichenkette "
 "muss weniger als 31 Zeichen lang sein."
 
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/DedupeRules.tpl
@@ -7326,8 +7321,8 @@ msgid ""
 "Your Set '%1' has been added. You can <a href='%2'>add fields</a> to this "
 "set now."
 msgstr ""
-"Ihr Set \"%1\" wurde hinzugefügt. Sie können nun <a href=\"%2\"> eigene Felder "
-"</a> zu dieser Gruppe hinzufügen."
+"Ihr Set \"%1\" wurde hinzugefügt. Sie können nun <a href=\"%2\"> eigene "
+"Felder </a> zu dieser Gruppe hinzufügen."
 
 #: CRM/Price/Page/Field.php
 msgid "Are you sure you want to disable this price field?"
@@ -7497,8 +7492,10 @@ msgstr[1] ""
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Mailing is forwarded successfully to %count email address."
 msgid_plural "Mailing is forwarded successfully to %count email addresses."
-msgstr[0] "Der Email Versand wurde erfolgreich an eine  Adressen weitergeleitet."
-msgstr[1] "Der Email Versand wurde erfolgreich an %count Adressen weitergeleitet."
+msgstr[0] ""
+"Der Email Versand wurde erfolgreich an eine  Adressen weitergeleitet."
+msgstr[1] ""
+"Der Email Versand wurde erfolgreich an %count Adressen weitergeleitet."
 
 #: CRM/Profile/Form.php
 msgid ""
@@ -9173,7 +9170,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11482,14 +11479,21 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
+"An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine E-"
+"Mail Adresse vorhanden oder Vorgabe NICHT EMAIL SENDEN spezifiziert oder "
+"Kontakt gestorben): %1"
 msgstr[1] ""
+"An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine E-"
+"Mail Adresse vorhanden oder Vorgabe NICHT EMAIL SENDEN spezifiziert oder "
+"Kontakt gestorben): %1"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -12746,8 +12750,8 @@ msgid ""
 msgstr ""
 "Ein Link zu dieser %1 wird automatisch in das Email an die Freunde "
 "eingebunden. Wenn Sie ZUSÄTZLICH einen Link mit allgemeiner Information über "
-"ihre Organisation hinzufügen wollen, kann dieser hier eingegeben werden "
-"(z.B.: <em>http://www.example.org</em>)"
+"ihre Organisation hinzufügen wollen, kann dieser hier eingegeben werden (z."
+"B.: <em>http://www.example.org</em>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12874,8 +12878,7 @@ msgstr ""
 "Gruppen setzt man ein, um Kontakte zu organisieren (zB. diese Kontakte sind "
 "Mitglieder des Leitungs Komittee's). Es können auch 'smart' Gruppen erstellt "
 "werden, deren Mitglieder nach Kontakt Charakterisitiken bestimmt werden(zB "
-"diese Gruppe besteht aus allen Leuten, welche an einem bestimmten Ort "
-"leben)."
+"diese Gruppe besteht aus allen Leuten, welche an einem bestimmten Ort leben)."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No matching Groups found for your search criteria. Suggestions:"
@@ -12920,9 +12923,9 @@ msgid ""
 msgstr ""
 "CiviCRM hat  widersprüchliche Emailadressen in %1 Datensätzen gefunden. Wenn "
 "Sie weiter machen werden diese Datensätze übersprungen oder sie können nur "
-"gerade diese Problem Datensätze in einer Datei <a "
-"href=\"%2\">herrunterladen</a>. Korrigieren sie dann in der Originaldatei, "
-"brechen diesen Import ab und fangen nochmals von vorne an."
+"gerade diese Problem Datensätze in einer Datei <a href=\"%2"
+"\">herrunterladen</a>. Korrigieren sie dann in der Originaldatei, brechen "
+"diesen Import ab und fangen nochmals von vorne an."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total number of rows in the uploaded file."
@@ -12977,8 +12980,8 @@ msgid ""
 "You can <a href='%1'>Download Mismatched Contacts</a>. You may then correct "
 "them, and import the new file with the corrected data."
 msgstr ""
-"Sie können <a href=\"%1\">Fehlerhafte Kontakte herrunterladen</a>. Sie können "
-"diese dann korrigieren, und die korrigierte Datei wieder importieren."
+"Sie können <a href=\"%1\">Fehlerhafte Kontakte herrunterladen</a>. Sie "
+"können diese dann korrigieren, und die korrigierte Datei wieder importieren."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -12995,8 +12998,8 @@ msgstr[0] ""
 "wurden nicht importiert."
 msgstr[1] ""
 "CiviCRM hat %count Datensätze mit widersprüchlichen Email Adressen innerhalb "
-"der Datei oder relativ zu existierenden Kontakten gefunden. Diese "
-"Datensätze wurden nicht importiert. "
+"der Datei oder relativ zu existierenden Kontakten gefunden. Diese Datensätze "
+"wurden nicht importiert. "
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13036,9 +13039,9 @@ msgid ""
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
 msgstr ""
-"Sie können <a href=\"%1\">doppelte Kontakte herrunterladen</a>. Danach können "
-"sie diese Datensätze überprüfen um festzustellen ob es sich wirklich um "
-"Duplikate handelt oder um die Email Adresse zu ändern für jene, welche  "
+"Sie können <a href=\"%1\">doppelte Kontakte herrunterladen</a>. Danach "
+"können sie diese Datensätze überprüfen um festzustellen ob es sich wirklich "
+"um Duplikate handelt oder um die Email Adresse zu ändern für jene, welche  "
 "keine  sind."
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -13166,7 +13169,8 @@ msgstr ""
 #: templates/CRM/Price/Form/DeleteSet.tpl
 msgid ""
 "WARNING: Deleting this price set will result in the loss of all '%1' data."
-msgstr "WARNUNG: Löschen dieser Preis Gruppe führt zum Verlust aller '%1' Daten"
+msgstr ""
+"WARNUNG: Löschen dieser Preis Gruppe führt zum Verlust aller '%1' Daten"
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Select the html type used to offer options for this field"
@@ -13355,8 +13359,8 @@ msgstr "Neue Gruppe von Preis Feldern"
 #: templates/CRM/Price/Page/Set.tpl
 msgid "No price sets have been created yet. You can <a href='%1'>add one</a>."
 msgstr ""
-"Noch keine Preis Gruppen erfasst. Sie können <a href=\"%1\">eine "
-"hinzufügen</a>."
+"Noch keine Preis Gruppen erfasst. Sie können <a href=\"%1\">eine hinzufügen</"
+"a>."
 
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Forward Mailing"
@@ -13424,8 +13428,8 @@ msgstr "Aktuelle Tags werden hervorgehoben."
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
 msgstr ""
-"Markiere oder demarkiere die Checkboxen und klicke auf \"Tags aktualisieren\" "
-"um die Tags zu modifizieren."
+"Markiere oder demarkiere die Checkboxen und klicke auf \"Tags aktualisieren"
+"\" um die Tags zu modifizieren."
 
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
@@ -13455,9 +13459,9 @@ msgstr ""
 "Falls Mitglieder ihrer Organisation eine Email Mitteilung erhalten sollen,  "
 "wenn dieses Profil Formular verwendet wird, um Kontakt Information zu "
 "erfassen oder zu editieren, gibt eine oder mehrere Email Adressen hier ein. "
-"Mehrere Adressen müssen mit Komma getrennt werden (zB. "
-"jane@example.org,paula@example.org). Die erste der eingegebenen Adressen "
-"wird als VON Adresse in der Email Mitteilung verwendet."
+"Mehrere Adressen müssen mit Komma getrennt werden (zB. jane@example.org,"
+"paula@example.org). Die erste der eingegebenen Adressen wird als VON Adresse "
+"in der Email Mitteilung verwendet."
 
 #: templates/CRM/UF/Form/AdvanceSetting.tpl
 msgid ""
@@ -13632,8 +13636,8 @@ msgid ""
 "applies only to fields with 'Public User Pages and Listings' visibility."
 msgstr ""
 "Wird dieses Feld als Spalte für die Suchresultate Tabelle aufgenommen? Diese "
-"Einstellung wirkt sich nur auf Felder aus mit 'Sichtbarkeit Öffentliche "
-"User Seiten und Anzeigen'"
+"Einstellung wirkt sich nur auf Felder aus mit 'Sichtbarkeit Öffentliche User "
+"Seiten und Anzeigen'"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13761,8 +13765,8 @@ msgid ""
 "There are no CiviCRM Profile Fields for '%1', you can <a href='%2'>add one "
 "now</a>."
 msgstr ""
-"Es gibt keine CiviCRM-Profilfelder für \"%1\", sie können aber ein <a "
-"href=\"%2\">hinzufügen</a>."
+"Es gibt keine CiviCRM-Profilfelder für \"%1\", sie können aber ein <a href="
+"\"%2\">hinzufügen</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -14570,6 +14574,9 @@ msgstr "Nachricht wurde durch einen Inhaltsfilter blockiert"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fehler beim SMTP Versand"
+
+#~ msgid "phone"
+#~ msgstr "Telefonnummer"
 
 #, fuzzy
 #~ msgid "Tell A Friend"

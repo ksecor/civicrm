@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-09 07:41-0800\n"
 "Last-Translator: Francesco Moretto <francesco.moretto@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -253,11 +253,6 @@ msgstr "La pagina richiesta non è disponibile al momento"
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "&lt;&lt; Torna indietro"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -1242,11 +1237,12 @@ msgstr ""
 "del sito."
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 "Questa pagina di contributi è configurata per accettare pagamenti separati "
 "per i contributi e le iscrizioni. Il plugin PayPal Website Payments Standard "
@@ -1457,8 +1453,7 @@ msgstr "Inserire un intervallo di frequenza di impegno di pagamento valido."
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge Frequency Interval. is required field."
 msgstr ""
-"L'intervallo di frequenza degli impegni di pagamento è un campo "
-"obbligatorio."
+"L'intervallo di frequenza degli impegni di pagamento è un campo obbligatorio."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge frequency interval field must be > 0"
@@ -2777,7 +2772,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Mostra eventi correnti e futuri"
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Cerca per intervallo date"
 
 #: CRM/Event/Form/SearchEvent.php
@@ -4509,7 +4505,8 @@ msgstr "Scollega"
 
 #: CRM/Pledge/Form/Pledge.php
 msgid "Select a valid date for the day the pledge was made."
-msgstr "Seleziona una data valida per il giorno in cui è stato preso l'impegno."
+msgstr ""
+"Seleziona una data valida per il giorno in cui è stato preso l'impegno."
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -9838,10 +9835,10 @@ msgid ""
 "is received, status is \"In Progress\" until all scheduled payments are "
 "completed. Overdue pledges are ones with payment(s) past due."
 msgstr ""
-"Gli impegni di pagamento sono \"in attesa\" finché non venga ricevuto il primo "
-"pagamento, dopo di che diventano \"attivi\" finché non siano pagati tutti gli "
-"importi promessi. Gli impegni \"scaduti\" sono quelli per cui è scaduto "
-"almeno un pagamento."
+"Gli impegni di pagamento sono \"in attesa\" finché non venga ricevuto il "
+"primo pagamento, dopo di che diventano \"attivi\" finché non siano pagati "
+"tutti gli importi promessi. Gli impegni \"scaduti\" sono quelli per cui è "
+"scaduto almeno un pagamento."
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Pledge By"

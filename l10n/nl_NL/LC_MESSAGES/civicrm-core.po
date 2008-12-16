@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-15 11:47-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -3410,10 +3410,6 @@ msgstr "Voorvoegsel Persoon"
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
 msgstr "Achtervoegsel Persoon"
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefoon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -8581,9 +8577,9 @@ msgid ""
 "1."
 msgstr ""
 "Er is ongeldige data of een fout formaat in %1 record(s) gevonden. Als u "
-"doorgaat worden deze records overgeslagen. U kunt de foutenlijst <a "
-"href='%2'>bekijken</a>. Gebruik dit bestand om het eerste bestand te "
-"corrigeren. Stop met importeren en begin weer bij stap 1."
+"doorgaat worden deze records overgeslagen. U kunt de foutenlijst <a href='%"
+"2'>bekijken</a>. Gebruik dit bestand om het eerste bestand te corrigeren. "
+"Stop met importeren en begin weer bij stap 1."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 msgid ""
@@ -8940,8 +8936,9 @@ msgstr ""
 "Gebruik maximaal 5 velden om te zoeken naar verdachte dubbele contacten."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
-msgstr ""
+#, fuzzy
+msgid "Opens MYSQL documentation in a new window."
+msgstr "Opent online documentatie in een nieuw venster."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -11364,18 +11361,19 @@ msgstr ""
 "gebruikersnaam en/of wachtwoord is ingevuld. "
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
-"Deze e-mail zal NIET naar %count contact worden verzonden - De communicatie "
-"voorkeur staat ingesteld op NIET E-MAILEN."
+"E-mail is niet verzonden (geen e-mail adres beschikbaar of  voorkeur "
+"communicatie staat op 'Niet e-mailen' of contact is overleden): %1 "
 msgstr[1] ""
-"Deze e-mail zal NIET naar %count contacten worden verzonden - De "
-"communicatie voorkeuren staan ingesteld op NIET E-MAILEN."
+"E-mail is niet verzonden (geen e-mail adres beschikbaar of  voorkeur "
+"communicatie staat op 'Niet e-mailen' of contact is overleden): %1 "
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -14352,6 +14350,22 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#~ msgid "phone"
+#~ msgstr "telefoon"
+
+#~ msgid ""
+#~ "Email will NOT be sent to %count contact - communication preferences "
+#~ "specify DO NOT EMAIL."
+#~ msgid_plural ""
+#~ "Email will NOT be sent to %count contacts - communication preferences "
+#~ "specify DO NOT EMAIL."
+#~ msgstr[0] ""
+#~ "Deze e-mail zal NIET naar %count contact worden verzonden - De "
+#~ "communicatie voorkeur staat ingesteld op NIET E-MAILEN."
+#~ msgstr[1] ""
+#~ "Deze e-mail zal NIET naar %count contacten worden verzonden - De "
+#~ "communicatie voorkeuren staan ingesteld op NIET E-MAILEN."
 
 #~ msgid "Tell A Friend"
 #~ msgstr "Mond tot mond reclame"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-11 01:17-0800\n"
 "Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -257,11 +257,6 @@ msgstr "La page que vous désirez voir n'est pas accessible."
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< En arrière"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 msgid "(s)"
@@ -1252,11 +1247,12 @@ msgstr ""
 "contacter l'administrateur du site pour assistance."
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 "Cette page a été configuré pour permettre les contribution et les paiement "
 "des adhèsions. Or le plug-in standart de Paypal ne permets pas les paiements "
@@ -1473,7 +1469,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr "Le produit Premium sélectionné a été retiré de la page de contribution."
+msgstr ""
+"Le produit Premium sélectionné a été retiré de la page de contribution."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
@@ -2192,8 +2189,7 @@ msgstr ""
 "Êtes-vous sûr que vous voulez désactiver ce Prémium ? Cette action enlèvera "
 "le Prémium de n'importe quelles pages de contribution qui l'offrent "
 "actuellement. Cependant il ne supprimera pas le rapport de Prémium - donc "
-"vous pourrez à nouveau l'ajouter à votre page de contribution "
-"ultérieurement."
+"vous pourrez à nouveau l'ajouter à votre page de contribution ultérieurement."
 
 #: CRM/Contribute/Page/ManagePremiums.php
 msgid "Enable Premium"
@@ -2783,7 +2779,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Montrez les évènements actuels et à venir"
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Cherchez par date"
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3335,8 +3332,8 @@ msgstr "Corps (format HTML)"
 msgid ""
 "This token can only be used in send mailing context (body, header, footer).."
 msgstr ""
-"Ce token peut être utilisé seulement dans un mailing (Body/corps, "
-"Header/en-tête ou Footer/pied de page) ..."
+"Ce token peut être utilisé seulement dans un mailing (Body/corps, Header/en-"
+"tête ou Footer/pied de page) ..."
 
 #: CRM/Mailing/Form/Component.php
 msgid "This message is having a invalid token - %1: %2"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-03 00:01-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -3499,10 +3499,6 @@ msgstr "Prefisso individuo"
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
 msgstr "Suffisso individuo"
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "Telefono"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -9411,8 +9407,9 @@ msgstr ""
 "contatti duplicati \"sospetti\"."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
-msgstr ""
+#, fuzzy
+msgid "Opens MYSQL documentation in a new window."
+msgstr "Apre la documentazione online in una nuova finestra."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -11945,18 +11942,19 @@ msgstr ""
 "utente e/o la password SMTP. Prego correggere il file civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
-"L'email non verrà inviata a %count contatto - le preferenze di comunicazione "
-"indicano NON INVIARE EMAIL."
+"Email non inviata al contatto/i (nessun indirizzo email memorizzato, oppure "
+"le preferenze di comunicazione indicano NON INVIARE EMAIL): %1"
 msgstr[1] ""
-"L'email non verrà inviata a %count contatti - le preferenze di comunicazione "
-"indicano NON INVIARE EMAIL."
+"Email non inviata al contatto/i (nessun indirizzo email memorizzato, oppure "
+"le preferenze di comunicazione indicano NON INVIARE EMAIL): %1"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -12719,9 +12717,9 @@ msgid ""
 msgstr ""
 "Questo campo è incluso nei moduli di ricerca Avanzato e dei componenti? "
 "NOTA: questa caratteristica è al momento disponibile per i campi "
-"personalizzati usati per <strong>Contatti</strong>, "
-"<strong>Contributi</strong>, <strong>Iscrizioni</strong>, <strong>Impegni di "
-"pagamento</strong> e <strong>Partecipanti agli eventi</strong>."
+"personalizzati usati per <strong>Contatti</strong>, <strong>Contributi</"
+"strong>, <strong>Iscrizioni</strong>, <strong>Impegni di pagamento</strong> "
+"e <strong>Partecipanti agli eventi</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid ""
@@ -15001,6 +14999,22 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#~ msgid "phone"
+#~ msgstr "Telefono"
+
+#~ msgid ""
+#~ "Email will NOT be sent to %count contact - communication preferences "
+#~ "specify DO NOT EMAIL."
+#~ msgid_plural ""
+#~ "Email will NOT be sent to %count contacts - communication preferences "
+#~ "specify DO NOT EMAIL."
+#~ msgstr[0] ""
+#~ "L'email non verrà inviata a %count contatto - le preferenze di "
+#~ "comunicazione indicano NON INVIARE EMAIL."
+#~ msgstr[1] ""
+#~ "L'email non verrà inviata a %count contatti - le preferenze di "
+#~ "comunicazione indicano NON INVIARE EMAIL."
 
 #~ msgid "Tell A Friend"
 #~ msgstr "Invia ad un amico"
