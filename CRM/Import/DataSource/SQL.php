@@ -33,33 +33,47 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Import/DataSource.php';
 
-class CRM_Import_Controller extends CRM_Core_Controller {
+class CRM_Import_DataSource_SQL extends CRM_Import_DataSource
+{
 
-    /**
-     * class constructor
-     */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
-        parent::__construct( $title, $modal );
-
-        // lets get around the time limit issue if possible, CRM-2113
-        if ( ! ini_get( 'safe_mode' ) ) {
-            set_time_limit( 0 );
-        }
-        
-        require_once 'CRM/Import/StateMachine.php';
-        $this->_stateMachine = new CRM_Import_StateMachine( $this, $action );
-
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
-
+    public function getInfo()
+    {
+        return array('title' => 'SQL Import');
     }
 
+    public function preProcess(&$form)
+    {
+    }
+
+    public function buildQuickForm(&$form)
+    {
+        $form->add('hidden', 'hidden_dataSource', 'CRM_Import_DataSource_SQL');
+        $form->add('textarea', 'sqlQuery', ts('Specify SQL Query'), 'rows=10 cols=45');
+        $form->addFormRule(array('CRM_Import_DataSource_SQL', 'formRule'), $form);
+    }
+
+    static function formRule(&$fields, &$files, &$form)
+    {
+        $errors = array();
+
+        // poor man's query validation (case-insensitive regex matching on word boundaries)
+        $forbidden = array('ALTER', 'CREATE', 'DELETE', 'DESCRIBE', 'DROP', 'SHOW', 'UPDATE', 'information_schema');
+        foreach ($forbidden as $pattern) {
+            if (preg_match("/\\b$pattern\\b/i", $fields['sqlQuery'])) {
+                $errors['sqlQuery'] = ts("The query contains the forbidden $pattern command.");
+            }
+        }
+
+        return $errors ? $errors : true;
+    }
+
+
+    public function postProcess(&$params, &$db)
+    {
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob(null, $params['sqlQuery']);
+        $this->set('importTableName', $importJob->getTableName());
+    }
 }
-
-

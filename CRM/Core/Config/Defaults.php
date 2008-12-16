@@ -65,8 +65,7 @@ class CRM_Core_Config_Defaults
         $this->importDataSourceDir =
             $civicrm_root . DIRECTORY_SEPARATOR .
             'CRM'         . DIRECTORY_SEPARATOR .
-            #'Import'     . DIRECTORY_SEPARATOR .
-            'NewImport'   . DIRECTORY_SEPARATOR .
+            'Import'      . DIRECTORY_SEPARATOR .
             'DataSource'  . DIRECTORY_SEPARATOR ;
 
         $this->gettextResourceDir =

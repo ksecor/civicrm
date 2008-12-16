@@ -468,7 +468,7 @@ class CRM_Export_BAO_Export
         } else if ( $realm == 'activity' ) {
             $controller = 'CRM_Activity_Import_Controller';
         } else {
-            $controller = 'CRM_NewImport_Controller';
+            $controller = 'CRM_Import_Controller';
         }
         
         require_once 'CRM/Core/Key.php';

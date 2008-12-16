@@ -50,8 +50,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-       
         //get the data from the session             
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
@@ -69,13 +67,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->assign('savedName', $mapDAO->name);
         }
 
-
-        if ( $skipColumnHeader ) {
-            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
-            $this->assign( 'rowDisplayCount', 3 );
-        } else {
-            $this->assign( 'rowDisplayCount', 2 );
-        }
+        $this->assign( 'rowDisplayCount', 2 );
         
         $groups =& CRM_Core_PseudoConstant::group();
         $this->set('groups', $groups);
@@ -193,26 +185,88 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+
+       $importJobParams = array(
+            'doGeocodeAddress'  => $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' ),
+            'invalidRowCount'   => $this->get('invalidRowCount'),
+            'conflictRowCount'  => $this->get('conflictRowCount'),
+            'onDuplicate'       => $this->get('onDuplicate'),
+            'newGroupName'      => $this->controller->exportValue( $this->_name, 'newGroupName'),
+            'newGroupDesc'      => $this->controller->exportValue( $this->_name, 'newGroupDesc'),
+            'groups'            => $this->controller->exportValue( $this->_name, 'groups'),
+            'allGroups'         => $this->get('groups'),
+            'newTagName'        => $this->controller->exportValue( $this->_name, 'newTagName'),
+            'newTagDesc'        => $this->controller->exportValue( $this->_name, 'newTagDesc'),
+            'tag'               => $this->controller->exportValue( $this->_name, 'tag'),
+            'allTags'           => $this->get('tag'),
+            'mapper'            => $this->controller->exportValue( 'MapField', 'mapper' ),
+            'mapFields'         => $this->get('fields'),
+            'contactType'       => $this->get('contactType'),
+            'primaryKeyName'    => $this->get('primaryKeyName'),
+            'statusFieldName'   => $this->get('statusFieldName'),
+            'statusID'          => $this->get('statusID'),
+            'totalRowCount'     => $this->get('totalRowCount')
+        );
+        
+        $tableName = $this->get( 'importTableName' );
+        require_once 'CRM/Import/ImportJob.php';
+        $importJob = new CRM_Import_ImportJob( $tableName );
+        $importJob->setJobParams( $importJobParams );
+               
+        // run the import
+        $importJob->runImport($this);
+               
+        // add all the necessary variables to the form
+        $importJob->setFormVariables( $this );
+        
+        // check if there is any error occured
+        $errorStack =& CRM_Core_Error::singleton();
+        $errors     = $errorStack->getErrors();
+        
+        $errorMessage = array();
        
-        $fileName           = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
-        $skipColumnHeader   = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-        $doGeocodeAddress   = $this->controller->exportValue( 'UploadFile', 'doGeocodeAddress' );
+        if( is_array( $errors ) ) {
+            foreach($errors as $key => $value) {
+                $errorMessage[] = $value['message'];
+            }
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
+            if ( $fd = fopen( $errorFile, 'w' ) ) {
+                fwrite($fd, implode('\n', $errorMessage));
+            }
+            fclose($fd);
+            
+            $this->set('errorFile', $errorFile);
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
+        }
+    }
+
+    /**
+     * Process the mapped fields and map it into the uploaded file
+     * preview the file and extract some summary statistics
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcessOld( ) {
+       
+        $doGeocodeAddress   = $this->controller->exportValue( 'DataSource', 'doGeocodeAddress' );
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
-        $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
         $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         $allGroups          = $this->get('groups');
-        $newTag             = $this->controller->exportValue( $this->_name, 'newTag');
         $newTagName         = $this->controller->exportValue( $this->_name, 'newTagName');
         $newTagDesc         = $this->controller->exportValue( $this->_name, 'newTagDesc');
         $tag                = $this->controller->exportValue( $this->_name, 'tag');
         $allTags            = $this->get('tag');
-        
-        $config =& CRM_Core_Config::singleton( );
-        $seperator = $config->fieldSeparator;
         
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         
@@ -300,11 +354,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $mapperFields[] = implode(' - ', $header);
         }
         
-        $parser->run( $fileName, $seperator, 
-                      $mapperFields,
-                      $skipColumnHeader,
+        $tableName = $this->get( 'importTableName' );
+        //print "Running parser on table: $tableName<br/>";
+        $parser->run( $tableName, $mapperFields,
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
+                      $this->get('primaryKeyName'),
+                      $this->get('statusFieldName'),
                       $onDuplicate,
                       $this->get( 'statusID' ),
                       $this->get( 'totalRowCount' ),
@@ -419,9 +475,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
             }
-            
-            $errorFile = $fileName['name'] . '.error.log';
-            
+    
+            // there is no fileName since this is a sql import
+            // so fudge it
+            $config =& CRM_Core_Config::singleton( );
+            $errorFile =$config->uploadDir . "sqlImport.error.log"; 
             if ( $fd = fopen( $errorFile, 'w' ) ) {
                 fwrite($fd, implode('\n', $errorMessage));
             }
@@ -496,5 +554,3 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         return empty($errors) ? true : $errors;
     }
 }
-
-

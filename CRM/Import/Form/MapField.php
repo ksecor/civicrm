@@ -74,7 +74,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     protected $_loadedMappingId;
 
     /**
-     * number of columns in import file
+     * number of columns in import data
      *
      * @var int
      * @access protected
@@ -83,12 +83,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
 
     /**
-     * column headers, if we have them
+     * column names, if we have them
      *
      * @var array
      * @access protected
      */
-    protected $_columnHeaders;
+    protected $_columnNames;
 
     /**
      * an array of booleans to keep track of whether a field has been used in
@@ -102,14 +102,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
     
     /**
-     * Attempt to resolve the header with our mapper fields
+     * Attempt to resolve a column name with our mapper fields
      *
-     * @param header
+     * @param columnName
      * @param mapperFields
      * @return string
      * @access public
      */
-    public function defaultFromHeader($header, &$patterns) 
+    public function defaultFromColumnName($columnName, &$patterns) 
     {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
@@ -117,7 +117,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 continue;
             }
 
-            if (preg_match($re, $header)) {
+            if (preg_match($re, $columnName)) {
                 $this->_fieldUsed[$key] = true;
                 return $key;
             }
@@ -184,22 +184,26 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
         }
         
-        $this->_columnCount = $this->get( 'columnCount' );
+        // get the field names from the temp. DB table
+        $this->_importTableName = $this->get( 'importTableName' );
+        $dao = new CRM_Core_DAO();
+        $db = $dao->getDatabaseConnection();
+        
+        $columnNames = array();
+        $columnsQuery = "SHOW FIELDS FROM $this->_importTableName
+                         WHERE Field NOT LIKE '\_%'";
+        $columnsResult = $db->query($columnsQuery);
+        while ( $row = $columnsResult->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $columnNames[] = $row['Field'];
+        }
+        $this->_columnCount = count( $columnNames );
+        $this->_columnNames = $columnNames;
+        $this->assign( 'columnNames', $columnNames );
+        //$this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
         $this->assign( 'dataValues'  , $this->_dataValues );
-        
-        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-
-        if ( $skipColumnHeader ) {
-            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
-            $this->assign( 'rowDisplayCount', 3 );
-            /* if we had a column header to skip, stash it for later */
-            $this->_columnHeaders = $this->_dataValues[0];
-        } else {
-            $this->assign( 'rowDisplayCount', 2 );
-        }
-        
+        $this->assign( 'rowDisplayCount', 2 );
     }
 
     /**
@@ -254,8 +258,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
         $defaults = array( );
         $mapperKeys      = array_keys( $this->_mapperFields );
-        $hasHeaders      = !empty($this->_columnHeaders);
-        $headerPatterns  = $this->get( 'headerPatterns' );
+        $hasColumnNames      = !empty($this->_columnNames);
+        $columnPatterns  = $this->get( 'columnPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
         $hasLocationTypes = $this->get( 'fieldTypes' );
 
@@ -306,8 +310,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 $id = $first = $second = null;
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-                $cType = CRM_Utils_Array::value( "contact_type_{$second}",
-                                                 $contactRelationCache[$id] );
+                eval( '$cType = ' . $contactRelationCache[$id]["contact_type_{$second}"] . ';' );
 
                 if ( ! $cType ) {
                     $cType = 'All';
@@ -422,19 +425,19 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     // this load section to help mapping if we ran out of saved columns when doing Load Mapping
                     $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_0_');\n";
                     
-                    if ($hasHeaders) {
-                        $defaults["mapper[$i]"] = array( $this->defaultFromHeader($this->_columnHeaders[$i],$headerPatterns) );
+                    if ($hasColumnNames) {
+                        $defaults["mapper[$i]"] = array( $this->defaultFromColumnName($this->_columnNames[$i],$columnPatterns) );
                     } else {
                         $defaults["mapper[$i]"] = array( $this->defaultFromData($dataPatterns, $i) );
                     }                    
                 } //end of load mapping
             } else {
                 $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_0_');\n";
-                if ($hasHeaders) {
-                    // Infer the default from the skipped headers if we have them
+                if ($hasColumnNames) {
+                    // Infer the default from the column names if we have them
                     $defaults["mapper[$i]"] = array(
-                                                           $this->defaultFromHeader($this->_columnHeaders[$i], 
-                                                                                    $headerPatterns),
+                                                           $this->defaultFromColumnName($this->_columnNames[$i], 
+                                                                                    $columnPatterns),
                                                            0
                                                            );
                     
@@ -534,12 +537,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $this->controller->resetPage( $this->_name );
             return;
         }
-        
-        $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
-        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-
-        $config =& CRM_Core_Config::singleton( );
-        $seperator = $config->fieldSeparator;
 
         $mapperKeys = array( );
         $mapper     = array( );
@@ -703,8 +700,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
                                                    $related, $relatedContactType, $relatedContactDetails, 
                                                    $relatedContactLocType, $relatedContactPhoneType );
-        $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
-                      CRM_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
+                                         
+        $primaryKeyName = $this->get( 'primaryKeyName' );
+        $statusFieldName = $this->get( 'statusFieldName' );
+        $parser->run( $this->_importTableName, $mapper,
+                      CRM_Import_Parser::MODE_PREVIEW,
+                      $this->get('contactType'),
+                      $primaryKeyName, $statusFieldName
+                    );
         
         // add all the necessary variables to the form
         $parser->set( $this );        
@@ -723,5 +726,3 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
     
 }
-
-
