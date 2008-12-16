@@ -88,13 +88,13 @@
           <status>Closed</status>
         </ActivityType>
 	<ActivityType>
-          <name>Assign principal classification - CPHN</name>
+          <name>Assign principal classification - Presenting Problem</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
 	<ActivityType>
-          <name>Assign secondary classification - CPHN</name>
+          <name>Assign secondary classification - Presenting Problem</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
