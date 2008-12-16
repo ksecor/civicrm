@@ -976,7 +976,7 @@ WHERE  contribution_id = {$this->_id}
                     $formValues[$d]['i'] = '00';
                     $formValues[$d]['s'] = '00';
                     $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
-                } else{
+                } else if ( array_key_exists( $d, $formValues ) ) {
                     $params[$d] = 'null';
                 }
             }
