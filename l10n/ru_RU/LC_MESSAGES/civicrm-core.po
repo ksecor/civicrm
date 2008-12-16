@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-06-02 02:04-0700\n"
 "Last-Translator: DOKTER_MOF <mofdok@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -63,9 +63,8 @@ msgstr "Редактировать"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Активировать"
+msgstr "Таблица едениц"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -108,7 +107,6 @@ msgid "Grant"
 msgstr "Разрешить"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
 msgstr "Дата изменена"
 
@@ -445,7 +443,6 @@ msgid "Case Activity Type"
 msgstr "Новый тип действия"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- выбор -"
 
@@ -1111,9 +1108,8 @@ msgid "Legal Name"
 msgstr "Полное наименование"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Настраиваемые опции"
+msgstr "Настраиваемое приветствие"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1175,7 +1171,7 @@ msgstr "Выбор дат"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Где таблица"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1758,15 +1754,14 @@ msgstr "Значение по умолчанию"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Удалить %1 профиль?"
+msgstr "Помощь До"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Помощь После"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1831,9 +1826,8 @@ msgstr "В тексте"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Тип действия"
+msgstr "Категория Тел. Номера"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2135,7 +2129,7 @@ msgstr "Фамилия"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Запретить"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -2147,9 +2141,8 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Удалить"
+msgstr "Отозвать/анулировать"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2265,34 +2258,28 @@ msgid "Activity Content %2 %1"
 msgstr "Тема активного портфеля %2 %1"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Действие"
+msgstr "ID Действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Type ID"
-msgstr "Тип действия"
+msgstr "ID Тип действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Date Time"
-msgstr "Дата действия"
+msgstr "Время действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Due Date Time"
-msgstr "Дата и Время"
+msgstr "Срок"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Номер линии"
+msgstr "Номер телефона"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Status Label"
-msgstr "Дата действия"
+msgstr "Название статуса действия"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2301,7 +2288,7 @@ msgstr "Текст"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Contact ID (равно контакту)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3631,11 +3618,6 @@ msgstr "Индивидуальный суффикс - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "phone"
-msgstr "Телефон"
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Member of Group %1"
 msgstr "Участник группы -"
 
@@ -3727,9 +3709,8 @@ msgid "Invalid relationship type"
 msgstr "Активировать тип связи"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "ID контакта"
+msgstr "Внутренний Contact ID"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3737,24 +3718,20 @@ msgid "Contact Sub Type"
 msgstr "Тип контакта"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "не отправлять почту"
+msgstr "Не писать"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
-msgstr "не звонить"
+msgstr "Не звонить"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
-msgstr "не отправлять почту"
+msgstr "Не отправлять почту"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "не разглашать"
+msgstr "Не разглашать"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
@@ -3765,7 +3742,6 @@ msgid "Legal Identifier"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
 msgstr "Внешний идентификатор"
 
@@ -3774,24 +3750,20 @@ msgid "Sort Name"
 msgstr "Имя для сортировки"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
 msgstr "Отображаемое имя"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Ссылка (URL) для картинки"
+msgstr "Домашний URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Ссылка (URL) для картинки"
+msgstr "Url имиджа"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Предпочитаемый Email:"
+msgstr "Предпочитаемый почтовый формат"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3804,9 +3776,8 @@ msgid "Source of Contact Data"
 msgstr "Исходный контакт не существует!"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Приветствие"
+msgstr "Тип приглашения"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3815,12 +3786,10 @@ msgid "Job Title"
 msgstr "Должность"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Дата начала"
+msgstr "Дата рождения"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
 msgstr "умер"
 
@@ -3839,23 +3808,20 @@ msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Формат"
+msgstr "Официально"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Неформально"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Почетный"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Настройки"
+msgstr "Настраиваемо"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3873,14 +3839,12 @@ msgid "Children"
 msgstr "Ребенок"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Имя"
+msgstr "Имя A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Имя"
+msgstr "Имя B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -3889,17 +3853,15 @@ msgstr "Помощь Post-формы"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Отследить"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Веб-сайт"
+msgstr "Веб"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "URL адрес API"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4363,7 +4325,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Расстояние от"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4398,9 +4360,8 @@ msgid "Contact Role and Name"
 msgstr "Тел. контакта"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Страница Контакта"
+msgstr "Имя контакта"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4641,9 +4602,8 @@ msgid "Distance"
 msgstr "Деактивировать"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- любая группа -"
+msgstr "- любая страна -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5548,51 +5508,44 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "Номер линии"
+msgstr "Номер дома"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Суффикс номера дома"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Название улицы"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Тип представления"
+msgstr "Тип улица"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Единица частоты"
+msgstr "Ед. улицы"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
@@ -5608,7 +5561,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Временная зона"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5630,14 +5583,12 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "Классификационный код"
+msgstr "ISO - код"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Страна"
+msgstr "Код страны"
 
 #: CRM/Core/DAO/Country.php
 #, fuzzy
@@ -5655,7 +5606,6 @@ msgid "County Abbreviation"
 msgstr "Вклад"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Валюта"
 
@@ -5678,9 +5628,8 @@ msgid "Data Type"
 msgstr "Тип данных"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Вклады"
+msgstr "Аттрибуты"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5693,9 +5642,8 @@ msgid "End Date Years"
 msgstr "Дата завершения"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Формат Дат"
+msgstr "Части даты"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
@@ -5792,7 +5740,6 @@ msgid "Email Address"
 msgstr "Неверный электронный адрес"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
 msgstr "Обратный адрес для email"
 
@@ -5867,9 +5814,8 @@ msgid "vCard Location Type"
 msgstr "Тип действия"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Тип действия"
+msgstr "Название местоположения"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -6152,7 +6098,7 @@ msgstr "Добавить к организации"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Штаты сокращенно"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6178,9 +6124,8 @@ msgid "Field Type"
 msgstr "Тип поля"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
-msgstr "Почтовый индекс"
+msgstr "После Url"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Add Captcha"
@@ -6197,9 +6142,8 @@ msgid "Notify"
 msgstr "Заметка"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Мобильный"
+msgstr "Модуль"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9494,7 +9438,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11585,7 +11529,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "ИЛИ"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -11727,15 +11671,22 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 msgstr[1] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 msgstr[2] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -14660,9 +14611,1680 @@ msgstr "Сообщение отобрано фильтром контента"
 msgid "Error in SMTP transaction"
 msgstr "Ошибка в транзакции SMTP"
 
+#~ msgid "Contact"
+#~ msgstr "Контакт"
+
+#~ msgid "Import"
+#~ msgstr "Импорт"
+
+#~ msgid "Custom Data"
+#~ msgstr "Настраиваемые данные"
+
+#~ msgid "Access Control"
+#~ msgstr "Настройка прав"
+
+#~ msgid "Case"
+#~ msgstr "Портфель"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Загрузить рамзетку"
+
+#~ msgid "View Activity"
+#~ msgstr "Просмотреть действие"
+
+#, fuzzy
+#~ msgid "Payment Processor Type"
+#~ msgstr "Инструмент оплаты"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Расширенный поиск"
+
+#, fuzzy
+#~ msgid "Contact Dashboard"
+#~ msgstr "Пометки"
+
+#, fuzzy
+#~ msgid "Global Settings"
+#~ msgstr "Свойства группы"
+
+#, fuzzy
+#~ msgid "Components"
+#~ msgstr "Тип действия"
+
+#~ msgid "Customize"
+#~ msgstr "Настройки"
+
+#~ msgid "Configure"
+#~ msgstr "Конфигурация"
+
+#~ msgid "Manage"
+#~ msgstr "Управлять"
+
+#, fuzzy
+#~ msgid "Option Lists"
+#~ msgstr "Опции"
+
+#~ msgid "File System Paths"
+#~ msgstr "Путь"
+
+#~ msgid "Site URLs"
+#~ msgstr "URL Адрес сайта"
+
+#, fuzzy
+#~ msgid "Localization"
+#~ msgstr "Местоположение"
+
+#~ msgid "Debugging"
+#~ msgstr "Отладка"
+
+#~ msgid "Notes"
+#~ msgstr "Заметки"
+
+#, fuzzy
+#~ msgid "Delete Location"
+#~ msgstr "Удалить тип местанахождения"
+
+#~ msgid "Domain Information"
+#~ msgstr "Информация о домене"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "CiviCRM Настройка"
+
+#, fuzzy
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr ""
+#~ "Запись о контакте сопряженная с профилем текущего пользователя -\"%1\" - "
+#~ "не может быть удалена."
+
+#~ msgid "Activities"
+#~ msgstr "Действия"
+
+#~ msgid "Relationships"
+#~ msgstr "Связи"
+
+#~ msgid "Contributions"
+#~ msgstr "Вклады"
+
+#, fuzzy
+#~ msgid "Memberships"
+#~ msgstr "В прошлом участник"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Найти контакт"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Написать письмо"
+
+#, fuzzy
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Меню"
+
+#~ msgid "Groups"
+#~ msgstr "Группы"
+
+#~ msgid "Tags"
+#~ msgstr "Закладки"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Экспорт контактов"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "Log out"
+#~ msgstr "Выйти"
+
+#, fuzzy
+#~ msgid "Map Event Location"
+#~ msgstr "Основной"
+
+#, fuzzy
+#~ msgid "Search Builder"
+#~ msgstr "Результаты поиска"
+
+#, fuzzy
+#~ msgid "New Contact"
+#~ msgstr "Просмотреть контакт"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Настраиваемые поля данных"
+
+#, fuzzy
+#~ msgid "Message Templates"
+#~ msgstr "Выбор дат"
+
+#, fuzzy
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Сохранить повтаряющийся контакт"
+
+#, fuzzy
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Сохранить повтаряющийся контакт"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "Встечи контакта"
+
+#~ msgid "Price Sets"
+#~ msgstr "Выборка прайсов"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Редактировать Группы"
+
+#~ msgid "Tell a Friend"
+#~ msgstr "Сказать другу"
+
+#~ msgid "Contacts"
+#~ msgstr "Контакты"
+
+#~ msgid "Group Members"
+#~ msgstr "Участники группы"
+
+#~ msgid "Grant Status"
+#~ msgstr "Статус представления"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Дата получения"
+
+#, fuzzy
+#~ msgid "Money Transferred"
+#~ msgstr "Телефон (предпочтение)"
+
+#~ msgid "Amount Requested"
+#~ msgstr "Сумма запрошенная"
+
+#, fuzzy
+#~ msgid "Amount Granted"
+#~ msgstr "Сумма предоставленная"
+
+#~ msgid "Delete Grants"
+#~ msgstr "Удалить представления"
+
+#~ msgid "add contacts"
+#~ msgstr "добавить контакты"
+
+#~ msgid "view all contacts"
+#~ msgstr "просмотреть все контакты"
+
+#~ msgid "edit all contacts"
+#~ msgstr "редактировать все контакты"
+
+#~ msgid "import contacts"
+#~ msgstr "импортировать контакты"
+
+#~ msgid "edit groups"
+#~ msgstr "редактировать группы"
+
+#~ msgid "administer CiviCRM"
+#~ msgstr "администрирование CiviCRM"
+
+#~ msgid "access uploaded files"
+#~ msgstr "доступ для загруженных файлов"
+
+#~ msgid "profile listings and forms"
+#~ msgstr "профиль списков и форм"
+
+#~ msgid "access all custom data"
+#~ msgstr "доступ ко всем выбраным данным"
+
+#~ msgid "access CiviCRM"
+#~ msgstr "доступ CiviCRM"
+
+#~ msgid "access Contact Dashboard"
+#~ msgstr "доступ Контакт панель"
+
+#~ msgid "Violation Type %2 %1"
+#~ msgstr "Тип нарушения %2 %1"
+
+#~ msgid "Case Activity Subject %2 %1"
+#~ msgstr "Тема активного портфеля %2 %1"
+
+#~ msgid "Target Contact non-existant!"
+#~ msgstr "Конечный контакт не существует!"
+
+#~ msgid "Assignee Contact non-existant!"
+#~ msgstr "Представитель контакта не существует!"
+
+#~ msgid "Invalid Case"
+#~ msgstr "нет портфеля"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+#~ msgstr ""
+#~ "Нехватает обязательных полей для определения контакта. (Должно быть Имя И "
+#~ "Фамилия или Основной email или Имя, Фамилия И Основной emai.)"
+
+#~ msgid "Missing required contact matching field: Contact ID."
+#~ msgstr "Нехватает обязатьельного поля для определения контакта: ID Контакта"
+
+#~ msgid "Match On:"
+#~ msgstr "Сопоставить по:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Contact Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+#~ msgstr ""
+#~ "Правило Обнаружения Повторения не сохранено, потаму что составлено не "
+#~ "корректно. Правила могут содержать лишь действительные названия полей, "
+#~ "'И','ИЛИ' либо кавычки"
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "Правило Обнаружения Повтоорения сохранено."
+
+#, fuzzy
+#~ msgid "User Language"
+#~ msgstr "Использовать значение по умолчанию"
+
+#, fuzzy
+#~ msgid "Monetary Display"
+#~ msgstr "Показвать %s сначала"
+
+#, fuzzy
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "CiviCRM Поиск Контактов "
+
+#, fuzzy
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "Дата и Время"
+
+#~ msgid "Edit DupeMatch"
+#~ msgstr "Редактировать Определения Повторений"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete this mapping? This operation can not be "
+#~ "undone"
+#~ msgstr ""
+#~ "Действительно хотите удалить выбранные контакты? Операция удаления не "
+#~ "может быть отменена."
+
+#, fuzzy
+#~ msgid "System Configuration"
+#~ msgstr "Расширенные настройки"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr "больше чем \"%1\""
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr "Почтовый индекс - \"%1\""
+
+#~ msgid "The Location Type should be set if there is any location information"
+#~ msgstr ""
+#~ "Тип местоположения должен быть установлен если есть географическая "
+#~ "информация."
+
+#~ msgid "Two locations cannot have same location type"
+#~ msgstr "Два местоположения не могут иметь единый тип"
+
+#, fuzzy
+#~ msgid "Create new household"
+#~ msgstr "Создать новую группу"
+
+#, fuzzy
+#~ msgid "shared options"
+#~ msgstr "Отключить связь"
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Местоположение"
+
+#, fuzzy
+#~ msgid ""
+#~ "This contact record is linked to the currently logged in user account - '%"
+#~ "1' - and can not be deleted."
+#~ msgstr ""
+#~ "Эта запись сопряжена с профилем текущего пользователя - \"%1\" - и не "
+#~ "может быть удалена."
+
+#, fuzzy
+#~ msgid "Select Template"
+#~ msgstr "Выбор дат"
+
+#, fuzzy
+#~ msgid "Update Template"
+#~ msgstr "Обновить Смарт Группу"
+
+#, fuzzy
+#~ msgid "Save as New Template"
+#~ msgstr "Сохранить и Открыть новую форму"
+
+#, fuzzy
+#~ msgid ""
+#~ "Email not sent to contact(s) (no email address on file or communication "
+#~ "preferences specify DO NOT EMAIL): %1"
+#~ msgstr ""
+#~ "Email не отправлен контактам (не найден Email адрес или предпочтения "
+#~ "контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
+
+#~ msgid "Export PRIMARY contact fields"
+#~ msgstr "Экспорт ОСНОВНЫЕ поля контактов"
+
+#, fuzzy
+#~ msgid "Map Location(s)"
+#~ msgstr "Местоположение"
+
+#~ msgid ""
+#~ "This contact's primary address does not contain latitude/longitude "
+#~ "information and can not be mapped."
+#~ msgstr ""
+#~ "Основной адрес контакта не содержит данные по широте/долготе и не может "
+#~ "быть вложена."
+
+#~ msgid "Your user record does not have a valid user ID"
+#~ msgstr "Запись о пользователе не имеет правильный user ID"
+
+#~ msgid "View Contribution"
+#~ msgstr "Просмотр подарка"
+
+#~ msgid "Edit Contribution"
+#~ msgstr "Редактировать подарок"
+
+#~ msgid "Delete Contribution"
+#~ msgstr "Удалить подарок"
+
+#, fuzzy
+#~ msgid "View Membership"
+#~ msgstr "Новое участие в группе"
+
+#, fuzzy
+#~ msgid "Edit Membership"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "Delete Membership"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "Participant Status"
+#~ msgstr "Статус группы"
+
+#~ msgid "CiviContribute"
+#~ msgstr "CiviВзнос"
+
+#, fuzzy
+#~ msgid "CiviEvent"
+#~ msgstr "Событие"
+
+#, fuzzy
+#~ msgid "CiviMember"
+#~ msgstr "Участники"
+
+#~ msgid "CiviMail"
+#~ msgstr "CiviMail"
+
+#~ msgid "Delete Contact"
+#~ msgstr "Удалить контакт"
+
+#, fuzzy
+#~ msgid "Could not retrieve a valid contact"
+#~ msgstr "Недоступен contact_id и/или contact_type"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Поиск Контактов CiviCRM "
+
+#, fuzzy
+#~ msgid "Simple Search"
+#~ msgstr "Сохраненный поиск"
+
+#~ msgid "View Location Types"
+#~ msgstr "Просмотр типов местанахождения"
+
+#, fuzzy
+#~ msgid "View Payment Processors"
+#~ msgstr "Инструмент оплаты"
+
+#, fuzzy
+#~ msgid "View Payment Processor Type"
+#~ msgstr "Инструмент оплаты"
+
+#~ msgid "View Relationship Types"
+#~ msgstr "Просмотр типов связей"
+
+#~ msgid "View Tags"
+#~ msgstr "Просмотр закладок"
+
+#, fuzzy
+#~ msgid "View Mapping"
+#~ msgstr "Загрузить рамзетку"
+
+#, fuzzy
+#~ msgid "View Options"
+#~ msgstr "Опции"
+
+#~ msgid "Sync Drupal Users"
+#~ msgstr "Синхронизировать с пользовательями, зарегистрированными в Drupal"
+
+#, fuzzy
+#~ msgid "View Option Groups"
+#~ msgstr "Просмотр групп"
+
+#, fuzzy
+#~ msgid "View Option Values"
+#~ msgstr "Значение опции"
+
+#~ msgid "Options"
+#~ msgstr "Опции"
+
+#, fuzzy
+#~ msgid "CiviMail Settings"
+#~ msgstr "Настройки отправки"
+
+#, fuzzy
+#~ msgid "Import Contacts"
+#~ msgstr "Удалите контакты"
+
+#~ msgid "View Groups"
+#~ msgstr "Просмотр групп"
+
+#, fuzzy
+#~ msgid "System Preferences"
+#~ msgstr "Предпочтения в общении"
+
+#, fuzzy
+#~ msgid "Address Preferences"
+#~ msgstr "Настройки"
+
+#, fuzzy
+#~ msgid "Date Formatting"
+#~ msgstr "Формат Дат"
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "Профиль  CiviCRM"
+
+#~ msgid "CiviCRM Profile Fields"
+#~ msgstr "Настраиваемые поля CiviCRM"
+
+#, fuzzy
+#~ msgid "Synchronize Users to Contacts"
+#~ msgstr "Синхронизация Пользователей с Контактами:"
+
+#~ msgid "Activity Types"
+#~ msgstr "Типы взаимодействия"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Опции"
+
+#~ msgid "Individual Prefixes (Ms, Mr...)"
+#~ msgstr "Префиксы ФизЛиц (г-дин, г-жа)"
+
+#~ msgid "Individual Suffixes (Jr, Sr...)"
+#~ msgstr "Суффиксы ФизЛиц (кандидат наук, эсквайр...)"
+
+#, fuzzy
+#~ msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
+#~ msgstr "Суффиксы ФизЛиц (кандидат наук, эсквайр...)"
+
+#~ msgid "Instant Messenger Services"
+#~ msgstr "Сервис мгновенных сообщений (IM)"
+
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "Типы местоположения (Работа, Дом...)"
+
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "Операторы мобильной связи"
+
+#, fuzzy
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "Предпочитаемый метод связи"
+
+#~ msgid "Relationship Types"
+#~ msgstr "Типы связей"
+
+#~ msgid "Tags (Categories)"
+#~ msgstr "Закладки (Категории)"
+
+#, fuzzy
+#~ msgid "Payment Processor"
+#~ msgstr "Инструмент оплаты"
+
+#, fuzzy
+#~ msgid "Payment Processor type information"
+#~ msgstr "Инструмент оплаты"
+
+#~ msgid "Quick Registration"
+#~ msgstr "Быстрая регистрация"
+
+#, fuzzy
+#~ msgid "Manage ACLs"
+#~ msgstr "Управлять"
+
+#~ msgid "Contact Summary"
+#~ msgstr "Краткий Обзор"
+
+#~ msgid "Create New Group"
+#~ msgstr "Создать новую группу"
+
+#~ msgid "Activity"
+#~ msgstr "Действие"
+
+#~ msgid "Add Contact Information"
+#~ msgstr "Добавить информацию о контакте"
+
+#~ msgid "Notes about the Person"
+#~ msgstr "Заметки о Персоне"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "Дата завершения не может бать раньше даты начала."
+
+#~ msgid "- all contacts -"
+#~ msgstr "- все контакты -"
+
+#, fuzzy
+#~ msgid "Test Payment Processor"
+#~ msgstr "Инструмент оплаты"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Group '%1' has not been deleted! You must Delete all custom fields in "
+#~ "this group prior to deleting the group"
+#~ msgstr ""
+#~ "Группа \"%1\" НЕ была удалена! Вы должны удалить все настаиваемые поля в "
+#~ "данной группе"
+
+#~ msgid "Please enter 1 or 0 as default value."
+#~ msgstr "Введите 1 или 0 в качестве значения по умолчанию."
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Настраиваемое поле \"%1\" было сохранено"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Группа \"%1\" была сохранена."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your Group '%1' has been added. You can <a href='%2'>add custom fields</"
+#~ "a> to this group now."
+#~ msgstr ""
+#~ "Группа \"%1\" бала добавлена. Вы можете <a href=\"%2\">добавить "
+#~ "настаиваемые поля</a> для этой группы."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Даты взаимодействия - C"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "Дата отправки"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Значение опции"
+
+#~ msgid "Name:"
+#~ msgstr "Имя:"
+
+#~ msgid "Join new contacts to existing group(s)"
+#~ msgstr "Добавить новые контакты в существующую группу(ы)"
+
+#~ msgid "Please enter a valid value for this field."
+#~ msgstr "Введите правильное значение для данного поля."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add "
+#~ "fields</a> to this Profile now."
+#~ msgstr ""
+#~ "CiviCRM группа профиля \"%1\" была добавлена. Вы можете <a href=\"%2"
+#~ "\">добавить поля</a> для данной группы."
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image."
+#~ msgstr "Введить целочисленное значение"
+
+#, fuzzy
+#~ msgid ""
+#~ "Creates a link for recipients to unsubscribe from the group(s) to which "
+#~ "this mailing is being sent."
+#~ msgstr "Ссылка для отписки от рассылки"
+
+#~ msgid "Download Errors"
+#~ msgstr "Ошибки загрузки"
+
+#~ msgid ""
+#~ "Files to be imported must be in the 'comma-separated-values' format "
+#~ "(CSV). Most applications will allow you to export records in this format. "
+#~ "Consult the documentation for your application if you're not sure how to "
+#~ "do this. Save this file to your local hard drive (or an accessible drive "
+#~ "on your network) - and you are now ready for step 1 (Upload Data)."
+#~ msgstr ""
+#~ "Файлы для импорта должны быть в формате CSV. Большинство приложений "
+#~ "позволяют выгрузить записи в этом формате. Свертесь с документацией "
+#~ "вашего приложения если неуверены как это делается. Сохраните этот файл на "
+#~ "локальный диск (или на доступный сетевой диск) - и вы готовы к Шагу 1 "
+#~ "(Загрузка Данных). "
+
+#, fuzzy
+#~ msgid "There are no duplicates matching this rule."
+#~ msgstr "Правило Обнаружения Повтоорения сохранено."
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "Сохранить повтаряющийся контакт"
+
+#, fuzzy
+#~ msgid "Advanced Duplicate Matching Rule"
+#~ msgstr "Правило Обнаружения Повтоорения сохранено."
+
+#, fuzzy
+#~ msgid "Delete Duplicate Matching Rule"
+#~ msgstr "Правило Обнаружения Повтоорения сохранено."
+
+#, fuzzy
+#~ msgid "Configure Duplicate Matching Rule"
+#~ msgstr "Правило Обнаружения Повтоорения сохранено."
+
+#~ msgid "Advanced Configuration"
+#~ msgstr "Расширенные настройки"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
+#~ "can not be undone."
+#~ msgstr "Вы действительно хотите удалить <b>%1</b> закладку?"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Встечи контакта"
+
+#~ msgid "Click to select date/time from calendar."
+#~ msgstr "Нажмите чтобы выбрать дату/время из календаря."
+
+#~ msgid "(for %1)"
+#~ msgstr "(для %1)"
+
+#~ msgid ""
+#~ "Location search uses the PRIMARY location for each contact by default. To "
+#~ "search by specific location types (e.g. Home, Work...), check one or more "
+#~ "boxes above."
+#~ msgstr ""
+#~ "Поиск по местоположению использует по умолчанию ОСНОВНОЕ местоположение "
+#~ "для каждого контакта. Чтобы искать по конкретным видам местоположений "
+#~ "(напрмер: Дом, Работа...) , поставте одну или несколько галок выше."
+
+#~ msgid ""
+#~ "The members of the <strong>%1</strong> group are listed below. Use the "
+#~ "'Find Members...' criteria below to search for specific members. Use the "
+#~ "'Group Status...' checkboxes to view members with 'Pending' status and/or "
+#~ "members who have been 'Removed' from this group."
+#~ msgstr ""
+#~ "Члены группы <strong>%1</strong> перечислены ниже. Используйте 'Поиск "
+#~ "членов...' для поиска конкретных членов. Используйте галки 'Статус "
+#~ "группы...' для просмотра членов со статусом 'В процессе (Pending)' и/или "
+#~ "членов 'Удаленных' из этой группы."
+
+#, fuzzy
+#~ msgid ""
+#~ "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
+#~ "members to this group."
+#~ msgstr ""
+#~ "Используйте <a href=\"%1\">Добавить членов...</a> если вы хотите добавить "
+#~ "новых в данную группу."
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
+#~ "search query used for this 'smart' group."
+#~ msgstr ""
+#~ "Нажмите <a href=\"%1\">Редактирование критерия смарт группы...</a> для "
+#~ "изменения поискового критерия используемого для данной  'смарт' группы."
+
+#~ msgid ""
+#~ "Use the Search form to find contacts to add to %1. Mark the contacts you "
+#~ "want to add and click 'Add Contacts...'."
+#~ msgstr ""
+#~ "Используйте страницу поиска для поиска контактов для добавления  %1. "
+#~ "Отметьте контакты, которые вы хотите добавить и нажмите 'добавить "
+#~ "контакты...'."
+
+#, fuzzy
+#~ msgid ""
+#~ "Use the Search Criteria form to find contacts by name, type of contact, "
+#~ "group membership, tags, etc. You can then view or edit contact details, "
+#~ "print a contact list, or you can use the More Actions drop down list to "
+#~ "assign tags, add to Groups, create Smart Groups, export contact data to a "
+#~ "spreadsheet, etc."
+#~ msgstr ""
+#~ "Используйте форму Критерии Поиска для отбора контактов по имени, типу "
+#~ "контакта, приналежности к группе, закладкам и т.д. Далее можно "
+#~ "просматривать или редактировать данные контакта, распечатывать списки "
+#~ "контактов, назначать закладки, экспортировать данные о контакте в "
+#~ "таблицу, и т.д."
+
+#, fuzzy
+#~ msgid ""
+#~ "If you've changed search criteria for this 'smart group' and want to save "
+#~ "your changes, select <strong>Update Smart Group</strong> from the '- more "
+#~ "actions -' drop-down menu, and then click Go."
+#~ msgstr ""
+#~ "Если вы изменили критерий поиска для этой смарт-группы и хотите изменить "
+#~ "изменения, выберите <strong>обновить смарт-группу</strong> из выпадающего "
+#~ "меню '- еще дейсвия -'"
+
+#, fuzzy
+#~ msgid "Found %count contact"
+#~ msgid_plural "Found %count contacts"
+#~ msgstr[0] "Поиск Контактов CiviCRM"
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#, fuzzy
+#~ msgid "selected records only"
+#~ msgstr "Всего выбрано контактов: %1"
+
+#, fuzzy
+#~ msgid "the found record"
+#~ msgid_plural "all %count records"
+#~ msgstr[0] "Создано новых записей о взаимоотношениях: %1."
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#, fuzzy
+#~ msgid "Select a Different Mapping"
+#~ msgstr "Пожалуйста выберите состояние."
+
+#, fuzzy
+#~ msgid "Record an Activity"
+#~ msgstr "Записать Действия для Контакотв"
+
+#~ msgid "Min"
+#~ msgstr "Минут"
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "Недавние Взносы"
+
+#, fuzzy
+#~ msgid "Submit Credit Card Contribution"
+#~ msgstr "Редактировать подарок"
+
+#, fuzzy
+#~ msgid "No contributions have been recorded from this contact."
+#~ msgstr "Для этого контакта связей не заведено."
+
+#, fuzzy
+#~ msgid "Contributions made in honor of %1."
+#~ msgstr "Взносы (3 из %1)"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no grant recorded for this contact. You can <a href='%1'>enter "
+#~ "one now</a>."
+#~ msgstr ""
+#~ "Нет связей ассоциированных с этим контактом. Можно <a href=\"%1"
+#~ "\">добавить связь сейчас</a>. "
+
+#, fuzzy
+#~ msgid "Click <a href='%1'>New Membership</a> to record a new membership."
+#~ msgstr ""
+#~ "Используйте <a href=\"%1\">Добавить членов...</a> если вы хотите добавить "
+#~ "новых в данную группу."
+
+#, fuzzy
+#~ msgid "Active Memberships"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "Inactive Memberships"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Notes for this contact. You can <a href='%1'>add one</a>."
+#~ msgstr ""
+#~ "Нет заметок относящихся к этому контакту. Можно <a href=\"%1\">добавить "
+#~ "заметку сейчас</a>. "
+
+#, fuzzy
+#~ msgid ""
+#~ "Click <a href='%1'>New Event Registration</a> to register this contact "
+#~ "for an event."
+#~ msgstr ""
+#~ "Используйте <a href=\"%1\">Добавить членов...</a> если вы хотите добавить "
+#~ "новых в данную группу."
+
+#, fuzzy
+#~ msgid "New Event Registration"
+#~ msgstr "Регистрация пользователя"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no event registrations recorded for this contact. You can <a "
+#~ "href='%1'>enter one now</a>."
+#~ msgstr ""
+#~ "Нет связей ассоциированных с этим контактом. Можно <a href=\"%1"
+#~ "\">добавить связь сейчас</a>. "
+
+#, fuzzy
+#~ msgid "There are no event registrations recorded for this contact."
+#~ msgstr "Для этого контакта связей не заведено."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Relationships entered for this contact. You can <a href='%"
+#~ "1'>add one</a>."
+#~ msgstr ""
+#~ "Нет связей ассоциированных с этим контактом. Можно <a href=\"%1"
+#~ "\">добавить связь сейчас</a>. "
+
+#, fuzzy
+#~ msgid "View Contact Dashboard"
+#~ msgstr "Просмотреть данные о контакте"
+
+#, fuzzy
+#~ msgid "Received date"
+#~ msgstr "Дата получения"
+
+#~ msgid "Receipt Sent"
+#~ msgstr "Получатель"
+
+#, fuzzy
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "Недавние Взносы"
+
+#, fuzzy
+#~ msgid "There are no contributions on record for you."
+#~ msgstr "Не выбрано записей для печати."
+
+#, fuzzy
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Получено от имени"
+
+#, fuzzy
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Недавние Взносы"
+
+#, fuzzy
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "Недавние Взносы"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Отказаться от подписки"
+
+#, fuzzy
+#~ msgid "Confirm"
+#~ msgstr "Настраивать"
+
+#, fuzzy
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Ожидается участие"
+
+#, fuzzy
+#~ msgid "There are no memberships on record for you."
+#~ msgstr "Для этого контакта связей не заведено."
+
+#, fuzzy
+#~ msgid "Event Date(s)"
+#~ msgstr "Отправлено "
+
+#, fuzzy
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Экспортировать вклады"
+
+#, fuzzy
+#~ msgid "Your Membership(s)"
+#~ msgstr "Участие в группах"
+
+#, fuzzy
+#~ msgid ""
+#~ "Is this field included in the Advanced and component search forms? NOTE: "
+#~ "This feature is available to custom fields used for <strong>Contacts</"
+#~ "strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and "
+#~ "<strong>Event Participants</strong> at this time."
+#~ msgstr ""
+#~ "Включено ли это поле в форму Ресширенного поиска? НАПОМИНАНИЕ: Эта опция "
+#~ "в текущей версии доступна лишь настраиваемым полям используемым для  "
+#~ "<strong>Конатактов</strong>."
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Сумма"
+
+#, fuzzy
+#~ msgid ""
+#~ "Check this box if the first row of your file consists of field names "
+#~ "(Example: 'Contact ID', 'Participant Role')."
+#~ msgstr ""
+#~ "Поставте галку если первый ряд вашего файла содержит заголовки колонок "
+#~ "(Пример: \"ID Контакта\", \"Тип действия\", \"Дата действия\")."
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Удалить"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Группа"
+
+#~ msgid "Total rows (contact records) in uploaded file."
+#~ msgstr "Всего строк (контактов) в загруженнос файле"
+
+#, fuzzy
+#~ msgid "Create a new group from imported records"
+#~ msgstr "Создать новую группу из импортируемых записей"
+
+#, fuzzy
+#~ msgid "Tagged imported contacts"
+#~ msgstr "просмотреть все контакты"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Deleting this price set will result in the loss of all %1 data."
+#~ msgstr ""
+#~ "ВНИМАНИЕ: удаление данной опции повлечет потерю всех взаимотношений, "
+#~ "использующих данную опцию."
+
+#, fuzzy
+#~ msgid "Please enter the phrase as displayed in the image"
+#~ msgstr "Введить целочисленное значение"
+
+#, fuzzy
+#~ msgid "Advanced Settings"
+#~ msgstr "Расширенный поиск"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "Принятые кредитные карточки"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Метод оплаты"
+
+#, fuzzy
+#~ msgid "phone"
+#~ msgstr "Телефон"
+
 #~ msgid "Tell A Friend"
 #~ msgstr "Сказать другу"
 
 #, fuzzy
 #~ msgid "Invalid name and password"
 #~ msgstr "Неверный электронный адрес"
+
+#, fuzzy
+#~ msgid "Owner Entity Table"
+#~ msgstr "Таблица едениц"
+
+#~ msgid "Rule"
+#~ msgstr "Правило"
+
+#~ msgid "Export"
+#~ msgstr "Экспорт"
+
+#~ msgid "Export Contributions"
+#~ msgstr "Экспортировать вклады"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Импорт взносов"
+
+#, fuzzy
+#~ msgid "Import Memberships"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Удалите контакты"
+
+#~ msgid "Form Type"
+#~ msgstr "Тип формы"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Дата получения"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Дата получения"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Дата отправки"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Сумма"
+
+#, fuzzy
+#~ msgid "Task Type"
+#~ msgstr "Тип действия"
+
+#, fuzzy
+#~ msgid "Parent Entity Table"
+#~ msgstr "Таблица целевой сущности"
+
+#, fuzzy
+#~ msgid "Task Parent"
+#~ msgstr "Родитель"
+
+#, fuzzy
+#~ msgid "Due Date"
+#~ msgstr "Дата отправки"
+
+#, fuzzy
+#~ msgid "Priority"
+#~ msgstr "Печать"
+
+#, fuzzy
+#~ msgid "Responsible Entity Table"
+#~ msgstr "Таблица едениц"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Таблица целевой сущности"
+
+#, fuzzy
+#~ msgid "Target"
+#~ msgstr "Закладки"
+
+#, fuzzy
+#~ msgid "Status Details"
+#~ msgstr "Уточнения"
+
+#, fuzzy
+#~ msgid "Created"
+#~ msgstr "Создать"
+
+#, fuzzy
+#~ msgid "Last Modified"
+#~ msgstr "Дата изменена"
+
+#, fuzzy
+#~ msgid "- any county -"
+#~ msgstr "- любая страна -"
+
+#, fuzzy
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Вы действительно хотите удалить %1 из %2?"
+
+#, fuzzy
+#~ msgid ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+#~ msgstr ""
+#~ "Не удается найти backup-скрипт. Проверьте %1 в корневой директории "
+#~ "CiviCRM."
+
+#~ msgid "Backup Data"
+#~ msgstr "Резервное копирование данных"
+
+#, fuzzy
+#~ msgid "State %2 \"%1\""
+#~ msgstr "Штат- \"%1\""
+
+#, fuzzy
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "Штат (%2) - \"%1\""
+
+#, fuzzy
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Страна - \"%1\""
+
+#, fuzzy
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Страна (%2) - \"%1\""
+
+#, fuzzy
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Страна - \"%1\""
+
+#, fuzzy
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "Страна (%2) - \"%1\""
+
+#, fuzzy
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Пол - \"%1\""
+
+#~ msgid "Contact Type -"
+#~ msgstr "Тип контакта -"
+
+#~ msgid "Group Status -"
+#~ msgstr "Статус группы -"
+
+#, fuzzy
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "Штат (%2) - \"%1\""
+
+#, fuzzy
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Email %1"
+
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "Почтовый индекс - \"%1\""
+
+#~ msgid "Location type -"
+#~ msgstr "Тип местоположения -"
+
+#, fuzzy
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Тип действия"
+
+#, fuzzy
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 - %2 из %3"
+
+#, fuzzy
+#~ msgid "Task Status: %1"
+#~ msgstr "Статус:"
+
+#, fuzzy
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "Группа \"%1\" была сохранена."
+
+#~ msgid "Your civicrm profile field \"%1\" has been saved."
+#~ msgstr "Ваш civicrm профиль  \"%1\" был сохранен."
+
+#, fuzzy
+#~ msgid "Duplicate Matching Rule"
+#~ msgstr "По повторяющимся записям"
+
+#, fuzzy
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "Редактировать инфо о домене"
+
+#~ msgid "- Contribution Fields -"
+#~ msgstr "- Поля взносов -"
+
+#, fuzzy
+#~ msgid "You do not have permission to edit this contact"
+#~ msgstr "У вас нет прав редактировать этот контакт"
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "Мы не смогли найти id контакта."
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Добавить информацию о контакте"
+
+#~ msgid ""
+#~ "Select 'Inline' to include this group of fields in the main contact Add/"
+#~ "Edit form and Contact Summary screens. Select 'Tab' to create a separate "
+#~ "navigation tab for display and editing these values (generally for less "
+#~ "frequently accessed and/or larger sets of fields)."
+#~ msgstr ""
+#~ "Выберите 'В тексте' чтобы группа полей была включена в Главную форму "
+#~ "Добавления/Редактирования контакта и в форму Обзора данных о контакте. "
+#~ "Выберите отображать как 'Закладка' чтобы добавилась отдельная закладка на "
+#~ "панели навигации для доступа к просмотру и редактированию значений "
+#~ "(обычно используется для менее востребованных полей или для группы "
+#~ "состоящей из множества полей).  "
+
+#, fuzzy
+#~ msgid " -select- "
+#~ msgstr "- выбор -"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Назначено"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Продолжительность (час)"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Продолжительность (мин)"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Указанные встречи успешно удалены."
+
+#~ msgid " is a numeric field"
+#~ msgstr "является числовым полем"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Удалить историю действий"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "История действий CiviCRM"
+
+#~ msgid "Sent Date"
+#~ msgstr "Отправлено "
+
+#~ msgid "Import Activity History"
+#~ msgstr "Импорт Истории Взаимодействия"
+
+#~ msgid " must be a numeric value"
+#~ msgstr "Должно быть числовым значением"
+
+#~ msgid "Record Number"
+#~ msgstr "Номер записи"
+
+#, fuzzy
+#~ msgid " -select role- "
+#~ msgstr "- выбор -"
+
+#, fuzzy
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "Встреча \"%1\" была зарегистрирована в истории действий."
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Выберите Тел. номер"
+
+#~ msgid "OR New Phone"
+#~ msgstr "ИЛИ новый тел."
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Выбраный Звонок успешно удален."
+
+#, fuzzy
+#~ msgid "Could not find location id"
+#~ msgstr "Мы не смогли найти id контакта."
+
+#, fuzzy
+#~ msgid "Location name %1 '%2'"
+#~ msgstr "Название местоположения подобно \"%1\""
+
+#~ msgid "Contact Meetings"
+#~ msgstr "Встечи контакта"
+
+#~ msgid "Contact Other Activity"
+#~ msgstr "Другие действия"
+
+#~ msgid "Contact Calls"
+#~ msgstr "Звонки"
+
+#~ msgid "Are you sure you want to delete this activity record?"
+#~ msgstr "Вы действительно хотите удалить эту запись?"
+
+#~ msgid "Open Activities %%StatusMessage%%"
+#~ msgstr "Действия в процессе %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "From: %1; Subject: %2"
+#~ msgstr "Кому: %1; Темаt: %2"
+
+#~ msgid "To: %1; Subject: %2"
+#~ msgstr "Кому: %1; Темаt: %2"
+
+#, fuzzy
+#~ msgid "CiviContribute Progress Meter"
+#~ msgstr "CiviВзнос"
+
+#~ msgid "Callback Method"
+#~ msgstr "Метод обратной связи"
+
+#~ msgid "Activity Summary"
+#~ msgstr "Краткое описание действия"
+
+#~ msgid "Phonecall"
+#~ msgstr "Тел.Звонок"
+
+#~ msgid "Int Data"
+#~ msgstr "Числовые данные"
+
+#~ msgid "Float Data"
+#~ msgstr "Разные данные"
+
+#~ msgid "Decimal Data"
+#~ msgstr "Десятичные данные"
+
+#~ msgid "Char Data"
+#~ msgstr "Символьные данные"
+
+#~ msgid "Date Data"
+#~ msgstr "Данные дат"
+
+#~ msgid "Memo Data"
+#~ msgstr "Memo данные"
+
+#, fuzzy
+#~ msgid "Config Frontend"
+#~ msgstr "Настраивать"
+
+#, fuzzy
+#~ msgid "Coord Type"
+#~ msgstr "Тип действия"
+
+#~ msgid "Radian"
+#~ msgstr "Радианы"
+
+#~ msgid "Parameters"
+#~ msgstr "Параметры"
+
+#~ msgid "Function Name"
+#~ msgstr "Имя функции"
+
+#~ msgid "Variable Name"
+#~ msgstr "Переменное Имя"
+
+#~ msgid "Range"
+#~ msgstr "Диапозон"
+
+#, fuzzy
+#~ msgid "Regular Expression Match"
+#~ msgstr "Contact ID (равно контакту)"
+
+#~ msgid "default - Dear [first] [last]"
+#~ msgstr "по умолчанию - Уважаемый(ая) [имя] [фамилия] "
+
+#, fuzzy
+#~ msgid "Could not find callback %1"
+#~ msgstr "Не удается найти класс \"%1\""
+
+#~ msgid "Are you sure you want to delete this Activity History record?"
+#~ msgstr "Действительно хотите удалить эту запись?"
+
+#~ msgid "View Activity Details"
+#~ msgstr "Просмотр ифно о действии"
+
+#, fuzzy
+#~ msgid "History %%StatusMessage%%"
+#~ msgstr "Контакт %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "Confirm Price Set Delete"
+#~ msgstr "Подтверждение удаленя группы"
+
+#, fuzzy
+#~ msgid " must be a monetary value"
+#~ msgstr "Должно быть числовым значением"
+
+#~ msgid "Log a Meeting"
+#~ msgstr "Внести данные о встрече"
+
+#~ msgid "Schedule a Meeting"
+#~ msgstr "Назначить встречу"
+
+#~ msgid "Edit Scheduled Meeting"
+#~ msgstr "Редактироватьназначенную встречу"
+
+#~ msgid "Delete Meeting"
+#~ msgstr "Удалить встречу"
+
+#~ msgid "View Scheduled Meeting"
+#~ msgstr "Просмотреть назначенную встречу"
+
+#~ msgid ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Встреча будет перемещена в историю взаимодействия, когда статус будет "
+#~ "\"Выполнено\""
+
+#~ msgid "Schedule an Activity"
+#~ msgstr "Назначить действие"
+
+#~ msgid "Edit Scheduled Activity"
+#~ msgstr "Редактировать назначенное действие"
+
+#~ msgid "View Completed Activity"
+#~ msgstr "Просмотреть завершенное действие"
+
+#~ msgid "View Scheduled Activity"
+#~ msgstr "Просмотреть назначеное действие"
+
+#~ msgid ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Взаимодействие будет перемещена в историю взаимодействия, когда статус "
+#~ "будет \"Выполнено\""
+
+#~ msgid ""
+#~ "Cannot display Activity History details since activity type for this "
+#~ "activity has been deleted."
+#~ msgstr ""
+#~ "Не возможно отобразить историю для данного взаимодействия т.к. данный тип "
+#~ "взаимодействий был удален."
+
+#~ msgid "Log a Phone Call"
+#~ msgstr "Внести данные о тел. звонке"
+
+#~ msgid "Schedule a Phone Call"
+#~ msgstr "Назначить тел. звонок"
+
+#~ msgid "Edit Scheduled Call"
+#~ msgstr "Редактировать назначенный звонок"
+
+#~ msgid "Delete Phone Call"
+#~ msgstr "Удалить звонок"
+
+#~ msgid "View Scheduled Call"
+#~ msgstr "Просмотреть назначенный звонок"
+
+#~ msgid "Call will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Звонок будет перемещена в историю взаимодействия, когда статус будет "
+#~ "\"Выполнено\""
+
+#, fuzzy
+#~ msgid " <a href=\"%1\">Delete</a>"
+#~ msgstr "Вы можете <a href=\"%1\">добавить одну</a> сейчас."
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Сохранить повтаряющийся контакт"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Удалить"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "Разметить контакт"
+
+#~ msgid "Schedule Meeting"
+#~ msgstr "Запланировать встречу"
+
+#~ msgid "Schedule Call"
+#~ msgstr "Запланировать звонок"
+
+#~ msgid "Schedule a Call"
+#~ msgstr "Назначить Звонок"
+
+#~ msgid "Log a Call"
+#~ msgstr "Внести данные о Звонке"
+
+#~ msgid "Past Relationships"
+#~ msgstr "Прошлые связи"
+
+#~ msgid "These relationships have a past End Date."
+#~ msgstr "У этих связей прошла дата окончания."
+
+#~ msgid "Disabled Relationships"
+#~ msgstr "Выключить связи"
+
+#~ msgid "These relationships have been marked as disabled (no longer active)."
+#~ msgstr "Эти связи были отключены (более не действуют)"
+
+#, fuzzy
+#~ msgid "New Activity History"
+#~ msgstr "История действий CiviCRM"
+
+#, fuzzy
+#~ msgid "Edit Activity History"
+#~ msgstr "История действий CiviCRM"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\"?"
+#~ msgstr ""
+#~ "Вы действительно хотите удалить историю взаимодействия датированную \"%2"
+#~ "\" , имеющую тип  \"%1\" и описание \"%3\" ?"
+
+#~ msgid "Total rows (activity history records) in uploaded file."
+#~ msgstr "Всего строк  (записей) в загружеемом файле."
+
+#~ msgid ""
+#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+#~ "href=\"%2\">call</a>."
+#~ msgstr ""
+#~ "Нет назначенных действий. Вы можете внести в расписание <a href=\"%1"
+#~ "\">встречу</a> или <a href=\"%2\">звонок</a>."
+
+#~ msgid "There are no open activities for this contact."
+#~ msgstr "Нет назначенных действий с этим контактом."
+
+#~ msgid "No activity history for this contact."
+#~ msgstr "Нет истории взаимодействия с этим контактом."
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Заметки"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Назначить встречу"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Краткое содержание"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "Таблица едениц"
+
+#~ msgid "Contact Name:"
+#~ msgstr "Имя:"
+
+#~ msgid "Email Domain:"
+#~ msgstr "Почтовый домен:"
+
+#~ msgid "Farewell Message"
+#~ msgstr "Прощальное сообщение "
+
+#~ msgid "New CiviCRM Profile Group"
+#~ msgstr "Новая CiviCRM группа профиля"
+
+#~ msgid "re-subscribe"
+#~ msgstr "Переподписаться"
+
+#~ msgid "(re-subscribe: %1)"
+#~ msgstr "(переподписаться: %1)"
+
+#, fuzzy
+#~ msgid "Domain Contact Information"
+#~ msgstr "Информация о контакте"
+
+#~ msgid ""
+#~ "You can add contacts to a group from any set of search results (or when "
+#~ "viewing an individual contact). You can also allow contacts to sign "
+#~ "themselves up for certain groups by setting the group visibility to "
+#~ "'Public User Pages' (use the <strong>Settings</strong> link), and "
+#~ "including the <strong>Groups</strong> element in your CiviCRM Profile."
+#~ msgstr ""
+#~ "Можно добавить в группу контакты из результатов поиска (или во время "
+#~ "просмотра данных контакта). Также можно разрешить контактам самим "
+#~ "подписываться на участие в определенных группах, установив уровень "
+#~ "доступности группы (visibility) на Общедоступные страницы "
+#~ "пользователя' (для этого воспользуйтесь ссылкой <strong>Настройки</"
+#~ "strong>), и включив элемент Группы в Профиле CiviCRM."
+
+#, fuzzy
+#~ msgid "HTML Body of Header"
+#~ msgstr "Тело HTML"
+
+#, fuzzy
+#~ msgid "Text Body of Header"
+#~ msgstr "Текстовое тело"
+
+#, fuzzy
+#~ msgid "HTML Body of Footer"
+#~ msgstr "Тело HTML"
+
+#, fuzzy
+#~ msgid "Text Body of Footer"
+#~ msgstr "Текстовое тело"
+
+#~ msgid "Welcome"
+#~ msgstr "Добро пожаловать"
+
+#, fuzzy
+#~ msgid "Unsubscribe results"
+#~ msgstr "Приветственное сообщение "
+
+#, fuzzy
+#~ msgid "Automated response"
+#~ msgstr "Авто ответ"
+
+#, fuzzy
+#~ msgid "Contact's Profile"
+#~ msgstr "Контакт %%StatusMessage%%"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Сохранить повтаряющийся контакт"
+
+#~ msgid "Email address conflicts with record %1"
+#~ msgstr "Конфликт электронного адреса с записью %1"
+
+#~ msgid "Setup"
+#~ msgstr "Настройка"
+
+#~ msgid "Duplicate Matching"
+#~ msgstr "Повторяющееся соответствие"
+
+#~ msgid "%1 is not set in the config file."
+#~ msgstr "%1 не указано в конфигурационном файле."
+
+#, fuzzy
+#~ msgid "Include County?"
+#~ msgstr "Включенные группы"
+
+#, fuzzy
+#~ msgid "Settings - Date Formatting"
+#~ msgstr "Дата и Время"
+
+#~ msgid "Send Emails RETURN-PATH:"
+#~ msgstr "Отправить почту ВОЗВРАТНЫЙ-АДРЕС:"
+
+#~ msgid "Please select at least one membership status."
+#~ msgstr "Пожалуйста выберите хотябы один статус участия."
+
+#~ msgid "Add Members to A Group"
+#~ msgstr "Добавить членов в группу А"
+
+#, fuzzy
+#~ msgid "Add Members to Organization"
+#~ msgstr "Добавить членов в Организацию"
+
+#~ msgid "Remove Members from Group"
+#~ msgstr "Удалить членов из Группы"
+
+#, fuzzy
+#~ msgid "Zip/Postal Code not valid for %1."
+#~ msgstr "Почтовый индекс"
+
+#, fuzzy
+#~ msgid "Online Payments"
+#~ msgstr "Включить IM Провайдера"
+
+#~ msgid "Synchronize Users-to-Contacts"
+#~ msgstr "Синхронизация Пользователи-Контакты"
+
+#~ msgid "Gender Options (Male, Female...)"
+#~ msgstr "Настройки Пола (Мужской, Женский...)"
+
+#, fuzzy
+#~ msgid "Preferred Communication Options"
+#~ msgstr "Предпочитаемый метод связи"
+
+#~ msgid "Delete %1"
+#~ msgstr "Удалить %1"
+
+#~ msgid "Delete Profile Group"
+#~ msgstr "Удалить группу профиля"
+
+#~ msgid "This profile cannot be deleted since it is used for other modules."
+#~ msgstr ""
+#~ "Ваш профиль не может быть удален, т.к. он используется другими модулями."
+
+#~ msgid ""
+#~ "You must delete all profile fields for \"%1\" prior to deleting the "
+#~ "profile."
+#~ msgstr "Вы должны удалить все поля профиля  \"%1\" до удаления профиля."
+
+#~ msgid "Synchronize Drupal Users"
+#~ msgstr "Синхронизировать пользователей Drupal"
+
+#~ msgid "Add Members to a Group"
+#~ msgstr "Добавить членов в группу"
+
+#~ msgid "Defaults"
+#~ msgstr "По умолчанию"

@@ -247,3 +247,10 @@ msgstr "Visualizza record dei contatti"
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr "Visualizza lavagna dei contatti"
+
+#~ msgid ""
+#~ "For more information please read the configuration and customization "
+#~ "handbook <a href=\"%1\">CiviCRM page</a>."
+#~ msgstr ""
+#~ "Per maggiori informazioni leggere il manuale di configurazione e "
+#~ "personalizzazione <a href=\"%1\">CiviCRM page</a>."

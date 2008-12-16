@@ -11516,3 +11516,67 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr ""
+
+#~ msgid "Georgia"
+#~ msgstr "Georgia"
+
+#~ msgid "American Samoa"
+#~ msgstr "Amerikanisch-Samoa"
+
+#~ msgid "Guam"
+#~ msgstr "Guam"
+
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "Nördliche Marianen"
+
+#~ msgid "Puerto Rico"
+#~ msgstr "Puerto Rico"
+
+# Eigenname. Nicht übersetzbar. Der Begriff "Amerikanisch-Ozeanien" wird vom Auswärtigen Amt verwendet, umfasst neben den United States Minor Outlying Islands aber noch zusätzlich Guam, Nördliche Marianen und Amerikanisch-Samao. (Vgl.: http://de.wikipedia.org/wiki/Amerikanisch-Ozeanien)
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "United States Minor Outlying Islands"
+
+#~ msgid "Luxembourg"
+#~ msgstr "Luxemburg"
+
+#~ msgid "Belize"
+#~ msgstr "Belize"
+
+#~ msgid "Taiwan"
+#~ msgstr "Taiwan"
+
+#~ msgid "Hong Kong"
+#~ msgstr "Hongkong"
+
+#~ msgid "Djibouti"
+#~ msgstr "Dschibuti"
+
+#~ msgid "Frederikaberg municipality"
+#~ msgstr "Frederiksborgs Amt"
+
+#~ msgid "Copenhagen municipality"
+#~ msgstr "Københavns Amt"
+
+#~ msgid "Western Zealand"
+#~ msgstr "Vestsjællands Amt"
+
+#~ msgid "Funen"
+#~ msgstr "Fyns Amt"
+
+#~ msgid "Southern Jutland"
+#~ msgstr "Sønderjyllands Am"
+
+#~ msgid "Ringkøbing"
+#~ msgstr "Ringkjøbing Amt"
+
+#~ msgid "Aarhus"
+#~ msgstr "Århus Amt"
+
+#~ msgid "Northern Jutland"
+#~ msgstr "Nordjyllands Amt"
+
+#~ msgid "Guernsey"
+#~ msgstr "Guernsey"
+
+#~ msgid "Jersey"
+#~ msgstr "Jersey"

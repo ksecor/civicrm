@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-08-11 19:57-0700\n"
 "Last-Translator: Aplyca Tecnologia <riascos69@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -990,6 +990,10 @@ msgstr ""
 "configurar para manejar correos entrantes del CiviMail (de tal modo que "
 "pueda procesar las 'acciones' como suscribir, decidir no recibir más "
 "correos, etc.)."
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
+msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Read more"

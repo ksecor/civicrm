@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-06-17 22:03-0700\n"
 "Last-Translator: Baroch Oren <baroch.oren@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -63,9 +63,8 @@ msgstr "עריכה"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "אפשר"
+msgstr "טבלת יישות"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -109,7 +108,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "תאריך שינוי"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -434,9 +433,8 @@ msgid "Case Activity Type"
 msgstr "סוג פעילות"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "-  בחר- "
+msgstr "-בחר-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1146,9 +1144,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "הגדר כותרת"
+msgstr "בחר טבלאות"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -2214,9 +2211,8 @@ msgid "Due Date Time"
 msgstr "תאריך ושעה"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "מספר"
+msgstr "מספר טלפון"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2225,7 +2221,7 @@ msgstr "תאריך הפעילות"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
-msgstr ""
+msgstr "בדיקה"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -3420,10 +3416,6 @@ msgstr "אידיבדואלי"
 #, fuzzy
 msgid "Individual Suffix"
 msgstr "אידיבדואלי"
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -5206,14 +5198,12 @@ msgid "Street Number Predirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
-msgstr "תאריך התחלה"
+msgstr "כתובת רחוב"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "סוג ארוע"
+msgstr "סוג רחוב"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
@@ -5300,9 +5290,8 @@ msgid "County Abbreviation"
 msgstr "תרומות"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
-msgstr "נוכחי"
+msgstr "מטבע"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
@@ -5501,9 +5490,8 @@ msgid "vCard Location Type"
 msgstr ""
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "מיקום"
+msgstr "שם מיקום"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5810,11 +5798,9 @@ msgstr "ביטול"
 msgid "Notify"
 msgstr ""
 
-# מה זה בכלל המילה מוביל? זה משחק כזה ששמים מעל מיטה של ילדים? וגם זה לא בדיוק בעברית. 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "נייד"
+msgstr "מודול"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -8897,7 +8883,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -10989,11 +10975,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13652,3 +13638,91 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Contact"
+#~ msgstr "איש קשר"
+
+#~ msgid "Import"
+#~ msgstr "ייבוא"
+
+#~ msgid "Custom Data"
+#~ msgstr "מידע מותאם אישית"
+
+#~ msgid "Access Control"
+#~ msgstr "בקרת גישה"
+
+#~ msgid "Load Mapping"
+#~ msgstr "טען מיפוי"
+
+#~ msgid "Components"
+#~ msgstr "קומפוננטות"
+
+#~ msgid "Configure"
+#~ msgstr "התאם"
+
+#~ msgid "Manage"
+#~ msgstr "ניהול"
+
+#~ msgid "Localization"
+#~ msgstr "לוקליזציה"
+
+#~ msgid "Notes"
+#~ msgstr "הערות"
+
+#~ msgid "Delete Location"
+#~ msgstr "מחק מיקום"
+
+#~ msgid "Activities"
+#~ msgstr "פעילויות"
+
+#~ msgid "Relationships"
+#~ msgstr "קשרים"
+
+#~ msgid "Contributions"
+#~ msgstr "תרומות"
+
+#~ msgid "Memberships"
+#~ msgstr "חברות"
+
+#~ msgid "Find Contacts"
+#~ msgstr "מצא אנשי קשר"
+
+#~ msgid "Groups"
+#~ msgstr "קבוצות"
+
+#~ msgid "New Contact"
+#~ msgstr "איש קשר חדש"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "איש קשר"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "איש קשר"
+
+#~ msgid "Activity"
+#~ msgstr "פעילות"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "איש קשר"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "הוסר"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "קבוצה"
+
+#~ msgid " -select- "
+#~ msgstr "בחירה"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "איש קשר"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "טבלת יישות"

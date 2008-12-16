@@ -11507,3 +11507,93 @@ msgstr "Manchester"
 
 msgid "Gaza"
 msgstr "Gaza"
+
+#~ msgid "Georgia"
+#~ msgstr "Georgia"
+
+#~ msgid "American Samoa"
+#~ msgstr "Amerikan Samoası"
+
+#~ msgid "Guam"
+#~ msgstr "Guam"
+
+#~ msgid "Northern Mariana Islands"
+#~ msgstr "Kuzey Mariana Adaları"
+
+#~ msgid "Puerto Rico"
+#~ msgstr "Porto Riko"
+
+#~ msgid "United States Minor Outlying Islands"
+#~ msgstr "Birleşik Devletler Küçük Uzak Adaları"
+
+#~ msgid "Luxembourg"
+#~ msgstr "Luxembourg"
+
+#~ msgid "Belize"
+#~ msgstr "Belize"
+
+#~ msgid "Taiwan"
+#~ msgstr "Taiwan"
+
+#~ msgid "Hong Kong"
+#~ msgstr "Hong Kong"
+
+#~ msgid "Djibouti"
+#~ msgstr "Cibuti"
+
+#~ msgid "Frederikaberg municipality"
+#~ msgstr "Frederikaberg belediyesi"
+
+#~ msgid "Copenhagen municipality"
+#~ msgstr "Kopenhag belediyesi"
+
+#~ msgid "Western Zealand"
+#~ msgstr "Batı Zealand"
+
+#~ msgid "Funen"
+#~ msgstr "Funen"
+
+#~ msgid "Southern Jutland"
+#~ msgstr "Güney Jutland"
+
+#~ msgid "Ringkøbing"
+#~ msgstr "Ringkøbing"
+
+#~ msgid "Aarhus"
+#~ msgstr "Aarhus"
+
+#~ msgid "Northern Jutland"
+#~ msgstr "Kuzey Jutland"
+
+#~ msgid "Guernsey"
+#~ msgstr "Guernsey"
+
+#~ msgid "Jersey"
+#~ msgstr "Jersey"
+
+#~ msgid "Mali"
+#~ msgstr "Mali"
+
+#~ msgid "Guatemala"
+#~ msgstr "Guatemala"
+
+#~ msgid "Forli"
+#~ msgstr "Forli"
+
+#~ msgid "Male"
+#~ msgstr "Male"
+
+#~ msgid "Mexico"
+#~ msgstr "Mexico"
+
+#~ msgid "Niger"
+#~ msgstr "Niger"
+
+#~ msgid "Panama"
+#~ msgstr "Panama"
+
+#~ msgid "Saint Helena"
+#~ msgstr "Saint Helena"
+
+#~ msgid "Isle of Man"
+#~ msgstr "Man Adası"

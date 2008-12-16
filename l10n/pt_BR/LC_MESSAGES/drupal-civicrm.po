@@ -240,3 +240,19 @@ msgstr "Visualizar Registro de Contato"
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
 msgstr "Visualizar Dashboard de Contato"
+
+#~ msgid ""
+#~ "For more information please read the configuration and customization "
+#~ "handbook <a href=\"%1\">CiviCRM page</a>."
+#~ msgstr ""
+#~ "Para mais informação, leia o manual de configuração e customização <a "
+#~ "href=\"%1\">página CiviCRM</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "Constituent Relationship Management (CiviCRM %1). Allows sites to manage "
+#~ "contacts, relationships and groups, and track contact activities."
+#~ msgstr ""
+#~ "Constituent Relationship Management (CRM) Gerenciamento de Relações com "
+#~ "Clientela. Possibilita que sites gerenciem contatos, relacionamentos e "
+#~ "grupos, além de monitorar atividades de contatos."

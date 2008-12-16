@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-11-28 22:15-0800\n"
 "Last-Translator: Shinji Ricard Yamane <s-yamane@computer.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -155,7 +155,6 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "週"
 
@@ -251,11 +250,6 @@ msgstr ""
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<<戻る"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -1193,9 +1187,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2175,9 +2169,8 @@ msgid "ThankYou Text"
 msgstr ""
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Description"
-msgstr "説明"
+msgstr "イベントの詳細"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2611,7 +2604,7 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+msgid "Search All or by Date Range"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3038,7 +3031,7 @@ msgstr "インラインにする"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "除外ページ"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3079,9 +3072,8 @@ msgid "Recipient Email"
 msgstr "受信者"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Headers"
-msgstr "見出し"
+msgstr "ヘッダ"
 
 #: CRM/Mailing/DAO/Spool.php
 msgid "Body"
@@ -3098,7 +3090,7 @@ msgstr "削除"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -8689,3 +8681,65 @@ msgstr "作成"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "DashBoard"
+#~ msgstr "ダッシュボード"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr " 名"
+
+#~ msgid "Subscribe"
+#~ msgstr "購読"
+
+#~ msgid "day(s)"
+#~ msgstr "日"
+
+#~ msgid "week(s)"
+#~ msgstr "週"
+
+#~ msgid "month(s)"
+#~ msgstr "月"
+
+#~ msgid "year(s)"
+#~ msgstr "年"
+
+#~ msgid "Received Date"
+#~ msgstr "受信日"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "追加インフォメーション"
+
+#~ msgid "Event Information"
+#~ msgstr "イベントの情報"
+
+#~ msgid "RSS 2.0 Feed"
+#~ msgstr "RSS フィード"
+
+#~ msgid "None"
+#~ msgstr "無し"
+
+#~ msgid "-- select --"
+#~ msgstr "-- 選択 --"
+
+#~ msgid "Title "
+#~ msgstr "タイトル "
+
+#~ msgid "Image"
+#~ msgstr "画像"
+
+#, fuzzy
+#~ msgid "Action"
+#~ msgstr "アクション"
+
+#~ msgid " (test) "
+#~ msgstr " (テスト) "
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "削除"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "キャンセル"

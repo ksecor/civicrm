@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-09-23 14:53-0700\n"
 "Last-Translator: Alexandr <a.kolesnikov@mail.ru>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -47,14 +47,14 @@ msgstr "Тип вклада"
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Пожалуйста укажите действительную сумму денег (пример 9.99)"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Пожалуйста укажите действительную сумму денег (пример 9.99)"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -70,14 +70,12 @@ msgid "In Honor Of"
 msgstr "Почетный"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Текст в футере"
+msgstr "Текст для \"Оплатить позже\""
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Копия чека"
+msgstr "Квитанция \"Оплатить позже\" "
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -132,7 +130,6 @@ msgstr "ID Инвойса"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "Дата отмены"
 
@@ -154,19 +151,16 @@ msgstr "Единица частоты"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Единица частоты"
+msgstr "Период"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
 msgstr "Установки"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "неделя"
 
@@ -267,11 +261,6 @@ msgstr "Страница, которую вы запросили, в насто�
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< Назад"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -646,7 +635,7 @@ msgstr "Причина возврата"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Временная метка:"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -911,9 +900,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Недавние Взносы"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Приветственное сообщение "
+msgstr "Текст введения"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -921,14 +909,12 @@ msgid "Recur Frequency Unit"
 msgstr "Единица частоты"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Text"
-msgstr "Благодарность Отправлена"
+msgstr "Текст Благодарности"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
-msgstr "Благодарность Отправлена"
+msgstr "Футер Благодарности"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -936,19 +922,16 @@ msgid "On Behalf Of Organization"
 msgstr "Новая Организация"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
 msgstr "Копия чека"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "Копия чека"
+msgstr "Скрытая копия чека"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Получатель"
+msgstr "Текст квитанции"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -978,19 +961,16 @@ msgid "Solicitor ID"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "Дата получения"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
 msgstr "Причина отмены"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Благодарность Отправлена"
+msgstr "Дата Благодарности"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -998,13 +978,12 @@ msgid "Amount Label"
 msgstr "Сумма предоставленная"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Редактировать опцию"
+msgstr "Опции Продукта"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Количество"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 #, fuzzy
@@ -1012,15 +991,13 @@ msgid "Fulfilled Date"
 msgstr "Дата отмены"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Содержание"
+msgstr "Комментарий"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
-#, fuzzy
 msgid "Create Date"
-msgstr "Дата завершения"
+msgstr "Дата создания"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -1038,7 +1015,6 @@ msgid "Next Sched Contribution"
 msgstr "Новый взнос"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
 msgstr "Количество Сбоев"
 
@@ -1048,7 +1024,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Авто Обновление"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 #, fuzzy
@@ -1065,14 +1041,12 @@ msgid "Trxn Result Code"
 msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Веб-сайт"
+msgstr "Дебит"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Кредитная Карта"
+msgstr "Кредит"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -1080,14 +1054,12 @@ msgid "Premiums Active"
 msgstr "Поощрения"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Title for Premiums section"
-msgstr "Свойства группы"
+msgstr "Заголовок для Premiums section"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Intro Text"
-msgstr "Информация о Вознаграждении"
+msgstr "Предисловие к Premiums"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -1100,9 +1072,8 @@ msgid "Premiums Contact Phone"
 msgstr "Тел. контакта"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "Отображать минимальную сумму подарка?"
+msgstr "Отображение Мин. Вклада"
 
 #: CRM/Contribute/DAO/Product.php
 #, fuzzy
@@ -1110,9 +1081,8 @@ msgid "Product Name"
 msgstr "Имя Группы"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Thumbnail"
-msgstr "Ссылка (URL) для иконки"
+msgstr "Уменьшенная картинка"
 
 #: CRM/Contribute/DAO/Product.php
 #, fuzzy
@@ -1120,9 +1090,8 @@ msgid "Minimum Contribution"
 msgstr "Мин Взнос"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Страна"
+msgstr "Стоимость"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
@@ -1242,9 +1211,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2785,7 +2754,7 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+msgid "Search All or by Date Range"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3179,9 +3148,8 @@ msgid "Template Title"
 msgstr ""
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Пейджер"
+msgstr "Образец"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Hold Threshold"
@@ -3193,16 +3161,15 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Не доступен"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
 msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "нет портфеля"
+msgstr "Не верен(но)"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
@@ -3243,29 +3210,24 @@ msgid "OptOut"
 msgstr "Отказаться"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Включено"
+msgstr "Включить"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Exclude"
-msgstr "Исключено"
+msgstr "Исключить"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Имя"
+msgstr "Отправитель"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Квитанция из эл. почты"
+msgstr "От"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "Имя или email"
+msgstr "Email ответа"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Url Tracking"
@@ -3277,9 +3239,8 @@ msgid "Forward Replies"
 msgstr "Переслать"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Ответить автоматом"
+msgstr "Авто ответ"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -6604,7 +6565,7 @@ msgstr "Обзор Взносов"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Period"
-msgstr ""
+msgstr "Период"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -7824,7 +7785,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Полное ИЛИ частичное имя ИЛИ email"
 
 #: templates/CRM/Grant/Form/Selector.tpl
 msgid "List more Grants"
@@ -9308,3 +9269,763 @@ msgstr "Создать"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
+
+#~ msgid "Transaction ID"
+#~ msgstr "ID Транзакции"
+
+#, fuzzy
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "У вас нет прав редактировать этот контакт"
+
+#~ msgid "Contribution Types"
+#~ msgstr "Тип взноса"
+
+#~ msgid "Manage Premiums"
+#~ msgstr "Управление вознаграждениями"
+
+#, fuzzy
+#~ msgid "Import Contributions"
+#~ msgstr "Удалить вклады"
+
+#, fuzzy
+#~ msgid "Manage Contribution Pages"
+#~ msgstr "Новая страница по взносам"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Просмотреть действие"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Отображаемое имя"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Экспорт контактов"
+
+#, fuzzy
+#~ msgid "Manage Events"
+#~ msgstr "Управление вознаграждениями"
+
+#, fuzzy
+#~ msgid "Import Members"
+#~ msgstr "Удалить членов"
+
+#~ msgid "Payment Instrument"
+#~ msgstr "Инструмент оплаты"
+
+#, fuzzy
+#~ msgid "day(s)"
+#~ msgstr "Закладка(и)"
+
+#, fuzzy
+#~ msgid "week(s)"
+#~ msgstr "неделя"
+
+#, fuzzy
+#~ msgid "month(s)"
+#~ msgstr "месяц"
+
+#, fuzzy
+#~ msgid "year(s)"
+#~ msgstr "год"
+
+#, fuzzy
+#~ msgid "Enable recurring payments"
+#~ msgstr "Включить IM Провайдера"
+
+#, fuzzy
+#~ msgid "You do not have any payment processors that support this feature"
+#~ msgstr "У вас нет прав редактировать этот контакт"
+
+#, fuzzy
+#~ msgid "Submit Contribution"
+#~ msgstr "Мин Взнос"
+
+#, fuzzy
+#~ msgid "Online Contribution: CiviCRM Admin Interface"
+#~ msgstr "Online подарок:"
+
+#, fuzzy
+#~ msgid "CiviCRM Contributions"
+#~ msgstr "Удалить вклады"
+
+#, fuzzy
+#~ msgid "Contribution Payment Form"
+#~ msgstr "Страница Контакта"
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviContribute allows you to configure any number of Premiums which can "
+#~ "be offered to contributors as incentives / thank-you gifts. Define the "
+#~ "premiums you want to offer here."
+#~ msgstr ""
+#~ "CiviВзнос позволяет настроить несколько видов <strong>Поощрений</strong> "
+#~ "которые могут быть предложены вносителям взносов для мотивирования/"
+#~ "подарков-благодарностей.В качестве Поощрений могут выступать сувениры "
+#~ "(пример: Чашка или Майка), или это может быть членство либо подписка на "
+#~ "определенный срок."
+
+#~ msgid "Find Contributions"
+#~ msgstr "Найти подарки"
+
+#~ msgid "CiviCRM Contribution Search"
+#~ msgstr "Поиск подарков CiviCRM"
+
+#, fuzzy
+#~ msgid "Event Name"
+#~ msgstr "Название улицы"
+
+#, fuzzy
+#~ msgid "Total Participant(s) added to event: %1"
+#~ msgstr "Всего выбрано контактов: %1"
+
+#~ msgid "Select a valid date greater than today."
+#~ msgstr "Выберите действительную дату после сегодняшнего числа. "
+
+#, fuzzy
+#~ msgid "CiviCRM Participants"
+#~ msgstr "CiviCRM Ярлыки "
+
+#, fuzzy
+#~ msgid "Manage Event"
+#~ msgstr "Управлять"
+
+#, fuzzy
+#~ msgid "Event Listings"
+#~ msgstr "Местоположение"
+
+#, fuzzy
+#~ msgid "Event Types"
+#~ msgstr "Тип действия"
+
+#, fuzzy
+#~ msgid "Find Participants"
+#~ msgstr "Найти контакт"
+
+#, fuzzy
+#~ msgid "New Event"
+#~ msgstr "Текст"
+
+#, fuzzy
+#~ msgid "Send a Test Mailing?"
+#~ msgstr "Отправить тестовое сообщение"
+
+#, fuzzy
+#~ msgid "Test"
+#~ msgstr "Текст"
+
+#, fuzzy
+#~ msgid "Mailing Subject"
+#~ msgstr "Тема"
+
+#~ msgid "Mailings"
+#~ msgstr "Почтовые отправления"
+
+#~ msgid "The mailing queue has been processed."
+#~ msgstr "Очередь отправки была обработана."
+
+#, fuzzy
+#~ msgid "Mailer Settings"
+#~ msgstr "Настройки отправки"
+
+#, fuzzy
+#~ msgid "Optout"
+#~ msgstr "Отказаться"
+
+#, fuzzy
+#~ msgid "The membership can not be saved."
+#~ msgstr "Домен \"%1\" был сохранен."
+
+#, fuzzy
+#~ msgid "This membership status can not be deleted"
+#~ msgstr "Выбранный контакт не может быть удален."
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "Диапозон"
+
+#, fuzzy
+#~ msgid "CiviCRM Members"
+#~ msgstr "CiviCRM Меню"
+
+#, fuzzy
+#~ msgid "Find Members"
+#~ msgstr "Участники"
+
+#, fuzzy
+#~ msgid "CiviCRM Member Search"
+#~ msgstr "CiviCRM Поиск Контактов "
+
+#, fuzzy
+#~ msgid "Received Date"
+#~ msgstr "Дата получения"
+
+#, fuzzy
+#~ msgid "Additional Information"
+#~ msgstr "Информация о вносителе"
+
+#, fuzzy
+#~ msgid "Event Information"
+#~ msgstr "Информация о контакте"
+
+#, fuzzy
+#~ msgid "Found %count contribution."
+#~ msgid_plural "Found %count contributions."
+#~ msgstr[0] "Минимальная сумма вклада"
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#~ msgid "List more contributions"
+#~ msgstr "Показать больше взносов"
+
+#, fuzzy
+#~ msgid "Enable recurring contributions."
+#~ msgstr "Минимальная сумма вклада"
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviContribute allows you to create customized page(s) for collecting "
+#~ "online contributions."
+#~ msgstr ""
+#~ "CiviВзнос позволяет создавать настраиваемые страницы для принятия взносов "
+#~ "онлайн. Администраторы могут создать или модифицировать Страницы для "
+#~ "пожертвований онлайн <a href=\"%1\">здесь</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "You can also input and track offline contributions. To enter "
+#~ "contributions manually for individual contacts, use <a href='%1'>Find "
+#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
+#~ "go to their summary page and click on the <strong>New Contribution</"
+#~ "strong> link. You can also <a href='%2'>import batches of offline "
+#~ "contributions</a> from other sources."
+#~ msgstr ""
+#~ "Можно вносить и отслеживать взносы офлайн. Чтобы вручную ввести взносы от "
+#~ "имени контактов, используйте <a href=\"%1\">Поиск Контактов</a> чтобы их "
+#~ "найти. Затем нажмите <strong>Просмотр</strong>  чтобы перейти на страницу "
+#~ "с краткой информацией о контакте и выберите </strong>Новый Взнос</"
+#~ "strong>. Также можно <a href=\"%2\">импортировать данные о взносах</a> из "
+#~ "других источников."
+
+#, fuzzy
+#~ msgid ""
+#~ "This table provides a summary of <strong>Contribution Totals</strong>, "
+#~ "and includes shortcuts to view the contribution details for these "
+#~ "commonly used search periods. To run your own customized searches - click "
+#~ "<a href='%1'>Find Contributions</a>. You can search by Contributor Name, "
+#~ "Amount Range, and a variety of other criteria."
+#~ msgstr ""
+#~ "Эта таблица предоставляет обзор <strong>Общих Сумм Взносов</strong>, и "
+#~ "включает ссылки на развернутую информацию по периодам поиска взносов. Для "
+#~ "настраиваемого поиска данных по взносам - ткните  <a href=\"%1\">Найти "
+#~ "Взносы</a>. Искать можно по Имени Вносителя, диапазону сумм, и набору "
+#~ "других критериев."
+
+#, fuzzy
+#~ msgid "Fee Levels"
+#~ msgstr "Лэйбл поля"
+
+#, fuzzy
+#~ msgid "Unit Price"
+#~ msgstr "Цена"
+
+#, fuzzy
+#~ msgid "Found %count participant."
+#~ msgid_plural "Found %count participants."
+#~ msgstr[0] "Поиск Контактов CiviCRM"
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#, fuzzy
+#~ msgid "List more Event Participants"
+#~ msgstr "Показать больше взносов"
+
+#, fuzzy
+#~ msgid "One participant record selected for export."
+#~ msgid_plural "%count participant records selected for export."
+#~ msgstr[0] "Не выбрано записей для печати."
+#~ msgstr[1] "Не выбрано записей для печати."
+#~ msgstr[2] "Не выбрано записей для печати."
+
+#, fuzzy
+#~ msgid "Participation Status"
+#~ msgstr "Тип вклада"
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviEvent allows you to create customized page(s) for creating and "
+#~ "registering online events. Administrators can create <a href='%"
+#~ "1'><strong>new events</strong></a> and <a href='%2'><strong>manage "
+#~ "existing events</strong></a>."
+#~ msgstr ""
+#~ "CiviВзнос позволяет создавать настраиваемые страницы для принятия взносов "
+#~ "онлайн. Администраторы могут создать или модифицировать Страницы для "
+#~ "пожертвований онлайн <a href=\"%1\">здесь</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "You can also input and track offline Events. To enter events manually for "
+#~ "individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
+#~ "contact. Then click <strong>View</strong> to go to their summary page and "
+#~ "click on the <strong>New Event</strong> link. You can also <a href='%"
+#~ "2'><strong>import batches of participants</strong></a> from other sources."
+#~ msgstr ""
+#~ "Можно вносить и отслеживать взносы офлайн. Чтобы вручную ввести взносы от "
+#~ "имени контактов, используйте <a href=\"%1\">Поиск Контактов</a> чтобы их "
+#~ "найти. Затем нажмите <strong>Просмотр</strong>  чтобы перейти на страницу "
+#~ "с краткой информацией о контакте и выберите </strong>Новый Взнос</"
+#~ "strong>. Также можно <a href=\"%2\">импортировать данные о взносах</a> из "
+#~ "других источников."
+
+#, fuzzy
+#~ msgid ""
+#~ "This table provides a summary of up to ten scheduled and recent "
+#~ "<strong>Events</strong>. Click the <strong>Event name</strong> to view "
+#~ "the event as it will be displayed to site visitors. Click the "
+#~ "<strong>Participants count</strong> to see a list of participants. To run "
+#~ "your own customized searches - click <a href='%1'>Find Participants</a>. "
+#~ "You can search by Participant Name, Event, Date Range and Status."
+#~ msgstr ""
+#~ "Эта таблица предоставляет обзор <strong>Общих Сумм Взносов</strong>, и "
+#~ "включает ссылки на развернутую информацию по периодам поиска взносов. Для "
+#~ "настраиваемого поиска данных по взносам - ткните  <a href=\"%1\">Найти "
+#~ "Взносы</a>. Искать можно по Имени Вносителя, диапазону сумм, и набору "
+#~ "других критериев."
+
+#, fuzzy
+#~ msgid "Complete OR partial mailing name."
+#~ msgstr "Полное ИЛИ частичное имя ИЛИ email"
+
+#, fuzzy
+#~ msgid "Preview Mailing"
+#~ msgstr "Отправить почту"
+
+#, fuzzy
+#~ msgid "New Mailing"
+#~ msgstr "Почтовые отправления"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
+#~ msgstr "Нет отправленных писем. <a href=\"%1\">Хотите отправить?</a>."
+
+#, fuzzy
+#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
+#~ msgstr "Вы действительно хотите отключить этот Пол?"
+
+#, fuzzy
+#~ msgid "Found %count member."
+#~ msgid_plural "Found %count members."
+#~ msgstr[0] "Минимальная сумма вклада"
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#, fuzzy
+#~ msgid "List more Memberships"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "One membership record selected for export."
+#~ msgid_plural "%count membership records selected for export."
+#~ msgstr[0] "Не выбрано записей для печати."
+#~ msgstr[1] "Не выбрано записей для печати."
+#~ msgstr[2] "Не выбрано записей для печати."
+
+#, fuzzy
+#~ msgid "Start/Renew Date"
+#~ msgstr "Дата начала"
+
+#, fuzzy
+#~ msgid ""
+#~ "CiviMember allows you to create customized membership types as well as "
+#~ "page(s) for online membership sign-up and renewal. Administrators can "
+#~ "create or modify Membership Types <a href='%2'>here</a>, and configure "
+#~ "Online Contribution Pages which include membership sign-up <a href='%"
+#~ "1'>here</a>."
+#~ msgstr ""
+#~ "CiviВзнос позволяет создавать настраиваемые страницы для принятия взносов "
+#~ "онлайн. Администраторы могут создать или модифицировать Страницы для "
+#~ "пожертвований онлайн <a href=\"%1\">здесь</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "You can also input and track membership sign-ups offline. To record "
+#~ "memberships manually for individual contacts, use <a href='%1'>Find "
+#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
+#~ "go to their summary page and click on the <strong>New Membership</strong> "
+#~ "link. You can also <a href='%3'>import batches of membership records</a> "
+#~ "from other sources. Refer to the <a href='%2' target='_blank' title='%"
+#~ "4'>CiviMember Guide</a> for more information."
+#~ msgstr ""
+#~ "Можно вносить и отслеживать взносы офлайн. Чтобы вручную ввести взносы от "
+#~ "имени контактов, используйте <a href=\"%1\">Поиск Контактов</a> чтобы их "
+#~ "найти. Затем нажмите <strong>Просмотр</strong>  чтобы перейти на страницу "
+#~ "с краткой информацией о контакте и выберите </strong>Новый Взнос</"
+#~ "strong>. Также можно <a href=\"%2\">импортировать данные о взносах</a> из "
+#~ "других источников."
+
+#, fuzzy
+#~ msgid ""
+#~ "This table provides a summary of <strong>Membership Signup and Renewal "
+#~ "Activity</strong>, and includes shortcuts to view the details for these "
+#~ "commonly used search criteria. To run your own customized searches - "
+#~ "click <a href='%1'>Find Members</a>. You can search by Member Name, "
+#~ "Membership Type, Status, and Signup Date Ranges."
+#~ msgstr ""
+#~ "Эта таблица предоставляет обзор <strong>Общих Сумм Взносов</strong>, и "
+#~ "включает ссылки на развернутую информацию по периодам поиска взносов. Для "
+#~ "настраиваемого поиска данных по взносам - ткните  <a href=\"%1\">Найти "
+#~ "Взносы</a>. Искать можно по Имени Вносителя, диапазону сумм, и набору "
+#~ "других критериев."
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Событие"
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Удалите контакты"
+
+#, fuzzy
+#~ msgid "Title "
+#~ msgstr "Должность"
+
+#, fuzzy
+#~ msgid "Custom Elements (%1)"
+#~ msgstr "Настраиваемые элементы страницы"
+
+#, fuzzy
+#~ msgid "Status Hold?"
+#~ msgstr "Статус?"
+
+#~ msgid "Custom Page Elements"
+#~ msgstr "Настраиваемые элементы страницы"
+
+#, fuzzy
+#~ msgid "Domain Information"
+#~ msgstr "Информация о Вознаграждении"
+
+#, fuzzy
+#~ msgid "Thermometer Title"
+#~ msgstr "Название профиля"
+
+#, fuzzy
+#~ msgid "Please set a location type of %1"
+#~ msgstr "Пожалуйста выберите тип отношения."
+
+#, fuzzy
+#~ msgid "Payment Entity Table"
+#~ msgstr "Таблица целевой сущности"
+
+#, fuzzy
+#~ msgid "Membership Types"
+#~ msgstr "В прошлом участник"
+
+#~ msgid "Min Amount"
+#~ msgstr "Мин сумма"
+
+#~ msgid "Max Amount"
+#~ msgstr "Макс сумма"
+
+#~ msgid "Thank-you Title"
+#~ msgstr "Заголовок для Благодарности"
+
+#~ msgid "Sort Position"
+#~ msgstr "Позициия Сортировки"
+
+#~ msgid "Image"
+#~ msgstr "Картинка"
+
+#, fuzzy
+#~ msgid " -period-"
+#~ msgstr "Период"
+
+#~ msgid "Thank-you Message"
+#~ msgstr "Благодарственное Сообщение"
+
+#, fuzzy
+#~ msgid "Contribution is In Honor Of"
+#~ msgstr "Взносы (3 из %1)"
+
+#, fuzzy
+#~ msgid " First Name"
+#~ msgstr "Имя"
+
+#~ msgid "Accept Credit Cards"
+#~ msgstr "Принимать кредитные карточки"
+
+#, fuzzy
+#~ msgid "End Date and Time are required fields."
+#~ msgstr "Необходимо указать дату и время звонка."
+
+#, fuzzy
+#~ msgid "Please select a payment processor"
+#~ msgstr "Пожалуйста выберите запланированную дату."
+
+#, fuzzy
+#~ msgid "You do not have access to this page"
+#~ msgstr "У вас нет прав редактировать этот контакт"
+
+#, fuzzy
+#~ msgid "You do not have access to this page."
+#~ msgstr "У вас нет прав редактировать этот контакт"
+
+#, fuzzy
+#~ msgid "Event Registration"
+#~ msgstr "Регистрация пользователя"
+
+#, fuzzy
+#~ msgid ""
+#~ "Selected mailing can not be deleted as mails are still pending in spool "
+#~ "table."
+#~ msgstr "Выбранная встреча была удалена."
+
+#, fuzzy
+#~ msgid "Selected mailing can not be deleted since it is in process."
+#~ msgstr "Выбранная встреча была удалена."
+
+#, fuzzy
+#~ msgid "Please select at least one group to include in the mailing."
+#~ msgstr "Выберите группу для отправки"
+
+#, fuzzy
+#~ msgid "Sent Mailings"
+#~ msgstr "Повторить отправку"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
+
+#, fuzzy
+#~ msgid "Start Date - From"
+#~ msgstr "Дата начала"
+
+#, fuzzy
+#~ msgid "(membership fee - %1)"
+#~ msgstr "Участие в группах (3 из %1)"
+
+#~ msgid "For existing pages"
+#~ msgstr "Для существующий страниц"
+
+#, fuzzy
+#~ msgid "View Activity History"
+#~ msgstr "История действий CiviCRM"
+
+#, fuzzy
+#~ msgid " Mailing"
+#~ msgstr "Почтовые отправления"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Удалить"
+
+#, fuzzy
+#~ msgid "cancel"
+#~ msgstr "Отмена"
+
+#~ msgid "Email Address"
+#~ msgstr "Email Адрес"
+
+#~ msgid "\"%1 Administrator\" <%2>"
+#~ msgstr "\"%1 Администраторr\" <%2>"
+
+#~ msgid "Group Type"
+#~ msgstr "Тип группы"
+
+#~ msgid "Body in html format"
+#~ msgstr "Тело в формате HTML"
+
+#, fuzzy
+#~ msgid "Exclude Group(s)"
+#~ msgstr "Исключенные группы"
+
+#~ msgid "Include mailing(s)"
+#~ msgstr "Вклченные рассылки"
+
+#~ msgid "Exclude mailing(s)"
+#~ msgstr "Исключенные рассылки"
+
+#~ msgid "Invalid Mailing ID"
+#~ msgstr "Неверный Mailing ID"
+
+#~ msgid "Retry Date"
+#~ msgstr "Дата повтора"
+
+#~ msgid "Retry"
+#~ msgstr "Повтор"
+
+#~ msgid "The test mailing could not be delivered due to the following error:"
+#~ msgstr ""
+#~ "Тестовое сообщение не может быть доставлено по причине следующей ошибки:"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "От"
+
+#, fuzzy
+#~ msgid "Upload Message"
+#~ msgstr "Приветственное сообщение "
+
+#, fuzzy
+#~ msgid "Retry Mailing: %1"
+#~ msgstr "Повторить отправку"
+
+#~ msgid "Queued"
+#~ msgstr "Поставлено в очередь"
+
+#~ msgid "Delivered"
+#~ msgstr "Доставлено"
+
+#~ msgid "Totals"
+#~ msgstr "Всего"
+
+#~ msgid "Text Body"
+#~ msgstr "Текстовое тело"
+
+#~ msgid "HTML Body"
+#~ msgstr "Тело HTML"
+
+#~ msgid "Is Active"
+#~ msgstr "Активен(на)"
+
+#, fuzzy
+#~ msgid "Billing First Name"
+#~ msgstr "Имя"
+
+#, fuzzy
+#~ msgid "Billing Middle Name"
+#~ msgstr "Отчество"
+
+#, fuzzy
+#~ msgid "Billing Last Name"
+#~ msgstr "Фамилия"
+
+#, fuzzy
+#~ msgid "Card Number"
+#~ msgstr "Номер телефона"
+
+#, fuzzy
+#~ msgid "Security Code"
+#~ msgstr "Бухгалтерский код"
+
+#, fuzzy
+#~ msgid "Expiration Date"
+#~ msgstr "Дата действия"
+
+#, fuzzy
+#~ msgid "Card Type"
+#~ msgstr "Тип действия"
+
+#~ msgid "Configure Online Contribution Pages"
+#~ msgstr "Настройка страниц для он-лайн вкладов "
+
+#, fuzzy
+#~ msgid "Online Event Registration:"
+#~ msgstr "Online подарок:"
+
+#, fuzzy
+#~ msgid "- none -"
+#~ msgstr "- нет предпочтений -"
+
+#, fuzzy
+#~ msgid "Membership Status"
+#~ msgstr "В прошлом участник"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr "Дата завершения не может бать раньше даты начала."
+
+#, fuzzy
+#~ msgid "File size should be less than 8192 bytes"
+#~ msgstr "Размер файла должен быть меньше %1 MБайт (%2 байт)"
+
+#~ msgid "Could not open %1 file for writing"
+#~ msgstr "Не удается открыть файл %1 для записи"
+
+#~ msgid ""
+#~ "Your %1 value is: \"%2\". This value must be entered in the Payment "
+#~ "Processor section of the CiviCRM configuration file."
+#~ msgstr ""
+#~ "Ваше %1 значение: \"%2\". Данное значение должно быть введено в   секцию "
+#~ "процессора оплаты конфигурационного файла CiviCRM."
+
+#, fuzzy
+#~ msgid "New Online Contribution Page"
+#~ msgstr "Настройка страниц для он-лайн вкладов "
+
+#, fuzzy
+#~ msgid "Start Date /Time"
+#~ msgstr "Дата начала"
+
+#~ msgid "Upload Text Message"
+#~ msgstr "Загрузить текстовое сообщение"
+
+#, fuzzy
+#~ msgid "Selected message template can not be deleted."
+#~ msgstr "Выбранный контакт не может быть удален."
+
+#, fuzzy
+#~ msgid "Selected message templates has been deleted."
+#~ msgstr "Выбранный тип пола был удален."
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Должность"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Тема"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Текст"
+
+#, fuzzy
+#~ msgid "Message Title"
+#~ msgstr "Сообщение"
+
+#, fuzzy
+#~ msgid "Message Subject"
+#~ msgstr "Тема"
+
+#, fuzzy
+#~ msgid "Text Message"
+#~ msgstr "Оставлено Сообщение"
+
+#, fuzzy
+#~ msgid "HTML Message"
+#~ msgstr "Загрузить HTML сообщение"
+
+#, fuzzy
+#~ msgid "The Message Template \"%1\" has been saved."
+#~ msgstr "Пометка \"%1\" была сохранена."
+
+#, fuzzy
+#~ msgid "Are you sure you want to disable this message tempate?"
+#~ msgstr "Вы действительно хотите отключить этот тип действий?"
+
+#, fuzzy
+#~ msgid "Amount :"
+#~ msgstr "Сумма"
+
+#, fuzzy
+#~ msgid "Date(s)"
+#~ msgstr "Дата"
+
+#, fuzzy
+#~ msgid "Settings and Content"
+#~ msgstr "Дата и Время"
+
+#, fuzzy
+#~ msgid "Do you want to delete this message template ?"
+#~ msgstr "Действительно хотите удалить эту пометку?"
+
+#, fuzzy
+#~ msgid "Is this template enabled."
+#~ msgstr "Осуществлять поиск по этому полю?"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Message Templates  entered. You can <a href=\"%1\">add one</"
+#~ "a>."
+#~ msgstr "Нет отправленных писем. <a href=\"%1\">Хотите отправить?</a>."

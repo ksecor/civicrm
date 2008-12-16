@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-07-16 05:48-0700\n"
 "Last-Translator: tavi toporjinschi <vasike@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -63,9 +63,8 @@ msgstr "Editează"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Activează"
+msgstr "Tabel Entitate"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -73,7 +72,7 @@ msgstr "Operaţiune"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Tot"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -108,9 +107,8 @@ msgid "Grant"
 msgstr "Acordă"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Modificat între"
+msgstr "Data Modificării"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -433,7 +431,6 @@ msgid "Case Activity Type"
 msgstr "Tip activitate nou"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- selectaţi -"
 
@@ -1092,9 +1089,8 @@ msgid "Legal Name"
 msgstr "Nume legal"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Opţiune personalizată"
+msgstr "Salut Personalizat"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1147,16 +1143,15 @@ msgstr "Vizibilitate"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Clauză Where"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Selectează etichetă"
+msgstr "Selectează tabelele"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Tabele Where"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1499,9 +1494,8 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
-#, fuzzy
 msgid "Participant"
-msgstr "Vizualizare activitate"
+msgstr "Participant"
 
 #: CRM/Contact/Form/Search/Custom/Group.php CRM/Core/DAO/Cache.php
 #: CRM/Custom/Form/Group.php
@@ -1720,14 +1714,12 @@ msgid "Path"
 msgstr ""
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Log.php
-#, fuzzy
 msgid "Data"
-msgstr "Data"
+msgstr "Date"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Tip date"
+msgstr "Tip HTML"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1736,16 +1728,14 @@ msgstr "Valoare Implicită"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Şterge nota"
+msgstr "Ajutor Pre"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Host"
+msgstr "Ajutor Post"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1754,7 +1744,7 @@ msgstr "Mască"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1791,9 +1781,8 @@ msgid "Multi-Select State/Province"
 msgstr "Selectează Judeţ/Provincie"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Moneda Afişată"
+msgstr "Pliază Afişaj"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1810,9 +1799,8 @@ msgstr "Inline"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefon"
+msgstr "Tip Telefon"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2108,27 +2096,24 @@ msgid "Administer"
 msgstr "Administrare"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Nume"
+msgstr "Nume ACL"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Interzis"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Selectează etichetă"
+msgstr "Obiect Tabel"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Tabel ACL"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Şters"
+msgstr "revocă"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2236,9 +2221,8 @@ msgid "Activity Content %2 %1"
 msgstr "Data activitate"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Activitate"
+msgstr "ID activitate"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2256,9 +2240,8 @@ msgid "Due Date Time"
 msgstr "Data şi ora"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Număr linie"
+msgstr "Număr de telefon"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2271,7 +2254,7 @@ msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "ID Contact (potrivit la contact)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3544,10 +3527,6 @@ msgid "Individual Suffix"
 msgstr "Sufix Individual %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Membru al Grupului %1"
 
@@ -3638,86 +3617,72 @@ msgid "Invalid relationship type"
 msgstr "Activează Tip Relaţie"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "ID Contact"
+msgstr "ID Intern Contact"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Tip contact"
+msgstr "Subtip Contact"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Fără poştă"
+msgstr "Fără mail"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
-msgstr "Fără apel"
+msgstr "Fără telefon"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "Fără poştă"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
 msgstr "Fără comerţ"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Fără mail în masă (Opted-Out)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Identificator Legal"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "ID Extern"
+msgstr "Identificator Extern"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Nume Sortare"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Prenume"
+msgstr "Nume afişat"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Acasă"
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Imagini"
+msgstr "URL Imagine"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "E-mail preferat:"
+msgstr "Forma de Email Preferată"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Cash"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "Vizualizeză detalii contact"
+msgstr "Sursa Datelor Contact"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Salut"
+msgstr "Tip Salut"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3726,45 +3691,38 @@ msgid "Job Title"
 msgstr "Titlu Post"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Dată start"
+msgstr "Data Naşterii"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
-msgstr "Daza decesului:"
+msgstr "Este decedat"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
 msgstr "Data decesului"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "Cod SIC"
+msgstr "Cod Sic"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Femeie"
+msgstr "Formal"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Informal"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Onorific"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
 msgstr "Personalizat"
 
@@ -3784,32 +3742,28 @@ msgid "Children"
 msgstr "Copilul lui"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Nume"
+msgstr "Nume A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Nume"
+msgstr "Nume B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
 msgstr "Valorile formularului au fost trimise"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Urmărire"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Site"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4270,7 +4224,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Rang-De La"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4305,9 +4259,8 @@ msgid "Contact Role and Name"
 msgstr "Telefon contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Pagină contact"
+msgstr "Nume contact"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4544,9 +4497,8 @@ msgid "Distance"
 msgstr "Dezactivează"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- oricare grup -"
+msgstr "- orice ţară -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5450,67 +5402,60 @@ msgstr ""
 "serverul."
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "Număr linie"
+msgstr "Număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Sufix număr stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Predirecţional număr stradă"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Nume stradă"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Tip eveniment"
+msgstr "Tip stradă"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Postdirecţional număr stradă"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Unitate Frecvenţă"
+msgstr "Unitate stradă"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Adresa"
+msgstr "Adresă Suplimentară 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Adresa"
+msgstr "Adresă Suplimentară 2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Adresa"
+msgstr "Adresă suplimentară 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Cod 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Cod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Fus orar"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5532,38 +5477,32 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "Cod SIC"
+msgstr "Cod ISO"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Ţara"
+msgstr "Cod ţară"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Prefix"
+msgstr "Prefix IDD"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Prefix"
+msgstr "Prefix NDD"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Contribu'ie"
+msgstr "Abreviere ţată"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
-msgstr "Curent"
+msgstr "Monedă"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "Simbol"
 
 #: CRM/Core/DAO/Currency.php
 #, fuzzy
@@ -5580,33 +5519,28 @@ msgid "Data Type"
 msgstr "Tip date"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Contribuţii"
+msgstr "Atribute"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Dată start"
+msgstr "Ani dată start"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Data finală"
+msgstr "Ani dată sfârşit"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Format dată"
+msgstr "Părţi dată"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Coloane note"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Note Rows"
-msgstr "Note"
+msgstr "Rânduri note"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5614,28 +5548,24 @@ msgid "Column Name"
 msgstr "Nume locaţie"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Configurare"
+msgstr "Şir"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
-msgstr "Întreg"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr ""
+msgstr "Flotant"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Boolean"
-msgstr "Google"
+msgstr "Logic"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "StateProvince"
-msgstr "Judeţ/Provincie/Regiune"
+msgstr "Provoncie/judeţ"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5647,17 +5577,16 @@ msgid "RichTextEditor"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
-msgstr "ID Extern"
+msgstr "Extinde"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
-msgstr ""
+msgstr "Extinde numele coloanei entităţii"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Value"
-msgstr ""
+msgstr "Extinde valoarea coloanei entităţii"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
@@ -5694,14 +5623,12 @@ msgid "Email Address"
 msgstr "Adresa email invalidă"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
 msgstr "Cale întoarce e-mail"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Config Backend"
-msgstr "Configurează"
+msgstr "Configurează backend"
 
 #: CRM/Core/DAO/Domain.php
 #, fuzzy
@@ -5717,37 +5644,32 @@ msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "Data finală"
+msgstr "Dată"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
-msgstr "Data chitanţă"
+msgstr "Dată reset"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Mime Type"
-msgstr "Tip câmp"
+msgstr "Mime Type"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "URI"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Upload Date"
-msgstr "Încarcă Date"
+msgstr "Dată încărcare"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Nume stradă"
+msgstr "Nume Ecran IM"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5764,74 +5686,68 @@ msgid "Line Total"
 msgstr "Titlu"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Tip locaţie"
+msgstr "Tip locaţie vCard"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Tip locaţie"
+msgstr "Nume locaţie"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Număr linie"
+msgstr "Număr coloană"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Relationship Direction"
-msgstr "Tip relaţie"
+msgstr "Direcţia relaţiei"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Grouping"
-msgstr "Grup"
+msgstr "Grupare"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "Operaţiune"
+msgstr "Operator"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
-msgstr ""
+msgstr "="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
-msgstr ""
+msgstr "ÎN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
-msgstr ""
+msgstr "NU ESTE ÎN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "LIKE"
-msgstr ""
+msgstr "CA ŞI"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT LIKE"
-msgstr ""
+msgstr "NU ESTE CA ŞI"
 
 #: CRM/Core/DAO/Menu.php
 #, fuzzy
@@ -5908,19 +5824,16 @@ msgid "Allowed To Login"
 msgstr ""
 
 #: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
 msgid "Option Group Name"
-msgstr "Nume Grup Opţiuni"
+msgstr "Nume grup opţiuni"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Name"
-msgstr "Etichetă Opţiune"
+msgstr "Nume opţiune"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Filter"
-msgstr "Fişier"
+msgstr "Filtru"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6054,7 +5967,7 @@ msgstr "Configurare adresă"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Abreviere judeţ"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6070,9 +5983,8 @@ msgid "Offset"
 msgstr ""
 
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "In Selector"
-msgstr "Selectează"
+msgstr "Selector în"
 
 #: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Price/Page/Field.tpl
@@ -6080,19 +5992,16 @@ msgid "Field Type"
 msgstr "Tip câmp"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
-msgstr "Poştal"
+msgstr "URL post"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Add Captcha"
-msgstr "Font captcha"
+msgstr "Adaugă captcha"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Cancel Url"
-msgstr "Renunţă"
+msgstr "URL abandon"
 
 #: CRM/Core/DAO/UFGroup.php
 #, fuzzy
@@ -6100,9 +6009,8 @@ msgid "Notify"
 msgstr "Notă"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Mobil"
+msgstr "Modul"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9411,8 +9319,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
-msgstr ""
+#, fuzzy
+msgid "Opens MYSQL documentation in a new window."
+msgstr "Deschide documentaţia online într-o fereastră nouă."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -11581,15 +11490,16 @@ msgstr ""
 "parolă de SMTP. Vă rugăm corectaţi acesta în fişierul civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
+msgstr[0] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
+msgstr[1] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
+msgstr[2] "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -14351,5 +14261,1462 @@ msgstr "Mesaj creat de un filtru de conţinut"
 msgid "Error in SMTP transaction"
 msgstr "Eroare în tranzacţia SMTP"
 
+#~ msgid "Contact"
+#~ msgstr "Contact"
+
+#~ msgid "Import"
+#~ msgstr "Import"
+
+#~ msgid "Custom Data"
+#~ msgstr "Date personalizate"
+
+#~ msgid "Access Control"
+#~ msgstr "Control Acces"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Încarcă Mapare"
+
+#~ msgid "View Activity"
+#~ msgstr "Vizualizare activitate"
+
+#, fuzzy
+#~ msgid "Payment Processor Type"
+#~ msgstr "Procesor plăţi"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Căutare Avansată"
+
+#~ msgid "Contact Dashboard"
+#~ msgstr "Panou control contacte"
+
+#~ msgid "Global Settings"
+#~ msgstr "Configurare globală"
+
+#~ msgid "Components"
+#~ msgstr "Componente"
+
+#~ msgid "Configure"
+#~ msgstr "Configurează"
+
+#~ msgid "Manage"
+#~ msgstr "Gestionează"
+
+#~ msgid "Option Lists"
+#~ msgstr "Liste opţiuni"
+
+#~ msgid "File System Paths"
+#~ msgstr "Căi Fişier Sistem"
+
+#~ msgid "Site URLs"
+#~ msgstr "URL-uri sit"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Cartografie şi Geocoding"
+
+#~ msgid "Localization"
+#~ msgstr "Localizare"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Diverse"
+
+#~ msgid "Debugging"
+#~ msgstr "Depanare"
+
+#~ msgid "Notes"
+#~ msgstr "Note"
+
+#~ msgid "Delete Location"
+#~ msgstr "Şterge locaţia"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Administrare CiviCRM"
+
+#, fuzzy
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr ""
+#~ "Înregistrarea contactului care este legată de contul utilizatorului "
+#~ "conectat - \"%1\" - nu poate fi ştearsă."
+
+#~ msgid "Activities"
+#~ msgstr "Activităţi"
+
+#~ msgid "Relationships"
+#~ msgstr "Relaţii"
+
+#~ msgid "Contributions"
+#~ msgstr "Contribuţii"
+
+#~ msgid "Memberships"
+#~ msgstr "Membrii"
+
+#~ msgid "Find Contacts"
+#~ msgstr "Caută contacte"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Trimiteţi un e-mail unui contact"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCRM Home"
+
+#~ msgid "Groups"
+#~ msgstr "Grupuri"
+
+#~ msgid "Tags"
+#~ msgstr "Etichete"
+
+#~ msgid "Export Contacts"
+#~ msgstr "Export contacte"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#, fuzzy
+#~ msgid "Log out"
+#~ msgstr "Logo"
+
+#~ msgid "Map Event Location"
+#~ msgstr "Harta locaţiei evenimentului"
+
+#~ msgid "Search Builder"
+#~ msgstr "Constructor de Căutare"
+
+#~ msgid "New Contact"
+#~ msgstr "Contact Nou"
+
+#~ msgid "Custom Data Fields"
+#~ msgstr "Câmpuri Date Personalizate"
+
+#~ msgid "Message Templates"
+#~ msgstr "Şabloane pentru Mesaj"
+
+#~ msgid "Find Duplicate Contacts"
+#~ msgstr "Gaseşte contacte duplicate"
+
+#~ msgid "Duplicate Contact Rules"
+#~ msgstr "Reguli contacte duplicate"
+
+#, fuzzy
+#~ msgid "Contact Matching"
+#~ msgstr "Întâlniri contact"
+
+#~ msgid "Price Sets"
+#~ msgstr "Setări Preţ"
+
+#~ msgid "Manage Groups"
+#~ msgstr "Gestionează grupuri"
+
+#~ msgid "Contacts"
+#~ msgstr "Contacte"
+
+#~ msgid "Group Members"
+#~ msgstr "Membrii Grup"
+
+#, fuzzy
+#~ msgid "Application Received"
+#~ msgstr "Data primirii"
+
+#, fuzzy
+#~ msgid "Money Transferred"
+#~ msgstr "Telefon (preferat)"
+
+#, fuzzy
+#~ msgid "Amount Granted"
+#~ msgstr "Cantitate"
+
+#~ msgid ""
+#~ "Missing required contact matching fields. (Should be First AND Last Name "
+#~ "or Primary Email or First Name, Last Name AND Primary Email.)"
+#~ msgstr ""
+#~ "Lipsesc câmpurile potrivite necesare. (Trebuie să fie Prenume ŞI Nume sau "
+#~ "Email Principal sau Prenume, Nume ŞI Email Principal.)"
+
+#~ msgid "Missing required contact matching field: Contact ID."
+#~ msgstr "Lipseşte câmpul potrivit pentru contact: Contact ID."
+
+#~ msgid "Match On:"
+#~ msgstr "Potrivit pe:"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Contact Matching rule has not been saved, because the rule is "
+#~ "invalid. Rules should contain only valid field names, 'AND', 'OR' or "
+#~ "parentheses."
+#~ msgstr ""
+#~ "Regula de potrivire duplicată nu a fost salvată deoarece regula este "
+#~ "invalidă. Regulile trebuie să conţină doar nume valide de câmpuri,'AND', "
+#~ "'OR' sau paranteze."
+
+#, fuzzy
+#~ msgid "The Contact Matching rule has been saved."
+#~ msgstr "Regula de potrivire duplicată a fost salvată."
+
+#~ msgid "User Language"
+#~ msgstr "Limbă Utilizator"
+
+#~ msgid "Monetary Display"
+#~ msgstr "Moneda Afişată"
+
+#~ msgid "CiviCRM Version Check"
+#~ msgstr "Verificare versiune CiviCRM"
+
+#~ msgid "Captcha Font Path"
+#~ msgstr "Cale font captcha"
+
+#~ msgid "Captcha Font"
+#~ msgstr "Font captcha"
+
+#~ msgid "Settings - SMTP Configuration"
+#~ msgstr "Configuraţie - Configuraţie SMTP"
+
+#~ msgid "Edit DupeMatch"
+#~ msgstr "Editează DupeMatch"
+
+#~ msgid ""
+#~ "Are you sure you want to delete this mapping? This operation can not be "
+#~ "undone"
+#~ msgstr ""
+#~ "Sunteţi sigur că doriţi ştergerea acetui maping? Acestă operaţie nu poate "
+#~ "fi refăcută"
+
+#, fuzzy
+#~ msgid "System Configuration"
+#~ msgstr "Configuraţie SMTP"
+
+#~ msgid "Online Payment"
+#~ msgstr "Plată Online"
+
+#~ msgid "Address Formatting"
+#~ msgstr "Formatare Adresă"
+
+#~ msgid "This is an unexpected place to be in, contact support"
+#~ msgstr ""
+#~ "Acesta este un loc în care nu ar trebui să fiţi, contactaţi suportul"
+
+#, fuzzy
+#~ msgid "Postal code greater than '%1'"
+#~ msgstr "Cod poştal mai mare decât \"%1\""
+
+#, fuzzy
+#~ msgid "Postal code less than '%1'"
+#~ msgstr "Cod poştal mai mic decât \"%1\""
+
+#~ msgid "The Location Type should be set if there is any location information"
+#~ msgstr "Tipul locaţiei trebuie să fie ales dacă există informaţii locaţie"
+
+#~ msgid "Two locations cannot have same location type"
+#~ msgstr "Două locaţii nu pot să aibe acelaşi tip de locaţie"
+
+#, fuzzy
+#~ msgid "Create new household"
+#~ msgstr "Capul familiei."
+
+#, fuzzy
+#~ msgid "shared options"
+#~ msgstr "Dezactivează Opţiune"
+
+#, fuzzy
+#~ msgid ""
+#~ "One matching household: %1, was found. You can specify it through 'Select "
+#~ "existing household' option or click 'Save With Duplicate Household' "
+#~ "button below."
+#~ msgid_plural ""
+#~ "%count matching households: %1, were found. You can specify them through "
+#~ "'Select existing household' option or click 'Save With Duplicate "
+#~ "Household' button below."
+#~ msgstr[0] ""
+#~ "A fost găsit un contact potrivit. Puteţi să-l editaţi aici: %1, sau "
+#~ "apăsaţi butonul Salvează Contact Duplicat de mai jos."
+#~ msgstr[1] ""
+#~ "Au fost găsite %count contacte potrivite. Puteţi să le editaţi aici: %1, "
+#~ "sau apăsaţi butonul Salvează Contact Duplicat de mai jos."
+#~ msgstr[2] ""
+#~ "Au fost găsite %count contacte potrivite. Puteţi să le editaţi aici: %1, "
+#~ "sau apăsaţi butonul Salvează Contact Duplicat de mai jos."
+
+#, fuzzy
+#~ msgid "Location: %1"
+#~ msgstr "Locaţie"
+
+#~ msgid "Quest"
+#~ msgstr "Caută"
+
+#~ msgid "TMF"
+#~ msgstr "TMF"
+
+#, fuzzy
+#~ msgid ""
+#~ "This contact record is linked to the currently logged in user account - '%"
+#~ "1' - and can not be deleted."
+#~ msgstr ""
+#~ "Această înregistrare este legată la contul utilizatorului conectat - \"%1"
+#~ "\" - şi nu poate şi ştearsă."
+
+#~ msgid "Select Template"
+#~ msgstr "Selectează şablon"
+
+#~ msgid "Update Template"
+#~ msgstr "Actualizare şablon"
+
+#~ msgid "Save as New Template"
+#~ msgstr "Salvează ca şablon nou"
+
+#~ msgid "Template Title"
+#~ msgstr "Titlu şablon"
+
+#, fuzzy
+#~ msgid ""
+#~ "Email not sent to contact(s) (no email address on file or communication "
+#~ "preferences specify DO NOT EMAIL): %1"
+#~ msgstr "Email-ul nu a fost trimis ls contacte: %1 <br />Detalii:"
+
+#~ msgid "Export PRIMARY contact fields"
+#~ msgstr "Exporă câmpurile contact PRIMARE"
+
+#~ msgid "Map Location(s)"
+#~ msgstr "Hartă locaţii"
+
+#~ msgid ""
+#~ "This contact's primary address does not contain latitude/longitude "
+#~ "information and can not be mapped."
+#~ msgstr ""
+#~ "Adresa primară a acestui conatct nu conţine informaţii despre latitudine/"
+#~ "longitudine şi nu poate fi cartografiată."
+
+#~ msgid "Your user record does not have a valid user ID"
+#~ msgstr "Înregistrarea de utilizator nu are un ID valid"
+
+#~ msgid "View Contribution"
+#~ msgstr "Vizualizare contribuţie"
+
+#~ msgid "Edit Contribution"
+#~ msgstr "Modifică contribuţie"
+
+#~ msgid "Delete Contribution"
+#~ msgstr "Şterge contribuţie"
+
+#~ msgid "View Membership"
+#~ msgstr "Vezi membru"
+
+#~ msgid "Edit Membership"
+#~ msgstr "Editează membru"
+
+#~ msgid "Delete Membership"
+#~ msgstr "Şterge membru"
+
+#, fuzzy
+#~ msgid ""
+#~ "The requested Profile (gid=%1) is disabled, OR it is not configured to be "
+#~ "used for 'Profile' listings in its Settings, or there is no Profile with "
+#~ "that ID. Contact the site administrator if you need assistance."
+#~ msgstr ""
+#~ "Acest profil nu este configurat pentru acţiunea solicitată. Contacţaţi "
+#~ "administratorul sitului dacă aveţi nevoie de asistenţă."
+
+#~ msgid "Participant Status"
+#~ msgstr "Stare participant"
+
+#~ msgid "Participant Role"
+#~ msgstr "Rol participant"
+
+#~ msgid "CiviContribute"
+#~ msgstr "CiviContribute"
+
+#~ msgid "CiviEvent"
+#~ msgstr "CiviEvent"
+
+#~ msgid "CiviMember"
+#~ msgstr "CiviMember"
+
+#~ msgid "CiviMail"
+#~ msgstr "CiviMail"
+
+#~ msgid "Could not retrieve object name: %1, id: %2"
+#~ msgstr "Nu se poate obşine numele obiectului: %1, id: %2"
+
+#~ msgid "Delete Contact"
+#~ msgstr "Şterge contact"
+
+#~ msgid "Could not retrieve a valid contact"
+#~ msgstr "Nu se poate găsi un contact valid"
+
+#, fuzzy
+#~ msgid "Merge Contact"
+#~ msgstr "Contact Ţintă"
+
+#~ msgid "Simple Search"
+#~ msgstr "Cautare simplă"
+
+#~ msgid "View Location Types"
+#~ msgstr "Vizualizează tipuri de locaţii"
+
+#, fuzzy
+#~ msgid "View Payment Processors"
+#~ msgstr "Procesor plăţi"
+
+#, fuzzy
+#~ msgid "View Payment Processor Type"
+#~ msgstr "Procesor plăţi"
+
+#~ msgid "View Relationship Types"
+#~ msgstr "Vizualizează tipuri de relaţii"
+
+#~ msgid "View Tags"
+#~ msgstr "Vizualizare etichete"
+
+#~ msgid "View Mapping"
+#~ msgstr "Vizualizează mapare"
+
+#~ msgid "View Options"
+#~ msgstr "Opţiuni vizualizare"
+
+#~ msgid "Sync Drupal Users"
+#~ msgstr "Sincronizează utilizatori Drupal"
+
+#~ msgid "View Option Groups"
+#~ msgstr "Vizualizează grupuri opţiuni"
+
+#~ msgid "View Option Values"
+#~ msgstr "Vizualizează valori opţiune"
+
+#~ msgid "Options"
+#~ msgstr "Opţiuni"
+
+#~ msgid "CiviMail Settings"
+#~ msgstr "Configuraţie CiviCRM"
+
+#~ msgid "Import Contacts"
+#~ msgstr "Import contacte"
+
+#~ msgid "View Groups"
+#~ msgstr "Vizualizare grupuri"
+
+#, fuzzy
+#~ msgid "Address Preferences"
+#~ msgstr "Configurare adresă"
+
+#~ msgid "Smtp Server"
+#~ msgstr "Server SMTP"
+
+#~ msgid "Date Formatting"
+#~ msgstr "Formatare Dată"
+
+#~ msgid "Browse Uploaded files"
+#~ msgstr "Răsfoieşte fişierele încărcate"
+
+#~ msgid "CiviCRM Profile"
+#~ msgstr "Profil CiviCRM"
+
+#, fuzzy
+#~ msgid ""
+#~ "Profiles allow you to aggregate groups of fields and include them in your "
+#~ "site as input forms, contact display pages, and search and listings "
+#~ "features."
+#~ msgstr ""
+#~ "Profilele CiviCRM permit agregarea de grupuri de câmpuri şi includerea "
+#~ "lor în sit ca şi formate de intrare, pagini de afişare contact şi "
+#~ "facilităţi de căutare sau afişare. Ele furnizează un set puternic de "
+#~ "instrumente pentru colectarea de informaţii."
+
+#~ msgid "CiviCRM Profile Fields"
+#~ msgstr "Câmpuri profil CiviCRM"
+
+#, fuzzy
+#~ msgid "Synchronize Users to Contacts"
+#~ msgstr "Sincronizează utilizatori cu contacte:"
+
+#~ msgid "Import/Export Mappings"
+#~ msgstr "Mapări import/export"
+
+#~ msgid "Activity Types"
+#~ msgstr "Tipuri activitate"
+
+#, fuzzy
+#~ msgid "Gender Options"
+#~ msgstr "Opţiuni vizualizare"
+
+#~ msgid "Individual Prefixes (Ms, Mr...)"
+#~ msgstr "Prefixe persoane (Dl, Dna...)"
+
+#~ msgid "Individual Suffixes (Jr, Sr...)"
+#~ msgstr "Sufixe persoane (Jr, Sr...)"
+
+#, fuzzy
+#~ msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
+#~ msgstr "Sufixe persoane (Jr, Sr...)"
+
+#~ msgid "Instant Messenger Services"
+#~ msgstr "Servicii Instant Messaging"
+
+#~ msgid "Location Types (Home, Work...)"
+#~ msgstr "Tipuri locaţii (Acasă, Servici, ...)"
+
+#~ msgid "Mobile Phone Providers"
+#~ msgstr "Furnizori telefonie mobilă"
+
+#, fuzzy
+#~ msgid "Preferred Communication Methods"
+#~ msgstr "Metoda de Comunicare Preferată"
+
+#~ msgid "Relationship Types"
+#~ msgstr "Tipuri relaţii"
+
+#~ msgid "Tags (Categories)"
+#~ msgstr "Etichete (categorii)"
+
+#~ msgid "Payment Processor"
+#~ msgstr "Procesor plăţi"
+
+#, fuzzy
+#~ msgid "Payment Processor type information"
+#~ msgstr "Procesor plăţi"
+
+#~ msgid "Quick Registration"
+#~ msgstr "Înregistrare rapidă"
+
+#~ msgid "Manage ACLs"
+#~ msgstr "Gestionează ACL-uri"
+
+#~ msgid "Contact Summary"
+#~ msgstr "Sumar contact"
+
+#~ msgid "Create New Group"
+#~ msgstr "Crează grup nou"
+
+#~ msgid "Activity"
+#~ msgstr "Activitate"
+
+#~ msgid "Add Contact Information"
+#~ msgstr "Adaugă informaţie contact"
+
+#~ msgid "Notes about the Person"
+#~ msgstr "Note despre persoane"
+
+#, fuzzy
+#~ msgid "Credit card expiration date can not be a past date."
+#~ msgstr ""
+#~ "Data de încheiere a relaţiei nu poate fi mai mică decât cea de start."
+
+#~ msgid "- all contacts -"
+#~ msgstr "- toate contactele -"
+
+#~ msgid "life time"
+#~ msgstr "toată viaţa"
+
+#, fuzzy
+#~ msgid "Test Payment Processor"
+#~ msgstr "Procesor plăţi"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Group '%1' has not been deleted! You must Delete all custom fields in "
+#~ "this group prior to deleting the group"
+#~ msgstr ""
+#~ "Grupul \"%1\" nu a fost şters! Va trebui să ştergeţi toate câmpurile "
+#~ "personalizate din acest grup înainte de ştergerea grupului."
+
+#~ msgid "Please enter 1 or 0 as default value."
+#~ msgstr "Introduceţi 1 sau 0 ca şi valoare implicită."
+
+#, fuzzy
+#~ msgid "Your custom field '%1' has been saved"
+#~ msgstr "Câmpul personalizat \"%1\" a fost salvat"
+
+#, fuzzy
+#~ msgid "Your Group '%1 ' has been saved."
+#~ msgstr "Grupul \"%1\" a fost salvat."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your Group '%1' has been added. You can <a href='%2'>add custom fields</"
+#~ "a> to this group now."
+#~ msgstr ""
+#~ "Grupul \"%1\" a fost adăugat. Acum puteţi <a href=\"%2\">adăuga câmpuri "
+#~ "personalizate</a> în acest grup."
+
+#, fuzzy
+#~ msgid "App. Received Date - From"
+#~ msgstr "Date Activitate - De La"
+
+#, fuzzy
+#~ msgid "Grant Report Due"
+#~ msgstr "Termen"
+
+#, fuzzy
+#~ msgid "Rationale"
+#~ msgstr "Valoare Opţiune"
+
+#~ msgid "Name:"
+#~ msgstr "Nume:"
+
+#~ msgid "Join new contacts to existing group(s)"
+#~ msgstr "Adaugă noi contacte la grupurile existente"
+
+#~ msgid "Please enter a valid value for this field."
+#~ msgstr "Vă rugăm introduceţi o valoare validă pentru acest câmp."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add "
+#~ "fields</a> to this Profile now."
+#~ msgstr ""
+#~ "Grupul \"%1\" a fost adăugat. Acum puteţi <a href=\"%2\">adăuga câmpuri "
+#~ "personalizate</a> în acest grup."
+
+#, fuzzy
+#~ msgid "There are no duplicates matching this rule."
+#~ msgstr "Şterge regula de găsire a duplicatelor"
+
+#, fuzzy
+#~ msgid "Potentially Duplicate Contacts"
+#~ msgstr "Pentru contacte duplicate"
+
+#~ msgid "Advanced Duplicate Matching Rule"
+#~ msgstr "Reguli avansate de găsire a duplicatelor"
+
+#~ msgid "Delete Duplicate Matching Rule"
+#~ msgstr "Şterge regula de găsire a duplicatelor"
+
+#~ msgid "Configure Duplicate Matching Rule"
+#~ msgstr "Configurează regula de detectare a duplicatelor"
+
+#~ msgid "Are you sure you want to delete this Duplicate Matching Rule?"
+#~ msgstr "Sigur doriţi să ştegeţi acestă regula de detectare a duplicatelor?"
+
+#~ msgid ""
+#~ "Select up to five contact field(s) to use when comparing a new Individual "
+#~ "contact to existing contact records for duplicate matching. If some of "
+#~ "the fields in your matching rule are OPTIONAL, then all <strong>non-"
+#~ "empty</strong> fields in the incoming data are used."
+#~ msgstr ""
+#~ "Selectaţi până la cinci câmpuri de contact care să fie utilizate când se "
+#~ "compară o persoană nouă cu una existentă pentru a se detecta duplicatele. "
+#~ "Dacă careva din aceste câmpuri sunt opţionale atunci se vor utiliza toate "
+#~ "câmpurile ne-nule."
+
+#~ msgid ""
+#~ "For example, using the default matching rule of <strong>Email AND First "
+#~ "Name AND Last Name</strong>... Jane Doe jane.doe@example.org exists in "
+#~ "your database. Now someone tries to add a new contact with the same email "
+#~ "address and leaves the first and last name blank. The new contact will be "
+#~ "flagged as a potential duplicate."
+#~ msgstr ""
+#~ "De exemplu utilizarea regulii <strong>Email AND First Name AND Last Name</"
+#~ "strong>... Jane Doe jane.doe@example.org există în baza de date. Cineva "
+#~ "încearcă adăugare unei persoane cu acelaşi e-mail şi lasă numele şi "
+#~ "prenumele goale. Noul contact va fi marcat ca fiind potenţial duplicat."
+
+#~ msgid "Advanced Configuration"
+#~ msgstr "Configurare avansată"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
+#~ "can not be undone."
+#~ msgstr ""
+#~ "Sunteţi sigur că doriţi ştergerea acetui maping? Acestă operaţie nu poate "
+#~ "fi refăcută"
+
+#, fuzzy
+#~ msgid "Contact Matching Rule"
+#~ msgstr "Întâlniri contact"
+
+#, fuzzy
+#~ msgid ""
+#~ "If you've changed search criteria for this 'smart group' and want to save "
+#~ "your changes, select <strong>Update Smart Group</strong> from the '- more "
+#~ "actions -' drop-down menu, and then click Go."
+#~ msgstr ""
+#~ "Dacă aţi schimbat criteriul de căutare pentru acest 'grup inteligent' şi "
+#~ "doriţi să salvaţi modificările, selectaţi <strong>Actualizare grup "
+#~ "inteligent</strong> din meniul '- mai multe acţiuni -'."
+
+#~ msgid "Found %count group member"
+#~ msgid_plural "Found %count group members"
+#~ msgstr[0] "%count membru al grupului găsit"
+#~ msgstr[1] "%count membrii ai grupului găsiţi"
+
+#~ msgid "Found %count contact"
+#~ msgid_plural "Found %count contacts"
+#~ msgstr[0] "%count contact găsit"
+#~ msgstr[1] "%count contacte găsite"
+
+#~ msgid "selected records only"
+#~ msgstr "doar înregistrările selectate"
+
+#~ msgid "the found record"
+#~ msgid_plural "all %count records"
+#~ msgstr[0] "înregistrarea găsită"
+#~ msgstr[1] "toate cele %count înregistrări"
+
+#~ msgid ""
+#~ "Your setup enforces SMTP authentication, but does not provide SMTP "
+#~ "username and/or password. Please fix your civicrm.settings.php file."
+#~ msgstr ""
+#~ "Configuraţia solicită identificare SMTP dar nu furnizează un nume şi/sau "
+#~ "parolă de SMTP. Vă rugăm corectaţi acesta în fişierul civicrm.settings."
+#~ "php."
+
+#~ msgid "Record an Activity"
+#~ msgstr "Înregistrează o activitate"
+
+#~ msgid "Min"
+#~ msgstr "Min"
+
+#, fuzzy
+#~ msgid "Record Offline Contribution"
+#~ msgstr "(Contribuţie periodică)"
+
+#, fuzzy
+#~ msgid "Submit Credit Card Contribution"
+#~ msgstr "Modifică contribuţie"
+
+#~ msgid "Contributions made in honor of %1."
+#~ msgstr "Contribuţii făcute de %1."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no grant recorded for this contact. You can <a href='%1'>enter "
+#~ "one now</a>."
+#~ msgstr "Nu există ACL-uri introduse. Puteţi <a href=\"%1\">adăuga unul</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Notes for this contact. You can <a href='%1'>add one</a>."
+#~ msgstr "Nu există ACL-uri introduse. Puteţi <a href=\"%1\">adăuga unul</a>."
+
+#~ msgid "New Event Registration"
+#~ msgstr "Înregistrare eveniment nou"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no event registrations recorded for this contact. You can <a "
+#~ "href='%1'>enter one now</a>."
+#~ msgstr "Nu există ACL-uri introduse. Puteţi <a href=\"%1\">adăuga unul</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no Relationships entered for this contact. You can <a href='%"
+#~ "1'>add one</a>."
+#~ msgstr "Nu există ACL-uri introduse. Puteţi <a href=\"%1\">adăuga unul</a>."
+
+#~ msgid "View Contact Dashboard"
+#~ msgstr "Afişează control contact"
+
+#~ msgid "Received date"
+#~ msgstr "Data primirii"
+
+#~ msgid "(Recurring Contribution)"
+#~ msgstr "(Contribuţie periodică)"
+
+#~ msgid "Contributions made in your honor."
+#~ msgstr "Contribuţiile dumneavoastră."
+
+#~ msgid "Recurring Contribution(s)"
+#~ msgstr "Contribuţii periodice"
+
+#~ msgid "Terms:"
+#~ msgstr "Termeni:"
+
+#~ msgid "Change Recurring Contribution"
+#~ msgstr "Modifică contribuţia periodică"
+
+#~ msgid "Unsubscribe"
+#~ msgstr "Dezabonare"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmă"
+
+#~ msgid "Expired / Inactive Memberships"
+#~ msgstr "Membrii expiraţi / inactivi"
+
+#~ msgid "Event Date(s)"
+#~ msgstr "Date eveniment"
+
+#~ msgid "Your Contribution(s)"
+#~ msgstr "Contribuţiile tale"
+
+#~ msgid "Your Membership(s)"
+#~ msgstr "Abonamentele tale"
+
+#, fuzzy
+#~ msgid "Select the status of this grant."
+#~ msgstr "Selectează tipul de date pe care operează acest ACL."
+
+#, fuzzy
+#~ msgid "Actual amount granted."
+#~ msgstr "Cantitate"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Şters"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Grup"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: Deleting this price set will result in the loss of all %1 data."
+#~ msgstr ""
+#~ "Atenţie: Ştergerea acestei opţiuni va duce la pierderea înregistrărilor "
+#~ "tipului de activitate care utilizează acestă opţiune."
+
+#~ msgid "Advanced Settings"
+#~ msgstr "Configuraţie avansată"
+
+#~ msgid "Accepted Credit Cards"
+#~ msgstr "Acceptă carduri de credit"
+
+#~ msgid "Payment Instruments"
+#~ msgstr "Instrumente de Plată"
+
+#~ msgid "phone"
+#~ msgstr "telefon"
+
 #~ msgid "Invalid name and password"
 #~ msgstr "Nume şi parolă invalide"
+
+#~ msgid "Owner Entity Table"
+#~ msgstr "Tabel Entitate Proprietar"
+
+#~ msgid "Rule"
+#~ msgstr "Regulă"
+
+#~ msgid "Export"
+#~ msgstr "Export"
+
+#~ msgid "Export Contributions"
+#~ msgstr "Exportă Contribuţii"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Importă Contribuţie"
+
+#~ msgid "Import Memberships"
+#~ msgstr "Importă membrii"
+
+#~ msgid "Import Participants"
+#~ msgstr "Import participanţi"
+
+#~ msgid "Form Type"
+#~ msgstr "Tip formular"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Data primirii"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Data decesului"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Termen"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Cantitate"
+
+#~ msgid "Logo"
+#~ msgstr "Logo"
+
+#~ msgid "Project Owner ID"
+#~ msgstr "ID proprietar proiect"
+
+#~ msgid "Task Type"
+#~ msgstr "Tip sarcină"
+
+#~ msgid "Task Owner ID"
+#~ msgstr "ID proprietar sarcină"
+
+#~ msgid "Task Parent"
+#~ msgstr "Sarcină părinte"
+
+#~ msgid "Due Date"
+#~ msgstr "Termen"
+
+#~ msgid "Priority"
+#~ msgstr "Prioritate"
+
+#~ msgid "Task Class"
+#~ msgstr "Clasă sarcină"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Tabelă entităţi ţintă"
+
+#~ msgid "Target"
+#~ msgstr "Ţintă"
+
+#~ msgid "Status Details"
+#~ msgstr "Detalii stare"
+
+#~ msgid "Created"
+#~ msgstr "Creat"
+
+#~ msgid "Last Modified"
+#~ msgstr "Modificat la"
+
+#~ msgid "- any county -"
+#~ msgstr "- orice judeţ/provincie/regiune -"
+
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Sigur ştergeţi de la %1?"
+
+#~ msgid ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+#~ msgstr ""
+#~ "Nu găsim scriptul backup SQL. Verificaţi %1 există şi poate fi citit de "
+#~ "webserver."
+
+#~ msgid ""
+#~ "We could not find the mysqldump program. Check the configuration variable "
+#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
+#~ msgstr ""
+#~ "Nu găsim programul mysqldump. Verificaţi variabilele de configurare "
+#~ "CIVICRM_MYSQL_PATH din dişierul de configurare CiviCRM."
+
+#~ msgid "Backup Data"
+#~ msgstr "Backup date"
+
+#~ msgid "State %2 \"%1\""
+#~ msgstr "Stare %2 \"%1\""
+
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "Stare (%2) %3 \"%1\""
+
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Ţara %2 \"%1\""
+
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Ţara (%2) %3 \"%1\""
+
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Ţara %2 \"%1\""
+
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "Ţara (%2) %3 \"%1\""
+
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Sex %2 \"%1\""
+
+#~ msgid "Contact Type -"
+#~ msgstr "Tip Contact -"
+
+#~ msgid "Group Status -"
+#~ msgstr "Stare Grup -"
+
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "Note %2 - \"%1\""
+
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Email %2 - \"%1\""
+
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "Cod poştal - \"%1\""
+
+#~ msgid "Location type -"
+#~ msgstr "Tip locaţie -"
+
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Tip Activitate %2 '%1'"
+
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 %2 %3"
+
+#~ msgid "Task: %1"
+#~ msgstr "Sarcină: %1"
+
+#~ msgid "Task Status: %1"
+#~ msgstr "Stare Sarcină: %1"
+
+#, fuzzy
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "Grupul \"%1\" a fost salvat."
+
+#~ msgid "Your civicrm profile field \"%1\" has been saved."
+#~ msgstr "Câmpul profil \"%1\" a fost salvat."
+
+#, fuzzy
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "Modifică informaţii domeniu"
+
+#~ msgid "- Contribution Fields -"
+#~ msgstr "- Câmpuri contribuţie -"
+
+#~ msgid "You do not have permission to edit this contact"
+#~ msgstr "Nu aveţi dreptul să modificaţi acest contact"
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "Nu găsim ID-ul locaţiei"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Adaugă informaţie contact"
+
+#~ msgid " -select- "
+#~ msgstr "- selectaţi -"
+
+#~ msgid "Scheduled Date Time"
+#~ msgstr "Data/ora planificată"
+
+#~ msgid "Duration Hours"
+#~ msgstr "Durata ore"
+
+#~ msgid "Duration Minutes"
+#~ msgstr "Durata minute"
+
+#~ msgid "Selected Meeting is deleted sucessfully."
+#~ msgstr "Întâlnirea Selectată este ştearsă cu succes."
+
+#~ msgid " is a numeric field"
+#~ msgstr " este câmp numeric"
+
+#~ msgid "Delete Activity History"
+#~ msgstr "Ştergeţi istoricul activităţii"
+
+#~ msgid "CiviCRM Activity History"
+#~ msgstr "Istorie activitate CiviCRM"
+
+#~ msgid "Sent Date"
+#~ msgstr "Data Trimiterii"
+
+#~ msgid "Import Activity History"
+#~ msgstr "Importă Istorie Activităţi"
+
+#~ msgid " must be a numeric value"
+#~ msgstr "trebuie să fie o valoare numerică"
+
+#~ msgid "Record Number"
+#~ msgstr "Număr Înregistrare"
+
+#~ msgid " -select role- "
+#~ msgstr "-selectaţi rol-"
+
+#~ msgid "\"%1\" has been logged to Activity History."
+#~ msgstr "\"%1\" a fost înregistrat în Istoricul Activităţilor."
+
+#~ msgid "Select Phone Number"
+#~ msgstr "Selectaţi Număr Telefon"
+
+#~ msgid "OR New Phone"
+#~ msgstr "SAU Telefon Nou"
+
+#~ msgid "Selected Phone Call is deleted sucessfully."
+#~ msgstr "Apelul Telefonic Selectat este şters cu succes."
+
+#~ msgid " VERP Separator"
+#~ msgstr "Separator VERP"
+
+#~ msgid "Could not find location id"
+#~ msgstr "Nu găsim ID-ul locaţiei"
+
+#~ msgid "Location name %1 '%2'"
+#~ msgstr "Nume locaţie %1 '%2'"
+
+#~ msgid "Contact Meetings"
+#~ msgstr "Întâlniri contact"
+
+#~ msgid "Contact Other Activity"
+#~ msgstr "Alte activităţi"
+
+#~ msgid "Contact Calls"
+#~ msgstr "Apeluri contact"
+
+#~ msgid "Are you sure you want to delete this activity record?"
+#~ msgstr "Sigur ştergeţi acestă înregistrare de activitate?"
+
+#~ msgid "Open Activities %%StatusMessage%%"
+#~ msgstr "Deschide activităţi %%StatusMessage%%"
+
+#~ msgid "From: %1; Subject: %2"
+#~ msgstr "De la: %1; Subiect: %2"
+
+#~ msgid "To: %1; Subject: %2"
+#~ msgstr "Către: %1; Subiect: %2"
+
+#~ msgid "CiviContribute Progress Meter"
+#~ msgstr "Indicator de progresie CiviContribute "
+
+#~ msgid "Callback Method"
+#~ msgstr "Metodă apel invers"
+
+#~ msgid "Activity Summary"
+#~ msgstr "Sumar activitate"
+
+#~ msgid "Phonecall"
+#~ msgstr "Apel telefonic"
+
+#~ msgid "Int Data"
+#~ msgstr "întreg (int)"
+
+#~ msgid "Float Data"
+#~ msgstr "punct flotant (float)"
+
+#~ msgid "Decimal Data"
+#~ msgstr "zecimale (decimal)"
+
+#~ msgid "Char Data"
+#~ msgstr "caracter (char)"
+
+#~ msgid "Date Data"
+#~ msgstr "dată (date)"
+
+#~ msgid "Memo Data"
+#~ msgstr "text (memo)"
+
+#~ msgid "Config Frontend"
+#~ msgstr "Configurează frontend"
+
+#~ msgid "Coord Type"
+#~ msgstr "Tip coordonate"
+
+#~ msgid "Coord Units"
+#~ msgstr "Unităţi coordonate"
+
+#~ msgid "Coord Ogc Wkt String"
+#~ msgstr "Coord Ogc Wkt String"
+
+#~ msgid "LatLong"
+#~ msgstr "LatLong"
+
+#~ msgid "Projected"
+#~ msgstr "Proiectat"
+
+#~ msgid "Degree"
+#~ msgstr "Grad"
+
+#~ msgid "Grad"
+#~ msgstr "Grad cent"
+
+#~ msgid "Radian"
+#~ msgstr "Radian"
+
+#~ msgid "Foot"
+#~ msgstr "Foot"
+
+#~ msgid "Meter"
+#~ msgstr "Metru"
+
+#~ msgid "Unhandled transaction type: %1"
+#~ msgstr "Tip tranzacţie neutilizat: %1"
+
+#~ msgid "Parameters"
+#~ msgstr "Parametrii"
+
+#~ msgid "Function Name"
+#~ msgstr "Nume funcţie"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Positive Integer"
+#~ msgstr "Intreg pozitiv"
+
+#~ msgid "Variable Name"
+#~ msgstr "Nume variabilă"
+
+#~ msgid "Range"
+#~ msgstr "Rang"
+
+#~ msgid "Regular Expression Match"
+#~ msgstr "Potrivire expresie regulară"
+
+#~ msgid "Regular Expression No Match"
+#~ msgstr "Neportrivire expresie regulară"
+
+#~ msgid "default - Dear [first] [last]"
+#~ msgstr "implicit - Dragă [first] [last]"
+
+#~ msgid "Could not find callback %1"
+#~ msgstr "Nu pot găsi apelul invers %1"
+
+#~ msgid "Are you sure you want to delete this Activity History record?"
+#~ msgstr "Sigur doriţi ştergerea înregistrătii de istorie activitate?"
+
+#~ msgid "View Activity Details"
+#~ msgstr "Vizualizează detalii activitate"
+
+#~ msgid "History %%StatusMessage%%"
+#~ msgstr "Istoria %%StatusMessage%%"
+
+#, fuzzy
+#~ msgid "Confirm Price Set Delete"
+#~ msgstr "Confirmă ştergerea grupului"
+
+#, fuzzy
+#~ msgid " must be a monetary value"
+#~ msgstr "trebuie să fie o valoare numerică"
+
+#~ msgid "Log a Meeting"
+#~ msgstr "Înregistrează o întâlnire"
+
+#~ msgid "Schedule a Meeting"
+#~ msgstr "Programează o întâlnire"
+
+#~ msgid "Edit Scheduled Meeting"
+#~ msgstr "Modifică o întâlnire planificată"
+
+#~ msgid "Delete Meeting"
+#~ msgstr "Şterge întâlnire"
+
+#~ msgid "View Scheduled Meeting"
+#~ msgstr "Vizualizează întâlnire programată"
+
+#~ msgid ""
+#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Întâlnirea va fi mutată în istoria activităţilor când starea va fi "
+#~ "'Finalizată'."
+
+#~ msgid "Schedule an Activity"
+#~ msgstr "Programează o activitate"
+
+#~ msgid "Edit Scheduled Activity"
+#~ msgstr "Modifică o activitate programată"
+
+#~ msgid "View Completed Activity"
+#~ msgstr "Vizualizare activităţi finalizate"
+
+#~ msgid "View Scheduled Activity"
+#~ msgstr "Vizualizare activităţi programate"
+
+#~ msgid ""
+#~ "Activity will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Activitatea va fi mutată în istoria activităţilor când starea va deveni "
+#~ "'Finalizat'."
+
+#~ msgid ""
+#~ "Cannot display Activity History details since activity type for this "
+#~ "activity has been deleted."
+#~ msgstr ""
+#~ "Nu se poat afişa detaliile legate istoria activităţilor cât timp acest "
+#~ "tip de activităţi a fost şters."
+
+#~ msgid "Log a Phone Call"
+#~ msgstr "Înregistrează un apel telefonic"
+
+#~ msgid "Schedule a Phone Call"
+#~ msgstr "Programează un apel telefonic"
+
+#~ msgid "Edit Scheduled Call"
+#~ msgstr "Modifică un apel programat"
+
+#~ msgid "Delete Phone Call"
+#~ msgstr "Şterge un apel telefonic"
+
+#~ msgid "View Scheduled Call"
+#~ msgstr "Vizualizeazp apel perogramat"
+
+#~ msgid "Call will be moved to Activity History when status is 'Completed'."
+#~ msgstr ""
+#~ "Apelul va fi mutat în istoria activităţilor când starea va deveni "
+#~ "'Funalizat'."
+
+#, fuzzy
+#~ msgid "Duplicate Contact"
+#~ msgstr "Salvează contact duplicat"
+
+#, fuzzy
+#~ msgid "move?"
+#~ msgstr "Şters"
+
+#, fuzzy
+#~ msgid "Main Contact"
+#~ msgstr "Contact Map"
+
+#~ msgid "Schedule Meeting"
+#~ msgstr "Programează întâlnirea"
+
+#~ msgid "Schedule a Call"
+#~ msgstr "Programează un apel"
+
+#~ msgid "Log a Call"
+#~ msgstr "Înregistrează un apel"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
+#~ "\"%1\" with description \"%3\"?"
+#~ msgstr "Sigur doriţi ştergerea înregistrătii de istorie activitate?"
+
+#, fuzzy
+#~ msgid "(test)"
+#~ msgstr "Note"
+
+#, fuzzy
+#~ msgid "Schedule a meeting"
+#~ msgstr "Programează o întâlnire"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Sumar"
+
+#, fuzzy
+#~ msgid "Activity Entity Table"
+#~ msgstr "Tabel Entitate"
+
+#~ msgid "Contact Name:"
+#~ msgstr "Nume Contact:"
+
+#~ msgid "Email Domain:"
+#~ msgstr "Domeniu email:"
+
+#~ msgid "Subscription Message to organization"
+#~ msgstr "Mesajul de înscriere la organizaţie"
+
+#~ msgid "Farewell Message"
+#~ msgstr "Mesaj Farewell"
+
+#~ msgid "New CiviCRM Profile Group"
+#~ msgstr "Grup profil nou"
+
+#~ msgid ""
+#~ "Select a group of contacts who should have this role when logged in to "
+#~ "your site."
+#~ msgstr ""
+#~ "Selectează un grup de contacte care ar trebui să aibă acest rol atunci "
+#~ "când se identifică pe sit."
+
+#, fuzzy
+#~ msgid "Domain Contact Information"
+#~ msgstr "Informaţii contact"
+
+#~ msgid "This is the Header"
+#~ msgstr "Acesta este antetul"
+
+#~ msgid "HTML Body of Header"
+#~ msgstr "Corp HTML al antetului"
+
+#~ msgid "Text Body of Header"
+#~ msgstr "Corp text al antetului"
+
+#~ msgid "This is the Footer"
+#~ msgstr "Acesta este subsolul"
+
+#~ msgid "HTML Body of Footer"
+#~ msgstr "Corp HTML al subsolului"
+
+#~ msgid "Text Body of Footer"
+#~ msgstr "Corp text subsol"
+
+#~ msgid "Welcome"
+#~ msgstr "Bun venit"
+
+#~ msgid "Unsubscribe results"
+#~ msgstr "Rezultat dezabonare"
+
+#~ msgid "Goodbye"
+#~ msgstr "La revedere"
+
+#~ msgid "Automated response"
+#~ msgstr "Răspuns automat"
+
+#, fuzzy
+#~ msgid ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+#~ msgstr ""
+#~ "%1 nu este configurat în Adminitrare CiviCRM &raquo; Configurare Globală "
+#~ "&raquo; Procesor plăţi."
+
+#~ msgid "Contact's Profile"
+#~ msgstr "Profil contact"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Salvează contact duplicat"
+
+#~ msgid "Setup"
+#~ msgstr "Configurare"
+
+#~ msgid "Duplicate Matching"
+#~ msgstr "Căutare Duplicate"
+
+#~ msgid "%1 is not set in the config file."
+#~ msgstr "%1 nu este setat în fişierul config."
+
+#~ msgid "Include County?"
+#~ msgstr "Includeţi Ţara?"
+
+#~ msgid "Settings - Date Formatting"
+#~ msgstr "Configuraţie - Format Dată"
+
+#~ msgid "PayPal Express Button"
+#~ msgstr "PayPal express button"
+
+#~ msgid "Username - TEST"
+#~ msgstr "Nume utilizator - TEST"
+
+#~ msgid "Certificate Path - TEST"
+#~ msgstr "Cale certificat - TEST"
+
+#~ msgid "Paypal Url - TEST"
+#~ msgstr "Paypal URL - TEST"
+
+#~ msgid "Certificate Path - LIVE"
+#~ msgstr "Cale certificat - LIVE"
+
+#~ msgid "Paypal Url - LIVE"
+#~ msgstr "Paypal URL - LIVE"
+
+#~ msgid "Checkout Button - TEST"
+#~ msgstr "Buton chackout - TEST"
+
+#~ msgid "Checkout Button - LIVE"
+#~ msgstr "Buton chackout - LIVE"
+
+#~ msgid "Merchant ID  - TEST"
+#~ msgstr "Merchant ID - TEST"
+
+#~ msgid "Checkout URL - TEST"
+#~ msgstr "URL checkout - TEST"
+
+#~ msgid "Checkout URL - LIVE"
+#~ msgstr "URL checkout - LIVE"
+
+#~ msgid "Authorize.Net API Login"
+#~ msgstr "Login API Authorize.Net"
+
+#~ msgid "Send Emails RETURN-PATH:"
+#~ msgstr "Send Emails RETURN-PATH:"
+
+#~ msgid "Please select at least one membership status."
+#~ msgstr "Vă rugăm selectaţi cel puţin o stare de membru."
+
+#~ msgid "Add Members to A Group"
+#~ msgstr "Adaugă Membri la un Grup"
+
+#~ msgid "Add Members to Organization"
+#~ msgstr "Adaugă membru la organizaţie"
+
+#~ msgid "Remove Members from Group"
+#~ msgstr "Şterge membrii din grup"
+
+#~ msgid "Zip/Postal Code not valid for %1."
+#~ msgstr "Cod poştal invalid pentru %1."
+
+#~ msgid "Online Payments"
+#~ msgstr "Plăţi online"
+
+#~ msgid "Synchronize Users-to-Contacts"
+#~ msgstr "Sincronizare utilizatori-în-contacte"
+
+#~ msgid "Gender Options (Male, Female...)"
+#~ msgstr "Opţiuni gen (bărbat, femeie...)"
+
+#~ msgid "Preferred Communication Options"
+#~ msgstr "Opţiuni preferate de comunicare"
+
+#~ msgid "Delete %1"
+#~ msgstr "Şterge %1"
+
+#~ msgid "Delete Profile Group"
+#~ msgstr "Şterge grup profil"
+
+#~ msgid "Synchronize Drupal Users"
+#~ msgstr "Sincronizează utilizatorii Drupal"
+
+#~ msgid "Add Members to a Group"
+#~ msgstr "Adaugă membrii la un grup"

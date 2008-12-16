@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-12-03 01:57-0800\n"
 "Last-Translator: Jens Køhler <jenz.kohler@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -107,9 +107,8 @@ msgid "Grant"
 msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Modtaget"
+msgstr "Ændret dato"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -360,7 +359,7 @@ msgstr "Til"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 msgid "Duration"
-msgstr ""
+msgstr "Varighed"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Core/DAO/CustomGroup.php
@@ -433,9 +432,8 @@ msgid "Case Activity Type"
 msgstr "Aktivitets type"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "Select"
+msgstr "-vælg-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -629,7 +627,7 @@ msgstr "Udfyld"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Mapping muligheder"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
@@ -1142,7 +1140,7 @@ msgstr "Synlighed"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Where Clause"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -1711,9 +1709,8 @@ msgid "Data"
 msgstr "Dato"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Type"
+msgstr "Html Type"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1738,7 +1735,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -3427,10 +3424,6 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "phone"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -8880,7 +8873,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -10969,11 +10962,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13635,3 +13628,121 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fejl i SMTP transaktion"
+
+#~ msgid "Contact"
+#~ msgstr "Kontakt"
+
+#~ msgid "Import"
+#~ msgstr "Importer"
+
+#~ msgid "Custom Data"
+#~ msgstr "Konfigurer data"
+
+#~ msgid "Access Control"
+#~ msgstr "Rettigheder"
+
+#~ msgid "Load Mapping"
+#~ msgstr "Load mapping"
+
+#~ msgid "View Activity"
+#~ msgstr "Se aktivitet"
+
+#~ msgid "Payment Processor Type"
+#~ msgstr "Betalingsformidler type"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Avanceret Søgning"
+
+#~ msgid "Global Settings"
+#~ msgstr "Globale Indstillinger"
+
+#~ msgid "Components"
+#~ msgstr "Komponenter"
+
+#~ msgid "Customize"
+#~ msgstr "Opsætning"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurer"
+
+#~ msgid "Manage"
+#~ msgstr "Administrer"
+
+#~ msgid "Option Lists"
+#~ msgstr "Muligheder"
+
+#~ msgid "File System Paths"
+#~ msgstr "Filsystem Sti'er"
+
+#~ msgid "Site URLs"
+#~ msgstr "Side URL'er"
+
+#~ msgid "Mapping and Geocoding"
+#~ msgstr "Mapping og Geocoding"
+
+#~ msgid "Localization"
+#~ msgstr "Lokalisering"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "Diverse"
+
+#~ msgid "Debugging"
+#~ msgstr "Debugging"
+
+#~ msgid "Notes"
+#~ msgstr "Noter"
+
+#~ msgid "Delete Location"
+#~ msgstr "Slet lokalisering"
+
+#~ msgid "Domain Information"
+#~ msgstr "Domæne information"
+
+#~ msgid "Administer CiviCRM"
+#~ msgstr "Administrer CiviCrm"
+
+#~ msgid ""
+#~ "The contact record which is linked to the currently logged in user "
+#~ "account - '%1' - can not be deleted."
+#~ msgstr ""
+#~ "Kontakten der er logget ind og linket til brugerkontoen - '%1' - Kan ikke "
+#~ "slettes"
+
+#~ msgid "Activities"
+#~ msgstr "Aktiviteter"
+
+#~ msgid "Relationships"
+#~ msgstr "Ralationer"
+
+#, fuzzy
+#~ msgid "Contributions"
+#~ msgstr "Deltagelser"
+
+#~ msgid "Memberships"
+#~ msgstr "Medlemskaber"
+
+#~ msgid "Email a Contact"
+#~ msgstr "Email en kontakt"
+
+#~ msgid "CiviCRM Home"
+#~ msgstr "CiviCrm Hjem"
+
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+
+#~ msgid "Tags"
+#~ msgstr "Tags"
+
+#~ msgid "CiviCRM"
+#~ msgstr "CiviCRM"
+
+#~ msgid "Activity"
+#~ msgstr "Aktivitet"
+
+#, fuzzy
+#~ msgid "Remove?"
+#~ msgstr "Fjernet"
+
+#, fuzzy
+#~ msgid "Subgroup"
+#~ msgstr "Gruppe"

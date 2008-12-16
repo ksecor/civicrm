@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -669,6 +669,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "The Email Domain is the internet domain (e.g., <code>example.org</code>) to be used in the address of 'action' mailings (e.g. the reply-to address when confirming a subsciption: <code>subscribe.*@<strong>example.org</strong></code>). This domain (or, more properly, the machine that this domain's MX record points to) must be configured to handle incoming CiviMail emails (so it can process the 'actions' like subscribe, optOut, etc.)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
