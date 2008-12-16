@@ -313,12 +313,14 @@ SELECT label, value
 
                         //ignoring $op value for checkbox and multi select
                         $sqlValue = array( );
-                        $sqlOP    = ' AND ';
+                        $sqlOP       = ' AND ';
+                        $sqlOPlabel  = ts('match ALL');
                         if ($field['html_type'] == 'CheckBox') {
                             foreach ( $value as $k => $v ) { 
                                 if ( $v ) {
                                     if ( $k == 'CiviCRM_OP_OR' ) {
-                                        $sqlOP = ' OR ';
+                                        $sqlOP      = ' OR ';
+                                        $sqlOPlabel = ts('match ANY');
                                         continue;
                                     }
                                 
@@ -329,12 +331,13 @@ SELECT label, value
                             //of custom checkbox field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
                                 $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
-                                $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ($sqlOP)";
+                                $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ( $sqlOPlabel )";
                             }
                         } else { // for multi select
                             foreach ( $value as $k => $v ) { 
                                 if ( $v == 'CiviCRM_OP_OR' ) {
-                                    $sqlOP = ' OR ';
+                                    $sqlOP      = ' OR ';
+                                    $sqlOPlabel = ts('match ANY');
                                     continue;
                                 }
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
@@ -343,7 +346,7 @@ SELECT label, value
                             //of custom multi select field, then ignore this field.
                             if ( !empty( $sqlValue ) ) {
                                 $this->_where[$grouping][] = ' ( ' . implode( $sqlOP, $sqlValue ) . ' ) ';
-                                $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                                $this->_qill[$grouping][]  = "$field[label] $op $qillValue ( $sqlOPlabel )";
                             }
                         }                    
                     } else {
@@ -459,10 +462,12 @@ SELECT label, value
                         $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$qillValue}";
                     } else {
-                        $sqlOP    = ' AND ';
+                        $sqlOP      = ' AND ';
+                        $sqlOPlabel = ts('match ALL');
                         foreach ( $value as $k => $v ) { 
                             if ( $v == 'CiviCRM_OP_OR' ) {
                                 $sqlOP = ' OR ';
+                                $sqlOPlabel = ts('match ANY');
                                 continue;
                             }
                             $sqlValue[] = "( $fieldName like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
@@ -472,14 +477,13 @@ SELECT label, value
                         //of custom multi select field, then ignore this field.
                         if ( !empty( $sqlValue ) ) {
                             $this->_where[$grouping][] = " ( " . implode( $sqlOP, $sqlValue ) . " ) ";
-                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue ( $sqlOPlabel )";
                         }
                     }					
                     continue;
                 }
 
             }
-            //CRM_Core_Error::debug( 'w', $this->_where );
         }
     }
 

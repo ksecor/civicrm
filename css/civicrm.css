@@ -271,6 +271,11 @@ div.spacer, .spacer {
   vertical-align: top;
 }
 
+#crm-container td.op-checkbox label {
+  font-weight: normal;
+  font-style: italic;
+}
+
 #crm-container .form-layout td.label-left, #crm-container .form-layout-compressed td.label-left {
   text-align: left;
   padding: 0.5em 0.50em 0em 0.75em;

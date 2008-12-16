@@ -618,7 +618,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             if ( $search &&
                  count( $selectOption ) > 1 ) {
-                $selectOption['CiviCRM_OP_OR'] = ts( 'Use SQL OR' );
+                $selectOption['CiviCRM_OP_OR'] = ts( 'Select to match ANY; unselect to match ALL' );
             }
             $qf->addElement('select', $elementName, $label, $selectOption,  array("size"=>"5","multiple"));
             
@@ -631,13 +631,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $customOption = CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $check = array();
             foreach ($customOption as $v => $l) {
-                //$check[] =& $qf->createElement('checkbox', $v, null, $l); 
                 $check[] =& $qf->addElement('advcheckbox', $v, null, $l); 
             }
             if ( $search &&
                  count( $check ) > 1 ) {
-                //$check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
-                $check[] =& $qf->addElement('advcheckbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
+                 $check[] =& $qf->addElement('advcheckbox', 'CiviCRM_OP_OR', null, ts( 'Check to match ANY; uncheck to match ALL' ) ); 
             }
             $qf->addGroup($check, $elementName, $label);
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {

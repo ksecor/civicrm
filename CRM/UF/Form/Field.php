@@ -449,8 +449,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true,array("onChange"=>"showHideSeletorSearch(this.value);") );
         
-        // should the field appear in selector?
-        $this->add('checkbox', 'in_selector', ts('In Selector?'));
+        // should the field appear in selectors (as a column)?
+        $this->add('checkbox', 'in_selector', ts('Results Column?'));
        
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
