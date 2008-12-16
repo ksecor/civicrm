@@ -2319,7 +2319,7 @@ msgid "Activity Type is a required field"
 msgstr "%1 is a required field."
 
 #: CRM/Activity/Form/Activity.php
-msgid "Source Contact non-existant!"
+msgid "Source Contact does not exist."
 msgstr ""
 
 #: CRM/Activity/Form/Activity.php
