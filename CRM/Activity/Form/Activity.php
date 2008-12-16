@@ -352,15 +352,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                             'civicrm_activity',
                                             $this->_activityId );
 
-        // // figure out the file name for activity type, if any
-        // if ( $this->_activityTypeId   &&
-        //      $this->_activityTypeFile = 
-        //      CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, $this->_crmDir) ) {
-        //     
-        //     require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
-        //     $this->assign( 'activityTypeFile', $this->_activityTypeFile );
-        //     $this->assign( 'crmDir', $this->_crmDir );
-        // }
+        // figure out the file name for activity type, if any
+        if ( $this->_activityTypeId   &&
+             $this->_activityTypeFile = 
+             CRM_Activity_BAO_Activity::getFileForActivityTypeId($this->_activityTypeId, $this->_crmDir) ) {
+            
+            require_once "CRM/{$this->_crmDir}/Form/Activity/{$this->_activityTypeFile}.php";
+            $this->assign( 'activityTypeFile', $this->_activityTypeFile );
+            $this->assign( 'crmDir', $this->_crmDir );
+        }
 
         $this->setFields( );
 
