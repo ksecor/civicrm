@@ -37,6 +37,8 @@ require_once 'CRM/Import/DataSource.php';
 
 class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
 {
+    const NUM_ROWS_TO_INSERT = 100;
+
     function getInfo()
     {
         return array('title' => 'CSV Import');
@@ -108,6 +110,7 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
         $table = 'civicrm_import_job_' . md5(uniqid(rand(), true));
         $db->query("DROP TABLE IF EXISTS $table");
 
+        $numColumns = count( $columns );
         $create = "CREATE TABLE $table (" . implode(' text, ', $columns) . " text)";
         $db->query($create);
 
@@ -117,19 +120,53 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
         // $db->query($load);
 
         // parse the CSV line by line and build one big INSERT (while MySQL-escaping the CSV contents)
-        if (!$headers) rewind($fd);
-        $sql = "INSERT IGNORE INTO $table VALUES ";
-        $first = true;
-        while ($row = fgetcsv($fd, 0, $config->fieldSeparator)) {
-            if (!$first) $sql .= ', ';
-            $first = false;
-            $row = array_map('mysql_real_escape_string', $row);
-            $sql .= "('" . implode("', '", $row) . "')";
+        if ( ! $headers ) {
+            rewind($fd);
         }
-        $db->query($sql);
+
+        $sql = null;
+        $first = true;
+        $count = 0;
+        while ($row = fgetcsv($fd, 0, $config->fieldSeparator)) {
+            // skip rows that dont match column count, else we get a sql error
+            if ( count( $row ) != $numColumns ) {
+                continue;
+            }
+
+            if ( ! $first ) {
+                $sql .= ', ';
+            }
+
+            $first = false;
+            $row = array_map('civicrm_mysql_real_escape_string', $row);
+            $sql .= "('" . implode("', '", $row) . "')";
+            $count++;
+
+            if ( $count >= self::NUM_ROWS_TO_INSERT && ! empty( $sql ) ) {
+                $sql = "INSERT IGNORE INTO $table VALUES $sql";
+                $db->query($sql);
+
+                $sql   = null;
+                $first = true;
+                $count = 0;
+            }
+        }
+
+        if ( ! empty( $sql ) ) {
+            $sql = "INSERT IGNORE INTO $table VALUES $sql";
+            $db->query($sql);
+        }
 
         fclose($fd);
 
         return $table;
     }
+}
+
+function civicrm_mysql_real_escape_string( $string ) {
+    static $dao = null;
+    if ( ! $dao ) {
+        $dao = new CRM_Core_DAO( );
+    }
+    return $dao->escape( $string );
 }
