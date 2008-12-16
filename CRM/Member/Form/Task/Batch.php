@@ -164,6 +164,7 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
             return;
         }
         
+        $defaults = array( );
         foreach ($this->_memberIds as $memberId) {
             $details[$memberId] = array( );
             //build sortname
@@ -171,7 +172,7 @@ class CRM_Member_Form_Task_Batch extends CRM_Member_Form_Task {
             $sortName[$memberId] = CRM_Member_BAO_Membership::sortName($memberId);
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $memberId, 'Membership' );
         }
-
+        
         $this->assign('sortName', $sortName);
         return $defaults;
     }

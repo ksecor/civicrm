@@ -162,7 +162,8 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         if (empty($this->_fields)) {
             return;
         }
-
+        
+        $defaults = array( );
         foreach ($this->_participantIds as $participantId) {
             $details[$participantId] = array( );
             
@@ -170,7 +171,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             $details[$participantId] = CRM_Event_BAO_Participant::participantDetails( $participantId );
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $participantId, 'Event');
         }
-
+        
         $this->assign('details',   $details);
         return $defaults;
     }
@@ -198,7 +199,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 }
                 
                 //check for custom data
-                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
                                                                           CRM_Core_DAO::$_nullObject,
                                                                           $key,
                                                                           'Participant' );

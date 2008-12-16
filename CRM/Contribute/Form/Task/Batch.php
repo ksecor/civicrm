@@ -165,6 +165,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             return;
         }
         
+        $defaults = array( );
         foreach ($this->_contributionIds as $contributionId) {
             $details[$contributionId] = array( );
             //build sortname
@@ -172,7 +173,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
             CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId, 'Contribute' );
         }
-
+        
         $this->assign('sortName', $sortName);
         return $defaults;
     }
@@ -205,7 +206,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                     }   
                 }
                 
-                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $params,
+                $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
                                                                           CRM_Core_DAO::$_nullObject,
                                                                           $key,
                                                                           'Contribution' );
