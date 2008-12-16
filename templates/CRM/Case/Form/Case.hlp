@@ -6,7 +6,9 @@
 {if $activityTypeFile EQ 'OpenCase'}
     <ul>
     <li>{ts}Introduce yourself as an intake person and explain the organization's privacy policy.{/ts}</li>
-    <li>{ts}Invite open-ended narrative.{/ts}
+    <li>{ts}Invite open-ended narrative.{/ts}</li>
+    <li>{ts}Reflect client's story back to them.{/ts}</li>
+    <li>{ts}Guess client's feelings and needs.{/ts}</li>
     </ul>
 {else}
     {ts}Record details about this activity here.{/ts}
