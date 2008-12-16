@@ -4,7 +4,7 @@
     <div id="{$cd_edit.name}_show_{$index}" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
-{debug}
+
     <div id="{$cd_edit.name}_{$index}" class="form-item">
     <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
