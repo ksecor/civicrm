@@ -37,9 +37,8 @@
         {if $mode eq 8}
             <fieldset>
         {else} 
-           {assign var="groupId" value="id_"|cat:$field.group_id}
 	   {if $context neq 'dialog'}
-              <div id="{$groupId}">
+              <div id="profilewrap{$field.group_id}">
               <fieldset><legend>{ts}{$field.groupTitle}{/ts}</legend>
            {else}
               <div>

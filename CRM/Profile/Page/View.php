@@ -38,8 +38,8 @@
  *
  */
 require_once 'CRM/Core/Page.php';
-class CRM_Profile_Page_View extends CRM_Core_Page {
-
+class CRM_Profile_Page_View extends CRM_Core_Page 
+{
     /** 
      * The group id that we are editing
      * 
@@ -74,10 +74,10 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
         if ($this->_gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';
             $page =& new CRM_Profile_Page_Dynamic($id, $this->_gid, 'Profile' );
-            $profileGroup = array( );
-            $profileGroup['title'] = null;
+            $profileGroup            = array( );
+            $profileGroup['title']   = null;
             $profileGroup['content'] = $page->run();
-            $profileGroups[] = $profileGroup;
+            $profileGroups[]         = $profileGroup;
             $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
             if ( $map ) {
                 $this->assign( 'mapURL',
@@ -105,6 +105,8 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
                                                   "force=1" ) );
         }
         
+        $this->assign( 'groupID', $this->_gid );
+
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
 
