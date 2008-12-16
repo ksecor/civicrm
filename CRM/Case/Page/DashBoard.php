@@ -54,9 +54,13 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
-        CRM_Utils_System::setTitle( ts('CiviCase Dashboard') );
         $allCases = CRM_Utils_Request::retrieve( 'all', 'Positive',
                                                    CRM_Core_DAO::$_nullObject );
+        if ( $allCases ) {
+            CRM_Utils_System::setTitle( ts('CiviCase Dashboard - All Cases') );
+        } else {
+            CRM_Utils_System::setTitle( ts('CiviCase Dashboard - My Cases') );
+        }
         $session = & CRM_Core_Session::singleton();
         $userID  = $session->get('userID');
         if ( ! $allCases ) {
