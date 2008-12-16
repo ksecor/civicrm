@@ -856,7 +856,7 @@ SELECT id
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             unset( $params['date_parts']['i'] );
-            $params['date_parts']['H'] = 1;
+            $params['date_parts']['h'] = 1;
             $params['date_parts']['i'] = 1;
         }
         
