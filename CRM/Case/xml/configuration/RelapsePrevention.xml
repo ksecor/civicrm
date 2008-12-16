@@ -87,6 +87,18 @@
           <name>Open Case</name>
           <status>Closed</status>
         </ActivityType>
+	<ActivityType>
+          <name>Assign principal classification - CPHN</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+	<ActivityType>
+          <name>Assign secondary classification - CPHN</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
         <ActivityType>
           <name>Sign case coordination agreement</name>
           <reference_activity>Open Case</reference_activity>

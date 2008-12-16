@@ -69,6 +69,18 @@
           <reference_offset>0</reference_offset>
           <reference_select>newest</reference_select>
         </ActivityType>
+	<ActivityType>
+          <name>Assign principal classification - CPHN</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
+	<ActivityType>
+          <name>Assign secondary classification - CPHN</name>
+          <reference_activity>Open Case</reference_activity>
+          <reference_offset>0</reference_offset>
+          <reference_select>newest</reference_select>
+        </ActivityType>
         <ActivityType>
           <name>Notify selected referral target</name>
           <reference_activity>Open Case</reference_activity>
