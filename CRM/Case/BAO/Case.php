@@ -590,43 +590,55 @@ AND civicrm_case.is_deleted     = 0";
     /**
      * Function to get the summary of cases counts by type and status.
      */
-    function getCasesSummary( )
+    function getCasesSummary( $allCases = true, $userID )
     {
     
         require_once 'CRM/Core/OptionGroup.php';
         $caseStatuses = CRM_Core_OptionGroup::values( 'case_status' );
         $caseTypes    = CRM_Core_OptionGroup::values( 'case_type' );
-
+        $caseTypes    = array_flip( $caseTypes );  
+     
         // get statuses as headers for the table
         $caseSummary['headers'] = $caseStatuses;
 
         // build rows with actual data
         $rows = array();
-        foreach( $caseTypes as $typeId => $type ) {
-            $rows[$typeId]['case_type'] = $type;
-
-            $query = "select status_id, count(*) as case_count from civicrm_case" . 
-            " where is_deleted = 0 AND case_type_id like '%" . $this->VALUE_SEPERATOR . $typeId . $this->VALUE_SEPERATOR . "%'" .
-            " group by status_id";
-            $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-
-            // make sure all the statuses are present, since we're not calculating 0 values
-            foreach( $caseStatuses as $key => $dontCare ) {
-                $q[$key] = '0';
-            }
+        $myCaseFrom  = '';
+        $myCaseWhere = '';
+        if ( !$allCases ) {
+            $myCaseFromClause = " 
+ LEFT JOIN civicrm_relationship case_relationship 
+           ON ( case_relationship.case_id  = civicrm_case.id )";
             
-            while( $res->fetch() ) {
-                $q[$res->status_id] = array( 'case_count' => $res->case_count,
-                                             'url'        => CRM_Utils_System::url( 'civicrm/case/search',
-                                                                                    "reset=1&force=1&status={$res->status_id}&type={$typeId}" )
-                                             );
-            }
-
-            $rows[$typeId]['columns'] = $q;
+            $myCaseWhereClause = " AND case_relationship.contact_id_b = {$userID}";
         }
 
-        $caseSummary['rows'] = $rows;
-
+        $seperator = self::VALUE_SEPERATOR;
+   
+        $query = "
+SELECT case_status.label AS case_status, status_id, case_type.label AS case_type, REPLACE(case_type_id,'{$seperator}','') AS case_type_id
+FROM civicrm_case {$myCaseFromClause}
+LEFT JOIN civicrm_option_group option_group_case_type ON ( option_group_case_type.name = 'case_type' )
+LEFT JOIN civicrm_option_value case_type ON ( civicrm_case.case_type_id = case_type.value
+AND option_group_case_type.id = case_type.option_group_id )
+LEFT JOIN civicrm_option_group option_group_case_status ON ( option_group_case_status.name = 'case_status' )
+LEFT JOIN civicrm_option_value case_status ON ( civicrm_case.status_id = case_status.value
+AND option_group_case_status.id = case_status.option_group_id )
+WHERE is_deleted =0 {$myCaseWhereClause}";
+        
+        $res = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while( $res->fetch() ) {
+            if ( CRM_Utils_Array::value($res->case_type, $rows) &&  CRM_Utils_Array::value($res->case_status, $rows[$res->case_type]) ) {
+                $rows[$res->case_type][$res->case_status]['count'] = $rows[$res->case_type][$res->case_status]['count'] + 1;
+            } else {
+                $rows[$res->case_type][$res->case_status] = array( 'count' => 1,
+                                                                   'url'   => CRM_Utils_System::url( 'civicrm/case/search',
+                                                                                                     "reset=1&force=1&status={$res->status_id}&type={$res->case_type_id}" ) 
+                                                                   );
+            }
+        }
+        $caseSummary['rows'] = array_merge( $caseTypes, $rows );
+        
         return $caseSummary;
     }
 

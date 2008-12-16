@@ -71,7 +71,7 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
             $this->assign('newClient', true );
         }
         require_once 'CRM/Case/BAO/Case.php';
-        $summary  = CRM_Case_BAO_Case::getCasesSummary( );
+        $summary  = CRM_Case_BAO_Case::getCasesSummary( $allCases, $userID );
         $upcoming = CRM_Case_BAO_Case::getCases( $allCases, $userID, 'upcoming');
         $recent   = CRM_Case_BAO_Case::getCases( $allCases, $userID, 'recent');
         

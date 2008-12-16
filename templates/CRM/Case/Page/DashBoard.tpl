@@ -34,21 +34,20 @@
     <th scope="col" class="right" style="padding-right: 10px;">{$header}</th>
     {/foreach}
   </tr>
-
-  {foreach from=$casesSummary.rows item=row}
-  <tr>
-    <th><strong>{$row.case_type}</strong></td>
-    {foreach from=$row.columns item=cell}
+  {foreach from=$casesSummary.rows item=row key=caseType}
+   <tr>
+   <th><strong>{$caseType}</strong></th>
+   {foreach from=$casesSummary.headers item=header}
     <td class="label">
-    {if $cell}
-    <a href="{$cell.url}">{$cell.case_count}</a>
+    {if $row.$header}
+    <a href="{$row.$header.url}">{$row.$header.count}</a>
     {else}
-    0
+     0
     {/if}
     </td>
-    {/foreach}
+   {/foreach}
   </tr>
-{/foreach}
+  {/foreach}
 </table>
 {capture assign=findCasesURL}<a href="{crmURL p="civicrm/case/search" q="reset=1"}">{ts}Find Cases{/ts}</a>{/capture}
 
