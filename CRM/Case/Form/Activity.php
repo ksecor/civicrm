@@ -78,10 +78,11 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_caseId  = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
         $this->_context = 'caseActivity';
         $this->_crmDir  = 'Case';
-
+        $this->assign( 'context', $this->_context );
+        
         $result = parent::preProcess( );
         
-        if ( $this->_cdType ) {
+        if ( $this->_cdType  || $this->_addAssigneeContact || $this->_addTargetContact  ) {
             return $result;
         }
         
@@ -154,10 +155,10 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         $this->_defaults = parent::setDefaultValues( );
         
         //return form for ajax
-        if ( $this->_cdType ) {
+        if ( $this->_cdType  || $this->_addAssigneeContact || $this->_addTargetContact ) {
             return $this->_defaults;
         }
-        
+
         if ( !isset($this->_defaults['due_date_time']) ) {
             $this->_defaults['due_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $this->_defaults['due_date_time'] );

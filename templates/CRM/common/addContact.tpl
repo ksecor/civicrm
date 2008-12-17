@@ -21,9 +21,9 @@ function buildContact( count, pref )  {
     {if $urlPathVar}
         dataUrl = dataUrl + '&' + '{$urlPathVar}'
     {/if}
-	{if $qfKey}
-		dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
-	{/if}
+    {if $qfKey}
+        dataUrl = dataUrl + '&qfKey=' + '{$qfKey}'
+    {/if}
     {literal}
     
     var response = cj.ajax({
