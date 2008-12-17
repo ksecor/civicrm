@@ -56,7 +56,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
     {
         //p3 = Three dimensional pie chart.
         //bvg = Vertical bar chart
-        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'p3'=> ts('Pie'), 'bvg' => ts('Bar') ) );
+        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => ts('Bar'), 'p3'=> ts('Pie') ) );
         
         //take available years from database to show in drop down
         if ( !empty( $this->_years ) ) {
@@ -143,7 +143,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         if ( !empty( $pChartParams ) ) {
             $filesValues = array( );
             require_once 'CRM/Utils/PChart.php';
-            if ( 'p3' == CRM_Utils_Array::value( 'chart_type', $submittedValues, 'p3' ) ) {
+            if ( 'p3' == CRM_Utils_Array::value( 'chart_type', $submittedValues, 'bvg' ) ) {
                 //assign shape for map
                 $this->assign( 'shape', 'poly');
                 $this->assign( 'chartType', 'pie');
