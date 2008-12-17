@@ -174,16 +174,15 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      */
     static function copyValue( $component, $fromId, $toId, $defaultId = false,  $discountSuffix = null ) 
     {
-        //fix for CRM-3391.
-        //as for event we remove 'page' from group name.
-        
+        $page = '_page';
         if ( $component == 'event' ) {
-            $fromGroupName = 'civicrm_' . $component . '.amount.' . $fromId . $discountSuffix;
-            $toGroupName   = 'civicrm_' . $component . '.amount.' . $toId   . $discountSuffix;
-        } else {
-            $fromGroupName = 'civicrm_' . $component . '_page.amount.' . $fromId . $discountSuffix;
-            $toGroupName   = 'civicrm_' . $component . '_page.amount.' . $toId   . $discountSuffix;
+            //fix for CRM-3391.
+            //as for event we remove 'page' from group name.
+            $page = null;
         }
+
+        $fromGroupName = 'civicrm_' . $component . $page .'.amount.' . $fromId . $discountSuffix;
+        $toGroupName   = 'civicrm_' . $component . $page .'.amount.' . $toId   . $discountSuffix;
         
         $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
                                                       $fromGroupName, 

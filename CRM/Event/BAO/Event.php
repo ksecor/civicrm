@@ -721,7 +721,7 @@ WHERE civicrm_event.is_active = 1
                 
                 $copyEventPage->default_discount_id = 
                     CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                        $Id, 
+                                                        $id, 
                                                         $copyEvent->id, 
                                                         CRM_Utils_Array::value( 'default_discount_id', $eventValues ),
                                                         $discountSuffix );
