@@ -138,7 +138,7 @@ class CRM_Utils_Sort {
         foreach ( $vars as $weight => $value ) {
             $this->_vars[$weight] = array(
                                           'name'      => $value['sort'],
-                                          'direction' => $value['direction'],
+                                          'direction' => CRM_Utils_Array::value( 'direction', $value ),
                                           'title'     => $value['name'],
                                           );
         }

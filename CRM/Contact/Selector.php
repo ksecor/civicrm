@@ -582,7 +582,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 if ( empty( $result->status ) ) {
                     //check explicitly added contact to a Smart Group.
                     $groupID  = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
-                    $gcParams = array('contact_id' => $row['contact_id'],
+                    $gcParams = array('contact_id' => CRM_Utils_Array::value( 'contact_id', $row ),
                                       'group_id'   => $groupID,
                                       );
                     $gcDefaults = array( );
