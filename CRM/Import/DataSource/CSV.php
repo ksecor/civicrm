@@ -71,9 +71,10 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
     function postProcess(&$params, &$db)
     {
         $file = $params['uploadFile']['name'];
-
-        $table = self::_CsvToTable($db, $file, $params['skipColumnHeader']);
-
+        
+        $table = self::_CsvToTable( $db, $file, $params['skipColumnHeader'],
+                                    CRM_Utils_Array::value( 'import_table_name', $params ) );
+        
         require_once 'CRM/Import/ImportJob.php';
         $importJob = new CRM_Import_ImportJob($table);
         $this->set('importTableName', $importJob->getTableName());
@@ -84,11 +85,12 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
      *
      * @param object $db     handle to the database connection
      * @param string $file   file name to load
-     * @param bool $headers  whether the first row contains headers
+     * @param bool   $headers  whether the first row contains headers
+     * @param string $table  Name of table from which data imported.
      *
      * @return string  name of the created table
      */
-    private static function _CsvToTable(&$db, $file, $headers = false)
+    private static function _CsvToTable(&$db, $file, $headers = false, $table = null )
     {
         $fd = fopen($file, 'r');
         if (!$fd) CRM_Core_Error::fatal("Could not read $file");
@@ -105,9 +107,12 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
             $columns = array();
             foreach ($firstrow as $i => $_) $columns[] = "col_$i";
         }
-
+        
         // FIXME: we should regen this table's name if it exists rather than drop it
-        $table = 'civicrm_import_job_' . md5(uniqid(rand(), true));
+        if ( !$table ) {
+            $table = 'civicrm_import_job_' . md5(uniqid(rand(), true));
+        }
+        
         $db->query("DROP TABLE IF EXISTS $table");
 
         $numColumns = count( $columns );

@@ -71,24 +71,28 @@ class CRM_Import_ImportJob {
     
     protected $_parser;
     
-    public function __construct( $tableName = null, $createSql = null ) {
+    public function __construct( $tableName = null, $createSql = null, $createTable = false ) {
         $dao = new CRM_Core_DAO();
         $db = $dao->getDatabaseConnection();
-        if ( !$tableName ) {
+        
+        if ( $createTable ) {
             if ( !$createSql ) {
                 CRM_Core_Error::fatal('Either an existing table name or an SQL query to build one are required');
             }
-
+            
             // FIXME: we should regen this table's name if it exists rather than drop it
-            $newTableName = 'civicrm_import_job_' . md5(uniqid(rand(), true));
-            $db->query("DROP TABLE IF EXISTS $newTableName");
-            $db->query("CREATE TABLE $newTableName $createSql");
-
-            $this->_tableName = $newTableName;
-        } else {
-            // we're being instantiated to wrap an existing import table
-            $this->_tableName = $tableName;
+            if ( !$tableName ) {
+                $tableName = 'civicrm_import_job_' . md5(uniqid(rand(), true));  
+            }
+            $db->query("DROP TABLE IF EXISTS $tableName");
+            $db->query("CREATE TABLE $tableName $createSql");
         }
+        
+        if ( !$tableName ) {
+            CRM_Core_Error::fatal( 'Import Table is required.' );
+        }
+        
+        $this->_tableName = $tableName;
         
         $this->_mapperKeys = array();
         $this->_mapperLocTypes = array();

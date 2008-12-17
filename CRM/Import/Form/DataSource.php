@@ -223,6 +223,12 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             $dao = new CRM_Core_DAO();
             $db = $dao->getDatabaseConnection();
             
+            //hack to prevent multiple tables.
+            $this->_params['import_table_name'] = $this->get( 'importTableName' );
+            if ( !$this->_params['import_table_name'] ) {
+                $this->_params['import_table_name'] = 'civicrm_import_job_' . md5(uniqid(rand(), true));
+            }
+            
             require_once $this->_dataSourceClassFile;
             eval( "$this->_dataSource::postProcess( \$this->_params, \$db );" );
             
