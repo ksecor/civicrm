@@ -170,7 +170,7 @@
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
         {if $action eq 1} {* add mode *}
-            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $contact_type_display eq 'Organization'}'{$sort_name_a}'{else}selected contact(s){/if}</b> can view and update information for <b>{if $contact_type_display eq 'Organization'}selected contact(s){else}'{$sort_name_a}'{/if}</b></dd>
+            <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $contact_type_display eq 'Organization' or $contact_type_display eq 'Household'}'{$sort_name_a}'{else}selected contact(s){/if}</b> can view and update information for <b>{if $contact_type_display eq 'Organization' or $contact_type_display eq 'Household'}selected contact(s){else}'{$sort_name_a}'{/if}</b></dd>
         {else} {* update mode *}
             <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>{if $rtype eq 'a_b'}'{$sort_name_a}'{else}'{$sort_name_b}'{/if}</b> can view and update information for <b>{if $rtype eq 'a_b'}'{$sort_name_b}'{else}'{$sort_name_a}'{/if}</b></dd>
         {/if}
