@@ -83,32 +83,7 @@
     </div>
 	{else if $membershipMode}
         <div class="spacer"></div>
-        <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
-	
-	       	<dt class="label">{$form.credit_card_type.label}</dt><dd class="html-adjust">{$form.credit_card_type.html}</dd><br />
-        	<dt class="label">{$form.credit_card_number.label}</dt><dd class="html-adjust">{$form.credit_card_number.html}<br />
-            		<span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</span></dd><br />
-	        <dt class="label">{$form.cvv2.label}</dt><dd class="html-adjust">{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
-        		<span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></dd><br />
-        	<dt class="label">{$form.credit_card_exp_date.label}</dt><dd class="html-adjust">{$form.credit_card_exp_date.html}</dd><br />
-        </fieldset>
-        
-        <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
-        	<dd colspan="2" class="description">{ts}Enter the name as shown on the credit or debit card, and the billing address for this card.{/ts}</dd><br />
-        	<dt class="label">{$form.billing_first_name.label} </dt><dd class="html-adjust">{$form.billing_first_name.html}</dd><br />
-        	<dt class="label">{$form.billing_middle_name.label}</dt><dd class="html-adjust">{$form.billing_middle_name.html}</dd><br />
-        	<dt class="label">{$form.billing_last_name.label}</dt><dd class="html-adjust">{$form.billing_last_name.html}</dd><br />
-            {assign var=n value=street_address-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-        	{assign var=n value=city-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-        	{assign var=n value=state_province_id-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-        	{assign var=n value=postal_code-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-        	{assign var=n value=country_id-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-        </fieldset>
+        {include file='CRM/Core/BillingBlock.tpl'}
  	{/if}
     {if $accessContribution and ! $membershipMode AND ! ($action eq 2 AND $rows.0.contribution_id) }
         <div id="contri">

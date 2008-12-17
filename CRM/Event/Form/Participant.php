@@ -208,7 +208,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::setCreditCardFields( $this );
+            
+            // this required to show billing block    
+            $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
+            $this->assign( 'hidePayPalExpress', true );
         }
+        
         if ( $this->_showFeeBlock ) {
             $this->assign( 'showFeeBlock', true );
             $this->assign( 'paid', true );

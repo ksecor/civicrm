@@ -216,6 +216,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
         }
         
+        // this required to show billing block    
+        $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
+        $this->assign( 'hidePayPalExpress', true );           
+            
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );

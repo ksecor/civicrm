@@ -1,7 +1,7 @@
 {if $form.credit_card_number}
     <div id="payment_information">
         <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend> 
-            {if $paymentProcessor.billing_mode & 2}
+            {if $paymentProcessor.billing_mode & 2 and !$hidePayPalExpress }
                 <table class="form-layout-compressed">
                 	<tr>
                 		<td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td>

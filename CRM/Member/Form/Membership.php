@@ -118,6 +118,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::setCreditCardFields( $this );
+            
+            // this required to show billing block    
+            $this->assign_by_ref( 'paymentProcessor', $paymentProcessor );
+            $this->assign( 'hidePayPalExpress', true );
         }
         
         //check whether membership status present or not
