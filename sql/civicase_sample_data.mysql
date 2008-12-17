@@ -17,6 +17,10 @@ UPDATE civicrm_option_value SET `is_default` = 1 WHERE `option_group_id` = @ptId
 DELETE FROM civicrm_dedupe_rule WHERE id='3';
 UPDATE civicrm_dedupe_rule_group SET threshold='11' where id='1';
 
+-- Update number of allowed locations
+UPDATE civicrm_preferences set location_count='5';
+
+
 -- /*******************************************************
 -- *
 -- * Case Types
@@ -101,8 +105,9 @@ VALUES
     (@option_group_id_activity_type, 'Beginning of period of restricted duties', (SELECT @max_val := @max_val+1), 'Beginning of period of restricted duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Beginning of period of attempted full duties', (SELECT @max_val := @max_val+1), 'Beginning of period of attempted full duties',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
     (@option_group_id_activity_type, 'Beginning of period totally absent from work', (SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-    (@option_group_id_activity_type, 'Notify service provider', (SELECT @max_val := @max_val+1), 'Notify service provider',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );  
-
+    (@option_group_id_activity_type, 'Notify service provider', (SELECT @max_val := @max_val+1), 'Notify service provider',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Assign classification - Presenting Problem', (SELECT @max_val := @max_val+1), 'Assign classification - Presenting Problem',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Use when the original problems have changed. So technically this is not the Presenting Problem, but it seems to be the common way of describing this.', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Assign classification - Specialty Certification', (SELECT @max_val := @max_val+1), 'Assign classification - Specialty Certification',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
 
 SELECT @at1        := max(value) from civicrm_option_value where name = 'Open Case';
 SELECT @at2        := max(value) from civicrm_option_value where name = 'Follow up';
@@ -121,7 +126,8 @@ SELECT @at21       := max(value) from civicrm_option_value where name = 'Debrief
 SELECT @at22       := max(value) from civicrm_option_value where name = 'Facilitate first appointment';
 SELECT @at23       := max(value) from civicrm_option_value where name = 'Survey client satisfaction Referral to counselor';
 SELECT @at24       := max(value) from civicrm_option_value where name = 'Notify service provider';
-
+SELECT @at25       := max(value) from civicrm_option_value where name = 'Assign classification - Presenting Problem';
+SELECT @at26       := max(value) from civicrm_option_value where name = 'Assign classification - Specialty Certification';
 
 -- /*******************************************************
 -- *
@@ -197,26 +203,26 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 			(@og7, 'General Health', '4', NULL, NULL, NULL, 0, 4, NULL, 0, 0, 1, NULL),
 			(@og7, 'Resist to Care', '5', NULL, NULL, NULL, 0, 5, NULL, 0, 0, 1, NULL),
 			(@og7, 'CPSBC Involved', '6', NULL, NULL, NULL, 0, 6, NULL, 0, 0, 1, NULL),
-			(@og8,'1.  Addictive Disorders','1',NULL,NULL,NULL,0,1,'Includes substance abuse, dependence, gambling, sexually compulsive behaviours, and dual disorders.',0,0,1,NULL),
+			(@og8,'Addictive Disorders','1',NULL,NULL,NULL,0,1,'Includes substance abuse, dependence, gambling, sexually compulsive behaviours, and dual disorders.',0,0,1,NULL),
 			(@og8,'1.1 Substance abuse','1.1',NULL,NULL,NULL,0,2,'Problem drug use that meets DSM diagnostic criteria for abuse (see also table for  variable 13: Problem Drugs)',0,0,1,NULL),
 			(@og8,'1.2 Substance dependence','1.2',NULL,NULL,NULL,0,3,'Dependence on a drug that that meets DSM diagnostic criteria at time of contact.',0,0,1,NULL),
 			(@og8,'1.3 Gambling','1.3',NULL,NULL,NULL,0,4,'Difficulties with lack of control over gambling behaviour that is producing problems for the client.',0,0,1,NULL),
 			(@og8,'1.4 Sexually compulsive behaviour','1.4',NULL,NULL,NULL,0,5,'Difficulties with lack of control over sexual behaviour that is producing problems for the client.',0,0,1,NULL),
 			(@og8,'1.5 Dual disorders','1.5',NULL,NULL,NULL,0,6,'Co-occurrence of at least one addictive problem and at least one psychiatric/psychological problem.',0,0,1,NULL),
 			(@og8,'1.6 Other addictive behaviours','1.6',NULL,NULL,NULL,0,7,'Specify',0,0,1,NULL),
-			(@og8,'2. Psychiatric Disorders (DSM criteria met)','2',NULL,NULL,NULL,0,8,'Past or current psychiatric diagnosis at time of presenting to PHP.',0,0,1,NULL),
+			(@og8,'Psychiatric Disorders (DSM criteria met)','2',NULL,NULL,NULL,0,8,'Past or current psychiatric diagnosis at time of presenting to PHP.',0,0,1,NULL),
 			(@og8,'2.1 Mood disorders','2.1',NULL,NULL,NULL,0,9,'Including major depression, dysthymia, bipolar disorder, schizo-affective disorder.',0,0,1,NULL),
 			(@og8,'2.2 Anxiety disorders','2.2',NULL,NULL,NULL,0,10,'Anxiety including panic disorder, GAD, acute stress disorder, PTSD, OCD, etc.',0,0,1,NULL),
 			(@og8,'2.3 Personality disorders','2.3',NULL,NULL,NULL,0,11,'Pattern of experience and behaviour that is pervasive and inflexible; examples include borderline, narcissistic, antisocial, paranoid personality disorder.',0,0,1,NULL),
 			(@og8,'2.4 Eating disorders','2.4',NULL,NULL,NULL,0,12,'Severe disturbances in eating behaviour - e.g. anorexia nervosa and bulimia nervosa.',0,0,1,NULL),
 			(@og8,'2.5 Other psychiatric problem(s)','2.5',NULL,NULL,NULL,0,13,'Please specify according to DSM diagnostic criteria.',0,0,1,NULL),
-			(@og8,'3. Mental Health (no formal Dx)','3',NULL,NULL,NULL,0,14,'Stress, anxiety, depression, and other emotional problems, not formally diagnosed by DSM criteria.',0,0,1,NULL),
+			(@og8,'Mental Health (no formal Dx)','3',NULL,NULL,NULL,0,14,'Stress, anxiety, depression, and other emotional problems, not formally diagnosed by DSM criteria.',0,0,1,NULL),
 			(@og8,'3.1 Anxiety, stress','3.1',NULL,NULL,NULL,0,15,'Disturbed  function or reaction of individual as a result of adverse stimuli, or self-identified anxiety.',0,0,1,NULL),
 			(@og8,'3.2 Depression','3.2',NULL,NULL,NULL,0,16,'Self-identified low-mood',0,0,1,NULL),
 			(@og8,'3.3 Suicide ideation','3.3',NULL,NULL,NULL,0,17,'Troubling thoughts of suicide',0,0,1,NULL),
 			(@og8,'3.4 Suicide attempt','3.4',NULL,NULL,NULL,0,18,'Client has attempted suicide',0,0,1,NULL),
 			(@og8,'3.5 Other mental health','3.5',NULL,NULL,NULL,0,19,'Specify',0,0,1,NULL),
-			(@og8,'4. Occupational Issues','4',NULL,NULL,NULL,0,20,'All presenting problems that relate to the workplace including harassment, abuse, complaints, audits, relationships.',0,0,1,NULL),
+			(@og8,'Occupational Issues','4',NULL,NULL,NULL,0,20,'All presenting problems that relate to the workplace including harassment, abuse, complaints, audits, relationships.',0,0,1,NULL),
 			(@og8,'4.1 Emotional abuse - subject of','4.1',NULL,NULL,NULL,0,21,'Subject of verbal abuse or harassment causing emotional distress in the workplace involving supervisors, colleagues or patients.',0,0,1,NULL),
 			(@og8,'4.2 Sexual abuse - subject of','4.2',NULL,NULL,NULL,0,22,'Subject of sexual suggestion or innuendo and/or physical touching in the workplace',0,0,1,NULL),
 			(@og8,'4.3 Physical abuse - subject of','4.3',NULL,NULL,NULL,0,23,'Subject of hitting or other physical violence in the workplace',0,0,1,NULL),
@@ -237,13 +243,13 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 			(@og8,'4.18 Civil suit related to practice','4.18',NULL,NULL,NULL,0,38,'Arising form patient who has pursued civil litigation related to allegations of substandard treatment - patient or other party seeking damages',0,0,1,NULL),
 			(@og8,'4.19 Criminal charges related to practice','4.19',NULL,NULL,NULL,0,39,'Arising from charges related to sexual abuse of a patient, fraud, narcotics offenses.',0,0,1,NULL),
 			(@og8,'4.20 Other legal & licensing issues','4.20',NULL,NULL,NULL,0,40,'Specify',0,0,1,NULL),
-			(@og8,'5. Family - Relationship','5',NULL,NULL,NULL,0,41,'Problems in relationships with spouse, partner, children.  Caregiver issues and other family problems.',0,0,1,NULL),
+			(@og8,'Family - Relationship','5',NULL,NULL,NULL,0,41,'Problems in relationships with spouse, partner, children.  Caregiver issues and other family problems.',0,0,1,NULL),
 			(@og8,'5.1 Marital/partner/relationship','5.1',NULL,NULL,NULL,0,42,'Problems with spouse, partner, or romantic relationship, including separation or divorce.',0,0,1,NULL),
 			(@og8,'5.2 Parenting','5.2',NULL,NULL,NULL,0,43,'Problems in dealing with children.',0,0,1,NULL),
 			(@og8,'5.3 Caregiver of parents, other','5.3',NULL,NULL,NULL,0,44,'Problems relating to caring for parents or other relatives who need care, including time management, arranging of care, and emotional issues.',0,0,1,NULL),
 			(@og8,'5.4 Domestic Violence','5.4',NULL,NULL,NULL,0,45,'Experience of physical abuse in the home, victim or perpetrator.',0,0,1,NULL),
 			(@og8,'5.5 Other family problems','5.5',NULL,NULL,NULL,0,46,'Specify',0,0,1,NULL),
-			(@og8,'6. Physical / Medical / Cognitive','6',NULL,NULL,NULL,0,47,'Physical disabilities, blood borne pathogens, chronic pain, other chronic conditions incl. Cognitive issues',0,0,1,NULL),
+			(@og8,'Physical / Medical / Cognitive','6',NULL,NULL,NULL,0,47,'Physical disabilities, blood borne pathogens, chronic pain, other chronic conditions incl. Cognitive issues',0,0,1,NULL),
 			(@og8,'6.1 Physical disability','6.1',NULL,NULL,NULL,0,48,'Chronic physical disability that interferes with work or other aspects of life',0,0,1,NULL),
 			(@og8,'6.2 Blood borne pathogen','6.2',NULL,NULL,NULL,0,49,'e.g. HIV, Hep C, Hep B',0,0,1,NULL),
 			(@og8,'6.3 Chronic pain','6.3',NULL,NULL,NULL,0,50,'Chronic pain that interferes with work or other aspects of life',0,0,1,NULL),
@@ -251,7 +257,7 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 			(@og8,'6.5 Ageing','6.5',NULL,NULL,NULL,0,52,'',0,0,1,NULL),
 			(@og8,'6.6 Neuro-degenerative illnesses','6.6',NULL,NULL,NULL,0,53,'',0,0,1,NULL),
 			(@og8,'6.7 Other cognitive issues','6.7',NULL,NULL,NULL,0,54,'Specify',0,0,1,NULL),
-			(@og8,'7. Other personal (Non-occupational)','7',NULL,NULL,NULL,0,55,'Problems experienced in personal life including abuse, civil litigation, financial, grief, and support',0,0,1,NULL),
+			(@og8,'Other personal (Non-occupational)','7',NULL,NULL,NULL,0,55,'Problems experienced in personal life including abuse, civil litigation, financial, grief, and support',0,0,1,NULL),
 			(@og8,'7.1 Emotional abuse - subject of','7.1',NULL,NULL,NULL,0,56,'Subject of verbal abuse or harassment causing emotional distress outside of the workplace setting.',0,0,1,NULL),
 			(@og8,'7.2 Sexual abuse - subject of','7.2',NULL,NULL,NULL,0,57,'Subject of unwanted sexual verbal suggestions or innuendo and/or physical touching in outside of the workplace setting.',0,0,1,NULL),
 			(@og8,'7.3 Physical abuse - subject of','7.3',NULL,NULL,NULL,0,58,'Subject of hitting or other physical violence that does not involve spouse/partner outside of the workplace setting.',0,0,1,NULL),
@@ -363,6 +369,73 @@ CREATE TABLE `civicrm_value_classifications_skeleton_3` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `unique_entity_id` (`entity_id`),
   CONSTRAINT `FK_civicrm_value_classifications_skeleton_3_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+-- 
+-- Classification - Presenting Problem
+--
+-- Note this technically isn't presenting problem, but seems to commonly be referred to that way. It's when the problems change over the life of the case.
+-- Note also it shares the option group from before on the intake form.
+--
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Classifications_PP','Classifications PP','Activity',NULL,@at25,'Inline',0,'','',3,1,'civicrm_value_classifications_pp_3',0,0,0);
+SELECT @cg_pp := max(id) from civicrm_custom_group where name = 'Classifications_PP';
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg_pp,'Principal Classification','String','Select',NULL,1,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_classification_6',@og8),
+ (@cg_pp,'Other Classifications','String','CheckBox','',0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_classifications_7',@og8),
+ (@cg_pp,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg_pp,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_classifications_pp_3` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `principal_classification_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_classifications_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_classifications_pp_3_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+);
+
+-- 
+-- Classification - Specialty Certification
+--
+
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
+ VALUES ('Classifications_SC','Classifications SC','Activity',NULL,@at26,'Inline',0,'','',3,1,'civicrm_value_classifications_sc_3',0,0,0);
+SELECT @cg_sc := max(id) from civicrm_custom_group where name = 'Classifications_SC';
+
+INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
+ VALUES ('sc_classifications_20081217000000','SC Classifications','Specialty Certification',NULL,1);
+SELECT @og_sc := max(id) from civicrm_option_group where name = 'sc_classifications_20081217000000';
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+ VALUES
+ (@og_sc,'List of things to enter here TBD','1',NULL,NULL,NULL,0,1,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Option 2','2',NULL,NULL,NULL,0,2,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Option 3','3',NULL,NULL,NULL,0,3,NULL,0,0,1,NULL,NULL);
+
+INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
+VALUES
+ (@cg_sc,'Principal Classification','String','Select',NULL,1,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_classification_6',@og_sc),
+ (@cg_sc,'Other Classifications','String','CheckBox','',0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_classifications_7',@og_sc),
+ (@cg_sc,'Classification version','String','Text',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
+ (@cg_sc,'Classification dilemma','Boolean','Radio',NULL,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+
+CREATE TABLE `civicrm_value_classifications_sc_3` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
+  `principal_classification_6` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_classifications_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
+  `classification_dilemma_9` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entity_id` (`entity_id`),
+  CONSTRAINT `FK_civicrm_value_classifications_sc_3_entity_id` FOREIGN KEY (`entity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
 );
 
 
