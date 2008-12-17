@@ -210,7 +210,6 @@ show('follow-up_show');
 
 {* Build add contact *}
 {literal}
-buildContact( 1, 'assignee_contact' );
 
 var caseType = {/literal}"{$caseType}"{literal};
 if ( caseType ) {
@@ -225,59 +224,20 @@ if ( caseType ) {
     });		    
 }
 
-var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
-if ( assigneeContactCount ) {
-    for ( var i = 1; i <= assigneeContactCount; i++ ) {
-	buildContact( i, 'assignee_contact' );
+cj(document).ready(function(){
+    buildContact( 1, 'assignee_contact' );
+
+    var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
+    if ( assigneeContactCount ) {
+        for ( var i = 1; i <= assigneeContactCount; i++ ) {
+    	buildContact( i, 'assignee_contact' );
+        }
     }
-}
-
-function buildContact( count, pref )
-{
-    if ( count > 1 ) {
-	    prevCount = count - 1;
-        {/literal}{if $action eq 1  OR $action eq 2}{literal}
-	        hide( pref + '_' + prevCount + '_show');
-        {/literal}{/if}{literal}
-    }
-
-    // do not recreate if combo widget is already created
-    if ( dijit.byId( pref + '[' + count + ']' ) ) {
-	    return;
-    }
-
-    var context = {/literal}"{$context}"{literal}
-    var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
-
-    {/literal}{if $urlPathVar}
-	    dataUrl = dataUrl + '&' + '{$urlPathVar}'
-    {/if}{literal}
-
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-    	sync: true,
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs) {
-                    if (response instanceof Error) {
-    	        	    if (response.dojoType == "cancel") {
-            			//The request was canceled by some other JavaScript code.
-            			console.debug("Request canceled.");
-            		    } else if (response.dojoType == "timeout") {
-            			//The request took over 5 seconds to complete.
-            			console.debug("Request timed out.");
-            		    } else {
-            			//Some other error happened.
-            			console.error(response);
-            		    }
-                    } else {
-    		            // on success
-            		    dojo.byId( pref + '_' + count).innerHTML = response;
-            		    dojo.parser.parse( pref + '_' + count );
-            		}
-	            }
-	});
-}
+});
 {/literal}
 </script>
+
+{*include add contact js file*}
+{include file="CRM/common/addContact.tpl"}
+
 {/if }
