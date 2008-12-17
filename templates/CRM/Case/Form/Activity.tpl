@@ -211,26 +211,13 @@ show('follow-up_show');
 {* Build add contact *}
 {literal}
 
-var caseType = {/literal}"{$caseType}"{literal};
-if ( caseType ) {
-    var activityUrl = {/literal}"{crmURL p='civicrm/ajax/activitytypelist' h=0 q='caseType='}"{literal} + caseType;
-
-    cj("#followup_activity").autocomplete( activityUrl, {
-	    width: 260,
-	    selectFirst: false  
-    });
-
-    cj("#followup_activity").result(function(event, data, formatted) {
-    });		    
-}
-
 cj(document).ready(function(){
     buildContact( 1, 'assignee_contact' );
 
     var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
     if ( assigneeContactCount ) {
         for ( var i = 1; i <= assigneeContactCount; i++ ) {
-    	buildContact( i, 'assignee_contact' );
+    	    buildContact( i, 'assignee_contact' );
         }
     }
 });
