@@ -37,7 +37,7 @@ INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, em
 SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
 
 INSERT INTO civicrm_domain( name, email_name, email_address, email_domain, version, loc_block_id ) 
-    VALUES ( @domain_name, 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.1.3', @locBlockId);
+    VALUES ( @domain_name, 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.1.4', @locBlockId);
 
 -- Sample location types
 INSERT INTO civicrm_location_type( name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( '{ts escape="sql"}Home{/ts}', 'HOME', '{ts escape="sql"}Place of residence{/ts}', 0, 1, 1 );

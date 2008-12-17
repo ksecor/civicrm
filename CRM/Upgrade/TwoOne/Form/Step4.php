@@ -75,12 +75,12 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
             return false;
         }
         if ( $this->checkVersion( '2.03' ) ) {
-            $this->setVersion( '2.1' );
+            $this->setVersion( $this->latestVersion );
         } else {
             return false;
         } 
 
-        return $this->checkVersion( '2.1' );
+        return $this->checkVersion( $this->latestVersion );
     }
     
     function buildQuickForm( ) {

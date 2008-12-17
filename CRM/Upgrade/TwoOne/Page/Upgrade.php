@@ -38,10 +38,19 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        if ( CRM_Upgrade_Form::checkVersion( '2.1' ) ||
-             CRM_Upgrade_Form::checkVersion( '2.1.1' ) ) {
+        $upgrade =& new CRM_Upgrade_Form( );
+        
+        if ( $upgrade->checkVersion( '2.1.2' ) ||
+             $upgrade->checkVersion( '2.1.3' ) ) {
+            // just change the ver in the db, since nothing to upgrade
+            $upgrade->setVersion( $upgrade->latestVersion );
+            
+        } else if ( $upgrade->checkVersion( '2.1.0' ) ||
+                    $upgrade->checkVersion( '2.1' )   || 
+                    $upgrade->checkVersion( '2.1.1' ) ) {
             // 2.1 to 2.1.2
             $this->runTwoOneTwo( );
+
         } else {
             // 2.0 to 2.1
             for ( $i = 1; $i <= 4; $i++ ) {
