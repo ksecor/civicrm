@@ -72,11 +72,6 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         $config =& CRM_Core_Config::singleton( );
         $config->cleanup( 1 );
 
-        // also reset the session
-        require_once 'CRM/Core/Session.php';
-        $session =& CRM_Core_Session::singleton( );
-        $session->reset( 2 );
-
         echo $message;
         exit( );
     }
