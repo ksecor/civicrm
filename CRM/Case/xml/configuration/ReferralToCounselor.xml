@@ -26,28 +26,7 @@
       <name>Follow up</name>
     </ActivityType>
     <ActivityType>
-      <name>Assign principal classification - CPHN</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign principal classification - ICD</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign principal classification - Presenting Problem</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign principal classification - vocab</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign secondary classification - CPHN</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign secondary classification - ICD</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign secondary classification - Presenting Problem</name>
-    </ActivityType>
-    <ActivityType>
-      <name>Assign secondary classification - vocab</name>
+      <name>Assign classification - skeleton</name>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>
@@ -60,19 +39,7 @@
           <name>Open Case</name>
           <status>Closed</status>
         </ActivityType>
-	<ActivityType>
-          <name>Assign principal classification - Presenting Problem</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>0</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-	<ActivityType>
-          <name>Assign secondary classification - Presenting Problem</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>0</reference_offset>
-          <reference_select>newest</reference_select>
-        </ActivityType>
-	<ActivityType>
+        <ActivityType>
           <name>Notify service provider</name>
           <reference_activity>Open Case</reference_activity>
           <reference_offset>2</reference_offset>
