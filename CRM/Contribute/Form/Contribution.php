@@ -310,6 +310,10 @@ WHERE  contribution_id = {$this->_id}
         
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            $this->set('customDataType',    'Contribution');
+            $this->set('customDataSubType', $this->_contributionType );
+            $this->set('entityId',          $this->_id );
+
             CRM_Custom_Form_Customdata::preProcess( $this );
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
