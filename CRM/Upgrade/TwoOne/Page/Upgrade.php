@@ -40,8 +40,11 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
     function run( ) {
         $upgrade =& new CRM_Upgrade_Form( );
         
-        if ( $upgrade->checkVersion( '2.1.2' ) ||
-             $upgrade->checkVersion( '2.1.3' ) ) {
+        if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
+            echo "Your db is already upgraded to - CiviCRM v{$upgrade->latestVersion}. \n";
+            exit( );
+        } else if ( $upgrade->checkVersion( '2.1.2' ) ||
+                    $upgrade->checkVersion( '2.1.3' ) ) {
             // just change the ver in the db, since nothing to upgrade
             $upgrade->setVersion( $upgrade->latestVersion );
             
@@ -50,7 +53,7 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
                     $upgrade->checkVersion( '2.1.1' ) ) {
             // 2.1 to 2.1.2
             $this->runTwoOneTwo( );
-
+            
         } else {
             // 2.0 to 2.1
             for ( $i = 1; $i <= 4; $i++ ) {
