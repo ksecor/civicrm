@@ -1,5 +1,5 @@
 {* Edit or display Profile fields, when embedded in an online contribution or event registration form. *}
-{if ! empty( $fields )}                                           
+{if ! empty( $fields )}
    {strip} 
    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if} 
     {assign var=zeroField value="Initial Non Existent Fieldset"} 
@@ -91,7 +91,7 @@
                 <br /><span class="description">{$field.help_post}</span> 
              {/if} 
            </td>
-           {if $field.html_type eq 'Radio'}
+           {if $field.html_type eq 'Radio' && $form.$fieldName.frozen neq true}
            <td style="line-height: .75em; margin-top: 1px;">
                &nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$n}', '{$form.formName}');return false;">{ts}unselect{/ts}</a>&nbsp;)
            </td>
