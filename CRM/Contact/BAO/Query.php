@@ -683,7 +683,7 @@ class CRM_Contact_BAO_Query
                 
                 //add address table only once
                 if ( in_array( $elementCmpName, self::$_locationSpecificFields ) && ! $addAddress
-                     && !in_array( $elementName, array( 'email', 'phone', 'im', 'openid' ) )) {
+                     && !in_array( $elementCmpName, array( 'email', 'phone', 'im', 'openid' ) )) {                         
                     $tName = "$name-address";
                     $aName = "`$name-address`";
                     $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
