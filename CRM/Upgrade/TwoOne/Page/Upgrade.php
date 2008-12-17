@@ -40,14 +40,12 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
     function run( ) {
         $upgrade =& new CRM_Upgrade_Form( );
         
+        $message = "Upgrade Successful\n";
         if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
-            echo "Your db is already upgraded to - CiviCRM v{$upgrade->latestVersion}. \n";
-            exit( );
+            $message = "Your db is already upgraded to - CiviCRM v{$upgrade->latestVersion}. \n";
         } else if ( $upgrade->checkVersion( '2.1.2' ) ||
                     $upgrade->checkVersion( '2.1.3' ) ) {
-            // just change the ver in the db, since nothing to upgrade
-            $upgrade->setVersion( $upgrade->latestVersion );
-            
+            // do nothing, db version is changed for all upgrades
         } else if ( $upgrade->checkVersion( '2.1.0' ) ||
                     $upgrade->checkVersion( '2.1' )   || 
                     $upgrade->checkVersion( '2.1.1' ) ) {
@@ -63,7 +61,23 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
             $this->runTwoOneTwo( );
         }
         
-        echo "Upgrade Successful. \n";
+        // just change the ver in the db, since nothing to upgrade
+        $upgrade->setVersion( $upgrade->latestVersion );
+
+        // also rebuild the menus
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::store( );
+
+        // also cleanup the templates_c directory
+        $config =& CRM_Core_Config::singleton( );
+        $config->cleanup( 1 );
+
+        // also reset the session
+        require_once 'CRM/Core/Session.php';
+        $session =& CRM_Core_Session::singleton( );
+        $session->reset( 2 );
+
+        echo $message;
         exit( );
     }
 
