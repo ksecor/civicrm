@@ -191,7 +191,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
             if ( ! isset( $group['fields'] ) ) {
-
                 continue;
             }
 
@@ -201,11 +200,18 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $rows["custom_group_$gid"]['title'] = $group['title'];
                         $foundField = true;
                     }
-                    // FIXME: is there a better way than getOptionLabel(), one that does not do a roundtrip to the database?
-                    $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomOption::getOptionLabel($fid,  $mainTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
-                    $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomOption::getOptionLabel($fid, $otherTree[$gid]['fields'][$fid]['customValue']['data'], $field['html_type'], $field['data_type']);
+
+                    foreach ( $mainTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                        $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                    }
+
+                    foreach ( $otherTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                        $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                        $value = $values['data'] ? $values['data'] : $this->_qfZeroBug;
+                    }
+
                     $rows["move_custom_$fid"]['title'] = $field['label'];
-                    $value = $field['customValue']['data'] ? $field['customValue']['data'] : $this->_qfZeroBug;
+                    
                     $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $value);
                 }
             }
