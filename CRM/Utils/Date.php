@@ -711,12 +711,11 @@ class CRM_Utils_Date
         $day   = ($day < 10)  ? "0" . "$day"   : $day;
 
         $year = (int ) $year;
-        if ( $year < 9 ) {
+        //default century is current century
+        if ( $year < 10 ) {
             $year = $cen . '0' . $year;
-        } else if ( $year < 10 ) {
-            $year = $prevCen . '0' . $year;
         } else if ( $year < 100 ) {
-            $year = $prevCen . $year;
+            $year = $cen . $year;
         }
         
         if ($params[$dateParam]) {
