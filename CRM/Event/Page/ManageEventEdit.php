@@ -81,7 +81,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         if ( $participantListingID ) {
             $participantListingURL = CRM_Utils_System::url( 'civicrm/event/participant',
                                                             "reset=1&id={$this->_id}",
-                                                            false, null, true, true );
+                                                            true, null, true, true );
             $this->assign( 'participantListingURL', $participantListingURL );
         }
 
