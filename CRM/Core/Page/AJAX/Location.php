@@ -79,8 +79,8 @@ class CRM_Core_Page_AJAX_Location
             $str .= "location_1_address_postal_code_suffix::" . $location['location'][1]['address']['postal_code_suffix'] . ';;';
         }
         if ( array_key_exists( 'country', $addressSequence) || array_key_exists( 'state_province', $addressSequence) ) {
-            $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
-
+            $str .= "location_1_address_state_province_id::" . $location['location'][1]['address']['state_province_id'];
+            $str .= "location_1_address_country_id::" . $location['location'][1]['address']['country_id'];
         }
         echo $str;
     }

@@ -148,7 +148,7 @@
             <td>{$form.location.$index.address.state_province_id.html}</td>
         </tr>
         {/if}
-        {if $contactEditMode}
+        {if $contactEditMode and $form.location.$index.address.geo_code_1.label}
         <tr>
             <td>{$form.location.$index.address.geo_code_1.label}, {$form.location.$index.address.geo_code_2.label}</td>
             <td>{$form.location.$index.address.geo_code_1.html}, {$form.location.$index.address.geo_code_2.html}    

@@ -150,14 +150,6 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        // make widget submit values in the required format for
-        // country & state. 
-        $params['location'][1]['address']['country_id'] = 
-            $params['location'][1]['address']['country_state'][0];
-        $params['location'][1]['address']['state_province_id'] = 
-            $params['location'][1]['address']['country_state'][1];
-        unset($params['location'][1]['address']['country_state']);
         
         $params['location'][1]['is_primary'] = 1;
 	    $params['contact_type']              = $this->_contactType;
