@@ -72,8 +72,14 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         $config =& CRM_Core_Config::singleton( );
         $config->cleanup( 1 );
 
-        echo $message;
-        exit( );
+        $template =& CRM_Core_Smarty::singleton( );
+
+        $template->assign( 'message', $message );
+        $template->assign( 'dashboardURL', 
+                           CRM_Utils_System::url( 'civicrm/dashboard',
+                                                  'reset=1' ) );
+        $contents = $template->fetch( 'CRM/common/success.tpl' );
+        echo $contents;
     }
 
     function runForm( $stepID ) {
