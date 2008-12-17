@@ -1169,16 +1169,19 @@ SELECT id
         //fix checkbox, now check box always submits values
         if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {                
             if ( $value ) {
-                $selectedValues = null;
-                foreach ( $value as $selId => $val ) {
-                    if ( $val ) {
-                        $selectedValues .= $selId . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                // Note that only during merge this is not an array, and you can directly use value
+                if ( is_array( $value ) ) { 
+                    $selectedValues = null;
+                    foreach ( $value as $selId => $val ) {
+                        if ( $val ) {
+                            $selectedValues .= $selId . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                        }
                     }
-                }
-                if ( $selectedValues ) {
-                    $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $selectedValues;
-                } else {
-                    $value = '';
+                    if ( $selectedValues ) {
+                        $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $selectedValues;
+                    } else {
+                        $value = '';
+                    }
                 }
             }
         } 
