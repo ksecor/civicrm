@@ -138,6 +138,8 @@ implements CRM_Contact_Form_Search_Interface {
             $select .= ",  GROUP_CONCAT(DISTINCT(civicrm_contact.display_name)) as participant ";
             $from   .= " inner join civicrm_contact
                          on civicrm_contact.id = civicrm_participant.contact_id";   
+        } else {
+            unset( $this->_columns['Participant'] );
         }
         
         $where = $this->where();
