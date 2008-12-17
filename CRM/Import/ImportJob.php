@@ -221,7 +221,7 @@ class CRM_Import_ImportJob {
                       
         $contactIds = $this->_parser->getImportedContacts( );
         if ($this->_parser->getRelatedImportedContacts()) array_merge($contactIds, $this->_parser->getRelatedImportedContacts());
-        if ( $this->_newGroupName ) {
+        if ( $this->_newGroupName || count($this->_groups) ) {
             $groupAdditions = $this->_addImportedContactsToNewGroup($contactIds,
                                                                     $this->_newGroupName,
                                                                     $this->_newGroupDesc);
