@@ -40,9 +40,10 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
     function run( ) {
         $upgrade =& new CRM_Upgrade_Form( );
         
-        $message = "Upgrade Successful\n";
+        $message = ts('CiviCRM upgrade successful');
         if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
-            $message = "Your db is already upgraded to - CiviCRM v{$upgrade->latestVersion}. \n";
+            $message = ts('Your database has already been upgraded to CiviCRM %1',
+                          array( 1 => $upgrade->latestVersion ) );
         } else if ( $upgrade->checkVersion( '2.1.2' ) ||
                     $upgrade->checkVersion( '2.1.3' ) ) {
             // do nothing, db version is changed for all upgrades
@@ -75,6 +76,8 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         $template =& CRM_Core_Smarty::singleton( );
 
         $template->assign( 'message', $message );
+        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
+                                           array( 1 => $upgrade->latestVersion ) ) );
         $template->assign( 'dashboardURL', 
                            CRM_Utils_System::url( 'civicrm/dashboard',
                                                   'reset=1' ) );

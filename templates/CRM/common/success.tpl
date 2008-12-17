@@ -9,18 +9,19 @@
   <style type="text/css" media="screen">@import url({$config->resourceBase}css/civicrm.css);</style>
 </head>
 
-<body>
+<body style="border: 1px #CCC solid;
+             margin: 3em;
+             padding: 8em 1em 1em 1em;
+             font-family: arial, verdana, sans-serif;
+             background: url({$config->resourceBase}i/block_small.png) 4.2em 4em no-repeat #fff;">
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
-<div class="messages status">
-  <dl>
-  <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}UNRECOVERABLE ERROR{/ts}" /></dt>
-  <dd>
-      <p>{$message}</p>
-      <p><a href="{$dashboardURL}" title="{ts}Main Menu{/ts}">{ts}Return to home page.{/ts}</a></p>
-  </dd>
-  </dl>
+<h2>{$pageTitle}</h2>
+
+<div style="padding: 1em; background-color: #0C0; border: 1px #070 solid; color: white; font-weight: bold">
+    <p>{$message}</p>
+    <p><a href="{$dashboardURL}" title="{ts}CiviCRM home page{/ts}">{ts}Return to CiviCRM home page.{/ts}</a></p>
 </div>
 
 </div> {* end crm-container div *}
