@@ -97,12 +97,21 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
 
         $config =& CRM_Core_Config::singleton();
         $firstrow = fgetcsv($fd, 0, $config->fieldSeparator);
-
+        
         // create the column names from the CSV header or as col_0, col_1, etc.
         if ($headers) {
             $columns = array_map('strtolower', $firstrow);
             $columns = str_replace(' ', '_', $columns);
             $columns = preg_replace('/[^a-z_]/', '', $columns);
+            
+            // fix for non alphabetic column headers. 
+            if ( count( $columns ) != count( array_unique( $columns ) ) ) {
+                foreach ( $columns as $key => $value ) {
+                    if ( !$value ) {
+                        $columns[$key] = "col_$key";
+                    }
+                }
+            }
         } else {
             $columns = array();
             foreach ($firstrow as $i => $_) $columns[] = "col_$i";
