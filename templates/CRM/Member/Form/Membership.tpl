@@ -201,6 +201,7 @@
     invert              = 0
 }
 {/if}
+{if !$membershipMode}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="payment_instrument_id"
     trigger_value       = '4'
@@ -209,6 +210,7 @@
     field_type          ="select"
     invert              = 0
 }
+{/if}
 {literal}
 <script type="text/javascript">
 {/literal}

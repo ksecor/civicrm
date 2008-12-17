@@ -163,8 +163,8 @@ class CRM_Core_Payment_Form {
 
             // also take care of state country widget
             require_once 'CRM/Core/BAO/Address.php';
-            $stateCountryMap = array( 1 => array( 'country'        => "country_id-{$this->_bltID}"       ,
-                                                  'state_province' => "state_province_id-{$this->_bltID}" ) );
+            $stateCountryMap = array( 1 => array( 'country'        => "country_id-{$form->_bltID}"       ,
+                                                  'state_province' => "state_province_id-{$form->_bltID}" ) );
             CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
         }
             

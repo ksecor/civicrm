@@ -197,7 +197,6 @@
     field_type          ="select"
     invert              = 0
 }
-{/if} 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="payment_instrument_id"
     trigger_value       = '4'
@@ -206,7 +205,7 @@
     field_type          ="select"
     invert              = 0
 }
-
+{/if} 
 {/if} {* not delete mode if*}      
 {/if}
 {* closing of main custom data if*}

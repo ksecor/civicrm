@@ -571,14 +571,15 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $element->freeze( );
         }
-        
-        $element =& $this->add('select', 'payment_instrument_id', 
-                               ts( 'Paid By' ), 
-                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
-                               false, array( 'onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);"));
-
-        if ( $this->_online ) {
-            $element->freeze( );
+        if ( !$this->_mode ) { 
+            $element =& $this->add('select', 'payment_instrument_id', 
+                                   ts( 'Paid By' ), 
+                                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ),
+                                   false, array( 'onChange' => "return showHideByValue('payment_instrument_id','4','checkNumber','table-row','select',false);"));
+            
+            if ( $this->_online ) {
+                $element->freeze( );
+            }
         }
         
         $element =& $this->add( 'text', 'trxn_id', ts('Transaction ID'), 
