@@ -335,7 +335,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
              ! $this->_values['is_monetary']) {
             // check if button type should be next or upload
             $this->addButtons(array( 
-                                    array ( 'type'      => $this->buttonType( ),
+                                    array ( 'type'      => 'upload',
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 

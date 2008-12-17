@@ -169,7 +169,8 @@ class CRM_Core_Payment_Form {
         }
             
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $form->_expressButtonName = $form->getButtonName( $form->buttonType( ), 'express' );
+            $form->_expressButtonName = $form->getButtonName( 'upload', 'express' );
+            $form->assign( 'expressButtonName', $form->_expressButtonName );
             $form->add('image',
                        $form->_expressButtonName,
                        $form->_paymentProcessor['url_button'],
