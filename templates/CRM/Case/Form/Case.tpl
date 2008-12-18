@@ -69,8 +69,8 @@
 
 {if $form.activity_details.html}
     <tr>
-        <td class="label">{$form.activity_details.label} {help id="id-details" file="CRM/Case/Form/Case.hlp"}</td>
-        <td class="view-value">{$form.activity_details.html|crmReplace:class:huge}</td>
+        <td class="label">{$form.activity_details.label}<br />{help id="id-details" file="CRM/Case/Form/Case.hlp"}</td>
+        <td class="view-value">{$form.activity_details.html|crmReplace:class:huge40}</td>
     </tr>
 {/if}
 
