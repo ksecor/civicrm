@@ -241,15 +241,16 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         foreach ( $rest as $k => $v ) {
-            if ( !isset( $this->_viewOptions[$k] ) ) {
-                continue;
+            if ( CRM_Utils_Array::value($k, $this->_viewOptions) ) {
+                
+            
+                $allTabs[] = array( 'id'     =>  $k,
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
+                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                    'title'  => $v,
+                                    'weight' => $weight );
+                $weight += 10;
             }
-            $allTabs[] = array( 'id'     =>  $k,
-                                'url'    => CRM_Utils_System::url( "civicrm/contact/view/$k",
-                                                                   "reset=1&snippet=1&cid={$this->_contactId}" ),
-                                'title'  => $v,
-                                'weight' => $weight );
-            $weight += 10;
         }
 
         // now add all the custom tabs
