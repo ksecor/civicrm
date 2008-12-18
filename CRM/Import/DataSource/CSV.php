@@ -105,7 +105,7 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
             $columns = preg_replace('/[^a-z_]/', '', $columns);
             
             // fix for non alphabetic column headers. 
-            if ( count( $columns ) != count( array_unique( $columns ) ) ) {
+            if ( in_array( '', $columns ) ) {
                 foreach ( $columns as $key => $value ) {
                     if ( !$value ) {
                         $columns[$key] = "col_$key";

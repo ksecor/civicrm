@@ -61,9 +61,10 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
 
         $this->_params = $this->controller->exportValues( $this->_name );
         if ( ! $this->_dataSource ) {
-            $this->_dataSource = CRM_Utils_Array::value( 'hidden_dataSource',
+            //considering dataSource as base criteria instead of hidden_dataSource.
+            $this->_dataSource = CRM_Utils_Array::value( 'dataSource',
                                                          $_POST,
-                                                         CRM_Utils_Array::value( 'hidden_dataSource',
+                                                         CRM_Utils_Array::value( 'dataSource',
                                                                                  $this->_params ) );
             $this->assign( 'showOnlyDataSourceFormPane', false );
         } else {
