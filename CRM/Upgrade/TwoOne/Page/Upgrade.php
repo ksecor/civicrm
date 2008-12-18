@@ -74,8 +74,8 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         $template->assign( 'message', $message );
         $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
                                            array( 1 => $upgrade->latestVersion ) ) );
-        $template->assign( 'dashboardURL', 
-                           CRM_Utils_System::url( 'civicrm/dashboard',
+        $template->assign( 'menuRebuildURL', 
+                           CRM_Utils_System::url( 'civicrm/menu/rebuild',
                                                   'reset=1' ) );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
         echo $contents;

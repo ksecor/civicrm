@@ -21,7 +21,7 @@
 
 <div style="padding: 1em; background-color: #0C0; border: 1px #070 solid; color: white; font-weight: bold">
     <p>{$message}</p>
-    <p><a href="{$dashboardURL}" title="{ts}CiviCRM home page{/ts}">{ts}Return to CiviCRM home page.{/ts}</a></p>
+    <p><a href="{$menuRebuildURL}" title="{ts}CiviCRM home page{/ts}">{ts}Return to CiviCRM home page.{/ts}</a></p>
 </div>
 
 </div> {* end crm-container div *}
