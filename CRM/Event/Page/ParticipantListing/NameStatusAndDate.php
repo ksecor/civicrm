@@ -58,8 +58,8 @@ class CRM_Event_Page_ParticipantListing_NameStatusAndDate extends CRM_Core_Page 
 
         // retrieve Event Title and include it in page title
         $this->_eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                   $this->_id,
-                                                                   'title' );
+                                                          $this->_id,
+                                                          'title' );
         CRM_Utils_System::setTitle(ts('%1 - Participants', array(1 => $this->_eventTitle)));        
 
         // we do not want to display recently viewed contacts since this is potentially a public page

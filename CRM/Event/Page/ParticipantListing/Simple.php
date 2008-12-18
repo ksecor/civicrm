@@ -117,7 +117,8 @@ LIMIT    $offset, $rowCount";
         $query = "
 SELECT count( civicrm_contact.id )
        $fromClause
-       $whereClause";
+       $whereClause
+";
 
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
         $this->_pager = new CRM_Utils_Pager( $params );
@@ -153,8 +154,6 @@ SELECT count( civicrm_contact.id )
 
         return $sort->orderBy( );
     }
-
-
 }
 
 
