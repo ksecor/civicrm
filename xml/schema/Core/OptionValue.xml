@@ -140,10 +140,9 @@
        <add>1.5</add>
   </index>
   <index>
-    <name>UI_option_group_id_name</name>
+    <name>index_option_group_id_name</name>
     <fieldName>option_group_id</fieldName>
     <fieldName>name</fieldName>
-    <unique>true</unique>
     <add>2.2</add>
   </index>
 </table>
