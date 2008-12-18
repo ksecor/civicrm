@@ -346,7 +346,10 @@ SELECT id, solicitor_id, total_amount FROM civicrm_contribution
 WHERE solicitor_id IS NOT NULL;
 
 ALTER TABLE `civicrm_contribution` 
+-- Added check_number as per CRM-3923
+  ADD `check_number` varchar(255) collate utf8_unicode_ci default NULL,
   DROP FOREIGN KEY `FK_civicrm_contribution_solicitor_id`;
+
 DROP INDEX FK_civicrm_contribution_solicitor_id ON civicrm_contribution;
 ALTER TABLE civicrm_contribution DROP solicitor_id;
 
