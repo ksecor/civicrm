@@ -65,10 +65,6 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
         // just change the ver in the db, since nothing to upgrade
         $upgrade->setVersion( $upgrade->latestVersion );
 
-        // also rebuild the menus
-        require_once 'CRM/Core/Menu.php';
-        CRM_Core_Menu::store( );
-
         // also cleanup the templates_c directory
         $config =& CRM_Core_Config::singleton( );
         $config->cleanup( 1 );
