@@ -136,7 +136,7 @@ SELECT @at26       := max(value) from civicrm_option_value where name = 'Assign 
 -- *******************************************************/
 -- Open Case custom fields
 INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_column_id`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`, `min_multiple`, `max_multiple`)
-    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, 'Request permission for screening questions.', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
+    VALUES ('Intake_Questions', 'Intake Questions', 'Activity', NULL, @at1, 'Inline', 0, '', '', 2, 1, 'civicrm_value_intake_questions_2', 0, 0, 0);
 SELECT @cg            := max(id) from civicrm_custom_group where name = 'Intake_Questions';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
@@ -270,15 +270,15 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 			(@og8,'7.10 Other personal','7.10',NULL,NULL,NULL,0,65,'Specify',0,0,1,NULL);
 									
 INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
-    VALUES  (@cg, 'Caller', 'String', 'Radio', '', 1, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'caller_4', @og1),
-            (@cg, 'Severity Rating', 'String', 'Radio', NULL, 1, 1, 0, 3, NULL, 'How urgent is the situation? (1 = not very, 5 = extremely urgent)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'severity_rating_5', @og2),
-            (@cg, 'Problem Person', 'String', 'Radio', NULL, 1, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'problem_person_6', @og3),
-            (@cg, 'How Did You Hear About Us?', 'String', 'Radio', NULL, 0, 1, 0, 9, NULL, NULL, NULL, NULL, NULL, 1, 0, 2, 255, NULL, NULL, 'MdY', 60, 4, 'how_hear_7', @og4),
-			(@cg, 'Self Care Concerns','String','CheckBox','',0,0,0,6,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'self_care_8',@og5),
-			(@cg, 'Do You Have A Family Physician?','Boolean','Radio',NULL,1,0,0,7,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'hcp_9', NULL),
-            (@cg, 'Date Family Physician Last Seen','Date','Select Date',NULL,0,0,0,8,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,10,0,'MdY',60,4,'hcp_last_seen_10', NULL),
-            (@cg, 'Complexity Rating', 'String', 'Radio', NULL, 1, 1, 0, 4, NULL, '(1 = least complex, 5 = most complex)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'complexity_rating_11', @og6),
-			(@cg, 'Major Concerns','String','CheckBox','',0,0,0,5,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'major_concerns_12',@og7),
+    VALUES  (@cg, 'Caller', 'String', 'Radio', '', 1, 0, 0, 5, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'caller_4', @og1),
+            (@cg, 'Urgency Rating', 'String', 'Radio', NULL, 1, 1, 0, 7, NULL, '(1 = not very, 5 = extremely urgent)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'severity_rating_5', @og2),
+            (@cg, 'Problem Person', 'String', 'Radio', NULL, 1, 1, 0, 6, NULL, NULL, NULL, NULL, NULL, 1, 0, 3, 255, NULL, NULL, 'MdY', 60, 4, 'problem_person_6', @og3),
+            (@cg, 'How Did You Hear About Us?', 'String', 'Radio', NULL, 0, 1, 0, 4, NULL, NULL, NULL, NULL, NULL, 1, 0, 2, 255, NULL, NULL, 'MdY', 60, 4, 'how_hear_7', @og4),
+			(@cg, 'Are any of the following of concern?','String','CheckBox','',0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'self_care_8',@og5),
+			(@cg, 'Do You Have A Family Physician?','Boolean','Radio',NULL,1,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'hcp_9', NULL),
+            (@cg, 'When was your last visit?','Date','Select Date',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,10,0,'MdY',60,4,'hcp_last_seen_10', NULL),
+            (@cg, 'Complexity Rating', 'String', 'Radio', NULL, 1, 1, 0, 8, NULL, '(1 = least complex, 5 = most complex)', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'complexity_rating_11', @og6),
+			(@cg, 'Major Concerns','String','CheckBox','',0,0,0,9,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'major_concerns_12',@og7),
 			(@cg, 'Principal Presenting Problem','String','Select',NULL,1,0,0,10,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_presenting_problem_46',@og8),
 			(@cg, 'Other Presenting Problems','String','CheckBox','',0,0,0,11,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_presenting_problems_47',@og8);
             

@@ -5,10 +5,12 @@
 {htxt id="id-details"}
 {if $activityTypeFile EQ 'OpenCase'}
     <ul>
-    <li>{ts}Introduce yourself as an intake person and explain the organization's privacy policy.{/ts}</li>
-    <li>{ts}Invite open-ended narrative.{/ts}</li>
+    <li>{ts}&quot;Hello, my name is [Your Name] and I am an Assessment Physician with the Physician Health Program of BC.&quot;{/ts}</li>
+    <li>{ts}(TBD) &quot;Everything we will be discussing is completely confidential and...[more privacy policy details]&quot;{/ts}</li>
+    <li>{ts}&quot;Please tell me what you would like to discuss.&quot;{/ts}</li>
     <li>{ts}Reflect client's story back to them.{/ts}</li>
     <li>{ts}Guess client's feelings and needs.{/ts}</li>
+    <li>{ts}&quot;May I now ask you some screening questions?&quot;{/ts}</li> 
     </ul>
 {else}
     {ts}Record details about this activity here.{/ts}
