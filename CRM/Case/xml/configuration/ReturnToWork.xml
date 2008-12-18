@@ -34,7 +34,10 @@
       <name>Follow up</name>
     </ActivityType>
     <ActivityType>
-      <name>Assign classification - skeleton</name>
+      <name>Assign classification - Presenting Problem</name>
+    </ActivityType>
+    <ActivityType>
+      <name>Assign classification - Specialty Certification</name>
     </ActivityType>
   </ActivityTypes>
   <ActivitySets>

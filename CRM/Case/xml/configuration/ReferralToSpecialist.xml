@@ -28,9 +28,6 @@
 	<ActivityType>
       <name>Follow up</name>
     </ActivityType>
-    <ActivityType>
-      <name>Assign classification - skeleton</name>
-    </ActivityType>
   </ActivityTypes>
   <ActivitySets>
     <ActivitySet>
