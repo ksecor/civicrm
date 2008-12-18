@@ -10,9 +10,9 @@
   </item>
   <item>
      <path>civicrm/upgrade</path>
-     <title>Upgrade 2.0 => 2.1</title>
-     <page_callback>CRM_Upgrade_TwoOne_Controller</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
+     <title>Upgrade CiviCRM</title>
+     <page_callback>CRM_Upgrade_Page_Upgrade</page_callback>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
   </item>
   <item>
      <path>civicrm/export</path>
