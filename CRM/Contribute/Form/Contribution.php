@@ -909,7 +909,7 @@ WHERE  contribution_id = {$this->_id}
                 $this->_params['trxn_id']         = CRM_Utils_Array::value( 'trxn_id', $result );
                 $this->_params['contact_id']      = $this->_contactID;
                 $this->_params['contribution_id'] = $contribution->id;
-                CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $this->_params, true );
+                $sendReceipt = CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $this->_params, true );
             }
             
             //process the note
@@ -933,7 +933,7 @@ WHERE  contribution_id = {$this->_id}
             
             if ( $contribution->id ) {
                 $statusMsg = ts('The contribution record has been processed.');
-                if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+                if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) && $sendReceipt ) {
                     $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
                 }
                 CRM_Core_Session::setStatus( $statusMsg );
@@ -1111,7 +1111,7 @@ WHERE  contribution_id = {$this->_id}
             if ( $contribution->id && $formValues['is_email_receipt'] ) {
                 $formValues['contact_id']      = $this->_contactID;
                 $formValues['contribution_id'] = $contribution->id;
-                CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $formValues );
+                $sendReceipt = CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $formValues );
             }
             
             //update pledge payment status.
@@ -1126,7 +1126,7 @@ WHERE  contribution_id = {$this->_id}
             } 
             
             $statusMsg = ts('The contribution record has been saved.');
-            if ( $formValues['is_email_receipt'] ) {
+            if ( $formValues['is_email_receipt'] && $sendReceipt ) {
                 $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
             }
             CRM_Core_Session::setStatus( $statusMsg );

@@ -423,12 +423,13 @@ class CRM_Contribute_Form_AdditionalInfo
         $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
         $subject = ts('Contribution Receipt');
         require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( $receiptFrom,
-                              $contributorDisplayName,
-                              $contributorEmail,
-                              $subject,
-                              $message);
+        $sendReceipt = CRM_Utils_Mail::send( $receiptFrom,
+                                             $contributorDisplayName,
+                                             $contributorEmail,
+                                             $subject,
+                                             $message);
         
+        return $sendReceipt;
     }
     
 }
