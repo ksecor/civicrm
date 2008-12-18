@@ -207,42 +207,18 @@
 {literal}
 <script type="text/javascript">
     function loadLocationData( cid ) {
-	    var dataUrl = {/literal}"{$locDataURL}"{literal};
+	var dataUrl = {/literal}"{$locDataURL}"{literal};
         dataUrl = dataUrl + cid;
 
         var result = dojo.xhrGet({
         url: dataUrl,
-        handleAs: "text",
+        handleAs: "json",
         timeout: 5000, //Time in milliseconds
 
         // The LOAD function will be called on a successful response.
         load: function(response, ioArgs) {
-            var fldVal = response.split(";;");
-            for (var i in fldVal) {
-                var elem = fldVal[i].split('::');
-                if ( elem[0] == 'id_location[1][address][country_state]_0' ) {
-                    var countryState = elem[1].split('-');
-                    var country = countryState[0];
-                    var state   = countryState[1];
-
-                    var selector1 = dijit.byId( elem[0] );
-                    var selector2 = dijit.byId( 'id_location[1][address][country_state]_1' );
-    
-                    selector1.store.fetch({
-                        query: {},
-                        onComplete: function(items, request) {
-                            selector1.setValue(country);
-                            selector2.store.fetch({
-                                query: {id:state},
-                                onComplete: function(items, request) {
-                                    selector2.setValue(state);
-                                }
-                            });
-                        }
-                    });
-                } else if ( elem[0] ) {
-                    document.getElementById( elem[0] ).value = elem[1];
-                }
+            for (var i in response) {
+                document.getElementById( i ).value = response[i];
             }
         },
 

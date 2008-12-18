@@ -328,8 +328,6 @@ WHERE id={$contactId}; ";
      */
     static function buildOnBehalfForm( &$form, 
                                        $contactType       = 'Individual', 
-                                       $countryDefault    = null,
-                                       $stateDefault      = null,
                                        $title             = 'Contact Information',
                                        $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )

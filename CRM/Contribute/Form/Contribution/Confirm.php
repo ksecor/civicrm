@@ -122,19 +122,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
-                $this->_params['location'][1]['address']['country_id'] = 
-                    $this->_params['location'][1]['address']['country_state'][0];
                 if ( !empty( $this->_params['location'][1]['address']['country_id'] ) ) {
                     $this->_params['location'][1]['address']['country'] = 
                         CRM_Core_PseudoConstant::countryIsoCode( $this->_params['location'][1]['address']['country_id'] ); 
                 }
-                $this->_params['location'][1]['address']['state_province_id'] = 
-                    $this->_params['location'][1]['address']['country_state'][1];
                 if ( !empty( $this->_params['location'][1]['address']['state_province_id'] ) ) {
                     $this->_params['location'][1]['address']['state_province'] = 
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['location'][1]['address']['state_province_id'] );
                 }
-                unset($this->_params['location'][1]['address']['country_state']);
             }
 
             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
