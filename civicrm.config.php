@@ -78,16 +78,11 @@ function conf_init() {
         return $confdir;
     }
 
-    if ( ! file_exists( $confdir . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) && ! $skipConfigError ) {
+    if ( ! file_exists( $confdir ) && ! $skipConfigError ) {
         echo "Could not find valid configuration dir, best guess: $confdir<br/><br/>\n";
         echo "If this is a standalone installation (i.e. not a Drupal or ";
         echo "Joomla module) and you'd like to re-initialize it, ";
-	if (is_dir("install")) {
-	  $install_path = "install";
-	} else {
-	  $install_path = "../install";
-	}
-        echo "<a href=\"$install_path/index.php?mode=standalone\">click here</a>.\n";
+        echo "<a href=\"../install/index.php?mode=standalone\">click here</a>.\n";
         exit( );
     }
             
