@@ -14,3 +14,7 @@
     {ts}Record details about this activity here.{/ts}
 {/if}
 {/htxt}
+
+{htxt id="id-case_type"}
+{ts}Offer services.{/ts}
+{/htxt}
