@@ -52,8 +52,13 @@ class CRM_Mailing_Page_AJAX
         $messageTemplate->selectAdd( );
         $messageTemplate->selectAdd( 'msg_text, msg_html, msg_subject' );
         $messageTemplate->find( true );
-        
-        echo $messageTemplate->msg_text . "^A" . $messageTemplate->msg_html . "^A" . $messageTemplate->msg_subject;
+        $messages = array( 'subject'  => $messageTemplate->msg_subject,
+                           'msg_text' =>  $messageTemplate->msg_text,
+                           'msg_html' =>  $messageTemplate->msg_html
+                           );
+                            
+        echo json_encode( $messages );
+        exit();
     }
 
 }
