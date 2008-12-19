@@ -18,5 +18,5 @@
 {/htxt}
 
 {htxt id="id-case_type"}
-{ts}Offer services.{/ts}
+{ts}Offer the appropriate service from the list. If the service requires coordination, contact the Director.{/ts}
 {/htxt}
