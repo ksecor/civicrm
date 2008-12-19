@@ -896,9 +896,8 @@ div.crm-pager a {
 /* Image Styles */
 #crm-container .action-icon {
   vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  margin: 2px 2px 0px 2px;
+  padding: 2px 2px 2px 5px;
+  margin: 2px 2px 3px 2px;
   cursor: pointer;
   cursor: hand;
 }
