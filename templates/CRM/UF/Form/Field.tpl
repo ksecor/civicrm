@@ -132,8 +132,8 @@ function showLabel( ) {
         return;
     }
 
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' h=0 q='id='}"{literal} + fieldId;
-    cj.post( dataUrl, function(data) {
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' h=0 }"{literal};
+    cj.post( dataUrl, { id: fieldId }, function(data) {
        cj('#help_post').val( data );
     });
 } 

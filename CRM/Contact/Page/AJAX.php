@@ -105,7 +105,7 @@ ORDER BY sort_name ";
     function customField( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+        $fieldId = CRM_Utils_Type::escape( $_POST['id'], 'Integer' );
 
         $helpPost = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                  $fieldId,
