@@ -139,7 +139,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // handle locations
         require_once 'api/v2/Location.php';
         $locations['main']  =& civicrm_location_get($mainParams);
-        $locations['other'] =& civicrm_location_get($otherParams); 
+        $locations['other'] =& civicrm_location_get($otherParams);
+        $mainLoc = array();
+
         foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
             foreach (array('main', 'other') as $moniker) {
                 $location = array();
@@ -174,12 +176,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     }
                 }
             } 
+
+            $mainLoc["main_$locTypeId"] = $locLabel['main'];
             if ($locValue['other'] != 0) {
                 foreach (array('email','phone','im','openid','address') as $fieldType) {
                     $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
                     $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
-                    $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  array( '6' => ts( 'Overwrite' ) ) + CRM_Core_PseudoConstant::locationType( ) );
+                    $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  
+                                      array( '6' => ts( 'Overwrite' ) ) + CRM_Core_PseudoConstant::locationType( ), 
+                                      array('onChange' => "displayMainLoc( this, '$fieldType', $locTypeId );") );
                 }
             } 
         }
@@ -218,6 +225,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
 
         $this->assign('rows', $rows);
+        $this->assign('main_loc', json_encode($mainLoc));
 
         // add the related tables and unset the ones that don't sport any of the duplicate contact's info
         $relTables = CRM_Dedupe_Merger::relTables();

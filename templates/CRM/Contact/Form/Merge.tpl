@@ -30,7 +30,7 @@
 {if $row.title|substr:-7 == "address"}
 {assign var=locType value="address"}
 {/if}
-{$form.location.$locType.$locId.html}{/if}{$row.main}</td>
+{$form.location.$locType.$locId.html}&nbsp;{/if}<span id="{$field}_main_label">{$row.main}</span></td>
   </tr>
   {/foreach}
   {foreach from=$rel_tables item=params key=paramName}
@@ -47,3 +47,21 @@
     <p><strong>{ts}WARNING: The duplicate contact record WILL BE DELETED after the merge is complete.{/ts}</strong></strong><br />
     {$form.buttons.html}</p>
 </div>
+
+{literal}
+<script type="text/javascript">
+     function displayMainLoc( element, fldType, defaultLocTypeId ) {
+          var rows = {/literal}{$main_loc}{literal};
+          var val  = element.value;
+          if ( val == 6 ) {
+               val = defaultLocTypeId;
+          }
+          var label = eval("rows." + 'main_' + val + "." + fldType);
+          if ( label ) {
+              document.getElementById( 'move_' + element.id + '_main_label').innerHTML = label;
+          } else {
+              document.getElementById( 'move_' + element.id + '_main_label').innerHTML = "";
+          }   
+     }
+</script>
+{/literal}
