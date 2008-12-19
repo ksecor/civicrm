@@ -430,7 +430,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
-<     * getter function for title. Should be over-ridden by derived class
+     * getter function for title. Should be over-ridden by derived class
      *
      * @return string
      * @access public
