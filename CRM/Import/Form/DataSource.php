@@ -186,9 +186,9 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             if (($fileType == 'file' || $fileType == 'link') &&
                 preg_match('/^(.+)\.php$/',$dataSourceFile,$matches)) {
                 $dataSourceClass = "CRM_Import_DataSource_" . $matches[1];
-                $dataSourceName = $matches[1];
-                #print "Found DataSource: $dataSourceClass<br/>\n";
-                $dataSources[$dataSourceClass] = $dataSourceName;
+                require_once $dataSourceDir . DIRECTORY_SEPARATOR . $dataSourceFile;
+                eval("\$info = $dataSourceClass::getInfo();");
+                $dataSources[$dataSourceClass] = $info['title'];
             }
         }
         closedir($dataSourceHandle);
