@@ -213,7 +213,7 @@ div.spacer, .spacer {
   margin: 0em;
   width: auto;
   border-collapse: collapse;
-  border: 0px none;
+  border: 1px none;
 }
 
 #crm-container table.advmultiselect {
@@ -437,6 +437,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   padding: 0px 0px 5px;
   font-size: 0.9em;
   white-space: normal;
+  width: 560px;
+  display: block;
 }
 
 #crm-container .form-layout-compressed td.description {
@@ -549,7 +551,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 #crm-container tr.columnheader a {
   color: #000;
-  text-decoration: underline;
+  text-decoration: none;
+  vertical-align: top;
 }
 #crm-container tr.columnheader-dark {
   /*background-color: #B0B0B0;*/
@@ -564,6 +567,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   border-top: 1px solid #5A8FDB;	
   border-bottom: 1px solid #5A8FDB;
   text-align: left;
+  vertical-align: top;
 }
 
 #crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
@@ -696,6 +700,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
  background-color: #B3D1FF;
  font-size: .95em;
  font-weight: bold;
+ border: 1px solid #4E82CF;
 }
 
 #crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
@@ -896,7 +901,7 @@ div.crm-pager a {
 /* Image Styles */
 #crm-container .action-icon {
   vertical-align: middle;
-  padding: 2px 2px 2px 5px;
+  padding: 2px 2px 2px 3px;
   margin: 2px 2px 3px 2px;
   cursor: pointer;
   cursor: hand;
