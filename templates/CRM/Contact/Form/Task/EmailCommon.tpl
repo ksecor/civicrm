@@ -105,8 +105,9 @@ function selectValue( val ) {
         return;
     }
 
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' h=0 q='tid='}"{literal} + val;
-    cj.post( dataUrl, {}, function( data ) {
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' h=0 }"{literal};
+
+    cj.post( dataUrl, {tid: val}, function( data ) {
         cj("#subject").val( data.subject );
         cj("#text_message").val( data.msg_text );
 
