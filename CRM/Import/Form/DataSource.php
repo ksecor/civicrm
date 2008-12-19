@@ -103,10 +103,8 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         $this->assign( 'urlPath'   , "civicrm/import" );
         $this->assign( 'urlPathVar', 'snippet=4' );
         
-        $this->add( 'select', 'dataSource', ts('Data Source'),
-            array('' => ts('- select -'))+$dataSources,
-            true,
-            array('onchange' => "buildDataSourceFormBlock( this.value );") );
+        $this->add('select', 'dataSource', ts('Data Source'), $dataSources, true,
+                   array('onchange' => 'buildDataSourceFormBlock(this.value);'));
         $this->setDefaults(array('dataSource' => 'CRM_Import_DataSource_CSV'));
             
         // duplicate handling options
