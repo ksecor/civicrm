@@ -107,6 +107,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             array('' => ts('- select -'))+$dataSources,
             true,
             array('onchange' => "buildDataSourceFormBlock( this.value );") );
+        $this->setDefaults(array('dataSource' => 'CRM_Import_DataSource_CSV'));
             
         // duplicate handling options
         $duplicateOptions = array();        
