@@ -41,7 +41,7 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
 
     function getInfo()
     {
-        return array('title' => 'Comma-Separated Values (CSV)');
+        return array('title' => ts('Comma-Separated Values (CSV)'));
     }
 
     function preProcess(&$form)
