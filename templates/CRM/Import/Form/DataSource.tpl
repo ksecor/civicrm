@@ -18,7 +18,7 @@
     <fieldset>
       <legend>{ts}Choose Data Source{/ts}</legend>
       <dl>
-        <dt>{$form.dataSource.label}</dt><dd>{$form.dataSource.html}</dd>
+        <dt>{$form.dataSource.label}</dt><dd>{$form.dataSource.html} {help id='data-source-selection'}</dd>
       </dl>
     </fieldset>
     <div class="spacer"></div>

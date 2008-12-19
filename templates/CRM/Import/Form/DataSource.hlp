@@ -32,3 +32,17 @@
             {ts}<strong>No Duplicate Checking:</strong> Inserts all valid records without comparing them to existing contact records for possible duplicates.{/ts}
         </p>
 {/htxt}
+
+{htxt id='data-source-selection'}
+  <p>
+    {ts}Select the source of the imported data. By default the following choices are possible:{/ts}
+    <dl>
+      <dt>{ts}Comma-Separated Values (CSV){/ts}</dt>
+      <dd>{ts}A spreadsheet-like file with the contact data in subsequent lines, with data fields separated by commas. You can export to this format from various spreadsheet applications.{/ts}</dd>
+      <dt>{ts}SQL Query{/ts}</dt>
+      <dd>{ts}A direct SQL query in the form of a SELECT query; for example:{/ts}</dd>
+      <dd><code>SELECT first_name, last_name, email FROM somedatabase.sometable</code></dd>
+      <dd>{ts}This query can be against a different database, but that database has to be on the same database server and the CiviCRM database user has to have the SELECT privilege (and any other privileges required to execute the query).{/ts}</dd>
+    </dl>
+  </p>
+{/htxt}
