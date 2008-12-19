@@ -226,10 +226,14 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         } else {
             $headers = array( );
             foreach ( $columns as $name => $key ) {
-                $headers[] = array( 'name' => $name,
-                                    'sort' => $key,
-                                    'direction' => CRM_Utils_Sort::ASCENDING );
-            }
+                if( ! empty($name)) {
+                    $headers[] = array( 'name' => $name,
+                                        'sort' => $key,
+                                        'direction' => CRM_Utils_Sort::ASCENDING );
+                } else {
+                    $headers[] = array( );
+                }
+            } 
             return $headers;
         }
     }
@@ -275,13 +279,16 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         $columnNames = array_values( $columns );
         $links       = self::links( );
         $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
-
+        
         $alterRow = false;
         if ( method_exists( $this->_customSearchClass,
                             'alterRow' ) ) {
             $alterRow = true;
         }
-        
+        $image = false;
+        if ( is_a( $this->_search, 'CRM_Contact_Form_Search_Custom_Basic' ) ) {
+            $image= true;
+        }
         // process the result of the query
         $rows = array( );
         while ( $dao->fetch( ) ) {
@@ -307,10 +314,14 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 if ( $alterRow ) {
                     $this->_search->alterRow( $row );
                 }
+                
+                if ( $image ) {
+                    require_once( 'CRM/Contact/BAO/Contact/Utils.php' );
+                    $row['contact_type' ] = CRM_Contact_BAO_Contact_Utils::getImage( $dao->contact_type );
+                }
                 $rows[] = $row;
             }
         }
-
         return $rows;
     }
    

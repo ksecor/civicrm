@@ -45,10 +45,11 @@ class CRM_Contact_Form_Search_Custom_Basic
         parent::__construct( $formValues );
 
         $this->normalize( );
-        $this->_columns = array( ts('Name'   ) => 'sort_name'     ,
+        $this->_columns = array( ts('')        => 'contact_type'  ,
+                                 ts('Name'   ) => 'sort_name'     ,
                                  ts('Address') => 'street_address',
                                  ts('City'   ) => 'city'          ,
-                                 ts('State'  ) => 'state'         ,
+                                 ts('State'  ) => 'state_province',
                                  ts('Postal' ) => 'postal_code'   ,
                                  ts('Country') => 'country'       ,
                                  ts('Email'  ) => 'email'         ,
