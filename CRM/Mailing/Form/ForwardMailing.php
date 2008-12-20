@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Form.php';
 require_once 'api/Mailer.php';
 
-class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
+class CRM_Mailing_Form_ForwardMailing extends CRM_Core_Form
 {
 
     function preProcess( ) 

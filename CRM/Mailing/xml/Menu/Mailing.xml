@@ -138,8 +138,8 @@
   </item>
   <item>
      <path>civicrm/mailing/forward</path>
-     <title>Unsubscribe</title>
-     <page_callback>CRM_Profile_Form_ForwardMailing</page_callback>
+     <title>Forward Mailing</title>
+     <page_callback>CRM_Mailing_Form_ForwardMailing</page_callback>
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <is_public>true</is_public>
      <weight>685</weight>
