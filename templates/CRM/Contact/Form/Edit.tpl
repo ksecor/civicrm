@@ -37,39 +37,41 @@
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
         <td>{$form.greeting_type_id.label} &nbsp; </td>
-        <td id="greetingLabel">{$form.custom_greeting.label}</td>	
+        <td><span id="greetingLabel">{$form.custom_greeting.label}</span></td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.greeting_type_id.html}</td>
-        <td id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</td>	
+        <td><span id="greetingHtml">{$form.custom_greeting.html|crmReplace:class:big}</span></td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.job_title.label}</td>
         <td>{$form.home_URL.label}</td>
-        <td>{$form.external_identifier.label}</td>        
+        <td>{$form.external_identifier.label}</td>
+        <td>&nbsp;</td>        
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.job_title.html}</td>
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
-        <td>{$form.external_identifier.html}</td>        
+        <td>{$form.external_identifier.html}</td>
+        <td>&nbsp;</td>        
     </tr>
     <tr>
         <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
-        <td colspan=3>{$form.current_employer.label}</td>
+        <td colspan=4>{$form.current_employer.label}</td>
     </tr>
     <tr>
         <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
-        <td colspan=2 class="tundra">{$form.current_employer.html}</td>
+        <td colspan=3 class="tundra">{$form.current_employer.html}</td>
         <td><span id="current_employer_address" class="description"></span></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan=4><span class="description">{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}</span></td>
+        <td colspan=5><span class="description">{ts}Enter the first letters of the name of the employer to see available organizations. If the employer organization doesn't exist yet, type in the new organization name.{/ts}</span></td>
     </tr>  
     </table>
 
