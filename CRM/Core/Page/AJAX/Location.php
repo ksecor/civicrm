@@ -93,26 +93,28 @@ class CRM_Core_Page_AJAX_Location
         }
 
         echo json_encode( $elements );
+        exit();
     }
 
-	function jqState( &$config ) {
-		if ( ! isset( $_GET['_value'] ) ||
-		empty( $_GET['_value'] ) ) {
-			return null;
-		}
+    function jqState( &$config ) {
+        if ( ! isset( $_GET['_value'] ) ||
+        empty( $_GET['_value'] ) ) {
+            exit();
+        }
 
-		require_once 'CRM/Core/PseudoConstant.php';
-		$result =& CRM_Core_PseudoConstant::stateProvinceForCountry( $_GET['_value'] );
+        require_once 'CRM/Core/PseudoConstant.php';
+        $result =& CRM_Core_PseudoConstant::stateProvinceForCountry( $_GET['_value'] );
 
-		$elements = array( array( 'name'  => ts('- select a state-'),
-			'value' => '' ) );
-		foreach ( $result as $id => $name ) {
-			$elements[] = array( 'name'  => ts($name),
-				'value' => $id );
-		}
+        $elements = array( array( 'name'  => ts('- select a state-'),
+            'value' => '' ) );
+        foreach ( $result as $id => $name ) {
+            $elements[] = array( 'name'  => ts($name),
+                'value' => $id );
+        }
 
-		require_once "CRM/Utils/JSON.php";
-		echo json_encode( $elements );
-	}
+        require_once "CRM/Utils/JSON.php";
+        echo json_encode( $elements );
+        exit();
+    }
 
 }

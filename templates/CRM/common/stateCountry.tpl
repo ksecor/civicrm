@@ -8,7 +8,7 @@ cj(function()
 {/literal}
         countryID       = "#{$stateCountryMap.country}"
 	    stateProvinceID = "#{$stateCountryMap.state_province}"
-        callbackURL     = "{crmURL p='civicrm/ajax/jqState'}"
+        callbackURL     = "{crmURL p='civicrm/ajax/jqState' h=0}"
 {literal}
 	cj(countryID).chainSelect(stateProvinceID, callbackURL, null );
 });

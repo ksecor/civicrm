@@ -91,36 +91,39 @@ class CRM_Contact_Form_GroupTag
                 $ids = implode( ',', array_keys( $group ) );
                 $ids = 'IN ('.$ids.')';
             }
-            $sql = "
-SELECT id, title, description, visibility
-FROM   civicrm_group
-WHERE  id $ids
-";
-            $dao = CRM_Core_DAO::executeQuery( $sql );
-            $attributes['skiplabel'] = true;
-            while ( $dao->fetch( ) ) {
-                // make sure that this group has public visibility
-		        if ( $visibility &&
-                     $dao->visibility == 'User and User Admin Only' ) {
-                    continue;
-                }
-                $title  = '</td><td><strong>'.$dao->title.'</strong></td>';
-                if ( ! empty( $dao->description ) ) {
-                    // CRM-3448
-                    $title .= '<td>'.$dao->description.'</td></tr>';
-                } else {
-                    $title .= '<td></td></tr>';
-                }
-
-                //$elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, $title, $attributes );
-                $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $title, $attributes );
-            }
             
-	        if ( ! empty( $elements ) ) {
-                $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
-                $form->assign('groupCount', count($elements));
-                if ( $isRequired ) {
-                    $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
+            if ( $groupID || !empty( $group ) ) {
+                $sql = "
+    SELECT id, title, description, visibility
+    FROM   civicrm_group
+    WHERE  id $ids
+    ";
+                $dao = CRM_Core_DAO::executeQuery( $sql );
+                $attributes['skiplabel'] = true;
+                while ( $dao->fetch( ) ) {
+                    // make sure that this group has public visibility
+    		        if ( $visibility &&
+                         $dao->visibility == 'User and User Admin Only' ) {
+                        continue;
+                    }
+                    $title  = '</td><td><strong>'.$dao->title.'</strong></td>';
+                    if ( ! empty( $dao->description ) ) {
+                        // CRM-3448
+                        $title .= '<td>'.$dao->description.'</td></tr>';
+                    } else {
+                        $title .= '<td></td></tr>';
+                    }
+
+                    //$elements[] =& HTML_QuickForm::createElement('checkbox', $dao->id, $title, $attributes );
+                    $elements[] =& $form->addElement('advcheckbox', $dao->id, null, $title, $attributes );
+                }
+            
+    	        if ( ! empty( $elements ) ) {
+                    $form->addGroup( $elements, $fName, $groupName, '<tr><td>' );
+                    $form->assign('groupCount', count($elements));
+                    if ( $isRequired ) {
+                        $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   
+                    }
                 }
             }
         }
