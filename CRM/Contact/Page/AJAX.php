@@ -111,6 +111,7 @@ ORDER BY sort_name ";
                                                  $fieldId,
                                                  'help_post' );
         echo $helpPost;
+        exit();
     }
 
     
