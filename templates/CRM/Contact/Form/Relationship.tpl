@@ -89,7 +89,7 @@
 					dojo.addOnLoad( function( ) {  setUrl( ); });
                   </script>
                 {/literal}
-                <dd>{$form.name.html}</dd></div>
+                <dd  class="tundra">{$form.name.html}</dd></div>
                 <dt> </dt>
                   <dd>
                     {$form._qf_Relationship_refresh.html}
