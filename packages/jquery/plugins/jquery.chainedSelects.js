@@ -23,13 +23,15 @@
 *   You can specify additional parameters to be sent to the the server in settings.parameters.
 *
 */
+;(function($) {
+    
 jQuery.fn.chainSelect = function( target, url, settings ) 
 {
   return this.each( function()
   {
 	$(this).change( function( ) 
 	{
-		settings = jQuery.extend(
+		settings = $.extend(
 		{
 			after : null,
 			before : null,
@@ -83,3 +85,5 @@ jQuery.fn.chainSelect = function( target, url, settings )
 	});
   });
 };
+
+})(jQuery);
