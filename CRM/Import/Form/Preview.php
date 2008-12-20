@@ -244,6 +244,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
             $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
         }
+        
+        //hack to clean db
+        //if job complete drop table.
+        $importJob->isComplete( true );
     }
 
     /**
