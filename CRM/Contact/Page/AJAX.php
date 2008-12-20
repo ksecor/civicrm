@@ -54,6 +54,7 @@ ORDER BY sort_name ";
         while ( $dao->fetch( ) ) {
             echo $contactList = "$dao->sort_name|$dao->id\n";
         }
+        exit();
     }
 
     static function relationship( &$config ) 

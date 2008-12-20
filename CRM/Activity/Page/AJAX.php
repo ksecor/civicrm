@@ -55,26 +55,6 @@ class CRM_Activity_Page_AJAX
         $selectorElements = array( 'due_date', 'actual_date', 'subject', 'type', 'reporter', 'status', 'links', 'unix_due_date' );
         $json = CRM_Utils_JSON::encodeSelector( $activities, $page, $total, $selectorElements );
         echo $json;
-    }
-
-    static function getActivityTypeList( )
-    {
-        $caseType     = CRM_Utils_Type::escape( $_GET['caseType'], 'String' );
-        $activityType = CRM_Utils_Type::escape( $_GET['s'], 'String' );
-
-        require_once 'CRM/Case/XMLProcessor/Process.php';
-        $xmlProcessor = new CRM_Case_XMLProcessor_Process( );
-        $activities = $xmlProcessor->get( $caseType, 'ActivityTypes' );
-
-        //unset Open Case
-        unset( $activities['12'] );
-
-        asort($activities);
-
-        foreach( $activities as $key => $value ) {
-			if ( strtolower( $activityType ) == strtolower( substr( $value, 0, strlen( $activityType ) ) ) ) {
-				echo "{$value}|{$key}\n";
-			}
-        }
+        exit();
     }
 }

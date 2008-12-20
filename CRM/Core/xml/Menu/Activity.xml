@@ -19,9 +19,4 @@
      <page_callback>CRM_Activity_Page_AJAX::getActivityTypeList</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
   </item>  
-  <item>
-     <path>civicrm/ajax/activity</path>
-     <page_callback>CRM_Activity_Page_AJAX::getCaseActivity</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-  </item>    
 </menu>
