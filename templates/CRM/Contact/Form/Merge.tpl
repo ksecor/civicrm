@@ -30,7 +30,7 @@
 {if $row.title|substr:-7 == "address"}
 {assign var=locType value="address"}
 {/if}
-{$form.location.$locType.$locId.html}&nbsp;{/if}<span id="{$field}_main_label">{$row.main}</span></td>
+{$form.location.$locType.$locId.html}<br/>{/if}<span id="{$field}_main_label">{$row.main}</span></td>
   </tr>
   {/foreach}
   {foreach from=$rel_tables item=params key=paramName}
@@ -50,13 +50,9 @@
 
 {literal}
 <script type="text/javascript">
-     function displayMainLoc( element, fldType, defaultLocTypeId ) {
+     function displayMainLoc( element, fldType ) {
           var rows = {/literal}{$main_loc}{literal};
-          var val  = element.value;
-          if ( val == 6 ) {
-               val = defaultLocTypeId;
-          }
-          var label = eval("rows." + 'main_' + val + "." + fldType);
+          var label = eval("rows." + 'main_' + element.value + "." + fldType);
           if ( label ) {
               document.getElementById( 'move_' + element.id + '_main_label').innerHTML = label;
           } else {

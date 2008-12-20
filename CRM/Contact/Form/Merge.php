@@ -47,6 +47,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     var $_contactType = null;
 
+    // variable to keep track of location types need overwriting
+    protected $_overwriteLocTypeIds = array( );
+
     // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
     // see HTML_QuickForm_advcheckbox::setValues() - but patching that doesn't 
     // help, as QF doesn't put the 0-value elements in exportValues() anyway...
@@ -120,11 +123,15 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $value = CRM_Utils_Array::value( $field, $contact );
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
-                    $value = str_replace('-', '', $value);
-                    $label = CRM_Utils_Date::customFormat($label);
+                    if ( $value ) {
+                        $value = str_replace('-', '', $value);
+                        $label = CRM_Utils_Date::customFormat($label);
+                    } else {
+                        $value = "null";
+                    }
                 } elseif ($fields[$field]['type'] == CRM_Utils_Type::T_BOOLEAN) {
-                    if ($label === '0') $label = ts('No');
-                    if ($label === '1') $label = ts('Yes');
+                    if ($label === '0') $label = ts('[ ]');
+                    if ($label === '1') $label = ts('[x]');
                 }
                 $rows["move_$field"][$moniker] = $label;
                 if ($moniker == 'other') {
@@ -183,10 +190,19 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
                     $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
-                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
-                    $this->addElement('select'  , "location[$fieldType][$locTypeId]", null,  
-                                      array( '6' => ts( 'Overwrite' ) ) + CRM_Core_PseudoConstant::locationType( ), 
-                                      array('onChange' => "displayMainLoc( this, '$fieldType', $locTypeId );") );
+                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", 
+                                      null, null, null, $locValue['other']);
+
+                    $this->_overwriteLocTypeIds[] = $locTypeId;
+
+                    // make sure default location type is always on top
+                    $locTypes       = CRM_Core_PseudoConstant::locationType( );
+                    $defaultLocType = array( $locTypeId => $locTypes[$locTypeId] );
+                    unset($locTypes[$locTypeId]);
+
+                    $this->addElement('select', "location[$fieldType][$locTypeId]", null,  
+                                      $defaultLocType + $locTypes, 
+                                      array('onChange' => "displayMainLoc( this, '$fieldType' );") );
                 }
             } 
         }
@@ -341,7 +357,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                   ); 
             //delete the existing location component if overrite.
             eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
-            if ( CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]) == 6 ) { 
+            if ( in_array( CRM_Utils_Array::value($locTypeId, $formValues['location'][$field]), 
+                           $this->_overwriteLocTypeIds ) ) { 
                 $dao->contact_id = $this->_cid;
                 $dao->find();
                 $dao->location_type_id = $locTypeId;
@@ -421,5 +438,3 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
     }
 }
-
-
