@@ -1000,7 +1000,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         if (! $flag ) {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
-                    }else if ($customFields[$customFieldID][3] == 'Multi-Select State/Province' ) {
+                    } else if ( $customFields[$customFieldID]['html_type'] == 'Multi-Select State/Province' ) {
                         $mulValues = explode( ',' , $value );
                         foreach( $mulValues as $stateValue ) {
                             if ( $stateValue) {
@@ -1008,29 +1008,35 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                     || self::in_value($stateValue, CRM_Core_PseudoConstant::stateProvince())) {
                                     continue;
                                 } else {
-                                    self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                                    self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                                 }
                             }
                         } 
-                    }else if ($customFields[$customFieldID][3] == 'Multi-Select Country' ) {
+                    } else if ( $customFields[$customFieldID]['html_type'] == 'Multi-Select Country' ) {
                         $mulValues = explode( ',' , $value );
-                        foreach($mulValues as $countryValue ) {
-                            if ( $countryValue) {
+                        foreach ( $mulValues as $countryValue ) {
+                            if ( $countryValue ) {
+                                
                                 CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
                                                                    true, 'name', 'is_active' );
+                                
                                 CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
                                                                    'CRM_Core_DAO_Country',true, 
                                                                    'iso_code');
-                                $config =& CRM_Core_Config::singleton();
+                                
+                                $config =& CRM_Core_Config::singleton( );
                                 $limitCodes = $config->countryLimit( );
-                                if ( $val = CRM_Utils_Array::key( $values,$countryNames ) ) { 
-                                    continue;
-                                }else if ($val = CRM_Utils_Array::key( $values,$countryIsoCodes ) ) { 
-                                    continue;
-                                }else if ($val = CRM_Utils_Array::key( $values,$limitCodes ) ) { 
-                                    continue;
-                                }else {
-                                    self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                                
+                                $error = true;
+                                foreach ( array( $countryNames, $countryIsoCodes, $limitCodes ) as $values ) {
+                                    if ( in_array( $countryValue, $values ) ) {
+                                        $error = false;
+                                        break;
+                                    }
+                                }
+                                
+                                if ( $error ) {
+                                    self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage); 
                                 }
                             }
                         }
