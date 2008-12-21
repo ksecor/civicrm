@@ -599,7 +599,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $this->set( 'mapper'    , $mapper     );
         $this->set( 'locations' , $locations  );
         $this->set( 'phones', $mapperPhoneType);
-
+        $this->set( 'columnNames', $this->_columnNames);
+        
         //relationship info
         $this->set( 'related'    , $related     );
         $this->set( 'relatedContactType',$relatedContactType );

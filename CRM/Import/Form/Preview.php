@@ -56,6 +56,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $mismatchCount      = $this->get('unMatchCount');
+        $columnNames        = $this->get('columnNames');
+        
+        //assign column names
+        $this->assign( 'columnNames', $columnNames );
         
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
