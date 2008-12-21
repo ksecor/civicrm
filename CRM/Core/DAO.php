@@ -877,7 +877,7 @@ FROM   civicrm_domain
      * @static 
      * @access public 
      */ 
-    static function singleValueQuery( $query, $params = array( ), $abort = true, $i18nRewrite = true ) 
+    static function &singleValueQuery( $query, $params = array( ), $abort = true, $i18nRewrite = true ) 
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );

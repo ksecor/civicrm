@@ -416,8 +416,8 @@ WHERE id={$contactId}; ";
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                      'email'));
         //build the address block
-        $location   = array(); 
-        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1, $countryDefault );
+        $location   = array();
+        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
     }
 
 }

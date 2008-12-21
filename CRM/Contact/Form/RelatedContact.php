@@ -126,10 +126,18 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $params['id'] = $params['contact_id'] = $this->_contactId;
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_defaults );
 
-        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, $this->_contactType, 
-                                                         $this->_defaults['location'][1]['address']['country_id'],
-                                                         $this->_defaults['location'][1]['address']['state_province_id'],
-                                                         'Contact Information', true );
+        $address   = CRM_Utils_Array::value( 'address',
+                                             $this->_defaults['location'][1] );
+        $countryID = CRM_Utils_Array::value( 'country_id',
+                                             $address );
+        $stateID   = CRM_Utils_Array::value( 'state_province_id',
+                                             $address );
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this,
+                                                         $this->_contactType, 
+                                                         $countryID,
+                                                         $stateID,
+                                                         'Contact Information',
+                                                         true );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

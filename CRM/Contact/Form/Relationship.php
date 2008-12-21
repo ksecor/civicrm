@@ -331,10 +331,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $searchDone            = $this->get( 'searchDone' );
         
         $isEmployeeOf = $isEmployerOf = false; 
-        if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) { 
-            $isEmployeeOf = true;
-        } else if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of'  ) {
-            $isEmployerOf = true; 
+        if ( ! empty( $this->_relationshipTypeId ) &&
+             ! empty( $this->_rtype ) ) {
+            if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employee of' ) { 
+                $isEmployeeOf = true;
+            } else if ( $this->_allRelationships[$this->_relationshipTypeId]["name_{$this->_rtype}"] == 'Employer of'  ) {
+                $isEmployerOf = true; 
+            }
         }
         
         if ( $searchRows ) {

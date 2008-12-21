@@ -445,7 +445,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             /* generate the key for the fields array */
             $key = "custom_$id";
-            $regexp = preg_replace('/[.,;:!?]/', '', $values[0]);
+
+            $regexp = preg_replace('/[.,;:!?]/', '', CRM_Utils_Array::value( 0, $values ) );
             $importableFields[$key] = array(
                                             'name'             => $key,
                                             'title'            => CRM_Utils_Array::value('label', $values),
