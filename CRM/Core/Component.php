@@ -112,7 +112,7 @@ class CRM_Core_Component
         $names = array();
         foreach ( $allComponents as $name => $comp ) {
             if( $translated ) {
-                $names[$comp->componentID] = $comp->translatedName;
+                $names[$comp->componentID] = $comp->info['translatedName'];
             } else {
                 $names[$comp->componentID] = $name;
             }
