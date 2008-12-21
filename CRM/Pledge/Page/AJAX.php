@@ -84,6 +84,7 @@ WHERE {$whereClause}
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
+        exit();
     } 
 
 }

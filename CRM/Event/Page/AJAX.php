@@ -86,6 +86,7 @@ ORDER BY title
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
+        exit();
     }
 
     /**
@@ -141,6 +142,7 @@ ORDER by v.weight";
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements,'value' );
+        exi();
     }
 
     /**
@@ -191,6 +193,7 @@ WHERE cg.name LIKE 'civicrm_event.amount%'
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
+        exit();
     } 
 
 }

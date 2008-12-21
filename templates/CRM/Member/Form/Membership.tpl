@@ -207,32 +207,12 @@ function showHideMemberStatus() {
 {literal}
 function setPaymentBlock( memType ) 
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/memType' h=0 q='mtype='}"{literal} + memType;
-
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if (response instanceof Error) {
-		    if(response.dojoType == "cancel"){
-			//The request was canceled by some other JavaScript code.
-			console.debug("Request canceled.");
-		    }else if(response.dojoType == "timeout"){
-			//The request took over 5 seconds to complete.
-			console.debug("Request timed out.");
-		    }else{
-			//Some other error happened.
-			console.error(response);
-		    }
-                } else {
-		    // on success
-		    result = (response).split('^A');
-		    document.getElementById('contribution_type_id').value =  result[0] ;
-		    document.getElementById('total_amount').value =  result[1] ;
-	       }
-        }
-     });
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/memType' h=0}"{literal};
+    
+    cj.post( dataUrl, {mtype: memType}, function( data ) {
+        cj("#contribution_type_id").val( data.contribution_type_id );
+        cj("#total_amount").val( data.total_amount );
+    }, 'json');    
 }
 </script>
 {/literal}

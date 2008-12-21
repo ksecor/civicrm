@@ -38,14 +38,13 @@
  */
 class CRM_Member_Page_AJAX
 {
-
     /**
      * Function to setDefaults according to membership type
      */
     function getMemberTypeDefaults( $config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $memType  = CRM_Utils_Type::escape( $_GET['mtype'], 'Integer') ; 
+        $memType  = CRM_Utils_Type::escape( $_POST['mtype'], 'Integer') ; 
         
         $contributionType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
                                                          $memType, 
@@ -55,7 +54,11 @@ class CRM_Member_Page_AJAX
                                                     $memType, 
                                                     'minimum_fee' );
 
-        echo $contributionType . "^A" . $totalAmount;
+        $details = array( 'contribution_type_id' => $contributionType,
+                          'total_amount'         => $totalAmount );                                         
+        
+        echo json_encode( $details );
+        exit();
     }
     
 }

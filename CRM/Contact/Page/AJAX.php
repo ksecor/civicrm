@@ -130,6 +130,7 @@ ORDER BY sort_name ";
 
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
+        exit();
     }
 
 
@@ -138,6 +139,7 @@ ORDER BY sort_name ";
         $gids  = CRM_Utils_Type::escape( $_GET['gids'], 'String' ); 
         require_once 'CRM/Contact/BAO/GroupNestingCache.php';
         echo CRM_Contact_BAO_GroupNestingCache::json( $gids );
+        exit();
     }    
 
     /**
@@ -307,6 +309,7 @@ ORDER BY sort_name ";
 
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements );
+        exit();
     }
 
     /*                                                                                                                                                                                            
@@ -329,6 +332,7 @@ WHERE sort_name LIKE '%$name%'";
         if ( $dao->N == 1) {
             echo $dao->id;
         }
+        exit();
     }
 
 }
