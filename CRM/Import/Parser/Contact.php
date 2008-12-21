@@ -779,7 +779,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             // at some point wold be nice to have related counts as separate
                             $relationIds = array('contact' => $primaryContactId);
                             
-                            CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
+                            list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
+                                CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
                             
                             CRM_Contact_BAO_Relationship::relatedMemberships( $primaryContactId, 
                                                                               $relationParams,
