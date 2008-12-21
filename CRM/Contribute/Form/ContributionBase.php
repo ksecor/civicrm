@@ -197,7 +197,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( $this->_mid ) {
                 require_once 'CRM/Member/DAO/Membership.php';
                 $membership =& new CRM_Member_DAO_Membership( );
-                $membership->id = $mid;
+                $membership->id = $this->_mid;
                 
                 if ( $membership->find(true) ) {
                     $this->_defaultMemTypeId = $membership->membership_type_id;

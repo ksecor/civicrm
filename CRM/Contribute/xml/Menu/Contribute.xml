@@ -143,4 +143,14 @@
      <access_callback>1</access_callback>
      <is_public>true</is_public>
   </item>
+  <item>
+     <path>civicrm/ajax/permlocation</path>
+     <page_callback>CRM_Core_Page_AJAX_Location::getPermissionedLocation</page_callback>
+     <access_arguments>make online contributions</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/ajax/employer</path>
+     <page_callback>CRM_Contact_Page_AJAX::getPermissionedEmployer</page_callback>
+     <access_arguments>make online contributions</access_arguments>
+  </item>
   </menu>
