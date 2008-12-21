@@ -61,7 +61,7 @@
         <td>&nbsp;</td>        
     </tr>
     <tr>
-        <td><div class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" ></div></td>
+        <td>&nbsp;</td>
         <td colspan=4>{$form.current_employer.label}</td>
     </tr>
     <tr>
