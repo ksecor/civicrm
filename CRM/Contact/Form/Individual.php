@@ -321,28 +321,30 @@ class CRM_Contact_Form_Individual {
     static function createSharedHousehold( &$params ) 
     {
         $houseHoldId = null;
+        
         // if household id is passed.
         if ( is_numeric( $params['shared_household'] ) ) {
             $houseHoldId = $params['shared_household'];
         } else {
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact =& new CRM_Contact_DAO_Contact( );
-            $contact->household_name = $params['shared_household'];
-            
-            $contact->find( );
-            $dupeIds = array( );
-            while ( $contact->fetch( ) ) {
-                $dupeIds[$contact->id] = $contact->id;
-            }
+            $householdParams = array();
 
-            // if duplicates are not found create new household
-            if ( empty($dupeIds) ) {
-                $householdParams = array();
-                $householdParams['location'] = $params['location'];
-                unset( $householdParams['location']['2'], 
-                       $householdParams['location']['1']['phone'], 
-                       $householdParams['location']['1']['email'], 
-                       $householdParams['location']['1']['im'] );
+            $householdParams['location'] = $params['location'];
+          
+            unset( $householdParams['location']['2'], 
+                   $householdParams['location']['1']['phone'], 
+                   $householdParams['location']['1']['email'], 
+                   $householdParams['location']['1']['im'] ,
+                   $householdParams['location']['1']['openid']);
+
+            $householdParams['household_name'] = $params['shared_household'];
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($householdParams, 'Household');
+         
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy');
+         
+            if ( is_array( $dupeIDs ) ) {
+                $houseHoldId = $dupeIDs[0];
+            } else {
                 //create new Household
                 $newHousehold = array ( 'contact_type'   => 'Household',
                                         'household_name' => $params['shared_household'], 
