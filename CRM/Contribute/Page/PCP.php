@@ -146,7 +146,8 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         $query = "
   SELECT cp.id as id, contact_id , status_id, cp.title as title, contribution_page_id, start_date, end_date
     FROM civicrm_pcp cp, civicrm_contribution_page cpp
-   WHERE cp.contribution_page_id = cpp.id $title". $this->get('whereClause');
+   WHERE cp.contribution_page_id = cpp.id $title". $this->get('whereClause').
+   "ORDER BY status_id";
         
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contribute_DAO_PCP' );
 
