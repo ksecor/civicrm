@@ -39,7 +39,8 @@ require_once 'CRM/Core/BAO/UFGroup.php';
 /**
  *  This class is for UF Group
  */
-class CRM_UF_Form_Group extends CRM_Core_Form {
+class CRM_UF_Form_Group extends CRM_Core_Form 
+{
 
     /**
      * the form id saved to the session for an update
@@ -293,7 +294,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             // get the submitted form values.
             $params = $ids = array( );
             $params = $this->controller->exportValues( $this->_name );
-           
+
+            if ( ! array_key_exists( 'is_active', $params ) ){
+                $params['is_active'] = 0;
+            }
+
             if ( ! array_key_exists( 'is_cms_user', $params ) ){
                 $params = array_merge( $this->_defaults, $params );
             }
