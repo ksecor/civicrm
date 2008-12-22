@@ -315,7 +315,8 @@ WHERE  contribution_id = {$this->_id}
             $csParams = array( 'contribution_id' => $this->_id );
             $softCredit = CRM_Contribute_BAO_Contribution::getSoftContribution( $csParams );
             if ( $softCredit ) {
-                $this->_values['soft_credit_to'] = $softCredit;
+                $this->_values['soft_credit_to'] = $softCredit['soft_credit_to'];
+                $this->_values['softID'        ] = $softCredit['soft_credit_id'];
             }
         }
         
@@ -975,7 +976,10 @@ WHERE  contribution_id = {$this->_id}
             foreach ( $fields as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-            
+           
+            if ( $softID = CRM_Utils_Array::value( 'softID', $this->_values ) ){
+                $params['softID'] = $softID;
+            }
             $dates = array( 'receive_date',
                             'receipt_date',
                             'cancel_date' );

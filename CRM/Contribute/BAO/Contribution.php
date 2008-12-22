@@ -245,6 +245,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         if ( CRM_Utils_Array::value( 'soft_credit_to', $params ) ) {
 
             $csParams = array();
+            if ( $id = CRM_Utils_Array::value( 'softID', $params ) ) {
+                $csParams['id'] = $params['softID'];
+            }
             $csParams['contribution_id'] = $contribution->id;
             $csParams['contact_id'] = $params['soft_credit_to'];
             // first stage: we register whole amount as credited to given person
@@ -912,7 +915,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                 }
                 return $softContribution;
             }else {
-                return $cs->contact_id;
+                return array( 'soft_credit_to' => $cs->contact_id, 'soft_credit_id' => $cs->id );
             }
         }
         return null;
