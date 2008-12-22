@@ -425,10 +425,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
 		//assign event and role id, this is needed for Custom data building
-		$this->assign( 'roleID',  $roleID );
-		$this->assign( 'eventID', $eventID );
+		if ( isset( $roleID ) ) {
+		    $this->assign( 'roleID',  $roleID );
+		}
 		
-        $this->set( 'eventId', $eventID );
+		if (  isset( $eventID ) ) {
+		    $this->assign( 'eventID', $eventID );
+		    $this->set( 'eventId', $eventID );
+		}
+        
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_participantId]) );
         return $defaults[$this->_participantId];
     }
@@ -458,7 +463,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             if (  $this->_single ) {
                 require_once 'CRM/Event/BAO/Event.php';
-                $additionalParticipant = count (CRM_Event_BAO_Event::buildCustomProfile( $this->_id, null, $this->_contactID, false, true )) - 1;
+                $additionalParticipant = count (CRM_Event_BAO_Event::buildCustomProfile( $this->_participantId, null, $this->_contactID, false, true )) - 1;
                 if ( $additionalParticipant ) {
                     $this->assign( "additionalParticipant", $additionalParticipant );
                 }   

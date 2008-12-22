@@ -121,52 +121,54 @@ class CRM_Event_Form_EventFees
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $form->_eventId ) ) {
             $fields = array( );
-    
-            $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
-                                   substr( $defaults[$form->_pId]['fee_level'], 1, -1 ) );
-            foreach ( $eventLevel as $id => $name ) {
-                $optionValue         = new CRM_Core_BAO_OptionValue( );
-                $optionValue->label  = $name;
-                $optionValue->find( true );
-                
-                if ($optionValue->option_group_id ){
-                    $groupName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionValue->option_group_id, 'name' );
-                    $fieldName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
-                    $eventLevel[$id] = array( 'fieldName'   => $fieldName,
-                                              'optionLabel' => $name );
-                }
-            }
-            //for the texfield default value
-            foreach ( $eventLevel as $id => $values ) {
-                if( !is_array( $values ) ){
-                    $textLevel       = explode( ' - ', $values );
-                    $eventLevel[$id] = array( 'fieldName'   => $textLevel[0],
-                                              'optionLabel' => $textLevel[1] );
-                }       
-            }
             
-            require_once 'CRM/Core/BAO/PriceField.php';
-            foreach ( $eventLevel as $values ) {
-                $priceField        = new CRM_Core_BAO_PriceField( );
-                $priceField->label = $values['fieldName'];
+            if ( CRM_Utils_Array::value( 'fee_level', $defaults[$form->_pId] ) ) {
+                $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                       substr( $defaults[$form->_pId]['fee_level'], 1, -1 ) );
+                foreach ( $eventLevel as $id => $name ) {
+                    $optionValue         = new CRM_Core_BAO_OptionValue( );
+                    $optionValue->label  = $name;
+                    $optionValue->find( true );
                 
-                $priceField->find( true );
-                
-                // FIXME: we are not storing qty for text type (for
-                // offline mode). Hence cannot set defaults for Text
-                // type price field
-                if ( $priceField->html_type == 'Text' ) {
-                    $defaults[$form->_pId]["price_{$priceField->id}"] = $values['optionLabel'];
-                    continue;
+                    if ($optionValue->option_group_id ){
+                        $groupName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionValue->option_group_id, 'name' );
+                        $fieldName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
+                        $eventLevel[$id] = array( 'fieldName'   => $fieldName,
+                                                  'optionLabel' => $name );
+                    }
                 }
-                
-                $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
-                
-                if ( $priceField->html_type == 'CheckBox' ) {
-                    $defaults[$form->_pId]["price_{$priceField->id}"][$optionId] = 1;
-                    continue;
+                //for the texfield default value
+                foreach ( $eventLevel as $id => $values ) {
+                    if( !is_array( $values ) ){
+                        $textLevel       = explode( ' - ', $values );
+                        $eventLevel[$id] = array( 'fieldName'   => $textLevel[0],
+                                                  'optionLabel' => $textLevel[1] );
+                    }       
                 }
-                $defaults[$form->_pId]["price_{$priceField->id}"] = $optionId;
+            
+                require_once 'CRM/Core/BAO/PriceField.php';
+                foreach ( $eventLevel as $values ) {
+                    $priceField        = new CRM_Core_BAO_PriceField( );
+                    $priceField->label = $values['fieldName'];
+                
+                    $priceField->find( true );
+                
+                    // FIXME: we are not storing qty for text type (for
+                    // offline mode). Hence cannot set defaults for Text
+                    // type price field
+                    if ( $priceField->html_type == 'Text' ) {
+                        $defaults[$form->_pId]["price_{$priceField->id}"] = $values['optionLabel'];
+                        continue;
+                    }
+                
+                    $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
+                
+                    if ( $priceField->html_type == 'CheckBox' ) {
+                        $defaults[$form->_pId]["price_{$priceField->id}"][$optionId] = 1;
+                        continue;
+                    }
+                    $defaults[$form->_pId]["price_{$priceField->id}"] = $optionId;
+                }
             }
         } else {
             $optionGroupId = null;
