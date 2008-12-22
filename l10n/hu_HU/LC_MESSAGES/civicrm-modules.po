@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-10-26 05:43-0700\n"
-"Last-Translator: Gippsz Jakab <gippsz@freemail.hu>\n"
+"PO-Revision-Date: 2008-12-21 10:38-0800\n"
+"Last-Translator: Ricsike <rbolyos@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,17 +22,17 @@ msgstr "Másolat"
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "No thank you"
-msgstr "Köszönöm nem"
+msgstr "Köszönöm nem kérek!"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #, fuzzy
 msgid "Contribution Type - %1"
-msgstr "Közlemény Típus - %1"
+msgstr "Hozzájárulás típus - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #, fuzzy
 msgid "Contribution Page - %1"
-msgstr "Közlemény oldal - %1"
+msgstr "Hozzájárulási oldal - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "Honor name like - '%1'"
@@ -46,39 +46,39 @@ msgstr "Hozzájárulási forrás "
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr "Valós összeget adj meg! (pl. 9.99)"
+msgstr "Kérem valós pénzösszeget adjon meg! (pl.: 9.99)"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr "Valós összeget adj meg! (pl. 9.99)"
+msgstr "Kérem valós pénzösszeget adjon meg! (pl.: 9.99)"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr "Hozzájárulás oldal"
+msgstr "Hozzájárulási oldal"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 msgid "In Honor Of"
-msgstr ""
+msgstr "Tiszteletére"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #, fuzzy
 msgid "Pay Later Text"
-msgstr "Szöveg"
+msgstr "Szöveg (későbbi fizetéshez)"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr ""
+msgstr "Nyugta (későbbi fizetéshez)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Goal Amount"
-msgstr "Célösszeg "
+msgstr "Célösszeg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
@@ -88,17 +88,17 @@ msgstr "Nyugta névből "
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr "Nyugta emailből"
+msgstr "Nyugta e-mailből"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Footer Text"
-msgstr "Lábjegyzet szöveg"
+msgstr "Lábjegyzet"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
-msgstr "Nem levonható összeg"
+msgstr "Nem leírható összeg"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Form/Task/Status.php
@@ -122,32 +122,32 @@ msgstr "Nettó összeg"
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr "Hívás ID"
+msgstr "Számla azonosító"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
 msgid "Cancel Date"
-msgstr "Dátum törlés"
+msgstr "Időpont-lemondás"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr "Beérkezés dátuma"
+msgstr "Nyugta dátuma"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Event/DAO/Participant.php
 #: CRM/Member/DAO/Membership.php
 msgid "Is Pay Later"
-msgstr ""
+msgstr "Későbbi fizetés"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/DAO/Pledge.php
 msgid "Frequency Unit"
-msgstr "Frekvenciaegység"
+msgstr "Gyakoriság egysége"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Frequency Interval"
-msgstr "Frekvenciaidőköz"
+msgstr "Gyakoriság időköze"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
@@ -162,55 +162,55 @@ msgstr "hét"
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Accounting Code"
-msgstr "Kódot elemezni"
+msgstr "Elszámolási kód"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
+msgstr "Cikkszám"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Options"
-msgstr "Beállítások"
+msgstr "Opciók"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Period Type"
-msgstr "Korabeli típus"
+msgstr "Periódus-típus"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr "Meghatározott időszak kezdőnapja"
+msgstr "Fix periódus kezdőnapja"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "Duration Unit"
-msgstr ""
+msgstr "Időtartam egysége"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
 msgid "Duration Interval"
-msgstr ""
+msgstr "Időtartam intervalluma"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Button Title"
-msgstr "Gomb Cím"
+msgstr "Gomb felirata"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr ""
+msgstr "Névjegy"
 
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Premium"
-msgstr ""
+msgstr "Prémium"
 
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -221,18 +221,18 @@ msgstr "Minimális hozzájárulási összeg"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Thank-you Sent"
-msgstr ""
+msgstr "Köszönet elküldve!"
 
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Send up to"
-msgstr ""
+msgstr "Felküldés"
 
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Send additional reminders"
-msgstr ""
+msgstr "További emlékeztetők küldése"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Member/BAO/Membership.php
 msgid ""
@@ -240,10 +240,13 @@ msgid ""
 "your site administrator if you need assistance. If you continue, you will be "
 "issued a new membership."
 msgstr ""
+"Úgy tűnik, hogy a megújítani szándékozott tagsági jogviszony érvénytelen! "
+"Segítségét kérem forduljon a honlap adminisztrátoraihoz! Ha folytatja, akkor "
+"új tagsági jogviszonyt létesíthet..."
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
-msgstr "A kért lap jelenleg nem elérhető."
+msgstr "A kért lap jelenleg nem elérhető!"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
@@ -260,17 +263,17 @@ msgstr "Címke(ék)"
 #: CRM/Event/Form/Registration/Register.php
 #, fuzzy
 msgid "The email %1 already exists in the database."
-msgstr "Ez a név már szerepel az adatbázisban."
+msgstr "A következő e-mail cím már szerepel az adatbázisban: %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Number"
-msgstr "Kérem adjon meg egy érvényes hitelkártya számot"
+msgstr "Kérem adjon meg egy érvényes bankkártyaszámot!"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php CRM/Member/Form/Membership.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Kérem adjon meg egy érvényes hitelkártya számot"
+msgstr "Kérem adjon meg egy érvényes bankkártya ellenőrzőkódot (CVV2, CCV2)!"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
@@ -278,28 +281,28 @@ msgstr "Minimális összeg "
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr "Maximum összeg"
+msgstr "Maximális összeg"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr "Kérem adjon meg egy érvényes értéket ehhez a mezőhöz (pl. 99.9)"
+msgstr "Kérem adjon meg egy érvényes pénzösszeget a mezőben (pl.: 99.9)!"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "I will send payment by check"
-msgstr "Csekken fogom küldeni a fizetséget."
+msgstr "Kérem küldjenek részemre készpénzátutalási megbízást!"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage.php
 #, fuzzy
 msgid "civicrm_contribution_page"
-msgstr "Hozzájárulás oldal"
+msgstr "Hozzájárulási oldal"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Include Profile"
-msgstr "Profil Tartalom"
+msgstr "Profil beemelése"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -314,25 +317,25 @@ msgstr "(az oldal aljára)"
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr "Hozzájárulás Oldal Beállítás"
+msgstr "Hozzájárulási oldal beállítása"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
-msgstr "Bevezető Üzenet"
+msgstr "Bevezető üzenet"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Footer Message"
-msgstr "Lábléc Üzenet"
+msgstr "Lábléc üzenet"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Please select a valid start date."
-msgstr "Kérem válasszon ki egy érvényes indulási dátumot."
+msgstr "Kérem, válasszon ki egy érvényes kezdődátumot!"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -343,13 +346,14 @@ msgstr "Dátum / Időpont vége"
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
 msgid "Receipt Message"
-msgstr "Nyugtázó Üzenet"
+msgstr "Nyugtázó üzenet"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#, fuzzy
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
-msgstr "Ez a tranzakciós ID már megtalálható az adatbázisban. "
+msgstr "Ez a tranzakciós azonosító már megtalálható az adatbázisban. "
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
@@ -362,11 +366,11 @@ msgstr "Beérkezett"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Pledge/Form/Pledge.php
 msgid "Honor First Name and Last Name OR an email should be set."
-msgstr "Minimális hozzájárulási összeg"
+msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php CRM/Pledge/Form/Pledge.php
 msgid "Frequency"
-msgstr "Meghatározott időszak kezdőnapja"
+msgstr "Gyakoriság"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
@@ -375,29 +379,29 @@ msgstr "Hozzájárulások törlése"
 #: CRM/Contribute/Form/Task/PDF.php CRM/Contribute/Task.php
 #, fuzzy
 msgid "Print Contribution Receipts"
-msgstr "Hozzájárulási forrás "
+msgstr "Hozzájárulási nyugták nyomtatása"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/Member/Import/Form/UploadFile.php
 #, fuzzy
 msgid "Import mode"
-msgstr "Import"
+msgstr "Import mód"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Configure"
-msgstr "Konfiguráció"
+msgstr "Konfigurálás"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Tesztelés"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "Live Page"
-msgstr ""
+msgstr "Élő lap"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
@@ -406,45 +410,45 @@ msgstr ""
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Edit Premium"
-msgstr "Szerkesztés Premium"
+msgstr "Prémium szerkesztése"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Preview Premium"
-msgstr "Előnézet Premium"
+msgstr "Prémium előnézete"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
-msgstr "Letiltás Premium"
+msgstr "Prémium letiltása"
 
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "View Contribution"
-msgstr ""
+msgstr "Hozzájárulás megtekintése"
 
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Edit Contribution"
-msgstr ""
+msgstr "Hozzájárulás szerkesztése"
 
 #: CRM/Contribute/Page/Tab.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Delete Contribution"
-msgstr ""
+msgstr "Hozzájárulás törlése"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 #, fuzzy
 msgid "Fee level"
-msgstr "Címke"
+msgstr "Díjmérték"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 #, fuzzy
 msgid "Participant Source"
-msgstr "Kapcsolat típus"
+msgstr "Résztvevőforrás"
 
 #: CRM/Event/BAO/Query.php CRM/Event/Selector/Search.php
 #: templates/CRM/Event/Form/Task/Print.tpl
 msgid "Fee Level"
-msgstr ""
+msgstr "Díjmérték"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Import/Form/MapField.php
 msgid "Event ID"
@@ -453,43 +457,43 @@ msgstr "Esemény ID"
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Confirm From Name"
-msgstr "Nyugta névből "
+msgstr "Megerősítés névből "
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Confirm From Email"
-msgstr "Nyugta emailből"
+msgstr "Megerősítés e-mailből"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
 msgid "Event Title"
-msgstr "Cím"
+msgstr "Esemény címe"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Event Summary"
-msgstr "Esemény Összefoglalás"
+msgstr "Esemény összefoglalása"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Registration Start Date"
-msgstr "Befejezése"
+msgstr "Regisztráció kezdődátuma"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Registration End Date"
-msgstr "Befejezése"
+msgstr "Regisztráció záródátuma"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 #, fuzzy
 msgid "Fee Label"
-msgstr "Címke"
+msgstr "Díj címke"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
 #, fuzzy
 msgid "Payment ID"
-msgstr "Fizetési modul"
+msgstr "Fizetési ID"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 msgid "Participant ID"
@@ -499,75 +503,75 @@ msgstr "Résztvevő ID"
 #: CRM/Member/Form/MembershipRenewal.php
 #, fuzzy
 msgid "Transaction ID already exists in Database."
-msgstr "Ez a név már szerepel az adatbázisban."
+msgstr "A tranzakciószám már szerepel az adatbázisban!"
 
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php CRM/Pledge/DAO/Payment.php
 msgid "Payment Status"
-msgstr "Fizetési Állapot"
+msgstr "Fizetési státusz"
 
 #: CRM/Event/Form/EventFees.php CRM/Event/Form/ManageEvent/Fee.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr "Esemény Díj(ak)"
+msgstr "Részvételi díja(k)"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Delete Event"
-msgstr "Törlés"
+msgstr "Esemény törlése"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Please select a valid end date."
-msgstr "Helyes időpont kiválasztás"
+msgstr "Kérem válasszon egy érvényes záródátumot!"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Configure Event"
-msgstr "Esemény Konfiguráció "
+msgstr "Esemény szerkesztése"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 #, fuzzy
 msgid "Could not find valid payment processor for this page"
-msgstr "Nincs jogosultságod, az oldal megtekintéséhez"
+msgstr "Nem találok érvényes fizetési modult az oldalon!"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 msgid "Grant Status"
-msgstr "Fizetési Állapot"
+msgstr "Fizetési státusz"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "Kért összeg"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 #, fuzzy
 msgid "Amount Granted"
-msgstr "Összeg"
+msgstr "Adományozott összeg"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
 msgid "Rationale"
-msgstr "Helyszín név"
+msgstr "Magyarázat"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
 msgid "Application Received"
-msgstr "Befejezése"
+msgstr ""
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Money Transferred"
-msgstr ""
+msgstr "Pénz átutalva"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -575,49 +579,49 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
-msgstr ""
+msgstr "Futtatás"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr ""
+msgstr "Kész"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
-msgstr ""
+msgstr "Szüneteltetve"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Canceled"
-msgstr ""
+msgstr "Megszakítva"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
-msgstr ""
+msgstr "Válasz"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
-msgstr ""
+msgstr "Kiválás"
 
 #: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
-msgstr ""
+msgstr "Komponenstípus"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 msgid "Body Html"
-msgstr ""
+msgstr "Törzs (HTML)"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body Text"
-msgstr ""
+msgstr "Törzs (szöveg)"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
-msgstr ""
+msgstr "'%1' <noreply@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
@@ -630,7 +634,7 @@ msgstr ""
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Időbélyeg"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -641,7 +645,7 @@ msgstr "Következő >>"
 #: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
 #: CRM/Mailing/Form/Upload.php
 msgid "Save & Continue Later"
-msgstr "Felíratkozás"
+msgstr "Mentés (későbbi folytatással)"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Schedule.php
 #: CRM/Mailing/Form/Settings.php CRM/Mailing/Form/Test.php
@@ -650,69 +654,69 @@ msgid ""
 "Your mailing has been saved. Click the 'Continue' action to resume working "
 "on it."
 msgstr ""
+"A postázást mentettem. A \"Folytatás\" gombra kattintással, folytatható a "
+"munka!"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Cancel Mailing"
-msgstr "Mégsem"
+msgstr "Postázás megszakítása"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Delete Mailing"
-msgstr "Törlés"
+msgstr "Postázás törlése"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr "Hiányzó bemeneti paraméterek"
+msgstr "Hiányzó bemeneti paraméterek!"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
 msgid "Member Since"
-msgstr ""
+msgstr "Tagság kezdete"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Import/Form/MapField.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Membership Start Date"
-msgstr ""
+msgstr "Tagság kezdődátuma"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Start Event"
-msgstr ""
+msgstr "Esemény kezdete"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Esemény kezdetének elintézési határideje"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "End Event"
-msgstr ""
+msgstr "Esemény vége"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Esemény végének elintézési határideje"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
-msgstr ""
+msgstr "Jelenlegi tagság?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Minimális díj"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
-msgstr ""
+msgstr "Fix periódus fordulónapja"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr ""
+msgstr "Megújítás emlékeztető nap"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
@@ -720,70 +724,70 @@ msgstr "Megerősítés és nyugta küldése?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
-msgstr "Az új tagság befejező dátuma %1."
+msgstr "Az új tagság befejező dátuma: %1!"
 
 #: CRM/Member/Form.php CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 msgid "Renew"
-msgstr "Tag"
+msgstr "Megújít"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
 msgid "Delete Members"
-msgstr "Törlés Tagok"
+msgstr "Tagok törlése"
 
 #: CRM/Member/Page/DashBoard.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Member"
-msgstr "Exportálás Tagok"
+msgstr "Tag"
 
 #: CRM/Member/Page/MembershipType.php CRM/Member/Page/Tab.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Edit Membership Type"
-msgstr "Importálás Tagok"
+msgstr "Tagtípusok szerkesztése"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Renew Membership"
-msgstr ""
+msgstr "Tagság megújítása"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "View Membership"
-msgstr "Tagok nézet"
+msgstr "Tagságok megtekintése"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Edit Membership"
-msgstr "Tagok szerkesztés"
+msgstr "Tagság szerkesztése"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 msgid "Renew-Credit Card"
-msgstr ""
+msgstr "Bankkártya megújítása"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 msgid "Renew Membership Using Credit Card"
-msgstr ""
+msgstr "Tagság megújítása bankkártya használatával"
 
 #: CRM/Member/Page/Tab.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Delete Membership"
-msgstr "Tagok törlése"
+msgstr "Tagságok törlése"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 #, fuzzy
 msgid "Total Paid"
-msgstr "Irányítószám"
+msgstr "Összes fizetett"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #, fuzzy
 msgid "Next Payment Date"
-msgstr "Fizetési modul"
+msgstr "Következő fizetés dátuma"
 
 #: CRM/Pledge/BAO/Pledge.php CRM/Pledge/Selector/Search.php
 #, fuzzy
 msgid "Next Payment Amount"
-msgstr "Nettó összeg"
+msgstr "Következő fizetés összege"
 
 #: CRM/Pledge/BAO/Query.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/Pledge.tpl
@@ -791,42 +795,42 @@ msgstr "Nettó összeg"
 #: templates/CRM/Pledge/Form/Search/Common.tpl
 #, fuzzy
 msgid "Pledge Status"
-msgstr "Eset státusz"
+msgstr "Felajánlás státusza"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 msgid "Maximum Number of Reminders"
-msgstr ""
+msgstr "Emlékeztetők maximális száma"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Initial Reminder Day"
-msgstr ""
+msgstr "Emlékeztetők kezdőnapja"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 msgid "Additional Reminder Days"
-msgstr ""
+msgstr "Emlékeztetők pótnapjai"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
 msgid "Total Pledged"
-msgstr ""
+msgstr "Összes felajánlott"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Pledge Made"
-msgstr ""
+msgstr "Felajánlás beérkezett"
 
 #: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
 msgid "%1(s)"
-msgstr ""
+msgstr "%1"
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
 #, fuzzy
 msgid "Delete Pledges"
-msgstr "Profil választás"
+msgstr "Felajánlások törlése"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr "- Hozzájárulá Mezők -"
+msgstr "- Hozzájárulás-mezők -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -835,83 +839,87 @@ msgid ""
 "Pages, or Membership Types. Consider disabling this type instead if you no "
 "longer want it used."
 msgstr ""
+"Ez a hozzájárulás-típus nem törölhető, mert mert egy vagy több rekord "
+"hivatkozik rá! A hozzájárulás-típust csak inaktiválni lehet!"
 
 #: CRM/Contribute/BAO/ManagePremiums.php
 msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
+"Ez a Prémium linkelve lett egy <a href='%1'>Online hozzájárulási "
+"oldalhoz</a>. Kérem távolítsa el a törléshez!"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
-msgstr "Kiválasztott Opció"
+msgstr "Kiválasztott opció"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Total Amount %1 %2"
-msgstr "Hozzájárulás Teljes Összege %1 %2"
+msgstr "Hozzájárulás teljes összege %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Thank-you date is null"
-msgstr ""
+msgstr "Hozzájárulás megköszönésének időpontja üres"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Receipt date is null"
-msgstr ""
+msgstr "Hozzájárulás nyugtájának dátuma üres"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
-msgstr ""
+msgstr "Fizette - %1"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Contribution Status %1"
-msgstr "Hozzájárulási forrás "
+msgstr "Hozzájárulási státusz %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr ""
+msgstr "Hozzájárulási dátumtól"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Thank-you date not set?"
-msgstr ""
+msgstr "Köszönet dátuma nincs beállítva?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Receipt not sent?"
-msgstr "Nyugta névből "
+msgstr "Nyugta nem lett elküldve?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Test Contributions?"
-msgstr "Hozzájárulások"
+msgstr "Teszt-hozzájárulásokat keres?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Pay Later Contributions?"
-msgstr "Hozzájárulások"
+msgstr "Későbbi fizetésű hozzájárulásokat keres?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Find Recurring Contributions?"
-msgstr "Hozzájárulások"
+msgstr "Megújuló hozzájárulásokat keres?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Intro Text"
-msgstr "Szöveg"
+msgstr "Bevezető szöveg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Recur Frequency Unit"
-msgstr "Frekvenciaegység"
+msgstr "Megújulás gyakorisági egysége"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr ""
+msgstr "Köszönőszöveg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Footer"
-msgstr ""
+msgstr "Köszönőlábléc"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -921,20 +929,20 @@ msgstr "Szervezet"
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Cc Receipt"
-msgstr "Hozzájárulási forrás "
+msgstr "Nyugtamásolat"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
-msgstr ""
+msgstr "Nyugtamásolat (titkos)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Receipt Text"
-msgstr "Nyugta névből "
+msgstr "Nyugtaszöveg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
-msgstr "Honor Block cím"
+msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
@@ -943,25 +951,25 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "Hozzájárulás oldal"
+msgstr "Hozzájárulási oldal indulási dátuma"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
 msgid "Contribution Page End Date"
-msgstr "Hozzájárulás oldal"
+msgstr "Hozzájárulás oldal záródátuma"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID"
-msgstr ""
+msgstr "Hozzájárulás ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "Ügyvéd ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
 msgid "Receive Date"
-msgstr "Befejezése"
+msgstr "Érkezés dátuma"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -971,7 +979,7 @@ msgstr "Mégsem"
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
 msgid "Thank-you Date"
-msgstr "Tranzakció ID"
+msgstr "Köszönetdátum"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -981,27 +989,27 @@ msgstr "Összeg"
 #: CRM/Contribute/DAO/ContributionProduct.php
 #, fuzzy
 msgid "Product Option"
-msgstr "Beállítások szerkesztése"
+msgstr "Termékjellemzők"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Mennyiség"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 #, fuzzy
 msgid "Fulfilled Date"
-msgstr "Dátum törlés"
+msgstr ""
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 #, fuzzy
 msgid "Comment"
-msgstr "Komponensek"
+msgstr "Megjegyzés"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
 #, fuzzy
 msgid "Create Date"
-msgstr "Készen van"
+msgstr "Készült"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -1101,11 +1109,11 @@ msgstr "Ország"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "Logo URL"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Homepage"
-msgstr ""
+msgstr "Honlap URL"
 
 #: CRM/Contribute/DAO/Widget.php
 #, fuzzy
@@ -1114,11 +1122,11 @@ msgstr "Cím"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Button"
-msgstr ""
+msgstr "Gomb színe"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bar"
-msgstr ""
+msgstr "Sáv színe"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Text"
@@ -1134,7 +1142,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bg"
-msgstr ""
+msgstr "Háttérszín"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color About Link"
@@ -1810,7 +1818,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Send Receipt?"
-msgstr ""
+msgstr "Küldjek nyugtát?"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -2806,7 +2814,7 @@ msgstr ""
 
 #: CRM/Event/Info.php
 msgid "Your Event(s)"
-msgstr ""
+msgstr "Eseményeim"
 
 #: CRM/Event/Page/DashBoard.php
 msgid "events"
@@ -3034,23 +3042,24 @@ msgstr "Kiválasztott hozzájárulás típus törölve."
 
 #: CRM/Mailing/BAO/Job.php
 msgid "CiviCRM Test Mailer (%1)"
-msgstr ""
+msgstr "CiviCRM Próbapostázó (%1)"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Test Mailing:"
-msgstr ""
+msgstr "Próbapostázás:"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
-msgstr ""
+msgstr "A postázás megszakítva."
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
-msgstr ""
+msgstr "Nincs ütemezve"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "You do not have permission to access this mailing report"
 msgstr ""
+"Önnek nincs elég jogosultsága, hogy hozzáférjen a postázási jelentésekhez."
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -3073,7 +3082,7 @@ msgstr "Smart csoport frissítés"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Save As New Template"
-msgstr ""
+msgstr "Mentés új sablonként"
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -3082,7 +3091,7 @@ msgstr "Thermometer cím"
 
 #: CRM/Mailing/DAO/BouncePattern.php
 msgid "Pattern"
-msgstr ""
+msgstr "Sablon"
 
 #: CRM/Mailing/DAO/BounceType.php
 #, fuzzy
@@ -3091,7 +3100,7 @@ msgstr "Háztartás"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
@@ -3099,19 +3108,19 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Invalid"
-msgstr ""
+msgstr "Érvénytelen"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Ciklus"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Quota"
-msgstr ""
+msgstr "Kvóta"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Relay"
@@ -3119,11 +3128,11 @@ msgstr ""
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "SPAM"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Syntax"
-msgstr ""
+msgstr "Szintaxis"
 
 #: CRM/Mailing/DAO/Component.php
 #, fuzzy
@@ -3136,15 +3145,15 @@ msgstr ""
 
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
-msgstr ""
+msgstr "Kiválás"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Include"
-msgstr ""
+msgstr "Befolalás"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Exclude"
-msgstr ""
+msgstr "Kizárás"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3163,15 +3172,15 @@ msgstr "Nyugta emailből"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Url Tracking"
-msgstr ""
+msgstr "URL követés"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Forward Replies"
-msgstr ""
+msgstr "Válaszok továbbítása"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Auto Responder"
-msgstr ""
+msgstr "Automatikus válaszoló"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3190,7 +3199,7 @@ msgstr "Neme"
 
 #: CRM/Mailing/DAO/Spool.php
 msgid "Body"
-msgstr ""
+msgstr "Törzs"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -4336,7 +4345,7 @@ msgstr "Frekvenciaegység"
 
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Pledge ID"
-msgstr ""
+msgstr "Felajánlás-azonosító"
 
 #: CRM/Pledge/DAO/Pledge.php
 #, fuzzy
@@ -4475,11 +4484,11 @@ msgstr ""
 
 #: CRM/Pledge/Form/Search.php
 msgid "Pledger Name or Email"
-msgstr ""
+msgstr "Felajánló neve vagy e-mailcíme"
 
 #: CRM/Pledge/Form/Task/Delete.php
 msgid "Deleted Pledge(s): %1"
-msgstr ""
+msgstr "Törölt felajánláso(k): %1"
 
 #: CRM/Pledge/Form/Task/Delete.php
 #, fuzzy
@@ -4488,7 +4497,7 @@ msgstr "Összes kiválasztott kapcsolat(ok): %1"
 
 #: CRM/Pledge/Form/Task/Print.php
 msgid "Print Pledge List"
-msgstr ""
+msgstr "Felajánlások nyomtatása"
 
 #: CRM/Pledge/Info.php
 msgid "CiviCRM Pledge Engine"
@@ -4504,12 +4513,17 @@ msgid ""
 "Pledge has been Cancelled and all scheduled (not completed) payments have "
 "been cancelled.<br />"
 msgstr ""
+"A felajánlás és az összes (még meg nem történt) időzített befizetés "
+"megszakítva!<br />"
 
 #: CRM/Pledge/Selector/Search.php
 msgid ""
 "Cancelling this pledge will also cancel any scheduled (and not completed) "
 "pledge payments. This action cannot be undone. Do you want to continue?"
 msgstr ""
+"A felajánlás megszakításával az összes (még meg nem történt) időzített "
+"befizetést is megszakítja. A műveletet nem lehet visszavonni! Biztos benne, "
+"hogy folytatja?<br />"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
@@ -4533,7 +4547,7 @@ msgstr "Profil választás"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Balance Due"
-msgstr ""
+msgstr "Befizetési egyenleg"
 
 #: CRM/Pledge/Selector/Search.php
 #, fuzzy
@@ -4542,20 +4556,20 @@ msgstr "Részletes kereső"
 
 #: CRM/Pledge/Task.php
 msgid "Export Pledges"
-msgstr ""
+msgstr "Felajánlások exportálása"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
-msgstr ""
+msgstr "Új hitelkártya"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr ""
+msgstr "Hitelkártya szerkesztése"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Delete Credit Card"
-msgstr ""
+msgstr "Hitelkártya törlése"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -4736,15 +4750,15 @@ msgstr "Tagságok"
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Total"
-msgstr ""
+msgstr "Összesen"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "I want to contribute this amount every %1 %2(s) for %3 installments."
-msgstr ""
+msgstr "%1 %2 gyakorisággal szeretnék adományozni, összesen %3 részletben."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "I want to contribute this amount every %1 %2(s)."
-msgstr ""
+msgstr "%1 %2 gyakorisággal szeretnék adományozni ezzel az összeggel."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -4757,11 +4771,15 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "I pledge to contribute this amount every %1 %2s for %3 installments."
 msgstr ""
+"%1 %2 gyakorisággal szeretném felajánlati ezt az összeget adomáynként, "
+"összesen %3 részletben."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "I pledge to contribute this amount every %2 for %3 installments."
 msgstr ""
+"Minden %2 gyakorisággal szeretném felajánlani ezt az összeget adományként, "
+"összesen %3 részletben."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -4792,7 +4810,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
-msgstr ""
+msgstr "Lejárat"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -4809,16 +4827,16 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid "Checkout with Google"
-msgstr ""
+msgstr "Ellenőrzés: Google"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid "Click the Google Checkout button to continue."
-msgstr ""
+msgstr "A folytatáshoz kattintson az \"Ellenőrzés: Google\" gombra."
 
 #: templates/CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl
 msgid "CiviContribute Alert: Possible Duplicate Contact Record"
-msgstr ""
+msgstr "CiviContribute figyelmeztetés: Lehetséges duplikált Kapcsolat rekord."
 
 #: templates/CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl
 #, fuzzy
@@ -4832,7 +4850,7 @@ msgstr "vagy"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "installments."
-msgstr ""
+msgstr "részletben."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -4841,6 +4859,10 @@ msgid ""
 "if you want to make an open-ended commitment. In either case, you can choose "
 "to cancel at any time."
 msgstr ""
+"Rendszeres adományának adatait automatikusan dolgozzuk fel az Ön által "
+"megadott részletekben. Ha a részletek számát nem adja meg, folyamatosan "
+"számítunk rendszeres adományára. Ön bármikor megszakthatja rendszeres "
+"adományát az \"Ügyek\" lapon a \"Megszakít\" fukció választásával."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
@@ -4848,6 +4870,9 @@ msgid ""
 "receipts will include a link you can use if you decide to modify or cancel "
 "your future contributions."
 msgstr ""
+"Rendszeres adományáról folyamatosan küldünk Önnek nyugtát e-mailben. A "
+"nyugta tartalmaz egy linket, ahol módosíthatja és megszakíthatja jövőbeni "
+"adományozási adatait."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -4856,6 +4881,9 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
+"Ha rendelkezik PayPal számlával, a folytatáshoz kérjük kattintson a PayPal "
+"gombra. Egyéb esetben kérjük adja meg a kártya- és számlázási információit "
+"az űrlapon és kattintson a <strong>Folytatás</strong> gombra a lap alján."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -5471,12 +5499,12 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Transaction #"
-msgstr ""
+msgstr "Tranzakciószám"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Membership Transaction #"
-msgstr ""
+msgstr "Tagsági tranzakciószám"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
@@ -5525,7 +5553,7 @@ msgstr "Hívás ID"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 msgid "Receipt"
-msgstr ""
+msgstr "Nyugta"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -5534,11 +5562,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid " and to %1"
-msgstr ""
+msgstr "és a(z) %1 címre."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt will be sent to %1"
-msgstr ""
+msgstr "A nyugta e-mailben elküldve a(z) %1 címre!"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "once the transaction is processed successfully."
@@ -5552,7 +5580,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt has also been sent to %1"
-msgstr ""
+msgstr "A nyugtát e-mailben szintén elküldve a(z) %1 címre!"
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -7435,6 +7463,8 @@ msgstr ""
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "You are not registered for any current or upcoming Events."
 msgstr ""
+"Ön még nem regisztrálta magát egyetlen jelenlegi vagy jövőbeni eseményre "
+"sem!"
 
 #: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
 msgid "New Grant"

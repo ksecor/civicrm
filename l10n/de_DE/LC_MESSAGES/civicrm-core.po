@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-14 11:33-0800\n"
+"PO-Revision-Date: 2008-12-21 23:01-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -247,12 +247,12 @@ msgstr ""
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Edit ACL"
-msgstr "Bearbeite Zugriffsrechteliste (AccessControlList)"
+msgstr "Editiere ACL (AccessControlList)"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Delete ACL"
-msgstr "Lösche Zugriffsrechteliste (AccessControlList)"
+msgstr "Lösche ACL (AccessControlList)"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -8215,7 +8215,6 @@ msgid "%1 does not exists or is empty"
 msgstr "%1 existiert nicht oder ist leer"
 
 #: CRM/Utils/Mail/Incoming.php
-#, fuzzy
 msgid "%1 could not be parsed"
 msgstr "%1 konnte nicht parsed werden"
 
@@ -8392,6 +8391,8 @@ msgstr "Status"
 msgid ""
 "WARNING: Delete will remove this permission from the specified ACL Role."
 msgstr ""
+"Warnung: Löschen wird diese Berechtigung von den spezifizierten ACL Rolle "
+"entfernen."
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 #: templates/CRM/ACL/Form/EntityRole.tpl
@@ -8501,10 +8502,13 @@ msgid ""
 "information screen. \"Edit\" allows users to register for the event if "
 "online registration is enabled."
 msgstr ""
+"Notiz: Für Veranstaltungs ACL bewikt die Ansehen Operation den Zugang zur "
+"Veranstaltungs Informations Seite. Editieren erlaubt es den Users sich für "
+"eine Veranstaltung zu registrieren, sofern online Registration aktiv ist."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "What type of operation (action) is being permitted?"
-msgstr ""
+msgstr "Welcher Typ von Operation (Aktion) wird erlaubt?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -8513,24 +8517,33 @@ msgid ""
 "includes anonymous (i.e. not logged in) users. Select the special role "
 "'Authenticated' if you want to grant it to any logged in user."
 msgstr ""
+"Wähle eine Rolle um diese Berechtigung zuzuweisen (grant). Wähle die "
+"spezielle Rolle 'Jedermann' falls die Berechtiugn allen Users zugewiesen "
+"werden soll. Jedermann beinhaltet auch den anonymen User (d.h. nicht "
+"angemeldet). Wähle die spezielle Rolle 'Authenticated' falls diese "
+"Berechtigung allen angemeldeten Users zugewiesen werden soll."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
 "Enter a descriptive name for this permission (e.g. 'Edit Advisory Board "
 "Contacts')."
 msgstr ""
+"Gib einen sprechenden Namen für diese Berechtigung ein (zB. Editiere "
+"Kontakte des Beratungs Gremiums)."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Assign ACL Role"
-msgstr ""
+msgstr "ACL Rolle zuweisen"
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "WARNING: Deleting this option will remove this ACL Role Assignment."
 msgstr ""
+"Warnung: Das Löschen dieser Option wird ebenfalls die ACL Rollen Zuweisung "
+"entfernen."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Select an ACL Role to assign."
-msgstr ""
+msgstr "Wähle eine zuzuweisende ACL Rolle "
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid ""
@@ -8557,7 +8570,7 @@ msgstr ""
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Group/Form/Edit.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Opens online documentation in a new window."
-msgstr ""
+msgstr "Öffnet in einem neuen Fenster die Online Dokumentation"
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -8582,23 +8595,24 @@ msgid ""
 "<a href='%2'>here</a>... and you can assign Roles to CiviCRM contacts who "
 "are users of your site <a href='%1'>here</a>."
 msgstr ""
+"Sie können ihre ACL's nachfolgend hinzufügen oder ändern.  Zusätzliche ACL "
+"Rollen werden <a href='%2'> hier erfasst</a>... und die Zuweisusng von "
+"Rollen zu CiviCRM Kontakte, welche User ihrer Web Homepage sind,<a "
+"href='%1'>erfolgt hier</a>."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl
-#, fuzzy
 msgid "ACL Type(s)"
-msgstr "Kontaktart(en)"
+msgstr "ACL Typ(en)"
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "There are no ACLs entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
-"\"%1\">hinzufügen</a>."
+"Es wurde keine ACL's eingegeben. Sie können <a href='%1'> eine "
+"hinzufügen</a>."
 
 #: templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Which Data"
-msgstr "Char Data"
+msgstr "Welche Daten"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8624,17 +8638,21 @@ msgid ""
 "You can add or modify ACLs <a href='%1'>here</a>. You can create additional "
 "ACL Roles <a href='%2'>here</a>."
 msgstr ""
+"Eine ACL Rolle ist eine Sammlung von ACL&rquo;s (Berechtigungen).  Rollen "
+"können Gruppen von CiviCRM Kontakte, welche User der Homepage sind, "
+"untenstehend zugewiesen werden. Sie können ACLs <a href='%1'> "
+"hier</a>hinzufügen oder ändern. Zusätzliche ACL Rollen können <a "
+"href='%2'>hier </a> erfasst werden."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "New Role Assignment"
 msgstr "Neue Rollenzuweisung"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
-#, fuzzy
 msgid "There are no Role Assignments. You can <a href='%1'>add one</a> now."
 msgstr ""
-"Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
-"\"%1\">hinzufügen</a>."
+"Es gibt keine Rolen Zuweisusngen. Sie können <a href='%1'>hier hinzugefügt "
+"</a> werden."
 
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -8648,18 +8666,19 @@ msgstr "Neue(r)"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "There are no Cases for this contact."
-msgstr ""
+msgstr "Es gibt keine Cases für diesen Kontakt"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
 "If you want to associate this activity with a case, you will need to <a "
 "href='%1'>create one first</a>."
 msgstr ""
+"Falls Aktivitäten mit einem Case verbunden werden sollen, muss dieser <a "
+"href='%1' hier zuerst erfasst werden</a>."
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "With Contact(s)"
-msgstr "Mit Kontakt"
+msgstr "Mit Kontakt(en)"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 #: templates/CRM/Activity/Form/ActivityView.tpl
@@ -8667,7 +8686,6 @@ msgid "With Contact"
 msgstr "Mit Kontakt"
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Assigned To "
 msgstr "Zugewiesen an"
 
@@ -8676,55 +8694,54 @@ msgid ""
 "You can optionally assign this activity to someone. Assigned activities will "
 "appear in their Contact Dashboard."
 msgstr ""
+"Optional können Aktivitäten jemandem zugewiesen werden. Solche Aktivitäten "
+"werden in deren Kontakt Übersicht erscheinen."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
 "If you are managing case(s) for this contact, you can optionally associate "
 "this activity with an existing case."
 msgstr ""
+"Falls Cases für diesen Kontakt verwaltet werden, kann optional diese "
+"Aktivität mit einem bestehenden Case verbunden werden."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Hrs"
 msgstr "Std."
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Mins"
 msgstr "Min."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Current Attachments"
-msgstr ""
+msgstr "Aktuelle Beilagen"
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Are you sure you want to delete '%1'?"
 msgstr "Sind Sie sicher, dass Sie \"%1\" löschen möchten?"
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Are you sure you want to detach '%1' from this case?"
-msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
+msgstr "Sind Sie sicher, dass sie sich von diesem Case lösen wollen?"
 
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Form/attachment.tpl
 msgid "Attachment(s)"
-msgstr ""
+msgstr "Beilagen"
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
-#, fuzzy
 msgid ""
 "Review the values shown below from the first 2 rows of your import file and "
 "select the matching CiviCRM database fields from the drop-down lists in the "
 "right-hand column. Select '- do not import -' for any columns in the import "
 "file that you want ignored."
 msgstr ""
-"Überprüfen Sie die Werte, die unten angezeigt werden, von den ersten 2 "
-"Reihen  Ihrer Importdatei und wählen Sie die entsprechenden CiviCRM "
-"Datenbankfelder  aus der Dropdown-Liste in der rechten Spalte. Wählen Sie "
-"'do not import' – 'nicht importieren' für alle Spalten der Importdatei, die "
-"Sie nicht übertragen möchten."
+"Überprüfen Sie die ersten 2 Reihen der unten angezeigten Werte Ihrer "
+"Importdatei und wählen Sie die entsprechenden CiviCRM Datenbankfelder  aus "
+"der Dropdown-Liste in der rechten Spalte. Wählen Sie  – 'nicht importieren' "
+"für alle Spalten der Importdatei, die Sie nicht importieren möchten."
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -8733,6 +8750,9 @@ msgid ""
 "the same source. You can then select the saved import mapping setup and load "
 "it automatically."
 msgstr ""
+"Clicke 'Lade gespeicherte Feld  Zuordnungen, falls die Daten vorgängig von "
+"derselben Quelle importiert wurden. Sie können dann den gespeicherten Import "
+"Zuordnungs Setup wählen und ihn automatisch laden."
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -8749,7 +8769,7 @@ msgstr ""
 #: templates/CRM/Activity/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Saved Field Mapping: %1"
-msgstr ""
+msgstr "Gespeicherte Feld Zuordnungen:%1"
 
 #: templates/CRM/Activity/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
@@ -8819,9 +8839,9 @@ msgstr "Anzahl der Zeilen"
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total rows (activity records) in uploaded file."
-msgstr "Anzahl der Zeilen (Kontaktdatensätze) in der hochgeladenen Datei."
+msgstr ""
+"Total Anzahl Zeilen (Aktivitäten Datensätze) in der hochgeladenen Datei."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -8830,14 +8850,12 @@ msgstr "Zeilen mit Fehlern"
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
 msgstr ""
-"Zeilen mit ungültigen Daten in einer oder mehreren Datensätzen (zum "
-"Beispiel, ungültige Emailadressen). Diese Zeilen werden übersprungen (und "
-"nicht importiert)."
+"Zeilen mit ungültigen Daten in einer oder mehreren Feldern. Diese Zeilen "
+"werden übersprungen (nicht importiert)."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Import/Form/Preview.tpl
@@ -8845,13 +8863,12 @@ msgid "Conflicting Rows"
 msgstr "Widersprüchliche Zeilen"
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
-#, fuzzy
 msgid ""
 "Rows with conflicting transaciton ids within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
-"Zeilen mit widersprüchlichen Emailadressen in dieser Datei. Diese Zeilen "
-"werden übersprungen (und nicht importiert)."
+"Zeilen mit widersprüchlichen Transaktions ID innerhalb dieser Datei. Diese "
+"Zeilen werden übersprungen  nicht importiert)."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
@@ -8879,7 +8896,6 @@ msgstr ""
 "Informationen unten fassen das Ergebnis zusammen."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched activity ID. This record have not been "
 "updated."
@@ -8887,11 +8903,11 @@ msgid_plural ""
 "CiviCRM has detected mismatched activity IDs. These records have not been "
 "Updated."
 msgstr[0] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat einen widersprüchlichen Aktivitäts ID gefunden.  Dieser "
+"Datensatz wird nicht aktualisiert."
 msgstr[1] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat widersprüchliche  Aktivitäts ID's gefunden. Diese Datensätze "
+"werden nicht aktualisiert."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid ""
@@ -8904,7 +8920,6 @@ msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected invalid data and/or formatting errors in one record. "
 "This record have not been imported."
@@ -8912,11 +8927,11 @@ msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
 msgstr[0] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat ungültige Daten und/oder Formattierungs Fehler in diesem "
+"Datensatz gefunden. Er wurden nicht importiert."
 msgstr[1] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
-"importiert."
+"CiviCRM hat unültige Daten und/oder Formattierungs Fehler in %count "
+"Datensätzen gefunden. Diese wurde nicht  importiert."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -8928,7 +8943,6 @@ msgstr ""
 "korrigieren, und die neue Datei mit den korrigierten Daten importieren."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing activity records. This record have not "
@@ -8938,15 +8952,13 @@ msgid_plural ""
 "this data file or relative to existing activity records. These records have "
 "not been imported."
 msgstr[0] ""
-"CiviCRM hat %1 Datensätze gefunden die die gleichen Emailadressen in der "
-"Datei oder wie existierende Kontakte haben. Diese Datensätze wurden nicht "
-"importiert. CiviCRM erlaubt nicht mehrere Kontakte mit der kleine primären "
-"Emailadresse zu speichern."
+"CiviCRM hat innerhalb dieser Datei oder in Bezug auf existierende "
+"Aktivitäten Datensätze einen Datensatz mit widersprüchlichen Transaktions ID "
+" gefunden. Dieser wurde nicht importiert."
 msgstr[1] ""
-"CiviCRM hat %1 Datensätze gefunden die die gleichen Emailadressen in der "
-"Datei oder wie existierende Kontakte haben. Diese Datensätze wurden nicht "
-"importiert. CiviCRM erlaubt nicht mehrere Kontakte mit der kleine primären "
-"Emailadresse zu speichern."
+"CiviCRM hat innerhalb dieser Datei oder in Bezug auf existierende "
+"Aktivitäten % count Datensätze mit widersprüchlichen Transaktions ID "
+"gefunden. Diese Datensätze wurden nicht importiert. "
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid ""
@@ -8958,7 +8970,6 @@ msgstr ""
 "Datensätze kontrollieren und die Emailadressen korrigieren."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "activity record."
@@ -8966,11 +8977,11 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "activity records."
 msgstr[0] ""
-"CiviCRM hat %1 Datensätze gefunden die schon als CiviCRM-Kontakt gespeichert "
-"sind."
+"CiviCRM hat einen Datensatz zu einem bereits existierenden CiviCRM "
+"Aktivitäten Datensatz gefunden."
 msgstr[1] ""
-"CiviCRM hat %1 Datensätze gefunden die schon als CiviCRM-Kontakt gespeichert "
-"sind."
+"CiviCRM hat %count Datensätze zu bereits existierenden CiviCRM Aktivitäten "
+"Datenstätze gefunden."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid ""
@@ -8988,19 +8999,16 @@ msgstr "Ungültige Zeilen (übersprungen)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Mismatched Rows (skipped)"
-msgstr "Ungültige Zeilen (übersprungen)"
+msgstr "Wiedersprüchliche Zeilen (übersprungen)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with mismatched activity IDs (NOT updated)."
-msgstr "Zeilen mit widersprüchlichen Emailadressen (nicht importiert)"
+msgstr "Zeilen mit widersprüchlichen Aktivitäts ID's (nicht aktualisiert)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Activity records"
-msgstr "Konflikte beim Herrunterladen"
+msgstr "Widersprüchliche Aktivitäts Datensätze herunterladen"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -9008,9 +9016,8 @@ msgid "Conflicting Rows (skipped)"
 msgstr "Widersprüchliche Zeilen (übersprungen)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows with conflicting transaction IDs (NOT imported)."
-msgstr "Zeilen mit widersprüchlichen Emailadressen (nicht importiert)"
+msgstr "Zeilen mit widersprüchlichen Transaktions ID's (NICHT importiert)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -9018,9 +9025,9 @@ msgid "Duplicate Rows"
 msgstr "Doppelte Zeilen"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM activity records."
-msgstr "Zeilen die doppelt schon als CiviCRM Kontakt gespeichert sind."
+msgstr ""
+"Doppelte Zeilen von bereits existierenden CiviCRM Aktivitäts Datensätze."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -9036,19 +9043,14 @@ msgid "Rows imported successfully."
 msgstr "Zeilen erfolgreich importiert"
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "The Activity Import Wizard allows you to easily upload activity from other "
 "applications into CiviCRM. Contacts must already exist in your CiviCRM "
 "database prior to importing activity."
 msgstr ""
-"Der Activity History Import Wizard erlaubt es Ihnen einfach die "
-"Aktivitätshistorie  aus anderen Applikationen ins CiviCRM hochzuladen. Die "
-"Kontakte müssen bereits  in CiviCRM angelegt sein, bevor Sie die "
-"Aktivitätshistorie importieren. Verwenden Sie 'Import Contacts' – 'Kontakte "
-"importieren',um die Daten zuerst zu importieren, wenn notwendig. Dann können "
-"Sie die Aktivitäten und Kontakte mit Namen und  Email oder mit der  "
-"ContactID abgleichen. "
+"Der Aktivitäts Import Helfer erlaubt es, Aktivitäten aus anderen Anwendungen "
+"in CiviCRM einfach hochzuladen. Kontakte müssen vor dieser Aktion bereits "
+"in der CiviCRM Datenbank  existieren. "
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -9064,46 +9066,45 @@ msgstr ""
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Maximum Upload File Size: %1 MB"
-msgstr ""
+msgstr "Maximale holade Datei Grösse.%1 MB"
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'Contact ID', 'Activity Type', 'Activity Date')."
 msgstr ""
-"Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
-"beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
+"Markiere diese Box  falls die erste Zeile der Datei  Feldnamen beinhaltet "
+"(zB: \"Kontakt ID, Aktivitäts Typ, Aktivitäts Datum\")."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select a Different Field Mapping"
-msgstr ""
+msgstr "Wähle eine andere Felder Zuordnung"
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid "Load Saved Field Mapping"
-msgstr "Treffen protokollieren"
+msgstr "Lade gespeicherte Felder Zuordnung"
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select Saved Mapping or Leave blank to create a new One."
 msgstr ""
+"Wähle gespeicherte Zuordnung oder lasse es leer um eine neue zu erstellen."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-#, fuzzy
 msgid "View contact"
-msgstr "Kontakt Ansehen"
+msgstr "Kontakt anzeigen"
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-#, fuzzy
 msgid "There are no Activities attached to this case record."
-msgstr "Es gibt keine offenen Aktivitäten für diesen Kontakt."
+msgstr "Es gibt keine  Aktivitäten für diesen Case Datensatz"
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can go to the Activities tab to create or attach activity records."
 msgstr ""
+"Sie können den Aktivitäten Menupunkt aufrufen um Aktivitäts Datensätze zu "
+"erstellen oder zuzuordnen."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activities to display."
@@ -9111,11 +9112,13 @@ msgstr "Es sind keine Aktivitäten gespeichert."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activites to display."
-msgstr ""
+msgstr "Es gibt keine Aktivitäten zum Anzeigen"
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can use the links above to schedule or record an activity."
 msgstr ""
+"Sie können die obenstehenden Links für die Planung oder Speicherung einer "
+"Aktivität verwenden."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
@@ -9134,6 +9137,8 @@ msgid ""
 "WARNING: Deleting this option will result in the loss of all activity type "
 "records which use the option."
 msgstr ""
+"Warnung: Löschen dieser Option bewirkt den Verlust aller Typ Aktivitäten "
+"Datensätze, welche diese Option verwendn."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 #: templates/CRM/Admin/Form/LocationType.tpl
@@ -9145,6 +9150,8 @@ msgid ""
 "This may mean the loss of a substantial amount of data, and the action "
 "cannot be undone."
 msgstr ""
+"Das kann zu einem substantiellen Verlust von Daten führen; die Aktion kann "
+"nicht rückgängig gemacht werden."
 
 #: templates/CRM/Admin/Form/CMSUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -9168,10 +9175,12 @@ msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records."
 msgstr ""
+"Konfiguriere bis zu fünf zu beachtende  Felder für die Suche nach vermuteten "
+"doppelten Kontakt Datensätzen."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Opens MYSQL documentation in a new window."
-msgstr ""
+msgstr "Öffne Mysql Dokumentation in einem neuen Fenster"
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -9179,10 +9188,14 @@ msgid ""
 "that there is an index on the corresponding column in the database. If not, "
 "you can use the CREATE INDEX command in MySQL to add an index."
 msgstr ""
+"Wichtig: Es ist nötig, vor dem Hinzufügen von Felder zu den Duplikat-Such-"
+"Regeln zu überprüfen, ob ein entsprechender Index für die entsprechende "
+"Spalte  in der Datenbank Tabelle vorhanden ist. Zum Erstellen eines Index in "
+"der Mysql Datenbank kann der Befehl CREATE INDEX verwendet werden."
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "learn more..."
-msgstr ""
+msgstr "mehr Information"
 
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
@@ -9214,10 +9227,12 @@ msgid ""
 "WARNING: Deleting this option will result in the loss of all location type "
 "records which use the option."
 msgstr ""
+"WARNUNG: Das Löschen dieser Option löscht all Ortschaft Typ Datensätze, "
+"welche diese Option benützen."
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "WARNING: Do NOT use spaces in the Location Name."
-msgstr ""
+msgstr "WARNUNG: Verwenden sie keine Leerschläge in den Orschafts Namen"
 
 #: templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/Tag.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -9225,97 +9240,95 @@ msgid "New Tag"
 msgstr "Neues Tag"
 
 #: templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid ""
 "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
 "cannot be undone."
-msgstr "Sind Sie sicher, dass Sie die Marke <b> %1 </b> löschen möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie die Zuordnung <b> %1 </b> löschen möchten? Dieser "
+"Befehl kann nicht rückgängig gemacht werden."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "New Message Template"
-msgstr "Als neue Vorlage speichern"
+msgstr "Neue Nachrichten Vorlage"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Edit Message Template"
-msgstr "Vorlage aktualisieren"
+msgstr "Nachrichten Vorlage editieren"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Delete Message Template"
-msgstr "Vorlage wählen"
+msgstr "Nachrichten Vorlage löschen"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Do you want to delete this message template?"
-msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
+msgstr "Sind Sie sicher, dass sie diese Nachrichten Vorlage löschen wollenn?"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "Descriptive title of message - used for template selection."
 msgstr ""
+"Beschreibender Tittel der Nachricht - für die Vorlagen Auswahl verwendet"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Subject for email message."
-msgstr "Email senden"
+msgstr "Email Betreff Zeile"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid ""
 "Tokens may be included (<a href='%1' target='_blank' title='%2'>token "
 "documentation</a>)."
 msgstr ""
+"Token können einschliessen (<a href='%1' target='_blank' title='%2'>Token "
+"Dokumentation</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Text formatted message."
-msgstr "Text Nachricht"
+msgstr "Text formattierte Nachricht"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid ""
 "You may optionally create an HTML formatted version of this message. It will "
 "be sent to contacts whose Email Format preference is 'HTML' or 'Both'."
 msgstr ""
+"Sie können optional eine HTML formattierte Version dieser Nachricht "
+"erstellen. Sie wird an jene Kontakte gesandt, deren bevorzugtes Email Format "
+"'HTML' oder 'beides'  ist."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Is this template enabled."
-msgstr "Ist dieses Feld durchsuchbar?"
+msgstr "Ist diese Vorlage aktiviertr?"
 
 #: templates/CRM/Admin/Form/OptionGroup.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
-#, fuzzy
 msgid "New Option Group"
-msgstr "Neue Gruppe"
+msgstr "Neue Options Gruppe"
 
 #: templates/CRM/Admin/Form/OptionGroup.tpl
-#, fuzzy
 msgid "Edit Option Group"
-msgstr "Option bearbeiten"
+msgstr "Options Gruppe  bearbeiten"
 
 #: templates/CRM/Admin/Form/OptionGroup.tpl
-#, fuzzy
 msgid "Delete Option Group"
-msgstr "Eigene Gruppe deaktivieren"
+msgstr "Options Gruppe löschen"
 
 #: templates/CRM/Admin/Form/OptionGroup.tpl
 msgid ""
 "WARNING: Deleting this option gruop will result in the loss of all records "
 "which use the option."
 msgstr ""
+"WARNUNG: Das Löschen dieser Options Gruppe löscht alle Datensätze, welche "
+"diese verwenden."
 
 #: templates/CRM/Admin/Form/Options.tpl
-#, fuzzy
 msgid "Custom Search Path"
-msgstr "benutzerdefinierte Suche"
+msgstr "Benutzerdefinierte Suche"
 
 #: templates/CRM/Admin/Form/Options.tpl
 msgid "Enter the \"class path\" for this custom search here."
-msgstr ""
+msgstr "\"Class Pfad\" für die benutzerdefinierte Suche hier eingeben"
 
 #: templates/CRM/Admin/Form/Options.tpl
 msgid "more info"
-msgstr ""
+msgstr "Weitere Informationen"
 
 #: templates/CRM/Admin/Form/Options.tpl
 msgid ""
@@ -9323,91 +9336,93 @@ msgid ""
 "&gt;) around the email address.<br />EXAMPLE: <em>&quot;Client "
 "Services&quot; &lt;clientservices@example.org&gt;</em>"
 msgstr ""
+"Doppelte Anführungszeichen einfügen (&quot;) um Namen und spitzige Klammern "
+"(&lt;/gt;), um Email Adressen.<br/>BEISPIEL:<em>&quot;Client "
+"Dienste&quot;&lt;clientsevices@example.org&gt;</em>"
 
 #: templates/CRM/Admin/Form/Options.tpl
 msgid "The option Label is displayed to users."
-msgstr ""
+msgstr "Dieser Options Label wird dem User angezeigt"
 
 #: templates/CRM/Admin/Form/Options.tpl
-#, fuzzy
 msgid "Search Title"
-msgstr "Such-Generator"
+msgstr "Such Titel"
 
 #: templates/CRM/Admin/Form/Options.tpl
 msgid "This title is displayed to users in the Custom Search listings."
 msgstr ""
+"Dieser Titel wird dem User in den benutzerdefinierten Such Resultat Listen "
+"angezeigt."
 
 #: templates/CRM/Admin/Form/OptionValue.tpl
 #: templates/CRM/Admin/Page/OptionValue.tpl
-#, fuzzy
 msgid "New Option Value"
-msgstr "Optionswert"
+msgstr "Neuer Optionswert"
 
 #: templates/CRM/Admin/Form/OptionValue.tpl
 msgid ""
 "WARNING: Deleting this option value will result in the loss of all records "
 "which use the option value."
 msgstr ""
+"WARNUNG: Das Löschen dieses Options Wertes bewirkt das Löschen aller "
+"Datensätze, welche diesen Options Wert verwenden."
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
-#, fuzzy
 msgid "New Payment Processor"
-msgstr "Zahlungsbearbeiter"
+msgstr "Neuer Zahlungs Prozessor"
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid ""
 "WARNING: Deleting this Payment Processor may result in some transaction "
 "pages being rendered inactive."
 msgstr ""
+"WARNUNG: Das Löschen dieses Zahlungs Prozessors kann gewisse Zahlungsseiten "
+"inaktiv machen."
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Processor Details for Live Payments"
-msgstr ""
+msgstr "Prozessor Details für produktive Zahlungen"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
-#, fuzzy
 msgid "New Payment Procesor Type"
-msgstr "Zahlungsbearbeiter"
+msgstr "Neuer Zahlungs Prozessor Typ"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
-#, fuzzy
 msgid "Edit Payment Procesor Type"
-msgstr "Zahlungsbearbeiter"
+msgstr "Zahlung Prozessor Typ eiditieren"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
-#, fuzzy
 msgid "Delete Payment Procesor Type"
-msgstr "Zahlungsbearbeiter"
+msgstr "Lösche Zahlungs Prozessor Typ"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
-#, fuzzy
 msgid "Address Display"
-msgstr "Zu Organisation hinzufügen"
+msgstr "Adress Anzeige"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
-#, fuzzy
 msgid "Address Editing"
-msgstr "Einstellungen"
+msgstr "Adresse editieren"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
 "Select the fields to be included when editing a contact or event address."
 msgstr ""
 "Auswahl der Felder, die beim Editieren einer Kontakt- oder "
-"Veranstaltungsadresse verwendet werden können."
+"Veranstaltungsadresse verwendet werden."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
 "Enter the maximum number of different locations/addresses that can be "
 "entered for a contact."
 msgstr ""
+"Eingabe der maximalen Anzahl von verschiedenen Adresse/Ortsangabe, welche "
+"für einen Kontakt eingegeben werden können."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
-#, fuzzy
 msgid "Address Standardization"
-msgstr "Zu Organisation hinzufügen"
+msgstr "Adressen Standardisierung"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9416,34 +9431,36 @@ msgid ""
 "register to use the USPS service at <a href='%1'>%1</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
+"CiviCRM umfasst einen optionalen Plugin für eine Schnittstelle zum USPS "
+"(United States Postal Services) Adress Standardisation Web Dienst. Um den "
+"USPS Dienst nützen zu können, müssen sie sich registieren bei <a "
+"href='%1'>%1</a>.  Werden sie angenommen, erhalten sie einen User ID und URL "
+"für den Dienst."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization Provider. Currently, only 'USPS' is supported."
-msgstr ""
+msgstr "Adress Standardisierungs Dienst. Aktuell wird nur USPS unterstützt."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "USPS-provided User ID."
-msgstr ""
+msgstr "Von USPS herausgegebenen User ID "
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "USPS-provided web service URL."
-msgstr ""
+msgstr "Von USPS herausgegebenen Web Dienst URL"
 
 #: templates/CRM/Admin/Form/PreferencesDate.tpl
-#, fuzzy
 msgid "Edit Date Settings"
-msgstr "Einstellungen"
+msgstr "Datum Einstellungen editieren"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Site Preferences"
-msgstr "Bevorzugtes Kommunikationsmedium"
+msgstr "Homepage Voreinstellungen"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
-#, fuzzy
 msgid "View Site Preferences"
-msgstr "Bevorzugtes Kommunikationsmedium"
+msgstr "Homepage Voreinstellungen anzeigen"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9454,12 +9471,13 @@ msgid ""
 "corresponding component is not enabled (<a href='%1' target='_blank' title='%"
 "2'>read more...</a>)."
 msgstr ""
-"Auswahl der <strong>Reiter</strong> die angezeigt werdne sollen wenn ein "
-"Kontakt bearbeitet wird. Z.B.: Wenn ihre Organisation \"Beziehungen\" nicht "
-"verwaltet kann diese deaktiviert werden um die Oberfläche einfacher zu "
-"gestalten. Die Reiter für Mitgliedschaften, Veranstaltungen und Zuwendungen "
-"sind versteckt sofern die zugehörige Komponente deaktiviert ist (<a href=\"%1"
-"\" target=\"_blank\" title=\"%2\">weiterlesen...</a>). "
+"Auswahl der <strong>Menu Punkte</strong> die angezeigt werden sollen wenn "
+"ein Kontakt angezeigt  wird. Z.B.: Wenn ihre Organisation \"Beziehungen\" "
+"nicht verwaltet, kann diese deaktiviert werden um die Oberfläche "
+"übersichtlicher zu gestalten. Die Menu Punkte für Spenden, Mitgliedschaften "
+"und Veranstaltungen sind versteckt, sofern die zugehörige Komponente "
+"deaktiviert ist (<a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">weiterlesen...</a>). "
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9467,6 +9485,10 @@ msgid ""
 "record. EXAMPLE: If your organization does not record Gender and Birth Date "
 "for individuals, then simplify the form by un-checking this option."
 msgstr ""
+"Wähle die Abschnitte, welche dazugehören, wenn ein Kontakt Datensatz "
+"hinzugefügt oder editiert wird. BEISPIEL: Falls ihre Organisation Geschlecht "
+"und Geburtsdatum von Personen nicht aufzeichnet, kann das Formular "
+"vereinfacht werden indem diese Option unmarkiert wird."
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9475,6 +9497,10 @@ msgid ""
 "section included in the search form - simplify the form by un-checking this "
 "option."
 msgstr ""
+"Wähle die Abschnitte, welche im  erweiterten Suchformular vorhanden sein "
+"sollen. BEISPIEL: Falls Beziehungen nicht notiert werden, müssen diese auch "
+"nicht im Suchformular vorhanden sein. Vereinfache das Formular duch "
+"unmarkieren dieser Option"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9482,34 +9508,42 @@ msgid ""
 "EXAMPLE: If you don't want constituents to view their own contribution "
 "history, un-check that option."
 msgstr ""
+"Wähle die Abschnitte, welche in der Kontakt Übersicht aufgenommen werden "
+"sollen.  BEISPIEL: Unmarkieren sie diese Option, falls ihr Ziel "
+"Personenkreis nicht ihre bisherigen Spenden sehen sollen."
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
 "Select the HTML WYSIWYG Editor provided for fields that allow HTML "
 "formatting."
 msgstr ""
+"Wähle den HTML WYSIWYG Editor, der für Felder mit HTML Formattierung "
+"vorgesehen ist."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "New Relationship Type"
-msgstr "Neuer Beziehungstyp"
+msgstr "Neuer Beziehungs Typ"
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
-#, fuzzy
 msgid "Delete Relationship Type"
-msgstr "Beziehung löschen"
+msgstr "Beziehung Typ löschen"
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all Relationship "
 "records of this type."
 msgstr ""
+"WARNUNG: Das Löschen dieser Option bewirkt den Verlust aller Beziehungs "
+"Datensätze dieses Typs."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
 "Name for the relationship from Contact A to Contact B. EXAMPLE: Contact A is "
 "'Parent of' Contact B."
 msgstr ""
+"Name für die Beziehung zwischen Kontakt A und Kontakt B. BEISPIEL: Kontakt A "
+"is 'Eltern von' Kontakt B."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid ""
@@ -9517,18 +9551,22 @@ msgid ""
 "'Child of' Contact A. You may leave this blank for relationships where the "
 "name is the same in both directions (e.g. Spouse)."
 msgstr ""
+"Name der Beziehung zwischen Kontatk B und Kontakt A. EXAMPLE: Kontakt B ist "
+"'Kind von' Kontakt A. Kann leer gelassen werden für Beziehungen deren Namen "
+"in beiden Richtungen gleich lautet (zB Ehepartner)."
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 msgid ""
 "CiviCRM includes several optional components which give you more tools to "
 "connect with and engage your constituents."
 msgstr ""
+"CicviCRM umfasst verschiedene optionale Komponenten, die ihnen weitere "
+"Mittel geben, mit ihren Zielgruppen verbunden zu sein"
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Enable Components"
-msgstr "Mailingkomponente aktivieren"
+msgstr "Komponenten aktivieren"
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 msgid ""
@@ -9537,6 +9575,10 @@ msgid ""
 "Disable button to move it from one box to the other. Then click "
 "<strong>Save</strong>."
 msgstr ""
+"Aktivierte Komponenten sind im rechten Kästchen ,deaktivierte Komponenten "
+"sind im linken Kästchen aufgeführt. Markiere eine Komponente und Click "
+"'Aktivieren' oder 'Deaktivieren' um diese von einem Kästchen zum anderen zu "
+"verschieben. Dann Click <strong> Speichern</strong>."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""

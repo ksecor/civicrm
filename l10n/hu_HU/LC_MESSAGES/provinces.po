@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 01:16+0200\n"
-"PO-Revision-Date: 2008-10-11 13:38-0700\n"
-"Last-Translator: Forgó Gyula <forgogy@invitel.hu>\n"
+"PO-Revision-Date: 2008-12-21 10:09-0800\n"
+"Last-Translator: Ricsike <rbolyos@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgid "Washington"
 msgstr "Washington"
 
 msgid "West Virginia"
-msgstr "Nyugat-Virginia"
+msgstr "West Virginia"
 
 msgid "Wisconsin"
 msgstr "Wisconsin"
@@ -414,310 +414,310 @@ msgid "Helmand"
 msgstr "Helmand"
 
 msgid "Herat"
-msgstr ""
+msgstr "Herat"
 
 msgid "Jowzjan"
-msgstr ""
+msgstr "Jowzjan"
 
 msgid "Kabul"
-msgstr ""
+msgstr "Kabul"
 
 msgid "Kandahar"
-msgstr ""
+msgstr "Kandahar"
 
 msgid "Kapisa"
-msgstr ""
+msgstr "Kapisa"
 
 msgid "Khowst"
-msgstr ""
+msgstr "Khowst"
 
 msgid "Konar"
-msgstr ""
+msgstr "Konar"
 
 msgid "Kondoz"
-msgstr ""
+msgstr "Kondoz"
 
 msgid "Laghman"
-msgstr ""
+msgstr "Laghman"
 
 msgid "Lowgar"
-msgstr ""
+msgstr "Lowgar"
 
 msgid "Nangrahar"
-msgstr ""
+msgstr "Nangrahar"
 
 msgid "Nimruz"
-msgstr ""
+msgstr "Nimruz"
 
 msgid "Nurestan"
-msgstr ""
+msgstr "Nurestan"
 
 msgid "Oruzgan"
-msgstr ""
+msgstr "Oruzgan"
 
 msgid "Paktia"
-msgstr ""
+msgstr "Paktia"
 
 msgid "Paktika"
-msgstr ""
+msgstr "Paktika"
 
 msgid "Parwan"
-msgstr ""
+msgstr "Parwan"
 
 msgid "Samangan"
-msgstr ""
+msgstr "Samangan"
 
 msgid "Sar-e Pol"
-msgstr ""
+msgstr "Sar-e Pol"
 
 msgid "Takhar"
-msgstr ""
+msgstr "Takhar"
 
 msgid "Wardak"
-msgstr ""
+msgstr "Wardak"
 
 msgid "Zabol"
-msgstr ""
+msgstr "Zabol"
 
 msgid "Berat"
-msgstr ""
+msgstr "Berat"
 
 msgid "Bulqizë"
-msgstr ""
+msgstr "Bulqizë"
 
 msgid "Delvinë"
-msgstr ""
+msgstr "Delvinë"
 
 msgid "Devoll"
-msgstr ""
+msgstr "Devoll"
 
 msgid "Dibër"
-msgstr ""
+msgstr "Dibër"
 
 msgid "Durrsës"
-msgstr ""
+msgstr "Durrsës"
 
 msgid "Elbasan"
-msgstr ""
+msgstr "Elbasan"
 
 msgid "Fier"
-msgstr ""
+msgstr "Fier"
 
 msgid "Gramsh"
-msgstr ""
+msgstr "Gramsh"
 
 msgid "Gjirokastër"
-msgstr ""
+msgstr "Gjirokastër"
 
 msgid "Has"
-msgstr ""
+msgstr "Has"
 
 msgid "Kavajë"
-msgstr ""
+msgstr "Kavajë"
 
 msgid "Kolonjë"
-msgstr ""
+msgstr "Kolonjë"
 
 msgid "Korcë"
-msgstr ""
+msgstr "Korcë"
 
 msgid "Krujë"
-msgstr ""
+msgstr "Krujë"
 
 msgid "Kuçovë"
-msgstr ""
+msgstr "Kuçovë"
 
 msgid "Kukës"
-msgstr ""
+msgstr "Kukës"
 
 msgid "Kurbin"
-msgstr ""
+msgstr "Kurbin"
 
 msgid "Lezhë"
-msgstr ""
+msgstr "Lezhë"
 
 msgid "Librazhd"
-msgstr ""
+msgstr "Librazhd"
 
 msgid "Lushnjë"
-msgstr ""
+msgstr "Lushnjë"
 
 msgid "Malësi e Madhe"
-msgstr ""
+msgstr "Malësi e Madhe"
 
 msgid "Mallakastër"
-msgstr ""
+msgstr "Mallakastër"
 
 msgid "Mat"
-msgstr ""
+msgstr "Mat"
 
 msgid "Mirditë"
-msgstr ""
+msgstr "Mirditë"
 
 msgid "Peqin"
-msgstr ""
+msgstr "Peqin"
 
 msgid "Përmet"
-msgstr ""
+msgstr "Përmet"
 
 msgid "Pogradec"
-msgstr ""
+msgstr "Pogradec"
 
 msgid "Pukë"
-msgstr ""
+msgstr "Pukë"
 
 msgid "Sarandë"
-msgstr ""
+msgstr "Sarandë"
 
 msgid "Skrapar"
-msgstr ""
+msgstr "Skrapar"
 
 msgid "Shkodër"
-msgstr ""
+msgstr "Shkodër"
 
 msgid "Tepelenë"
-msgstr ""
+msgstr "Tepelenë"
 
 msgid "Tiranë"
-msgstr ""
+msgstr "Tiranë"
 
 msgid "Tropojë"
-msgstr ""
+msgstr "Tropojë"
 
 msgid "Vlorë"
-msgstr ""
+msgstr "Vlorë"
 
 msgid "Erevan"
-msgstr ""
+msgstr "Erevan"
 
 msgid "Aragacotn"
-msgstr ""
+msgstr "Aragacotn"
 
 msgid "Ararat"
-msgstr ""
+msgstr "Ararat"
 
 msgid "Armavir"
-msgstr ""
+msgstr "Armavir"
 
 msgid "Gegarkunik'"
-msgstr ""
+msgstr "Gegarkunik'"
 
 msgid "Kotayk'"
-msgstr ""
+msgstr "Kotayk'"
 
 msgid "Lory"
-msgstr ""
+msgstr "Lory"
 
 msgid "Sirak"
-msgstr ""
+msgstr "Sirak"
 
 msgid "Syunik'"
-msgstr ""
+msgstr "Syunik'"
 
 msgid "Tavus"
-msgstr ""
+msgstr "Tavus"
 
 msgid "Vayoc Jor"
-msgstr ""
+msgstr "Vayoc Jor"
 
 msgid "Bengo"
-msgstr ""
+msgstr "Bengo"
 
 msgid "Benguela"
-msgstr ""
+msgstr "Benguela"
 
 msgid "Bie"
-msgstr ""
+msgstr "Bie"
 
 msgid "Cabinda"
-msgstr ""
+msgstr "Cabinda"
 
 msgid "Cuando-Cubango"
-msgstr ""
+msgstr "Cuando-Cubango"
 
 msgid "Cuanza Norte"
-msgstr ""
+msgstr "Cuanza Norte"
 
 msgid "Cuanza Sul"
-msgstr ""
+msgstr "Cuanza Sul"
 
 msgid "Cunene"
-msgstr ""
+msgstr "Cunene"
 
 msgid "Huambo"
-msgstr ""
+msgstr "Huambo"
 
 msgid "Huila"
-msgstr ""
+msgstr "Huila"
 
 msgid "Luanda"
-msgstr ""
+msgstr "Luanda"
 
 msgid "Lunda Norte"
-msgstr ""
+msgstr "Lunda Norte"
 
 msgid "Lunda Sul"
-msgstr ""
+msgstr "Lunda Sul"
 
 msgid "Malange"
-msgstr ""
+msgstr "Malange"
 
 msgid "Moxico"
-msgstr ""
+msgstr "Moxico"
 
 msgid "Namibe"
-msgstr ""
+msgstr "Namibe"
 
 msgid "Uige"
-msgstr ""
+msgstr "Uige"
 
 msgid "Zaire"
 msgstr "Zaire"
 
 msgid "Capital federal"
-msgstr ""
+msgstr "Capital federal"
 
 msgid "Buenos Aires"
-msgstr ""
+msgstr "Buenos Aires"
 
 msgid "Catamarca"
-msgstr ""
+msgstr "Catamarca"
 
 msgid "Cordoba"
-msgstr ""
+msgstr "Cordoba"
 
 msgid "Corrientes"
-msgstr ""
+msgstr "Corrientes"
 
 msgid "Chaco"
-msgstr ""
+msgstr "Chaco"
 
 msgid "Chubut"
-msgstr ""
+msgstr "Chubut"
 
 msgid "Entre Rios"
-msgstr ""
+msgstr "Entre Rios"
 
 msgid "Formosa"
-msgstr ""
+msgstr "Formosa"
 
 msgid "Jujuy"
-msgstr ""
+msgstr "Jujuy"
 
 msgid "La Pampa"
-msgstr ""
+msgstr "La Pampa"
 
 msgid "Mendoza"
-msgstr ""
+msgstr "Mendoza"
 
 msgid "Misiones"
-msgstr ""
+msgstr "Misiones"
 
 msgid "Neuquen"
-msgstr ""
+msgstr "Neuquen"
 
 msgid "Rio Negro"
-msgstr ""
+msgstr "Rio Negro"
 
 msgid "Salta"
 msgstr ""
@@ -11359,117 +11359,110 @@ msgstr ""
 msgid "Al Wusţá"
 msgstr ""
 
-#, fuzzy
 msgid "Ash Shamālīyah"
-msgstr "Ash Shariqah"
+msgstr "Ash Shamālīyah"
 
 msgid "Jenin"
-msgstr ""
+msgstr "Jenin"
 
-#, fuzzy
 msgid "Tubas"
-msgstr "Texas"
+msgstr "Tubas"
 
 msgid "Tulkarm"
-msgstr ""
+msgstr "Tulkarm"
 
 msgid "Nablus"
-msgstr ""
+msgstr "Nablus"
 
 msgid "Qalqilya"
-msgstr ""
+msgstr "Qalqilya"
 
-#, fuzzy
 msgid "Salfit"
-msgstr "Mali"
+msgstr "Salfit"
 
 msgid "Ramallah and Al-Bireh"
-msgstr ""
+msgstr "Ramallah and Al-Bireh"
 
-#, fuzzy
 msgid "Jericho"
-msgstr "Mexikó"
+msgstr "Jericho"
 
 msgid "Jerusalem"
-msgstr ""
+msgstr "Jerusalem"
 
 msgid "Bethlehem"
-msgstr ""
+msgstr "Bethlehem"
 
-#, fuzzy
 msgid "Hebron"
-msgstr "Vermont"
+msgstr "Hebron"
 
-#, fuzzy
 msgid "North Gaza"
-msgstr "North Dakota"
+msgstr "North Gaza"
 
 msgid "Deir el-Balah"
-msgstr ""
+msgstr "Deir el-Balah"
 
 msgid "Khan Yunis"
-msgstr ""
+msgstr "Khan Yunis"
 
-#, fuzzy
 msgid "Rafah"
-msgstr "Farah"
+msgstr "Rafah"
 
 msgid "Brussels"
-msgstr ""
+msgstr "Brüsszel"
 
 msgid "North West"
-msgstr ""
+msgstr "North West"
 
 msgid "Tyne and Wear"
-msgstr ""
+msgstr "Tyne and Wear"
 
 msgid "Greater Manchester"
-msgstr ""
+msgstr "Greater Manchester"
 
 msgid "Co Tyrone"
-msgstr ""
+msgstr "Co Tyrone"
 
 msgid "West Yorkshire"
-msgstr ""
+msgstr "West Yorkshire"
 
 msgid "South Yorkshire"
-msgstr ""
+msgstr "South Yorkshire"
 
 msgid "Merseyside"
-msgstr ""
+msgstr "Merseyside"
 
 msgid "Berkshire"
-msgstr ""
+msgstr "Berkshire"
 
 msgid "West Midlands"
-msgstr ""
+msgstr "West Midlands"
 
 msgid "Inverness"
-msgstr ""
+msgstr "Inverness"
 
 msgid "Avon"
-msgstr ""
+msgstr "Avon"
 
 msgid "Middlesex"
-msgstr ""
+msgstr "Middlesex"
 
 msgid "West Glamorgan"
-msgstr ""
+msgstr "West Glamorgan"
 
 msgid "London"
-msgstr ""
+msgstr "London"
 
 msgid "Carbonia-Iglesias"
-msgstr ""
+msgstr "Carbonia-Iglesias"
 
 msgid "Olbia-Tempio"
-msgstr ""
+msgstr "Olbia-Tempio"
 
 msgid "Medio Campidano"
-msgstr ""
+msgstr "Medio Campidano"
 
 msgid "Ogliastra"
-msgstr ""
+msgstr "Ogliastra"
 
 msgid "Maryland"
 msgstr "Maryland"
@@ -11478,22 +11471,22 @@ msgid "Montana"
 msgstr "Montana"
 
 msgid "Limburg"
-msgstr ""
+msgstr "Limburg"
 
 msgid "Southern"
-msgstr ""
+msgstr "Southern"
 
 msgid "North"
-msgstr ""
+msgstr "North"
 
 msgid "Eastern"
-msgstr ""
+msgstr "Eastern"
 
 msgid "Manchester"
-msgstr ""
+msgstr "Manchester"
 
 msgid "Gaza"
-msgstr ""
+msgstr "Gaza"
 
 #~ msgid "Georgia"
 #~ msgstr "Georgia"
