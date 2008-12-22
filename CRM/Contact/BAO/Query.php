@@ -545,7 +545,7 @@ class CRM_Contact_BAO_Query
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } else if ($name === 'groups') {
                     $this->_useGroupBy  = true;
-                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
+                    $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_group.title)) AS groups";
                     $this->_element[$name              ] = 1;
                     $this->_tables['civicrm_group'     ] = 1;
                 } else if ($name === 'notes') {
