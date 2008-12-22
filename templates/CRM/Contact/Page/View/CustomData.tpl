@@ -6,13 +6,8 @@
 {strip}
     {if $action eq 16 or $action eq 4} {* Browse or View actions *}
             <div class="form-item">
-              {if $editCustomData and $groupId}
-                <div class="action-link">
-                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
-                </div>
-              {/if} 
-		{include file="CRM/Custom/Page/CustomDataView.tpl"}            
- 	      {if $editCustomData and $groupId}	
+           	 {include file="CRM/Custom/Page/CustomDataView.tpl"}            
+ 	          {if $editCustomData and $groupId}	
                 <div class="action-link">
                   &nbsp; <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 </div>
