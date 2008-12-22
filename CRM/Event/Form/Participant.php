@@ -428,6 +428,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 		$this->assign( 'roleID',  $roleID );
 		$this->assign( 'eventID', $eventID );
 		
+        $this->set( 'eventId', $eventID );
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_participantId]) );
         return $defaults[$this->_participantId];
     }
