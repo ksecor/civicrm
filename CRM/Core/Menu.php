@@ -663,7 +663,7 @@ UNION (
         return $item = array (
                               'path'            => 'civicrm/upgrade',
                               'access_callback' => 1,
-                              'page_callback'   => 'CRM_Upgrade_TwoTwo_Controller'
+                              'page_callback'   => 'CRM_Upgrade_Page_Upgrade'
                               );
     }
 }

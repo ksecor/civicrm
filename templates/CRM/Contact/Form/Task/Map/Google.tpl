@@ -12,6 +12,7 @@
       map.addControl(new GMapTypeControl());
       map.setCenter(new GLatLng( 0, 0 ), 0 );
       var bounds = new GLatLngBounds( );
+      GEvent.addListener(map, 'resize', function() { map.setCenter(bounds.getCenter()); map.checkResize(); });
 
       // Creates a marker whose info window displays the given number
       function createMarker(point, data) {
@@ -44,11 +45,7 @@
         bounds.extend(point);
       {/if}
       {/foreach}
-      {if count($locations) gt 1}  
-      	  map.setZoom(5);
-      {else}
-	  map.setZoom(15);
-      {/if}
+      map.setZoom(map.getBoundsZoomLevel(bounds));
       map.setCenter(bounds.getCenter());
       {literal}
 
@@ -73,4 +70,4 @@
   </script>
 {/literal}
 
-  <div id="google_map" style="width: 600px; height: 400px"></div>
+  <div id="google_map" style="width: 100%; height: 400px"></div>

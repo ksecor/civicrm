@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-12-16 10:46+0100\n"
-"PO-Revision-Date: 2008-12-13 08:46-0800\n"
+"PO-Revision-Date: 2008-12-21 21:34-0800\n"
 "Last-Translator: Christian Sager <christian.sager@swissagenda.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -252,7 +252,6 @@ msgid "<< Go Back"
 msgstr "<< Zurück"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "(s)"
 msgstr "(e)"
 
@@ -1171,17 +1170,16 @@ msgstr ""
 "oder zur Mitgliedschaft. Bitte kontaktieren Sie den Systemadministrator"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
 "membership payments. This %1 plugin does not currently support multiple "
 "simultaneous payments. Please contact the site administrator and notify them "
 "of this error"
 msgstr ""
-"Dies Seite ist so konfiguriert, dass sie verschiedene Zahlungen unterstützt. "
-"Allerdings wird dies derzeit nicht von PayPal Website Payments Standard "
-"unterstützt. Bitte kontaktieren Sie den Systemadministrator und informieren "
-"Sie ihn über diesen Fehler"
+"Dies Spenden Seite ist konfiguriert, Spenden und Mitgliedschafts Zahlung "
+"separat zu handhaben. Dieses %1 plugin  unterstützt akutell nicht mehrere "
+"gleichzeitige Zahlungen. Kontaktiere den Webadmin und teile ihm diesen "
+"Fehler mit."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -2028,11 +2026,12 @@ msgid ""
 "At least one contribution field needs to be mapped for update during update "
 "mode."
 msgstr ""
+"Wenigstens ein Spendenfeld muss für Aktualisierung zugewiesen sein im "
+"aktualisier Modus. "
 
 #: CRM/Contribute/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Contribution Mapping Name"
-msgstr " Import doppelte Spender Namen Mapping"
+msgstr "Doppelte Import Spenden Namen Zuweisung"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 msgid "Insert new contributions"
@@ -2682,9 +2681,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Liste der laufenden und zukünftigen Veranstaltungen anzeigen"
 
 #: CRM/Event/Form/SearchEvent.php
-#, fuzzy
 msgid "Search All or by Date Range"
-msgstr "Suche im Zeitraum"
+msgstr "Suche alle oder nach Zeitraum"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Events by Dates"
@@ -3610,213 +3608,177 @@ msgstr ""
 "alle Mitgliedschaften dieses Typs gelöscht sein."
 
 #: CRM/Member/BAO/MembershipType.php
-#, fuzzy
 msgid ""
 "%2. This Membership Type is being link to <a href='%1'>Online Contribution "
 "page</a>. Please change/delete it in order to delete this Membership Type."
 msgstr ""
-"Dieser Premium ist verknüpft mit <a href=\"%1\">Onlinespendenseite</a>. "
-"Bitte entferne die Verknüpfung, um diesen Premium zu löschen."
+"%2. Dieser Mitgliedschafts Typ ist mit <a href='%1'>Online Spenden Seite</a> "
+"verknpüft. Bitte ändere/lösche damit der Mitgliedschafts Typ gelöscht "
+"werden kann."
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Member Since %2 %1"
 msgstr "Mitglied seit %2 %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Source %2 %1"
 msgstr "Quelle %2 %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Membership Status %1"
-msgstr "Mitglied zu %1 hinzufügen"
+msgstr "Mitglied Status %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Membership Type %1"
-msgstr "Mitglied zu %1 hinzufügen"
+msgstr "Mitgliedschaft Typ %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Join Date - From"
-msgstr "Enddatum - von"
+msgstr "Beitrittsdatum - von"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "End Date - From"
 msgstr "Enddatum - von"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Find Test Memberships?"
-msgstr "Zuwendungen finden"
+msgstr "Finde Test Mitgliedschaft?"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Find Pay Later Memberships?"
-msgstr "Zuwendungen finden"
+msgstr "Finde 'Zahle später' Mitgliedschaft?"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Membership Type Default"
-msgstr "Mitgliedsart"
+msgstr "Mitgliedschaft Typ Vorgabe"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Display Min Fee"
-msgstr "Mitgliedsbeitrag anzeigen"
+msgstr "Mindest Gebühr anzeigen"
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "New Title"
 msgstr "Neuer Titel"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Text"
-msgstr "Notiztext"
+msgstr "Neuer Text"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Renewal Title"
-msgstr "Titel der Veranstaltung"
+msgstr "Titel Erneuerung"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Renewal Text"
-msgstr "Erneuerte Erinnerung"
+msgstr "Text Erneuerung"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Is Required"
-msgstr "Pflicht"
+msgstr "Pflichtfeld"
 
 #: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
 msgid "Membership Change Date"
-msgstr "Startdatum"
+msgstr "Mitgliedschafts Änderungs Datum"
 
 #: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
 msgid "Renewal Reminder Date"
-msgstr "Erneuere Erinnerungstag"
+msgstr "Erneuerung Datum der Erinnerung"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Membership ID"
-msgstr "Mitgliedsschaft-ID"
+msgstr "Mitgliedsschaft ID"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Membership Expiration Date"
-msgstr "Startdatum"
+msgstr "Mitgliedschaft Ablauf Datum"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Status Override"
-msgstr "Status?"
+msgstr "Status übersteuern"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Reminder Date"
 msgstr "Erinnerungsdatum"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Start Event Adjust Unit"
-msgstr "Beginne Veranstaltung für einen bestimmten Interval"
+msgstr "Beginn Veranstaltung Anpassungs Einheit"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "End Event Adjust Unit"
-msgstr "Beende Veranstaltung für einen bestimmten Interval"
+msgstr "Ende Veranstaltung Anpassungs Einheit"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Admin Assigned Only?"
-msgstr "\"%1 Administrator\" <%2>"
+msgstr "Nur dem Admin zugewiesen?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Default Status?"
-msgstr "Standardwert"
+msgstr "Vorgabe Status?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Is Reserved"
-msgstr "Reseviert"
+msgstr "Ist reserviert"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "start_date"
 msgstr "Startdatum"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "end_date"
 msgstr "Enddatum"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "join_date"
-msgstr "Datum des Eintritts"
+msgstr "Beitrittsdatum"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Visible"
-msgstr "Deaktivieren"
+msgstr "Sichtbar"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Receipt Text Signup"
-msgstr "Empfänger"
+msgstr "Anmeldung Beleg Text "
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Receipt Text Renewal"
-msgstr "Quittung nicht gesendet?"
+msgstr "Erneuerung Beleg Text"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
-msgstr ""
+msgstr "Mitgliedschafts Abschnitt aktiviert?"
 
 #: CRM/Member/Form/MembershipBlock.php
-#, fuzzy
 msgid "Title - New Membership"
-msgstr "Neue Gruppenmitgliedschaft"
+msgstr "Titel Neue Mitgliedschaft"
 
 #: CRM/Member/Form/MembershipBlock.php
-#, fuzzy
 msgid "Introductory Message - New Memberships"
-msgstr "Einführungsnachricht"
+msgstr "Einführungstext - Neue Mitgliedschaft"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Title - Renewals"
-msgstr ""
+msgstr "Titel - Erneuerung"
 
 #: CRM/Member/Form/MembershipBlock.php
-#, fuzzy
 msgid "Introductory Message - Renewals"
-msgstr "Einführungsnachricht"
+msgstr "Einführungstext - Erneuerung"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Require Membership Signup"
-msgstr ""
+msgstr "Mitgliedschafts Anmeldung verlangt"
 
 #: CRM/Member/Form/MembershipBlock.php
-#, fuzzy
 msgid "Display Membership Fee"
 msgstr "Mitgliedsbeitrag anzeigen"
 
 #: CRM/Member/Form/MembershipBlock.php
-#, fuzzy
 msgid "Separate Membership Payment"
-msgstr "Letzte Mitgliedschaften"
+msgstr "Separate Mitgliedschafts Zahlungen"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Types Default"
-msgstr ""
+msgstr "Vorgabe Mitgliedschafts Typen"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid ""
@@ -5972,14 +5934,13 @@ msgid "Thanks for your support."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
 msgid "Sent"
-msgstr "Empfänger"
+msgstr "Gesendet"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "New Payment Instrument"
-msgstr ""
+msgstr "Neues Zahlungs System"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Edit Payment Instrument"
@@ -6002,9 +5963,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Registration Date"
-msgstr "Gültigkeit bis:"
+msgstr "Registrations Datum"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #, fuzzy
@@ -6049,9 +6009,8 @@ msgid "Find more contributions"
 msgstr "Absätze auflisten"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
-#, fuzzy
 msgid "View all contributions from this contact"
-msgstr "Primärer Standort für diesen Kontakt"
+msgstr "Zeige alle Spenden von diesem Kontakt"
 
 #: templates/CRM/Contribute/Form/Task/Batch.tpl
 msgid ""
@@ -6102,13 +6061,12 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Transaction Date"
-msgstr "Transaktionsnummer"
+msgstr "Transaktions Datum"
 
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
-msgstr "Zahl ausgewählter Zuwendungen: %1"
+msgstr "Zahl ausgewählter Spenden: %1"
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl

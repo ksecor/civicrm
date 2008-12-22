@@ -38,10 +38,21 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        if ( CRM_Upgrade_Form::checkVersion( '2.1' ) ||
-             CRM_Upgrade_Form::checkVersion( '2.1.1' ) ) {
+        $upgrade =& new CRM_Upgrade_Form( );
+        
+        $message = ts('CiviCRM upgrade successful');
+        if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
+            $message = ts('Your database has already been upgraded to CiviCRM %1',
+                          array( 1 => $upgrade->latestVersion ) );
+        } else if ( $upgrade->checkVersion( '2.1.2' ) ||
+                    $upgrade->checkVersion( '2.1.3' ) ) {
+            // do nothing, db version is changed for all upgrades
+        } else if ( $upgrade->checkVersion( '2.1.0' ) ||
+                    $upgrade->checkVersion( '2.1' )   || 
+                    $upgrade->checkVersion( '2.1.1' ) ) {
             // 2.1 to 2.1.2
             $this->runTwoOneTwo( );
+            
         } else {
             // 2.0 to 2.1
             for ( $i = 1; $i <= 4; $i++ ) {
@@ -51,8 +62,23 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
             $this->runTwoOneTwo( );
         }
         
-        echo "Upgrade Successful. \n";
-        exit( );
+        // just change the ver in the db, since nothing to upgrade
+        $upgrade->setVersion( $upgrade->latestVersion );
+
+        // also cleanup the templates_c directory
+        $config =& CRM_Core_Config::singleton( );
+        $config->cleanup( 1 );
+
+        $template =& CRM_Core_Smarty::singleton( );
+
+        $template->assign( 'message', $message );
+        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
+                                           array( 1 => $upgrade->latestVersion ) ) );
+        $template->assign( 'menuRebuildURL', 
+                           CRM_Utils_System::url( 'civicrm/menu/rebuild',
+                                                  'reset=1' ) );
+        $contents = $template->fetch( 'CRM/common/success.tpl' );
+        echo $contents;
     }
 
     function runForm( $stepID ) {
