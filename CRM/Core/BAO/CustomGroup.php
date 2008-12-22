@@ -1530,7 +1530,8 @@ SELECT $select
     			$params = array( 1 => array( $option_group_id, 'Integer' ) );
     			$coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
     		}
-
+    		
+            $retValue = null;
             while ( $coDAO->fetch( ) ) {
                 //to show only values that are checked
                 if ( in_array ( $coDAO->value, $customData ) ) {
