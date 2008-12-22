@@ -751,8 +751,8 @@ for(var i=0;i<noneArray.length;i++) {
         }
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
-        foreach ($params['mapper'] as $key => $value) {
-            foreach ($value as $k => $v) {
+        foreach ( $params['mapper'] as $key => $value ) {
+            foreach ( $value as $k => $v ) {
                 if ( isset ($v[1] ) ) {
                     if ( $v[1] == 'groups' || $v[1] == 'tags' ) {
                         continue;
@@ -771,10 +771,10 @@ for(var i=0;i<noneArray.length;i++) {
                         }
                         
                         if ( $v[1] == 'phone' || $v[1] == 'email' || $v[1] == 'im' ) {
-                            if ( $v[3] ) { // phone type handling
+                            if ( isset( $v[3] ) ) { // phone type handling
                                 $fields['location'][$locationName][$v[1] . "-" . $v[3]] = 1;
                             } else {
-                                $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                                $fields['location'][$locationName][$v[1]] = 1;
                             }
                         } else {
                             $fields['location'][$locationName][$v[1]] = 1;
