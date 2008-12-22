@@ -39,7 +39,7 @@
                 <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
                     <table class="form-layout-compressed">
                         <tr>
-                            <td colspan="2" class="description">{ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}</td>
+                            <td colspan="2"><span class="description">{ts}Enter the name as shown on your credit or debit card, and the billing address for this card.{/ts}</span></td>
                         </tr>
                         <tr>
                             <td class="label">{$form.billing_first_name.label}</td>
