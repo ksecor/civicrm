@@ -18,7 +18,6 @@
                     {foreach from=$element.field_value item=val}
                         <tr><td class="labels font-light">{$val}</td><tr>
                     {/foreach}
-                    </tr>
                 </table>
             </dd>
         {else}
