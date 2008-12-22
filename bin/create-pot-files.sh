@@ -30,7 +30,7 @@ echo | tee -a $potdir/civicrm-{menu,core,modules,helpfiles}.pot $potdir/{countri
 
 # build the three XML-originating files
 echo ' * building civcrm-menu.pot'
-grep -h '<title>' templates/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
+grep -h '<title>' CRM/*/xml/Menu/*.xml | cut -b13- | cut -d'<' -f1 | sort | uniq | tail --lines=+2 | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/civicrm-menu.pot
 echo ' * building countries.pot'
 grep ^INSERT xml/templates/civicrm_country.tpl     | cut -d\" -f4                                  | while read entry; do echo -e "msgid \"$entry\"\nmsgstr \"\"\n"; done >> $potdir/countries.pot
 echo ' * building provinces.pot'
