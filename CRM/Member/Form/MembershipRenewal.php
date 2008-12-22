@@ -442,20 +442,22 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                                                        0, $this, null );
         
         $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
-
+        
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
         $userID  = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-        
+
+        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $renewMembership->membership_type_id, 'name');
+
         if ( $formValues['record_contribution'] || $this->_mode ) {
             //building contribution params 
             $contributionParams = array( );
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'             ] = $config->defaultCurrency;
             $contributionParams['contact_id'           ] = $params['contact_id'];
-            $contributionParams['source'               ] = "Offline membership renewal (by {$userName})";
+            $contributionParams['source'               ] = "{$memType} Membership: Offline membership renewal (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
             $contributionParams['receipt_date'         ] = $formValues['send_receipt'] ? 
@@ -595,7 +597,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                               $message);
         }
         
-        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $renewMembership->membership_type_id, 'name');
+       
         $statusMsg = ts('%1 membership for %2 has been renewed.', array(1 => $memType, 2 => $this->_contributorDisplayName));
        
         $endDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", 
