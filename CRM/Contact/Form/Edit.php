@@ -133,13 +133,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
  
-        // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_CustomData::preProcess( $this );
-            CRM_Custom_Form_CustomData::buildQuickForm( $this );
-            CRM_Custom_Form_CustomData::setDefaultValues( $this );
-        }
-
         $session = & CRM_Core_Session::singleton( ); 
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
@@ -166,7 +159,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
-
             // check for add contacts permissions
             require_once 'CRM/Core/Permission.php';
             if ( ! CRM_Core_Permission::check( 'add contacts' ) ) {
@@ -230,15 +222,22 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
 				
-				// need this for custom data in edit mode	
-				$this->assign('entityID', $this->_contactId );
+                // need this for custom data in edit mode	
+                $this->assign('entityID', $this->_contactId );
                 
-				//get the no of locations for the contact
+                //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
-                return;
+            } else {
+                CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
             }
-            CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
+        }
+        
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            CRM_Custom_Form_CustomData::preProcess( $this, 'null', 'null', 1, $this->_contactType, $this->_contactId );
+            CRM_Custom_Form_CustomData::buildQuickForm( $this );
+            CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
     }
 

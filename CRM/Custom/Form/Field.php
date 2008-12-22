@@ -215,7 +215,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         }
         
         // set defaults for weight.
-        for($i=1; $i<=self::NUM_OPTION; $i++) {
+        for ( $i=1; $i<=self::NUM_OPTION; $i++ ) {
             $defaults['option_status['.$i.']'] = 1;
             $defaults['option_weight['.$i.']'] = $i;
         }
@@ -232,10 +232,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['is_view'] = 0;
         }
         
-        $dontShowLink = substr($defaults['html_type'], -14) == 'State/Province' || 
-                        substr($defaults['html_type'], -7)  == 'Country'         ? 1 : 0;
-
-        $this->assign('dontShowLink',$dontShowLink);
+        if ( CRM_Utils_Array::value( 'html_type', $defaults ) ) {
+            $dontShowLink = substr($defaults['html_type'], -14) == 'State/Province' || 
+                            substr($defaults['html_type'], -7)  == 'Country'         ? 1 : 0;
+        }
+        
+        if ( isset( $dontShowLink ) ) {
+            $this->assign( 'dontShowLink', $dontShowLink );
+        }
         return $defaults;
 
     }
