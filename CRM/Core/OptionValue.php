@@ -126,13 +126,13 @@ class CRM_Core_OptionValue
                                                                                'gid'   => $optionGroupID,
                                                                                'value' => $dao->value ) );
             
-            if ( $optionValue[$dao->id]['component_id'] ) {
+            if ( CRM_Utils_Array::value( 'component_id', $optionValue[$dao->id] ) ) {
                 $optionValue[$dao->id]['component_name'] = $componentNames[$optionValue[$dao->id]['component_id']];
             } else {
                 $optionValue[$dao->id]['component_name'] = 'Core';
             }
             
-            if ( $optionValue[$dao->id]['visibility_id'] ) {
+            if (  CRM_Utils_Array::value( 'visibility_id', $optionValue[$dao->id] ) ) {
                 $optionValue[$dao->id]['visibility_label'] = $visibilityLabels[$optionValue[$dao->id]['visibility_id']];
             }
 
