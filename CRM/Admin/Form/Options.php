@@ -234,6 +234,11 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_OptionValue', $this->_id, $fieldValues);
             
             if( CRM_Core_BAO_OptionValue::del($this->_id) ) {
+                if ( $this->_gName == 'phone_type' ) {
+                    require_once 'CRM/Core/BAO/Phone.php';
+                    CRM_Core_BAO_Phone::setOptionToNull( CRM_Utils_Array::value( 'value', $this->_defaultValues) );
+                }
+                
                 CRM_Core_Session::setStatus( ts('Selected %1 type has been deleted.', array(1 => $this->_GName)) );
             } else {
                 CRM_Core_Session::setStatus( ts('Selected %1 type has not been deleted.', array(1 => $this->_GName)) );

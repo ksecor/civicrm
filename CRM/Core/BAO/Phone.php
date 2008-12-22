@@ -169,6 +169,29 @@ ORDER BY ph.is_primary DESC, phone_id ASC ";
         }
         return $numbers;
     }
-    
+
+    /**
+     * Set NULL to phone, mapping, uffield
+     *
+     * @param $optionId value of option to be deleted
+     * 
+     * return void
+     * @static
+     */
+    static function setOptionToNull( $optionId )
+    {
+        if ( !$optionId ) {
+            return;
+        }
+      
+        $tables = array('civicrm_phone', 'civicrm_mapping_field', 'civicrm_uf_field'); 
+        $params = array( 1 => array( $optionId, 'Integer' ) );
+
+        foreach( $tables as $tableName ) {
+            $query = "UPDATE `{$tableName}` SET `phone_type_id` = NULL WHERE `phone_type_id` = %1";
+            CRM_Core_DAO::executeQuery( $query, $params );
+        }
+
+    } 
 }
 
