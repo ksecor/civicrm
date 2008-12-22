@@ -122,14 +122,31 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         
         //fix for CRM-2752
         require_once "CRM/Core/BAO/CustomField.php";
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant' );
+        // get the option value for custom data type 	
+		$this->_roleCustomDataTypeID      = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantRole', 'name' );
+		$this->_eventNameCustomDataTypeID = CRM_Core_OptionGroup::getValue( 'custom_data_type', 'ParticipantEventName', 'name' );
+		
+		// build custom data getFields array
+		$customFieldsRole  = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, $this->_roleCustomDataTypeID );		    
+		
+        $customFieldsEvent = CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, $this->_eventNameCustomDataTypeID );
+        $customFields      = CRM_Utils_Array::crmArrayMerge( $customFieldsRole, 
+                                                         CRM_Core_BAO_CustomField::getFields( 'Participant', false, false, null, null, true ) );
+        $this->_customFields = CRM_Utils_Array::crmArrayMerge( $customFieldsEvent, $customFields );
+
         foreach ( $this->_participantIds as $participantId ) {
             $roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'role_id' ); 
+            $eventId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'event_id' ); 
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
-                    $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
-                    if ( ( $roleId == $customValue['extends_entity_column_value'] ) ||
-                         CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
+                    $customValue = CRM_Utils_Array::value( $customFieldID, $this->_customFields );
+                    if ( ( $this->_roleCustomDataTypeID == $customValue['extends_entity_column_id'] ) &&
+                         ( $roleId == $customValue['extends_entity_column_value'] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                    } else if ( ( $this->_eventNameCustomDataTypeID == $customValue['extends_entity_column_id'] ) &&
+                         ( $eventId == $customValue['extends_entity_column_value'] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                    } else if ( CRM_Utils_System::isNull( $customValue['extends_entity_column_value'] ) ) {
                         CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
                     }
                 } else {
@@ -200,7 +217,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 
                 //check for custom data
                 $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
-                                                                          CRM_Core_DAO::$_nullObject,
+                                                                          $this->_customFields,
                                                                           $key,
                                                                           'Participant' );
 
