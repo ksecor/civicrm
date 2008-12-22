@@ -85,10 +85,10 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         
         $profile = array( );
-        CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 2, $profiles, array ( 'title' ) );
+        CRM_Core_DAO::commonRetrieveAll('CRM_Core_DAO_UFGroup', 'is_cms_user', 2, $profiles, array ( 'title', 'is_active' ) );
         if ( !empty( $profiles ) ) {
             foreach ( $profiles as $key => $value ) {
-                $profile[$key] = $value['title'];
+                if ( $value['is_active'] ) $profile[$key] = $value['title'];
             }
             $this->assign('profile',$profile);
         } 
