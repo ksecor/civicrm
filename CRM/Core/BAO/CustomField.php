@@ -845,11 +845,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( $html_type == 'CheckBox' ) {
                     if ( $val ) {
                         $p[] = $key;
-                        $v[] = $option[$key];
+                        $v[] = CRM_Utils_Array::value( $key, $option );
                     }
                 } else {
                     $p[] = $val;
-                    $v[] = $option[$val];
+                    $v[] = CRM_Utils_Array::value( $val, $option );
                 }
             }
             if ( ! empty( $v ) ) {

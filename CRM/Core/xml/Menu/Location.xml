@@ -4,6 +4,7 @@
   <item>
      <path>civicrm/ajax/jqState</path>
      <page_callback>CRM_Core_Page_AJAX_Location::jqState</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
+     <access_callback>1</access_callback>
+     <is_public>true</is_public>
   </item>
 </menu>
