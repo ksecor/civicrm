@@ -456,9 +456,9 @@ class CRM_Case_Form_Activity extends CRM_Activity_Form_Activity
         }
         
         CRM_Core_Session::setStatus( ts("'%1' activity has been %2. %3 %4", 
-                                        array('1' => $this->_activityTypeName, 
-                                              '2' => $recordStatus,
-                                              '3' => $followupStatus,
-                                              '4' => $mailStatus)) );
+                                        array(1 => $this->_activityTypeName, 
+                                              2 => $recordStatus,
+                                              3 => $followupStatus,
+                                              4 => $mailStatus)) );
     }
 }

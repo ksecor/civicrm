@@ -64,7 +64,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $prms = array( 'id' => $this->_id );
         
         CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_PCP', $prms, $pcpInfo );
-        CRM_Utils_System::setTitle(ts($pcpInfo['title']));
+        CRM_Utils_System::setTitle($pcpInfo['title']);
         $this->assign('pcp', $pcpInfo );
 
         require_once 'CRM/Contribute/PseudoConstant.php';

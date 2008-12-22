@@ -387,7 +387,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 } else if ( $startDate ) {
                     CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page begins on %1.', array( 1 => $customStartDate ) ) );
                 } else if ( $endDate ) {
-                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', ( array( 1 => $customEndDate ) ) ) );
+                    CRM_Core_Error::fatal( ts('Contribution for this Personal Campaign Page ended on %1.', array( 1 => $customEndDate ) ) );
                 } 
             }
             

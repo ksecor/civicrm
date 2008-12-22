@@ -62,7 +62,7 @@ class CRM_Import_DataSource_SQL extends CRM_Import_DataSource
         $forbidden = array('ALTER', 'CREATE', 'DELETE', 'DESCRIBE', 'DROP', 'SHOW', 'UPDATE', 'information_schema');
         foreach ($forbidden as $pattern) {
             if (preg_match("/\\b$pattern\\b/i", $fields['sqlQuery'])) {
-                $errors['sqlQuery'] = ts("The query contains the forbidden $pattern command.");
+                $errors['sqlQuery'] = ts('The query contains the forbidden %1 command.', array(1 => $pattern));
             }
         }
 

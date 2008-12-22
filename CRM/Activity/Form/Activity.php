@@ -526,7 +526,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                     $attribute = $values['attributes'];
                 }
 
-                $this->add($values['type'], $field, ts($values['label']), $attribute, $values['required'] );
+                $this->add($values['type'], $field, $values['label'], $attribute, $values['required'] );
             }
         }
 

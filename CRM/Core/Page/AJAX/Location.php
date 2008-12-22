@@ -108,7 +108,7 @@ class CRM_Core_Page_AJAX_Location
         $elements = array( array( 'name'  => ts('- select a state-'),
             'value' => '' ) );
         foreach ( $result as $id => $name ) {
-            $elements[] = array( 'name'  => ts($name),
+            $elements[] = array( 'name'  => $name,
                 'value' => $id );
         }
 

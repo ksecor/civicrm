@@ -107,7 +107,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         $details  = CRM_Case_PseudoConstant::activityType( false );
        
-        CRM_Utils_System::setTitle(ts('%1', array('1' => $details[$this->_activityTypeId]['label'])));
+        CRM_Utils_System::setTitle($details[$this->_activityTypeId]['label']);
         $this->assign('activityType', $details[$this->_activityTypeId]['label']);
        
         if ( isset($this->_currentlyViewedContactId) ) {
@@ -155,7 +155,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             }
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
-                                            'name'      => ts($title), 
+                                            'name'      => $title,
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     array ( 'type'      => 'cancel', 
