@@ -220,7 +220,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                         CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$value]["custom_{$cfID}"],$cfID, $details[1] );
                 }
             }
-            $contact = $details['0']["{$value}"];
+            $contact = CRM_Utils_Array::value( $value, $details['0'] );
             
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
