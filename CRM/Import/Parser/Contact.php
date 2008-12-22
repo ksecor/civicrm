@@ -348,6 +348,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             return CRM_Import_Parser::ERROR;
         }
         
+        //if user correcting errors by walking back
+        //need to reset status ERROR msg to null 
+        //now currently we are having valid data. 
+        $importRecordParams = array( $statusFieldName => 'NEW' );
+        $this->updateImportRecord( $values[count($values)-1], $importRecordParams );
+        
         return CRM_Import_Parser::VALID;
     }
 
