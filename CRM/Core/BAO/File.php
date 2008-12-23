@@ -160,7 +160,7 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         $entityFileDAO->entity_id    = $entityId;
         $entityFileDAO->file_id      = $fileDAO->id;
         $entityFileDAO->save();
-        
+        return $fileDAO->id;
     }
 
     public function delete($fileID , $entityId, $entityTable = null) {
