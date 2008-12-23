@@ -313,6 +313,15 @@
 {
 	background: url(images/validationInputBg.gif) repeat-x top left #fff;
 }
+
+#id_search_block .tundra .dijitReset {
+	background: #fff url(images/buttonEnabled.png) repeat-x bottom left;
+}
+
+.tundra .dijitReset {
+	background-color: transparent;
+}
+
 .tundra .dijitButtonNode {
 	border: 0px none;
 	/* border:1px solid #c0c0c0;

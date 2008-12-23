@@ -437,7 +437,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   padding: 0px 0px 5px;
   font-size: 0.9em;
   white-space: normal;
-  width: 560px;
+  width: auto;
   display: block;
 }
 
