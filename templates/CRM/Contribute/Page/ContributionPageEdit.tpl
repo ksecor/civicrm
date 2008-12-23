@@ -65,8 +65,8 @@
     <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>
 </tr>
 <tr>
-    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=PCP"}" id="idPcp">&raquo; {ts}Personal Campaign Page{/ts}</a></td>
-    <td>{ts}Enable Personal Campaign Page section.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=PCP"}" id="idPcp">&raquo; {ts}Personal Campaign Pages{/ts}</a></td>
+    <td>{ts}Enable and configure default behaviour of Personal Campaign Pages. This feature allows your supporters to create their own pages and drive traffic to your Contribution Page.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>
