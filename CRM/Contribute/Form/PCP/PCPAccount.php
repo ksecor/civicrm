@@ -140,6 +140,9 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
                 $this->assign( "isCaptcha" , true );
             }
         }
+
+        require_once "CRM/Contribute/PseudoConstant.php";
+        $this->assign( 'campaignName', CRM_Contribute_PseudoConstant::contributionPage( $this->_pageId ) );
         
         $this->addButtons( array( 
                                  array ( 'type'      => 'next',

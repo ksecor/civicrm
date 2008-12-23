@@ -1,4 +1,7 @@
 {* Displays Test-drive mode header for Contribution pages. *}
+
+{ts 1=$campaignName}This wizard allows you to create you own Personal Campaign Page. It's a simple page with a link to Contribution Page, where you can present your motivation and convice other to support "%1" campaign.{/ts}
+
 {if $profileDisplay}
 <div class="messages status">
 <dl>
