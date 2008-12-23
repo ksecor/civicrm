@@ -17,11 +17,13 @@
   <div id="choose-data-source" class="form-item">
     <fieldset>
       <legend>{ts}Choose Data Source{/ts}</legend>
-      <dl>
-        <dt>{$form.dataSource.label}</dt><dd>{$form.dataSource.html} {help id='data-source-selection'}</dd>
-      </dl>
+      <table class="form-layout">
+        <tr>
+            <td class="label">{$form.dataSource.label}</td>
+            <td>{$form.dataSource.html} {help id='data-source-selection'}</td>
+        </tr>
+      </table>
     </fieldset>
-    <div class="spacer"></div>
   </div>
 
   {* Data source form pane is injected here when the data source is selected. *}
@@ -31,7 +33,7 @@
     {/if}
   </div>
 
-  <div id="common-form-controls" style="display: none;">
+  <div id="common-form-controls" class="form-item" style="display: none;">
     <fieldset>
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
@@ -58,8 +60,6 @@
         {/if}
       </dl>
     </fieldset>
-
-    <div class="spacer"></div>
   </div>
 
   <div id="crm-submit-buttons">
