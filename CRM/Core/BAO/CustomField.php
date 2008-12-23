@@ -812,7 +812,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( $data_type == 'Boolean' ) {
                 $display = $value ? ts('Yes') : ts('No');
             } else {
-                $display = $option[$value];
+                $display = CRM_Utils_Array::value( $value, $option );
             }
             break;
 

@@ -150,10 +150,10 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         
         require_once 'CRM/Core/Form/Date.php';
         CRM_Core_Form_Date::buildAllowedDateFormats($this);
-
+        
         $config = CRM_Core_Config::singleton();
         if (!empty($config->geocodeMethod)) {
-            $form->addElement('checkbox', 'doGeocodeAddress', ts('Lookup mapping info during import?'));
+            $this->addElement('checkbox', 'doGeocodeAddress', ts('Lookup mapping info during import?'));
         }
 
         $this->addButtons( array( 
