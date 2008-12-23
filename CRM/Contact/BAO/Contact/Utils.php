@@ -210,18 +210,18 @@ UNION
             $exists = true;
         } else {
             $orgName = explode('::', $organization );
-            trim($ornName[0]);
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact =& new CRM_Contact_DAO_Contact( );
-            $contact->organization_name = trim( $orgName[0] );
-            $contact->find( );
-            $dupeIds = array( );
-            while ( $contact->fetch( ) ) {
-                $dupeIds[$contact->id] = $contact->id;
-            }
+            trim($orgName[0]);
 
+            $organizationParams = array();
+            $organizationParams['organization_name'] = $orgName[0];
+
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($organizationParams, 'Organization');
+            
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy');
+            
             // if duplicates are not found create new organization
-            if ( empty($dupeIds) ) {
+            if ( empty($dupeIDs) ) {
                 //create new organization
                 $newOrg = array ( 'contact_type'      => 'Organization',
                                   'organization_name' => trim( $orgName[0] ) );
@@ -252,7 +252,7 @@ UNION
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
-            foreach ( $dupeIds as $orgId ) {
+            foreach ( $dupeIDs as $orgId ) {
                 $relationshipParams['contact_check'][$orgId] = 1;
                 CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
                 

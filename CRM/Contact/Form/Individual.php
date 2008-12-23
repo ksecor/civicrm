@@ -339,19 +339,19 @@ class CRM_Contact_Form_Individual {
             $householdParams['household_name'] = $params['shared_household'];
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($householdParams, 'Household');
-         
+                    
             $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy');
-         
-            if ( is_array( $dupeIDs ) ) {
-                $houseHoldId = $dupeIDs[0];
-            } else {
+           
+            if ( empty($dupeIDs) ) {
                 //create new Household
                 $newHousehold = array ( 'contact_type'   => 'Household',
                                         'household_name' => $params['shared_household'], 
                                         'location'       => $householdParams['location'] );
                 $houseHold   = CRM_Contact_BAO_Contact::create( $newHousehold );
                 $houseHoldId = $houseHold->id;
-            }
+            } else {
+                $houseHoldId = $dupeIDs[0];
+            } 
         }
         if ( $houseHoldId ) {
             $params['mail_to_household_id'] = $houseHoldId;
