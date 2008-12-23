@@ -963,7 +963,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
     static function getSoftContributionTotals( $contact_id )
     {
     
-        $query = "select sum(amount) as total from civicrm_contribution_soft where contact_id = " . $contact_id;
+        $query = "select sum(amount) as total from civicrm_contribution_soft  ccs left join civicrm_contribution cc on ccs.contribution_id = cc.id where cc.is_test = 0 and ccs.contact_id = " . $contact_id;
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $result = array();
