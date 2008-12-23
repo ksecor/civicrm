@@ -9,7 +9,7 @@
 	<tr>
 		<td class="label">{$form.intro_text.label}</td>
 		<td>{$form.intro_text.html|crmReplace:class:big}
-                <span class="description">{ts}{/ts}</span>w</td>
+                <span class="description">{ts}{/ts}</span></td>
 	</tr>
 	<tr>
 		<td class="label">{$form.goal_amount.label}</td>
