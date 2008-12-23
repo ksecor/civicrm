@@ -69,7 +69,7 @@ function smarty_function_help( $params, &$smarty ) {
     return <<< EOT
 
 <span dojoType="dijit.form.DropDownButton" class="tundra">
-    <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/misc.png" /></div>
+    <div><img src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/quiz.png" /></div>
     <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
 </span>
 EOT;
