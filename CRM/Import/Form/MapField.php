@@ -310,7 +310,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 $id = $first = $second = null;
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-                eval( '$cType = ' . $contactRelationCache[$id]["contact_type_{$second}"] . ';' );
+                $cType = $contactRelationCache[$id]["contact_type_{$second}"];
 
                 if ( ! $cType ) {
                     $cType = 'All';

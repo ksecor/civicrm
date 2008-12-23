@@ -527,6 +527,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $output = array( );
     if ( $html ) {
+        $html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-register' : $category;
         $output[$index] = array( '#title' => $category,
                                  '#value' => $html,
@@ -575,6 +576,7 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     }
     
     if ( $html ) {
+        $html = civicrm_add_jquery( $html );
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
         $output[$index][] = array( '#title' => $category,
                                    '#value' => $html,
@@ -775,4 +777,9 @@ function civicrm_views_api() {
                  'api' => 2,
                  'path' => drupal_get_path('module', 'civicrm') . '/modules/views',
                  );
+}
+
+function civicrm_add_jquery( &$html ) {
+    $smarty = CRM_Core_Smarty::singleton( );
+    return $smarty->fetch( 'CRM/common/jquery.tpl' ) . $html;
 }
