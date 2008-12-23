@@ -13,11 +13,15 @@
 	</tr>
 	<tr>
 		<td class="label">{$form.goal_amount.label}</td>
-		<td>{$form.goal_amount.html|crmReplace:class:six}</td>
+		<td>{$form.goal_amount.html|crmReplace:class:six}
+		<span class="description">{ts}The amount you would like to raise for target campaign through your Personal Campaign Page.{/ts}</span>
+		</td>
 	</tr>
 	<tr>
 		<td class="label">{$form.donate_link_text.label}</td>
-		<td>{$form.donate_link_text.html}</td>
+		<td>{$form.donate_link_text.html}
+		<span class="description">{ts}The text of the link which will bring donators to Contribution Page.{/ts}</span>
+		</td>
 	</tr>
 	<tr>
 		<td class="label" width="15%">{$form.page_text.label}</td>

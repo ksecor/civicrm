@@ -78,14 +78,14 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     public function buildQuickForm( )  
     {
         $this->add('text', 'title', ts('Page Title'), null, true );
-        $this->add('textarea', 'intro_text', ts('Intro Text'), null, true );
+        $this->add('textarea', 'intro_text', ts('Introduction Text'), null, true );
         $this->add('text', 'goal_amount', ts('Goal Amount'), null, true );
         $attributes = array( );
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
-            $attributes = array('value' => 'Contribute Now', 'onClick' => 'select();');
+            $attributes = array('value' => ts('Contribute Now'), 'onClick' => 'select();');
         }
 
-        $this->add('text', 'donate_link_text', ts('Donate Button Text'), $attributes); 
+        $this->add('text', 'donate_link_text', ts('Donation Button Text'), $attributes); 
         $attrib = Array ('rows' => 8, 'cols' => 60 );
         $this->addWysiwyg( 'page_text', ts('Page Text'), $attrib ); 
         
@@ -93,7 +93,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->get('page_id'), $maxAttachments );
         
-        $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Thermometer') );
+        $this->addElement( 'checkbox', 'is_thermometer', ts('Display Personal Campaign Page Thermometer') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Display Honour Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
 
