@@ -67,7 +67,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             $defaults['is_approval_needed']    = 1;
             $defaults['is_tellfriend_enabled'] = 1;
             $defaults['tellfriend_limit']      = 5;
-            $defaults['link_text']             = ts('Become a Supporter!');
+            $defaults['link_text']             = ts('Create your own Personal Campaign Page!');
         } 
         return $defaults;
     }

@@ -32,7 +32,7 @@ VALUES
 INSERT INTO `civicrm_pcp_block`
     (`id`, `entity_table`, `entity_id`, `supporter_profile_id`, `is_approval_needed`, `is_tellfriend_enabled`, `tellfriend_limit`, `link_text`, `is_active`)
 VALUES
-    (1, 'civicrm_contribution_page', 1, 2, 1, 1, 5, 'Become a Supporter!', 1);
+    (1, 'civicrm_contribution_page', 1, 2, 1, 1, 5, 'Create your own Personal Campaign Page!', 1);
 
 INSERT INTO civicrm_contact
     (contact_type, contact_sub_type, legal_identifier, external_identifier, sort_name, display_name, nick_name, home_URL, image_URL, source, preferred_communication_method, preferred_mail_format, do_not_phone, do_not_email, do_not_mail, do_not_trade, hash, is_opt_out,organization_name)
