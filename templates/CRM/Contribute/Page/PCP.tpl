@@ -1,6 +1,5 @@
 <div id="help">
-<p>{ts}This Screen allows to list all the Personal Campaign Pages
-set up in the system and Admin can change the statuses...{/ts}</p>
+<p>{ts}This screen shows all the Personal Campaign Pages created in the system and allows administrator to review them and change their status.{/ts}</p>
 </div>
 {if $action ne 8} 
 {include file="CRM/Contribute/Form/PCP/PCP.tpl"} 
@@ -26,7 +25,7 @@ set up in the system and Admin can change the statuses...{/ts}</p>
 	</tr>
 	{foreach from=$rows item=row}
 	<tr class="{cycle values="odd-row,even-row"} {$row.class}">
-		<td><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.id` "}" title="{ts}View contact record{/ts}">{$row.title}</a></td>
+		<td><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.id` "}" title="{ts}View Personal Campaign Page{/ts}">{$row.title}</a></td>
 		<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.supporter_id`"}" title="{ts}View contact record{/ts}">{$row.supporter}</a></td>
 		<td>{$row.contribution_page_id}</td>
 		<td>{$row.start_date|truncate:10:''|crmDate}</td>
@@ -43,7 +42,7 @@ set up in the system and Admin can change the statuses...{/ts}</p>
 <div class="messages status">
 <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-	<dd>{ts 1=$crmURL}There are no records entered for Personal Campaign Page.{/ts}</dd>
+	<dd>{ts}There are no Personal Campaign Pages configured in the system.{/ts}</dd>
 </dl>
 </div>
 {/if}

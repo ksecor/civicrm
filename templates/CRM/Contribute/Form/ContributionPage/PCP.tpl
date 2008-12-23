@@ -19,19 +19,19 @@
 	<div id="pcpFields">
 		<dl>
 			<dt>{$form.is_approval_needed.label}</dt><dd>{$form.is_approval_needed.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Is administrator approval required for new Personal Campaign Pages?{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Administrator will need to approve new Personal Campaign Pages before they are available publically.{/ts}</dd>
 
 			<dt>{$form.supporter_profile_id.label} <span class="marker"> *</span></dt><dd>{$form.supporter_profile_id.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}The profile required to be filled in by Personal Campaign Page creator, before they can create the page.{/ts}</dd>
 
 			<dt>{$form.is_tellfriend_enabled.label}</dt><dd>{$form.is_tellfriend_enabled.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Can Personal Campaign Page creator send emails using Tell-a-Friend function?{/ts}</dd>
 
 			<dt>{$form.tellfriend_limit.label}</dt><dd>{$form.tellfriend_limit.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}How many recipients can Tell-a-Friend email have?{/ts}</dd>
 
 			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Text of the link on Contribution Page allowing Supporters to get to Personal Contribution Page creation wizard.{/ts}</dd>
 		</dl>
 	</div>
 	<div class="spacer"></div>

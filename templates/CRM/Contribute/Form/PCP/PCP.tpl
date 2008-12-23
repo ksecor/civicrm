@@ -1,3 +1,4 @@
+<fieldset><legend>{ts}Filter the list below by:{/ts}</legend>
 <div id="pcp" class="form-item">
 <table class="form-layout">
 	<tr>
@@ -10,3 +11,4 @@
 	</tr>
 </table>
 </div>
+</fieldset>
