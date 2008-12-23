@@ -74,7 +74,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             // for single-lingual sites, populate default language drop-down with all languages
             $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
 
-            $warning = ts('WARNING: As of CiviCRM 2.1, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
+            $warning = ts('WARNING: As of CiviCRM 2.2, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is strongly recommended.');
             $this->assign('warning', $warning);
 
             // test for create view and trigger permissions and if allowed, add the option to go multilingual
