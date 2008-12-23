@@ -88,6 +88,9 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Contribute_DAO_ContributionPage', 'id', 
                                          $pcpInfo['contribution_page_id'], $default, array( 'start_date', 'end_date' ) );
 
+        require_once "CRM/Contribute/PseudoConstant.php";
+        $this->assign( 'pageName', CRM_Contribute_PseudoConstant::contributionPage( $pcpInfo['contribution_page_id'] ) );
+
         if( $pcpInfo['contact_id'] == $session->get( 'userID' ) ) {
             $owner = $default[$pcpInfo['contribution_page_id']];
             $owner['status'] = CRM_Utils_Array::value( $pcpInfo['status_id'], $pcpStatus );

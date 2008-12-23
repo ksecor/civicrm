@@ -4,7 +4,7 @@
   <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}PCPInfo{/ts}"/></dt>
 	<dd><p><strong>Personal Campaign Page</strong></p></dd>
- <dd><p>This is your Personal Campaign Page (PCP). It belongs to <a href="{crmURL p='civicrm/contribute/manage' q="reset=1&action=update&id="}{$owner.id}"><strong>&raquo; {ts}Contribution Page{/ts}</strong></a>{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
+ <dd><p>This is your Personal Campaign Page (PCP), created in support of <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id="}{$pcp.contribution_page_id}"><strong>"{$pageName}"</strong></a> campaign{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
 	 <dd> <table class="form-layout-compressed"> 
 		{foreach from = $links key = k item = v}
 	         <tr>
