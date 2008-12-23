@@ -129,7 +129,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
         
         foreach ( $this->_fields as $name => $field ) {
-            if ( (substr($name, 0, 6) == 'custom') && $field['is_search_range']) {
+            if ( (substr($name, 0, 6) == 'custom') && CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',
                                                      $this, false, null, 'REQUEST' );
                 $to = CRM_Utils_Request::retrieve( $name.'_to', 'String',
