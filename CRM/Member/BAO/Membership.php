@@ -495,7 +495,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $membershipTypes   = array( ); 
             $radio             = array( ); 
 
-            $separateMembershipPayment = $membershipBlock['is_separate_payment'];
+            $separateMembershipPayment = CRM_Utils_Array::value( 'is_separate_payment', $membershipBlock );
             if ( $membershipBlock['membership_types'] ) {
                 $membershipTypeIds = explode( ',' , $membershipBlock['membership_types'] );
             }

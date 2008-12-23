@@ -80,6 +80,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
     protected $_asigneeContactId;
     
     protected $_single;
+    
+    public $_context;
+    public $_activityTypeFile;
 
     /**
      * The id of the logged in user, used when add / edit 
@@ -522,11 +525,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         foreach ( $this->_fields as $field => $values ) {
             if( CRM_Utils_Array::value($field, $this->_fields ) ) {
                 $attribute = null;
-                if( CRM_Utils_Array::value('attributes', $values ) ) {
+                if ( CRM_Utils_Array::value( 'attributes', $values ) ) {
                     $attribute = $values['attributes'];
                 }
-
-                $this->add($values['type'], $field, $values['label'], $attribute, $values['required'] );
+                
+                $required = false;
+                if ( CRM_Utils_Array::value( 'required', $values ) ) {
+                    $required = true;
+                }
+                $this->add($values['type'], $field, $values['label'], $attribute, $required );
             }
         }
 
