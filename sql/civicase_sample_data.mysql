@@ -277,7 +277,7 @@ INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `ht
 			(@cg, 'Are any of the following of concern?','String','CheckBox','',0,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'self_care_8',@og5),
 			(@cg, 'Do You Have A Family Physician?','Boolean','Radio',NULL,1,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'hcp_9', NULL),
             (@cg, 'When was your last visit?','Date','Select Date',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,10,0,'MdY',60,4,'hcp_last_seen_10', NULL),
-            (@cg, 'Complexity Rating', 'String', 'Radio', NULL, 1, 1, 0, 8, NULL, '(1 = least complex, 5 = most complex) If greater than 2, call the Director, otherwise schedule a followup and obtain any necessary consents.', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'complexity_rating_11', @og6),
+            (@cg, 'Complexity Rating', 'String', 'Radio', NULL, 1, 1, 0, 8, NULL, '(1 = least complex, 5 = most complex) If greater than 2, call the Director, otherwise obtain any necessary consents.', NULL, NULL, NULL, 1, 0, NULL, 255, NULL, NULL, 'MdY', 60, 4, 'complexity_rating_11', @og6),
 			(@cg, 'Major Concerns','String','CheckBox','',0,0,0,9,NULL,NULL,NULL,NULL,NULL,1,0,3,255,NULL,NULL,'MdY',60,4,'major_concerns_12',@og7),
 			(@cg, 'Principal Presenting Problem','String','Select',NULL,1,0,0,10,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_presenting_problem_46',@og8),
 			(@cg, 'Other Presenting Problems','String','CheckBox','',0,0,0,11,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_presenting_problems_47',@og8);
