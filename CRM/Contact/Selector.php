@@ -325,7 +325,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $locationTypes = CRM_Core_PseudoConstant::locationType( );
                 
                 foreach ( $this->_fields as $name => $field ) { 
-                    if ( $field['in_selector'] &&
+                    if ( CRM_Utils_Array::value( 'in_selector', $field ) &&
                          ! in_array( $name, $skipFields ) ) {
                         if ( strpos( $name, '-' ) !== false ) {
                             list( $fieldName, $lType, $type ) = explode( '-', $name );
@@ -467,7 +467,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $names = array( );
             static $skipFields = array( 'group', 'tag' ); 
             foreach ( $this->_fields as $key => $field ) {
-                if ( $field['in_selector'] && 
+                if ( CRM_Utils_Array::value( 'in_selector', $field ) && 
                      ! in_array( $key, $skipFields ) ) { 
                     if ( strpos( $key, '-' ) !== false ) {
                         list( $fieldName, $id, $type ) = explode( '-', $key );

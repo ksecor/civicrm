@@ -79,18 +79,18 @@ class CRM_UF_Form_Group extends CRM_Core_Form
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle( ts( 'Profile Settings' ) . " - $title" );
         } elseif ( $this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) { 
-            $ufGroup[$id]['module'] = implode( ' , ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true ));
+            $ufGroup['module'] = implode( ' , ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true ));
             $status = 0;
             $status = CRM_Core_BAO_UFGroup::usedByModule($this->_id); 
             if ($this->_action & (CRM_Core_Action::DISABLE) ) {
                 if ( $status ) {
-                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?';
+                    $message='This profile is currently used for '. $ufGroup['module'].'. If you disable the profile - it will be removed from these forms and/or modules. Do you want to continue?';
                 } else {            
                     $message='Are you sure you want to disable this Profile?';
                 }
             } else{
                 if ( $status ) {
-                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you delete the profile - it will be removed from these forms and/or modules. This action cannot be undone. Do you want to continue?';
+                    $message='This profile is currently used for '. $ufGroup['module'].'. If you delete the profile - it will be removed from these forms and/or modules. This action cannot be undone. Do you want to continue?';
                 } else {            
                     $message='Are you sure you want to delete this Profile? This action cannot be undone.';
                 }  
