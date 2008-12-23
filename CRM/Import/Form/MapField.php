@@ -112,8 +112,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     public function defaultFromColumnName($columnName, &$patterns) 
     {
         foreach ($patterns as $key => $re) {
-            /* Skip the first (empty) key/pattern */
-            if ( empty( $re ) ) {
+            /* skip empty patterns */
+            if ( empty( $re ) or $re == '//' ) {
                 continue;
             }
 
