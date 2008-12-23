@@ -299,10 +299,17 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
     public function formRule( &$params ) 
     {
         $errors = array( );
-        if ( isset( $params['record_contribution'] ) && 
-             ! isset( $params['contribution_type_id'] ) ) {
-            $errors['contribution_type_id'] = "Please enter the contribution.";
-        }  
+        //total amount condition arise when membership type having no
+        //minimum fee
+        if ( isset( $params['record_contribution'] ) ) { 
+            if ( ! $params['contribution_type_id'] ) {
+                $errors['contribution_type_id'] = ts('Please enter the contribution Type.');
+            } 
+            if ( !$params['total_amount'] ) {
+                $errors['total_amount'] = ts('Please enter the contribution.'); 
+            }
+        }
+     
         return empty($errors) ? true : $errors;
     }
        

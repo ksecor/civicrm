@@ -622,9 +622,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         if ( CRM_Utils_Array::value( 'record_contribution', $values ) && !  CRM_Utils_Array::value( 'contribution_type_id', $values ) ){
-                $errorMsg['contribution_type_id'] = ts( "Please enter the associated Contribution Type" );
-             }
-
+            $errorMsg['contribution_type_id'] = ts( "Please enter the associated Contribution Type" );
+        }
+        
         $message = null;
         if ( $id &&
              ( $values['status_id'] == 1 || $values['status_id'] == 2 ) ) {
