@@ -135,6 +135,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             require_once "CRM/Pledge/BAO/Pledge.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values );
             
+            //get the honorID
+            $this->_honorID = CRM_Utils_Array::value( 'honor_contact_id', $this->_values );
+            
 	    	$paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
 			//check for pending pledge.
 			if ( CRM_Utils_Array::value( 'status_id', $this->_values ) ==  
@@ -227,11 +230,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                                          CRM_Contribute_PseudoConstant::contributionStatus( ),
                                                          'Pending' ) );
         //honoree contact.
-        if ( isset ( $defaults["honor_contact_id"] ) ) {
+        if ( $this->_honorID ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             $honorDefault = array();
-            $this->_honorID = $defaults["honor_contact_id"];
-            $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
+            $idParams = array( 'contact_id' => $this->_honorID );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
             $honorType = CRM_Core_PseudoConstant::honor( );   
             $defaults["honor_prefix_id"]  = $honorDefault["prefix_id"];
@@ -272,7 +274,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
-               
+        
+        //fix to load honoree pane on edit.
+        $defaults = array( );
+        if ( $this->_honorID ) {
+            $defaults['hidden_Honoree'] = 1;
+        }
+        
         $paneNames =  array ( 'Honoree Information' => 'Honoree', 
                               'Payment Reminders'   => 'PaymentReminders'
                               );
