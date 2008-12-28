@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-12-19 14:23+0100\n"
-"Last-Translator: Ebeer <webmaster@ebeer.fr>\n"
+"PO-Revision-Date: 2008-12-22 09:49-0800\n"
+"Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -394,7 +394,6 @@ msgid "Paid By - %1"
 msgstr "Payé par - %1"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Honor name like - '%1'"
 msgstr "En l'honneur de - \"%1\""
 
@@ -1223,9 +1222,8 @@ msgstr ""
 "jour)."
 
 #: CRM/Contribute/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Contribution Mapping Name"
-msgstr "Dupliquer l'importation"
+msgstr "Nom du mapping d'import des contribution en double"
 
 #: CRM/Contribute/Import/Parser.php
 msgid "View Contribution URL"
@@ -2094,9 +2092,8 @@ msgid "Select a valid Sent FROM date."
 msgstr "Entrez une date de départ valide"
 
 #: CRM/Mailing/Form/Search.php
-#, fuzzy
 msgid "Select a valid Sent THROUGH date."
-msgstr "Entrez un nom valide"
+msgstr "Entrez une date valide d'envois"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Forward Replies?"
@@ -2792,9 +2789,8 @@ msgstr ""
 "d'adhésion dans le processus de mise à jour)."
 
 #: CRM/Member/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Membership Mapping Name"
-msgstr "Dupliquer l'importation du Mapping Name des adhésions"
+msgstr "Nom du mapping d'import des adhésion en double"
 
 #: CRM/Member/Import/Parser.php
 msgid "View Membership URL"
@@ -2897,7 +2893,6 @@ msgstr ""
 "utiliser ce type de carte de crédit sur les pages de contribution en ligne."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
@@ -2906,13 +2901,12 @@ msgstr ""
 "établissement financier."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
 msgstr ""
-"Nom de ce type de carte de crédit, comme il est indiqué aux contributeurs. "
-"Cela peut être la même valeur que lee nom ci-dessus ou un titre localisé."
+"Nom de ce type de carte de crédit, comme il est affiché aux contributeurs. "
+"Cela peut être la même valeur que les noms ci-dessus ou un titre localisé."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -3185,12 +3179,11 @@ msgstr ""
 "additionnel pour votre site."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
 msgstr ""
-"\"Weight\" contrôle l'ordre d'apparition des cadeaux sur la page de "
+"Le Poids contrôle l'ordre d'apparition des cadeaux sur la page de "
 "contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3269,7 +3262,6 @@ msgstr ""
 "contrôle ... dans les 3 jours ouvrables.')"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#, fuzzy
 msgid ""
 "Check this box if you want to give users the option to make recurring "
 "contributions. (This feature requires that you use 'PayPal Website Standard' "
@@ -3431,15 +3423,14 @@ msgstr ""
 "téléchargées sur le serveur - référencez-les en utilisant les URL complètes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid ""
 "This email address is included in automated contribution receipts if the "
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
 msgstr ""
 "Cette adresse mail est ajoutée dans les reçus de contribution automatiques "
-"si le contributeur a sélectionné un cadeau. Ce doit être une boîte mail de "
-"contact approprié pour les questions sur le transport, l'acheminement du "
+"si le contributeur a sélectionné un cadeau. Ce doit être une boite mail de "
+"contact spécifique pour les questions sur le transport, l'acheminement du "
 "cadeau."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -3893,9 +3884,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
 msgid "Honoree Email"
-msgstr "Email"
+msgstr "Email d'honneur"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
@@ -4075,9 +4065,8 @@ msgstr ""
 "Date à laquelle un message de remerciement a été envoyé au contributeur."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Honoree Information"
-msgstr "Information sur la personne bénéficiaire du cadeau"
+msgstr "Information d'honneur"
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
@@ -4378,11 +4367,10 @@ msgstr ""
 "valeurs."
 
 #: templates/CRM/Contribute/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Found %count contribution."
 msgid_plural "Found %count contributions."
-msgstr[0] "Contribution trouvée %count"
-msgstr[1] "Contributions trouvées %count"
+msgstr[0] "1 Contribution trouvée "
+msgstr[1] "%count Contributions trouvées "
 
 #: templates/CRM/Contribute/Form/Search.tpl
 msgid ""
@@ -4454,9 +4442,8 @@ msgstr ""
 "(nom, adresse, email, téléphone...) lorsqu'elles sont présentes."
 
 #: templates/CRM/Contribute/Form/Task/PickProfile.tpl
-#, fuzzy
 msgid "Batch Update Contribution via Profile"
-msgstr "Batch Update des contributions via Profil"
+msgstr "Mise à jour automatique des contributions via Profil"
 
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid ""
@@ -4686,7 +4673,6 @@ msgstr ""
 "suivante sur n'importe quelle page web."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid ""
 "Create front-end links to this contribution page using the Menu Manager. "
 "Select <strong>Online Contribution</strong> and enter <strong>%1</strong> "
@@ -4879,12 +4865,10 @@ msgstr ""
 "l'assistant pas-à-pas."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Current Year-to-Date"
-msgstr "Cumul actuel"
+msgstr "Année actuelle"
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Avg Amount"
 msgstr "Montant moyen"
 
@@ -4974,9 +4958,8 @@ msgid "(n/a)"
 msgstr "(non applicable)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "view details"
-msgstr "Details"
+msgstr "Voir les Details"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
@@ -5021,9 +5004,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Min Contribution"
-msgstr "Chercher contacts"
+msgstr "Contribution minimum"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -5057,9 +5039,8 @@ msgstr ""
 "utilisé sur n'importe laquelle des page de contribution."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Offer Another Premium on this Contribution Page"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Offrir un autre cadeau sur cette page de contribution"
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -5222,9 +5203,8 @@ msgstr ""
 "href='%1'>ici</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "Fee Levels"
-msgstr "Date de debut"
+msgstr "Niveaux de cotisation"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
@@ -5238,9 +5218,8 @@ msgstr ""
 "deux."
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
-#, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Type de contact"
+msgstr "Localisation de l'évènement et Information de contact"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -5317,9 +5296,8 @@ msgstr ""
 "sélectionnant les Profils CIviCRM qui doivent être inclut en bas de la page"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Confirmation Screen"
-msgstr "Pays"
+msgstr "Ecran de confirmation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -5337,9 +5315,8 @@ msgid "Optional page footer text for Confirmation screen."
 msgstr "Texte de bas de page optionel pour l'écran de confimation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Thank-you Screen"
-msgstr "Date de fin"
+msgstr "Écran de remerciement"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Page title for registration Thank-you screen."
@@ -5360,9 +5337,8 @@ msgstr ""
 "pour des liens vers d'autres pages/activités de votre site)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Confirmation Email"
-msgstr "Pays"
+msgstr "Email de confirmation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -5382,9 +5358,8 @@ msgstr ""
 "confirmation. "
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "FROM name for email."
-msgstr "Nom ou Email"
+msgstr "Nom d'expéditeur de l'email"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -5410,9 +5385,8 @@ msgstr ""
 "de confirmation (bcc)"
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Delete Event Registration"
-msgstr "Effacer contacts"
+msgstr "Effacer l'inscription à l'évènement"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Edit Event Registration"
@@ -5463,9 +5437,8 @@ msgstr ""
 "aussi générer un reçu personalisé."
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Payment Information"
-msgstr "Information sur l'événement"
+msgstr "Information de paiement"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -5479,9 +5452,8 @@ msgstr "Confirmation d'inscription et reçu"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Page de donation"
+msgstr "Confirmation d'inscription"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Send Confirmation and Receipt"
@@ -5517,9 +5489,8 @@ msgstr "Quantité:"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Unit Price"
-msgstr "Titre"
+msgstr "Unité de prix"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
@@ -5551,19 +5522,16 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Map this Location"
-msgstr "Lieu"
+msgstr "Cartographié ce lieu"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Total Price"
-msgstr "Titre"
+msgstr "Prix total"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Event Total"
-msgstr "Titre"
+msgstr "Total de l'évènement"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive Your Event Registration Page"
@@ -5594,9 +5562,8 @@ msgid "Event Information and Location"
 msgstr "InformationsAffiche l'information de licence et quitte"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Event Contacts:"
-msgstr "Chercher contacts"
+msgstr "Contacts de l'évènement"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Download iCalendar File:"
@@ -5703,11 +5670,12 @@ msgstr ""
 "colonne)."
 
 #: templates/CRM/Event/Form/Task/Cancel.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to set status to Cancelled for the selected "
 "participants?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Êtes vous sûrs de vouloir mettre les statuts des participants sélectionnés à "
+"Annulé ?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
 msgid ""
@@ -5743,13 +5711,12 @@ msgid "Batch Update Event via Profile"
 msgstr "mise à jour automatique de l'évènement par le profil"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Event Date"
-msgstr "Date de debut"
+msgstr "Date de l'évènement"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
 msgid "Participation Status"
-msgstr "Status de participation"
+msgstr "Statut de participation"
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -5821,9 +5788,8 @@ msgid "Browse more events"
 msgstr "Chercher plus d'évènement"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Registrations"
-msgstr "Page de donation"
+msgstr "Inscriptions récentes"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -5880,9 +5846,8 @@ msgstr ""
 "entourage de cet évènement"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Public Participant Listing"
-msgstr "Ajouter membres: %1"
+msgstr "Listing public des participants"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -5946,9 +5911,8 @@ msgid "Public?"
 msgstr "Publique ?"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "Starts"
-msgstr "Status"
+msgstr "Commence"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Ends"
@@ -5990,9 +5954,8 @@ msgstr ""
 "mailing liste, ou un groupe qui a reçu au moins un mail précédement)"
 
 #: templates/CRM/Mailing/Form/Group.tpl
-#, fuzzy
 msgid "Mailing Recipients"
-msgstr "Sujet"
+msgstr "Destinataires du mailing"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -6000,7 +5963,7 @@ msgid ""
 "time, OR you can request that it be sent as soon as possible by checking "
 "&quot;Send Immediately&quot;."
 msgstr ""
-"VOus pouvez configurer l'heure et la date d'envois de ce mail ou demander à "
+"Vous pouvez configurer l'heure et la date d'envois de ce mail ou demander à "
 "ce qu'il soit envoyer le plus tôt possible en cochant &quot;Envoyer "
 "immédiatement&quot;."
 
@@ -6011,9 +5974,8 @@ msgstr ""
 "Configurez l'heure et la date à laquelle CiviMail doit envoyer ce mailing"
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Find Mailings"
-msgstr "Sujet"
+msgstr "Trouver des mailings"
 
 #: templates/CRM/Mailing/Form/Search.tpl
 msgid "Complete OR partial mailing name."
@@ -6032,9 +5994,8 @@ msgstr ""
 "pas, cliquez <strong>Précédent</strong> pour revoir votre sélection."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Tracking"
-msgstr "En attente"
+msgstr "Traçage"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6058,9 +6019,8 @@ msgstr ""
 "dans leur logiciel de courriel."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Responding"
-msgstr "En attente"
+msgstr "En réponse"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6127,9 +6087,8 @@ msgstr ""
 "vous aurez répondu à chacun des mails."
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
-#, fuzzy
 msgid "Group Listings."
-msgstr "Lieu"
+msgstr "Listings de groupe"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid ""
@@ -6231,19 +6190,16 @@ msgstr ""
 "nécessaires pour le désabonnement, l'opt-out et l'adresse postale."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to delete the mailing '%1'?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous effacer le mailing '%1' ?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to cancel the mailing '%1'?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous annuler le mailing '%1' ?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "New Mailing"
-msgstr "Sujet"
+msgstr "Nouveau mailing"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
@@ -6288,9 +6244,8 @@ msgid "Back to Report"
 msgstr "Retour vers le rapport"
 
 #: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
 msgid "Are you sure you want to optout: %1 (%2)"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous Opt Out : %1 (%2) ?"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -6347,9 +6302,8 @@ msgid "Content / Components"
 msgstr "Contenu "
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "View complete message"
-msgstr "Message"
+msgstr "Voir le Message complet"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
@@ -6388,18 +6342,16 @@ msgid "has been successfully resubscribed."
 msgstr "a été réinscrit avec succès"
 
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
 msgid "Are you sure you want to resubscribe: %1 (%2)"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous réinscrire : %1 (%2)"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
 msgid "has been successfully unsubscribed."
 msgstr "a été désinscrit avec succès"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
-#, fuzzy
 msgid "Are you sure you want to unsubscribe: %1 (%2)"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous désinscrire : %1 (%2)"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -6419,9 +6371,8 @@ msgid "Configure Membership Section"
 msgstr "Configurer la section d'adhésion"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include a Membership Signup section in this Online Contribution page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Inclure une section adhésion dans cette page de contribution en ligne ?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - for new member signups."
@@ -6440,9 +6391,8 @@ msgid "Membership section introductory text - displayed to renewing members."
 msgstr "Texte d'introduction pour la section Adhésion - Renouvellement"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include these membership types"
-msgstr "Type de relation"
+msgstr "Inclure ces types de relation"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -6808,9 +6758,8 @@ msgid ""
 msgstr "Ce type d'adhésion est il Public ou réservé à l'équipe administrative ?"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid "Renewal Reminders"
-msgstr "Supprime"
+msgstr "Rappels des renouvellements"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6935,9 +6884,8 @@ msgstr ""
 "infomraiton du contact (nom, adresse, téléphonne, mail ...) si disponnibles."
 
 #: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Start/Renew Date"
-msgstr "Date de debut"
+msgstr "Date de début/renouvellement"
 
 #: templates/CRM/Member/Form/Task.tpl
 msgid "Number of selected members: %1"
@@ -7017,9 +6965,8 @@ msgid "Rows with mismatched membership IDs... (NOT updated)."
 msgstr "Lignes avec des ID d'adhésion non concordantes (non mises à jour)"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Memberships"
-msgstr "Effacer contacts"
+msgstr "Télécharger les adhésions non concordantes"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM membership records."
@@ -7737,5 +7684,7 @@ msgstr "Aucun type d'adhésion. Vous pouvez <a href=\"%1\">en ajouter une</a>."
 #~ msgstr "Chercher"
 
 # notaire ??
+# à voir !
+# A voir
 #~ msgid "Do you want to delete this message template ?"
 #~ msgstr "Voulez vous desactiver ce groupe de donnees?"
