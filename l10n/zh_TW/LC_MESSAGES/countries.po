@@ -766,6 +766,3 @@ msgstr "格恩希"
 
 msgid "Isle of Man"
 msgstr "男島"
-
-#~ msgid "Moldova, Republic of"
-#~ msgstr "摩爾多瓦"

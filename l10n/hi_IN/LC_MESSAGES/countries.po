@@ -766,6 +766,3 @@ msgstr "गुएर्न्सी"
 
 msgid "Isle of Man"
 msgstr "आइल मनुष्य"
-
-#~ msgid "Moldova, Republic of"
-#~ msgstr "मॉल्दोवा"

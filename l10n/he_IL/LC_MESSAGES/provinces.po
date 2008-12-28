@@ -11488,21 +11488,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Georgia"
-#~ msgstr "ג'יורג'יה"
-
-#~ msgid "Luxembourg"
-#~ msgstr "לוקסמבורג"
-
-#~ msgid "Taiwan"
-#~ msgstr "טיוואן"
-
-#~ msgid "Guatemala"
-#~ msgstr "גואטמלה"
-
-#~ msgid "Mexico"
-#~ msgstr "מקסיקו"
-
-#~ msgid "Panama"
-#~ msgstr "פנמה"
