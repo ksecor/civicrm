@@ -116,4 +116,3 @@ msgstr "раб"
 #: js/lang/calendar-lang.php
 msgid "Time:"
 msgstr "Время:"
-

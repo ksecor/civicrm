@@ -40,7 +40,9 @@ msgstr "- Χρησιμοποιείστε τα κουμπιά \\u2039, \\u203a γ
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- Κρατήστε κουμπί ποντικού πατημένο στα παραπάνω κουμπιά για πιο γρήγορη επιλογή."
+msgstr ""
+"- Κρατήστε κουμπί ποντικού πατημένο στα παραπάνω κουμπιά για πιο γρήγορη "
+"επιλογή."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"

@@ -5,13 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2008-07-07 18:43-0700\n"
+"PO-Revision-Date: 2008-03-31 05:13-0700\n"
+"Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -620,7 +623,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parametry"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -1013,13 +1016,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Dla istniejących stron"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
 msgstr ""
+"Wybierz <strong>Konfiguruj</strong> by zobaczyć i zmienić ustawienia, kwoty "
+"i treść istniejących stron."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1027,6 +1032,9 @@ msgid ""
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
+"By sprawdzić stronę w <strong>trybie testowym</strong>, Wybierz "
+"<strong>Testuj</strong>. Dzięki temu można przejść przez cały proces "
+"składania dotacji, używając fikcyjnej karty kredytowej i serwera testowego."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1301,6 +1309,11 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"Możesz dodać kontakty do grupy z dowolnego zestawu wyników wyszukiwania (lub "
+"podglądu poszczególnych kontaktów). Możesz też pozwolić osobom na "
+"samodzielne dopisywanie się do pewnych grup, ustawiając widoczność tych grup "
+"na „Publiczne strony użytkowników” (użyj odnośnika <strong>Ustawienia</"
+"strong>) i dodanie elementu <strong>Grupy</strong> do profilu CiviCRM."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1357,6 +1370,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"Jeśli kontakt w importowanym pliku wydaje się powtórzeniem istniejącego w "
+"CiviCRM-ie kontaktu…"
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1733,6 +1748,9 @@ msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
+"Profile mogą być podłączone do konkretnych modułów, dostępne przez wbudowane "
+"adresy CiviCRM lub użyte do tworzenia samodzielnych formularzy na dowolnych "
+"stronach WWW. Przykładowo:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1740,6 +1758,9 @@ msgid ""
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
 msgstr ""
+"<strong>Ekrany użytkowników</strong> – Jeden lub więcej profili może być "
+"podłączonych do <strong>rejestracji nowych użytkowników</strong> i/lub "
+"ekranów podglądu i edycji <strong>użytkowników istniejących</strong>."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1751,7 +1772,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "site root"
-msgstr ""
+msgstr "adres strony"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1785,6 +1806,10 @@ msgid ""
 "or sites...click the *Standalone Form* action link for a Profile below - and "
 "copy and paste the HTML form code into any web page."
 msgstr ""
+"<strong>Formularze niezależne</strong> – Jeśli chcesz mieć większy wpływ na "
+"układ formularza lub chcesz dodać formularze profili do bloków/stron nie "
+"związanych z CiviCRM-em, wybierz dla poniższego profilu akcję *Niezależny "
+"formularz* i przeklej kod HTML na stronę WWW."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1801,10 +1826,14 @@ msgid ""
 "input field. Replace the default value with any valid complete URL prior to "
 "saving the form code to the desired page(s)."
 msgstr ""
+"Możesz wybrać na jaką stronę zostaną przekierowani użytkownicy po "
+"wypełnieniu formularza zmieniając zawartość ukrytego pola <strong>postURL</"
+"strong>. Zastąp domyślną wartość jakimkolwiek poprawnym pełnym adresem URL "
+"przed wstawieniem kodu do stron docelowych."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "PRZYKŁAD:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "http://www.example.com/thank_you.html"

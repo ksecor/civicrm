@@ -1835,9 +1835,8 @@ msgstr "Usuń pole profilu"
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Price"
-msgstr "Profil"
+msgstr "Cena"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
@@ -2172,9 +2171,8 @@ msgid "Field"
 msgstr "Plik"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "- none -"
-msgstr "- dowolny -"
+msgstr "- brak -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
@@ -3185,14 +3183,12 @@ msgid "Could not find location type id"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix"
-msgstr "Prefiks – „%1”"
+msgstr "Prefiks"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "Przyrostek – „%1”"
+msgstr "Przyrostek"
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
@@ -3434,9 +3430,8 @@ msgid "Join a Group"
 msgstr "Dołącz do grupy"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
-msgstr "Dodaj do grupy"
+msgstr "Dodaj do grupy."
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -3848,11 +3843,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Kwota min."
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Kwota maks."
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4096,7 +4091,6 @@ msgid "Email sent to Contact(s): %1"
 msgstr "Liczba emaili wysłanych do kontaktów: %1"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
-#, fuzzy
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1"
@@ -4398,7 +4392,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Akcja"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -4905,9 +4899,8 @@ msgid "Other"
 msgstr "Inny"
 
 #: CRM/Core/Form.php
-#, fuzzy
 msgid "Previous"
-msgstr "Poprzedni <<"
+msgstr "Poprzedni"
 
 #: CRM/Core/Form.php
 msgid "Processing"
@@ -5426,30 +5419,28 @@ msgid "Postal Code"
 msgstr "Kod pocztowy"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Number"
-msgstr "Nazwa w vCardach"
+msgstr "Numer karty"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Security Code"
-msgstr "Kod SIC"
+msgstr "Kod bezpieczeństwa"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Data urodzenia"
+msgstr "Data wygaśnięcia"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Rodzaj współrzędnych"
+msgstr "Rodzaj karty"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Wprowadź poprawną wartość kodu bezpieczeństwa karty. Są to zwykle 3-4 "
+"ostatnie cyfry podane na karcie po stronie z podpisem."
 
 #: CRM/Core/Payment/Form.php
 #, fuzzy
@@ -6250,11 +6241,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Tytuł podziękowania"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Wiadomość z podziękowaniem"
 
 #: CRM/Friend/Form/Contribute.php
 msgid "Tell A Friend (%1)"
@@ -6372,19 +6363,19 @@ msgstr "Przyjęto raport grantu?"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Kwota minimalna"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Wprowadź poprawną kwotę (np. 9.99)."
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Kwota maksymalna"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Wprowadź poprawną kwotę (np. 99.99)."
 
 #: CRM/Grant/Form/Grant.php
 #, fuzzy
@@ -6558,7 +6549,6 @@ msgid "Tag"
 msgstr "Kategoria"
 
 #: CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Group '%1' already exists."
 msgstr "Grupa „%1” już istnieje."
 
@@ -6661,9 +6651,8 @@ msgstr ""
 "wszystkie pola do niej należące."
 
 #: CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Input Field Type"
-msgstr "Rodzaj danych i pola"
+msgstr "Wprowadź rodzaj pola"
 
 #: CRM/Price/Form/Field.php
 msgid "must be a monetary value"
@@ -10244,9 +10233,8 @@ msgstr ""
 "Praca…), zaznacz jedno lub więcej z poniższych pól."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
-#, fuzzy
 msgid "Complete OR partial contact name."
-msgstr "Pełna lub częściowa nazwa kontaktu lub email."
+msgstr "Pełna lub częściowa nazwa kontaktu."
 
 #: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
@@ -11221,7 +11209,7 @@ msgstr "Poprzednie przynależności"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Membership Types"
-msgstr ""
+msgstr "Rodzaje członkowstwa"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid ""
@@ -11233,7 +11221,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Period"
-msgstr ""
+msgstr "Okres"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Fixed Start"
@@ -11241,7 +11229,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Składka minimalna"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date:"
@@ -11327,7 +11315,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "Obrazek"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"
@@ -11338,9 +11326,8 @@ msgid "No data available for this contact. Please check city/state/zipcode"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "View Contact Dashboard"
-msgstr "Zobacz szczegóły kontaktu"
+msgstr "Podgląd kokpitu kontaktu"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "User_Unique_Id:"
@@ -11974,9 +11961,8 @@ msgid "Send to these Friend(s)"
 msgstr ""
 
 #: templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Błędy adres email"
+msgstr "Adres email"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 #, fuzzy
@@ -12045,7 +12031,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Pełna lub częściowa nazwa lub email."
 
 #: templates/CRM/Grant/Form/Selector.tpl
 msgid "List more Grants"
@@ -12396,7 +12382,6 @@ msgstr ""
 "pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Import/Form/Preview.tpl
-#, fuzzy
 msgid "Create a new group from imported records"
 msgstr "Stwórz nową grupę dla zaimportowanych wpisów"
 
@@ -13867,1292 +13852,3 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
-
-#~ msgid "Entity Table"
-#~ msgstr "Tabela jednostek"
-
-#~ msgid "Modified Date"
-#~ msgstr "Data modyfikacji"
-
-#~ msgid "Where Clause"
-#~ msgstr "Warunek wyszukiwania"
-
-#~ msgid "Select Tables"
-#~ msgstr "Wybierz tablice"
-
-#~ msgid "Where Tables"
-#~ msgstr "Tablice warunku wyszukiwania"
-
-#~ msgid "Html Type"
-#~ msgstr "Rodzaj HTML"
-
-#~ msgid "Help Pre"
-#~ msgstr "Pomoc przed"
-
-#~ msgid "Help Post"
-#~ msgstr "Pomoc za"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
-
-#~ msgid "Collapse Display"
-#~ msgstr "Zwiń widok"
-
-#~ msgid "Phone Type"
-#~ msgstr "Rodzaj telefonu"
-
-#~ msgid "Suffix for PHP clas name implementation"
-#~ msgstr "Przyrostek dla implementacji nazwy klasy PHP"
-
-#~ msgid "Owner Entity Table"
-#~ msgstr "Tablica bytu rodzicielskiego"
-
-#~ msgid "ACL Name"
-#~ msgstr "Nazwa ACL"
-
-#~ msgid "Deny"
-#~ msgstr "Zabroń"
-
-#~ msgid "Object Table"
-#~ msgstr "Tabela obiektu"
-
-#~ msgid "Acl Table"
-#~ msgstr "Tabela uprawnień"
-
-#~ msgid "All"
-#~ msgstr "Wszystkie"
-
-#~ msgid "Revoke"
-#~ msgstr "Cofnij"
-
-#~ msgid "Activity ID"
-#~ msgstr "Identyfikator zdarzenia"
-
-#~ msgid "Activity Type ID"
-#~ msgstr "Typ identyfikatora zdarzenia"
-
-#~ msgid "Activity Date Time"
-#~ msgstr "Czas zdarzenia"
-
-#~ msgid "Due Date Time"
-#~ msgstr "Data płatności"
-
-#~ msgid "Phone Number"
-#~ msgstr "Numer telefonu"
-
-#~ msgid "Activity Status Label"
-#~ msgstr "Etykieta stanu zdarzenia"
-
-#, fuzzy
-#~ msgid "Test"
-#~ msgstr "Tekst"
-
-#~ msgid "Contact ID (match to contact)"
-#~ msgstr "Identyfikator kontaktu (dopasowanie do kontaktu)"
-
-#~ msgid "Internal Contact ID"
-#~ msgstr "Wewnętzny id kontaktu"
-
-#, fuzzy
-#~ msgid "Contact Sub Type"
-#~ msgstr "Rodzaj kontaktu"
-
-#~ msgid "Do Not Email"
-#~ msgstr "Nie wysyłać emaili"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Nie dzwonić"
-
-#~ msgid "Do Not Mail"
-#~ msgstr "Nie pisać listów"
-
-#~ msgid "Do Not Trade"
-#~ msgstr "Nie przekazywać"
-
-#~ msgid "Legal Identifier"
-#~ msgstr "Identyfikator prawny"
-
-#~ msgid "External Identifier"
-#~ msgstr "Identyfikator zewnętrzny"
-
-#~ msgid "Display Name"
-#~ msgstr "Nazwa wyświetlana"
-
-#~ msgid "Home URL"
-#~ msgstr "URL strony domowej"
-
-#~ msgid "Image Url"
-#~ msgstr "URL obrazka"
-
-#~ msgid "Preferred Mail Format"
-#~ msgstr "Preferowany format wiadomości"
-
-#~ msgid "Hash"
-#~ msgstr "Hash"
-
-#, fuzzy
-#~ msgid "Source of Contact Data"
-#~ msgstr "Zobacz szczegóły kontaktu"
-
-#~ msgid "Greeting Type"
-#~ msgstr "Rodzaj powitania"
-
-#~ msgid "Custom Greeting"
-#~ msgstr "Powitanie dodatkowe"
-
-#~ msgid "Birth Date"
-#~ msgstr "Data urodzenia"
-
-#~ msgid "Is Deceased"
-#~ msgstr "Nie żyje"
-
-#, fuzzy
-#~ msgid "Deceased Date"
-#~ msgstr "Data otrzymania"
-
-#~ msgid "Sic Code"
-#~ msgstr "Kod SIC"
-
-#~ msgid "Formal"
-#~ msgstr "Formalny"
-
-#~ msgid "Informal"
-#~ msgstr "Nieformalny"
-
-#~ msgid "Honorific"
-#~ msgstr "Honorowy"
-
-#~ msgid "Custom"
-#~ msgstr "Własny"
-
-#~ msgid "Name A B"
-#~ msgstr "Nazwa A B"
-
-#~ msgid "Name B A"
-#~ msgstr "Nazwa B A"
-
-#~ msgid "Submitted Form Values"
-#~ msgstr "Wysłane wartości formularza"
-
-#~ msgid "Tracking"
-#~ msgstr "Śledzenie"
-
-#~ msgid "Web"
-#~ msgstr "Sieć WWW"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#~ msgid "Street Number"
-#~ msgstr "Numer domu"
-
-#~ msgid "Street Number Suffix"
-#~ msgstr "Przyrostek numeru domu"
-
-#~ msgid "Street Number Predirectional"
-#~ msgstr "Przedrostek numeru domu"
-
-#~ msgid "Street Name"
-#~ msgstr "Nazwa ulicy"
-
-#~ msgid "Street Type"
-#~ msgstr "Rodzaj ulicy"
-
-#~ msgid "Street Number Postdirectional"
-#~ msgstr "Przyrostek numeru domu"
-
-#~ msgid "Street Unit"
-#~ msgstr "Jednostka ulicy"
-
-#~ msgid "Supplemental Address 1"
-#~ msgstr "Dodatkowy adres 1"
-
-#~ msgid "Supplemental Address 2"
-#~ msgstr "Dodatkowy adres 2"
-
-#~ msgid "Supplemental Address 3"
-#~ msgstr "Dodatkowy adres 3"
-
-#~ msgid "Usps Adc"
-#~ msgstr "Adres USPS"
-
-#~ msgid "Geo Code 1"
-#~ msgstr "Współrzędna geograficzna 1"
-
-#~ msgid "Geo Code 2"
-#~ msgstr "Współrzędna geograficzna 2"
-
-#~ msgid "Timezone"
-#~ msgstr "Strefa czasowa"
-
-#~ msgid "Iso Code"
-#~ msgstr "Kod ISO"
-
-#~ msgid "Country Code"
-#~ msgstr "Kod kraju"
-
-#~ msgid "Idd Prefix"
-#~ msgstr "Przedrostek Idd"
-
-#~ msgid "Ndd Prefix"
-#~ msgstr "Przedrostek Ndd"
-
-#, fuzzy
-#~ msgid "County Abbreviation"
-#~ msgstr "Skrót nazwy kraju"
-
-#~ msgid "Currency"
-#~ msgstr "Waluta"
-
-#, fuzzy
-#~ msgid "Numeric Code"
-#~ msgstr "Kod SIC"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Nazwa pola"
-
-#~ msgid "Attributes"
-#~ msgstr "Własności"
-
-#~ msgid "Start Date Years"
-#~ msgstr "Lata rozpoczęcia"
-
-#~ msgid "End Date Years"
-#~ msgstr "Lata zakończenia"
-
-#~ msgid "Date Parts"
-#~ msgstr "Części daty"
-
-#~ msgid "Note Columns"
-#~ msgstr "Kolumny notatki"
-
-#~ msgid "Note Rows"
-#~ msgstr "Wiersze notatki"
-
-#~ msgid "String"
-#~ msgstr "Tekst"
-
-#~ msgid "Int"
-#~ msgstr "Liczba całkowita"
-
-#~ msgid "Float"
-#~ msgstr "Liczba zmiennoprzecinkowe"
-
-#~ msgid "Boolean"
-#~ msgstr "Zmienna logiczna"
-
-#~ msgid "StateProvince"
-#~ msgstr "Stan/województwo"
-
-#~ msgid "Extends"
-#~ msgstr "Rozszerza"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Drukuj"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "Nazwa prawna"
-
-#~ msgid "Email Return Path"
-#~ msgstr "Ścieżka powrotna (Return-Path) emaila"
-
-#, fuzzy
-#~ msgid "Config Backend"
-#~ msgstr "Konfiguracja"
-
-#~ msgid "Rule"
-#~ msgstr "Reguła"
-
-#~ msgid "Hold Date"
-#~ msgstr "Data zatrzymania"
-
-#~ msgid "Reset Date"
-#~ msgstr "Data zresetowania"
-
-#, fuzzy
-#~ msgid "Mime Type"
-#~ msgstr "Rodzaj pola"
-
-#, fuzzy
-#~ msgid "Uri"
-#~ msgstr "URL"
-
-#, fuzzy
-#~ msgid "Document"
-#~ msgstr "Komentarz"
-
-#, fuzzy
-#~ msgid "Upload Date"
-#~ msgstr "Wgraj dane"
-
-#~ msgid "IM Screen Name"
-#~ msgstr "Identyfikator w komunikatorze"
-
-#~ msgid "vCard Location Type"
-#~ msgstr "vCard – rodzaj lokalizacji"
-
-#~ msgid "Location Name"
-#~ msgstr "Nazwa lokalizacji"
-
-#, fuzzy
-#~ msgid "Data"
-#~ msgstr "Data"
-
-#~ msgid "Column Number"
-#~ msgstr "Numer kolumny"
-
-#, fuzzy
-#~ msgid "Relationship Direction"
-#~ msgstr "Powiązanie B z A"
-
-#, fuzzy
-#~ msgid "Grouping"
-#~ msgstr "Grupa"
-
-#, fuzzy
-#~ msgid "Operator"
-#~ msgstr "Operacja"
-
-#~ msgid "Export"
-#~ msgstr "Eksportuj"
-
-#~ msgid "Export Contributions"
-#~ msgstr "Eksportuj dotacje"
-
-#~ msgid "Import Contributions"
-#~ msgstr "Import dotacji"
-
-#, fuzzy
-#~ msgid "Import Memberships"
-#~ msgstr "Poprzednie przynależności"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "Import kontaktów"
-
-#, fuzzy
-#~ msgid "Msg Title"
-#~ msgstr "Tytuł"
-
-#, fuzzy
-#~ msgid "Msg Subject"
-#~ msgstr "Temat"
-
-#, fuzzy
-#~ msgid "Msg Text"
-#~ msgstr "Tekst"
-
-#, fuzzy
-#~ msgid "Is Active"
-#~ msgstr "Aktywne"
-
-#, fuzzy
-#~ msgid "Option Group Name"
-#~ msgstr "Nazwa grupy"
-
-#, fuzzy
-#~ msgid "Option Name"
-#~ msgstr "Etykieta opcji"
-
-#, fuzzy
-#~ msgid "Filter"
-#~ msgstr "Stopka"
-
-#, fuzzy
-#~ msgid "Payment Processor Title"
-#~ msgstr "Procesor płatności"
-
-#, fuzzy
-#~ msgid "Location Count"
-#~ msgstr "Lokalizacja"
-
-#, fuzzy
-#~ msgid "Address Options"
-#~ msgstr "Ustawienia"
-
-#, fuzzy
-#~ msgid "Address Format"
-#~ msgstr "Formatowanie adresu"
-
-#, fuzzy
-#~ msgid "Mailing Format"
-#~ msgstr "Preferowany format wiadomości"
-
-#, fuzzy
-#~ msgid "Address Standardization Provider"
-#~ msgstr "Dodaj do organizacji"
-
-#, fuzzy
-#~ msgid "Address Standardization Userid"
-#~ msgstr "Dodaj do organizacji"
-
-#, fuzzy
-#~ msgid "Address Standardization Url"
-#~ msgstr "Dodaj do organizacji"
-
-#~ msgid "State Abbreviation"
-#~ msgstr "Skrót stanu/województwa"
-
-#, fuzzy
-#~ msgid "Abbreviation"
-#~ msgstr "Skrót stanu/województwa"
-
-#~ msgid "In Selector"
-#~ msgstr "W spisie"
-
-#~ msgid "Form Type"
-#~ msgstr "Rodzaj formularza"
-
-#~ msgid "Post Url"
-#~ msgstr "URL strony docelowej"
-
-#, fuzzy
-#~ msgid "Cancel Url"
-#~ msgstr "Anuluj"
-
-#, fuzzy
-#~ msgid "Notify"
-#~ msgstr "Notatka"
-
-#~ msgid "Module"
-#~ msgstr "Moduł"
-
-#, fuzzy
-#~ msgid "Rule Table"
-#~ msgstr "Tabela uprawnień"
-
-#, fuzzy
-#~ msgid "Rule Field"
-#~ msgstr "Pole dodatkowe"
-
-#, fuzzy
-#~ msgid "Rule Weight"
-#~ msgstr "Waga"
-
-#, fuzzy
-#~ msgid "Application Received Date"
-#~ msgstr "Data otrzymania"
-
-#, fuzzy
-#~ msgid "Decision Date"
-#~ msgstr "Data otrzymania"
-
-#, fuzzy
-#~ msgid "Grant Due Date"
-#~ msgstr "Data wyjścia"
-
-#, fuzzy
-#~ msgid "Amount Total"
-#~ msgstr "Kwota"
-
-#, fuzzy
-#~ msgid "Logo"
-#~ msgstr "Pętla"
-
-#, fuzzy
-#~ msgid "Project Owner ID"
-#~ msgstr "Planowany"
-
-#, fuzzy
-#~ msgid "Task Type"
-#~ msgstr "Rodzaj danych"
-
-#, fuzzy
-#~ msgid "Parent Entity Table"
-#~ msgstr "Docelowa tabela jednostek"
-
-#, fuzzy
-#~ msgid "Task Parent"
-#~ msgstr "Dzieckiem jest"
-
-#, fuzzy
-#~ msgid "Due Date"
-#~ msgstr "Data wyjścia"
-
-#, fuzzy
-#~ msgid "Priority"
-#~ msgstr "Drukuj"
-
-#, fuzzy
-#~ msgid "Responsible Entity Table"
-#~ msgstr "Tabela jednostek"
-
-#~ msgid "Target Entity Table"
-#~ msgstr "Docelowa tabela jednostek"
-
-#, fuzzy
-#~ msgid "Target"
-#~ msgstr "Kategoria"
-
-#, fuzzy
-#~ msgid "Status Details"
-#~ msgstr "Szczegóły"
-
-#, fuzzy
-#~ msgid "Created"
-#~ msgstr "Stwórz"
-
-#, fuzzy
-#~ msgid "Last Modified"
-#~ msgstr "Data modyfikacji"
-
-#~ msgid "-select-"
-#~ msgstr "-wybierz-"
-
-#~ msgid "- any country -"
-#~ msgstr "- dowolny -"
-
-#, fuzzy
-#~ msgid "- any county -"
-#~ msgstr "- dowolny -"
-
-#~ msgid "Range-From"
-#~ msgstr "Zakres-Od"
-
-#, fuzzy
-#~ msgid "Are you sure you want to remove from %1?"
-#~ msgstr "Na pewno usunąć %1 z %2?"
-
-#, fuzzy
-#~ msgid ""
-#~ "We could not find the backup sql script. Check %1 exists and is readable "
-#~ "by the webserver."
-#~ msgstr ""
-#~ "Nie udało się znaleźć pliku SQL z kopią zapasową. Sprawdź plik %1 w "
-#~ "katalogu głównym CiviCRM-a."
-
-#~ msgid ""
-#~ "We could not find the mysqldump program. Check the configuration variable "
-#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-#~ msgstr ""
-#~ "Nie udało się znaleźć programu mysqldump. Sprawdź zmienną "
-#~ "CIVICRM_MYSQL_PATH w pliku konfiguracyjnym CiviCRM-a."
-
-#~ msgid "Backup Data"
-#~ msgstr "Kopie zapasowe danych"
-
-#, fuzzy
-#~ msgid "State %2 \"%1\""
-#~ msgstr "Stan / Województwo – „%1”"
-
-#, fuzzy
-#~ msgid "State (%2) %3 \"%1\""
-#~ msgstr "Stan / Województwo (%2) – „%1”"
-
-#, fuzzy
-#~ msgid "Country %2 \"%1\""
-#~ msgstr "Kraj – „%1”"
-
-#, fuzzy
-#~ msgid "Country (%2) %3 \"%1\""
-#~ msgstr "Kraj (%2) – „%1”"
-
-#, fuzzy
-#~ msgid "County %2 \"%1\""
-#~ msgstr "Kraj – „%1”"
-
-#, fuzzy
-#~ msgid "County (%2) %3 \"%1\""
-#~ msgstr "Kraj (%2) – „%1”"
-
-#, fuzzy
-#~ msgid "Gender %2 \"%1\""
-#~ msgstr "Płeć – „%1”"
-
-#~ msgid "Contact Type -"
-#~ msgstr "Rodzaj kontaktu –"
-
-#~ msgid "Group Status -"
-#~ msgstr "Stan grupy -"
-
-#, fuzzy
-#~ msgid "Note %2 - \"%1\""
-#~ msgstr "Stan / Województwo – „%1”"
-
-#, fuzzy
-#~ msgid "Email %2 - \"%1\""
-#~ msgstr "Email %1"
-
-#~ msgid "Postal code - \"%1\""
-#~ msgstr "Kod pocztowy – „%1”"
-
-#~ msgid "Location type -"
-#~ msgstr "Rodzaj lokalizacji –"
-
-#, fuzzy
-#~ msgid "Activity Type %2 '%1'"
-#~ msgstr "Rodzaj zdarzenia"
-
-#, fuzzy
-#~ msgid "Changed by: %1"
-#~ msgstr "Stworzone przez"
-
-#, fuzzy
-#~ msgid "%1 %2 %3"
-#~ msgstr "%1 – %2 z %3"
-
-#, fuzzy
-#~ msgid "Task Status: %1"
-#~ msgstr "Status:"
-
-#, fuzzy
-#~ msgid "Your Set \"%1\" has been saved."
-#~ msgstr "Grupa „%1” została zapisana."
-
-#~ msgid "Your civicrm profile field \"%1\" has been saved."
-#~ msgstr "Pole profilu CiviCRM „%1” zostało zapisane."
-
-#~ msgid ""
-#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
-#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
-#~ "contact name."
-#~ msgstr ""
-#~ "Nie znaleziono rezultatów dla <ul><li>nazwa: %1</li><li>rodzaj kontaktu: %"
-#~ "2</li></ul><br />Sprawdź pisownię lub wpisz mniej liter, by znaleźć "
-#~ "kontakt docelowy."
-
-#~ msgid "Duplicate Matching Rule"
-#~ msgstr "Reguła dopasowywania powtórzeń"
-
-#, fuzzy
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "Edytuj informacje o domenie"
-
-#~ msgid "- Contribution Fields -"
-#~ msgstr "- pola dotacji -"
-
-#, fuzzy
-#~ msgid "You do not have permission to edit this contact"
-#~ msgstr "Nie masz wystarczających uprawnień, by edytować ten kontakt."
-
-#, fuzzy
-#~ msgid "Could not find required parameter: id"
-#~ msgstr "Nie udało się znaleźć id kontaktu."
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Dodaj informacje kontaktu"
-
-#~ msgid ""
-#~ "Select 'Inline' to include this group of fields in the main contact Add/"
-#~ "Edit form and Contact Summary screens. Select 'Tab' to create a separate "
-#~ "navigation tab for display and editing these values (generally for less "
-#~ "frequently accessed and/or larger sets of fields)."
-#~ msgstr ""
-#~ "By umieścić tę grupę pól na głównym formularzu doawania/edycji kontaktu i "
-#~ "na ekranie jego podsumowania, wybierz „śródtekstowo”. By stworzyć osobną "
-#~ "zakładkę nawigacyjną do wyświetlania i edycji tych wartości, wybierz "
-#~ "„zakładka” (stosuje się to zwykle do rzadziej wykorzystywanych i/lub "
-#~ "większych zestawów pól)."
-
-#~ msgid " -select- "
-#~ msgstr "-wybierz-"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Zaplanowany termin"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Czas trwania (godziny)"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Czas trwania (minuty)"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Wybrane spotkanie zostało usunięte."
-
-#~ msgid " is a numeric field"
-#~ msgstr " jest polem numerycznym"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Usuń historię zdarzenia"
-
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "Historia zdarzeń CiviCRM"
-
-#~ msgid "Sent Date"
-#~ msgstr "Data wysłania"
-
-#~ msgid "Import Activity History"
-#~ msgstr "Importuj historię zdarzeń"
-
-#~ msgid " must be a numeric value"
-#~ msgstr " jest polem numerycznym"
-
-#~ msgid "Record Number"
-#~ msgstr "Liczba wpisów"
-
-#~ msgid " -select role- "
-#~ msgstr "- wybierz rolę -"
-
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "„%1” zostało zapisane w historii zdarzeń."
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Wybierz numer telefonu"
-
-#~ msgid "OR New Phone"
-#~ msgstr "LUB Nowy telefon"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "Wybrana rozmowa została usunięta."
-
-#, fuzzy
-#~ msgid "Could not find location id"
-#~ msgstr "Nie udało się znaleźć id kontaktu."
-
-#, fuzzy
-#~ msgid "Location name %1 '%2'"
-#~ msgstr "Nazwa lokalizacji zawiera – „%1”"
-
-#~ msgid "Contact Meetings"
-#~ msgstr "Spotkania kontaktu"
-
-#~ msgid "Contact Other Activity"
-#~ msgstr "Inne zdarzenia kontaktu"
-
-#~ msgid "Contact Calls"
-#~ msgstr "Rozmowy kontaktu"
-
-#~ msgid "Are you sure you want to delete this activity record?"
-#~ msgstr "Na pewno usunąć to zdarzenie?"
-
-#~ msgid "Open Activities %%StatusMessage%%"
-#~ msgstr "Zdarzenia otwarte %%StatusMessage%%"
-
-#, fuzzy
-#~ msgid "From: %1; Subject: %2"
-#~ msgstr "Do: %1; Temat: %2"
-
-#~ msgid "To: %1; Subject: %2"
-#~ msgstr "Do: %1; Temat: %2"
-
-#, fuzzy
-#~ msgid "CiviContribute Progress Meter"
-#~ msgstr "CiviContribute"
-
-#~ msgid "Callback Method"
-#~ msgstr "Wywoływana funkcja"
-
-#~ msgid "Activity Summary"
-#~ msgstr "Podsumowanie zdarzenia"
-
-#~ msgid "Phonecall"
-#~ msgstr "Rozmowa"
-
-#~ msgid "Int Data"
-#~ msgstr "Dane całkowitoliczbowe"
-
-#~ msgid "Float Data"
-#~ msgstr "Dane zmiennoprzecinkowe"
-
-#~ msgid "Decimal Data"
-#~ msgstr "Dane dziesiętne"
-
-#~ msgid "Char Data"
-#~ msgstr "Dane znakowe"
-
-#~ msgid "Date Data"
-#~ msgstr "Dane w postaci daty"
-
-#~ msgid "Memo Data"
-#~ msgstr "Dane w postaci notatki"
-
-#, fuzzy
-#~ msgid "Config Frontend"
-#~ msgstr "Konfiguracja"
-
-#~ msgid "Coord Type"
-#~ msgstr "Rodzaj współrzędnych"
-
-#~ msgid "Coord Units"
-#~ msgstr "Jednowski współrzędnych"
-
-#~ msgid "Coord Ogc Wkt String"
-#~ msgstr "Współrzędne OGC WKT"
-
-#~ msgid "LatLong"
-#~ msgstr "Współrzędne"
-
-#~ msgid "Projected"
-#~ msgstr "Planowany"
-
-#~ msgid "Degree"
-#~ msgstr "Stopień"
-
-#~ msgid "Grad"
-#~ msgstr "Stopień"
-
-#~ msgid "Radian"
-#~ msgstr "Radian"
-
-#~ msgid "Foot"
-#~ msgstr "Stopa"
-
-#~ msgid "Meter"
-#~ msgstr "Metr"
-
-#~ msgid "Parameters"
-#~ msgstr "Parametry"
-
-#~ msgid "Function Name"
-#~ msgstr "Nazwa funkcji"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Positive Integer"
-#~ msgstr "Liczba dodatnia"
-
-#~ msgid "Variable Name"
-#~ msgstr "Nazwa zmiennej"
-
-#~ msgid "Range"
-#~ msgstr "Zakres"
-
-#~ msgid "Regular Expression Match"
-#~ msgstr "Dopasowanie po wyrażeniu regularnym"
-
-#~ msgid "Regular Expression No Match"
-#~ msgstr "Brak dopasowania po wyrażeniu regularnym"
-
-#~ msgid "default - Dear [first] [last]"
-#~ msgstr "domyślne: Droga/Drogi [imię] [nazwisko]"
-
-#, fuzzy
-#~ msgid "Could not find callback %1"
-#~ msgstr "Nie mogę znaleźć klasy „%1”"
-
-#~ msgid "Are you sure you want to delete this Activity History record?"
-#~ msgstr "Na pewno usunąć tę historię zdarzenia?"
-
-#~ msgid "View Activity Details"
-#~ msgstr "Zobacz szczegóły zdarzenia"
-
-#~ msgid "History %%StatusMessage%%"
-#~ msgstr "Historia %%StatusMessage%%"
-
-#, fuzzy
-#~ msgid "Confirm Price Set Delete"
-#~ msgstr "Potwierdź usunięcie grupy"
-
-#, fuzzy
-#~ msgid " must be a monetary value"
-#~ msgstr " jest polem numerycznym"
-
-#~ msgid "Log a Meeting"
-#~ msgstr "Zanotuj spotkanie"
-
-#~ msgid "Schedule a Meeting"
-#~ msgstr "Zaplanuj spotkanie"
-
-#~ msgid "Edit Scheduled Meeting"
-#~ msgstr "Edytuj zaplanowane spotkanie"
-
-#~ msgid "Delete Meeting"
-#~ msgstr "Usuń spotkanie"
-
-#~ msgid "View Scheduled Meeting"
-#~ msgstr "Zobacz zaplanowane spotkanie"
-
-#~ msgid ""
-#~ "Meeting will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "Spotkanie zostanie przeniesione do historii zdarzeń gdy jego stan będzie "
-#~ "„Zakończony”."
-
-#~ msgid "Schedule an Activity"
-#~ msgstr "Zaplanuj zdarzenie"
-
-#~ msgid "Edit Scheduled Activity"
-#~ msgstr "Edytuj zaplanowane zdarzenie"
-
-#~ msgid "View Completed Activity"
-#~ msgstr "Zobacz zakończone zdarzenie"
-
-#~ msgid "View Scheduled Activity"
-#~ msgstr "Zobacz zaplanowane zdarzenie"
-
-#~ msgid ""
-#~ "Activity will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "Zdarzenie zostanie przeniesione do historii zdarzeń gdy jego stan będzie "
-#~ "„Zakończony”."
-
-#~ msgid ""
-#~ "Cannot display Activity History details since activity type for this "
-#~ "activity has been deleted."
-#~ msgstr ""
-#~ "Nie można wyświetlić szczegółów historii zdarzeń, gdyż typ zdarzenia dla "
-#~ "tego zdarzenia został skasowany."
-
-#~ msgid "Log a Phone Call"
-#~ msgstr "Zanotuj rozmowę"
-
-#~ msgid "Schedule a Phone Call"
-#~ msgstr "Zaplanuj rozmowę"
-
-#~ msgid "Edit Scheduled Call"
-#~ msgstr "Edytuj zaplanowaną rozmowę"
-
-#~ msgid "Delete Phone Call"
-#~ msgstr "Usuń rozmowę"
-
-#~ msgid "View Scheduled Call"
-#~ msgstr "Zobacz zaplanowany telefon"
-
-#~ msgid "Call will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "Rozmowa zostanie przeniesiona do historii zdarzeń gdy jej stan będzie "
-#~ "„Zakończony”."
-
-#, fuzzy
-#~ msgid " <a href=\"%1\">Delete</a>"
-#~ msgstr "<a href=\"%1\">Możesz je dodać</a>."
-
-#, fuzzy
-#~ msgid "Duplicate Contact"
-#~ msgstr "Zapisz powtarzający się kontakt"
-
-#, fuzzy
-#~ msgid "move?"
-#~ msgstr "Usuń"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "Pokaż na mapie"
-
-#~ msgid "Schedule Meeting"
-#~ msgstr "Zaplanuj spotkanie"
-
-#~ msgid "Schedule Call"
-#~ msgstr "Zaplanuj rozmowę"
-
-#~ msgid "Schedule a Call"
-#~ msgstr "Zaplanuj rozmowę"
-
-#~ msgid "Log a Call"
-#~ msgstr "Zanotuj rozmowę"
-
-#~ msgid "Past Relationships"
-#~ msgstr "Poprzednie powiązania"
-
-#~ msgid "These relationships have a past End Date."
-#~ msgstr "Poniższe powiązania mają datę zakończenia w przeszłości."
-
-#~ msgid "Disabled Relationships"
-#~ msgstr "Powiązania wyłączone"
-
-#~ msgid "These relationships have been marked as disabled (no longer active)."
-#~ msgstr "Poniższe powiązania zostały oznaczone jako wyłączone (nieaktywne)."
-
-#~ msgid "New Activity History"
-#~ msgstr "Nowa historia zdarzeń"
-
-#~ msgid "Edit Activity History"
-#~ msgstr "Edytuj historię zdarzeń"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr "Na pewno usunąć historię zdarzenia z %2 rodzaju „%1” z opisem „%3”?"
-
-#~ msgid "Total rows (activity history records) in uploaded file."
-#~ msgstr "Suma wierszy (wpisów historii zdarzeń) w pliku."
-
-#~ msgid ""
-#~ "CiviCRM has detected mismatched activity history ID. This record have not "
-#~ "been updated."
-#~ msgid_plural ""
-#~ "CiviCRM has detected mismatched activity history IDs. These records have "
-#~ "not been Updated."
-#~ msgstr[0] ""
-#~ "CiviCRM wykrył błędny identyfikator dotacji. Ten wpis nie został "
-#~ "zaktualizowany."
-#~ msgstr[1] ""
-#~ "CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
-#~ "zaktualizowane."
-#~ msgstr[2] ""
-#~ "CiviCRM wykrył błędne identyfikatory dotacji. Wpisy te nie zostały "
-#~ "zaktualizowane."
-
-#~ msgid ""
-#~ "CiviCRM has detected one record with conflicting transaction ID within "
-#~ "this data file or relative to existing activity history records. This "
-#~ "record have not been imported."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records with conflicting transaction IDs "
-#~ "within this data file or relative to existing activity history records. "
-#~ "These records have not been imported."
-#~ msgstr[0] ""
-#~ "CiviCRM wykrył jeden wpis z identyfikatorem transakcji kolidującym w "
-#~ "obrębie tego pliku lub w stosunku do istniejących wpisów historii "
-#~ "zdarzeń. Ten wpis nie został zaimportowany."
-#~ msgstr[1] ""
-#~ "CiviCRM wykrył %1 wpisy z identyfikatorami transakcji kolidującymi w "
-#~ "obrębie tego pliku lub w stosunku do istniejących wpisów historii "
-#~ "zdarzeń. Te wpisy nie zostały zaimportowane."
-#~ msgstr[2] ""
-#~ "CiviCRM wykrył %1 wpisów z identyfikatorami transakcji kolidującymi w "
-#~ "obrębie tego pliku lub w stosunku do istniejących wpisów historii "
-#~ "zdarzeń. Te wpisy nie zostały zaimportowane."
-
-#~ msgid ""
-#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
-#~ "activity history record."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records which are duplicates of existing "
-#~ "CiviCRM activity history records."
-#~ msgstr[0] ""
-#~ "CiviCRM wykrył jeden wpis, który jest kopią istniejącej historii zdarzeń."
-#~ msgstr[1] ""
-#~ "CiviCRM wykrył %count wpisy, które są kopią istniejących historii zdarzeń."
-#~ msgstr[2] ""
-#~ "CiviCRM wykrył %count wpisów, które są kopią istniejących historii "
-#~ "zdarzeń."
-
-#~ msgid "Rows with mismatched activity history IDs (NOT updated)."
-#~ msgstr ""
-#~ "Wiersze z błędnymi identyfikatorami historii zdarzeń (NIE uaktualnione)."
-
-#~ msgid "Download Mismatched Activity History records"
-#~ msgstr "Ściągnij błędnie dopasowane wpisy historii zdarzeń"
-
-#~ msgid ""
-#~ "Rows which are duplicates of existing CiviCRM activity history records."
-#~ msgstr "Wiersze z wpisami historii zdarzeń istniejącymi już w CiviCRM."
-
-#~ msgid ""
-#~ "The Activity History Import Wizard allows you to easily upload activity "
-#~ "history from other applications into CiviCRM. Contacts must already exist "
-#~ "in your CiviCRM database prior to importing activity history. Use Import "
-#~ "Contacts to create contact records first, if necessary. Then you can "
-#~ "match activities to contacts by Name and Email, or by Contact ID."
-#~ msgstr ""
-#~ "Kreator importu historii zdarzeń pozwala łatwo wgrać do CiviCRM-a "
-#~ "historię zdarzeń z innego programu. Przed rozpoczęciem importu, w bazie "
-#~ "muszą się już znajdować odpowiednie kontakty; jeśli to konieczne, "
-#~ "skorzystaj z Importu kontaktów by je utworzyć. Zdarzenia można do "
-#~ "kontaktów dopasowywać za pomocą identyfikatora kontaktu lub nazwy i "
-#~ "adresu email."
-
-#~ msgid ""
-#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-#~ "href=\"%2\">call</a>."
-#~ msgstr ""
-#~ "Brak otwartych zdarzeń. Możesz zaplanować <a href=\"%1\">spotkanie</a> "
-#~ "lub <a href=\"%2\">rozmowę</a>."
-
-#~ msgid "There are no open activities for this contact."
-#~ msgstr "Brak otwartych zdarzeń dla tego kontaktu."
-
-#~ msgid "No activity history for this contact."
-#~ msgstr "Brak historii zdarzeń dla tego kontaktu."
-
-#, fuzzy
-#~ msgid "(test)"
-#~ msgstr "Notatki"
-
-#, fuzzy
-#~ msgid "Schedule a meeting"
-#~ msgstr "Zaplanuj spotkanie"
-
-#, fuzzy
-#~ msgid "Summary Report"
-#~ msgstr "Podsumowanie"
-
-#, fuzzy
-#~ msgid "Activity Entity Table"
-#~ msgstr "Tabela jednostek"
-
-#~ msgid "Contact Name:"
-#~ msgstr "Nazwa kontaktu:"
-
-#~ msgid "Email Domain:"
-#~ msgstr "Domena emailowa:"
-
-#~ msgid "Contact Name"
-#~ msgstr "Nazwa kontaktu"
-
-#~ msgid "Subscription Message to organization"
-#~ msgstr "Wiadomość zapisująca do organizacji"
-
-#~ msgid "Farewell Message"
-#~ msgstr "Wiadomość pożegnalna"
-
-#~ msgid "New CiviCRM Profile Group"
-#~ msgstr "Nowa grupa profilu CiviCRM"
-
-#~ msgid "re-subscribe"
-#~ msgstr "zapisz ponownie"
-
-#~ msgid "(re-subscribe: %1)"
-#~ msgstr "(zapisz ponownie: %1)"
-
-#, fuzzy
-#~ msgid "Domain Contact Information"
-#~ msgstr "Informacja o kontakcie"
-
-#~ msgid ""
-#~ "You can add contacts to a group from any set of search results (or when "
-#~ "viewing an individual contact). You can also allow contacts to sign "
-#~ "themselves up for certain groups by setting the group visibility to "
-#~ "'Public User Pages' (use the <strong>Settings</strong> link), and "
-#~ "including the <strong>Groups</strong> element in your CiviCRM Profile."
-#~ msgstr ""
-#~ "Możesz dodać kontakty do grupy z dowolnego zestawu wyników wyszukiwania "
-#~ "(lub podglądu poszczególnych kontaktów). Możesz też pozwolić osobom na "
-#~ "samodzielne dopisywanie się do pewnych grup, ustawiając widoczność tych "
-#~ "grup na „Publiczne strony użytkowników” (użyj odnośnika "
-#~ "<strong>Ustawienia</strong>) i dodanie elementu <strong>Grupy</strong> do "
-#~ "profilu CiviCRM."
-
-#, fuzzy
-#~ msgid "HTML Body of Header"
-#~ msgstr "Treść w wersji HTML"
-
-#, fuzzy
-#~ msgid "Text Body of Header"
-#~ msgstr "Treść w wersji tekstowej"
-
-#, fuzzy
-#~ msgid "This is the Footer"
-#~ msgstr "ukryj ten telefon"
-
-#, fuzzy
-#~ msgid "HTML Body of Footer"
-#~ msgstr "Treść w wersji HTML"
-
-#, fuzzy
-#~ msgid "Text Body of Footer"
-#~ msgstr "Treść w wersji tekstowej"
-
-#~ msgid "Welcome"
-#~ msgstr "Witamy"
-
-#, fuzzy
-#~ msgid "Unsubscribe results"
-#~ msgstr "Wiadomość wypisująca"
-
-#, fuzzy
-#~ msgid "Goodbye"
-#~ msgstr "Zmienna logiczna"
-
-#, fuzzy
-#~ msgid "Automated response"
-#~ msgstr "Odpowiedź automatyczna"
-
-#, fuzzy
-#~ msgid ""
-#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
-#~ msgstr ""
-#~ "%1 nie jest ustawiony w Zarządzanie CiviCRM-em &raquo; Procesor płatności."
-
-#~ msgid "Contact's Profile"
-#~ msgstr "Profil kontaktu"
-
-#~ msgid "Save Duplicate Contact"
-#~ msgstr "Zapisz powtarzający się kontakt"
-
-#~ msgid ""
-#~ "CiviCRM uses a configurable Duplicate Matching Rule to determine when a "
-#~ "new Individual contact should be flagged as a potential duplicate of an "
-#~ "existing record. The default configuration compares email address AND "
-#~ "first name AND last name. This rule is used when entering a new "
-#~ "individual contact, updating an existing contact, and importing contacts "
-#~ "with the Import Wizard. Click <a href=\"%1\">Edit Rule</a> to modify the "
-#~ "set of contact fields used for identifying duplicate contacts."
-#~ msgstr ""
-#~ "By stwierdzić, czy nowa osoba może być powtórzeniem już istniejącego w "
-#~ "bazie wpisu, CiviCRM używa konfigurowalnych reguł dopasowywania "
-#~ "powtórzeń. Konfiguracja domyślna porównuje adres email, imię i nazwisko. "
-#~ "Ta reguła używana jest podczas wpisywania nowej osoby, uaktualniania "
-#~ "istniejącej oraz podczas importu kontaktów za pomocą Kreatora Importu. "
-#~ "Wybierz <a href=\"%1\">Edytuj regułę</a> jeśli chcesz zmodyfikować zestaw "
-#~ "pól kontaktu używanych do identyfikowania powtórzeń."
-
-#~ msgid "Email address conflicts with record %1"
-#~ msgstr "Adres email koliduje z wpisem %1"
-
-#~ msgid "Setup"
-#~ msgstr "Ustawnienia"
-
-#~ msgid "Duplicate Matching"
-#~ msgstr "Dopasowywanie powtórzeń"
-
-#~ msgid "%1 is not set in the config file."
-#~ msgstr "W pliku konfiguracyjnym nie podano %1."
-
-#, fuzzy
-#~ msgid "Include County?"
-#~ msgstr "Dołącz grupy"
-
-#, fuzzy
-#~ msgid "Settings - Date Formatting"
-#~ msgstr "Ustawienia i zawartość"
-
-#~ msgid "Send Emails RETURN-PATH:"
-#~ msgstr "Return-Path: wysyłanych emaili"
-
-#~ msgid "Please select at least one membership status."
-#~ msgstr "Wybierz przynajmniej jeden status członkostwa."
-
-#~ msgid "Add Members to A Group"
-#~ msgstr "Dodaj członków do grupy"
-
-#, fuzzy
-#~ msgid "Add Members to Organization"
-#~ msgstr "Dodaj członków do organizacji"
-
-#~ msgid "Remove Members from Group"
-#~ msgstr "Usuń członków z grupy"
-
-#, fuzzy
-#~ msgid "Zip/Postal Code not valid for %1."
-#~ msgstr "Kod pocztowy"
-
-#, fuzzy
-#~ msgid "Online Payments"
-#~ msgstr "Włącz sposób płatności"
-
-#~ msgid "Synchronize Users-to-Contacts"
-#~ msgstr "Synchronizacja użytkowników z&nbsp;kontaktami"
-
-#~ msgid "Gender Options (Male, Female...)"
-#~ msgstr "Opcje płci (mężczyzna, kobieta…)"
-
-#, fuzzy
-#~ msgid "Preferred Communication Options"
-#~ msgstr "Preferowany sposób komunikacji"
-
-#~ msgid "Delete %1"
-#~ msgstr "Usuń %1"
-
-#~ msgid "Delete Profile Group"
-#~ msgstr "Usuń grupę profilu"
-
-#~ msgid "This profile cannot be deleted since it is used for other modules."
-#~ msgstr "Nie można usunąć tego profilu, gdyż jest używany przez inne moduły."
-
-#~ msgid ""
-#~ "You must delete all profile fields for \"%1\" prior to deleting the "
-#~ "profile."
-#~ msgstr "Przed usunięciem profilu „%1” należy usunąć wszystkie jego pola."
-
-#~ msgid "Synchronize Drupal Users"
-#~ msgstr "Synchronizacja użytkowników Drupala"
-
-#~ msgid "Add Members to a Group"
-#~ msgstr "Dodaj członków do grupy"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no contributions recorded from this contact. You can <a href=\"%"
-#~ "1\">enter one now</a>."
-#~ msgstr "Ten kontakt nie ma dotacji. <a href=\"%1\">Możesz je dodać</a>."
-
-#~ msgid "Defaults"
-#~ msgstr "Wartość domyślna"

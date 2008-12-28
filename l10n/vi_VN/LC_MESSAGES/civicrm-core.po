@@ -12304,7 +12304,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Male"
-msgstr ""
+msgstr "Male"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"

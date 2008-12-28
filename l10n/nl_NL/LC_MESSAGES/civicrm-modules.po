@@ -17,7 +17,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
-msgstr ""
+msgstr "Kopie van"
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -260,23 +260,20 @@ msgid "Payment Status"
 msgstr "Betalingsstatus"
 
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Participant"
-msgstr "Deelnemer-ID"
+msgstr "Deelnemer"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
 msgstr "Deelnemers exporteren"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Minimum bijdrage tonen"
+msgstr "Toon naam"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
-#, fuzzy
 msgid "Import Participants"
-msgstr "Deelnemers importeren"
+msgstr "Importeer deelnemers"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
@@ -1199,7 +1196,7 @@ msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
 msgid "Duplicate Import Contribution Mapping Name"
-msgstr ""
+msgstr "Dubbele import bijdrage mapping naam"
 
 #: CRM/Contribute/Import/Parser.php
 msgid "View Contribution URL"
@@ -2101,8 +2098,8 @@ msgid ""
 "Your subscription request has been submitted. Check your inbox shortly for "
 "the confirmation email(s)."
 msgstr ""
-"Uw verzoek voor inschrijving is ingediend. U ontvangt binnenkort een "
-"e-mailbericht voor bevestiging."
+"Uw verzoek voor inschrijving is ingediend. U ontvangt binnenkort een e-"
+"mailbericht voor bevestiging."
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid ""
@@ -2125,9 +2122,8 @@ msgid "Send to This Group"
 msgstr "Stuur naar deze groep"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Test"
-msgstr "(test)"
+msgstr "Test"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "FROM"
@@ -2418,9 +2414,9 @@ msgid ""
 "will then be able to delete the membership type on this page. To delete the "
 "membership type, all memberships of this type should be deleted."
 msgstr ""
-"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1\">CiviMember "
-">> Find Members</a> kunt u deze opzoeken. Om het type te kunnen verwijderen "
-"dient u alle lidmaatschappen van dit type te verwijderen."
+"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1"
+"\">CiviMember >> Find Members</a> kunt u deze opzoeken. Om het type te "
+"kunnen verwijderen dient u alle lidmaatschappen van dit type te verwijderen."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
@@ -3262,8 +3258,8 @@ msgid ""
 "used for this page)."
 msgstr ""
 "U kunt bestaande CiviCRM-profielen gebruiken op uw pagina of een profiel "
-"aanmaken dat specifiek op bijdragepagina's te gebruiken is. U kunt <a "
-"href=\"%1\">Profielen</a> bekijken,  wijzigen en aanmaken. "
+"aanmaken dat specifiek op bijdragepagina's te gebruiken is. U kunt <a href="
+"\"%1\">Profielen</a> bekijken,  wijzigen en aanmaken. "
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -4385,6 +4381,9 @@ msgid ""
 "records to determine if they are actually conflicts, and correct the "
 "transaction IDs for those that are not."
 msgstr ""
+"U kunt de <a href=\"%1\">Lijst met conflicten</a> downloaden. Controleer "
+"deze lijst om te zien of het inderdaad conflicten zijn, en corrigeer de "
+"transactie IDs indien nodig."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -4408,6 +4407,8 @@ msgid ""
 "records to determine if they are actually duplicates, and correct the "
 "transaction IDs for those that are not."
 msgstr ""
+"U kunt de <a href=\"%1\">Duplicaten downloaden </a>. U kunt de records dan "
+"onderzoeken op duplicaten en de transactie ID's corrigeren."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -5249,7 +5250,7 @@ msgstr "Item"
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Qty"
-msgstr ""
+msgstr "Aantal"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
@@ -5281,8 +5282,8 @@ msgid ""
 "Your registration will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas definitief als u klikt op de knop "
-"<strong>Doorgaan</strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw registratie is pas definitief als u klikt op de knop <strong>Doorgaan</"
+"strong>. Klik  a.u.b. slechts een keer op de knop."
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
@@ -5405,7 +5406,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "(no fee)"
-msgstr ""
+msgstr "(geen kosten)"
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "View all events for this contact"
@@ -5731,9 +5732,8 @@ msgstr ""
 "strong> om uw selecties te controleren."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Tracking"
-msgstr "URL tracking"
+msgstr "Volgen"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6385,6 +6385,9 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
+"Geen overeenkomstige resultaten voor <ul><li> Naam: %1 </li><li>Contacttype :"
+"%2</li></ul>. Controleer de spelling of voer minder karakters in voor de "
+"contactnaam"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6814,462 +6817,3 @@ msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Er is nog geen lidmaatschapstype. U kunt er een <a href='%1'>toevoegen</a>."
-
-#~ msgid "Pay Later Text"
-#~ msgstr "Tekst later betalen"
-
-#~ msgid "Pay Later Receipt"
-#~ msgstr "Ontvangstbewijs later betalen"
-
-#~ msgid "Receipt Text"
-#~ msgstr "Ontvangstbewijs Tekst"
-
-#~ msgid "Cancel Date"
-#~ msgstr "opzegdatum"
-
-#~ msgid "Frequency Interval"
-#~ msgstr "interval frequentie"
-
-#~ msgid "week"
-#~ msgstr "week"
-
-#~ msgid "Body Html"
-#~ msgstr "body html"
-
-#~ msgid "Time Stamp"
-#~ msgstr "tijdstempel"
-
-#~ msgid "Intro Text"
-#~ msgstr "Introductietekst"
-
-#~ msgid "Thank-you Text"
-#~ msgstr "Tekst Dank bericht"
-
-#~ msgid "Thank-you Footer"
-#~ msgstr "Bedankbericht voet"
-
-#~ msgid "Cc Receipt"
-#~ msgstr "Cc ontvangstbewijs"
-
-#~ msgid "Bcc Receipt"
-#~ msgstr "Bcc Ontvangstbewijs"
-
-#~ msgid "Honor Block Title"
-#~ msgstr "Titel Eerblok"
-
-#~ msgid "Honor Block Text"
-#~ msgstr "Eer Blok Tekst"
-
-#~ msgid "Contribution Page Start Date"
-#~ msgstr "Bijdrage pagina startdatum"
-
-#~ msgid "Contribution Page End Date"
-#~ msgstr "Bijdrage pagina einddatum"
-
-#~ msgid "Contribution ID (match to contribution)"
-#~ msgstr "Contribution ID (koppeling met bijdrage)"
-
-#~ msgid "Solicitor ID"
-#~ msgstr "Solicitor ID"
-
-#~ msgid "Receive Date"
-#~ msgstr "Ontvangstdatum"
-
-#~ msgid "Cancel Reason"
-#~ msgstr "Reden voor opzeggen"
-
-#~ msgid "Thank-you Date"
-#~ msgstr "Datum Dank bericht"
-
-#~ msgid "Amount Label"
-#~ msgstr "Bedrag label"
-
-#~ msgid "Product Option"
-#~ msgstr "Product Optie"
-
-#~ msgid "Quantity"
-#~ msgstr "Aantal"
-
-#~ msgid "Fulfilled Date"
-#~ msgstr "Afrondingsdatum"
-
-#~ msgid "Comment"
-#~ msgstr "Opmerking"
-
-#~ msgid "Installments"
-#~ msgstr "Termijn"
-
-#~ msgid "Create Date"
-#~ msgstr "Aanmaakdatum"
-
-#~ msgid "Recurring Contribution Status"
-#~ msgstr "Periodieke bijdrage status"
-
-#~ msgid "Cycle Day"
-#~ msgstr "Datum cyclus"
-
-#~ msgid "Next Sched Contribution"
-#~ msgstr "Volgende geplande bijdrage"
-
-#~ msgid "Failure Count"
-#~ msgstr "Aantal fouten"
-
-#~ msgid "Failure Retry Date"
-#~ msgstr "Herhaal datum fouten"
-
-#~ msgid "Auto Renew"
-#~ msgstr "Automatische vernieuwing"
-
-#~ msgid "Trxn Date"
-#~ msgstr "Trxn Datum"
-
-#~ msgid "Trxn Type"
-#~ msgstr "Trxn Type"
-
-#~ msgid "Trxn Result Code"
-#~ msgstr "Trxn resultaat code"
-
-#~ msgid "Debit"
-#~ msgstr "Tegoed"
-
-#~ msgid "Credit"
-#~ msgstr "Te betalen"
-
-#~ msgid "Premiums Active"
-#~ msgstr "Actieve Relatiegeschenken"
-
-#~ msgid "Title for Premiums section"
-#~ msgstr "Titel sectie relatiegeschenken"
-
-#~ msgid "Premiums Intro Text"
-#~ msgstr "Introductie relatiegeschenken"
-
-#~ msgid "Premiums Contact Email"
-#~ msgstr "Email contact relatiegeschenken"
-
-#~ msgid "Premiums Contact Phone"
-#~ msgstr "Telefoon contact relatiegeschenken"
-
-#~ msgid "Premiums Display Min Contribution"
-#~ msgstr "Minimale bijdrage voor tonen relatiegeschenken"
-
-#~ msgid "Product Name"
-#~ msgstr "Product Naam"
-
-#~ msgid "Thumbnail"
-#~ msgstr "Klein plaatje"
-
-#~ msgid "Minimum Contribution"
-#~ msgstr "Minimale Bijdrage"
-
-#~ msgid "Cost"
-#~ msgstr "Kosten"
-
-#~ msgid "Url Logo"
-#~ msgstr "Url Logo"
-
-#~ msgid "Url Homepage"
-#~ msgstr "Url Homepage"
-
-#~ msgid "Confirmation Title"
-#~ msgstr "Bevestigingstitel"
-
-#~ msgid "Confirm Text"
-#~ msgstr "Bevestigingstekst"
-
-#~ msgid "Is confirm email"
-#~ msgstr "Is e-mail ter bevestiging"
-
-#~ msgid "Confirmation Email Text"
-#~ msgstr "Tekst Email Bevestiging"
-
-#~ msgid "Cc Confirm"
-#~ msgstr "Cc Bevestiging"
-
-#~ msgid "Bcc Confirm"
-#~ msgstr "Bcc Bevestiging"
-
-#~ msgid "ThankYou Title"
-#~ msgstr "Titel voor Bedankbericht"
-
-#~ msgid "ThankYou Text"
-#~ msgstr "Bedanktekst"
-
-#~ msgid "Event Description"
-#~ msgstr "Evenement Beschrijving"
-
-#~ msgid "Event Type ID"
-#~ msgstr "Evenement Type ID"
-
-#~ msgid "Participant Listing ID"
-#~ msgstr "Deelnemerslijst ID"
-
-#~ msgid "Is Event Public"
-#~ msgstr "Is het evenement openbaar?"
-
-#~ msgid "Event Start Date"
-#~ msgstr "Evenement startdatum"
-
-#~ msgid "Event End Date"
-#~ msgstr "Evenement einddatum"
-
-#~ msgid "Is Online Registration"
-#~ msgstr "Is online registratie"
-
-#~ msgid "Event Registration Link Text"
-#~ msgstr "Evenement registratie link tekst"
-
-#~ msgid "show location"
-#~ msgstr "Toon Locatie"
-
-#~ msgid "Payment ID"
-#~ msgstr "Betalings ID"
-
-#~ msgid "Register date"
-#~ msgstr "Registratie datum"
-
-#~ msgid "Pattern"
-#~ msgstr "Patroon"
-
-#~ msgid "Hold Threshold"
-#~ msgstr "Drempelwaarde"
-
-#~ msgid "AOL"
-#~ msgstr "AOL"
-
-#~ msgid "Away"
-#~ msgstr "weg"
-
-#~ msgid "DNS"
-#~ msgstr "DNS"
-
-#~ msgid "Invalid"
-#~ msgstr "Ongeldig"
-
-#~ msgid "Loop"
-#~ msgstr "Lus"
-
-#~ msgid "Quota"
-#~ msgstr "Quota"
-
-#~ msgid "Relay"
-#~ msgstr "Doorgeven"
-
-#~ msgid "Spam"
-#~ msgstr "Spam"
-
-#~ msgid "Syntax"
-#~ msgstr "Syntax"
-
-#~ msgid "Component Name"
-#~ msgstr "Naam van de component"
-
-#~ msgid "Welcome"
-#~ msgstr "Welkom"
-
-#~ msgid "OptOut"
-#~ msgstr "OptOut"
-
-#~ msgid "Include"
-#~ msgstr "inclusief"
-
-#~ msgid "Exclude"
-#~ msgstr "exclusief"
-
-#~ msgid "From Name"
-#~ msgstr "Van  naam"
-
-#~ msgid "From Email"
-#~ msgstr "Van Email"
-
-#~ msgid "Replyto Email"
-#~ msgstr "Antwoord email"
-
-#~ msgid "Forward Replies"
-#~ msgstr "Doorsturen antwoorden"
-
-#~ msgid "Auto Responder"
-#~ msgstr "Automatische beantwoorder"
-
-#~ msgid "Open Tracking"
-#~ msgstr "Open tracking"
-
-#~ msgid "Recipient Email"
-#~ msgstr "E-mail Ontvangstbewijs"
-
-#~ msgid "Headers"
-#~ msgstr "Kopregels"
-
-#~ msgid "Body"
-#~ msgstr "Body"
-
-#~ msgid "Added At"
-#~ msgstr "Toegevoegd op"
-
-#~ msgid "Removed At"
-#~ msgstr "Verwijderd op"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid "Org Unsubscribe"
-#~ msgstr "Organisatie afmelden"
-
-#~ msgid "Membership Type Default"
-#~ msgstr "Lidmaatschap standaardtype"
-
-#~ msgid "New Title"
-#~ msgstr "Nieuwe Titel"
-
-#~ msgid "New Text"
-#~ msgstr "Nieuwe Tekst"
-
-#~ msgid "Renewal Title"
-#~ msgstr "Titel Verlenging"
-
-#~ msgid "Renewal Text"
-#~ msgstr "Verlenging Tekst"
-
-#~ msgid "Is Required"
-#~ msgstr "Is verplicht"
-
-#~ msgid "Membership Change Date"
-#~ msgstr "Aanpassingsdatum lidmaatschap"
-
-#~ msgid "Renewal Reminder Date"
-#~ msgstr "Verlenging Herinneringsdatum"
-
-#~ msgid "Membership Expiration Date"
-#~ msgstr "Lidmaatschap Verloopdatum"
-
-#~ msgid "Status Override"
-#~ msgstr "Status handmatig instellen?"
-
-#~ msgid "Reminder Date"
-#~ msgstr "Herinneringsdatum"
-
-#~ msgid "Default Status?"
-#~ msgstr "Standaard status?"
-
-#~ msgid "start_date"
-#~ msgstr "start_datum"
-
-#~ msgid "end_date"
-#~ msgstr "eind_datum"
-
-#~ msgid "join_date"
-#~ msgstr "lid sinds"
-
-#~ msgid "Visible"
-#~ msgstr "Zichtbaar"
-
-#~ msgid "Receipt Text Signup"
-#~ msgstr "Ontvangstbericht aanmelden"
-
-#~ msgid "Receipt Text Renewal"
-#~ msgstr "Ontvangstbericht verlengen"
-
-#~ msgid "lifetime"
-#~ msgstr "levensduur"
-
-#~ msgid ""
-#~ "Page title can not be longer than 255 characters and must consist of "
-#~ "letters, numbers, spaces and simple punctuation characters."
-#~ msgstr "Moet er een voortgangsmeter getoond worden tijdens de bijdrage?"
-
-#~ msgid "Event %2 %1"
-#~ msgstr "Evenement %2 %1"
-
-#~ msgid "-- select --"
-#~ msgstr "-- kies --"
-
-#~ msgid "Test Participants Only"
-#~ msgstr "Alleen testdeelnemers"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Voortgangsmeter"
-
-#~ msgid "Min Amount"
-#~ msgstr "Minimumbedrag"
-
-#~ msgid "Max Amount"
-#~ msgstr "Maximumbedrag"
-
-#~ msgid "Thank-you Title"
-#~ msgstr "Titel voor bedankbericht"
-
-#~ msgid "Thank-you Message"
-#~ msgstr "BedankberichtTekst"
-
-#, fuzzy
-#~ msgid "Title "
-#~ msgstr "Titel"
-
-#~ msgid "Domain Information"
-#~ msgstr "Domein Informatie"
-
-#~ msgid ""
-#~ "The membership can not be saved.<br/> No valid membership status for "
-#~ "given dates."
-#~ msgstr ""
-#~ "Dit lidmaatschap kan niet bewaard worden. <br/> Geen geldig lidmaatschap "
-#~ "op de ingevoerde data."
-
-#~ msgid ""
-#~ "Display the progress thermometer block when the user is making a "
-#~ "contribution."
-#~ msgstr "Toon de voortgangsmeter aan de donateur."
-
-#~ msgid "Set a title for the progress thermometer block."
-#~ msgstr "Naam van de voortgangsmeter."
-
-#~ msgid ""
-#~ "CiviContribute allows you to create and maintain any number of Online "
-#~ "Contribution Pages. You can create different pages for different programs "
-#~ "or campaigns - and customize text, amounts, types of information "
-#~ "collected from contributors, etc. (<a href=\"%1\" target=\"_blank\" title="
-#~ "\"%2\">read more...</a>)"
-#~ msgstr ""
-#~ "CiviContribute stelt u in staat om een groot aantal online bijdrage "
-#~ "pagina's te creeeren en bij te houden. Er kunnen verschillende pagina's "
-#~ "worden gemaakt voor verschillende programma's of campagnes. Voor elke "
-#~ "pagina zijn de teksten, bijdragen en andere gegevens in te stellen."
-
-#~ msgid ""
-#~ "If your page is enabled, click <strong>Live Page</strong> to view to the "
-#~ "page in <strong>live mode</strong>."
-#~ msgstr ""
-#~ "Als de pagina is ingeschakeld, kunt U met <strong>Live Page</strong> de "
-#~ "pagina zien in <strong>live mode</strong>."
-
-#~ msgid ""
-#~ "Click <a href=\"%1\">New Contribution Page</a> to create and configure a "
-#~ "new online contribution page using the step-by-step wizard."
-#~ msgstr ""
-#~ "Klik op <a href=\"%1'\">Nieuwe bijdrage pagina</a> om een nieuwe bijdrage "
-#~ "pagina aan te maken."
-
-#~ msgid ""
-#~ "This page lists current (in-progress) and upcoming events. Click a column "
-#~ "header to sort by that column. <a href=\"%1\">Click here</a> to browse "
-#~ "completed (past) events (<a href=\"%3\" target=\"_blank\" title=\"%2"
-#~ "\">read more...</a>)."
-#~ msgstr ""
-#~ "Hier staan de huidige en toekomstige evenementen.  Klik op een kolomkop "
-#~ "om deze kolom te sorteren. Klik <a href=\"%1\">hier</a> om de afgeronde "
-#~ "evenementen te bekijken (<a href=\"%3\" target=\"_blank\" title=\"%2"
-#~ "\">lees meer...</a>)."
-
-#~ msgid ""
-#~ "This page lists completed (past) events. Click a column header to sort by "
-#~ "that column. <a href=\"%1\">Click here</a> to browse current (in-"
-#~ "progress) and upcoming events (<a href=\"%3\" target=\"_blank\" title=\"%2"
-#~ "\">read more...</a>)."
-#~ msgstr ""
-#~ "Hier staan de afgeronde evenementen. Klik op een kolomkop om hierop te "
-#~ "sorteren. <a href=\"%1\">Klik hier</a> om de huidige en toekomstige "
-#~ "evenementen te bekijken  (<a href=\"%3\" target=\"_blank\" title=\"%2"
-#~ "\">lees meer...</a>)."
-
-#~ msgid "Show Past Events"
-#~ msgstr "Bekijk afgeronde evenementen"

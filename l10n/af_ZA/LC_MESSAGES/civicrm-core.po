@@ -1846,15 +1846,15 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "sit kontakte by"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "sien alle kontakte"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "redigeer alle kontakte"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
@@ -1862,11 +1862,11 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "redigeer groepe"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administreer CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
@@ -1874,7 +1874,7 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "profiel lys en vorms"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
@@ -12636,37 +12636,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Entity Table"
-#~ msgstr "Entiteitstabel"
-
-#~ msgid "Modified Date"
-#~ msgstr "Veranderde Datum"
-
-#~ msgid "Phone Number"
-#~ msgstr "Foon Nommer"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Naam"
-
-#~ msgid "-select-"
-#~ msgstr "-kies-"
-
-#~ msgid " -select- "
-#~ msgstr "-kies-"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Geskeduleerde Datum Tyd"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Durasie (ure)"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Durasie (minute)"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Gekiesde Vergadering is suksesvol uitgevee"
-
-#~ msgid " is a numeric field"
-#~ msgstr " is 'n numeriese veld"

@@ -16,9 +16,8 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
-#, fuzzy
 msgid "Copy of "
-msgstr "%1 のコピー"
+msgstr "Copy of "
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -260,7 +259,7 @@ msgstr ""
 
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
 msgid "Participant"
-msgstr ""
+msgstr "参加者"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
@@ -2045,7 +2044,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "FROM"
@@ -3566,7 +3565,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "(test)"
-msgstr ""
+msgstr "(テスト)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
@@ -6041,74 +6040,3 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-
-#~ msgid "week"
-#~ msgstr "週"
-
-#, fuzzy
-#~ msgid "Comment"
-#~ msgstr "コメント"
-
-#, fuzzy
-#~ msgid "Thumbnail"
-#~ msgstr "サムネイル"
-
-#~ msgid "Event Description"
-#~ msgstr "イベントの詳細"
-
-#, fuzzy
-#~ msgid "Spam"
-#~ msgstr "スパム"
-
-#, fuzzy
-#~ msgid "Welcome"
-#~ msgstr "ようこそ"
-
-#~ msgid "Exclude"
-#~ msgstr "除外ページ"
-
-#~ msgid "Headers"
-#~ msgstr "ヘッダ"
-
-#, fuzzy
-#~ msgid "Body"
-#~ msgstr "本文"
-
-#~ msgid "Url"
-#~ msgstr "URL"
-
-#, fuzzy
-#~ msgid "start_date"
-#~ msgstr "開始日"
-
-#, fuzzy
-#~ msgid "end_date"
-#~ msgstr "終了日"
-
-#, fuzzy
-#~ msgid "Visible"
-#~ msgstr "表示"
-
-#~ msgid "-- select --"
-#~ msgstr "-- 選択 --"
-
-#~ msgid "Title "
-#~ msgstr "タイトル "
-
-#~ msgid "Image"
-#~ msgstr "画像"
-
-#, fuzzy
-#~ msgid "Action"
-#~ msgstr "アクション"
-
-#~ msgid " (test) "
-#~ msgstr " (テスト) "
-
-#, fuzzy
-#~ msgid "delete"
-#~ msgstr "削除"
-
-#, fuzzy
-#~ msgid "cancel"
-#~ msgstr "キャンセル"

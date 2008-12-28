@@ -1852,23 +1852,23 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "הוסף אנשי קשר"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "הצג כל אנשי קשר"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "ערוך כל אנשי קשר"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "יבא אנשי קשר"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "ערוך אנשי קשר"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
@@ -12660,47 +12660,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Entity Table"
-#~ msgstr "טבלת יישות"
-
-#~ msgid "Modified Date"
-#~ msgstr "תאריך שינוי"
-
-#~ msgid "Select Tables"
-#~ msgstr "בחר טבלאות"
-
-#~ msgid "Phone Number"
-#~ msgstr "מספר טלפון"
-
-#~ msgid "Test"
-#~ msgstr "בדיקה"
-
-#~ msgid "Street Name"
-#~ msgstr "כתובת רחוב"
-
-#~ msgid "Street Type"
-#~ msgstr "סוג רחוב"
-
-#~ msgid "Currency"
-#~ msgstr "מטבע"
-
-#~ msgid "Location Name"
-#~ msgstr "שם מיקום"
-
-#~ msgid "Module"
-#~ msgstr "מודול"
-
-#~ msgid "-select-"
-#~ msgstr "-בחר-"
-
-#~ msgid " -select- "
-#~ msgstr "בחירה"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "איש קשר"
-
-#, fuzzy
-#~ msgid "Activity Entity Table"
-#~ msgstr "טבלת יישות"

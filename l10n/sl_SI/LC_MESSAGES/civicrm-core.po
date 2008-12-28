@@ -1924,9 +1924,8 @@ msgstr ""
 msgid "Upgrade & Continue"
 msgstr "Nadgradi in nadaljuj"
 
-# Kontaktna skupina?
+# Hudo pomanjkanje konteksta.
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
 msgstr "Kontaktiraj skupino"
 
@@ -1960,15 +1959,16 @@ msgstr "administriraj CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "pojdi do naloženih datotek"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
 msgstr ""
 
+# Custom? Ne dobim prave besede
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "pojdi do vseh posebnih podatkov"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
@@ -1977,11 +1977,11 @@ msgstr "Dejavnosti"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "pojdi na CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "pojdi na Ploščo stikov"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -6204,19 +6204,19 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Minimalni znesek"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Prosimo da vstavite veljavno vrednost denarja (npr. 9.99)."
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Maksimalni znesek"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Prosimo da vstavite veljavno vrednost denarja (npr. 99.99)."
 
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Decision"
@@ -12967,319 +12967,3 @@ msgstr "Sporočilo je prestregel filter vsebin"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Napaka v SMTP prenosu"
-
-# Nisem zadovoljen s prevodom
-#~ msgid "Entity Table"
-#~ msgstr "Tabela entitet"
-
-# Obstaja še kakšna druga varianta?
-#~ msgid "Modified Date"
-#~ msgstr "Spremenjen datum"
-
-# Vprašanje konteksta, bo potrebno v QA rešit ta problem
-#~ msgid "Where Clause"
-#~ msgstr "Kjer stavek"
-
-# Lahko pa tudi "Izbrane tabele"
-#~ msgid "Select Tables"
-#~ msgstr "Izberi tabele"
-
-# Oz. "kje tabele" oz. kar neki. 
-#~ msgid "Where Tables"
-#~ msgstr "Kjer tabele"
-
-#~ msgid "Html Type"
-#~ msgstr "Tip Html"
-
-# "Pre" seveda vse zajebe...
-#~ msgid "Help Pre"
-#~ msgstr "Pomoč Pre"
-
-# To ni to, to je kar nekaj.
-#~ msgid "Help Post"
-#~ msgstr "Pomoč prispevek"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
-
-# Najbrž ni dovolj primerno.
-#~ msgid "Collapse Display"
-#~ msgstr "Razdelaj prikaz"
-
-#~ msgid "Phone Type"
-#~ msgstr "Tip telefona"
-
-#~ msgid "Suffix for PHP clas name implementation"
-#~ msgstr "Pripona za PHP implementacijo razrednih imen"
-
-# Ne dovolj dober prevod
-#, fuzzy
-#~ msgid "Owner Entity Table"
-#~ msgstr "Tabela lastniških entitet"
-
-#~ msgid "ACL Name"
-#~ msgstr "Ime ACL"
-
-# Mogoče tudi kaj drugega.
-#~ msgid "Deny"
-#~ msgstr "Zavrni"
-
-# Tako tako.
-#~ msgid "Object Table"
-#~ msgstr "Tabela objektov"
-
-#~ msgid "Acl Table"
-#~ msgstr "Tabela Acl"
-
-# Ali vsi.
-#~ msgid "All"
-#~ msgstr "Vse"
-
-# Ne dovolj dober prevod.
-#~ msgid "Revoke"
-#~ msgstr "Razveljavi"
-
-#~ msgid "Phone Number"
-#~ msgstr "Telefonska številka"
-
-#~ msgid "Internal Contact ID"
-#~ msgstr "ID zunanjega kontakta"
-
-#~ msgid "Contact Sub Type"
-#~ msgstr "Kontaktiraj podtip"
-
-#~ msgid "Do Not Email"
-#~ msgstr "Ne pošiljaj e-pošte"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Ne telefoniraj"
-
-#~ msgid "Do Not Mail"
-#~ msgstr "Ne pošiljaj pošte"
-
-#~ msgid "Do Not Trade"
-#~ msgstr "Ne trguj"
-
-#~ msgid "No Bulk Mail (Opted-out)"
-#~ msgstr "Brez skupinske pošte (izpisan)"
-
-#~ msgid "Legal Identifier"
-#~ msgstr "Pravni identifikator"
-
-#~ msgid "External Identifier"
-#~ msgstr "Zunanji identifikator"
-
-#~ msgid "Display Name"
-#~ msgstr "Prikaži ime"
-
-#~ msgid "Home URL"
-#~ msgstr "Domača stran"
-
-#~ msgid "Image Url"
-#~ msgstr "Slika Url"
-
-#~ msgid "Preferred Mail Format"
-#~ msgstr "Zaželjen format pošte"
-
-#~ msgid "Source of Contact Data"
-#~ msgstr "Vir podatkov o kontaktih"
-
-#~ msgid "Greeting Type"
-#~ msgstr "Tip pozdrava"
-
-#, fuzzy
-#~ msgid "Custom Greeting"
-#~ msgstr "Pozdrav po izbiri"
-
-#~ msgid "Birth Date"
-#~ msgstr "Datum rojstva"
-
-#~ msgid "Is Deceased"
-#~ msgstr "Je preminul"
-
-#~ msgid "Deceased Date"
-#~ msgstr "Datum smrti"
-
-#~ msgid "Sic Code"
-#~ msgstr "Koda Sic"
-
-#~ msgid "Formal"
-#~ msgstr "Formalno"
-
-#~ msgid "Informal"
-#~ msgstr "Neformalno"
-
-#, fuzzy
-#~ msgid "Custom"
-#~ msgstr "Ukrojeno"
-
-#~ msgid "Name A B"
-#~ msgstr "Ime A B"
-
-#~ msgid "Name B A"
-#~ msgstr "Ime B A"
-
-#~ msgid "Submitted Form Values"
-#~ msgstr "Vrednosti poslanega obrazca"
-
-#~ msgid "Tracking"
-#~ msgstr "Sledenje"
-
-#~ msgid "Web"
-#~ msgstr "Splet"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#, fuzzy
-#~ msgid "Numeric Code"
-#~ msgstr "Koda Sic"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Ime polja"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "Pravno ime"
-
-#~ msgid "Location Name"
-#~ msgstr "Ime lokacije"
-
-#~ msgid "Module"
-#~ msgstr "Modul"
-
-# Še en nezadovoljiv prevod
-#~ msgid "Target Entity Table"
-#~ msgstr "Tabela tarčne entitete"
-
-#~ msgid "-select-"
-#~ msgstr "-izberi-"
-
-#~ msgid "State %2 \"%1\""
-#~ msgstr "Občina %2 \"%1\""
-
-#~ msgid "State (%2) %3 \"%1\""
-#~ msgstr "Občina (%2) %3 \"%1\""
-
-#~ msgid "Country %2 \"%1\""
-#~ msgstr "Država %2 \"%1\""
-
-#~ msgid "Country (%2) %3 \"%1\""
-#~ msgstr "Država (%2) %3 \"%1\""
-
-#~ msgid "County %2 \"%1\""
-#~ msgstr "Država %2 \"%1\""
-
-#~ msgid "County (%2) %3 \"%1\""
-#~ msgstr "Država (%2) %3 \"%1\""
-
-#~ msgid "Gender %2 \"%1\""
-#~ msgstr "Spol %2 \"%1\""
-
-#~ msgid "Contact Type -"
-#~ msgstr "Tip stika -"
-
-#~ msgid "Group Status -"
-#~ msgstr "Stanje skupine -"
-
-#~ msgid "Note %2 - \"%1\""
-#~ msgstr "Opomba %2 - \"%1\""
-
-#~ msgid "Email %2 - \"%1\""
-#~ msgstr "E-pošta %2 - \"%1\""
-
-#~ msgid "Postal code - \"%1\""
-#~ msgstr "Poštna številka - \"%1\""
-
-#~ msgid "Location type -"
-#~ msgstr "Tip lokacije -"
-
-#~ msgid "Activity Type %2 '%1'"
-#~ msgstr "Tip aktivnosti %2 '%1'"
-
-#~ msgid "%1 %2 %3"
-#~ msgstr "%1 %2 %3"
-
-#~ msgid "Task: %1"
-#~ msgstr "Opravilo: %1"
-
-#~ msgid "Task Status: %1"
-#~ msgstr "Stanje opravila: %1"
-
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "Informacije o CiviMail domeni"
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Informacije o CiviMail domeni"
-
-# Mogoče da je tu kakšna druga spregatev... izbor, izbira?
-#~ msgid " -select- "
-#~ msgstr "-izberi-"
-
-# Nezadovoljiv prevod.
-# Premalo konteksta.
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Čas sestanka na urniku"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Trajanje - ure"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Trajanje - minute"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Označen sestanek je uspešno izbrisan."
-
-#~ msgid " is a numeric field"
-#~ msgstr "je števično polje"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Izbriši zgodovino aktivnosti"
-
-# Mogoče da bi morala biti beseda "CiviCRM" na drugem mestu.
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "CiviCRM zgodovina dejavnosti"
-
-#~ msgid "Sent Date"
-#~ msgstr "Odposlano"
-
-#~ msgid "Import Activity History"
-#~ msgstr "Uvozi zgodovino aktivnosti"
-
-#~ msgid " must be a numeric value"
-#~ msgstr "mora biti številčna vrednost"
-
-#~ msgid "Record Number"
-#~ msgstr "Številka zapisa"
-
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "\"%1\" je bil prijavljen v zgodovino aktivnosti"
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Izberi telefonsko številko"
-
-#~ msgid "OR New Phone"
-#~ msgstr "ALI nov telefon"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "Izbrani telefonski klic je bil uspešno izbrisan."
-
-#~ msgid " VERP Separator"
-#~ msgstr "Ločevalec VERP"
-
-#~ msgid "Could not find location id"
-#~ msgstr "Ne morem najti id-ja lokacije"
-
-#~ msgid "Location name %1 '%2'"
-#~ msgstr "Ime lokacije %1 '%2'"
-
-#~ msgid "Activity Entity Table"
-#~ msgstr "Tabela aktivnosti entitete"
-
-#~ msgid "Contact Name:"
-#~ msgstr "Ime stika:"
-
-#~ msgid "Email Domain:"
-#~ msgstr "Domena e-pošte:"

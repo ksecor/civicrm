@@ -277,9 +277,8 @@ msgid "Export Participants"
 msgstr "Kapcsolat export"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Vezetéknév"
+msgstr "Látható név"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
 #, fuzzy
@@ -514,7 +513,8 @@ msgstr "További Összeg"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr "Kérem írjon be egy érvényes összeget (Csak számjegyek és tizedes pont)."
+msgstr ""
+"Kérem írjon be egy érvényes összeget (Csak számjegyek és tizedes pont)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #, fuzzy
@@ -6187,191 +6187,3 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-
-#~ msgid "Cancel Date"
-#~ msgstr "Dátum törlés"
-
-#~ msgid "Frequency Interval"
-#~ msgstr "Frekvenciaidőköz"
-
-#~ msgid "week"
-#~ msgstr "hét"
-
-#~ msgid "Honor Block Title"
-#~ msgstr "Honor Block cím"
-
-#, fuzzy
-#~ msgid "Contribution Page Start Date"
-#~ msgstr "Hozzájárulás oldal"
-
-#, fuzzy
-#~ msgid "Contribution Page End Date"
-#~ msgstr "Hozzájárulás oldal"
-
-#, fuzzy
-#~ msgid "Amount Label"
-#~ msgstr "Összeg"
-
-#, fuzzy
-#~ msgid "Confirmation Title"
-#~ msgstr "Hozzájárulás típus"
-
-#, fuzzy
-#~ msgid "Confirm Text"
-#~ msgstr "Konfiguráció"
-
-#, fuzzy
-#~ msgid "Is confirm email"
-#~ msgstr "Név vagy email"
-
-#, fuzzy
-#~ msgid "Cc Confirm"
-#~ msgstr "Konfiguráció"
-
-#, fuzzy
-#~ msgid "Bcc Confirm"
-#~ msgstr "Konfiguráció"
-
-#, fuzzy
-#~ msgid "Event Description"
-#~ msgstr "Leírás"
-
-#, fuzzy
-#~ msgid "Event Start Date"
-#~ msgstr "Kezdete"
-
-#, fuzzy
-#~ msgid "Event End Date"
-#~ msgstr "Befejezése"
-
-#, fuzzy
-#~ msgid "show location"
-#~ msgstr "Helyszín"
-
-#, fuzzy
-#~ msgid "Register date"
-#~ msgstr "Befejezése"
-
-#, fuzzy
-#~ msgid "Recipient Email"
-#~ msgstr "Nyugta emailből"
-
-#, fuzzy
-#~ msgid "Removed At"
-#~ msgstr "Befejezése"
-
-#, fuzzy
-#~ msgid "Reminder Date"
-#~ msgstr "Befejezése"
-
-#, fuzzy
-#~ msgid "Test Participants Only"
-#~ msgstr "Törlés"
-
-#, fuzzy
-#~ msgid "Title "
-#~ msgstr "Cím"
-
-#~ msgid "Minimum Amount"
-#~ msgstr "Minimális összeg "
-
-#~ msgid "Please enter a valid money value (e.g. 9.99)."
-#~ msgstr "Kérjük írjon be valós pénzértéket!"
-
-#~ msgid "Maximum Amount"
-#~ msgstr "Maximum összeg"
-
-#~ msgid "Please enter a valid money value (e.g. 99.99)."
-#~ msgstr "Kérjük írjon be valós pénzértéket!"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Thermometer cím"
-
-#, fuzzy
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Válasszon kapcsolat típust"
-
-#, fuzzy
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "%1 kötelező mező"
-
-#, fuzzy
-#~ msgid "Please select a payment processor"
-#~ msgstr "Helyes időpont kiválasztás"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selected mailing can not be deleted as mails are still pending in spool "
-#~ "table."
-#~ msgstr "A kiválasztott megbeszélés törölve."
-
-#, fuzzy
-#~ msgid "Selected mailing can not be deleted since it is in process."
-#~ msgstr "A kiválasztott megbeszélés törölve."
-
-#, fuzzy
-#~ msgid "View Activity History"
-#~ msgstr "Előzmények"
-
-#, fuzzy
-#~ msgid "delete"
-#~ msgstr "Törlés"
-
-#, fuzzy
-#~ msgid "cancel"
-#~ msgstr "Mégsem"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Név vagy email"
-
-#~ msgid "Is Active"
-#~ msgstr "Aktív"
-
-#, fuzzy
-#~ msgid "Billing First Name"
-#~ msgstr "Vezetéknév"
-
-#, fuzzy
-#~ msgid "Billing Middle Name"
-#~ msgstr "Második név"
-
-#, fuzzy
-#~ msgid "Billing Last Name"
-#~ msgstr "Keresztnév"
-
-#, fuzzy
-#~ msgid "- none -"
-#~ msgstr "- országok -"
-
-#, fuzzy
-#~ msgid "Start Date /Time"
-#~ msgstr "Kezdete"
-
-#, fuzzy
-#~ msgid "Msg Title"
-#~ msgstr "Cím"
-
-#, fuzzy
-#~ msgid "Msg Subject"
-#~ msgstr "Tárgy"
-
-#, fuzzy
-#~ msgid "Msg Text"
-#~ msgstr "Szöveg"
-
-#, fuzzy
-#~ msgid "Message Subject"
-#~ msgstr "Tárgy"
-
-#, fuzzy
-#~ msgid "Amount :"
-#~ msgstr "Összeg"
-
-#, fuzzy
-#~ msgid "Date(s)"
-#~ msgstr "Dátum"
-
-#, fuzzy
-#~ msgid "Fee(s)"
-#~ msgstr "Címke(ék)"

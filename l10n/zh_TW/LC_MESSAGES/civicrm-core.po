@@ -1848,39 +1848,39 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "新增聯絡人"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "查看所有聯絡人"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "編輯所有聯絡人"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "匯入聯絡人"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "編輯群組"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "管理 CiviCRM "
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "存取上傳檔案"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "個人檔案列表及表格"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "存取所有客製資料"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all activities"
@@ -1888,11 +1888,11 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "存取 CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "存取聯絡人概要"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -10436,7 +10436,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View Contact Dashboard"
-msgstr ""
+msgstr "查看聯絡人概要"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "User_Unique_Id:"
@@ -12607,17 +12607,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Entity Table"
-#~ msgstr "物件表格"
-
-#~ msgid "Modified Date"
-#~ msgstr "修改日期"
-
-#~ msgid "-select-"
-#~ msgstr "- 選擇 -"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "聯絡人"

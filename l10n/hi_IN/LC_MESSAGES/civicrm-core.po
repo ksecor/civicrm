@@ -1857,7 +1857,7 @@ msgstr "सब सदस्य का संपादन किजिये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "पते आयात कीजिये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
@@ -5968,7 +5968,7 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "न्यूनतम मात्रा"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
@@ -5976,7 +5976,7 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "अधिकतम मात्रा"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
@@ -12628,89 +12628,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Entity Table"
-#~ msgstr "इकाई टेबल "
-
-#~ msgid "Modified Date"
-#~ msgstr "तारीख सुधारना"
-
-#~ msgid "Html Type"
-#~ msgstr "एचटीएमअल नमूना"
-
-#~ msgid "Help Pre"
-#~ msgstr "पूर्व सहायता"
-
-#~ msgid "Help Post"
-#~ msgstr "उत्तर सहायता"
-
-#~ msgid "Javascript"
-#~ msgstr "जावास्क्रिप्ट"
-
-#~ msgid "Collapse Display"
-#~ msgstr "संक्षिप्त प्रदर्शित"
-
-#~ msgid "Phone Type"
-#~ msgstr "फाेन का प्रकार"
-
-#~ msgid "ACL Name"
-#~ msgstr "ACL नाम"
-
-#~ msgid "Deny"
-#~ msgstr "नकारना"
-
-#~ msgid "All"
-#~ msgstr "सब"
-
-#~ msgid "Revoke"
-#~ msgstr "उठा देना"
-
-#~ msgid "Phone Number"
-#~ msgstr "दूरभाष क्रमांक"
-
-#~ msgid "Activity Status Label"
-#~ msgstr "गतिविधि स्थिति लेबल"
-
-#~ msgid "Test"
-#~ msgstr "परीक्षण"
-
-#~ msgid "Do Not Email"
-#~ msgstr "ईमेल न करे"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "फोन न करे"
-
-#~ msgid "Do Not Mail"
-#~ msgstr "मेल न करे"
-
-#~ msgid "Display Name"
-#~ msgstr "प्रदर्श नाम"
-
-#~ msgid "Home URL"
-#~ msgstr "हाेम URL"
-
-#~ msgid "Image Url"
-#~ msgstr "तसवीर का Url"
-
-#~ msgid "Preferred Mail Format"
-#~ msgstr "अधिमान्य डाक संरूप"
-
-#~ msgid "Birth Date"
-#~ msgstr "जन्म दिन"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "पहला नाम"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "मध्य नाम"
-
-#~ msgid "Module"
-#~ msgstr "मापदंड"
-
-#~ msgid "-select-"
-#~ msgstr "-चयन-"
-
-#~ msgid " -select- "
-#~ msgstr " -चयन-"

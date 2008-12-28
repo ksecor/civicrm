@@ -1858,35 +1858,35 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "tilføj kontaktpersoner"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "vis alle kontaktpersoner"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "rediger alle kontaktpersoner"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "importer kontaktpersoner"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "importer grupper"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administrer CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "tilgå uploadede filer"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "profil-lister og formularer"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
@@ -1898,7 +1898,7 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "tilgå CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
@@ -5066,15 +5066,15 @@ msgstr ""
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing First Name"
-msgstr ""
+msgstr "Faktuering Fornavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Middle Name"
-msgstr ""
+msgstr "Faktuering Mellemnavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Last Name"
-msgstr ""
+msgstr "Faktuering Efternavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Postal Code"
@@ -5082,25 +5082,27 @@ msgstr "Postnummer"
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Number"
-msgstr ""
+msgstr "Kort nummer"
 
 #: CRM/Core/Payment/Form.php
 msgid "Security Code"
-msgstr ""
+msgstr "Sikkerheds Kode"
 
 #: CRM/Core/Payment/Form.php
 msgid "Expiration Date"
-msgstr ""
+msgstr "Udløbsdato"
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Type"
-msgstr ""
+msgstr "Kort Type"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Venligst angive en gyldig værdi fra dit kontokorts sikkerheds kode. Det er "
+"normalt 3-4 cifre bag på kortet."
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date can not be a past date."
@@ -5113,6 +5115,7 @@ msgstr ""
 #: CRM/Core/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
 msgstr ""
+"Ugyldig besvarelses kode modtaget fra Google på afregningstidspunkt: %1"
 
 #: CRM/Core/Payment/IATS.php
 msgid ""
@@ -5981,19 +5984,19 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Minimum beløb"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Angiv venligst et gyldig penge beløb (eks. 9.99)"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Maximum beløb"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Angiv venligst et gyldig penge beløb (eks. 99.99)"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Decision"
@@ -10993,7 +10996,7 @@ msgstr ""
 
 #: templates/CRM/Friend/Form.tpl
 msgid "Email Address"
-msgstr ""
+msgstr "Email Adresse"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status of this grant."
@@ -12639,18 +12642,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fejl i SMTP transaktion"
-
-#~ msgid "Modified Date"
-#~ msgstr "Ændret dato"
-
-#~ msgid "Where Clause"
-#~ msgstr "Where Clause"
-
-#~ msgid "Html Type"
-#~ msgstr "Html Type"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
-
-#~ msgid "-select-"
-#~ msgstr "-vælg-"

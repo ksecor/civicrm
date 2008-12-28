@@ -40,7 +40,9 @@ msgstr "- Feu servir els botons \\u2039, \\u203a per seleccionar el mes"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr "- Mantingueu el ratolí premut a qualsevol dels botons anteriors per a una selecció ràpida."
+msgstr ""
+"- Mantingueu el ratolí premut a qualsevol dels botons anteriors per a una "
+"selecció ràpida."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"

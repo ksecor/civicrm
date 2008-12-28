@@ -266,7 +266,7 @@ msgstr ""
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
 msgid "Display Name"
-msgstr ""
+msgstr "Visualitza el nom"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
 msgid "Import Participants"
@@ -5141,7 +5141,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid "Tracking"
-msgstr ""
+msgstr "Seguiment"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""

@@ -1854,31 +1854,31 @@ msgstr "Διαχείρηση"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "προσθήκη επαφών"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "δείτε όλες τις επαφές"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "επεξεργαστείτε όλες τις επαφες"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "εισαγωγή επαφών"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "επεξεργασία ομάδων"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "διαχείριση CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "προσπέλαση \"ανεβασμένων\" αρχείων"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
@@ -1895,7 +1895,7 @@ msgstr "Δραστηριότητες"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "πρόσβαση στο CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
@@ -6118,7 +6118,7 @@ msgstr ""
 
 #: CRM/Group/Form/Edit.php
 msgid "Name:"
-msgstr ""
+msgstr "Όνομα:"
 
 #: CRM/Group/Form/Edit.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Description:"
@@ -12688,65 +12688,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Modified Date"
-#~ msgstr "Ημερομηνία Αλλαγής"
-
-#~ msgid "Select Tables"
-#~ msgstr "Επιλογή Πινάκων"
-
-#~ msgid "Html Type"
-#~ msgstr "Τύπος HTML"
-
-#~ msgid "Phone Type"
-#~ msgstr "Τύπος Τηλεφώνου"
-
-#~ msgid "All"
-#~ msgstr "Όλα"
-
-#~ msgid "Revoke"
-#~ msgstr "Κατάργηση"
-
-#~ msgid "Phone Number"
-#~ msgstr "Αριθμός Τηλεφώνου"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Όνομα"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "Νομικό Όνομα"
-
-#~ msgid "Location Name"
-#~ msgstr "Όνομα Τοποθεσίας"
-
-#~ msgid "Module"
-#~ msgstr "Μονάδες"
-
-#~ msgid "-select-"
-#~ msgstr "-επιλέξτε-"
-
-#~ msgid " -select- "
-#~ msgstr "-επιλέξτε-"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Διάρκεια Ώρες"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Διάρκεια Λεπτά"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Η επιλεγμένη συνάντηση διαγράφηκε"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Διαγραφή Ιστορικού Δραστηριότητας"
-
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "Ιστορικό Δραστηριοτήτων CiviCRM"
-
-#~ msgid "Import Activity History"
-#~ msgstr "Εισαγωγή Ιστορικού Δραστηριοτήτων"
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Επιλογή Αριθμού Τηλεφώνου"

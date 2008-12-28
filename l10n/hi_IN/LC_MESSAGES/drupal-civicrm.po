@@ -33,7 +33,7 @@ msgid "administer CiviCRM"
 msgstr "CiviCRM का प्रशासन करें"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "फाइल अपलोड पहुँच"
 
 msgid "profile listings and forms"
 msgstr ""
@@ -42,10 +42,10 @@ msgid "access all custom data"
 msgstr ""
 
 msgid "access CiviCRM"
-msgstr ""
+msgstr "अभिगम CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "अभिगम संपर्क फलक"
 
 #: drupal/civicrm.module
 msgid ""

@@ -187,9 +187,8 @@ msgid "Delete Contributions"
 msgstr "Bağışları Sil"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Print Contact List"
+msgstr "Bağışları Aktar"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -200,9 +199,8 @@ msgid "Manage Premiums"
 msgstr "Premiumları Yönet"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Import Contributions"
-msgstr "Print Contact List"
+msgstr "Bağışları Al (Import)"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -286,9 +284,8 @@ msgid "Export Participants"
 msgstr "İrtibatları Gönder (Aktar)"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
-#, fuzzy
 msgid "Display Name"
-msgstr "En düşük Ücreti Göster"
+msgstr "Görüntülenme Adı"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
 #, fuzzy
@@ -365,7 +362,7 @@ msgstr "Üyeleri -Karşıdan- Al"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- Bağış Alanları -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -2113,7 +2110,7 @@ msgstr "Name Your Mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
-msgstr ""
+msgstr "Lütfen postalanacak öbeği seçiniz."
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
@@ -2446,7 +2443,7 @@ msgstr "Bounce Reason"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Forwarded Email"
@@ -2526,9 +2523,8 @@ msgid "There are no status present, You can not add membership."
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "Find Contacts"
+msgstr "Çevrimiçi Bağış:"
 
 #: CRM/Member/BAO/MembershipStatus.php
 #, fuzzy
@@ -4081,9 +4077,8 @@ msgid "Received Date"
 msgstr "Alınma Tarihi"
 
 #: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
 msgid "Additional Information"
-msgstr "Add Contacts to Organization"
+msgstr "Ek Bilgi"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
@@ -4318,7 +4313,6 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
@@ -5563,9 +5557,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Tracking"
-msgstr "Url Tracking"
+msgstr "İzleme"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6142,6 +6135,8 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
+"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
+"ul>Check your spelling, or try fewer letters for the target contact name."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6517,832 +6512,3 @@ msgid ""
 msgstr ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
 "a>."
-
-#~ msgid "Pay Later Text"
-#~ msgstr "Vadeli Ödeme"
-
-#~ msgid "Pay Later Receipt"
-#~ msgstr "Vadeli Ödeme Makbuzu"
-
-#~ msgid "Receipt Text"
-#~ msgstr "Makbuz Metni (?)"
-
-#~ msgid "Cancel Date"
-#~ msgstr "İptal Tarihi"
-
-#~ msgid "Frequency Interval"
-#~ msgstr "Frekans Aralığı"
-
-#~ msgid "week"
-#~ msgstr "hafta"
-
-#~ msgid "Body Html"
-#~ msgstr "Html Gövde"
-
-#~ msgid "Time Stamp"
-#~ msgstr "Zaman Damgası"
-
-#~ msgid "Intro Text"
-#~ msgstr "Giriş Metni"
-
-#~ msgid "Thank-you Text"
-#~ msgstr "Teşekkür Metni"
-
-#~ msgid "Thank-you Footer"
-#~ msgstr "Teşekkür Alt Bilgisi"
-
-#~ msgid "Cc Receipt"
-#~ msgstr "CC Alıcı(lar)"
-
-#~ msgid "Bcc Receipt"
-#~ msgstr "BCC Alıcı(lar)"
-
-#~ msgid "Honor Block Title"
-#~ msgstr "Onur Köşesi Başlığı"
-
-#~ msgid "Honor Block Text"
-#~ msgstr "Onur Bloğu Metni"
-
-#, fuzzy
-#~ msgid "Contribution Page Start Date"
-#~ msgstr "Bağış Sayfası - %1"
-
-#, fuzzy
-#~ msgid "Contribution Page End Date"
-#~ msgstr "Bağış Sayfası - %1"
-
-#~ msgid "Solicitor ID"
-#~ msgstr "Avukat No"
-
-#~ msgid "Receive Date"
-#~ msgstr "Alınma Tarihi"
-
-#~ msgid "Cancel Reason"
-#~ msgstr "Nedeni İptal Et"
-
-#~ msgid "Thank-you Date"
-#~ msgstr "Teşekkür Tarihi"
-
-#, fuzzy
-#~ msgid "Amount Label"
-#~ msgstr "Miktar"
-
-#~ msgid "Product Option"
-#~ msgstr "Ürün Seçeneği"
-
-#~ msgid "Quantity"
-#~ msgstr "Miktar"
-
-#~ msgid "Fulfilled Date"
-#~ msgstr "Tamamlama Tarihi"
-
-#~ msgid "Comment"
-#~ msgstr "Yorum"
-
-#~ msgid "Installments"
-#~ msgstr "Vadeler"
-
-#~ msgid "Create Date"
-#~ msgstr "Yaratma Tarihi"
-
-#~ msgid "Recurring Contribution Status"
-#~ msgstr "Süren Bağış Durumu"
-
-#~ msgid "Cycle Day"
-#~ msgstr "Dönüm Günü"
-
-#, fuzzy
-#~ msgid "Next Sched Contribution"
-#~ msgstr "New Organization"
-
-#~ msgid "Failure Count"
-#~ msgstr "Hata sayacı"
-
-#, fuzzy
-#~ msgid "Failure Retry Date"
-#~ msgstr "Hata Tekrar Tarihi"
-
-#~ msgid "Auto Renew"
-#~ msgstr "Otomatik Yenileme"
-
-#, fuzzy
-#~ msgid "Trxn Date"
-#~ msgstr "In Date"
-
-#, fuzzy
-#~ msgid "Trxn Type"
-#~ msgstr "Form Type"
-
-#, fuzzy
-#~ msgid "Debit"
-#~ msgstr "Website"
-
-#~ msgid "Credit"
-#~ msgstr "Kredi"
-
-#~ msgid "Premiums Active"
-#~ msgstr "Primler(?) Etkin"
-
-#, fuzzy
-#~ msgid "Title for Premiums section"
-#~ msgstr "Confirm Action"
-
-#, fuzzy
-#~ msgid "Premiums Intro Text"
-#~ msgstr "Intro Title"
-
-#, fuzzy
-#~ msgid "Premiums Contact Email"
-#~ msgstr "Contacts"
-
-#, fuzzy
-#~ msgid "Premiums Contact Phone"
-#~ msgstr "Contact Page"
-
-#, fuzzy
-#~ msgid "Premiums Display Min Contribution"
-#~ msgstr "Activity Date - %1"
-
-#~ msgid "Product Name"
-#~ msgstr "Ürün Adı"
-
-#~ msgid "Thumbnail"
-#~ msgstr "Küçük Resim"
-
-#~ msgid "Minimum Contribution"
-#~ msgstr "En Düşük Bağış"
-
-#~ msgid "Cost"
-#~ msgstr "Maliyet"
-
-#~ msgid "Url Logo"
-#~ msgstr "URL Logo"
-
-#~ msgid "Url Homepage"
-#~ msgstr "URL Anasayfa"
-
-#~ msgid "Color Title"
-#~ msgstr "Renk Başlığı"
-
-#~ msgid "Color Button"
-#~ msgstr "Renk Butonu"
-
-#~ msgid "Color Bar"
-#~ msgstr "Renk Çubuğu"
-
-#~ msgid "Color Main Text"
-#~ msgstr "Renk Ana Yazısı"
-
-#~ msgid "Color Main"
-#~ msgstr "Ana Renk"
-
-#, fuzzy
-#~ msgid "Confirmation Title"
-#~ msgstr "Confirm Action"
-
-#, fuzzy
-#~ msgid "Confirm Text"
-#~ msgstr "Onayla"
-
-#, fuzzy
-#~ msgid "Is confirm email"
-#~ msgstr "Ad ya da eposta"
-
-#, fuzzy
-#~ msgid "Confirmation Email Text"
-#~ msgstr "Confirm Action"
-
-#, fuzzy
-#~ msgid "Cc Confirm"
-#~ msgstr "Onayla"
-
-#, fuzzy
-#~ msgid "Bcc Confirm"
-#~ msgstr "Onayla"
-
-#, fuzzy
-#~ msgid "ThankYou Title"
-#~ msgstr "Teşekkür Başlığı"
-
-#, fuzzy
-#~ msgid "ThankYou Text"
-#~ msgstr "Teşekkür Metni"
-
-#, fuzzy
-#~ msgid "Event Description"
-#~ msgstr "Intro Description"
-
-#, fuzzy
-#~ msgid "Event Start Date"
-#~ msgstr "Başlangıç Tarihi"
-
-#, fuzzy
-#~ msgid "Event End Date"
-#~ msgstr "Bitiş Tarihi"
-
-#, fuzzy
-#~ msgid "Is Online Registration"
-#~ msgstr "Kullanıcı Kaydı"
-
-#, fuzzy
-#~ msgid "Event Registration Link Text"
-#~ msgstr "Kullanıcı Kaydı"
-
-#, fuzzy
-#~ msgid "show location"
-#~ msgstr "En Çok Yer"
-
-#, fuzzy
-#~ msgid "Payment ID"
-#~ msgstr "Ödeme Araçları"
-
-#, fuzzy
-#~ msgid "Register date"
-#~ msgstr "Anımsatma tarihi"
-
-#~ msgid "Pattern"
-#~ msgstr "Pattern"
-
-#~ msgid "Hold Threshold"
-#~ msgstr "Hold Threshold"
-
-#~ msgid "AOL"
-#~ msgstr "AOL"
-
-#~ msgid "Away"
-#~ msgstr "Away"
-
-#~ msgid "DNS"
-#~ msgstr "DNS"
-
-#~ msgid "Invalid"
-#~ msgstr "Invalid"
-
-#~ msgid "Loop"
-#~ msgstr "Loop"
-
-#~ msgid "Quota"
-#~ msgstr "Quota"
-
-#~ msgid "Relay"
-#~ msgstr "Relay"
-
-#~ msgid "Spam"
-#~ msgstr "Spam"
-
-#~ msgid "Syntax"
-#~ msgstr "Syntax"
-
-#~ msgid "Component Name"
-#~ msgstr "Component Name"
-
-#~ msgid "OptOut"
-#~ msgstr "OptOut"
-
-#~ msgid "Include"
-#~ msgstr "Include"
-
-#~ msgid "Exclude"
-#~ msgstr "Exclude"
-
-#~ msgid "From Name"
-#~ msgstr "Gönderen Adı"
-
-#~ msgid "From Email"
-#~ msgstr "Gönderen Eposta"
-
-#~ msgid "Replyto Email"
-#~ msgstr "Replyto Email"
-
-#~ msgid "Forward Replies"
-#~ msgstr "Forward Replies"
-
-#~ msgid "Auto Responder"
-#~ msgstr "Auto Responder"
-
-#~ msgid "Open Tracking"
-#~ msgstr "Open Tracking"
-
-#, fuzzy
-#~ msgid "Recipient Email"
-#~ msgstr "Makbuzdaki Eposta"
-
-#, fuzzy
-#~ msgid "Body"
-#~ msgstr "Html Gövde"
-
-#, fuzzy
-#~ msgid "Removed At"
-#~ msgstr "Alınma Tarihi"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid "Org Unsubscribe"
-#~ msgstr "Org Unsubscribe"
-
-#~ msgid "New Title"
-#~ msgstr "Yeni Başlık"
-
-#~ msgid "New Text"
-#~ msgstr "Yeni Metin"
-
-#~ msgid "Renewal Text"
-#~ msgstr "Yenilenen Metin"
-
-#~ msgid "Is Required"
-#~ msgstr "Zorunlu mu"
-
-#~ msgid "Renewal Reminder Date"
-#~ msgstr "Yenilenen Anımsatma Tarihi"
-
-#~ msgid "Membership Expiration Date"
-#~ msgstr "Üyelik Bitiş Tarihi"
-
-#, fuzzy
-#~ msgid "Status Override"
-#~ msgstr "Status?"
-
-#~ msgid "Reminder Date"
-#~ msgstr "Anımsatma Tarihi"
-
-#~ msgid "Default Status?"
-#~ msgstr "Varsayılan Durum?"
-
-#~ msgid "start_date"
-#~ msgstr "başlangıç_tarihi"
-
-#~ msgid "end_date"
-#~ msgstr "bitiş_tarihi"
-
-#~ msgid "Visible"
-#~ msgstr "Görünür"
-
-#, fuzzy
-#~ msgid "Event %2 %1"
-#~ msgstr "Ülke - \"%1\""
-
-#, fuzzy
-#~ msgid "Test Participants Only"
-#~ msgstr "Test Bağışlarını Bul ?"
-
-#, fuzzy
-#~ msgid "Title "
-#~ msgstr "Başlık"
-
-#~ msgid "Custom Elements (%1)"
-#~ msgstr "Kişiselleştirilmiş Öğeler (%1)"
-
-#, fuzzy
-#~ msgid "Status Hold?"
-#~ msgstr "Status?"
-
-#~ msgid "Custom Page Elements"
-#~ msgstr "Özel Sayfa Öğeleri"
-
-#, fuzzy
-#~ msgid "Domain Information"
-#~ msgstr "Add Contacts to Organization"
-
-#~ msgid "Minimum Amount"
-#~ msgstr "En Düşük Miktar"
-
-#~ msgid "Please enter a valid money value (e.g. 9.99)."
-#~ msgstr "Lütfen geçerli bir para değeri giriniz (örn: 9.99)."
-
-#~ msgid "Maximum Amount"
-#~ msgstr "En Yüksek Miktar"
-
-#~ msgid "Please enter a valid money value (e.g. 99.99)."
-#~ msgstr "Lütfen geçerli bir para değeri giriniz (örn: 99.99)."
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Termometre Başlığı"
-
-#, fuzzy
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Please select a relationship type."
-
-#, fuzzy
-#~ msgid "Payment Entity Table"
-#~ msgstr "Target Entity Table"
-
-#~ msgid "Membership Types"
-#~ msgstr "Üyelik Türleri"
-
-#~ msgid "Minimum Fee"
-#~ msgstr "En Düşük Ücret"
-
-#~ msgid "Min Amount"
-#~ msgstr "En Düşük Miktar"
-
-#~ msgid "Max Amount"
-#~ msgstr "En Yüksek Miktar"
-
-#~ msgid "Thank-you Title"
-#~ msgstr "Teşekkür Başlığı"
-
-#, fuzzy
-#~ msgid "Sort Position"
-#~ msgstr "Work location"
-
-#~ msgid "Image"
-#~ msgstr "Resim"
-
-#~ msgid " -period-"
-#~ msgstr " -dönem-"
-
-#~ msgid "Thank-you Message"
-#~ msgstr "Teşekkür İletisi"
-
-#~ msgid "Contribution is In Honor Of"
-#~ msgstr "Onuruna Bağış"
-
-#~ msgid " First Name"
-#~ msgstr "Ad"
-
-#~ msgid "Accept Credit Cards"
-#~ msgstr "Kredi Kartı Kabul Et"
-
-#, fuzzy
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "Call Date and Time are required."
-
-#, fuzzy
-#~ msgid "Please select a payment processor"
-#~ msgstr "Please enter a valid name."
-
-#, fuzzy
-#~ msgid "You do not have access to this page"
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#, fuzzy
-#~ msgid "You do not have access to this page."
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#, fuzzy
-#~ msgid "Event Registration"
-#~ msgstr "Kullanıcı Kaydı"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selected mailing can not be deleted as mails are still pending in spool "
-#~ "table."
-#~ msgstr "Seçili postalama silindi."
-
-#, fuzzy
-#~ msgid "Selected mailing can not be deleted since it is in process."
-#~ msgstr "Seçili postalama silindi."
-
-#, fuzzy
-#~ msgid "Please select at least one group to include in the mailing."
-#~ msgstr "Lütfen postalanacak öbeği seçiniz."
-
-#, fuzzy
-#~ msgid "Sent Mailings"
-#~ msgstr "Postalamayı Tekrar Dene"
-
-#~ msgid "Action"
-#~ msgstr "Action"
-
-#~ msgid "Start Date - From"
-#~ msgstr "Başlangıç Tarihi - Den"
-
-#, fuzzy
-#~ msgid "Edit Membership Type"
-#~ msgstr "Edit Relationship Type"
-
-#, fuzzy
-#~ msgid "(membership fee - %1)"
-#~ msgstr "Group Memberships (3 of %1)"
-
-#, fuzzy
-#~ msgid "Complete OR partial name OR email."
-#~ msgstr "Complete OR partial contact name OR email."
-
-#, fuzzy
-#~ msgid "View Activity History"
-#~ msgstr "Yeni Etkinlik Geçmişi"
-
-#, fuzzy
-#~ msgid "No matching memberships found."
-#~ msgstr "No matches found"
-
-#, fuzzy
-#~ msgid ""
-#~ "if you are searching within a date range, try a wider range of values"
-#~ msgstr ""
-#~ "if you are searching within a Group or for Tagged contacts, try 'any "
-#~ "group' or 'any tag'"
-
-#, fuzzy
-#~ msgid "Total rows (participant records) in uploaded file."
-#~ msgstr "Total rows (contact records) in uploaded file."
-
-#, fuzzy
-#~ msgid ""
-#~ "CiviCRM has detected mismatched participant ID. This record have not been "
-#~ "updated."
-#~ msgid_plural ""
-#~ "CiviCRM has detected mismatched participant IDs. These records have not "
-#~ "been Updated."
-#~ msgstr[0] ""
-#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
-#~ "These records have not been imported."
-#~ msgstr[1] ""
-#~ "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
-#~ "These records have not been imported."
-
-#, fuzzy
-#~ msgid ""
-#~ "CiviCRM has detected one record with conflicting transaction ID within "
-#~ "this data file or relative to existing particpant records. This record "
-#~ "have not been imported."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records with conflicting transaction IDs "
-#~ "within this data file or relative to existing participant records. These "
-#~ "records have not been imported."
-#~ msgstr[0] ""
-#~ "CiviCRM has detected %1 records with conflicting email addresses within "
-#~ "this data file or relative to existing contact records. These records "
-#~ "have not been imported. CiviCRM does not allow multiple contact records "
-#~ "to have the same primary email address."
-#~ msgstr[1] ""
-#~ "CiviCRM has detected %1 records with conflicting email addresses within "
-#~ "this data file or relative to existing contact records. These records "
-#~ "have not been imported. CiviCRM does not allow multiple contact records "
-#~ "to have the same primary email address."
-
-#, fuzzy
-#~ msgid ""
-#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
-#~ "participant record."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records which are duplicates of existing "
-#~ "CiviCRM participant records."
-#~ msgstr[0] ""
-#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
-#~ "contact records.  "
-#~ msgstr[1] ""
-#~ "CiviCRM has detected %1 records which are duplicates of existing CiviCRM "
-#~ "contact records.  "
-
-#, fuzzy
-#~ msgid "Rows with mismatched participant IDs... (NOT updated)."
-#~ msgstr "Rows with conflicting email addresses (NOT imported)."
-
-#, fuzzy
-#~ msgid "Download Mismatched participants"
-#~ msgstr "Download Conflicts"
-
-#, fuzzy
-#~ msgid "Rows which are duplicates of existing CiviCRM participant records."
-#~ msgstr "Rows which are duplicates of existing CiviCRM contact records.  "
-
-#, fuzzy
-#~ msgid "Show Past Events"
-#~ msgstr "Başlangıç Tarihi"
-
-#~ msgid " Mailing"
-#~ msgstr " Postalama"
-
-#~ msgid "delete"
-#~ msgstr "sil"
-
-#~ msgid "cancel"
-#~ msgstr "iptal et"
-
-#~ msgid "Email Address"
-#~ msgstr "Eposta Adresi"
-
-#~ msgid "\"%1 Administrator\" <%2>"
-#~ msgstr "\"%1 Administrator\" <%2>"
-
-#~ msgid "Group Type"
-#~ msgstr "Group Type"
-
-#~ msgid "Body in html format"
-#~ msgstr "Body in html format"
-
-#~ msgid "Exclude Group(s)"
-#~ msgstr "Öbek(ler)(ğ)i Çıkar"
-
-#~ msgid "Include mailing(s)"
-#~ msgstr "Postalama(lar)ı Dahil Et"
-
-#~ msgid "Exclude mailing(s)"
-#~ msgstr "Postalama(lar)ı Çıkar"
-
-#~ msgid "Invalid Mailing ID"
-#~ msgstr "Geçersiz Postalama No"
-
-#~ msgid "Retry Date"
-#~ msgstr "Yeniden Deneme Tarihi"
-
-#~ msgid "Retry"
-#~ msgstr "Yeniden Dene"
-
-#~ msgid "The test mailing could not be delivered due to the following error:"
-#~ msgstr "The test mailing could not be delivered due to the following error:"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Gönderen Eposta"
-
-#~ msgid "Upload Message"
-#~ msgstr "Upload Message"
-
-#~ msgid "Retry Mailing: %1"
-#~ msgstr "%1 Postalamayı Yeniden Dene"
-
-#~ msgid "Queued"
-#~ msgstr "Sırada"
-
-#~ msgid "Delivered"
-#~ msgstr "Teslim Edilmiş"
-
-#~ msgid "Opens"
-#~ msgstr "Açıklar"
-
-#~ msgid "Totals"
-#~ msgstr "Toplamlar"
-
-#~ msgid "Percentages"
-#~ msgstr "Yüzdeler"
-
-#~ msgid "Text Body"
-#~ msgstr "Metin Gövde"
-
-#~ msgid "HTML Body"
-#~ msgstr "HTML Gövde"
-
-#~ msgid "Is Active"
-#~ msgstr "Etkin mi"
-
-#, fuzzy
-#~ msgid "Billing First Name"
-#~ msgstr "Ad"
-
-#, fuzzy
-#~ msgid "Billing Middle Name"
-#~ msgstr "Orta Ad"
-
-#, fuzzy
-#~ msgid "Billing Last Name"
-#~ msgstr "Soyad"
-
-#~ msgid "Card Number"
-#~ msgstr "Kart No"
-
-#~ msgid "Security Code"
-#~ msgstr "Güvenlik Kodu"
-
-#~ msgid "Expiration Date"
-#~ msgstr "Son Kullanma Tarihi"
-
-#~ msgid "Card Type"
-#~ msgstr "Kart Türü"
-
-#~ msgid "Configure Online Contribution Pages"
-#~ msgstr "Çevrimiçi Bağış Sayfalarını Yapılandır"
-
-#, fuzzy
-#~ msgid "Online Event Registration:"
-#~ msgstr "Çevrimiçi Bağış:"
-
-#~ msgid "- none -"
-#~ msgstr "- hiç -"
-
-#~ msgid "Membership Status"
-#~ msgstr "Üyelik Durumu"
-
-#~ msgid "Message Templates"
-#~ msgstr "İleti Taslakları"
-
-#, fuzzy
-#~ msgid "Credit card expiration date can not be a past date."
-#~ msgstr "The relationship end date cannot be prior to the start date."
-
-#~ msgid "API Username"
-#~ msgstr "API Kullanıcı Adı"
-
-#~ msgid "API Subject"
-#~ msgstr "API Öznesi"
-
-#~ msgid "API Environment"
-#~ msgstr "API Ortamı"
-
-#~ msgid "API SSL Certificate"
-#~ msgstr "API SSL Sertifikası"
-
-#~ msgid "File size should be less than 8192 bytes"
-#~ msgstr "Dosya boyutu 8192 bayttan küçük olmalı"
-
-#~ msgid "Could not open %1 file for writing"
-#~ msgstr "%1 dosyası yazma işlemi için açılamıyor"
-
-#, fuzzy
-#~ msgid "Create PPD"
-#~ msgstr "Create"
-
-#, fuzzy
-#~ msgid "Create PayPal API Profile"
-#~ msgstr "Create Profile"
-
-#, fuzzy
-#~ msgid "New Online Contribution Page"
-#~ msgstr "New Donation Page"
-
-#, fuzzy
-#~ msgid "Participant status"
-#~ msgstr "İrtibatları Yazdır"
-
-#, fuzzy
-#~ msgid "Start Date /Time"
-#~ msgstr "Başlangıç Tarihi"
-
-#~ msgid "Track URLs?"
-#~ msgstr "Track URLs?"
-
-#~ msgid "Upload Text Message"
-#~ msgstr "Upload Text Message"
-
-#~ msgid "Unsubscriptions"
-#~ msgstr "Unsubscriptions"
-
-#, fuzzy
-#~ msgid "Selected message template can not be deleted."
-#~ msgstr "Selected Phone Call has been deleted."
-
-#, fuzzy
-#~ msgid "Selected message templates has been deleted."
-#~ msgstr "Selected Meeting has been deleted."
-
-#~ msgid "Msg Title"
-#~ msgstr "İleti Başlığı"
-
-#~ msgid "Msg Subject"
-#~ msgstr "İleti Konusu"
-
-#~ msgid "Msg Text"
-#~ msgstr "İleti Metni"
-
-#~ msgid "Message Title"
-#~ msgstr "İleti Başlığı"
-
-#~ msgid "Message Subject"
-#~ msgstr "İleti Konusu"
-
-#~ msgid "Text Message"
-#~ msgstr "Metin İleti"
-
-#~ msgid "HTML Message"
-#~ msgstr "HTML İleti"
-
-#, fuzzy
-#~ msgid "The Message Template \"%1\" has been saved."
-#~ msgstr "The tag \"%1\" has been saved."
-
-#, fuzzy
-#~ msgid "Are you sure you want to disable this message tempate?"
-#~ msgstr "Bu üyelik türünü geçersiz kılmak istediğinize emin misiniz?"
-
-#, fuzzy
-#~ msgid "Amount :"
-#~ msgstr "Miktar"
-
-#, fuzzy
-#~ msgid "through"
-#~ msgstr "Click-throughs"
-
-#, fuzzy
-#~ msgid "Date(s)"
-#~ msgstr "Tarih"
-
-#, fuzzy
-#~ msgid "Fee(s)"
-#~ msgstr "hafta(lar)"
-
-#~ msgid "Edit Message Template"
-#~ msgstr "İleti Taslağını Düzenle"
-
-#~ msgid "Delete Message Template"
-#~ msgstr "İleti Taslağını Sil"
-
-#~ msgid "Do you want to delete this message template ?"
-#~ msgstr "Bu ileti taslağını silmek istiyor musunuz?"
-
-#~ msgid "Is this template enabled."
-#~ msgstr "Bu taslak etkin mi?"
-
-#, fuzzy
-#~ msgid "New Message Templates"
-#~ msgstr "Mailing Template?"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no Message Templates  entered. You can <a href=\"%1\">add one</"
-#~ "a>."
-#~ msgstr ""
-#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
-#~ "one</a>."

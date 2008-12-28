@@ -1083,7 +1083,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Não tem acesso a esta página"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
 msgid ""
@@ -1854,39 +1854,39 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "adicionar contactos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "ver todos os contactos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "editar todos os contactos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "importar contactos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "editar grupos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administrar CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "aceder a ficheiros submetidos"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "Perfil listas e formulários"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "aceder a todos os dados customizados"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
@@ -1895,11 +1895,11 @@ msgstr "Actividades"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "aceder ao CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "aceder ao Painel de Contacto"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -3655,11 +3655,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Montante mínimo"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Montante máximo"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4167,7 +4167,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Acção"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5093,7 +5093,7 @@ msgstr "Registo de evento online:"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Please set a location type of %1"
-msgstr ""
+msgstr "Por favor insira uma localização do tipo de %1"
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
@@ -5905,11 +5905,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Título de Agradecimento"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Mensagem de Agradecimento"
 
 #: CRM/Friend/Form/Contribute.php
 msgid "Tell A Friend (%1)"
@@ -6026,19 +6026,19 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Quantidade Minima"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Por favor insira um valor válido (ex. 9.99)."
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Quantidade Máxima"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Por favor insira um valor válido (ex. 9.99)."
 
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Decision"
@@ -6078,7 +6078,7 @@ msgstr ""
 
 #: CRM/Grant/Invoke.php
 msgid "You do not have access to this page."
-msgstr ""
+msgstr "Não tem acesso a esta página"
 
 #: CRM/Grant/Invoke.php
 msgid "Import Grants"
@@ -10585,7 +10585,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "Imagem"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"
@@ -10597,7 +10597,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View Contact Dashboard"
-msgstr ""
+msgstr "Ver Painel de Contacto"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "User_Unique_Id:"
@@ -12556,7 +12556,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Registration"
-msgstr ""
+msgstr "Registo de Evento"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline event registration."
@@ -12878,165 +12878,3 @@ msgstr "Mensagem obstruída por um filtro de conteúdo"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transacção de SMTP"
-
-#, fuzzy
-#~ msgid "Entity Table"
-#~ msgstr "Tabela de Entidades"
-
-#~ msgid "Modified Date"
-#~ msgstr "Data modificada"
-
-#~ msgid "Select Tables"
-#~ msgstr "Selecionar Tabelas"
-
-#~ msgid "Html Type"
-#~ msgstr "Tipo Html"
-
-#~ msgid "Phone Type"
-#~ msgstr "Tipo de Telefone"
-
-#~ msgid "All"
-#~ msgstr "Todos"
-
-#~ msgid "Phone Number"
-#~ msgstr "Número de telefone"
-
-#~ msgid "Birth Date"
-#~ msgstr "Data de Nascimento"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Nome próprio"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "Nome legal"
-
-#~ msgid "Location Name"
-#~ msgstr "Nome da localização"
-
-#~ msgid "Module"
-#~ msgstr "Módulo"
-
-#~ msgid "-select-"
-#~ msgstr "-seleccionar-"
-
-#~ msgid "Contact Type -"
-#~ msgstr "Tipo de Contacto -"
-
-#~ msgid "Group Status -"
-#~ msgstr "Estado do Grupo -"
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Adicionar contactos à organização"
-
-#~ msgid " -select- "
-#~ msgstr " -seleccionar- "
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Data e Hora Marcada"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Duração em horas"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Duração em minutos"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "A reunião seleccionada foi apagada com sucesso."
-
-#~ msgid " is a numeric field"
-#~ msgstr " é um campo numérico"
-
-#, fuzzy
-#~ msgid "Delete Activity History"
-#~ msgstr "Apagar histórico de actividade"
-
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "Histórico de actividades do CiviCRM"
-
-#~ msgid "Sent Date"
-#~ msgstr "Data de envio"
-
-#~ msgid " must be a numeric value"
-#~ msgstr "tem de ser numérico"
-
-#~ msgid "Record Number"
-#~ msgstr "Registo Número"
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Seleccione Número de Telefone"
-
-#~ msgid "OR New Phone"
-#~ msgstr "Ou Novo Telefone"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "Chamada telefónica seleccionada foi apagada."
-
-#~ msgid "New Activity History"
-#~ msgstr "Novo Histórico de Actividade"
-
-#~ msgid "Edit Activity History"
-#~ msgstr "Editar Histórico de Actividade"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr ""
-#~ "Tem a certeza que deseja apagar o Histórico de Actividade datado de \"%2"
-#~ "\" do tipo \"%1\" com a descrição \"%3\"?"
-
-#~ msgid "Total rows (activity history records) in uploaded file."
-#~ msgstr ""
-#~ "Total de linhas (registos de histórico de actividade) no ficheiro "
-#~ "submetido."
-
-#~ msgid ""
-#~ "Rows which are duplicates of existing CiviCRM activity history records."
-#~ msgstr "Linhas em duplicado do histórico de actividade do CiviCRM."
-
-#~ msgid ""
-#~ "The Activity History Import Wizard allows you to easily upload activity "
-#~ "history from other applications into CiviCRM. Contacts must already exist "
-#~ "in your CiviCRM database prior to importing activity history. Use Import "
-#~ "Contacts to create contact records first, if necessary. Then you can "
-#~ "match activities to contacts by Name and Email, or by Contact ID."
-#~ msgstr ""
-#~ "O Assistente de Importar Histórico permite facilmente submeter o "
-#~ "histórico de actividade de outras aplicações no CiviCRM. Os contactos já "
-#~ "devem constar da base de dados CiviCRM antes de importar o histórico de "
-#~ "actividade. Depois pode fazer corresponder actividades a contactos por "
-#~ "Nome e Email, ou Contacto ID."
-
-#~ msgid "No activity history for this contact."
-#~ msgstr "Nenhum histórico de actividade para este contacto."
-
-#~ msgid "(test)"
-#~ msgstr "(teste)"
-
-#~ msgid "Schedule a meeting"
-#~ msgstr "Marque um encontro"
-
-#~ msgid "This is the Header"
-#~ msgstr "Este é o Cabeçalho"
-
-#, fuzzy
-#~ msgid "HTML Body of Header"
-#~ msgstr "Corpo HTML do Cabeçalho"
-
-#~ msgid "This is the Footer"
-#~ msgstr "Este é o Rodapé"
-
-#, fuzzy
-#~ msgid "HTML Body of Footer"
-#~ msgstr "Corpo HTML do Rodapé"
-
-#~ msgid "Welcome"
-#~ msgstr "Bem-Vindo(a)"
-
-#~ msgid "Goodbye"
-#~ msgstr "Adeus"
-
-#~ msgid "Automated response"
-#~ msgstr "Resposta automática"

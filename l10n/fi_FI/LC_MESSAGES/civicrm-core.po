@@ -1968,7 +1968,6 @@ msgid "ACL Type"
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Operation"
 msgstr "Toimenpide"
 
@@ -2118,7 +2117,7 @@ msgstr ""
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "Valittu aktiviteetti on poistettu."
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity has been sucessfully detached from a case."
@@ -3239,14 +3238,12 @@ msgid "Could not find location type id"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix"
-msgstr "Henkilökohtainen etuliite - \"%1\""
+msgstr "Yksilöllinen etuliite"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "Henkilökohtainen tarkenne - \"%1\""
+msgstr "Yksilöllinen tarkenne"
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
@@ -3301,9 +3298,8 @@ msgid "Postal code less than '%1'"
 msgstr "Postinumero - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Location Type"
-msgstr "Osoitetyypit"
+msgstr "Osoitteen tyyppi"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
@@ -3376,7 +3372,6 @@ msgid ""
 msgstr "Anna kelvollinen nimi."
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Email Domain"
 msgstr "Email Domain"
 
@@ -3489,7 +3484,6 @@ msgid "Join a Group"
 msgstr "Yhteyden ryhmät"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
 msgstr "Lisää ryhmään"
 
@@ -3901,11 +3895,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Minimisumma"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Maksimisumma"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4452,7 +4446,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Toimenpide"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5480,30 +5474,28 @@ msgid "Postal Code"
 msgstr "Postinumero"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Number"
-msgstr "vCard nimi"
+msgstr "Kortin numero"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Security Code"
-msgstr "Sic Code"
+msgstr "Security koodi"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Syntymäpäivä"
+msgstr "Kelpoisuusajan päättymispäivä"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Coord Type"
+msgstr "Kortin tyyppi"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Anna kortin secure koodille oikea arvo. Tämä on yleensä 3-4 numeron sarja "
+"kortin allekirjoituspuolella."
 
 #: CRM/Core/Payment/Form.php
 #, fuzzy
@@ -6427,19 +6419,19 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Minimisumma"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Anna kelvollinen summa (esim. 9.99)."
 
 #: CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Maksimisumma"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Anna kelvollinen summa (esim. 99,99)"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Decision"
@@ -6546,9 +6538,8 @@ msgstr "Kuvaus:"
 
 #: CRM/Group/Form/Edit.php templates/CRM/Group/Page/Group.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Ryhmän nimi"
+msgstr "Ryhmän tyyppi"
 
 #: CRM/Group/Form/Edit.php
 #, fuzzy
@@ -11913,9 +11904,8 @@ msgid "Send to these Friend(s)"
 msgstr ""
 
 #: templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Viallinen sähköpostiosoite"
+msgstr "Sähköpostiosoite"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status of this grant."
@@ -12294,7 +12284,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-#, fuzzy
 msgid "Create a new group from imported records"
 msgstr "Muodosta tuoduista tiedoista uusi ryhmä"
 
@@ -13653,1109 +13642,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Entity Table"
-#~ msgstr "Luo taulukko???"
-
-#~ msgid "Modified Date"
-#~ msgstr "Muokkauspäivä"
-
-#, fuzzy
-#~ msgid "Select Tables"
-#~ msgstr "Valitse päivä"
-
-#~ msgid "Html Type"
-#~ msgstr "Html tyyppi"
-
-#~ msgid "Help Pre"
-#~ msgstr "???"
-
-#~ msgid "Help Post"
-#~ msgstr "Auta postittamaan???"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
-
-#~ msgid "Collapse Display"
-#~ msgstr "Collapse Display"
-
-#~ msgid "Phone Type"
-#~ msgstr "Puhelun tyyppi"
-
-#, fuzzy
-#~ msgid "Owner Entity Table"
-#~ msgstr "Luo taulukko???"
-
-#, fuzzy
-#~ msgid "ACL Name"
-#~ msgstr "Sukunimi"
-
-#~ msgid "Deny"
-#~ msgstr "Kielto"
-
-#~ msgid "Object Table"
-#~ msgstr "Object Table"
-
-#~ msgid "Acl Table"
-#~ msgstr "Acl Table"
-
-#~ msgid "All"
-#~ msgstr "Kaikki"
-
-#~ msgid "Revoke"
-#~ msgstr "Evääminen"
-
-#, fuzzy
-#~ msgid "Activity ID"
-#~ msgstr "Aktiviteetti"
-
-#~ msgid "Phone Number"
-#~ msgstr "Puhelinnumero"
-
-#, fuzzy
-#~ msgid "Test"
-#~ msgstr "Teksti"
-
-#~ msgid "Internal Contact ID"
-#~ msgstr "Sisäinen yhteys ID"
-
-#, fuzzy
-#~ msgid "Contact Sub Type"
-#~ msgstr "Yhteystietojen tyyppi"
-
-#~ msgid "Do Not Email"
-#~ msgstr "Älä lähetä sähköpostia"
-
-#, fuzzy
-#~ msgid "Do Not Phone"
-#~ msgstr "Älä soita"
-
-#~ msgid "Do Not Mail"
-#~ msgstr "Älä lähetä postia"
-
-#~ msgid "Do Not Trade"
-#~ msgstr "Älä myy"
-
-#~ msgid "Legal Identifier"
-#~ msgstr "Virallinen nimi"
-
-#~ msgid "External Identifier"
-#~ msgstr "Lisänimi"
-
-#, fuzzy
-#~ msgid "Display Name"
-#~ msgstr "Näytä tyyli"
-
-#~ msgid "Home URL"
-#~ msgstr "Kotisivujen URL"
-
-#, fuzzy
-#~ msgid "Image Url"
-#~ msgstr "Kuvan URL"
-
-#, fuzzy
-#~ msgid "Preferred Mail Format"
-#~ msgstr "Suositeltava postimuoto"
-
-#~ msgid "Hash"
-#~ msgstr "???"
-
-#, fuzzy
-#~ msgid "Source of Contact Data"
-#~ msgstr "Näytä yhteyden yksityiskohdat"
-
-#~ msgid "Greeting Type"
-#~ msgstr "Onnittelujen tyyppi"
-
-#~ msgid "Custom Greeting"
-#~ msgstr "Räätälöity onnittelu"
-
-#~ msgid "Birth Date"
-#~ msgstr "Syntymäpäivä"
-
-#~ msgid "Is Deceased"
-#~ msgstr "Edesmennyt"
-
-#, fuzzy
-#~ msgid "Deceased Date"
-#~ msgstr "Vastaanottopäivä"
-
-#~ msgid "Sic Code"
-#~ msgstr "Sic Code"
-
-#~ msgid "Formal"
-#~ msgstr "Muodollinen"
-
-#~ msgid "Informal"
-#~ msgstr "Epämuodollinen"
-
-#~ msgid "Honorific"
-#~ msgstr "Kunnianimi"
-
-#~ msgid "Custom"
-#~ msgstr "Räätälöity"
-
-#~ msgid "Name A B"
-#~ msgstr "Nimi A B"
-
-#~ msgid "Name B A"
-#~ msgstr "Nimi B A"
-
-#~ msgid "Submitted Form Values"
-#~ msgstr "Submitted Form Values"
-
-#~ msgid "Tracking"
-#~ msgstr "Jäljitys"
-
-#~ msgid "Web"
-#~ msgstr "Web"
-
-#~ msgid "API"
-#~ msgstr "API"
-
-#~ msgid "Street Number"
-#~ msgstr "Katunumero"
-
-#~ msgid "Street Number Suffix"
-#~ msgstr "Katunumeron tarkene"
-
-#~ msgid "Street Number Predirectional"
-#~ msgstr "Street Number Predirectional"
-
-#~ msgid "Street Name"
-#~ msgstr "Kadun nimi"
-
-#~ msgid "Street Type"
-#~ msgstr "Kadun tyyppi"
-
-#~ msgid "Street Number Postdirectional"
-#~ msgstr "Kadun nimi postinumeroittain"
-
-#, fuzzy
-#~ msgid "Street Unit"
-#~ msgstr "Street Unit"
-
-#~ msgid "Supplemental Address 1"
-#~ msgstr "Lisäosoite1"
-
-#~ msgid "Supplemental Address 2"
-#~ msgstr "Lisäosoite2"
-
-#~ msgid "Supplemental Address 3"
-#~ msgstr "Lisäosoite3"
-
-#~ msgid "Usps Adc"
-#~ msgstr "Usps Adc"
-
-#~ msgid "Geo Code 1"
-#~ msgstr "Geo Code 1"
-
-#~ msgid "Geo Code 2"
-#~ msgstr "Geo Code 2"
-
-#~ msgid "Timezone"
-#~ msgstr "Aikavyöhyke"
-
-#~ msgid "Iso Code"
-#~ msgstr "Iso Code"
-
-#~ msgid "Country Code"
-#~ msgstr "Country Code"
-
-#~ msgid "Idd Prefix"
-#~ msgstr "Idd Prefix"
-
-#~ msgid "Ndd Prefix"
-#~ msgstr "Ndd Prefix"
-
-#, fuzzy
-#~ msgid "County Abbreviation"
-#~ msgstr "Maan lyhenne"
-
-#~ msgid "Currency"
-#~ msgstr "Valuutta"
-
-#, fuzzy
-#~ msgid "Numeric Code"
-#~ msgstr "Sic Code"
-
-#, fuzzy
-#~ msgid "Full Name"
-#~ msgstr "Kentän nimi"
-
-#~ msgid "Attributes"
-#~ msgstr "Atribuutit"
-
-#, fuzzy
-#~ msgid "Start Date Years"
-#~ msgstr "Alkamispäivä"
-
-#, fuzzy
-#~ msgid "End Date Years"
-#~ msgstr "Päättymispäivä"
-
-#, fuzzy
-#~ msgid "Date Parts"
-#~ msgstr "Date Data"
-
-#, fuzzy
-#~ msgid "Note Rows"
-#~ msgstr "Muistiinpanot"
-
-#~ msgid "String"
-#~ msgstr "Jono (String)"
-
-#~ msgid "Int"
-#~ msgstr "Int"
-
-#~ msgid "Float"
-#~ msgstr "Kelluva (Float)"
-
-#~ msgid "Boolean"
-#~ msgstr "Boolean"
-
-#~ msgid "StateProvince"
-#~ msgstr "Maakunta"
-
-#~ msgid "Extends"
-#~ msgstr "Laajennukset"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Tulosta"
-
-#, fuzzy
-#~ msgid "Email Name"
-#~ msgstr "Virallinen"
-
-#, fuzzy
-#~ msgid "Email Return Path"
-#~ msgstr "Sähköposti lähetetty"
-
-#, fuzzy
-#~ msgid "Config Backend"
-#~ msgstr "Anna asetukset"
-
-#~ msgid "Rule"
-#~ msgstr "Sääntö"
-
-#~ msgid "Hold Date"
-#~ msgstr "Pidon päivä"
-
-#~ msgid "Reset Date"
-#~ msgstr "Tyhjennä päivä"
-
-#, fuzzy
-#~ msgid "Mime Type"
-#~ msgstr "Lomakkeen tyyppi"
-
-#, fuzzy
-#~ msgid "Uri"
-#~ msgstr "URL"
-
-#, fuzzy
-#~ msgid "Document"
-#~ msgstr "Valmissa"
-
-#, fuzzy
-#~ msgid "Upload Date"
-#~ msgstr "Lataa tiedostot"
-
-#~ msgid "IM Screen Name"
-#~ msgstr "Pikaviestin (IM) näytön nimi"
-
-#~ msgid "vCard Location Type"
-#~ msgstr "vCard osoitteen tyyppi"
-
-#, fuzzy
-#~ msgid "Location Name"
-#~ msgstr "Osoitteen tyyppi"
-
-#, fuzzy
-#~ msgid "Data"
-#~ msgstr "Päivä"
-
-#~ msgid "Column Number"
-#~ msgstr "Sarakkeen numero"
-
-#, fuzzy
-#~ msgid "Relationship Direction"
-#~ msgstr "Suhde B ja A välillä"
-
-#, fuzzy
-#~ msgid "Grouping"
-#~ msgstr "Ryhmä"
-
-#, fuzzy
-#~ msgid "Operator"
-#~ msgstr "Toimenpide"
-
-#~ msgid "Export"
-#~ msgstr "Vie"
-
-#~ msgid "Export Contributions"
-#~ msgstr "Tuo avustuksia"
-
-#~ msgid "Import Contributions"
-#~ msgstr "Tuo lahjoitukset"
-
-#, fuzzy
-#~ msgid "Import Memberships"
-#~ msgstr "Jäsenet"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "Tuo yhteystietoja"
-
-#, fuzzy
-#~ msgid "Msg Title"
-#~ msgstr "Otsikko"
-
-#, fuzzy
-#~ msgid "Msg Subject"
-#~ msgstr "Aihe"
-
-#, fuzzy
-#~ msgid "Msg Text"
-#~ msgstr "Teksti"
-
-#, fuzzy
-#~ msgid "Is Active"
-#~ msgstr "Aktiivinen?"
-
-#, fuzzy
-#~ msgid "Option Group Name"
-#~ msgstr "Ryhmän nimi"
-
-#, fuzzy
-#~ msgid "Option Name"
-#~ msgstr "Valinnaninen tunnus"
-
-#, fuzzy
-#~ msgid "Filter"
-#~ msgstr "Alareuna"
-
-#, fuzzy
-#~ msgid "Payment Processor Title"
-#~ msgstr "Maksun välittäjä"
-
-#, fuzzy
-#~ msgid "Location Count"
-#~ msgstr "Sijainti"
-
-#, fuzzy
-#~ msgid "Address Options"
-#~ msgstr "Asetukset"
-
-#, fuzzy
-#~ msgid "Address Format"
-#~ msgstr "Osoite"
-
-#, fuzzy
-#~ msgid "Mailing Format"
-#~ msgstr "Suositeltava postimuoto"
-
-#, fuzzy
-#~ msgid "Address Standardization Provider"
-#~ msgstr "Lisää yhteisöön"
-
-#, fuzzy
-#~ msgid "Address Standardization Userid"
-#~ msgstr "Lisää yhteisöön"
-
-#, fuzzy
-#~ msgid "Address Standardization Url"
-#~ msgstr "Lisää yhteisöön"
-
-#~ msgid "State Abbreviation"
-#~ msgstr "Lyhennyksen tila"
-
-#, fuzzy
-#~ msgid "Abbreviation"
-#~ msgstr "Lyhennyksen tila"
-
-#~ msgid "In Selector"
-#~ msgstr "Valitsijassa"
-
-#~ msgid "Form Type"
-#~ msgstr "Lomakkeen tyyppi"
-
-#, fuzzy
-#~ msgid "Post Url"
-#~ msgstr "Postilla"
-
-#, fuzzy
-#~ msgid "Cancel Url"
-#~ msgstr "Peruuta"
-
-#, fuzzy
-#~ msgid "Notify"
-#~ msgstr "Muistio"
-
-#~ msgid "Module"
-#~ msgstr "Moduuli"
-
-#, fuzzy
-#~ msgid "Rule Table"
-#~ msgstr "Acl Table"
-
-#, fuzzy
-#~ msgid "Rule Field"
-#~ msgstr "Räätälöity kenttä"
-
-#, fuzzy
-#~ msgid "Rule Weight"
-#~ msgstr "Painoarvo"
-
-#, fuzzy
-#~ msgid "Application Received Date"
-#~ msgstr "Vastaanottopäivä"
-
-#, fuzzy
-#~ msgid "Decision Date"
-#~ msgstr "Vastaanottopäivä"
-
-#, fuzzy
-#~ msgid "Grant Due Date"
-#~ msgstr "Lähetetty"
-
-#, fuzzy
-#~ msgid "Amount Total"
-#~ msgstr "Määrä"
-
-#, fuzzy
-#~ msgid "Logo"
-#~ msgstr "Loopi"
-
-#, fuzzy
-#~ msgid "Project Owner ID"
-#~ msgstr "Projected"
-
-#, fuzzy
-#~ msgid "Task Type"
-#~ msgstr "Tiedostotyyppi"
-
-#, fuzzy
-#~ msgid "Parent Entity Table"
-#~ msgstr "Kohde taulukko"
-
-#, fuzzy
-#~ msgid "Due Date"
-#~ msgstr "Lähetetty"
-
-#, fuzzy
-#~ msgid "Priority"
-#~ msgstr "Tulosta"
-
-#, fuzzy
-#~ msgid "Responsible Entity Table"
-#~ msgstr "Luo taulukko???"
-
-#~ msgid "Target Entity Table"
-#~ msgstr "Kohde taulukko"
-
-#, fuzzy
-#~ msgid "Target"
-#~ msgstr "Luokka"
-
-#, fuzzy
-#~ msgid "Status Details"
-#~ msgstr "Yksityiskohdat"
-
-#, fuzzy
-#~ msgid "Created"
-#~ msgstr "Muodosta"
-
-#, fuzzy
-#~ msgid "Last Modified"
-#~ msgstr "Muokkauspäivä"
-
-#~ msgid "-select-"
-#~ msgstr "-valitse-"
-
-#~ msgid "- any country -"
-#~ msgstr "- mikä maa tahansa"
-
-#, fuzzy
-#~ msgid "- any county -"
-#~ msgstr "- mikä maa tahansa"
-
-#~ msgid "Range-From"
-#~ msgstr "Lähtien"
-
-#, fuzzy
-#~ msgid "Are you sure you want to remove from %1?"
-#~ msgstr "Oletko varma, että haluat poistaa \"%1\"?"
-
-#, fuzzy
-#~ msgid ""
-#~ "We could not find the backup sql script. Check %1 exists and is readable "
-#~ "by the webserver."
-#~ msgstr ""
-#~ "Emme löydä varmuuskopiota sql skriptistä. Tarkista sql/civicrm_backup."
-#~ "mysql  CiviCRM juuri hakemistossa."
-
-#~ msgid ""
-#~ "We could not find the mysqldump program. Check the configuration variable "
-#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-#~ msgstr ""
-#~ "Emme kykene löytämään mysqldump ohjelmaa. Check the configuration "
-#~ "variableCIVICRM_MYSQL_PATH in your CiviCRM config file."
-
-#~ msgid "Backup Data"
-#~ msgstr "Varmuuskopio tiedot"
-
-#, fuzzy
-#~ msgid "State %2 \"%1\""
-#~ msgstr "Maakunta - \"%1\""
-
-#, fuzzy
-#~ msgid "State (%2) %3 \"%1\""
-#~ msgstr "Maakunta (%2) - \"%1\""
-
-#, fuzzy
-#~ msgid "Country %2 \"%1\""
-#~ msgstr "Maa - \"%1\""
-
-#, fuzzy
-#~ msgid "Country (%2) %3 \"%1\""
-#~ msgstr "Maa (%2) - \"%1\""
-
-#, fuzzy
-#~ msgid "County %2 \"%1\""
-#~ msgstr "Maa - \"%1\""
-
-#, fuzzy
-#~ msgid "County (%2) %3 \"%1\""
-#~ msgstr "Maa (%2) - \"%1\""
-
-#, fuzzy
-#~ msgid "Gender %2 \"%1\""
-#~ msgstr "Sukupuoli - \"%1\""
-
-#~ msgid "Contact Type -"
-#~ msgstr "Yhteyden tyyppi -"
-
-#~ msgid "Group Status -"
-#~ msgstr "Ryhmän tila -"
-
-#, fuzzy
-#~ msgid "Note %2 - \"%1\""
-#~ msgstr "Maakunta - \"%1\""
-
-#, fuzzy
-#~ msgid "Email %2 - \"%1\""
-#~ msgstr "Sähköposti %1"
-
-#~ msgid "Postal code - \"%1\""
-#~ msgstr "Postinumero - \"%1\""
-
-#~ msgid "Location type -"
-#~ msgstr "Sijainnin tyyppi -"
-
-#, fuzzy
-#~ msgid "Activity Type %2 '%1'"
-#~ msgstr "Aktiviteetin tyyppi"
-
-#, fuzzy
-#~ msgid "Changed by: %1"
-#~ msgstr "Luoja"
-
-#, fuzzy
-#~ msgid "%1 %2 %3"
-#~ msgstr "%1 - %2 / %3"
-
-#, fuzzy
-#~ msgid "Task Status: %1"
-#~ msgstr "Tila"
-
-#, fuzzy
-#~ msgid "Your Set \"%1\" has been saved."
-#~ msgstr "Ryhmäsi \"%1\" on tallennettu."
-
-#~ msgid "Your civicrm profile field \"%1\" has been saved."
-#~ msgstr "Sinun CiviCrm profiilikenttä \"%1\" on tallennettu."
-
-#~ msgid ""
-#~ "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</"
-#~ "li></ul><br />Check your spelling, or try fewer letters for the target "
-#~ "contact name."
-#~ msgstr ""
-#~ "Ei hakukehtojen kanssa vastaavia hakutuloksia <ul><li>Nimi kuten: %1</"
-#~ "li><li>Yhteyden tyyppi: %2</li></ul><br />Tarkista oikeenkirjoitus, tai "
-#~ "lyhennä hakusanaa."
-
-#, fuzzy
-#~ msgid "Duplicate Matching Rule"
-#~ msgstr "Kaksoikappaleiden hakusääntö"
-
-#, fuzzy
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "Lisää yhteystiedot"
-
-#~ msgid "- Contribution Fields -"
-#~ msgstr "- Avustuskentät -"
-
-#, fuzzy
-#~ msgid "You do not have permission to edit this contact"
-#~ msgstr "Sinulla ei ole tarvittavia oikeuksia näiden tietojen muokkaamiseen."
-
-#, fuzzy
-#~ msgid "Could not find required parameter: id"
-#~ msgstr "Emme löydä kirjautumistasi käyttäjän ID:stä"
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Lisää yhteystiedot"
-
-#, fuzzy
-#~ msgid " -select- "
-#~ msgstr "-valitse-"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Aikataulutettu päiväAika"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Kesto tunneissa"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Kesto minuuteissa"
-
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "Valittu tapaaminen on poistettu."
-
-#~ msgid " is a numeric field"
-#~ msgstr "on numeraalinen kenttä"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Tuhoa aktiviteettien historia"
-
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "CiviCRM aktiviteettien historia"
-
-#~ msgid "Sent Date"
-#~ msgstr "Lähetetty"
-
-#, fuzzy
-#~ msgid "Import Activity History"
-#~ msgstr "Toimenpiteen historia."
-
-#~ msgid " must be a numeric value"
-#~ msgstr "Täytyy olla numeerinen arvo"
-
-#~ msgid "Record Number"
-#~ msgstr "Tiedon numero"
-
-#, fuzzy
-#~ msgid " -select role- "
-#~ msgstr "- valitse -"
-
-#, fuzzy
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "Tapaaminen \"%1\" on siirretty arkistoon."
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Valitse puhelinnumero"
-
-#~ msgid "OR New Phone"
-#~ msgstr "tai uusi puhelin"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "Valittu puheli on poistettu onnistuneesti."
-
-#, fuzzy
-#~ msgid "Could not find location id"
-#~ msgstr "Emme löydä kirjautumistasi käyttäjän ID:stä"
-
-#, fuzzy
-#~ msgid "Location name %1 '%2'"
-#~ msgstr "Aktiviteetin tyyppi kuten - \"%1\""
-
-#~ msgid "Contact Meetings"
-#~ msgstr "Yhteyden tapaamiset"
-
-#~ msgid "Contact Other Activity"
-#~ msgstr "Yhteys toiseen aktiviteettiin"
-
-#~ msgid "Contact Calls"
-#~ msgstr "Yhteys puheluihin"
-
-#~ msgid "Are you sure you want to delete this activity record?"
-#~ msgstr "Oletko varma, että haluat poistaa tämän aktiviteetin"
-
-#~ msgid "Open Activities %%StatusMessage%%"
-#~ msgstr "Avaa aktiviteetti %%StatusMessage%%"
-
-#, fuzzy
-#~ msgid "From: %1; Subject: %2"
-#~ msgstr "Vastaanottaja: %1; Aihe: %2"
-
-#~ msgid "To: %1; Subject: %2"
-#~ msgstr "Vastaanottaja: %1; Aihe: %2"
-
-#, fuzzy
-#~ msgid "CiviContribute Progress Meter"
-#~ msgstr "CiviLahjoita"
-
-#, fuzzy
-#~ msgid "Callback Method"
-#~ msgstr "Soitto takaisin"
-
-#~ msgid "Activity Summary"
-#~ msgstr "Yhteenveto aktiviteeteistä"
-
-#, fuzzy
-#~ msgid "Phonecall"
-#~ msgstr "Puhelu"
-
-#~ msgid "Int Data"
-#~ msgstr "Int Data"
-
-#~ msgid "Float Data"
-#~ msgstr "Float Data"
-
-#~ msgid "Decimal Data"
-#~ msgstr "Decimal Data"
-
-#~ msgid "Char Data"
-#~ msgstr "Char Data"
-
-#, fuzzy
-#~ msgid "Date Data"
-#~ msgstr "Float Data"
-
-#~ msgid "Memo Data"
-#~ msgstr "Memo Data"
-
-#, fuzzy
-#~ msgid "Config Frontend"
-#~ msgstr "Anna asetukset"
-
-#~ msgid "Coord Type"
-#~ msgstr "Coord Type"
-
-#~ msgid "Coord Units"
-#~ msgstr "Coord Units"
-
-#~ msgid "Coord Ogc Wkt String"
-#~ msgstr "Coord Ogc Wkt String"
-
-#~ msgid "LatLong"
-#~ msgstr "LatLong"
-
-#~ msgid "Projected"
-#~ msgstr "Projected"
-
-#~ msgid "Degree"
-#~ msgstr "Degree"
-
-#~ msgid "Grad"
-#~ msgstr "Grad"
-
-#~ msgid "Radian"
-#~ msgstr "Radian"
-
-#~ msgid "Foot"
-#~ msgstr "Foot"
-
-#~ msgid "Meter"
-#~ msgstr "Metriä"
-
-#~ msgid "Parameters"
-#~ msgstr "Parametrit"
-
-#~ msgid "Function Name"
-#~ msgstr "Funktion nimi"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Positive Integer"
-#~ msgstr "Positiivinen kokonaisluku"
-
-#, fuzzy
-#~ msgid "Variable Name"
-#~ msgstr "Profiilin nimi"
-
-#~ msgid "Range"
-#~ msgstr "Väli"
-
-#~ msgid "Regular Expression Match"
-#~ msgstr "Regular Expression Match"
-
-#~ msgid "Regular Expression No Match"
-#~ msgstr "Regular Expression No Match"
-
-#~ msgid "default - Dear [first] [last]"
-#~ msgstr "oletus - Arvoisa [first] [last]"
-
-#, fuzzy
-#~ msgid "Could not find callback %1"
-#~ msgstr "Cannot find class \"%1\""
-
-#~ msgid "Are you sure you want to delete this Activity History record?"
-#~ msgstr ""
-#~ "Oletko varma, että haluat poistaa nämä aktiviteettien historiatiedot?"
-
-#~ msgid "View Activity Details"
-#~ msgstr "Näytä aktiviteetin yksityiskohdat"
-
-#~ msgid "History %%StatusMessage%%"
-#~ msgstr "History %%StatusMessage%%"
-
-#, fuzzy
-#~ msgid "Confirm Price Set Delete"
-#~ msgstr "Vahvista ryhmän poisto"
-
-#, fuzzy
-#~ msgid " must be a monetary value"
-#~ msgstr "Täytyy olla numeerinen arvo"
-
-#~ msgid "Log a Meeting"
-#~ msgstr "Kirjaa tapaaminen"
-
-#~ msgid "Schedule a Meeting"
-#~ msgstr "Aikatauluta tapaaminen"
-
-#~ msgid "Edit Scheduled Meeting"
-#~ msgstr "Muokkaa tapaamisen aikataulua"
-
-#~ msgid "Delete Meeting"
-#~ msgstr "Poista tapaaminen"
-
-#~ msgid "View Scheduled Meeting"
-#~ msgstr "Näytä tapaamisen aikataulu"
-
-#~ msgid ""
-#~ "Meeting will be moved to Activity History when status is 'Completed'."
-#~ msgstr "Tapaaminen siirretään arkistoon kun tila on \"valmis\"."
-
-#~ msgid "Schedule an Activity"
-#~ msgstr "Aikatauluta aktiviteetti"
-
-#~ msgid "Edit Scheduled Activity"
-#~ msgstr "Muokkaa aikataulutettua aktiviteettiä"
-
-#~ msgid "View Completed Activity"
-#~ msgstr "Näytä valmis aktiviteetti"
-
-#~ msgid "View Scheduled Activity"
-#~ msgstr "Näytä aikataulutettu aktiviteetti"
-
-#~ msgid ""
-#~ "Activity will be moved to Activity History when status is 'Completed'."
-#~ msgstr "Aktiviteetti siirretään arkistoon, milloin tila on \"Valmis\"."
-
-#~ msgid ""
-#~ "Cannot display Activity History details since activity type for this "
-#~ "activity has been deleted."
-#~ msgstr ""
-#~ "Aktiviteetin historian/arkiston tietoja ei voida näyttää koska "
-#~ "aktiviteetti on poistettu."
-
-#~ msgid "Log a Phone Call"
-#~ msgstr "Kirjaa puhelu"
-
-#~ msgid "Schedule a Phone Call"
-#~ msgstr "Aikatauluta puhelu"
-
-#~ msgid "Edit Scheduled Call"
-#~ msgstr "Muokkaa aikataulutettua puhelua"
-
-#~ msgid "Delete Phone Call"
-#~ msgstr "Poista puhelu"
-
-#~ msgid "View Scheduled Call"
-#~ msgstr "Näytä aikataulutettu puhelu"
-
-#~ msgid "Call will be moved to Activity History when status is 'Completed'."
-#~ msgstr "Puhelu siirretään arkistoon kun sen tila on \"Suoritettu\"."
-
-#, fuzzy
-#~ msgid " <a href=\"%1\">Delete</a>"
-#~ msgstr ""
-#~ "Räätälöityjä sukupuolia ei ole määritelty. Voit <a href=\"%1\">lisätä "
-#~ "täällä</a>."
-
-#, fuzzy
-#~ msgid "Duplicate Contact"
-#~ msgstr "Tallenna kaksoiskappale yhteyksiin"
-
-#, fuzzy
-#~ msgid "move?"
-#~ msgstr "Siirretty"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "Määrittele yhteys"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr ""
-#~ "Oletko varma, että haluat poistaa nämä aktiviteettien historiatiedot?"
-
-#, fuzzy
-#~ msgid "Download Mismatched Activity History records"
-#~ msgstr "Tuhoa aktiviteettien historia"
-
-#, fuzzy
-#~ msgid "(test)"
-#~ msgstr "Muistiinpanot"
-
-#, fuzzy
-#~ msgid "Schedule a meeting"
-#~ msgstr "Aikatauluta tapaaminen"
-
-#, fuzzy
-#~ msgid "Summary Report"
-#~ msgstr "Yhteenveto"
-
-#, fuzzy
-#~ msgid "Activity Entity Table"
-#~ msgstr "Luo taulukko???"
-
-#, fuzzy
-#~ msgid "Contact Name:"
-#~ msgstr "Yhteysnimi"
-
-#, fuzzy
-#~ msgid "Email Domain:"
-#~ msgstr "Email Domain"
-
-#, fuzzy
-#~ msgid "Contact Name"
-#~ msgstr "Yhteysnimi"
-
-#, fuzzy
-#~ msgid "Subscription Message to organization"
-#~ msgstr "Etsi kohdeyhteisö"
-
-#, fuzzy
-#~ msgid "Farewell Message"
-#~ msgstr "Kuitin viesti"
-
-#~ msgid "New CiviCRM Profile Group"
-#~ msgstr "Uusi CiviCRM profiiliryhmä"
-
-#~ msgid "re-subscribe"
-#~ msgstr "Palaa tilaajaksi"
-
-#~ msgid "(re-subscribe: %1)"
-#~ msgstr "(palaa tilaajaksi: %1)"
-
-#, fuzzy
-#~ msgid "Domain Contact Information"
-#~ msgstr "Lisää yhteystiedot"
-
-#, fuzzy
-#~ msgid "HTML Body of Header"
-#~ msgstr "HTML"
-
-#, fuzzy
-#~ msgid "Text Body of Header"
-#~ msgstr "Teksti"
-
-#, fuzzy
-#~ msgid "This is the Footer"
-#~ msgstr "piilota tämä puhelin"
-
-#, fuzzy
-#~ msgid "HTML Body of Footer"
-#~ msgstr "HTML"
-
-#, fuzzy
-#~ msgid "Text Body of Footer"
-#~ msgstr "Teksti"
-
-#~ msgid "Welcome"
-#~ msgstr "Tervetuloa"
-
-#, fuzzy
-#~ msgid "Unsubscribe results"
-#~ msgstr "Peruuta viesti"
-
-#, fuzzy
-#~ msgid "Goodbye"
-#~ msgstr "Boolean"
-
-#, fuzzy
-#~ msgid "Automated response"
-#~ msgstr "Automaattivastaaja"
-
-#~ msgid "Contact's Profile"
-#~ msgstr "Yhteysprofiili"
-
-#~ msgid "Save Duplicate Contact"
-#~ msgstr "Tallenna kaksoiskappale yhteyksiin"
-
-#~ msgid "Email address conflicts with record %1"
-#~ msgstr "Sähköpostiosoite eroaa tiedosta %1"
-
-#~ msgid "Setup"
-#~ msgstr "Muodosta"
-
-#~ msgid "Duplicate Matching"
-#~ msgstr "Kaksoikappaleet"
-
-#, fuzzy
-#~ msgid "%1 is not set in the config file."
-#~ msgstr "CIVICRM_PAYMENT_KEY ei ole asetettuna config tiedostossa."
-
-#, fuzzy
-#~ msgid "Include County?"
-#~ msgstr "Sisällytä ryhmät"
-
-#~ msgid "Please select at least one membership status."
-#~ msgstr "Valitse vähintään yksi jäsenyyden tila"
-
-#~ msgid "Add Members to A Group"
-#~ msgstr "Lisää jäseniä ryhmään"
-
-#, fuzzy
-#~ msgid "Add Members to Organization"
-#~ msgstr "Lisää jäseniä yhteisöön"
-
-#~ msgid "Remove Members from Group"
-#~ msgstr "Poista jäseniä ryhmästä."
-
-#, fuzzy
-#~ msgid "Zip/Postal Code not valid for %1."
-#~ msgstr "Postinumero / postitoimipaikka"
-
-#, fuzzy
-#~ msgid "Online Payments"
-#~ msgstr "Ota käyttöön maksunvälitystyyppi"
-
-#~ msgid "Synchronize Users-to-Contacts"
-#~ msgstr "Synkronisoi käyttäjät ja yhteydet"
-
-#~ msgid "Gender Options (Male, Female...)"
-#~ msgstr "Sukupuolet(Mies, nainen...)"
-
-#, fuzzy
-#~ msgid "Preferred Communication Options"
-#~ msgstr "Suositeltava yhteydenpitotapa"
-
-#~ msgid "Delete %1"
-#~ msgstr "Poista %1"
-
-#~ msgid "Delete Profile Group"
-#~ msgstr "Poista profiiliryhmä"
-
-#~ msgid "This profile cannot be deleted since it is used for other modules."
-#~ msgstr "Profiilia ei voida poistaa, sillä se on toisen moduulin käytössä."
-
-#~ msgid ""
-#~ "You must delete all profile fields for \"%1\" prior to deleting the "
-#~ "profile."
-#~ msgstr ""
-#~ "Sinun tulee poistaa profiilin kaikki kentät \"%1\" ennen kuin voit "
-#~ "poistaa itse profiilin.."
-
-#~ msgid "Synchronize Drupal Users"
-#~ msgstr "Synkronoi Drupal käyttäjät"
-
-#~ msgid "Add Members to a Group"
-#~ msgstr "Lisää jäseniä ryhmään"

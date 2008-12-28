@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"POT-Creation-Date: 2008-07-07 18:43-0700\n"
 "PO-Revision-Date: 2007-08-01 14:27+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -620,7 +620,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -1013,7 +1013,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Для существующий страниц"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1301,6 +1301,12 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"Можно добавить в группу контакты из результатов поиска (или во время "
+"просмотра данных контакта). Также можно разрешить контактам самим "
+"подписываться на участие в определенных группах, установив уровень "
+"доступности группы (visibility) на Общедоступные страницы пользователя' (для "
+"этого воспользуйтесь ссылкой <strong>Настройки</strong>), и включив элемент "
+"Группы в Профиле CiviCRM."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""

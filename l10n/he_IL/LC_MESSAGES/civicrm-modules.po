@@ -2039,7 +2039,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr ""
+msgstr "בדיקה"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "FROM"
