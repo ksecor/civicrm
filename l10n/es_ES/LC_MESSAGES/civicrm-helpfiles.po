@@ -32,6 +32,11 @@ msgid ""
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Los ficheros a importar debe estar en formato separado por comas (CSV). La "
+"mayoría de las aplicaciones te permitirán exportar los registros en este "
+"formato. Consulta la documentación de tu aplicación si no estás seguro como "
+"hacerlo. Graba este fichero en tu disco duro (o una unidad de red) - y ya "
+"estás preparado para el paso 1 (Subir Datos)."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
 msgid ""
@@ -767,7 +772,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parámetros"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -1429,7 +1434,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Para páginas existentes"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1693,6 +1698,13 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href='%"
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
+"También puede ingresar y hacer seguimientos a Eventos cuando está "
+"desconectado. Para ingresar eventos manualmente para contactos individuales, "
+"use <a href='%1'>Encontrar Contactos</a> para localizar el contacto. A "
+"continuación presione el botón <strong>Ver</strong> para ir a las páginas de "
+"resumen de los contactos y presione sobre el enlace Nuevo Evento. También "
+"puede <a href='%2'><strong>importar lotes de participantes</strong></a> "
+"desde otras fuentes."
 
 #: templates/CRM/Event/Page/DashBoard.hlp
 msgid ""
@@ -1931,6 +1943,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"Si un contacto en el fichero de importación aparece duplicado en un contacto "
+"existente de CiviCRM..."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -2337,6 +2351,12 @@ msgid ""
 "modify Membership Types <a href='%2'>here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href='%1'>here</a>."
 msgstr ""
+"El CiviMember le permite crear tipos de membrecía personalizados al igual "
+"que páginas para las membrecías personalizadas, al igual que páginas para "
+"inscripciones y renovación de membrecía en línea. Los administradores pueden "
+"crear o modificar <a href='%2'>acá</a> los Tipos de Membrecía, y configurar "
+"<a href='%1'>acá</a> las Páginas En Línea de Contribución que incluyen la "
+"inscripción."
 
 #: templates/CRM/Member/Page/DashBoard.hlp
 msgid ""
@@ -2357,6 +2377,12 @@ msgid ""
 "<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
 msgstr ""
+"Esta tabla proporciona un resumen de las <strong>Inscripciones para "
+"Membrecía y la Actividad de Renovación</strong>, e incluye atajos para ver "
+"los detalles de estos criterios de búsqueda comúnmente usados. Para correr "
+"sus propias búsquedas personalizadas - presione sobre <a href='%1'>Encontrar "
+"Miembros</a>. También puede buscar por Nombre del Miembro, Tipo de "
+"Membrecía, Estado y Rangos de Fechas de Inscripción."
 
 #: templates/CRM/Member/Page/DashBoard.hlp
 msgid ""
@@ -2587,10 +2613,15 @@ msgid ""
 "input field. Replace the default value with any valid complete URL prior to "
 "saving the form code to the desired page(s)."
 msgstr ""
+"Puedes controlar la página web a la que alguien es redirigido DESPUÉS de "
+"completar el formulario modificando el contenido del campo de entrada oculto "
+"<strong>postURL</strong>. Reemplaza el valor por defecto con cualquier URL "
+"válida antes de guardar el código del formulario de la(s) página(s) deseada"
+"(s)."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "EJEMPLO:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "http://www.example.com/thank_you.html"

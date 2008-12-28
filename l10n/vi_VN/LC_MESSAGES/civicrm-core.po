@@ -5313,7 +5313,7 @@ msgstr ""
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "Uri"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
@@ -12959,7 +12959,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Male"
-msgstr ""
+msgstr "Male"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Transgender"

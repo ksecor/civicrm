@@ -11491,21 +11491,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Georgia"
-#~ msgstr "जार्जिया"
-
-#~ msgid "American Samoa"
-#~ msgstr "अमेरिकन् समाेआ"
-
-#~ msgid "Guam"
-#~ msgstr "गाैंम"
-
-#~ msgid "Northern Mariana Islands"
-#~ msgstr "उत्तरीय मरियाना आइसलँड"
-
-#~ msgid "Puerto Rico"
-#~ msgstr "प्यर्टो रिको"
-
-#~ msgid "United States Minor Outlying Islands"
-#~ msgstr "संयुक्त राज्य माइनर आउटलाईंग द्वीप"

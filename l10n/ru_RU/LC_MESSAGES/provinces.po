@@ -11485,18 +11485,3 @@ msgstr ""
 
 msgid "Gaza"
 msgstr ""
-
-#~ msgid "Luxembourg"
-#~ msgstr "Люксембург"
-
-#~ msgid "Taiwan"
-#~ msgstr "Тайвань"
-
-#~ msgid "Guatemala"
-#~ msgstr "Гватемала"
-
-#~ msgid "Mexico"
-#~ msgstr "Мексика"
-
-#~ msgid "Panama"
-#~ msgstr "Панама"

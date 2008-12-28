@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -32,7 +32,7 @@ msgid "Activity"
 msgstr "Activité"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Types d'activités"
 
 msgid "Additional Info"
 msgstr ""
@@ -107,7 +107,7 @@ msgid "Contacts"
 msgstr "Contacts"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Sommaire"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Contributions"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Types de contribution"
 
 msgid "Create New Group"
 msgstr "Créer un nouveau groupe"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Infos personnalisées"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Champs personnalisés"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -137,7 +137,7 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Format des dates"
 
 msgid "Debugging"
 msgstr "Déverminage"
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "Exporter les contacts"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Chemins d'accès aux fichiers"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -225,13 +225,13 @@ msgid "Groups"
 msgstr "Groupes"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Entêtes, pied de pages et messages automatiques"
 
 msgid "Import"
 msgstr "Importer"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importer des contributions"
 
 msgid "Import/Export Mappings"
 msgstr ""
@@ -247,19 +247,19 @@ msgid "Import Signers"
 msgstr "Exporter les membres"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Préfixes (M., Mme...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Suffixes (Jr, Sr...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Services de messagerie instantanée"
 
 msgid "Localization"
 msgstr "Localisation"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Types de profils (domicile, travail)"
 
 msgid "Log out"
 msgstr "Se déconnecter"
@@ -299,7 +299,7 @@ msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Géolocaliser le lieu de l'événement"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -320,10 +320,10 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Patrons de messages"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varia"
 
 msgid "Mobile Phone Providers"
 msgstr "Fournisseurs de services de téléphonie mobile"
@@ -405,7 +405,7 @@ msgid "Relationships"
 msgstr "Relations"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Types de relations"
 
 msgid "Resubscribe"
 msgstr ""
@@ -447,7 +447,7 @@ msgid "Tags"
 msgstr "Étiquettes"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Étiquettes (catégories)"
 
 msgid "Tell a Friend"
 msgstr "Envoyer à un ami"

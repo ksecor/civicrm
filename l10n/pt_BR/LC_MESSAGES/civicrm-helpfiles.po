@@ -32,6 +32,12 @@ msgid ""
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Arquivos a serem importados devem estar no formato (CSV) 'comma-separated-"
+"values'. A maioria das aplicações permite exportar registros neste formato. "
+"Consulte a documentação de sua aplicação caso não tenha certeza de como "
+"fazer. Salve este arquivo em seu disco rígido local (ou em algum  local "
+"acessível em sua rede) - e assim você estará pronto para o passo 1 (Envio de "
+"Dados)."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
 msgid ""
@@ -711,7 +717,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parâmetros"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -1291,13 +1297,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Para páginas existentes"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
 msgstr ""
+"Clique <strong>Configurar</strong> para ver e modificar configurações, "
+"quantias e textos para as páginas existentes."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1305,12 +1313,17 @@ msgid ""
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
+"Clique <Test-drive</strong> para experimentar a página no <strong>modo de "
+"teste</strong>. Isso permite verificar todo o processo de contribuição "
+"usando um cartão de crédito fictício num servidor de teste."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "If your page is enabled, click <strong>Live Page</strong> to view to the "
 "page in <strong>live mode</strong>."
 msgstr ""
+"Se sua página for ativada, clique em <strong>Página Ativa</strong> para vê-"
+"la em <strong>modo ativo</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1707,6 +1720,11 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"V. pode acrescentar contatos a um grupo de qualquer conjunto de resultados "
+"de pesquisa, ou quando visualizar um contato individual. Para permitir que "
+"contatos se inscrevam eles mesmos em certos grupos, defina a visibilidade do "
+"grupo como 'Páginas de Uso Público' -- use o link <strong>Settings</strong> "
+"e inclua o elemento <strong>Grupos</strong> no seu Perfil do CiviCRM."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1763,6 +1781,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"Se o contato no arquivo a ser importado parece ser duplicata de um contato "
+"existente no CiviCRM..."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -2217,6 +2237,9 @@ msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
+"Perfis podem ser vinculados a módulos específicos, acessados por URLs "
+"embutidas do CiviCRM, ou usados como formulários independentes em qualquer "
+"pagina web. Este exemplo inclui:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2224,6 +2247,9 @@ msgid ""
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
 msgstr ""
+"<strong>Telas de Usuário</strong> - Um ou vários perfis podem ser vinculados "
+"ao <strong>registro de novo usuário</strong> e/ou telas de visualizar e "
+"editar para <strong>atuais contas de usuários</strong>."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2235,7 +2261,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "site root"
-msgstr ""
+msgstr "raiz do site"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2261,6 +2287,10 @@ msgid ""
 "strong> to edit their own contact info with a Profile using the following "
 "path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
+"<strong>Formulários de Inscrição de Contatos (built-in pages)</strong> - "
+"Crie link(s) para \"new contact\" formulário(s) de entrada de dados para "
+"seus Perfis usando o seguinte caminho: <em>%1/%2</em>. (Neste exemplo, o "
+"link é para um formulário de entrada de dados para o Perfil de Identidade 3.)"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2269,6 +2299,11 @@ msgid ""
 "or sites...click the *Standalone Form* action link for a Profile below - and "
 "copy and paste the HTML form code into any web page."
 msgstr ""
+"<strong>Formulários Independentes</strong> - Se quiser mais controle sobre o "
+"layout do formulário, ou desejar acrescentar formulários de entrada de dados "
+"a Perfis em blocos, páginas e/ou sites que não sejam do CiviCRM...clique no "
+"link abaixo, de ação *Standalone Form* para um Perfil -- e copie e cole o "
+"código de formulário HTML em qualquer página web."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2285,10 +2320,14 @@ msgid ""
 "input field. Replace the default value with any valid complete URL prior to "
 "saving the form code to the desired page(s)."
 msgstr ""
+"Você poderá controlar a página web para a qual alguém será direcionado APÓS "
+"completar o formulário modificando o campo de entrada <strong>postURL</"
+"strong> oculto. Substitua o valor default por qualquer URL válida antes de "
+"salvar o código do formulário para a(s) página(s) desejada(s)."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "EXEMPLO:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "http://www.example.com/thank_you.html"
@@ -2309,3 +2348,7 @@ msgid ""
 "generation. Submitting a stand-alone form with CAPTCHA included will always "
 "result in a CAPTCHA validation error."
 msgstr ""
+"Assegure-se de que a funcionalidade CAPTCHA - NÃO - está ativada para este "
+"perfil quando você capturar o código HTML para um formulário stand-alone. O "
+"CAPTCHA exige geração dinâmica de páginas. Submeter um formulário stand-"
+"alone com CAPTCHA incluído sempre resultará em erro de validação CAPTCHA."

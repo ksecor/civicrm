@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-12-11 01:55-0800\n"
 "Last-Translator: jabax <admin@una.by>\n"
 "Language-Team: none\n"
@@ -108,7 +108,7 @@ msgid "Contacts"
 msgstr "Контакты"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Краткий Обзор"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -117,7 +117,7 @@ msgid "Contributions"
 msgstr "Вложения"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Тип взноса"
 
 msgid "Create New Group"
 msgstr "Создать новую группу"
@@ -294,7 +294,7 @@ msgid "Manage Pledges"
 msgstr "Отменено"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Управление вознаграждениями"
 
 msgid "Manage Price Sets"
 msgstr ""
@@ -406,7 +406,7 @@ msgid "Relationships"
 msgstr "Связи"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Типы связей"
 
 msgid "Resubscribe"
 msgstr "Переподписаться"

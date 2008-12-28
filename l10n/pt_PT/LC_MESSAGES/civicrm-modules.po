@@ -2245,7 +2245,6 @@ msgid "Event Registration Link Text"
 msgstr "Registo de evento online:"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Max Participants"
 msgstr "Máximo de Participantes"
 
@@ -3452,9 +3451,8 @@ msgstr ""
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Telefone de Contacto"
+msgstr "Contacto"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -5570,7 +5568,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Membership.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "(test)"
-msgstr ""
+msgstr "(teste)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
@@ -8855,226 +8853,3 @@ msgstr "Criar"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "ID da Transação"
-
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "Não tem permissões para aceder a esta página"
-
-#~ msgid "Contribution Types"
-#~ msgstr "Tipos de Contribuições"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "Imprimir Contribuições"
-
-#~ msgid "DashBoard"
-#~ msgstr "Painel"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Máximo de Participantes"
-
-#, fuzzy
-#~ msgid "Display Name"
-#~ msgstr "Não mostrar nenhuma imagem"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "Exportar Participantes"
-
-#~ msgid "Manage Events"
-#~ msgstr "Gerir Eventos"
-
-#~ msgid "Subscribe"
-#~ msgstr "Subscrever"
-
-#~ msgid "Import Members"
-#~ msgstr "Importar Membros"
-
-#~ msgid ""
-#~ "This contribution type can not be deleted because it is being referenced "
-#~ "by one or more of the following types of records: Contributions, "
-#~ "Contribution Pages, or Membership Types. Consider disabling this type "
-#~ "instead if you no longer want it used."
-#~ msgstr ""
-#~ "Este tipo de contribuição não pode ser apagada porque está referenciada "
-#~ "por um ou mais dos seguintes tipos de registos: Contribuições, Páginas de "
-#~ "Contribuições, ou Tipo de Membros. Considere antes desactivar este tipo "
-#~ "se não pretende mais usar."
-
-#~ msgid ""
-#~ "This contribution page is configured to support separate contribution and "
-#~ "membership payments. The PayPal Website Payments Standard plugin does not "
-#~ "currently support multiple simultaneous payments. Please contact the site "
-#~ "administrator and notify them of this error"
-#~ msgstr ""
-#~ "Esta página de contribuição está configurada para suportar pagamentos de "
-#~ "contribuições e membros em separado. O plugin de Pagamentos Standard do "
-#~ "WebSite PayPal não suporta actualmente múltiplos pagamentos em "
-#~ "simultâneo. Por favor contacte o administrador do site e avise-o deste "
-#~ "erro."
-
-#~ msgid "day(s)"
-#~ msgstr "dia(s)"
-
-#~ msgid "week(s)"
-#~ msgstr "semana(s)"
-
-#~ msgid "month(s)"
-#~ msgstr "mes(es)"
-
-#~ msgid "year(s)"
-#~ msgstr "ano(s)"
-
-#, fuzzy
-#~ msgid "You do not have any payment processors that support this feature"
-#~ msgstr "Não tem acesso a esta página"
-
-#~ msgid "Submit Contribution"
-#~ msgstr "Submeter Contribuição"
-
-#~ msgid "Online Contribution: CiviCRM Admin Interface"
-#~ msgstr "Contribuição Online: Interface Admin CiviCRM"
-
-#~ msgid "Find Contributions"
-#~ msgstr "Procurar Contribuições"
-
-#~ msgid "Event Name"
-#~ msgstr "Nome do Evento"
-
-#~ msgid "Total Participant(s) added to event: %1"
-#~ msgstr "Total de Participante(s) adicionados ao evento: %1"
-
-#~ msgid "Select a valid date greater than today."
-#~ msgstr "Seleccione uma data válida depois de hoje."
-
-#~ msgid "CiviCRM Participants"
-#~ msgstr "Participantes CiviCRM"
-
-#~ msgid "Manage Event"
-#~ msgstr "Gerir Evento"
-
-#~ msgid "CiviEvent DashBoard"
-#~ msgstr "Painel CiviEvent"
-
-#~ msgid "Event Listings"
-#~ msgstr "Listar Eventos"
-
-#~ msgid ""
-#~ "Create and edit event configuration including times, locations, online "
-#~ "registration forms, and fees. Links for iCal and RSS syndication."
-#~ msgstr ""
-#~ "Crie e edite configuração de eventos incluindo horas, locais, formulários "
-#~ "de registo online, e taxas. Ligações para iCal e Sindicalização RSS"
-
-#~ msgid "Event Types"
-#~ msgstr "Tipos de Eventos"
-
-#~ msgid "Find Participants"
-#~ msgstr "Procurar Participantes"
-
-#~ msgid "New Event"
-#~ msgstr "Novo Evento"
-
-#~ msgid "Change"
-#~ msgstr "Alterar"
-
-#~ msgid "CiviCRM Members"
-#~ msgstr "Membros CiviCRM"
-
-#~ msgid "Find Members"
-#~ msgstr "Procurar Membros"
-
-#~ msgid "CiviCRM Member Search"
-#~ msgstr "Procurar Membro CiviCRM"
-
-#~ msgid "Event Information"
-#~ msgstr "Informação do Evento"
-
-#, fuzzy
-#~ msgid ""
-#~ "No contribution pages have been created yet. Click <a href='%1'>here</a> "
-#~ "to create a new contribution page using the step-by-step wizard."
-#~ msgstr ""
-#~ "Esta contribuição já foi submetida. Clique <a href=\"%1\">aqui</a> se "
-#~ "pretende fazer outra contribuição."
-
-#~ msgid "Event %2 %1"
-#~ msgstr "Evento %2 %1"
-
-#~ msgid "-- select --"
-#~ msgstr "-- seleccionar --"
-
-#~ msgid "Test Participants Only"
-#~ msgstr "Só Participantes Teste"
-
-#~ msgid "Title "
-#~ msgstr "Título"
-
-#~ msgid ""
-#~ "If you have chosen to <strong>Allow Other Amounts</strong>, you can use "
-#~ "the fields above to control minimum and/or maximum acceptable values (e."
-#~ "g. don't allow contribution amounts less than %15.00)."
-#~ msgstr ""
-#~ "Se escolheu <strong>Permitir Outros Montantes</strong>, pode usar os "
-#~ "campos abaixo para controlar os valores mínimos e máximos aceitáveis (ex: "
-#~ "não permitir contribuições menores que %15.00)."
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Termómetro Título"
-
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Por favor insira uma localização do tipo de %1"
-
-#~ msgid "Min Amount"
-#~ msgstr "Montante mínimo"
-
-#~ msgid "Max Amount"
-#~ msgstr "Montante máximo"
-
-#~ msgid "Thank-you Title"
-#~ msgstr "Título de Agradecimento"
-
-#~ msgid "Image"
-#~ msgstr "Imagem"
-
-#~ msgid " -period-"
-#~ msgstr "-período-"
-
-#~ msgid "This amount has to be greater than %1"
-#~ msgstr "Este montante tem de ser maior que %1"
-
-#~ msgid "This amount has to be less than %1"
-#~ msgstr "Este montante tem de ser menor que %1"
-
-#~ msgid "Thank-you Message"
-#~ msgstr "Mensagem de Agradecimento"
-
-#~ msgid " First Name"
-#~ msgstr "Primeiro Nome"
-
-#~ msgid "Accept Credit Cards"
-#~ msgstr "Aceitar Cartões de Crédito"
-
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "Data e Hora de Fim são campos obrigatórios"
-
-#~ msgid "You cannot register for this event currently"
-#~ msgstr "No momento não é possível fazer o registo para este evento"
-
-#~ msgid "You do not have access to this page."
-#~ msgstr "Não tem acesso a esta página"
-
-#~ msgid "Event Registration"
-#~ msgstr "Registo de Evento"
-
-#~ msgid "EXCLUDE Contacts in These Group(s)"
-#~ msgstr "EXCLUIR Contactos Neste(s) Grupo(s)"
-
-#~ msgid "Action"
-#~ msgstr "Acção"
-
-#~ msgid " (test) "
-#~ msgstr " (test) "

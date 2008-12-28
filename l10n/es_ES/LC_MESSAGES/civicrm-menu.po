@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-12-05 13:58-0800\n"
 "Last-Translator: Inma <inmabsster@gmail.com>\n"
 "Language-Team: none\n"
@@ -42,7 +42,7 @@ msgid "AdditionalInfo Form"
 msgstr ""
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Ajustes de dirección"
 
 msgid "Administer CiviCRM"
 msgstr "Administrar"
@@ -54,7 +54,7 @@ msgid "Assign Users to ACL Roles"
 msgstr ""
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Mirar los archivos subidos"
 
 msgid "Case"
 msgstr "Caso"
@@ -78,7 +78,7 @@ msgid "CiviCRM Profile Create"
 msgstr ""
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Campos de perfil"
 
 msgid "CiviEvent"
 msgstr "CiviEvent"
@@ -108,7 +108,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Sumario del Contacto"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -117,7 +117,7 @@ msgid "Contributions"
 msgstr "Contribuciones"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tipos de Contribución"
 
 msgid "Create New Group"
 msgstr "Crear un Nuevo Grupo"
@@ -126,7 +126,7 @@ msgid "Custom Data"
 msgstr "Datos Personalizados"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Campos de Datos Personalizados"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -138,13 +138,13 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formateo de Fecha"
 
 msgid "Debugging"
 msgstr "Depuración"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Borrar contacto"
 
 msgid "Delete Location"
 msgstr "Borrar Localidad"
@@ -174,13 +174,13 @@ msgid "Event Registration"
 msgstr ""
 
 msgid "Event Types"
-msgstr ""
+msgstr "Tipos de Eventos"
 
 msgid "Export Contacts"
 msgstr "Exportar Contactos"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Ubicaciones del sistema de ficheros"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -211,7 +211,7 @@ msgid "From Email Address"
 msgstr ""
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Opciones de género"
 
 msgid "Global Settings"
 msgstr "Ajustes Globales"
@@ -226,47 +226,47 @@ msgid "Groups"
 msgstr "Grupos"
 
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Encabezados, Pies de Página y Mensajes Automáticos"
 
 msgid "Import"
 msgstr "Importar"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importar Contribuciones"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Importar/Exportar Mapeados"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importar Miembros"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Importar Participantes"
 
 #, fuzzy
 msgid "Import Signers"
 msgstr "Importar Miembros"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Prefijos de personas (Sra, Sr...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Sufijos de personas (Jr, Sr...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Servicio de Mensajería Instantánea"
 
 msgid "Localization"
 msgstr "Localización"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Tipos de Localización (Casa, Trabajo...)"
 
 msgid "Log out"
 msgstr "Salir"
 
 msgid "Mailer Settings"
-msgstr ""
+msgstr "Configuraciones de Correspondencia"
 
 msgid "Mailing Event"
 msgstr ""
@@ -275,7 +275,7 @@ msgid "Mailing Report"
 msgstr ""
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Administrar ACLs"
 
 msgid "Manage Contribution Pages"
 msgstr "Administrar Páginas de Contribuciones"
@@ -294,13 +294,13 @@ msgid "Manage Pledges"
 msgstr "Cancelado"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Gestionar premios"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Localización de la actividad en el Mapa"
 
 msgid "Map Location(s)"
 msgstr "Mapear localidad(es)"
@@ -312,19 +312,19 @@ msgid "Memberships"
 msgstr "Miembros"
 
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Reglas de los Estados de las Membrecías"
 
 msgid "Membership Types"
 msgstr "Tipos de Membrecía"
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "Combinar contacto"
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Plantillas de mensaje"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varios"
 
 msgid "Mobile Phone Providers"
 msgstr "Proveedor de telefonía móvil"
@@ -385,7 +385,7 @@ msgid "Pledges"
 msgstr ""
 
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "Método de Comunicación Preferido"
 
 msgid "Preview Mailing"
 msgstr ""
@@ -400,13 +400,13 @@ msgid "Price Sets"
 msgstr "Fijación de precios"
 
 msgid "Registration Page"
-msgstr ""
+msgstr "Pagina de registro"
 
 msgid "Relationships"
 msgstr "Relaciones"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipos de Relaciones"
 
 msgid "Resubscribe"
 msgstr ""
@@ -424,13 +424,13 @@ msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Búsqueda simple"
 
 msgid "Site URLs"
 msgstr "URLs del sitio"
 
 msgid "Smtp Server"
-msgstr ""
+msgstr "Servidor Smtp"
 
 msgid "Subscribe"
 msgstr "Suscribir"
@@ -439,16 +439,16 @@ msgid "Sunlight"
 msgstr ""
 
 msgid "Synchronize Users to Contacts"
-msgstr ""
+msgstr "Sincronizar usuarios con contactos:"
 
 msgid "System Preferences"
-msgstr ""
+msgstr "Ajustes del sistema"
 
 msgid "Tags"
 msgstr "Etiquetas"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Etiquetas (Categorías)"
 
 msgid "Tell a Friend"
 msgstr "Envíaselo a un amigo"

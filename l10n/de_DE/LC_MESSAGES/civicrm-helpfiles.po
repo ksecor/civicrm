@@ -784,7 +784,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -1070,6 +1070,10 @@ msgid ""
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu, and then click Go."
 msgstr ""
+"Wenn Sie die Suchkriterien für diese dynamische Gruppe geändert haben und "
+"diese Änderungen speichern wollen müssen Sie <strong>Dynamische Gruppe "
+"aktualisieren</strong>  aus dem '- weitere Aktionen -' drop-down menu wählen "
+"und \"Start\" klicken."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
 msgid ""
@@ -1127,6 +1131,8 @@ msgid ""
 "Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
 msgstr ""
+"Klicken Sie auf <a href='%1'> Dynamische Gruppen Kriterien bearbeiten... </"
+"a> um die Abfragekriterien dieser dynamischen Gruppe zu verändern."
 
 #: templates/CRM/Contact/Form/Search/Basic.hlp
 msgid ""
@@ -1630,6 +1636,12 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href='%"
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
+"Sie können auch Veranstaltungen offline verwalten und eingeben. Um "
+"Veranstaltungen manuell einzufügen suchen Sie mittels <a href='%1'>Finde "
+"Kontakte</a> den Kontakt. Danach klicken Sie auf <strong>Betrachten</strong> "
+"um zur Übersichtsseite zu gelanden und klicken Sie dort auf den Link: "
+"<strong>neue Veranstaltung</strong>. Sie können zudem von anderen Quellen "
+"eine <a href='%2'><strong>Reihe von Teilnehmern importieren</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.hlp
 msgid ""
@@ -1869,6 +1881,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"Wenn ein Kontakt in der Importdatei ein duplikat eines existierenden CiviCRM-"
+"Kontakts ist..."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -2185,6 +2199,11 @@ msgid ""
 "modify Membership Types <a href='%2'>here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href='%1'>here</a>."
 msgstr ""
+"CiviMember erlaubt dir, angepasste Mitgliedschaftstypen sowie Seiten für die "
+"Online-Registrierung von Mitgliedschaften zu erstellen.Administratoren "
+"können Mitgliedschaftstypen <a href='%2'>hier</a> erstellen und bearbeiten "
+"und Seiten für Mitgliedsbeiträge, die die Mitgliedschaftsregistrierung "
+"beinhalten, <a href='%1'>hier</a> konfigurieren."
 
 #: templates/CRM/Member/Page/DashBoard.hlp
 msgid ""
@@ -2205,6 +2224,13 @@ msgid ""
 "<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
 msgstr ""
+"Diese Tabelle fasst bis zu zehn geplante und kürzlich durchgeführte "
+"<strong>Veranstaltungen</strong> zusammen. Klicken Sie auf "
+"<strong>Veranstaltungsname</strong> um zur Veranstaltungsansicht (wie für "
+"Webseiten-Besucher) zu gelangen. Durch klicken auf <strong>Teilnehmerzahl</"
+"strong> werden die Teilnehmer aufgelistet. Um individuell definierte Suchen "
+"durchzuführen, klicken Sie auf <a href=\"%1\">Teilnehmer finden</a>. Es kann "
+"nach Teilnehmer-Name, Veranstaltung, Zeitraum und Status gesucht werden."
 
 #: templates/CRM/Member/Page/DashBoard.hlp
 msgid ""
@@ -2438,6 +2464,3 @@ msgstr ""
 "CAPTCHA erfordert eine dynamische Seitengeneration. Erstellen eines Stand-"
 "Alone Formulars mit eingeschaltetem CAPTCHA Modul wird immer mit einem "
 "CAPTCHA Überprüfungsfehler geantwortet."
-
-#~ msgid "more info"
-#~ msgstr "mehr Informationen"

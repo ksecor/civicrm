@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -32,7 +32,7 @@ msgid "Activity"
 msgstr "Etkinlik"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Etkinlilk Türleri"
 
 msgid "Additional Info"
 msgstr ""
@@ -77,7 +77,7 @@ msgid "CiviCRM Profile Create"
 msgstr ""
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "CiviCRM Profil Alanları"
 
 msgid "CiviEvent"
 msgstr ""
@@ -107,7 +107,7 @@ msgid "Contacts"
 msgstr "İrtibatlar"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "İletişim Özeti"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Katılımlar"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Bağış Türleri"
 
 msgid "Create New Group"
 msgstr "Yeni Öbek Yarat"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Özel Veri"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Özel Veri Alanları"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -137,13 +137,13 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Tarih Biçimleme"
 
 msgid "Debugging"
 msgstr "Hata Ayıklama"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "İrtibatı Sil"
 
 msgid "Delete Location"
 msgstr "Konum Sil"
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "İrtibatları Gönder (Aktar)"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Dosya Sistemi Yolu"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -231,13 +231,13 @@ msgid "Import"
 msgstr "Karşıdan Al (İçeri Aktar)"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Bağışları Al (Import)"
 
 msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
-msgstr ""
+msgstr "Üyeleri -Karşıdan- Al"
 
 msgid "Import Participants"
 msgstr ""
@@ -247,19 +247,19 @@ msgid "Import Signers"
 msgstr "Üyeleri -Karşıdan- Al"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Kişi Ünvanları (Bay, Bayan...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Kişi Sonekleri (Jr, Sr...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "IM Hizmeti"
 
 msgid "Localization"
 msgstr "Yerelleştirme"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Konum Türleri (Ev, İş...)"
 
 msgid "Log out"
 msgstr "Çıkış"
@@ -274,7 +274,7 @@ msgid "Mailing Report"
 msgstr ""
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "ACL'leri Yönet"
 
 msgid "Manage Contribution Pages"
 msgstr ""
@@ -293,13 +293,13 @@ msgid "Manage Pledges"
 msgstr "İptal Edildi"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Premiumları Yönet"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Etkinlik Yeri Seç"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -314,16 +314,16 @@ msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
+msgstr "Üyelik Türleri"
 
 msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Mesaj Şablonları"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Çeşitli"
 
 msgid "Mobile Phone Providers"
 msgstr "Cep Telefonu Sağlayıcıları"
@@ -405,7 +405,7 @@ msgid "Relationships"
 msgstr "İlişkiler"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "İlişki Türleri"
 
 msgid "Resubscribe"
 msgstr ""
@@ -423,7 +423,7 @@ msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Basit Arama"
 
 msgid "Site URLs"
 msgstr "Site URL'leri"

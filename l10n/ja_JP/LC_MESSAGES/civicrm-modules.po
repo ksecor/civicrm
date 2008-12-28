@@ -16,9 +16,8 @@ msgstr ""
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
-#, fuzzy
 msgid "Copy of "
-msgstr "%1 のコピー"
+msgstr "Copy of "
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -5460,7 +5459,7 @@ msgstr "投稿者"
 #: templates/CRM/Member/Form/Membership.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "(test)"
-msgstr ""
+msgstr "(テスト)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
@@ -8529,9 +8528,8 @@ msgid "Amount Due"
 msgstr ""
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Due Date"
-msgstr "日付"
+msgstr "期日"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "Please mail your payment to"
@@ -8681,65 +8679,3 @@ msgstr "作成"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "DashBoard"
-#~ msgstr "ダッシュボード"
-
-#, fuzzy
-#~ msgid "Display Name"
-#~ msgstr " 名"
-
-#~ msgid "Subscribe"
-#~ msgstr "購読"
-
-#~ msgid "day(s)"
-#~ msgstr "日"
-
-#~ msgid "week(s)"
-#~ msgstr "週"
-
-#~ msgid "month(s)"
-#~ msgstr "月"
-
-#~ msgid "year(s)"
-#~ msgstr "年"
-
-#~ msgid "Received Date"
-#~ msgstr "受信日"
-
-#, fuzzy
-#~ msgid "Additional Information"
-#~ msgstr "追加インフォメーション"
-
-#~ msgid "Event Information"
-#~ msgstr "イベントの情報"
-
-#~ msgid "RSS 2.0 Feed"
-#~ msgstr "RSS フィード"
-
-#~ msgid "None"
-#~ msgstr "無し"
-
-#~ msgid "-- select --"
-#~ msgstr "-- 選択 --"
-
-#~ msgid "Title "
-#~ msgstr "タイトル "
-
-#~ msgid "Image"
-#~ msgstr "画像"
-
-#, fuzzy
-#~ msgid "Action"
-#~ msgstr "アクション"
-
-#~ msgid " (test) "
-#~ msgstr " (テスト) "
-
-#, fuzzy
-#~ msgid "delete"
-#~ msgstr "削除"
-
-#, fuzzy
-#~ msgid "cancel"
-#~ msgstr "キャンセル"

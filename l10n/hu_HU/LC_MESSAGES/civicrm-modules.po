@@ -349,11 +349,10 @@ msgid "Receipt Message"
 msgstr "Nyugtázó üzenet"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#, fuzzy
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
-msgstr "Ez a tranzakciós azonosító már megtalálható az adatbázisban. "
+msgstr "Ez a tranzakciós ID már megtalálható az adatbázisban. "
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: CRM/Event/Form/EventFees.php CRM/Member/Form/Membership.php
@@ -563,7 +562,6 @@ msgstr "Magyarázat"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid "Application Received"
 msgstr ""
 
@@ -575,7 +573,7 @@ msgstr "Pénz átutalva"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr ""
+msgstr "Törlés Adományok"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -847,8 +845,8 @@ msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
-"Ez a Prémium linkelve lett egy <a href='%1'>Online hozzájárulási "
-"oldalhoz</a>. Kérem távolítsa el a törléshez!"
+"Ez a Prémium linkelve lett egy <a href='%1'>Online hozzájárulási oldalhoz</"
+"a>. Kérem távolítsa el a törléshez!"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
@@ -942,7 +940,7 @@ msgstr "Nyugtaszöveg"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
-msgstr ""
+msgstr "Honor Block cím"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
@@ -996,7 +994,6 @@ msgid "Quantity"
 msgstr "Mennyiség"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
 msgstr ""
 
@@ -2060,7 +2057,7 @@ msgstr "Hozzájárulások"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Térkép Betöltés"
 
 #: CRM/Contribute/Import/Parser.php
 msgid "View Contribution URL"
@@ -3547,9 +3544,8 @@ msgstr ""
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Kapcsolatok törlése"
+msgstr "Kapcsolat"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -6367,7 +6363,7 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Period"
-msgstr ""
+msgstr "Időtartam"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -7458,13 +7454,12 @@ msgstr ""
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "Click on the event name for more information."
-msgstr ""
+msgstr "Kattintson az esemény nevén további információért."
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "You are not registered for any current or upcoming Events."
 msgstr ""
-"Ön még nem regisztrálta magát egyetlen jelenlegi vagy jövőbeni eseményre "
-"sem!"
+"Ön még nem regisztrálta magát egyetlen jelenlegi vagy jövőbeni eseményre sem!"
 
 #: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
 msgid "New Grant"
@@ -8583,7 +8578,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Active Memberships"
-msgstr ""
+msgstr "Aktív Tagságok"
 
 #: templates/CRM/Member/Page/Tab.tpl
 #, fuzzy
@@ -8600,7 +8595,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "Renew Now"
-msgstr ""
+msgstr "Megújítás Most"
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 #, fuzzy
@@ -8910,239 +8905,3 @@ msgstr "Készítés"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "Tranzakció ID"
-
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "Nincs jogosultsága az oldal megtekintéséhez"
-
-#~ msgid "Contribution Types"
-#~ msgstr "Hozzájárulás típusok"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "Hozzájárulások importálása"
-
-#, fuzzy
-#~ msgid "Manage Contribution Pages"
-#~ msgstr "Hozzájárulás oldal"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Kapcsolatok keresése"
-
-#, fuzzy
-#~ msgid "Display Name"
-#~ msgstr "Vezetéknév"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "Kapcsolat export"
-
-#, fuzzy
-#~ msgid "Manage Events"
-#~ msgstr "Események Kezelése"
-
-#~ msgid "Subscribe"
-#~ msgstr "Felíratkozás"
-
-#~ msgid "Import Members"
-#~ msgstr "Importálás Tagok"
-
-#~ msgid "Payment Instrument"
-#~ msgstr "Fizetési Mód"
-
-#~ msgid "-period-"
-#~ msgstr "-időtartam-"
-
-#, fuzzy
-#~ msgid "day(s)"
-#~ msgstr "Nap(ok)"
-
-#~ msgid "week(s)"
-#~ msgstr "Hét (Hetek)"
-
-#~ msgid "month(s)"
-#~ msgstr "Hónap (Hónapok)"
-
-#, fuzzy
-#~ msgid "year(s)"
-#~ msgstr "Év(ék)"
-
-#~ msgid "Contribution amount can not be greater than %1"
-#~ msgstr "A hozzájárulás összege nem lehet nagyobb mint %1"
-
-#~ msgid "Enable recurring payments"
-#~ msgstr "Ismétlődő fizetések engedélyezése"
-
-#~ msgid "Enable pay later option?"
-#~ msgstr "Engedélyezi a később fizetés opciót?"
-
-#, fuzzy
-#~ msgid "Submit Contribution"
-#~ msgstr "Hozzájárulás oldal"
-
-#, fuzzy
-#~ msgid "Contribution Payment Form"
-#~ msgstr "Hozzájárulás oldal"
-
-#~ msgid "CiviCRM Contribution Search"
-#~ msgstr "CiviCRM Hozzájárulás Keresés"
-
-#, fuzzy
-#~ msgid "Event Name"
-#~ msgstr "Esemény Név"
-
-#, fuzzy
-#~ msgid "Total Participant(s) added to event: %1"
-#~ msgstr "Összes kiválasztott kapcsolat(ok): %1"
-
-#~ msgid "Search by Date Range"
-#~ msgstr "Keresés Dátum Szerint"
-
-#~ msgid "CiviCRM Participants"
-#~ msgstr "CiviCRM Résztvevők"
-
-#, fuzzy
-#~ msgid "Manage Event"
-#~ msgstr "Kezelés"
-
-#, fuzzy
-#~ msgid "Event Listings"
-#~ msgstr "Helyszín"
-
-#, fuzzy
-#~ msgid "Event Types"
-#~ msgstr "Kapcsolat típus"
-
-#, fuzzy
-#~ msgid "Find Participants"
-#~ msgstr "Kapcsolatok keresése"
-
-#, fuzzy
-#~ msgid "New Event"
-#~ msgstr "Törlés"
-
-#~ msgid "Test"
-#~ msgstr "Teszt"
-
-#, fuzzy
-#~ msgid "Received Date"
-#~ msgstr "Befejezése"
-
-#, fuzzy
-#~ msgid "Fee Levels"
-#~ msgstr "Címke"
-
-#, fuzzy
-#~ msgid "Participation Status"
-#~ msgstr "Hozzájárulás státusz"
-
-#, fuzzy
-#~ msgid "New Mailing"
-#~ msgstr "Mégsem"
-
-#, fuzzy
-#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
-#~ msgstr "Biztsan eltávolítod ezt a Smart csoportot?"
-
-#, fuzzy
-#~ msgid "Test Participants Only"
-#~ msgstr "Törlés"
-
-#, fuzzy
-#~ msgid "Title "
-#~ msgstr "Cím"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Thermometer cím"
-
-#, fuzzy
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Válasszon kapcsolat típust"
-
-#, fuzzy
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "%1 kötelező mező"
-
-#, fuzzy
-#~ msgid "Please select a payment processor"
-#~ msgstr "Helyes időpont kiválasztás"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selected mailing can not be deleted as mails are still pending in spool "
-#~ "table."
-#~ msgstr "A kiválasztott megbeszélés törölve."
-
-#, fuzzy
-#~ msgid "Selected mailing can not be deleted since it is in process."
-#~ msgstr "A kiválasztott megbeszélés törölve."
-
-#, fuzzy
-#~ msgid "View Activity History"
-#~ msgstr "Előzmények"
-
-#, fuzzy
-#~ msgid "delete"
-#~ msgstr "Törlés"
-
-#, fuzzy
-#~ msgid "cancel"
-#~ msgstr "Mégsem"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Név vagy email"
-
-#~ msgid "Is Active"
-#~ msgstr "Aktív"
-
-#, fuzzy
-#~ msgid "Billing First Name"
-#~ msgstr "Vezetéknév"
-
-#, fuzzy
-#~ msgid "Billing Middle Name"
-#~ msgstr "Második név"
-
-#, fuzzy
-#~ msgid "Billing Last Name"
-#~ msgstr "Keresztnév"
-
-#, fuzzy
-#~ msgid "- none -"
-#~ msgstr "- országok -"
-
-#, fuzzy
-#~ msgid "Start Date /Time"
-#~ msgstr "Kezdete"
-
-#, fuzzy
-#~ msgid "Msg Title"
-#~ msgstr "Cím"
-
-#, fuzzy
-#~ msgid "Msg Subject"
-#~ msgstr "Tárgy"
-
-#, fuzzy
-#~ msgid "Msg Text"
-#~ msgstr "Szöveg"
-
-#, fuzzy
-#~ msgid "Message Subject"
-#~ msgstr "Tárgy"
-
-#, fuzzy
-#~ msgid "Amount :"
-#~ msgstr "Összeg"
-
-#, fuzzy
-#~ msgid "Date(s)"
-#~ msgstr "Dátum"
-
-#, fuzzy
-#~ msgid "Fee(s)"
-#~ msgstr "Címke(ék)"

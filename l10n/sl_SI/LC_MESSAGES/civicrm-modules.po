@@ -3423,7 +3423,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Contact"
-msgstr ""
+msgstr "Stik"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -8745,10 +8745,3 @@ msgstr "Ustvari"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "ID transakcije"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "Stran prispevkov"

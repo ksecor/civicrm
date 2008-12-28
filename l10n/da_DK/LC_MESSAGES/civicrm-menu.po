@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-24 15:36-0700\n"
 "Last-Translator: Henrik Helgesen <henrik@helgesen.us>\n"
 "Language-Team: none\n"
@@ -18,7 +18,7 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 msgid "Access Control"
-msgstr ""
+msgstr "Rettigheder"
 
 msgid "ACL"
 msgstr ""
@@ -27,7 +27,7 @@ msgid "ACL Roles"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
+msgstr "Aktiviteter"
 
 msgid "Activity"
 msgstr "Aktivitet"
@@ -117,13 +117,13 @@ msgid "Contributions"
 msgstr ""
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Bidrags Typer"
 
 msgid "Create New Group"
 msgstr "Lav ny gruppe"
 
 msgid "Custom Data"
-msgstr ""
+msgstr "Konfigurer data"
 
 msgid "Custom Data Fields"
 msgstr ""
@@ -141,7 +141,7 @@ msgid "Date Formatting"
 msgstr "Datoformat"
 
 msgid "Debugging"
-msgstr ""
+msgstr "Debugging"
 
 msgid "Delete Contact"
 msgstr "Slet Kontakt"
@@ -150,7 +150,7 @@ msgid "Delete Location"
 msgstr "Slet Lokation"
 
 msgid "Domain Information"
-msgstr ""
+msgstr "Domæne information"
 
 msgid "Download Errors"
 msgstr "Download Fejl"
@@ -180,7 +180,7 @@ msgid "Export Contacts"
 msgstr ""
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Filsystem Sti'er"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -237,7 +237,7 @@ msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importer medlemmer"
 
 msgid "Import Participants"
 msgstr ""
@@ -256,7 +256,7 @@ msgid "Instant Messenger Services"
 msgstr ""
 
 msgid "Localization"
-msgstr ""
+msgstr "Lokalisering"
 
 msgid "Location Types (Home, Work...)"
 msgstr ""
@@ -293,7 +293,7 @@ msgid "Manage Pledges"
 msgstr "Anulleret"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Håntere Belønninger"
 
 msgid "Manage Price Sets"
 msgstr ""
@@ -305,7 +305,7 @@ msgid "Map Location(s)"
 msgstr ""
 
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapping og Geocoding"
 
 msgid "Memberships"
 msgstr "Medlemskaber"
@@ -323,7 +323,7 @@ msgid "Message Templates"
 msgstr ""
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 msgid "Mobile Phone Providers"
 msgstr ""
@@ -371,7 +371,7 @@ msgid "Payment Processor"
 msgstr ""
 
 msgid "Payment Processor Type"
-msgstr ""
+msgstr "Betalingsformidler type"
 
 msgid "PledgeBank"
 msgstr ""
@@ -401,7 +401,7 @@ msgid "Registration Page"
 msgstr ""
 
 msgid "Relationships"
-msgstr ""
+msgstr "Ralationer"
 
 msgid "Relationship Types"
 msgstr ""
