@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-12-15 11:32-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: none\n"
@@ -138,7 +138,7 @@ msgid "Custom Searches"
 msgstr "Standaard Zoeken"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Datum Opmaak"
 
 msgid "Debugging"
 msgstr "Debugging"
@@ -180,7 +180,7 @@ msgid "Export Contacts"
 msgstr "Exporteer Contacten"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "File systeem pad"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -252,7 +252,7 @@ msgid "Individual Suffixes (Jr, Sr...)"
 msgstr "Persoonlijke achtervoegsels"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Instant Messenger Services"
 
 msgid "Localization"
 msgstr "Lokalisatie"
@@ -273,7 +273,7 @@ msgid "Mailing Report"
 msgstr ""
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Beheer ACL's"
 
 msgid "Manage Contribution Pages"
 msgstr "Beheer Bijdrage Pagina"
@@ -315,13 +315,13 @@ msgid "Membership Types"
 msgstr "Types Lidmaatschap"
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "Contact samenvoegen"
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Bericht sjabloon"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diversen"
 
 msgid "Mobile Phone Providers"
 msgstr "Mobiele telefoon providers"
@@ -420,13 +420,13 @@ msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Eenvoudige zoekopdracht"
 
 msgid "Site URLs"
 msgstr "Site URLs"
 
 msgid "Smtp Server"
-msgstr ""
+msgstr "Smtp Server"
 
 msgid "Subscribe"
 msgstr "Aanmelden"
@@ -435,16 +435,16 @@ msgid "Sunlight"
 msgstr ""
 
 msgid "Synchronize Users to Contacts"
-msgstr ""
+msgstr "Synchroniseer gebruikers met contacten"
 
 msgid "System Preferences"
-msgstr ""
+msgstr "Systeem voorinstellingen"
 
 msgid "Tags"
 msgstr "Markeringen"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Markeringen (Categoriën)"
 
 msgid "Tell a Friend"
 msgstr "Mond tot mond reclame"

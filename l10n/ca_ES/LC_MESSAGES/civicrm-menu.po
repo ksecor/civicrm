@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Dades personalitzades"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Camp de dades personaolitzades"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -137,7 +137,7 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formatatge de les dates"
 
 msgid "Debugging"
 msgstr "Depuració"
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "Exporta els Contactes"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Camins del sistema de fitxers"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -299,7 +299,7 @@ msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Localització del mapa de l'event"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -323,7 +323,7 @@ msgid "Message Templates"
 msgstr ""
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Miscel·lània"
 
 msgid "Mobile Phone Providers"
 msgstr ""

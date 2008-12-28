@@ -708,7 +708,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parametrii"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"

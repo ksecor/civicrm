@@ -5413,7 +5413,7 @@ msgstr "Email"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
 msgid "Email Address"
-msgstr ""
+msgstr "Email Adresse"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Return Path"
@@ -5607,7 +5607,7 @@ msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Is Active"
-msgstr ""
+msgstr "Er Aktiv"
 
 #: CRM/Core/DAO/OpenID.php
 #, fuzzy
@@ -5997,37 +5997,39 @@ msgstr ""
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing First Name"
-msgstr ""
+msgstr "Faktuering Fornavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Middle Name"
-msgstr ""
+msgstr "Faktuering Mellemnavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing Last Name"
-msgstr ""
+msgstr "Faktuering Efternavn"
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Number"
-msgstr ""
+msgstr "Kort nummer"
 
 #: CRM/Core/Payment/Form.php
 msgid "Security Code"
-msgstr ""
+msgstr "Sikkerheds Kode"
 
 #: CRM/Core/Payment/Form.php
 msgid "Expiration Date"
-msgstr ""
+msgstr "Udløbsdato"
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Type"
-msgstr ""
+msgstr "Kort Type"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Venligst angive en gyldig værdi fra dit kontokorts sikkerheds kode. Det er "
+"normalt 3-4 cifre bag på kortet."
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date cannot be a past date."
@@ -6036,6 +6038,7 @@ msgstr ""
 #: CRM/Core/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
 msgstr ""
+"Ugyldig besvarelses kode modtaget fra Google på afregningstidspunkt: %1"
 
 #: CRM/Core/Payment/IATS.php
 msgid ""
@@ -13628,121 +13631,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fejl i SMTP transaktion"
-
-#~ msgid "Contact"
-#~ msgstr "Kontakt"
-
-#~ msgid "Import"
-#~ msgstr "Importer"
-
-#~ msgid "Custom Data"
-#~ msgstr "Konfigurer data"
-
-#~ msgid "Access Control"
-#~ msgstr "Rettigheder"
-
-#~ msgid "Load Mapping"
-#~ msgstr "Load mapping"
-
-#~ msgid "View Activity"
-#~ msgstr "Se aktivitet"
-
-#~ msgid "Payment Processor Type"
-#~ msgstr "Betalingsformidler type"
-
-#~ msgid "Advanced Search"
-#~ msgstr "Avanceret Søgning"
-
-#~ msgid "Global Settings"
-#~ msgstr "Globale Indstillinger"
-
-#~ msgid "Components"
-#~ msgstr "Komponenter"
-
-#~ msgid "Customize"
-#~ msgstr "Opsætning"
-
-#~ msgid "Configure"
-#~ msgstr "Konfigurer"
-
-#~ msgid "Manage"
-#~ msgstr "Administrer"
-
-#~ msgid "Option Lists"
-#~ msgstr "Muligheder"
-
-#~ msgid "File System Paths"
-#~ msgstr "Filsystem Sti'er"
-
-#~ msgid "Site URLs"
-#~ msgstr "Side URL'er"
-
-#~ msgid "Mapping and Geocoding"
-#~ msgstr "Mapping og Geocoding"
-
-#~ msgid "Localization"
-#~ msgstr "Lokalisering"
-
-#~ msgid "Miscellaneous"
-#~ msgstr "Diverse"
-
-#~ msgid "Debugging"
-#~ msgstr "Debugging"
-
-#~ msgid "Notes"
-#~ msgstr "Noter"
-
-#~ msgid "Delete Location"
-#~ msgstr "Slet lokalisering"
-
-#~ msgid "Domain Information"
-#~ msgstr "Domæne information"
-
-#~ msgid "Administer CiviCRM"
-#~ msgstr "Administrer CiviCrm"
-
-#~ msgid ""
-#~ "The contact record which is linked to the currently logged in user "
-#~ "account - '%1' - can not be deleted."
-#~ msgstr ""
-#~ "Kontakten der er logget ind og linket til brugerkontoen - '%1' - Kan ikke "
-#~ "slettes"
-
-#~ msgid "Activities"
-#~ msgstr "Aktiviteter"
-
-#~ msgid "Relationships"
-#~ msgstr "Ralationer"
-
-#, fuzzy
-#~ msgid "Contributions"
-#~ msgstr "Deltagelser"
-
-#~ msgid "Memberships"
-#~ msgstr "Medlemskaber"
-
-#~ msgid "Email a Contact"
-#~ msgstr "Email en kontakt"
-
-#~ msgid "CiviCRM Home"
-#~ msgstr "CiviCrm Hjem"
-
-#~ msgid "Groups"
-#~ msgstr "Grupper"
-
-#~ msgid "Tags"
-#~ msgstr "Tags"
-
-#~ msgid "CiviCRM"
-#~ msgstr "CiviCRM"
-
-#~ msgid "Activity"
-#~ msgstr "Aktivitet"
-
-#, fuzzy
-#~ msgid "Remove?"
-#~ msgstr "Fjernet"
-
-#, fuzzy
-#~ msgid "Subgroup"
-#~ msgstr "Gruppe"

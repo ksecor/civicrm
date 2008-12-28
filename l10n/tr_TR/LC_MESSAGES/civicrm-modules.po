@@ -839,7 +839,7 @@ msgstr "Üyeleri Sİl"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- Bağış Alanları -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -2181,9 +2181,8 @@ msgid "Are you sure you want to remove this product form this page?"
 msgstr "Are you sure you want to delete this note?"
 
 #: CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Print Contact List"
+msgstr "Bağışları Aktar"
 
 #: CRM/Contribute/Task.php
 msgid "Update Pending Contribution Status"
@@ -3203,9 +3202,8 @@ msgid "Component Name"
 msgstr "Component Name"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Welcome"
-msgstr "Hoşgeldiniz İletisi"
+msgstr "Welcome"
 
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
@@ -3232,7 +3230,6 @@ msgid "Replyto Email"
 msgstr "Replyto Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Url Tracking"
 msgstr "Url Tracking"
 
@@ -3332,7 +3329,7 @@ msgstr "Name Your Mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
-msgstr ""
+msgstr "Lütfen postalanacak öbeği seçiniz."
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
@@ -3628,9 +3625,8 @@ msgstr "Contact %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Contact Page"
+msgstr "İrtibat"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3638,7 +3634,7 @@ msgstr "Bounce Type"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Forwarded Email"
@@ -3726,9 +3722,8 @@ msgstr ""
 "one</a>."
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "Find Contacts"
+msgstr "Çevrimiçi Bağış:"
 
 #: CRM/Member/BAO/MembershipStatus.php
 #, fuzzy
@@ -3796,7 +3791,6 @@ msgid "Membership Type Default"
 msgstr "Üyelik Türü"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Display Min Fee"
 msgstr "En düşük Ücreti Göster"
 
@@ -6214,7 +6208,6 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
@@ -8563,6 +8556,8 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
+"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
+"ul>Check your spelling, or try fewer letters for the target contact name."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -9276,695 +9271,3 @@ msgstr "Yarat"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "İşlem No"
-
-#, fuzzy
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#~ msgid "Contribution Types"
-#~ msgstr "Bağış Türleri"
-
-#~ msgid "Manage Premiums"
-#~ msgstr "Premiumları Yönet"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "Print Contact List"
-
-#~ msgid "DashBoard"
-#~ msgstr "Pano"
-
-#, fuzzy
-#~ msgid "Manage Contribution Pages"
-#~ msgstr "Bağış(lar)ı Yönet"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Katılımcı No"
-
-#, fuzzy
-#~ msgid "Display Name"
-#~ msgstr "En düşük Ücreti Göster"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "İrtibatları Gönder (Aktar)"
-
-#, fuzzy
-#~ msgid "Manage Events"
-#~ msgstr "ACL'leri Yönet"
-
-#~ msgid "Subscribe"
-#~ msgstr "Abone Ol"
-
-#~ msgid "Import Members"
-#~ msgstr "Üyeleri -Karşıdan- Al"
-
-#~ msgid "Payment Instrument"
-#~ msgstr "Ödeme Araçları"
-
-#~ msgid "-period-"
-#~ msgstr "dönem"
-
-#~ msgid "day(s)"
-#~ msgstr "gün(ler)"
-
-#~ msgid "week(s)"
-#~ msgstr "hafta(lar)"
-
-#~ msgid "month(s)"
-#~ msgstr "ay(lar)"
-
-#~ msgid "year(s)"
-#~ msgstr "yıl(lar)"
-
-#, fuzzy
-#~ msgid "Enable recurring payments"
-#~ msgstr "Enable Mailing Component"
-
-#, fuzzy
-#~ msgid "You do not have any payment processors that support this feature"
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#, fuzzy
-#~ msgid "Submit Contribution"
-#~ msgstr "Find Contacts"
-
-#, fuzzy
-#~ msgid "Online Contribution: CiviCRM Admin Interface"
-#~ msgstr "Çevrimiçi Bağış:"
-
-#, fuzzy
-#~ msgid "CiviCRM Contributions"
-#~ msgstr "CiviCRM Shortcuts"
-
-#, fuzzy
-#~ msgid "Contribution Payment Form"
-#~ msgstr "Bağış Sayfası"
-
-#, fuzzy
-#~ msgid ""
-#~ "Credit card options that will be offered to contributors using your "
-#~ "Online Contribution pages."
-#~ msgstr ""
-#~ "Use this form to setup the name, description and more for a customized "
-#~ "donation page."
-
-#, fuzzy
-#~ msgid "Find Contributions"
-#~ msgstr "Find Contacts"
-
-#~ msgid "CiviCRM Contribution Search"
-#~ msgstr "CiviCRM Bağış Arama"
-
-#, fuzzy
-#~ msgid "Event Name"
-#~ msgstr "Street Name"
-
-#, fuzzy
-#~ msgid "Total Participant(s) added to event: %1"
-#~ msgstr "Total Selected Contact(s): %1"
-
-#~ msgid "Select a valid date greater than today."
-#~ msgstr "Bugünden büyük olmak üzere geçerli bir tarih seçiniz."
-
-#, fuzzy
-#~ msgid "CiviCRM Participants"
-#~ msgstr "CiviCRM Kısayolları"
-
-#, fuzzy
-#~ msgid "Manage Event"
-#~ msgstr "Yönet"
-
-#, fuzzy
-#~ msgid "CiviEvent DashBoard"
-#~ msgstr "Pano"
-
-#, fuzzy
-#~ msgid "Event Listings"
-#~ msgstr "Yer Seç"
-
-#, fuzzy
-#~ msgid "Event Types"
-#~ msgstr "Öğe Türü"
-
-#, fuzzy
-#~ msgid "Find Participants"
-#~ msgstr "İrtibatları Bul"
-
-#, fuzzy
-#~ msgid "New Event"
-#~ msgstr "Yeni Metin"
-
-#~ msgid "Send a Test Mailing?"
-#~ msgstr "Test postası göndereyim mi?"
-
-#~ msgid "Test"
-#~ msgstr "Test"
-
-#~ msgid "Mailing Subject"
-#~ msgstr "Posta Konusu"
-
-#~ msgid "Mailings"
-#~ msgstr "Postalamalar"
-
-#, fuzzy
-#~ msgid "The mailing queue has been processed."
-#~ msgstr "The mailing component \"%1\" has been saved."
-
-#, fuzzy
-#~ msgid "Mailer Settings"
-#~ msgstr "Postalama Ayarları"
-
-#, fuzzy
-#~ msgid "Resubscribe"
-#~ msgstr "Yeniden Abone Ol"
-
-#, fuzzy
-#~ msgid "Optout"
-#~ msgstr "OptOut"
-
-#, fuzzy
-#~ msgid "The membership can not be saved."
-#~ msgstr "Bu üyelik bilgisi kaydedildi."
-
-#, fuzzy
-#~ msgid "This membership status can not be deleted"
-#~ msgstr "Selected Phone Call has been deleted."
-
-#~ msgid "Change"
-#~ msgstr "Değiştir"
-
-#~ msgid "CiviCRM Members"
-#~ msgstr "CiviCRM Üyeleri"
-
-#~ msgid "Find Members"
-#~ msgstr "Üyeleri Bul"
-
-#, fuzzy
-#~ msgid "CiviCRM Member Search"
-#~ msgstr "CiviCRM Search"
-
-#, fuzzy
-#~ msgid "Received Date"
-#~ msgstr "Alınma Tarihi"
-
-#, fuzzy
-#~ msgid "Additional Information"
-#~ msgstr "Add Contacts to Organization"
-
-#, fuzzy
-#~ msgid "Event Information"
-#~ msgstr "Test Bilgisi"
-
-#, fuzzy
-#~ msgid "Found %count contribution."
-#~ msgid_plural "Found %count contributions."
-#~ msgstr[0] "Found %count contact"
-#~ msgstr[1] "Found %count contacts"
-
-#, fuzzy
-#~ msgid "List more contributions"
-#~ msgstr "List Page Sections"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the selected contributions? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these contributions."
-#~ msgstr ""
-#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
-#~ "cannot be undone."
-
-#, fuzzy
-#~ msgid "One contribution record selected for export."
-#~ msgid_plural "%count contribution records selected for export."
-#~ msgstr[0] "There are no records selected for Print."
-#~ msgstr[1] "There are no records selected for Print."
-
-#, fuzzy
-#~ msgid "Enable recurring contributions."
-#~ msgstr "Found %count contact"
-
-#, fuzzy
-#~ msgid "Fee Levels"
-#~ msgstr "Alan Etiketi"
-
-#, fuzzy
-#~ msgid "Unit Price"
-#~ msgstr "Fiyat"
-
-#, fuzzy
-#~ msgid "Found %count participant."
-#~ msgid_plural "Found %count participants."
-#~ msgstr[0] "Found %count contact"
-#~ msgstr[1] "Found %count contacts"
-
-#, fuzzy
-#~ msgid "List more Event Participants"
-#~ msgstr "List Page Sections"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the selected participations? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these participations."
-#~ msgstr ""
-#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
-#~ "cannot be undone."
-
-#, fuzzy
-#~ msgid "One participant record selected for export."
-#~ msgid_plural "%count participant records selected for export."
-#~ msgstr[0] "There are no records selected for Print."
-#~ msgstr[1] "There are no records selected for Print."
-
-#, fuzzy
-#~ msgid "Participation Status"
-#~ msgstr "Bağış (Yardım) Durumu"
-
-#, fuzzy
-#~ msgid "Complete OR partial mailing name."
-#~ msgstr "Complete OR partial contact name OR email."
-
-#, fuzzy
-#~ msgid "Tracking"
-#~ msgstr "Url Tracking"
-
-#~ msgid "Preview Mailing"
-#~ msgstr "Postalamayı Önizle"
-
-#, fuzzy
-#~ msgid "New Mailing"
-#~ msgstr " Postalama"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
-#~ msgstr ""
-#~ "Gönderilen posta yok. Bir tane <a href=\"%1\">gönder</a>ebilirsiniz."
-
-#, fuzzy
-#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
-#~ msgstr "Are you sure you want to disable this component?"
-
-#, fuzzy
-#~ msgid "Found %count member."
-#~ msgid_plural "Found %count members."
-#~ msgstr[0] "Found %count group member"
-#~ msgstr[1] "Found %count group members"
-
-#~ msgid "List more Memberships"
-#~ msgstr "Daha fazla Üye Listele"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the selected memberships? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these members."
-#~ msgstr ""
-#~ "Are you sure you want to Delete the selected contacts? A Delete operation "
-#~ "cannot be undone."
-
-#, fuzzy
-#~ msgid "One membership record selected for export."
-#~ msgid_plural "%count membership records selected for export."
-#~ msgstr[0] "There are no records selected for Print."
-#~ msgstr[1] "There are no records selected for Print."
-
-#~ msgid "Start/Renew Date"
-#~ msgstr "Tarihi Başlat/Yenile"
-
-#, fuzzy
-#~ msgid "Event %2 %1"
-#~ msgstr "Ülke - \"%1\""
-
-#, fuzzy
-#~ msgid "Test Participants Only"
-#~ msgstr "Test Bağışlarını Bul ?"
-
-#, fuzzy
-#~ msgid "Title "
-#~ msgstr "Başlık"
-
-#~ msgid "Custom Elements (%1)"
-#~ msgstr "Kişiselleştirilmiş Öğeler (%1)"
-
-#, fuzzy
-#~ msgid "Status Hold?"
-#~ msgstr "Status?"
-
-#~ msgid "Custom Page Elements"
-#~ msgstr "Özel Sayfa Öğeleri"
-
-#, fuzzy
-#~ msgid "Domain Information"
-#~ msgstr "Add Contacts to Organization"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Termometre Başlığı"
-
-#, fuzzy
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Please select a relationship type."
-
-#, fuzzy
-#~ msgid "Payment Entity Table"
-#~ msgstr "Target Entity Table"
-
-#~ msgid "Membership Types"
-#~ msgstr "Üyelik Türleri"
-
-#~ msgid "Min Amount"
-#~ msgstr "En Düşük Miktar"
-
-#~ msgid "Max Amount"
-#~ msgstr "En Yüksek Miktar"
-
-#~ msgid "Thank-you Title"
-#~ msgstr "Teşekkür Başlığı"
-
-#, fuzzy
-#~ msgid "Sort Position"
-#~ msgstr "Work location"
-
-#~ msgid "Image"
-#~ msgstr "Resim"
-
-#~ msgid " -period-"
-#~ msgstr " -dönem-"
-
-#~ msgid "Thank-you Message"
-#~ msgstr "Teşekkür İletisi"
-
-#~ msgid "Contribution is In Honor Of"
-#~ msgstr "Onuruna Bağış"
-
-#~ msgid " First Name"
-#~ msgstr "Ad"
-
-#~ msgid "Accept Credit Cards"
-#~ msgstr "Kredi Kartı Kabul Et"
-
-#, fuzzy
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "Call Date and Time are required."
-
-#, fuzzy
-#~ msgid "Please select a payment processor"
-#~ msgstr "Please enter a valid name."
-
-#, fuzzy
-#~ msgid "You do not have access to this page"
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#, fuzzy
-#~ msgid "You do not have access to this page."
-#~ msgstr "You do not have the necessary permission to edit this contact."
-
-#, fuzzy
-#~ msgid "Event Registration"
-#~ msgstr "Kullanıcı Kaydı"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selected mailing can not be deleted as mails are still pending in spool "
-#~ "table."
-#~ msgstr "Seçili postalama silindi."
-
-#, fuzzy
-#~ msgid "Selected mailing can not be deleted since it is in process."
-#~ msgstr "Seçili postalama silindi."
-
-#, fuzzy
-#~ msgid "Please select at least one group to include in the mailing."
-#~ msgstr "Lütfen postalanacak öbeği seçiniz."
-
-#, fuzzy
-#~ msgid "Sent Mailings"
-#~ msgstr "Postalamayı Tekrar Dene"
-
-#~ msgid "Action"
-#~ msgstr "Action"
-
-#~ msgid "Start Date - From"
-#~ msgstr "Başlangıç Tarihi - Den"
-
-#, fuzzy
-#~ msgid "(membership fee - %1)"
-#~ msgstr "Group Memberships (3 of %1)"
-
-#, fuzzy
-#~ msgid "View Activity History"
-#~ msgstr "Yeni Etkinlik Geçmişi"
-
-#, fuzzy
-#~ msgid "Show Past Events"
-#~ msgstr "Başlangıç Tarihi"
-
-#~ msgid " Mailing"
-#~ msgstr " Postalama"
-
-#~ msgid "delete"
-#~ msgstr "sil"
-
-#~ msgid "cancel"
-#~ msgstr "iptal et"
-
-#~ msgid "Email Address"
-#~ msgstr "Eposta Adresi"
-
-#~ msgid "\"%1 Administrator\" <%2>"
-#~ msgstr "\"%1 Administrator\" <%2>"
-
-#~ msgid "Group Type"
-#~ msgstr "Group Type"
-
-#~ msgid "Body in html format"
-#~ msgstr "Body in html format"
-
-#~ msgid "Exclude Group(s)"
-#~ msgstr "Öbek(ler)(ğ)i Çıkar"
-
-#~ msgid "Include mailing(s)"
-#~ msgstr "Postalama(lar)ı Dahil Et"
-
-#~ msgid "Exclude mailing(s)"
-#~ msgstr "Postalama(lar)ı Çıkar"
-
-#~ msgid "Invalid Mailing ID"
-#~ msgstr "Geçersiz Postalama No"
-
-#~ msgid "Retry Date"
-#~ msgstr "Yeniden Deneme Tarihi"
-
-#~ msgid "Retry"
-#~ msgstr "Yeniden Dene"
-
-#~ msgid "The test mailing could not be delivered due to the following error:"
-#~ msgstr "The test mailing could not be delivered due to the following error:"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Gönderen Eposta"
-
-#~ msgid "Upload Message"
-#~ msgstr "Upload Message"
-
-#~ msgid "Retry Mailing: %1"
-#~ msgstr "%1 Postalamayı Yeniden Dene"
-
-#~ msgid "Queued"
-#~ msgstr "Sırada"
-
-#~ msgid "Delivered"
-#~ msgstr "Teslim Edilmiş"
-
-#~ msgid "Opens"
-#~ msgstr "Açıklar"
-
-#~ msgid "Totals"
-#~ msgstr "Toplamlar"
-
-#~ msgid "Percentages"
-#~ msgstr "Yüzdeler"
-
-#~ msgid "Text Body"
-#~ msgstr "Metin Gövde"
-
-#~ msgid "HTML Body"
-#~ msgstr "HTML Gövde"
-
-#~ msgid "Is Active"
-#~ msgstr "Etkin mi"
-
-#, fuzzy
-#~ msgid "Billing First Name"
-#~ msgstr "Ad"
-
-#, fuzzy
-#~ msgid "Billing Middle Name"
-#~ msgstr "Orta Ad"
-
-#, fuzzy
-#~ msgid "Billing Last Name"
-#~ msgstr "Soyad"
-
-#~ msgid "Card Number"
-#~ msgstr "Kart No"
-
-#~ msgid "Security Code"
-#~ msgstr "Güvenlik Kodu"
-
-#~ msgid "Expiration Date"
-#~ msgstr "Son Kullanma Tarihi"
-
-#~ msgid "Card Type"
-#~ msgstr "Kart Türü"
-
-#~ msgid "Configure Online Contribution Pages"
-#~ msgstr "Çevrimiçi Bağış Sayfalarını Yapılandır"
-
-#, fuzzy
-#~ msgid "Online Event Registration:"
-#~ msgstr "Çevrimiçi Bağış:"
-
-#~ msgid "- none -"
-#~ msgstr "- hiç -"
-
-#~ msgid "Membership Status"
-#~ msgstr "Üyelik Durumu"
-
-#~ msgid "Message Templates"
-#~ msgstr "İleti Taslakları"
-
-#, fuzzy
-#~ msgid "Credit card expiration date can not be a past date."
-#~ msgstr "The relationship end date cannot be prior to the start date."
-
-#~ msgid "API Username"
-#~ msgstr "API Kullanıcı Adı"
-
-#~ msgid "API Subject"
-#~ msgstr "API Öznesi"
-
-#~ msgid "API Environment"
-#~ msgstr "API Ortamı"
-
-#~ msgid "API SSL Certificate"
-#~ msgstr "API SSL Sertifikası"
-
-#~ msgid "File size should be less than 8192 bytes"
-#~ msgstr "Dosya boyutu 8192 bayttan küçük olmalı"
-
-#~ msgid "Could not open %1 file for writing"
-#~ msgstr "%1 dosyası yazma işlemi için açılamıyor"
-
-#, fuzzy
-#~ msgid "Create PPD"
-#~ msgstr "Create"
-
-#, fuzzy
-#~ msgid "Create PayPal API Profile"
-#~ msgstr "Create Profile"
-
-#, fuzzy
-#~ msgid "New Online Contribution Page"
-#~ msgstr "New Donation Page"
-
-#, fuzzy
-#~ msgid "Participant status"
-#~ msgstr "İrtibatları Yazdır"
-
-#, fuzzy
-#~ msgid "Start Date /Time"
-#~ msgstr "Başlangıç Tarihi"
-
-#~ msgid "Track URLs?"
-#~ msgstr "Track URLs?"
-
-#~ msgid "Upload Text Message"
-#~ msgstr "Upload Text Message"
-
-#~ msgid "Unsubscriptions"
-#~ msgstr "Unsubscriptions"
-
-#, fuzzy
-#~ msgid "Selected message template can not be deleted."
-#~ msgstr "Selected Phone Call has been deleted."
-
-#, fuzzy
-#~ msgid "Selected message templates has been deleted."
-#~ msgstr "Selected Meeting has been deleted."
-
-#~ msgid "Msg Title"
-#~ msgstr "İleti Başlığı"
-
-#~ msgid "Msg Subject"
-#~ msgstr "İleti Konusu"
-
-#~ msgid "Msg Text"
-#~ msgstr "İleti Metni"
-
-#~ msgid "Message Title"
-#~ msgstr "İleti Başlığı"
-
-#~ msgid "Message Subject"
-#~ msgstr "İleti Konusu"
-
-#~ msgid "Text Message"
-#~ msgstr "Metin İleti"
-
-#~ msgid "HTML Message"
-#~ msgstr "HTML İleti"
-
-#, fuzzy
-#~ msgid "The Message Template \"%1\" has been saved."
-#~ msgstr "The tag \"%1\" has been saved."
-
-#, fuzzy
-#~ msgid "Are you sure you want to disable this message tempate?"
-#~ msgstr "Bu üyelik türünü geçersiz kılmak istediğinize emin misiniz?"
-
-#, fuzzy
-#~ msgid "Amount :"
-#~ msgstr "Miktar"
-
-#, fuzzy
-#~ msgid "through"
-#~ msgstr "Click-throughs"
-
-#, fuzzy
-#~ msgid "Date(s)"
-#~ msgstr "Tarih"
-
-#, fuzzy
-#~ msgid "Fee(s)"
-#~ msgstr "hafta(lar)"
-
-#~ msgid "Edit Message Template"
-#~ msgstr "İleti Taslağını Düzenle"
-
-#~ msgid "Delete Message Template"
-#~ msgstr "İleti Taslağını Sil"
-
-#~ msgid "Do you want to delete this message template ?"
-#~ msgstr "Bu ileti taslağını silmek istiyor musunuz?"
-
-#~ msgid "Is this template enabled."
-#~ msgstr "Bu taslak etkin mi?"
-
-#, fuzzy
-#~ msgid "New Message Templates"
-#~ msgstr "Mailing Template?"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no Message Templates  entered. You can <a href=\"%1\">add one</"
-#~ "a>."
-#~ msgstr ""
-#~ "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
-#~ "one</a>."

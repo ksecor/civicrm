@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Contribuições"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tipos de Contribuições"
 
 msgid "Create New Group"
 msgstr ""
@@ -170,16 +170,16 @@ msgid "Event Participants List"
 msgstr ""
 
 msgid "Event Registration"
-msgstr ""
+msgstr "Registo de Evento"
 
 msgid "Event Types"
-msgstr ""
+msgstr "Tipos de Eventos"
 
 msgid "Export Contacts"
 msgstr "Exportar contactos"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Endereços do sistema de ficheiros"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -237,7 +237,7 @@ msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importar Membros"
 
 msgid "Import Participants"
 msgstr ""
@@ -323,7 +323,7 @@ msgid "Message Templates"
 msgstr ""
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Vários"
 
 msgid "Mobile Phone Providers"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -32,7 +32,7 @@ msgid "Activity"
 msgstr "Activitate"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Tipuri activitate"
 
 msgid "Additional Info"
 msgstr ""
@@ -53,7 +53,7 @@ msgid "Assign Users to ACL Roles"
 msgstr ""
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Răsfoieşte fişierele încărcate"
 
 msgid "Case"
 msgstr ""
@@ -77,7 +77,7 @@ msgid "CiviCRM Profile Create"
 msgstr ""
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Câmpuri profil CiviCRM"
 
 msgid "CiviEvent"
 msgstr "CiviEvent"
@@ -107,7 +107,7 @@ msgid "Contacts"
 msgstr "Contacte"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Sumar contact"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Contribuţii"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Tip Contribuţie"
 
 msgid "Create New Group"
 msgstr "Crează grup nou"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Date personalizate"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Câmpuri Date Personalizate"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -137,13 +137,13 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Formatare Dată"
 
 msgid "Debugging"
 msgstr "Depanare"
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Şterge contact"
 
 msgid "Delete Location"
 msgstr "Şterge locaţia"
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "Export contacte"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Căi Fişier Sistem"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -231,35 +231,35 @@ msgid "Import"
 msgstr "Import"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importă Contribuţie"
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "Mapări import/export"
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importă membri"
 
 msgid "Import Participants"
-msgstr ""
+msgstr "Import participanţi"
 
 #, fuzzy
 msgid "Import Signers"
 msgstr "Editează membru"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Prefixe persoane (Dl, Dna...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Sufixe persoane (Jr, Sr...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Servicii Instant Messaging"
 
 msgid "Localization"
 msgstr "Localizare"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Tipuri locaţii (Acasă, Servici, ...)"
 
 msgid "Log out"
 msgstr ""
@@ -274,7 +274,7 @@ msgid "Mailing Report"
 msgstr ""
 
 msgid "Manage ACLs"
-msgstr ""
+msgstr "Gestionează ACL-uri"
 
 msgid "Manage Contribution Pages"
 msgstr ""
@@ -293,13 +293,13 @@ msgid "Manage Pledges"
 msgstr "Abandonat"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Gestionează Premium"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Harta locaţiei evenimentului"
 
 msgid "Map Location(s)"
 msgstr "Hartă locaţii"
@@ -314,16 +314,16 @@ msgid "Membership Status Rules"
 msgstr ""
 
 msgid "Membership Types"
-msgstr ""
+msgstr "Tip Membru"
 
 msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Şabloane pentru Mesaj"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 msgid "Mobile Phone Providers"
 msgstr "Furnizori telefonie mobilă"
@@ -387,7 +387,7 @@ msgid "Preferred Communication Methods"
 msgstr ""
 
 msgid "Preview Mailing"
-msgstr ""
+msgstr "Previzualizare mailing"
 
 msgid "Price Field Options"
 msgstr ""
@@ -405,7 +405,7 @@ msgid "Relationships"
 msgstr "Relaţii"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipuri relaţii"
 
 msgid "Resubscribe"
 msgstr ""
@@ -423,13 +423,13 @@ msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Cautare simplă"
 
 msgid "Site URLs"
 msgstr "URL-uri sit"
 
 msgid "Smtp Server"
-msgstr ""
+msgstr "Server SMTP"
 
 msgid "Subscribe"
 msgstr "Abonează"
@@ -447,7 +447,7 @@ msgid "Tags"
 msgstr "Etichete"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Etichete (categorii)"
 
 msgid "Tell a Friend"
 msgstr ""

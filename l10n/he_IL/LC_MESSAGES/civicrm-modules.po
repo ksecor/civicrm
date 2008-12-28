@@ -3366,7 +3366,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Contact"
-msgstr ""
+msgstr "איש קשר"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"

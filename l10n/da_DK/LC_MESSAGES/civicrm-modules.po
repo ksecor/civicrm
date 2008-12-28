@@ -208,7 +208,6 @@ msgstr "Omkring"
 #: CRM/Contribute/Form/AdditionalInfo.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
-#, fuzzy
 msgid "Premium"
 msgstr "Belønning"
 
@@ -406,17 +405,14 @@ msgstr "Følg op på"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Edit Premium"
-msgstr "Edit Premium"
+msgstr "Redigere Belønning"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Preview Premium"
 msgstr "Se Belønning"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Disable Premium"
 msgstr "Deaktiver Belønning"
 
@@ -2014,7 +2010,7 @@ msgstr "Slet Bidrag"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Load mapping"
 
 #: CRM/Contribute/Import/Parser.php
 msgid "View Contribution URL"
@@ -3453,7 +3449,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3542,9 +3538,8 @@ msgid "There are no status present, You cannot add membership."
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "Give Bidrag"
+msgstr "Online Bidrag"
 
 #: CRM/Member/BAO/MembershipStatus.php
 msgid "This membership status cannot be deleted"
@@ -8763,155 +8758,3 @@ msgstr "Opret"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "Transaktion ID"
-
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "Du har ikke adgang til denne side"
-
-#~ msgid "Contribution Types"
-#~ msgstr "Bidrags Typer"
-
-#, fuzzy
-#~ msgid "Manage Premiums"
-#~ msgstr "Håntere Belønninger"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "Give Bidrag"
-
-#~ msgid "DashBoard"
-#~ msgstr "Skrivebord"
-
-#~ msgid "Manage Contribution Pages"
-#~ msgstr "Administrer bidrags sider"
-
-#, fuzzy
-#~ msgid "Participant"
-#~ msgstr "Deltager ID"
-
-#, fuzzy
-#~ msgid "Import Participants"
-#~ msgstr "Eksporter deltagere"
-
-#~ msgid "Manage Events"
-#~ msgstr "Administer begivenheder"
-
-#~ msgid "Subscribe"
-#~ msgstr "Abonner"
-
-#~ msgid "Import Members"
-#~ msgstr "Importer medlemmer"
-
-#, fuzzy
-#~ msgid "You do not have any payment processors that support this feature"
-#~ msgstr "Du har ikke adgang til at komme ind på denne side"
-
-#, fuzzy
-#~ msgid "Submit Contribution"
-#~ msgstr "Give Bidrag"
-
-#, fuzzy
-#~ msgid "Online Contribution: CiviCRM Admin Interface"
-#~ msgstr "Online Bidrag"
-
-#, fuzzy
-#~ msgid "Contribution Payment Form"
-#~ msgstr "Bidrag Siden"
-
-#, fuzzy
-#~ msgid "New Event"
-#~ msgstr "Slet Event"
-
-#~ msgid "Test"
-#~ msgstr "Test"
-
-#~ msgid "Resubscribe"
-#~ msgstr "Genabonner"
-
-#, fuzzy
-#~ msgid "Optout"
-#~ msgstr "Vælge-ud"
-
-#, fuzzy
-#~ msgid "Received Date"
-#~ msgstr "Modtaget"
-
-#, fuzzy
-#~ msgid "Additional Information"
-#~ msgstr "Event Information"
-
-#~ msgid "Event Information"
-#~ msgstr "Event Information"
-
-#~ msgid "None"
-#~ msgstr "Ingen"
-
-#~ msgid "List more Memberships"
-#~ msgstr "Vis flere medlemskaber"
-
-#, fuzzy
-#~ msgid "Domain Information"
-#~ msgstr "Event Information"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Termometer Titel"
-
-#~ msgid "Payment Entity Table"
-#~ msgstr "Betaling Entity Tabel"
-
-#, fuzzy
-#~ msgid "You do not have access to this page."
-#~ msgstr "Du har ikke adgang til at komme ind på denne side"
-
-#~ msgid "Email Address"
-#~ msgstr "Email Adresse"
-
-#~ msgid "\"%1 Administrator\" <%2>"
-#~ msgstr "\"%1 Administrator\" <%2>"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Fra Email"
-
-#~ msgid "Is Active"
-#~ msgstr "Er Aktiv"
-
-#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set."
-#~ msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR er ikke valgt"
-
-#~ msgid "Billing First Name"
-#~ msgstr "Faktuering Fornavn"
-
-#~ msgid "Billing Middle Name"
-#~ msgstr "Faktuering Mellemnavn"
-
-#~ msgid "Billing Last Name"
-#~ msgstr "Faktuering Efternavn"
-
-#~ msgid "Card Number"
-#~ msgstr "Kort nummer"
-
-#~ msgid "Security Code"
-#~ msgstr "Sikkerheds Kode"
-
-#~ msgid "Card Type"
-#~ msgstr "Kort Type"
-
-#~ msgid ""
-#~ "Please enter a valid value for your card security code. This is usually "
-#~ "the last 3-4 digits on the card's signature panel."
-#~ msgstr ""
-#~ "Venligst angive en gyldig værdi fra dit kontokorts sikkerheds kode. Det "
-#~ "er normalt 3-4 cifre bag på kortet."
-
-#~ msgid "Configure Online Contribution Pages"
-#~ msgstr "Konfigurer Online Bidrag sider"
-
-#~ msgid "Invalid response code received from Google Checkout: %1"
-#~ msgstr ""
-#~ "Ugyldig besvarelses kode modtaget fra Google på afregningstidspunkt: %1"
-
-#~ msgid "Online Event Registration:"
-#~ msgstr "Online Event Registrering"

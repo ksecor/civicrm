@@ -430,7 +430,6 @@ msgid "Case Activity Type"
 msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "-选择-"
 
@@ -5345,7 +5344,7 @@ msgstr ""
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "乌里"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
@@ -13009,7 +13008,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Male"
-msgstr ""
+msgstr "马累"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Transgender"
@@ -13433,35 +13432,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Contact"
-#~ msgstr "联络人"
-
-#~ msgid "Import"
-#~ msgstr "导入"
-
-#~ msgid "Find Contacts"
-#~ msgstr "搜索联络人"
-
-#, fuzzy
-#~ msgid "Contact Matching"
-#~ msgstr "联络人"
-
-#, fuzzy
-#~ msgid "Merge Contact"
-#~ msgstr "联络人"
-
-#, fuzzy
-#~ msgid "Contact Matching Rule"
-#~ msgstr "联络人"
-
-#, fuzzy
-#~ msgid "Subgroup"
-#~ msgstr "群组"
-
-#~ msgid " -select- "
-#~ msgstr "选择"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "联络人"

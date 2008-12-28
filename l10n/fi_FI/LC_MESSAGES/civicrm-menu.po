@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -32,7 +32,7 @@ msgid "Activity"
 msgstr "Aktiviteetti"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Aktiviteettien tyypit"
 
 msgid "Additional Info"
 msgstr ""
@@ -77,7 +77,7 @@ msgid "CiviCRM Profile Create"
 msgstr ""
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "CiviCRM profiilikentät"
 
 msgid "CiviEvent"
 msgstr ""
@@ -107,7 +107,7 @@ msgid "Contacts"
 msgstr "Yhteydet"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Yhteenveto yhteyksistä"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Avustukset"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Lahjoitustyypit"
 
 msgid "Create New Group"
 msgstr "Muodosta uusi ryhmä"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Yksilölliset tiedot"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Räätälöidyt kentät"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -143,7 +143,7 @@ msgid "Debugging"
 msgstr ""
 
 msgid "Delete Contact"
-msgstr ""
+msgstr "Poista yhteys"
 
 msgid "Delete Location"
 msgstr ""
@@ -231,7 +231,7 @@ msgid "Import"
 msgstr "Tuo"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Tuo lahjoitukset"
 
 msgid "Import/Export Mappings"
 msgstr ""
@@ -247,19 +247,19 @@ msgid "Import Signers"
 msgstr "Jäsenet"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "Yksilölliset etuliitteet(Rva, herra, ...)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Yksilölliset tarkenteet(Jr, Sr...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Pikaviesti (IM) palvelut"
 
 msgid "Localization"
 msgstr ""
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "Osoitetyypit(Kpti, työ...)"
 
 msgid "Log out"
 msgstr ""
@@ -405,7 +405,7 @@ msgid "Relationships"
 msgstr "Yhteyssuhteet"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Yhteystyypit"
 
 msgid "Resubscribe"
 msgstr ""
@@ -447,7 +447,7 @@ msgid "Tags"
 msgstr "Luokat"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Luokat(Kategoriat)"
 
 msgid "Tell a Friend"
 msgstr ""

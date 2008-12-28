@@ -32,6 +32,11 @@ msgid ""
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Ficheiros a serem submetidos têm de estar no formato 'valores-separados-por-"
+"vírgulas' (CSV). A maior parte das aplicações permite exportar registos "
+"neste formato. Consulte a documentação da sua aplicação se não sabe como "
+"fazer isto. Grave o ficheiro no seu disco rígido (ou num disco acessível "
+"pela rede) - e está agora pronto para o passo 1 (Submeter Dados)."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
 msgid ""

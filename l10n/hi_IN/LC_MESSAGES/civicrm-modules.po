@@ -3429,9 +3429,8 @@ msgstr ""
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "संपर्क फाेन"
+msgstr "सम्पर्क"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -8751,90 +8750,3 @@ msgstr "बनाना"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Transaction ID"
-#~ msgstr "लेन देन क्रंमाक"
-
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "आप को इस पन्ने की पहुँच अनुमति नहीं है।"
-
-#~ msgid "Contribution Types"
-#~ msgstr "योगदान प्रकार"
-
-#~ msgid "Manage Premiums"
-#~ msgstr "प्रबंधित प्रीमियम"
-
-#, fuzzy
-#~ msgid "Import Contributions"
-#~ msgstr "योगदान नष्ट"
-
-#~ msgid "DashBoard"
-#~ msgstr "डैशबोर्ड"
-
-#~ msgid "Manage Contribution Pages"
-#~ msgstr "योगदान प्रबंधित पन्ने"
-
-#~ msgid "Participant"
-#~ msgstr "प्रतिभागि"
-
-#~ msgid "Display Name"
-#~ msgstr "प्रदर्शन नाम"
-
-#~ msgid "Manage Events"
-#~ msgstr "कार्यक्रम प्रबंधित"
-
-#~ msgid "Payment Instrument"
-#~ msgstr "भुगतान साधन"
-
-#~ msgid "-period-"
-#~ msgstr "-अवधि-"
-
-#~ msgid "day(s)"
-#~ msgstr "दिन"
-
-#~ msgid "week(s)"
-#~ msgstr "हफ्ते"
-
-#~ msgid "month(s)"
-#~ msgstr "महीने"
-
-#~ msgid "year(s)"
-#~ msgstr "साल"
-
-#~ msgid "Contribution amount can not be greater than %1"
-#~ msgstr "राशि का योगदान %1 से अधिक नहीं हो सकता"
-
-#~ msgid "Enable recurring payments"
-#~ msgstr "सक्षम पुनरावृत्ति भुगतान"
-
-#~ msgid "Find Contributions"
-#~ msgstr "याेगदान खाेजें"
-
-#~ msgid "Event Name"
-#~ msgstr "कार्यक्रम का नाम"
-
-#~ msgid "Find Participants"
-#~ msgstr "प्रतिभागियाें काे खाेजें"
-
-#~ msgid "Membership Status Rules"
-#~ msgstr "सदस्यता स्थिति के नियम"
-
-#~ msgid "Find Members"
-#~ msgstr "सदस्यों काे खोजें"
-
-#~ msgid ""
-#~ "An email receipt will be sent to %1 once the transaction is processed "
-#~ "successfully."
-#~ msgstr "सौदा सफलतापूर्वक पूर्ण हाेने के बाद एक ईमेल रसीद %1 काे भेजा जाएगी।"
-
-#~ msgid "Additional Details"
-#~ msgstr "अतिरिक्त विवरण"
-
-#~ msgid "Received Date"
-#~ msgstr "प्राप्त तिथि"
-
-#~ msgid "Additional Information"
-#~ msgstr "अतिरिक्त जानकारी"
-
-#~ msgid "Event Information"
-#~ msgstr "कार्यक्रम जानकारी"

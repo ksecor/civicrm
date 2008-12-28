@@ -33,7 +33,6 @@ msgid "Contribution Page - %1"
 msgstr "Page de contribution - %1"
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Honor name like - '%1'"
 msgstr "En l'honneur de - \"%1\""
 
@@ -546,9 +545,8 @@ msgstr "Option de Valeur"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid "Application Received"
-msgstr "Candidature reçue"
+msgstr "Demande de subvention reçue"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/GrantView.tpl
@@ -2042,9 +2040,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Contribution Mapping Name"
-msgstr "Dupliquer l'importation"
+msgstr "Nom du mapping d'import des contribution en double"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #, fuzzy
@@ -3343,9 +3340,8 @@ msgid "Select a valid Sent FROM date."
 msgstr "Entrez une date de départ valide"
 
 #: CRM/Mailing/Form/Search.php
-#, fuzzy
 msgid "Select a valid Sent THROUGH date."
-msgstr "Entrez un nom valide"
+msgstr "Entrez une date valide d'envois"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Forward Replies?"
@@ -3570,9 +3566,8 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Téléphone de contact"
+msgstr "Contact"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -4209,9 +4204,8 @@ msgid "(OR Membership ID if update mode.)"
 msgstr "L'adhésion pour %1 a été mise à jour."
 
 #: CRM/Member/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Membership Mapping Name"
-msgstr "Dupliquer l'importation du Mapping Name des adhésions"
+msgstr "Nom du mapping d'import des adhésion en double"
 
 #: CRM/Member/Import/Form/UploadFile.php
 #, fuzzy
@@ -4641,7 +4635,6 @@ msgstr ""
 "utiliser ce type de carte de crédit sur les pages de contribution en ligne."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
@@ -4650,13 +4643,12 @@ msgstr ""
 "établissement financier."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
 msgstr ""
-"Nom de ce type de carte de crédit, comme il est indiqué aux contributeurs. "
-"Cela peut être la même valeur que lee nom ci-dessus ou un titre localisé."
+"Nom de ce type de carte de crédit, comme il est affiché aux contributeurs. "
+"Cela peut être la même valeur que les noms ci-dessus ou un titre localisé."
 
 #: templates/CRM/Contribute/Form/AdditionalInfo/AdditionalDetail.tpl
 msgid "Non-deductible portion of this contribution."
@@ -5069,12 +5061,11 @@ msgstr ""
 "additionnel pour votre site."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
-#, fuzzy
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
 msgstr ""
-"\"Weight\" contrôle l'ordre d'apparition des cadeaux sur la page de "
+"Le Poids contrôle l'ordre d'apparition des cadeaux sur la page de "
 "contribution."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -5212,7 +5203,6 @@ msgid "days after the last one sent, up to the maximum number of reminders."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#, fuzzy
 msgid ""
 "Check this box if you want to give users the option to make recurring "
 "contributions. (This feature requires that you use 'PayPal Website Standard' "
@@ -5381,15 +5371,14 @@ msgstr ""
 "téléchargées sur le serveur - référencez-les en utilisant les URL complètes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid ""
 "This email address is included in automated contribution receipts if the "
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
 msgstr ""
 "Cette adresse mail est ajoutée dans les reçus de contribution automatiques "
-"si le contributeur a sélectionné un cadeau. Ce doit être une boîte mail de "
-"contact approprié pour les questions sur le transport, l'acheminement du "
+"si le contributeur a sélectionné un cadeau. Ce doit être une boite mail de "
+"contact spécifique pour les questions sur le transport, l'acheminement du "
 "cadeau."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -5838,9 +5827,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-#, fuzzy
 msgid "Honoree Email"
-msgstr "Email"
+msgstr "Email d'honneur"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
@@ -6409,9 +6397,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task/PickProfile.tpl
-#, fuzzy
 msgid "Batch Update Contribution via Profile"
-msgstr "Batch Update des contributions via Profil"
+msgstr "Mise à jour automatique des contributions via Profil"
 
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid ""
@@ -6645,7 +6632,6 @@ msgstr ""
 "suivante sur n'importe quelle page web."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid ""
 "Create front-end links to this contribution page using the Menu Manager. "
 "Select <strong>Online Contribution</strong> and enter <strong>%1</strong> "
@@ -6857,12 +6843,10 @@ msgstr ""
 "pas."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Current Year-to-Date"
-msgstr "Cumul actuel"
+msgstr "Année actuelle"
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#, fuzzy
 msgid "Avg Amount"
 msgstr "Montant moyen"
 
@@ -6920,9 +6904,8 @@ msgid "(n/a)"
 msgstr "(non applicable)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid "view details"
-msgstr "Details"
+msgstr "Voir les Details"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Year-To-Date"
@@ -6975,9 +6958,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Min Contribution"
-msgstr "Chercher contacts"
+msgstr "Contribution minimum"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -7011,9 +6993,8 @@ msgstr ""
 "utilisé sur n'importe laquelle des page de contribution."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Offer Another Premium on this Contribution Page"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Offrir un autre cadeau sur cette page de contribution"
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -7033,7 +7014,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/Tab.tpl
 msgid "Contributions received from %1 since inception."
-msgstr ""
+msgstr "Contributions reçues de %1 depuis le début."
 
 #: templates/CRM/Contribute/Page/Tab.tpl
 #, fuzzy
@@ -7075,6 +7056,8 @@ msgstr "Supprime"
 msgid ""
 "Contact us for information about contributions prior to those listed above."
 msgstr ""
+"Contactez-nous pour plus d'informations sur les contributions antérieures à "
+"celles énumérées ci-dessus."
 
 #: templates/CRM/Contribute/Page/UserDashboard.tpl
 msgid "There are no contributions on record for you."
@@ -7115,9 +7098,8 @@ msgstr ""
 "aussi générer un reçu personalisé."
 
 #: templates/CRM/Event/Form/EventFees.tpl
-#, fuzzy
 msgid "Payment Information"
-msgstr "Information sur l'événement"
+msgstr "Information de paiement"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -7131,9 +7113,8 @@ msgstr "Confirmation d'inscription et reçu"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Page de donation"
+msgstr "Confirmation d'inscription"
 
 #: templates/CRM/Event/Form/EventFees.tpl
 msgid "Send Confirmation and Receipt"
@@ -7337,9 +7318,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
-#, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Type de contact"
+msgstr "Localisation de l'évènement et Information de contact"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -7427,9 +7407,8 @@ msgstr ""
 "sélectionnant les Profils CIviCRM qui doivent être inclut en bas de la page"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Confirmation Screen"
-msgstr "Pays"
+msgstr "Ecran de confirmation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -7447,9 +7426,8 @@ msgid "Optional page footer text for Confirmation screen."
 msgstr "Texte de bas de page optionel pour l'écran de confimation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Thank-you Screen"
-msgstr "Date de fin"
+msgstr "Écran de remerciement"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Page title for registration Thank-you screen."
@@ -7469,9 +7447,8 @@ msgstr ""
 "pour des liens vers d'autres pages/activités de votre site)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Confirmation Email"
-msgstr "Pays"
+msgstr "Email de confirmation"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -7491,9 +7468,8 @@ msgstr ""
 "confirmation. "
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "FROM name for email."
-msgstr "Nom ou Email"
+msgstr "Nom d'expéditeur de l'email"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -7533,9 +7509,8 @@ msgid "New Event Registration"
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Delete Event Registration"
-msgstr "Effacer contacts"
+msgstr "Effacer l'inscription à l'évènement"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Edit Event Registration"
@@ -7631,20 +7606,17 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Map this Location"
-msgstr "Lieu"
+msgstr "Cartographié ce lieu"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Total Price"
-msgstr "Titre"
+msgstr "Prix total"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Event Total"
-msgstr "Titre"
+msgstr "Total de l'évènement"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive Your Event Registration Page"
@@ -7675,9 +7647,8 @@ msgid "Event Information and Location"
 msgstr "InformationsAffiche l'information de licence et quitte"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Event Contacts:"
-msgstr "Chercher contacts"
+msgstr "Contacts de l'évènement"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Download iCalendar File:"
@@ -7823,11 +7794,12 @@ msgstr ""
 "cliquez sur <strong>l'icône Copier</strong> (à côté du titre de la colonne)."
 
 #: templates/CRM/Event/Form/Task/Cancel.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to set status to Cancelled for the selected "
 "participants?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Êtes vous sûrs de vouloir mettre les statuts des participants sélectionnés à "
+"Annulé ?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
 #, fuzzy
@@ -7845,9 +7817,8 @@ msgid "Batch Update Event via Profile"
 msgstr "mise à jour automatique de l'évènement par le profil"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Event Date"
-msgstr "Date de debut"
+msgstr "Date de l'évènement"
 
 #: templates/CRM/Event/Form/Task.tpl
 #, fuzzy
@@ -7860,6 +7831,8 @@ msgstr "Nombre de contributions sélectionnées : %1"
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Total rows (participant records) in uploaded file."
 msgstr ""
+"Nombre total de lignes (enregistrement de participants) dans le fichier "
+"chargé"
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -7870,7 +7843,11 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+"CiviCRM a détécté une ID de participant ne concordant pas. Cet "
+"enregistrement n'a pas été mis à jour."
 msgstr[1] ""
+"CiviCRM a détécté des ID de participant ne concordant pas. Ces "
+"enregistrements n'ont pas été mis à jour."
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 msgid ""
@@ -7892,7 +7869,13 @@ msgid_plural ""
 "this data file or relative to existing participant records. These records "
 "have not been imported."
 msgstr[0] ""
+"CiviCRM a détecté un enregistrement avec un ID de transaction en conflit "
+"dans ce fichier ou relative à un enregistrement de participant existant. Cet "
+"enregistrement n'a pas été importé."
 msgstr[1] ""
+"CiviCRM a détecté %count enregistrements avec des ID de transaction en "
+"conflit dans ce fichier ou relative à des enregistrements de participant "
+"existant. Ces enregistrements n'ont pas été importés."
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -7903,12 +7886,17 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "participant records."
 msgstr[0] ""
+"CiviCRM a détecté un enregistrement qui est un doublon d'un enregistrement "
+"de participant existant."
 msgstr[1] ""
+"CiviCRM a détecté %count enregistrements qui sont des doublons "
+"d'enregistrements de participant existants."
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Rows with mismatched participant IDs... (NOT updated)."
 msgstr ""
+"Ligne avec des ID de participants qui ne concordent pas ... (non mis à jour)"
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -7919,7 +7907,7 @@ msgstr "Effacer contacts"
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM participant records."
-msgstr ""
+msgstr "Lignes qui sont des doubles d'enregistrement de participants CiviCRM"
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
@@ -7927,6 +7915,9 @@ msgid ""
 "The Event Import Wizard allows you to easily upload event participation data "
 "such as event registrations from other applications into CiviCRM."
 msgstr ""
+"L'Assistant Importation d'événement vous permet de transférer facilement des "
+"données sur la participation aux événement comme les enregistrements à "
+"partir d'autres applications vers CiviCRM."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
@@ -7935,6 +7926,10 @@ msgid ""
 "and must contain data needed to match the participant data to an existing "
 "contact in your CiviCRM database."
 msgstr ""
+"Les fichiers à importer doit être dans le format \"valeurs séparés par des "
+"virgules\" (CSV) et doit contenir les données nécessaires pour faire "
+"concorder les données de participant à un contact existant dans votre base "
+"de données CiviCRM."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 msgid ""
@@ -7950,6 +7945,8 @@ msgid ""
 "Select 'Individual' if you are importing event participation data for "
 "individual persons."
 msgstr ""
+"Sélectionnez \"individuel\" si vous importez des données sur la "
+"participation à un évènement pour des personnes individuelles."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
@@ -7957,6 +7954,8 @@ msgid ""
 "Select 'Organization' or 'Household' if you are importing event "
 "participation data for contacts of that type."
 msgstr ""
+"sélectionnez \"Organisation\" ou \"foyer\" si vous importez des données sur "
+"la participation à des évènements pour les contacts de ce type."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 msgid "Select Saved Mapping, or leave blank to create a new mapping."
@@ -8009,9 +8008,8 @@ msgid "Browse more events"
 msgstr "Chercher plus d'évènement"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Registrations"
-msgstr "Page de donation"
+msgstr "Inscriptions récentes"
 
 #: templates/CRM/Event/Page/ICalendar.tpl
 msgid "Category"
@@ -8083,9 +8081,8 @@ msgstr ""
 "entourage de cet évènement"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Public Participant Listing"
-msgstr "Ajouter membres: %1"
+msgstr "Listing public des participants"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -8145,9 +8142,8 @@ msgid "Public?"
 msgstr "Publique ?"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "Starts"
-msgstr "Status"
+msgstr "Commence"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Ends"
@@ -8178,6 +8174,8 @@ msgstr "Pas de participants inscrits à cet évènement"
 #: templates/CRM/Event/Page/Tab.tpl
 msgid "This page lists all event registrations for %1 since inception."
 msgstr ""
+"Cette page liste toutes les inscriptions à un évènement pour %1 depuis le "
+"début."
 
 #: templates/CRM/Event/Page/Tab.tpl
 msgid ""
@@ -8206,15 +8204,15 @@ msgstr "Localisation primaire pour ce contact"
 
 #: templates/CRM/Event/Page/Tab.tpl
 msgid "There are no event registrations recorded for this contact."
-msgstr ""
+msgstr "Aucune inscription à un évènement pour ce contact."
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "Click on the event name for more information."
-msgstr ""
+msgstr "Cliquez sur le nom de l'évènement pour plus d'information."
 
 #: templates/CRM/Event/Page/UserDashboard.tpl
 msgid "You are not registered for any current or upcoming Events."
-msgstr ""
+msgstr "Vous n'êtes enregistré à aucun évènement actuel ou à venir."
 
 #: templates/CRM/Grant/Form/Grant.tpl templates/CRM/Grant/Page/Tab.tpl
 #, fuzzy
@@ -8237,6 +8235,7 @@ msgstr "Pays"
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Amount requested for grant in original currency (if different)."
 msgstr ""
+"Montant demandé pour une subvention dans la devise courante (si différent)."
 
 #: templates/CRM/Grant/Form/Grant.tpl
 #, fuzzy
@@ -8245,15 +8244,15 @@ msgstr "Pays"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "When was the grant application received?"
-msgstr ""
+msgstr "Quand la demande de subvention a t elle été reçue ?"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which the grant decision was finalized."
-msgstr ""
+msgstr "Date à laquelle la décision de subvention a été finalisée :"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which the grant money was transferred."
-msgstr ""
+msgstr "Date à laquelle l'argent de la subventin a été transféré"
 
 #: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
@@ -8275,6 +8274,9 @@ msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
 msgstr ""
+"Utilisez ce formulaire pour trouver une(des) subvention(s) par le nom de "
+"contact, le status de la subvention, le type de subvention, le montant "
+"total, ..."
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
@@ -8315,12 +8317,17 @@ msgid ""
 "You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
+"Vous pouvez <a href='%1'>Télécharger les participants non concordants</a>. "
+"Vous pouvez ensuite les corriger et importer le nouveau fichier avec les "
+"données corrigées."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'Contact ID', 'Participant Role')."
 msgstr ""
+"Cochez cette case si la première ligne de votre dossier est constitué de "
+"noms de champs (exemple: 'Contact ID \",\" Rôle des participants »)."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -8331,6 +8338,14 @@ msgid ""
 "<strong>View</strong> to go to their summary page, select the "
 "<strong>Grants</strong> tab and click <strong>New Grant</strong>."
 msgstr ""
+"CiviGrant vous permet de saisir et de suivre les subventions aux organismes, "
+"individus ou les foyers. Le bénéficiaire doit d'abord être inscrit comme un "
+"contact dans CiviCRM. Utilisez <a href='%1'> trouver des contacts </ a> pour "
+"voir si il ya déjà un enregistrement pour le bénéficiaire. Une fois que vous "
+"avez créés ou trouvé l'enregistrement de contact, cliquez sur <strong> "
+"Affichage </ strong> pour accéder à leur page de résumé, sélectionnez "
+"l'option <strong> subventions </ strong> et cliquez sur <strong> nouvelle "
+"subvention </ strong>."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 #, fuzzy
@@ -8346,6 +8361,14 @@ msgid ""
 "can search by Contact Name, Amount, Grant type and a variety of other "
 "criteria."
 msgstr ""
+"Ce tableau fournit un résumé des <strong> Totaux des subventions</ strong>, "
+"et inclut des raccourcis pour afficher les détails des subventions pour ces "
+"périodes de recherche couramment utilisées . Cliquez sur le statut de la "
+"subvention pour voir une liste de contacts pour ce statut de subvention. "
+"Pour exécuter vos propres recherches personnalisées - cliquez sur <a href='%"
+"1'> Trouvez subventions </ a>. Vous pouvez effectuer une recherche par nom "
+"de contact, le montant, le type de subvention et une variété d'autres "
+"critères."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 #, fuzzy
@@ -8358,7 +8381,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "You have no Grants registered in your database."
-msgstr ""
+msgstr "Aucune subvention enregistrée dans votre base de donnée"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 #, fuzzy
@@ -8368,6 +8391,7 @@ msgstr "Date de debut"
 #: templates/CRM/Grant/Page/Tab.tpl
 msgid "This page lists all grant registrations for %1 since inception."
 msgstr ""
+"Cette page liste toutes les inscriptions permises pour %1 depuis le début."
 
 #: templates/CRM/Grant/Page/Tab.tpl
 #, fuzzy
@@ -8402,9 +8426,8 @@ msgstr ""
 "mailing liste, ou un groupe qui a reçu au moins un mail précédement)"
 
 #: templates/CRM/Mailing/Form/Group.tpl
-#, fuzzy
 msgid "Mailing Recipients"
-msgstr "Sujet"
+msgstr "Destinataires du mailing"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -8464,9 +8487,8 @@ msgstr ""
 "dans leur logiciel de courriel."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Responding"
-msgstr "En attente"
+msgstr "En réponse"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -8533,9 +8555,8 @@ msgstr ""
 "répondu à chacun des mails."
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
-#, fuzzy
 msgid "Group Listings."
-msgstr "Lieu"
+msgstr "Listings de groupe"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid ""
@@ -8629,14 +8650,12 @@ msgstr ""
 "nécessaires pour le désabonnement, l'opt-out et l'adresse postale."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to delete the mailing '%1'?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous effacer le mailing '%1' ?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Are you sure you want to cancel the mailing '%1'?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous annuler le mailing '%1' ?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
@@ -8685,9 +8704,8 @@ msgid "Back to Report"
 msgstr "Retour vers le rapport"
 
 #: templates/CRM/Mailing/Page/Optout.tpl
-#, fuzzy
 msgid "Are you sure you want to optout: %1 (%2)"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous Opt Out : %1 (%2) ?"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
@@ -8744,9 +8762,8 @@ msgid "Content / Components"
 msgstr "Contenu / Composants"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "View complete message"
-msgstr "Message"
+msgstr "Voir le Message complet"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
@@ -8790,9 +8807,8 @@ msgid "has been successfully resubscribed."
 msgstr "a été réinscrit avec succès"
 
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
 msgid "Are you sure you want to resubscribe: %1 (%2)"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "Voulez vous réinscrire : %1 (%2)"
 
 #: templates/CRM/Mailing/Page/Unsubscribe.tpl
 msgid "has been successfully unsubscribed."
@@ -8830,9 +8846,9 @@ msgid "Configure Membership Section"
 msgstr "Configurer la section d'adhésion"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include a Membership Signup section in this Online Contribution page?"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr ""
+"Inclure une section adhésion dans cette page de contribution en ligne ?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - for new member signups."
@@ -8851,9 +8867,8 @@ msgid "Membership section introductory text - displayed to renewing members."
 msgstr "Texte d'introduction pour la section Adhésion - Renouvellement"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include these membership types"
-msgstr "Type de relation"
+msgstr "Inclure ces types de relation"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -9249,9 +9264,8 @@ msgstr ""
 "Ce type d'adhésion est il Public ou réservé à l'équipe administrative ?"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid "Renewal Reminders"
-msgstr "Supprime"
+msgstr "Rappels des renouvellements"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -9434,9 +9448,8 @@ msgid "Rows with mismatched membership IDs... (NOT updated)."
 msgstr "Lignes avec des ID d'adhésion non concordantes (non mises à jour)"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched Memberships"
-msgstr "Effacer contacts"
+msgstr "Télécharger les adhésions non concordantes"
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM membership records."
@@ -9568,6 +9581,8 @@ msgstr "Aucun type d'adhésion. Vous pouvez <a href=\"%1\">en ajouter une</a>."
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Click <a href='%1'>New Membership</a> to record a new membership."
 msgstr ""
+"Cliquez <a href='%1'>Nouvelle adhésion</a> pour enregistrer une nouvelle "
+"adhésion."
 
 #: templates/CRM/Member/Page/Tab.tpl
 msgid ""
@@ -9603,6 +9618,10 @@ msgid ""
 "of that type. Click <strong>Edit</strong> to modify the settings for that "
 "type."
 msgstr ""
+"Le type suivant d'adhésion est associés à cet organisme. Cliquez sur "
+"<strong> Membres </ strong> pour une liste de tous les contacts qui ont ce "
+"type d'adhésion. Cliquez sur <strong> Modifier </ strong> pour modifier les "
+"paramètres de ce type."
 
 #: templates/CRM/Member/Page/UserDashboard.tpl
 msgid "Renew Now"
@@ -9945,1037 +9964,3 @@ msgstr "Créer"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid ""
-#~ "CiviContribute allows you to create customized page(s) for collecting "
-#~ "online contributions."
-#~ msgstr ""
-#~ "CiviContribute vous permet de créer des pages personalisées pour "
-#~ "récupérer des contributions en ligne"
-
-#~ msgid ""
-#~ "You can also input and track offline contributions. To enter "
-#~ "contributions manually for individual contacts, use <a href='%1'>Find "
-#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
-#~ "go to their summary page and click on the <strong>New Contribution</"
-#~ "strong> link. You can also <a href='%2'>import batches of offline "
-#~ "contributions</a> from other sources."
-#~ msgstr ""
-#~ "Vous pouvez aussi récupere des contributions hors-ligne. Pour entrer des "
-#~ "contributions manuellement pour des contacts individuels, utilisez <a "
-#~ "href='%1'>Trouvez des Contacts</a> pour trouver le contact, puis cliquez "
-#~ "<strong>Voir</strong>pour aller avec la page de résumé puis cliquez sur "
-#~ "<strong> Nouvelle contribution</strong>. Vous pouvez aussi <a href='%"
-#~ "2'>importer automatiquement des contributions hors ligne</a> d'une autre "
-#~ "source."
-
-#~ msgid ""
-#~ "This table provides a summary of <strong>Contribution Totals</strong>, "
-#~ "and includes shortcuts to view the contribution details for these "
-#~ "commonly used search periods. To run your own customized searches - click "
-#~ "<a href='%1'>Find Contributions</a>. You can search by Contributor Name, "
-#~ "Amount Range, and a variety of other criteria."
-#~ msgstr ""
-#~ "Ce tableau affiche un résumé des <strong>Totax des contributions</strong> "
-#~ "et inclut des raccourcis pour voir les détails des contributions pour ces "
-#~ "périodes de recherche utilisées communément. Pour faire votre propre "
-#~ "recherche cliquez <a href='%1'>Trouvez une Contribution</a>. Vous pouvez "
-#~ "chercher par le nom, le montant et un ensemble de critéres."
-
-#~ msgid ""
-#~ "Warning: Deleting this event will also delete associated Event "
-#~ "Registration Page and Event Fee configurations. This operation can not be "
-#~ "undone. Do you want to continue?"
-#~ msgstr ""
-#~ "Attention: Effacer cet évènement effacera aussi les configuration des "
-#~ "frais de l'évènement et les pages d'inscription à cet évènement. Cette "
-#~ "opération ne pourra pas être annulée. Voulez vous continuer ?"
-
-#~ msgid ""
-#~ "Select a pre-configured Price Set to offer multiple individually priced "
-#~ "options for event registrants. Otherwise, select &quot;-none-&quot, and "
-#~ "enter one or more fee levels in the table below. Create or edit Price "
-#~ "Sets <a href='%1'>here</a>."
-#~ msgstr ""
-#~ "Sélectionnez un ensemble de Prix Pré configuré pour offrir des options de "
-#~ "tarifs individuels multiples pour les inscriptions à l'évènement. "
-#~ "Autrement, sélectionnez &quot;-aucun-&quot, et entrez un ou plusieurs "
-#~ "niveaux de frais dans la table cidessous. Créez ou éditez l'ensemble de "
-#~ "prix <a href='%1'>ici</a>."
-
-#~ msgid ""
-#~ "Use the table below to enter descriptive labels and amounts for up to ten "
-#~ "event fee levels. These will be presented as a list of radio button "
-#~ "options. Both the label and dollar amount will be displayed."
-#~ msgstr ""
-#~ "Utilisez la table ci dessous pour entrer les titres descriptifs et les "
-#~ "montants pour un à 10 niveaux de frais. Ils seront présentés comme une "
-#~ "liste d'options de boutons radio. Le montant et le titre seront affichés "
-#~ "tous les deux."
-
-#~ msgid "Qty"
-#~ msgstr "Quantité:"
-
-#~ msgid ""
-#~ "Please verify the information below. Click <strong>Go Back</strong> if "
-#~ "you need to make changes. Otherwise, click the <strong>Continue</strong> "
-#~ "button below to complete your registration."
-#~ msgstr ""
-#~ "Merci de vérifier les informations ci dessous. Cliquez <strong> Retour</"
-#~ "strong> si vous devez faire des changements. Autrement, cliquez "
-#~ "<strong>Continuer>/strong> ci dessous pour compléter votre inscription."
-
-#~ msgid "Found %count participant."
-#~ msgid_plural "Found %count participants."
-#~ msgstr[0] "%count Participant a été trouvé"
-#~ msgstr[1] "%count Participants ont été trouvés"
-
-#~ msgid ""
-#~ "Use this form to find participant(s) by participant name, event name, "
-#~ "event start and end dates."
-#~ msgstr ""
-#~ "Utilisez ce formulaire pour trouver les participants par leurs noms, "
-#~ "évènement ou dates de début et de fin de l'évènement"
-
-#~ msgid "List more Event Participants"
-#~ msgstr "Lister plus de participants"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the selected participations? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these participations."
-#~ msgstr ""
-#~ "Voulez-vous vraiment supprimer les participants sélectionnées? Cette "
-#~ "opération ne pourra pas être annulée et effacera toutes les transactions "
-#~ "et l'historique associées à ces participations."
-
-#~ msgid "One participant record selected for export."
-#~ msgid_plural "%count participant records selected for export."
-#~ msgstr[0] "Un enregistrement de participant sélectionné pour l'export."
-#~ msgstr[1] ""
-#~ "%count enregistrements de participant sélectionnés pour l'export."
-
-#~ msgid ""
-#~ "Click <strong>Export Participants</strong> to download a comma-separated "
-#~ "values (CSV) file of participant data. Each row will also include "
-#~ "participant contact information (name, address, email, phone...) as "
-#~ "available."
-#~ msgstr ""
-#~ "Cliquez sur <strong>Exporter les participantss</strong> pour télécharger "
-#~ "un fichier CSV (comma-separated values, valeurs séparées par des "
-#~ "virgules) des données de participants. Chaque rangée contiendra aussi les "
-#~ "informations de contact de participant (nom, adresse, courriel, "
-#~ "téléphone...), selon leur disponibilité."
-
-#~ msgid "Participation Status"
-#~ msgstr "Status de participation"
-
-#~ msgid ""
-#~ "CiviEvent allows you to create customized page(s) for creating and "
-#~ "registering online events. Administrators can create <a href='%"
-#~ "1'><strong>new events</strong></a> and <a href='%2'><strong>manage "
-#~ "existing events</strong></a>."
-#~ msgstr ""
-#~ "CiviEvent vous permet aussi de créer des pages personalisées pour créer "
-#~ "et enregistrer en ligne des évènements. Les administrateurs peuvent <a "
-#~ "href='%1'><strong>créer de nouveaux évènements</strong></a> et <a href='%"
-#~ "2'><strong>gérer les évènements existants</strong></a>."
-
-#~ msgid ""
-#~ "You can also input and track offline Events. To enter events manually for "
-#~ "individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
-#~ "contact. Then click <strong>View</strong> to go to their summary page and "
-#~ "click on the <strong>New Event</strong> link. You can also <a href='%"
-#~ "2'><strong>import batches of participants</strong></a> from other sources."
-#~ msgstr ""
-#~ "Vous pouvez aussi gérer vos évènements hors ligne. Pour entrer un "
-#~ "évènement manuellement pour un contact individuel, utilisez <a href='%"
-#~ "1'>Trouver un Contact</a>, puis cliquez sur <strong>Voir </strong>pour "
-#~ "aller sur la page d'information et cliquez sur le lien  <strong>Nouvel "
-#~ "évènement</strong>. Vous pouvez aussi <a href='%2'><strong>importer "
-#~ "automatiquement des participants</strong></a> depuis d'autres sources"
-
-#~ msgid ""
-#~ "This table provides a summary of up to ten scheduled and recent "
-#~ "<strong>Events</strong>. Click the <strong>Event name</strong> to view "
-#~ "the event as it will be displayed to site visitors. Click the "
-#~ "<strong>Participants count</strong> to see a list of participants. To run "
-#~ "your own customized searches - click <a href='%1'>Find Participants</a>. "
-#~ "You can search by Participant Name, Event, Date Range and Status."
-#~ msgstr ""
-#~ "Ce tableau présente un résumé qui concerne jusqu'à 10 <strong>évènements</"
-#~ "strong> passés ou prévus. Cliquez sur <strong>le nom de "
-#~ "l'évènement<strong> pour voir comment il sera affiché aux visiteurs du "
-#~ "site. Cliquez sur <strong>le nombre de Participants</strong> pour avoir "
-#~ "la liste des participants. Pour une recherche personalisée (Nom du "
-#~ "participant, Evènement, période et status) cliquez <a href='%1'>Trouvez "
-#~ "des Participants</a>"
-
-#~ msgid ""
-#~ "Determine if the event is free or paid. For paid events, set the fee level"
-#~ "(s) and contribution type assigned to fees. Give online registrants the "
-#~ "option to 'pay later' (e.g. mail in a check, call in a credit card, etc.)."
-#~ msgstr ""
-#~ "Déterminez si l'évènement est gratuit ou payant. Pour les évènements "
-#~ "payants, configurez les niveaux de frais et les contributions associées à "
-#~ "ces frais. Donnez à vos inscrits la possibilité de payer plus tard "
-#~ "(chéque par courrier, crédit ...)"
-
-#~ msgid ""
-#~ "Determine whether an online registration page is available. If so, "
-#~ "configure registration page elements."
-#~ msgstr ""
-#~ "Déterminez une page d'inscription en ligne est accessible. Si oui, "
-#~ "configurez la"
-
-#~ msgid "RSS 2.0 Feed"
-#~ msgstr "Flux RSS 2.0"
-
-#~ msgid "Complete OR partial mailing name."
-#~ msgstr "nom de mail (complet ou partiel)."
-
-#~ msgid "Preview Mailing"
-#~ msgstr "Aperçu du maiing"
-
-#~ msgid ""
-#~ "Click your mouse in the upper left corner of the box below to begin "
-#~ "editing your HTML message."
-#~ msgstr ""
-#~ "Cliquez dans le coins gauche en haut de la boite ci dessous pour "
-#~ "commencer à éditer le message HTML."
-
-#~ msgid ""
-#~ "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
-#~ msgstr ""
-#~ "Aucun message envoyé. Vous pouvez <a href='%1'>en créer un et l'envoyer</"
-#~ "a>"
-
-#~ msgid ""
-#~ "WARNING: Deleting this membership will also delete related membership log "
-#~ "and payment records. This action can not be undone. Consider modifying "
-#~ "the membership status instead if you want to maintain a record of this "
-#~ "membership."
-#~ msgstr ""
-#~ "ATTENTIOn: effacer cet adhésion effacera aussi les logs des adhésion et "
-#~ "les enregistrement de paiements. Cette action ne peut pas être annulée. "
-#~ "Considérez la modification du status si vous voulez garder un "
-#~ "enregistrement de cette adhésion"
-
-#~ msgid "None"
-#~ msgstr "Aucun"
-
-#~ msgid "Found %count member."
-#~ msgid_plural "Found %count members."
-#~ msgstr[0] "%count membre trouvé"
-#~ msgstr[1] "%count membres trouvés"
-
-#~ msgid ""
-#~ "Use this form to find member(s) by member name or email address, "
-#~ "membership type, status, source, and/or membership period start and end "
-#~ "dates. Multiple selections for Membership Type and Status are combined as "
-#~ "OR criteria (e.g. checking 'Membership Type A' and 'Membership Type B' "
-#~ "will find contacts who have either membership). All other search fields "
-#~ "are combined as AND criteria (e.g. selecting Status is 'Expired' AND "
-#~ "Source is 'Phone-banking' returns only those contacts who meet both "
-#~ "criteria)."
-#~ msgstr ""
-#~ "Utilisez ce formulaire pour trouver des membre par leur nom, l'adresse "
-#~ "email, le type d'adhésion, le status ou les dates de début et de fin de "
-#~ "l'adhésion. Une sélection multiples pour les types et les status se "
-#~ "cumulent (Critére OU, par exemple cocher 'Type A' et 'Type B' sortira les "
-#~ "contacts qui ont soit le type A soit le type B). Les autres champs sont "
-#~ "combinés, les recherches sortiront les contacts ayant tous les critéres"
-
-#~ msgid "List more Memberships"
-#~ msgstr "Listez plus d'adhésion"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the selected memberships? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these members."
-#~ msgstr ""
-#~ "Etes vous sur de vouloir effacer l'adhésion sélectionnée ? Cette "
-#~ "opération ne pourra pas être anulée et effacera toutes les transactions "
-#~ "et l'historique des activités associées avec ces membres"
-
-#~ msgid "One membership record selected for export."
-#~ msgid_plural "%count membership records selected for export."
-#~ msgstr[0] "Une adhésion sélectionnée pour l'exportation."
-#~ msgstr[1] "%count adhésions sélectionnées pour l'exportation."
-
-#~ msgid ""
-#~ "Click <strong>Export Memberships</strong> to download a comma-separated "
-#~ "values (CSV) file of membership data. Each row will also include member "
-#~ "contact information (name, address, email, phone...) as available."
-#~ msgstr ""
-#~ "Cliquez <strong> Exportation des adhésion</strong> pour télécharger un "
-#~ "fichier CSV des données d'adhésion. Chaques lignes incluera aussi les "
-#~ "infomraiton du contact (nom, adresse, téléphonne, mail ...) si "
-#~ "disponnibles."
-
-#~ msgid ""
-#~ "CiviMember allows you to create customized membership types as well as "
-#~ "page(s) for online membership sign-up and renewal. Administrators can "
-#~ "create or modify Membership Types <a href='%2'>here</a>, and configure "
-#~ "Online Contribution Pages which include membership sign-up <a href='%"
-#~ "1'>here</a>."
-#~ msgstr ""
-#~ "CiviMembers vous permet de créer des types d'adhésion personalisés ainsi "
-#~ "que des pages pour l'inscription et le renouvellement des adhésions. Les "
-#~ "Administrateurs peuvent créer ou modifier les types d'adhésion <a href='%"
-#~ "2'>ici</a> et configurer des pages de contribution en ligne qui inclut "
-#~ "des inscription d'adhésion <a href='%1'>ici</a>."
-
-#~ msgid ""
-#~ "You can also input and track membership sign-ups offline. To record "
-#~ "memberships manually for individual contacts, use <a href='%1'>Find "
-#~ "Contacts</a> to locate the contact. Then click <strong>View</strong> to "
-#~ "go to their summary page and click on the <strong>New Membership</strong> "
-#~ "link. You can also <a href='%3'>import batches of membership records</a> "
-#~ "from other sources. Refer to the <a href='%2' target='_blank' title='%"
-#~ "4'>CiviMember Guide</a> for more information."
-#~ msgstr ""
-#~ "Vous pouvez aussi traquez les adhésion hors-ligne. Pour enregistrer une "
-#~ "adhésion manuellement pour des contacts individuels, utilisez <a href='%"
-#~ "1'>Trouver des Contacts</a> pour les localiser, puis cliquez "
-#~ "<strong>Voir</strong> pour voir la page de résumé et cliquez sur le lien "
-#~ "<strong>Nouvelle adhésion</strong>. Vous pouvez aussi <a href='%"
-#~ "3'>importer automatiquement des enregistrements d'adhésion</a> à partir "
-#~ "d'autre sources. Plus d'information sur le <a href='%2' target='_blank' "
-#~ "title='%4'>Guide CiviMember </a>."
-
-#~ msgid ""
-#~ "This table provides a summary of <strong>Membership Signup and Renewal "
-#~ "Activity</strong>, and includes shortcuts to view the details for these "
-#~ "commonly used search criteria. To run your own customized searches - "
-#~ "click <a href='%1'>Find Members</a>. You can search by Member Name, "
-#~ "Membership Type, Status, and Signup Date Ranges."
-#~ msgstr ""
-#~ "Ce tableau présente un résumé des <strong>activités d'adhésion et de "
-#~ "renouvellement</strong>, et inclut des raccourcis pour voir des détails "
-#~ "pour and includes shortcuts to view the details pour des critéres de "
-#~ "recherche comunnément utilisé. Pour rechercher des membre, cliquez sur <a "
-#~ "href='%1'>trouver des membres</a>. Vous pouvez chercher par nom de "
-#~ "membre, type d'adhéson, status et intervalle d'adhésion."
-
-#~ msgid "Transaction ID"
-#~ msgstr "ID de la transaction"
-
-#~ msgid "You do not have permission to access this page"
-#~ msgstr "Vous n'avez pas l'autorisation d'accéder à cette page"
-
-#~ msgid "Contribution Types"
-#~ msgstr "Types de contributions"
-
-#~ msgid "Manage Premiums"
-#~ msgstr "Gérer les premiums"
-
-#~ msgid "Import Contributions"
-#~ msgstr "Importer des contributions"
-
-#~ msgid "DashBoard"
-#~ msgstr "Tableau de bord"
-
-#~ msgid "Manage Contribution Pages"
-#~ msgstr "Gérer les pages de contributions"
-
-#~ msgid "Participant"
-#~ msgstr "Participant"
-
-#~ msgid "Display Name"
-#~ msgstr "Montrer le nom"
-
-#~ msgid "Import Participants"
-#~ msgstr "Importer des participants"
-
-#~ msgid "Manage Events"
-#~ msgstr "Gérer les événements"
-
-#~ msgid "Subscribe"
-#~ msgstr "S'abonner"
-
-#~ msgid "Import Members"
-#~ msgstr "Importer les membres"
-
-#~ msgid ""
-#~ "This contribution type can not be deleted because it is being referenced "
-#~ "by one or more of the following types of records: Contributions, "
-#~ "Contribution Pages, or Membership Types. Consider disabling this type "
-#~ "instead if you no longer want it used."
-#~ msgstr ""
-#~ "Ce type de contribution ne peut être effacé car il est utilisé par l'un "
-#~ "ou plusieurs des entrées suivantes: contributions, page de contributions "
-#~ "ou types d'adhésions. Considérez plutôt la désactivation de ce type si "
-#~ "vous ne voulez plus l'utiliser."
-
-#~ msgid "Payment Instrument"
-#~ msgstr "Mode de paiement"
-
-#~ msgid ""
-#~ "This contribution page is configured to support separate contribution and "
-#~ "membership payments. The PayPal Website Payments Standard plugin does not "
-#~ "currently support multiple simultaneous payments. Please contact the site "
-#~ "administrator and notify them of this error"
-#~ msgstr ""
-#~ "Cette page a été configuré pour permettre les contribution et les "
-#~ "paiement des adhèsions. Or le plug-in standart de Paypal ne permets pas "
-#~ "les paiements multiples. Merci de notifier l'erreur à l'administrateur du "
-#~ "site."
-
-#~ msgid "-period-"
-#~ msgstr "-période-"
-
-#~ msgid "day(s)"
-#~ msgstr "jour(s)"
-
-#~ msgid "week(s)"
-#~ msgstr "semaine(s)"
-
-#~ msgid "month(s)"
-#~ msgstr "mois"
-
-#~ msgid "year(s)"
-#~ msgstr "année(s)"
-
-#~ msgid ""
-#~ "You can not set up a recurring contribution if you are not paying online "
-#~ "by credit card."
-#~ msgstr ""
-#~ "Vous ne pouvez pas payer votre contribution récurente autrement que par "
-#~ "Carte bancaire"
-
-#~ msgid "Contribution amount can not be greater than %1"
-#~ msgstr "La contribution ne peux pas être plus grande que %1"
-
-#~ msgid "Enable recurring payments"
-#~ msgstr "Permettre les paiements récurrents"
-
-#~ msgid "Enable pay later option?"
-#~ msgstr "Autoriser l'option \"je paye plus tard\""
-
-#~ msgid "You do not have any payment processors that support this feature"
-#~ msgstr ""
-#~ "Vous n'avez aucun moyen de paiement qui prenne en charge cette "
-#~ "fonctionnalité"
-
-#~ msgid "Submit Contribution"
-#~ msgstr "Soumettre une contribution"
-
-#~ msgid "Online Contribution: CiviCRM Admin Interface"
-#~ msgstr "Contribution en ligne : Interface admin CiviCRM"
-
-#~ msgid "CiviCRM Contributions"
-#~ msgstr "CiviCRM Contributions"
-
-#~ msgid ""
-#~ "Missing required contact matching fields. (Should be First AND Last Name "
-#~ "or Primary Email or First Name, Last Name AND Primary Email) (OR Invoice "
-#~ "ID or Transaction ID or Contribution ID if update mode.)"
-#~ msgstr ""
-#~ "Il manque un champs requis de correspondance pour les contact. Ce peut "
-#~ "être Nom&Prénom ou Email Primaire ou Nom&Prénom&Email Primaire (ou ID de "
-#~ "facture ou ID de transaction ou ID de contribution dans le processus de "
-#~ "mise à jour)."
-
-#~ msgid "Contribution Payment Form"
-#~ msgstr "Formulaire de règlement de la contribution"
-
-#~ msgid ""
-#~ "CiviContribute allows you to configure any number of Premiums which can "
-#~ "be offered to contributors as incentives / thank-you gifts. Define the "
-#~ "premiums you want to offer here."
-#~ msgstr ""
-#~ "CiviContribute vous permet de configurer plusieurs Primes qui peuvent "
-#~ "être offerts aux donateurs comme primes de motivation / ou cadeaux de "
-#~ "remerciement. Définissez les primes que vous voulez offrir ici"
-
-#~ msgid ""
-#~ "Contribution types are used to categorize contributions for reporting and "
-#~ "accounting purposes. These are also referred to as Funds."
-#~ msgstr ""
-#~ "Les types de contribution sont utilisés pour catégoriser des "
-#~ "contributions dans le but de réaliser des reporting et des sorties "
-#~ "comptables. Ceux-ci sont aussi mentionnés comme des Fonds"
-
-#~ msgid ""
-#~ "You may choose to record the payment instrument used for each "
-#~ "contribution. Common payment methods are installed by default (e.g. "
-#~ "Check, Cash, Credit Card...). If your site requires additional payment "
-#~ "methods, add them here."
-#~ msgstr ""
-#~ "Vous pouvez choisr l'instrument de paiement pour chaque contribution. Des "
-#~ "méthodes de paiement communes sont installées par défaut (chèque, espèce, "
-#~ "carte de crédit ...). Si votre site nécessite des méthodes de paiement "
-#~ "supplémentaires, ajoutez-les ici."
-
-#~ msgid ""
-#~ "Credit card options that will be offered to contributors using your "
-#~ "Online Contribution pages."
-#~ msgstr ""
-#~ "Les options de carte de crédit que l'on offrira aux contributeurs "
-#~ "utilisant vos pages en ligne."
-
-#~ msgid "Find Contributions"
-#~ msgstr "Chercher des contributions"
-
-#~ msgid "CiviCRM Contribution Search"
-#~ msgstr "Recherche de contribution CiviCRM"
-
-#~ msgid "Event Name"
-#~ msgstr "Nom de l'événement"
-
-#~ msgid ""
-#~ "This event can not be deleted because there are participant records "
-#~ "linked to it. If you want to delete this event, you must first find the "
-#~ "participants linked to this event and delete them. You can use use <a "
-#~ "href='%1'> CiviEvent >> Find Participants page </a>."
-#~ msgstr ""
-#~ "Cet évenement ne paut pas être effacés parceque certains participants "
-#~ "sont encore liés à cet évenement. Vous devez les identifier et ensuite "
-#~ "les supprimer de cet évenement. Vous pouvez utiliser <a href='%1'> "
-#~ "CiviEvent >> Chercher la page des participants page </a>."
-
-#~ msgid "Please enter the text displayed to the user"
-#~ msgstr "Entrez SVP le texte qui sera présenté à l'utilisateur"
-
-#~ msgid "Please enter the message to be sent to the user"
-#~ msgstr "Entrez SVP le message qui sera envoyé à l'utilisateur"
-
-#~ msgid "Total Participant(s) added to event: %1"
-#~ msgstr "Total des participants ajoutés à l'évènement : %1"
-
-#~ msgid ""
-#~ "A payment processor must be selected for this event registration page "
-#~ "(contact the site administrator for assistance)."
-#~ msgstr ""
-#~ "Un moyen de paiement doit être choisi pour cette page d'enregistrement "
-#~ "d'un évènement (contactez l'administrateur du site pour toute assistance)."
-
-#~ msgid "Select a valid date greater than today."
-#~ msgstr "Choisissez une date valide, postérieure à celle d'aujourd'hui."
-
-#~ msgid "Search by Date Range"
-#~ msgstr "Cherchez par date"
-
-#~ msgid "CiviCRM Participants"
-#~ msgstr "Participants CiviCRM"
-
-#~ msgid ""
-#~ "Missing required contact matching fields. (Should be First AND Last Name "
-#~ "or Primary Email or First Name, Last Name AND Primary Email.) (OR "
-#~ "Participant ID if update mode.)"
-#~ msgstr ""
-#~ "Il manque un champs requis de correspondance pour les contact. Ce peut "
-#~ "être Nom&Prénom ou Email Primaire ou Nom&Prénom&Email Primaire (ou l'ID "
-#~ "du participant dans le processus de mise à jour)"
-
-#~ msgid "Manage Event"
-#~ msgstr "Gérer les évènements"
-
-#~ msgid "CiviEvent DashBoard"
-#~ msgstr "Tableau de bord CiviEvent"
-
-#~ msgid "Event Listings"
-#~ msgstr "Listes des évènements"
-
-#~ msgid "Event Participants List"
-#~ msgstr "Liste des participants à l'évènement"
-
-#~ msgid ""
-#~ "Create and edit event configuration including times, locations, online "
-#~ "registration forms, and fees. Links for iCal and RSS syndication."
-#~ msgstr ""
-#~ "Créez et éditez la configuration de l'évènement incluant les heures, "
-#~ "adresses, formulaires d'enregistrement en ligne et frais d'inscriptions. "
-#~ "Liens pour syndication iCal et RSS."
-
-#~ msgid "Event Types"
-#~ msgstr "Types d'évènement"
-
-#~ msgid ""
-#~ "Price sets allow you to offer multiple options with associated fees (e.g. "
-#~ "pre-conference workshops, additional meals, etc.). Configure Price Sets "
-#~ "for events which need more than a single set of fee levels."
-#~ msgstr ""
-#~ "La configuration des prix vous permettent d'offrir plusieurs options avec "
-#~ "les tarifs associés (ex boutique de pré-conférence, repas "
-#~ "personnalisés, ...). Configurez les prix pour les évènements qui "
-#~ "nécessitent plus qu'un seul niveau de tarification."
-
-#~ msgid "Find Participants"
-#~ msgstr "Trouver des participants"
-
-#~ msgid "New Event"
-#~ msgstr "Nouvel évènement"
-
-#~ msgid "Send a Test Mailing?"
-#~ msgstr "Envoyer un email de test ?"
-
-#~ msgid "Test"
-#~ msgstr "Test"
-
-#~ msgid "Mailing Subject"
-#~ msgstr "Sujet du mail"
-
-#~ msgid "Mailings"
-#~ msgstr "Mailings"
-
-#~ msgid "The mailing queue has been processed."
-#~ msgstr "Tous les mailings en attente ont été traités."
-
-#~ msgid "Mailer Settings"
-#~ msgstr "Configuration de l'envoyeur (Mailer)"
-
-#~ msgid "Configure spool period, throttling and other mailer settings."
-#~ msgstr ""
-#~ "Configurez le stockage temporaire (spool), la régulation  et d'autres "
-#~ "paramètres de courrier."
-
-#~ msgid "Headers, Footers, and Automated Messages"
-#~ msgstr "Entête, pied de page et message automatisés"
-
-#~ msgid ""
-#~ "Configure the header and footer used for mailings. Customize the content "
-#~ "of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
-#~ msgstr ""
-#~ "Configurez l'entête et le pied de page utilisés pour le mailing. "
-#~ "Personnalisez le contenu des message automatiques pour l'inscription, la "
-#~ "désinscription, la réinscription et l'Opt-out."
-
-#~ msgid "Resubscribe"
-#~ msgstr "S'abonner à nouveau"
-
-#~ msgid "Optout"
-#~ msgstr "Opt-Out"
-
-#~ msgid "Browse Mailings (Scheduled and Sent)"
-#~ msgstr "Chercher parmi les mailings (prévus et envoyés)"
-
-#~ msgid "The membership can not be saved."
-#~ msgstr "L'adhésion ne peut être sauvegardée."
-
-#~ msgid ""
-#~ "The membership can not be saved. No valid membership status for given "
-#~ "dates"
-#~ msgstr ""
-#~ "L'adhésion ne peut être sauvegardée. Pas de statut d'adhésion valide pour "
-#~ "ces dates données."
-
-#~ msgid "There are no status present, You can not add membership."
-#~ msgstr "Il n'y a pas de statut, vous ne pouvez pas ajouter d'adhésion."
-
-#~ msgid "This membership status can not be deleted"
-#~ msgstr "Le statut de cette adhésion ne peut pas être supprimé"
-
-#~ msgid "Change"
-#~ msgstr "Changer"
-
-#~ msgid "CiviCRM Members"
-#~ msgstr "Membres CiviCRM"
-
-#~ msgid ""
-#~ "Missing required contact matching fields. (Should be First AND Last Name "
-#~ "or Primary Email or First Name, Last Name AND Primary Email.) (OR "
-#~ "Membership ID if update mode.)"
-#~ msgstr ""
-#~ "Il manque un champs requis de correspondance pour les contact. Ce peut "
-#~ "être Nom&Prénom ou Email Primaire ou Nom&Prénom&Email Primaire (ou l'ID "
-#~ "d'adhésion dans le processus de mise à jour)."
-
-#~ msgid ""
-#~ "Define the types of memberships you want to offer. For each type, you can "
-#~ "specify a 'name' (Gold Member, Honor Society Member...), a description, "
-#~ "duration, and a minimum fee."
-#~ msgstr ""
-#~ "Définissez les types d'adhésion que vous voulez proposer. Pour chaque "
-#~ "type, vous pouvez spécifier un 'nom' (Membre Or, Membre d'honneur, ...), "
-#~ "une description, une durée et une cotisation minimale."
-
-#~ msgid "Membership Status Rules"
-#~ msgstr "Règles des statuts d'adhésion"
-
-#~ msgid ""
-#~ "Status 'rules' define the current status for a membership based on that "
-#~ "membership's start and end dates. You can adjust the default status "
-#~ "options and rules as needed to meet your needs."
-#~ msgstr ""
-#~ "Les 'règles' des statuts définissent le statut actuel pour une adhésion "
-#~ "basée sur des dates de début et de fin de l'adhésion. Vous pouvez ajuster "
-#~ "les options et règles des statuts défines par défaut, si besoin. "
-
-#~ msgid "Find Members"
-#~ msgstr "Trouver des membres"
-
-#~ msgid "CiviCRM Member Search"
-#~ msgstr "Recherche de Membres CiviCRM"
-
-#~ msgid ""
-#~ "An email receipt will be sent to %1 once the transaction is processed "
-#~ "successfully."
-#~ msgstr ""
-#~ "Un accusé de réception par e-mail va être envoyé à %1 dès que la "
-#~ "transaction se sera déroulée avec succès."
-
-#~ msgid "Additional Details"
-#~ msgstr "Détails additionnels"
-
-#, fuzzy
-#~ msgid "Honoree Information"
-#~ msgstr "Information sur la personne bénéficiaire du cadeau"
-
-#~ msgid ""
-#~ "WARNING: You can not delete a contribution type if it is currently used "
-#~ "by any Contributions, Contribution Pages or Membership Types. Consider "
-#~ "disabling this option instead."
-#~ msgstr ""
-#~ "ATTENTION : Vous ne pouvez pas supprimer un type de contribution s'il est "
-#~ "actuellement utilisé pour des contributions, des pages de contributions "
-#~ "ou des types d'adhésion. Envisagez plutôt d'annuler cette option."
-
-#~ msgid "Received Date"
-#~ msgstr "Date de réception"
-
-#~ msgid "Additional Information"
-#~ msgstr "Information supplémentaire"
-
-#~ msgid "Automatically email a receipt for this contribution?"
-#~ msgstr "Envoyer automatiquement par email un reçu pour cette contribution?"
-
-#~ msgid "Event Information"
-#~ msgstr "Information sur l'événement"
-
-#, fuzzy
-#~ msgid "Found %count contribution."
-#~ msgid_plural "Found %count contributions."
-#~ msgstr[0] "Contribution trouvée %count"
-#~ msgstr[1] "Contributions trouvées %count"
-
-#~ msgid ""
-#~ "Use this form to find contributions by contributor name, contribution "
-#~ "date or amount ranges, type of contribution, payment method and / or "
-#~ "status."
-#~ msgstr ""
-#~ "Utilisez ce formulaire pour trouver des contributions par nom de "
-#~ "contributeur, date ou montant de contribution, type de contribution, "
-#~ "moyen de paiement et/ou statut."
-
-#~ msgid ""
-#~ "To search by first AND last name, enter 'lastname, firstname'. Example: "
-#~ "'Doe, Jane'. For partial name search, use '%partialname' ('%' equals "
-#~ "'begins with any combination of letters')."
-#~ msgstr ""
-#~ "Pour chercher par prénom ET nom, entrez 'nom, prénom'. Exemple 'Doe, "
-#~ "Jane'. Pour une recherche partielle du nom, utilisez '%nompartiel' ('%' "
-#~ "égale 'commence par la combinaison de lettres')."
-
-#~ msgid "List more contributions"
-#~ msgstr "Lister plus de contributions"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the selected contributions? This delete "
-#~ "operation cannot be undone and will delete all transactions and activity "
-#~ "history associated with these contributions."
-#~ msgstr ""
-#~ "Etes-vous sûr de vouloir supprimer les contributions sélectionnées? Cette "
-#~ "opération de suppression ne pourra pas être annulée et supprimera tout "
-#~ "l'historique des activités et des transactions associé à ces "
-#~ "contributions."
-
-#~ msgid "One contribution record selected for export."
-#~ msgid_plural "%count contribution records selected for export."
-#~ msgstr[0] "Un dossier de contribution sélectionné pour l'exportation."
-#~ msgstr[1] "%count dossiers de contribution sélectionnés pour l'exportation."
-
-#~ msgid ""
-#~ "Click <strong>Export Contributions</strong> to download a comma-separated "
-#~ "values (CSV) file of contribution data. Each row will also include "
-#~ "contributor contact information (name, address, email, phone...) as "
-#~ "available."
-#~ msgstr ""
-#~ "Cliquez sur <strong>Exporter les Contributions</strong> pour télécharger "
-#~ "un dossier CSV (valeurs séparées par une virgule) de données de "
-#~ "contributions. Chaque ligne incluera également les informations de "
-#~ "contact du contributeur (nom, adresse, email, téléphone...) lorsqu'elles "
-#~ "sont présentes."
-
-#~ msgid ""
-#~ "Set page title, contribution type (donation, campaign contribution, "
-#~ "etc.), payment processor, goal amount, introduction, honoree features, "
-#~ "and page status (active or disabled)."
-#~ msgstr ""
-#~ "Indiquez le titre de la page, le type de contribution (donation, campagne "
-#~ "d'adhésion, ect.), le processus de paiement, l'objectif (montant total "
-#~ "désiré), l'introduction, les caractéristiques de la personne gratifiée et "
-#~ "le statut de la page (active ou désactivée)."
-
-#~ msgid "Enable recurring contributions."
-#~ msgstr "Permettre les contributions récurrentes."
-
-#~ msgid "Create a Widget"
-#~ msgstr "Créer un widget"
-
-#~ msgid ""
-#~ "No contribution pages have been created yet. Click <a href='%1'>here</a> "
-#~ "to create a new contribution page using the step-by-step wizard."
-#~ msgstr ""
-#~ "Aucune page de contribution n'a encore été créée. Cliquez <a href='%"
-#~ "1'>ici</a> pour créer une nouvelle page de contribution utilisant "
-#~ "l'assistant pas-à-pas."
-
-#, fuzzy
-#~ msgid "Fee Levels"
-#~ msgstr "Date de debut"
-
-#, fuzzy
-#~ msgid "Unit Price"
-#~ msgstr "Titre"
-
-#, fuzzy
-#~ msgid "Tracking"
-#~ msgstr "En attente"
-
-#, fuzzy
-#~ msgid "New Mailing"
-#~ msgstr "Sujet"
-
-#, fuzzy
-#~ msgid "Are you sure you want to unsubscribe: %1 (%2)"
-#~ msgstr "Voulez vous desactiver ce groupe de donnees?"
-
-#, fuzzy
-#~ msgid "Start/Renew Date"
-#~ msgstr "Date de debut"
-
-#~ msgid "Contribution ID (match to contribution)"
-#~ msgstr " ID de Contribution (unique)"
-
-#~ msgid ""
-#~ "Page title can not be longer than 255 characters and must consist of "
-#~ "letters, numbers, spaces and simple punctuation characters."
-#~ msgstr ""
-#~ "Le titre d'une page se compose de lettres, chiffres, espaces, ponctuation "
-#~ "simple et ne peux pas être plus grand que 255 caractéres"
-
-#~ msgid "Event %2 %1"
-#~ msgstr "Evénement %2 %1"
-
-#, fuzzy
-#~ msgid "Test Participants Only"
-#~ msgstr "Chercher contacts"
-
-#~ msgid "Title "
-#~ msgstr "Titre "
-
-#~ msgid "Profile Fields"
-#~ msgstr "Champs du profil utilisateur"
-
-#, fuzzy
-#~ msgid "Domain Information"
-#~ msgstr "Page de donation"
-
-#~ msgid "Thermometer Title"
-#~ msgstr "Titre de l'indicateur de progression"
-
-#~ msgid "Please set a location type of %1"
-#~ msgstr "Déterminez le type de lieu pour %1"
-
-#, fuzzy
-#~ msgid "Payment Entity Table"
-#~ msgstr "???"
-
-#~ msgid "Membership Types"
-#~ msgstr "Type d'adhésion"
-
-#~ msgid "Min Amount"
-#~ msgstr "Montant minimum"
-
-#~ msgid "Max Amount"
-#~ msgstr "Montant maximum"
-
-#~ msgid "Thank-you Title"
-#~ msgstr "Titre pour les remerciements"
-
-#~ msgid "Sort Position"
-#~ msgstr "Ordre / Position"
-
-#~ msgid "Image"
-#~ msgstr "Image"
-
-#~ msgid ""
-#~ " The Membership you have selected requires a minimum contribution of %1"
-#~ msgstr ""
-#~ "L'adhésion que vous avez sélectionné requiert une contribution minimum de "
-#~ "%1"
-
-#~ msgid "This amount has to be greater than %1"
-#~ msgstr "Ce montant doit être plus grand que %1"
-
-#~ msgid "This amount has to be less than %1"
-#~ msgstr "Ce montant doit être plus petit que %1"
-
-#, fuzzy
-#~ msgid "Contribution is In Honor Of"
-#~ msgstr "Type de contact"
-
-#, fuzzy
-#~ msgid " First Name"
-#~ msgstr "Prenom"
-
-#~ msgid "End Date and Time are required fields."
-#~ msgstr "Les date et heure de fin sont des champs obligatoires"
-
-#~ msgid "Please select a payment processor"
-#~ msgstr "Merci de sélectionner un processus de paiement"
-
-#~ msgid "You cannot register for this event currently"
-#~ msgstr "Vous ne pouvez pas vous inscrire pour cet événement en ce moment"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selected mailing can not be deleted as mails are still pending in spool "
-#~ "table."
-#~ msgstr "Entrez un nom valide"
-
-#, fuzzy
-#~ msgid "Selected mailing can not be deleted since it is in process."
-#~ msgstr "Entrez un nom valide"
-
-#, fuzzy
-#~ msgid "Please select at least one group to include in the mailing."
-#~ msgstr "Type de relation"
-
-#, fuzzy
-#~ msgid "Start Date - From"
-#~ msgstr "Date de debut"
-
-#, fuzzy
-#~ msgid "(membership fee - %1)"
-#~ msgstr "Ajouter membres: %1"
-
-#, fuzzy
-#~ msgid "Show Past Events"
-#~ msgstr "Date de debut"
-
-#, fuzzy
-#~ msgid " Mailing"
-#~ msgstr "Sujet"
-
-#, fuzzy
-#~ msgid "delete"
-#~ msgstr "Effacer"
-
-#, fuzzy
-#~ msgid "cancel"
-#~ msgstr "Annuler"
-
-#, fuzzy
-#~ msgid "Group Type"
-#~ msgstr "Type de contact"
-
-#, fuzzy
-#~ msgid "Exclude Group(s)"
-#~ msgstr "Groupe(s)"
-
-#, fuzzy
-#~ msgid "FROM Email"
-#~ msgstr "Nom ou Email"
-
-#, fuzzy
-#~ msgid "Billing First Name"
-#~ msgstr "Prenom"
-
-#, fuzzy
-#~ msgid "Billing Middle Name"
-#~ msgstr "Autres prénoms"
-
-#, fuzzy
-#~ msgid "Billing Last Name"
-#~ msgstr "Nom de famille"
-
-#, fuzzy
-#~ msgid "Card Number"
-#~ msgstr "Telephone"
-
-#, fuzzy
-#~ msgid "Expiration Date"
-#~ msgstr "Date de fin"
-
-#, fuzzy
-#~ msgid "Card Type"
-#~ msgstr "Type de contact"
-
-#, fuzzy
-#~ msgid "Online Event Registration:"
-#~ msgstr "Chercher contacts"
-
-#, fuzzy
-#~ msgid "- none -"
-#~ msgstr "- Pays -"
-
-#, fuzzy
-#~ msgid "API Subject"
-#~ msgstr "Sujet"
-
-#, fuzzy
-#~ msgid "Participant status"
-#~ msgstr "Chercher contacts"
-
-#, fuzzy
-#~ msgid "Start Date /Time"
-#~ msgstr "Date de debut"
-
-#, fuzzy
-#~ msgid "Selected message template can not be deleted."
-#~ msgstr "Entrez un nom valide"
-
-#, fuzzy
-#~ msgid "Selected message templates has been deleted."
-#~ msgstr "Entrez un nom valide"
-
-#, fuzzy
-#~ msgid "Msg Title"
-#~ msgstr "Titre"
-
-#, fuzzy
-#~ msgid "Msg Subject"
-#~ msgstr "Sujet"
-
-#, fuzzy
-#~ msgid "Msg Text"
-#~ msgstr "Text"
-
-#, fuzzy
-#~ msgid "Message Title"
-#~ msgstr "Message"
-
-#, fuzzy
-#~ msgid "Message Subject"
-#~ msgstr "Sujet"
-
-#, fuzzy
-#~ msgid "Text Message"
-#~ msgstr "Message"
-
-#, fuzzy
-#~ msgid "HTML Message"
-#~ msgstr "Message"
-
-#, fuzzy
-#~ msgid "Are you sure you want to disable this message tempate?"
-#~ msgstr "Voulez vous desactiver ce groupe de donnees?"
-
-#, fuzzy
-#~ msgid "Amount :"
-#~ msgstr "Pays"
-
-#, fuzzy
-#~ msgid "Date(s)"
-#~ msgstr "Date"
-
-#, fuzzy
-#~ msgid "Fee(s)"
-#~ msgstr "Chercher"
-
-# notaire ??
-#~ msgid "Do you want to delete this message template ?"
-#~ msgstr "Voulez vous desactiver ce groupe de donnees?"

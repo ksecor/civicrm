@@ -3325,7 +3325,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Contact"
-msgstr ""
+msgstr "聯絡人"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -8531,6 +8531,3 @@ msgstr "建立"
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 msgid "Acknowledgment Sent"
 msgstr ""
-
-#~ msgid "Test"
-#~ msgstr "測試"
