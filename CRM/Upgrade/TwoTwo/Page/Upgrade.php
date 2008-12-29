@@ -35,36 +35,49 @@
 
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Upgrade/Form.php';
+require_once 'CRM/Core/BAO/Domain.php';
+require_once 'CRM/Utils/System.php';
 class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
         $upgrade =& new CRM_Upgrade_Form( );
-        $message = ts('CiviCRM upgrade successful');
-        if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
-            $message = ts('Your database has already been upgraded to CiviCRM %1',
-                          array( 1 => $upgrade->latestVersion ) );
-        } else {
-            for ( $i = 1; $i <= 4; $i++ ) {
-                $this->runForm( $i );
-            }
-        }
-
-        // just change the ver in the db, since nothing to upgrade
-        $upgrade->setVersion( $upgrade->latestVersion );
-        // also cleanup the templates_c directory
-        $config =& CRM_Core_Config::singleton( );
-        $config->cleanup( 1 );
-        
         $template =& CRM_Core_Smarty::singleton( );
-        
-        $template->assign( 'message', $message );
-        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
-                                           array( 1 => $upgrade->latestVersion ) ) );
+        //check DB for is already upgraded.
+        if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
+                $message = ts('Your database has already been upgraded to CiviCRM %1',
+                              array( 1 => $upgrade->latestVersion ) );
+                $template->assign( 'upgraded', true );
+        } else {
+            //get the current version
+            $currentVersion = CRM_Core_BAO_Domain::version();
+            $message        = ts('CiviCRM upgrade successful');
+            $template->assign( 'upgradeMessage', ts('To Upgrade Please press the button.') );
+            $template->assign( 'upgradeTitle', ts('Upgrade CiviCRM from v %1 To v %2', 
+                                                  array( 1=> $currentVersion, 2=> $upgrade->latestVersion ) ) );
+            $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
+                                               array( 1 => $upgrade->latestVersion ) ) );
+            if ( $_POST['upgrade'] ) {
+                for ( $i = 1; $i <= 4; $i++ ) {
+                    $this->runForm( $i );
+                }
+                // just change the ver in the db, since nothing to upgrade
+                $upgrade->setVersion( $upgrade->latestVersion );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/upgrade', 'reset=1' ) );
+            }
+
+            // also cleanup the templates_c directory
+            $config =& CRM_Core_Config::singleton( );
+            $config->cleanup( 1 );
+            $template->assign( 'upgraded', false );
+           
+        } 
         $template->assign( 'menuRebuildURL', 
-                           CRM_Utils_System::url( 'civicrm/menu/rebuild',
-                                                  'reset=1' ) );
+                           CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1' ) );
+        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1', array( 1 => $upgrade->latestVersion ) ) );
+        $template->assign( 'message', $message );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
         echo $contents; 
+        
     }
 
     function runForm( $stepID ) {
