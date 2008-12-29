@@ -48,6 +48,10 @@
 
 {literal}
 <script type="text/javascript" >
+if ( document.getElementsByName("saveTemplate")[0].checked ) {
+    document.getElementsByName("updateTemplate")[0].checked = true;
+    document.getElementsByName("saveTemplate")[0].checked = false;	
+}
 var editor = {/literal}"{$editor}"{literal};
 function loadEditor()
 {
@@ -189,7 +193,7 @@ function tokenReplHtml ( )
 	function FCKeditor_OnComplete( editorInstance )
 	{
 	 	oEditor = FCKeditorAPI.GetInstance('html_message');
-		oEditor.SetHTML( {/literal}"{$message_html}"{literal});
+		oEditor.SetHTML( {/literal}'{$message_html}'{literal});
 		loadEditor();	
 		editorInstance.Events.AttachEvent( 'OnFocus',verify ) ;
     	}

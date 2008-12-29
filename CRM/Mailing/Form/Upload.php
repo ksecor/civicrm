@@ -316,6 +316,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             } else {
                 $params['msg_template_id'] = $formValues['template'];
             }
+            $this->set('template', $params['msg_template_id']);
         }
 
         CRM_Core_BAO_File::formatAttachment( $formValues,
