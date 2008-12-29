@@ -253,7 +253,7 @@ GROUP BY sort_name
                     $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '%$name%'
+WHERE c.sort_name LIKE '%$name'
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
