@@ -314,14 +314,6 @@
 	background: url(images/validationInputBg.gif) repeat-x top left #fff;
 }
 
-#id_search_block .tundra .dijitReset {
-	background: #fff url(images/buttonEnabled.png) repeat-x bottom left;
-}
-
-.tundra .dijitReset {
-	background-color: transparent;
-}
-
 .tundra .dijitButtonNode {
 	border: 0px none;
 	/* border:1px solid #c0c0c0;
@@ -330,6 +322,7 @@
 	padding: 0.2em;
 	background:#fff url(images/buttonEnabled.png) repeat-x bottom left; */
 }
+
 .dj_ie .tundra .dijitButtonNode {
 	zoom: 1;
 }
@@ -397,14 +390,27 @@
 	border-color:#366dba;
 	background: #ededed url(images/buttonActive.png) bottom repeat-x;
 }
+
 .tundra .dijitArrowButtonInner {
-	display: none;
-	/* background:url(images/arrowDown.png) no-repeat center center; */
+	background:url(images/arrowDown.png) no-repeat center center;
 }
+
 .tundra .dijitUpArrowButton .dijitArrowButtonInner {
-	display: none;
-	/* background-image:url(images/arrowUp.png); */
+	background-image:url(images/arrowUp.png);
 }
+
+.helpicon .tundra .dijitArrowButtonInner {
+	display: none;
+}
+
+.helpicon .tundra .dijitUpArrowButton .dijitArrowButtonInner {
+	display: none;
+}
+
+.helpicon .tundra .dijitReset {
+	background-color: transparent;
+}
+
 .dj_ie6 .tundra .dijitArrowButtonInner {
 	background-image:url(images/arrowDown.gif);
 }
