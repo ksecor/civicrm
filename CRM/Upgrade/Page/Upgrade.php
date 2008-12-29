@@ -41,9 +41,9 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
     }
 
     function run( ) {
-        require_once 'CRM/Upgrade/TwoOne/Page/Upgrade.php';
+        require_once 'CRM/Upgrade/TwoTwo/Page/Upgrade.php';
         
-        $realUpgrade = new CRM_Upgrade_TwoOne_Page_Upgrade( );
+        $realUpgrade = new CRM_Upgrade_TwoTwo_Page_Upgrade( );
         $realUpgrade->run( );
 
         // rebuild menus

@@ -34,15 +34,37 @@
  */
 
 require_once 'CRM/Core/Page.php';
+require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        for ( $i = 1; $i <= 4; $i++ ) {
-            $this->runForm( $i );
+        $upgrade =& new CRM_Upgrade_Form( );
+        $message = ts('CiviCRM upgrade successful');
+        if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
+            $message = ts('Your database has already been upgraded to CiviCRM %1',
+                          array( 1 => $upgrade->latestVersion ) );
+        } else {
+            for ( $i = 1; $i <= 4; $i++ ) {
+                $this->runForm( $i );
+            }
         }
+
+        // just change the ver in the db, since nothing to upgrade
+        $upgrade->setVersion( $upgrade->latestVersion );
+        // also cleanup the templates_c directory
+        $config =& CRM_Core_Config::singleton( );
+        $config->cleanup( 1 );
         
-        echo "Upgrade Successful. \n";
-        exit( );
+        $template =& CRM_Core_Smarty::singleton( );
+        
+        $template->assign( 'message', $message );
+        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
+                                           array( 1 => $upgrade->latestVersion ) ) );
+        $template->assign( 'menuRebuildURL', 
+                           CRM_Utils_System::url( 'civicrm/menu/rebuild',
+                                                  'reset=1' ) );
+        $contents = $template->fetch( 'CRM/common/success.tpl' );
+        echo $contents; 
     }
 
     function runForm( $stepID ) {
@@ -71,5 +93,4 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
             CRM_Core_Error::fatal( $error );
         }
     }
-
 }

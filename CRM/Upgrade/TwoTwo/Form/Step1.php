@@ -64,7 +64,7 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
         }
         
         // check if 2.1 version
-        if ( ! $this->checkVersion( '2.1' ) ) {
+        if ( ! $this->checkVersion( '2.1.4' ) ) {
             $is21db = false;
         }
 
@@ -132,8 +132,21 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
 
         if ( !$is21db ) {
             // check if the db is 2.2
-            if  ( !CRM_Core_DAO::checkTableExists( 'civicrm_event_page' ) 
-                  ) {
+            if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_event_page' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_participant', 'registered_by_id' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'intro_text' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'is_multiple_registrations' ) &&
+                 CRM_Core_DAO::checkTableExists( 'civicrm_pcp_block' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'tellfriend_limit' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'supporter_profile_id' ) &&
+                 CRM_Core_DAO::checkTableExists( 'civicrm_pcp' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_pcp', 'status_id' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_pcp', 'goal_amount' ) &&
+                 CRM_Core_DAO::checkTableExists( 'civicrm_contribution_soft' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_soft', 'pcp_display_in_roll' ) &&
+                 CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_soft', 'amount' )
+                 ) {
+
                 $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v2.2) of the database.');
             } 
             return false;

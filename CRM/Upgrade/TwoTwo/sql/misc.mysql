@@ -240,6 +240,13 @@ ALTER TABLE `civicrm_phone`         DROP `phone_type`;
 ALTER TABLE `civicrm_mapping_field` DROP `phone_type`;
 ALTER TABLE `civicrm_uf_field`      DROP `phone_type`;
 
+-- CRM-3667 case mapping
+SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
+VALUES 
+(@option_group_id_mt, 'Export Case', '12', 'Export Case', NULL, 0, 0, 12, NULL, 0, 1, 1, NULL, NULL);
 
 -- custom Group table 
 ALTER TABLE civicrm_custom_group

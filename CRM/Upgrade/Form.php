@@ -41,7 +41,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
 
     // we should change this variable to latest version, 
     // every time we do a release
-    public    $latestVersion = '2.1.4';
+    public    $latestVersion = '2.2';
 
     function __construct( $state = null,
                           $action = CRM_Core_Action::NONE,
