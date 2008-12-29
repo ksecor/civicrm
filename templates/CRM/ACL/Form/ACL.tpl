@@ -46,8 +46,9 @@
     </dl>
     <div class="status message">{ts}NOTE: For Event ACLs, the 'View' operation allows access to the event information screen. "Edit" allows users to register for the event if online registration is enabled.{/ts}<br /> 
     {if $config->userFramework EQ 'Drupal'}
-    {ts}Please remember that Drupal's "register for events" permission overrides CiviCRM's control over event information access.{/ts}</div>
+    {ts}Please remember that Drupal's "register for events" permission overrides CiviCRM's control over event information access.{/ts}
     {/if}
+    </div>
   </div>
   <dl>
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
