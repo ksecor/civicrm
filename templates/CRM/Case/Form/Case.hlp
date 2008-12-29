@@ -17,6 +17,14 @@
 {/if}
 {/htxt}
 
+{htxt id="id-activity_subject"}
+{if $activityTypeFile EQ 'OpenCase'}
+  {ts}Provide a one-line summary of what this case is about.{/ts}
+{/if}
+{/htxt}
+
 {htxt id="id-case_type"}
-{ts}Offer the appropriate service from the list. If the service requires coordination, contact the Director.{/ts}
+{if $activityTypeFile EQ 'OpenCase'}
+  {ts}Offer the appropriate service from the list. If the service requires coordination, contact the Director.{/ts}
+{/if}
 {/htxt}
