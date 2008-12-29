@@ -103,6 +103,7 @@ WHERE  ( contact_id_a = %1 AND contact_id_b = %2 AND is_permission_a_b = 1 ) OR
     static function validateChecksumContact( $contactID ) {
         if ( ! self::allow( $contactID, CRM_Core_Permission::EDIT ) ) {
             // check if this is of the format cs=XXX
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
             if ( ! CRM_Contact_BAO_Contact_Utils::validChecksum( $contactID, $cs ) ) {
                 $config =& CRM_Core_Config::singleton( );
