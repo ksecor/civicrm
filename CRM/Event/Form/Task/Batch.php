@@ -217,7 +217,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 
                 //check for custom data
                 $value['custom'] = CRM_Core_BAO_CustomField::postProcess( $value,
-                                                                          $this->_customFields,
+                                                                          CRM_Core_DAO::$_nullObject,
                                                                           $key,
                                                                           'Participant' );
 
