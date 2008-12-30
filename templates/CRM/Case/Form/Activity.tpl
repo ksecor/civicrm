@@ -74,7 +74,7 @@
             {/if}
 
             <tr>
-              <td class="label">{$form.subject.label}<br />{help id="id-activity_subject" file="CRM/Case/Form/Case.hlp"}</td><td class="view-value">{$form.subject.html}</td>
+              <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
             </tr>
            <tr>
               <td class="label">{$form.medium_id.label}</td>

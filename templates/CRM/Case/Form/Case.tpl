@@ -82,7 +82,7 @@
 {/if}
 
 {if $form.activity_subject.html}
-    <tr><td class="label">{$form.activity_subject.label}</td><td>{$form.activity_subject.html}</td></tr>
+    <tr><td class="label">{$form.activity_subject.label}<br />{help id="id-activity_subject" file="CRM/Case/Form/Case.hlp"}</td><td>{$form.activity_subject.html}</td></tr>
 {/if}
 
 {* inject activity type-specific form fields *}
