@@ -99,10 +99,6 @@ function clearAmountOther() {
 	</tr>
 </table>
 
-{if $linkText}
-<a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a><br/><br/>
-{/if}
-
 {if $form.is_for_organization} 
 {include file=CRM/Contact/Form/OnBehalfOf.tpl} 
 {/if} 

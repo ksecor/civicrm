@@ -85,8 +85,14 @@
 	</table>
       </td>
     </tr>
+    <tr><td></td><td>
+        <a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a><br/><br/>
+    </td></tr>
   </table>
+
 </div>
+
+
 
 {literal}
 <script language="JavaScript">

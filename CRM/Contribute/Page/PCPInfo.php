@@ -143,7 +143,17 @@ AND is_test = 0";
 
         $totalAmount = CRM_Contribute_BAO_PCP::thermoMeter( $this->_id );
         $achieved = round($totalAmount/$pcpInfo['goal_amount'] *100, 2);
-        
+
+
+        if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $pcpInfo['contribution_page_id'] ) ) {
+            $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
+                                                                      "action=add&reset=1&pageId={$this->_id}",
+                                                                      true, null, true,
+                                                                      true );
+            $this->assign( 'linkTextUrl', $linkTextUrl );
+            $this->assign( 'linkText', $linkText );
+        }
+         
         $this->assign('honor', $honor );
         $this->assign('pcpDate', $default['1'] );
         $this->assign('total', $totalAmount ? $totalAmount : '0.0' );
