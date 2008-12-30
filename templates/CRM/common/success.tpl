@@ -13,7 +13,7 @@
              margin: 3em;
              padding: 8em 1em 1em 1em;
              font-family: arial, verdana, sans-serif;
-             background: url({$config->resourceBase}i/block_small.png) 4.2em 4em no-repeat #fff;">
+             background: url({$config->userFrameworkResourceURL}i/block_small.png) 4.2em 4em no-repeat #fff;">
 
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 {if !$upgraded}
