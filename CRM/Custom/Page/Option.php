@@ -243,7 +243,7 @@ ORDER BY weight, label
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', "reset=1&action=browse&fid={$this->_fid}&gid={$this->_gid}"));
        
         $controller->set('gid', $this->_gid);
         $controller->set('fid', $this->_fid);

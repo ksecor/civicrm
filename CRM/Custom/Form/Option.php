@@ -155,8 +155,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form
             $this->add('hidden', 'optionId', $this->_id);
             
             //hidden field ID for validation use
-            $this->add('hidden', 'fieldId', $this->_fid); 
-        
+            $this->add('hidden', 'fieldId', $this->_fid);         
             
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'), true);
@@ -432,8 +431,7 @@ SELECT data_type
         }
 
         $customOption->save();
-        
-        
+             
         CRM_Core_Session::setStatus(ts('Your multiple choice option \'%1\' has been saved', array(1 => $customOption->label)));
     }
 }
