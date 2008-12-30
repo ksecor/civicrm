@@ -68,13 +68,16 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      */
     function HTML_QuickForm_checkbox($elementName=null, $elementLabel=null, $text='', $attributes=null)
     {
-		//hack to add 'id' for checkbox
-		if ( !$attributes ) {
-			$attributes = array();
-		}
-		
-		$attributes['id'] = $elementName;
-	
+        //hack to add 'id' for checkbox
+        if ( !$attributes ) {
+            $attributes = array( 'id' => $elementName );
+        } else {
+            // set element id only if its not set
+            if ( !isset( $attributes['id'] ) ) { 
+                $attributes['id'] = $elementName;
+            }
+        }
+
         HTML_QuickForm_input::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_text = $text;
