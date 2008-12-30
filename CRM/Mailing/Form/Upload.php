@@ -82,7 +82,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             //we don't want to retrieve template details once it is
             //set in session
             $templateId = $this->get('template');
-            
+            $this->assign('templateSelected', $templateId ? $templateId : 0 );
             if ( isset($defaults['msg_template_id']) && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
@@ -540,6 +540,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        $templateName = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
+        if( CRM_Utils_Array::value( 'saveTemplate', $params ) 
+            && in_array( CRM_Utils_Array::value( 'saveTemplateName', $params ), $templateName ) ) {
+            $errors['saveTemplate'] = ts('Duplicate Template Name.');
+        }
         return empty($errors) ? true : $errors;
     }
 

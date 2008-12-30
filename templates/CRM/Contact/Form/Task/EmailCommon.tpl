@@ -49,8 +49,7 @@
 {literal}
 <script type="text/javascript" >
 if ( document.getElementsByName("saveTemplate")[0].checked ) {
-    document.getElementsByName("updateTemplate")[0].checked = true;
-    document.getElementsByName("saveTemplate")[0].checked = false;	
+   document.getElementById('template').selectedIndex = {/literal}{$templateSelected}{literal};  	
 }
 var editor = {/literal}"{$editor}"{literal};
 function loadEditor()
