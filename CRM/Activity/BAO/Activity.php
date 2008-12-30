@@ -53,6 +53,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     static $_exportableFields = null;
 
     /**
+     * static field for all the activity information that we can potentially import
+     *
+     * @var array
+     * @static
+     */
+    static $_importableFields = null;
+
+    /**
      * Check if there is absolute minimum of data to add the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
