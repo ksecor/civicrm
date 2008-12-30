@@ -595,6 +595,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+        //if greeting type is not customized, unset previously set custom greeting.
+        if ( CRM_Utils_Array::value('greeting_type_id', $params) != 4 ) {
+            $params['custom_greeting'] = "";
+        }
+ 
         $params['contact_type'] = $this->_contactType;
         
         if ( $this->_contactId ) {
