@@ -928,10 +928,8 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
      *  @return array
      *  @static
      */
-    static function getSoftContributionList( $contact_id )
+    static function getSoftContributionList( $contact_id, $isTest = 0 )
     { 
-
-
         $query = "select ccs.id, ccs.amount as amount, 
                          cc.receive_date,
                          cc.contact_id as contributor_id,
@@ -942,8 +940,8 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
                   from civicrm_contribution_soft ccs
                   left join civicrm_contribution cc on ccs.contribution_id = cc.id
                   left join civicrm_pcp cp on ccs.pcp_id = cp.id
-                  where cc.is_test = 0 and ccs.contact_id = " . $contact_id;
-
+                  where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
+       
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $result = array();
@@ -956,14 +954,18 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
             $result[$cs->id]['contribution_status'] = CRM_Utils_Array::value($cs->contribution_status_id, CRM_Contribute_Pseudoconstant::contributionStatus( ) );
             $result[$cs->id]['pcp_id'] = $cs->pcp_id;
             $result[$cs->id]['pcp_title'] = $cs->pcp_title;
+
+            if ( $isTest ) {
+                $result[$cs->id]['contribution_status'] = $result[$cs->id]['contribution_status'].'<br /> (test)';
+            }
         }
         return $result;
     }    
     
-    static function getSoftContributionTotals( $contact_id )
+    static function getSoftContributionTotals( $contact_id, $isTest = 0 )
     {
     
-        $query = "select sum(amount) as total from civicrm_contribution_soft  ccs left join civicrm_contribution cc on ccs.contribution_id = cc.id where cc.is_test = 0 and ccs.contact_id = " . $contact_id;
+        $query = "select sum(amount) as total from civicrm_contribution_soft  ccs left join civicrm_contribution cc on ccs.contribution_id = cc.id where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $result = array();

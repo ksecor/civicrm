@@ -50,11 +50,27 @@
     {include file="CRM/Contribute/Page/ContributionHonor.tpl"}	
 {/if} 
 
-{if $softCredit}
+{if $softCredit or $isTest}
     <div class="solid-border-top">
         <br /><label>{ts}Soft credit for contributions donated by other people.{/ts}</label>
     </div>
-    {include file="CRM/Contribute/Page/ContributionSoft.tpl"}	    
+    {include file="CRM/Contribute/Page/ContributionSoft.tpl"}
+	{if $isTest}
+     {if !$softCredit} 
+       <div class="messages status">
+         <dl>
+	       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+           <dd>{ts}There are no Soft Credit records for Test Contribution.{/ts}</dd>
+         </dl>
+       </div>
+     {/if}   
+      <a href="{crmURL p="civicrm/contact/view" q="reset=1&force=1&cid=`$contactId`&selectedChild=contribute&isTest=0"}"><span>&raquo; {ts}Show Soft Credit for Live Contributions{/ts}</span></a>      
+    {else}
+	
+      <a href="{crmURL p="civicrm/contact/view" q="reset=1&force=1&cid=`$contactId`&selectedChild=contribute&isTest=1"}"><span>&raquo; {ts}Show Soft Credit for Test Contributions{/ts}</span></a>
+    {/if}
+{else}
+      <a href="{crmURL p="civicrm/contact/view" q="reset=1&force=1&cid=`$contactId`&selectedChild=contribute&isTest=1"}"><span>&raquo; {ts}Show Soft Credit for Test Contributions{/ts}</span></a>
 {/if}
 
 {/if}

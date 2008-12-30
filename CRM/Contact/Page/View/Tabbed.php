@@ -210,9 +210,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                     $i = $component->getKeyword();
                 }
                 $u = $elem['url'];
+               
+                //appending isTest to url for test soft credit CRM-3891. 
+                //FIXME: hack dojo url.
+                $q = "reset=1&snippet=1&force=1&cid={$this->_contactId}"; 
+                if ( CRM_Utils_Request::retrieve('isTest', 'Positive', $this) ) {
+                    $q = $q."&isTest=1";
+                }                
                 $allTabs[] = array( 'id'     =>  $i,
-                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
-                                                                       "reset=1&snippet=1&force=1&cid={$this->_contactId}" ),
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u", $q ),
                                     'title'  => $elem['title'],
                                     'weight' => $elem['weight'] );
                 // make sure to get maximum weight, rest of tabs go after
@@ -222,7 +228,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 }
             }
         }
-
+        
         $rest = array( 'activity'      => ts('Activities')    ,
                        'case'          => ts('Cases')         ,
                        'rel'           => ts('Relationships') ,

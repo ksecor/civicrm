@@ -135,10 +135,17 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             $this->assign('honor', true);
         }
 
-        $softCreditList = CRM_Contribute_BAO_Contribution::getSoftContributionList( $this->_contactId );
-
+        //enable/disable soft credit records for test contribution
+        $isTest = 0;
+        if ( CRM_Utils_Request::retrieve( 'isTest', 'Positive', $this ) ) {
+            $isTest = 1;
+        }
+        $this->assign( 'isTest', $isTest ); 
+       
+        $softCreditList = CRM_Contribute_BAO_Contribution::getSoftContributionList( $this->_contactId, $isTest );
+               
         if( !empty( $softCreditList ) ) {
-            $softCreditTotals = CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId );        
+            $softCreditTotals = CRM_Contribute_BAO_Contribution::getSoftContributionTotals( $this->_contactId, $isTest );        
             $this->assign('softCredit', true);
             $this->assign('softCreditRows', $softCreditList );
             $this->assign('softCreditTotals', $softCreditTotals );
