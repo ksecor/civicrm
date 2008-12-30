@@ -127,7 +127,8 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
                                                false, 'title' );
         }
         if ( $id ) {
-            return CRM_Utils_Array::value( $id, self::$contributionPage );
+            $pageTitle = CRM_Utils_Array::value( $id, self::$contributionPage );
+            return $pageTitle;
         }
         return self::$contributionPage;
     }
