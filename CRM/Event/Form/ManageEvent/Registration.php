@@ -192,7 +192,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $form->add('textarea','footer_text',ts('Footer Text'), $attributes['footer_text']);
 
         require_once "CRM/Core/BAO/UFGroup.php";
-        $types    = array( 'Contact', 'Individual','Organization', 'Household','Participant' );
+        $types    = array( 'Contact', 'Individual', 'Participant' );
         $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
 
         $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'- select -') +  $profiles );
