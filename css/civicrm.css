@@ -450,6 +450,11 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   margin: 1em 0em 0.5em;
 }
 
+/* Pop-up help icon - eliminate forced line break */
+#crm-container div.helpicon {
+  display: inline;
+}
+
 /* Set display: inline to over-ride drupal.css which sets label tags to display:block */
 #crm-container label {
   font-weight: bold;

@@ -9,9 +9,7 @@
   {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
   <div id="help">
-    <p>
       {ts}The Import Wizard allows you to easily import contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts} {help id='choose-data-source-intro'}
-    </p>
   </div>
 
   <div id="choose-data-source" class="form-item">
