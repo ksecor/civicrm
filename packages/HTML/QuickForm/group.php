@@ -446,7 +446,6 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
                     $element->updateAttributes( array( 'id' => $name . '['. (strlen($elementName)? $elementName: $key) .']' ) );
                 } else {
                     $element->setName($name);
-                    $element->updateAttributes( array( 'id' => $name ) );
                 }
             }
 
