@@ -58,10 +58,11 @@
      var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng});
 
 {if $location.url and ! $profileGID}
-     var data = "<a href='{$location.url}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}";
+ var data = "{/literal}<a href='{$location.url}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=hidden id=to value='{$location.displayAddress}'><input id=from type=text onclick='this.focus();'/>&nbsp;<a href=\"javascript:ypopUp();\">&raquo; Go</a>";
+	
 {else}
      {capture assign="profileURL"}{crmURL p='civicrm/profile/view' q="reset=1&id=`$location.contactID`&gid=$profileGID"}{/capture}
-     var data = "<a href='{$profileURL}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}";
+     var data = "{/literal}<a href='{$profileURL}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions FROM:&nbsp;<input type=hidden id=to value='{$location.displayAddress}'><input id=from type=text onclick='this.focus();'/>&nbsp;<a href=\"javascript:ypopUp();\">&raquo; Go</a>";
 {/if}
      var img  = '{$location.image}';
   {literal}
@@ -76,5 +77,13 @@
 	else
  	   map.drawZoomAndCenter(myPoint,5);
   {literal}
+function ypopUp() {
+       var from   = document.getElementById('from').value;
+       var to     = document.getElementById('to').value;	
+       var URL  = "http://maps.yahoo.com/#mvt=m&q1=" + from + "&q2=" + to;
+       day = new Date();
+       id = day.getTime();
+       eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=780,height=640,left = 202,top = 100');");
+    }
 </script> 
 {/literal}
