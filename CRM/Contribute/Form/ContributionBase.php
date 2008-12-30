@@ -398,7 +398,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $this->_id ) ) {
             $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
                                                   "action=add&reset=1&pageId={$this->_id}",
-                                                  true, null, true,
+                                                  false, null, true,
                                                   true );
             $this->_linkTextUrl = $linkTextUrl;
             $this->_linkTex     = $linkText;

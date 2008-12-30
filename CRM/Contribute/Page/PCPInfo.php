@@ -147,8 +147,8 @@ AND is_test = 0";
 
         if ( $linkText = CRM_Contribute_BAO_PCP::getPcpBlockStatus( $pcpInfo['contribution_page_id'] ) ) {
             $linkTextUrl = CRM_Utils_System::url( 'civicrm/contribute/campaign',
-                                                                      "action=add&reset=1&pageId={$this->_id}",
-                                                                      true, null, true,
+                                                                      "action=add&reset=1&pageId={$pcpInfo['contribution_page_id']}",
+                                                                      false, null, true,
                                                                       true );
             $this->assign( 'linkTextUrl', $linkTextUrl );
             $this->assign( 'linkText', $linkText );
