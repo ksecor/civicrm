@@ -224,7 +224,16 @@ class CRM_Import_ImportJob {
                       $this->_doGeocodeAddress );
                       
         $contactIds = $this->_parser->getImportedContacts( );
-        if ($this->_parser->getRelatedImportedContacts()) array_merge($contactIds, $this->_parser->getRelatedImportedContacts());
+        
+        //get the related contactIds. CRM-2926
+        $relatedContactIds = $this->_parser->getRelatedImportedContacts( );
+        if ( $relatedContactIds ) { 
+            $contactIds = array_merge( $contactIds, $relatedContactIds );
+            if ( $form ) {
+                $form->set('relatedCount', count($relatedContactIds) );
+            }
+        }
+        
         if ( $this->_newGroupName || count($this->_groups) ) {
             $groupAdditions = $this->_addImportedContactsToNewGroup($contactIds,
                                                                     $this->_newGroupName,
