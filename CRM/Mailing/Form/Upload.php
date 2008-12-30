@@ -53,9 +53,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null ) ?
-            CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null ) : $this->_mailingID;
-	
+        $mailingID = CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null );
+        
+        //need to differentiate new/reuse mailing, CRM-2873
+        $reuseMailing = false;
+        if ( $mailingID ) {
+            $reuseMailing = true;
+        } else {
+            $mailingID = $this->_mailingID;
+        }
+        
         $count = $this->get('count');
         $this->assign('count',$count);
         
@@ -113,7 +120,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     $defaults['from_email_address'] = $id;
                 }
             }
-        } else {
+        } 
+        
+        //fix for CRM-2873
+        if ( !$reuseMailing ) {
             $textFilePath = $this->get( 'textFilePath' );
             if ( $textFilePath &&
                  file_exists( $textFilePath ) ) {
@@ -122,7 +132,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     $this->set('skipTextFile', true);
                 }
             }
-                 
+            
             $htmlFilePath = $this->get( 'htmlFilePath' );
             if ( $htmlFilePath &&
                  file_exists( $htmlFilePath ) ) {
