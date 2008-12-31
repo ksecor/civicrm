@@ -632,9 +632,11 @@ UPDATE `civicrm_country` SET `region_id` = @region_id WHERE `civicrm_country`.`i
 
 
 -- update minute increment to 1 in activitydatetime in preferences_date
-  
 UPDATE `civicrm_preferences_date` SET `minute_increment` = 1 WHERE `name`  = 'activityDatetime';
 
+-- CRM-3730
+ALTER TABLE civicrm_price_field ALTER active_on SET DEFAULT NULL;
+ALTER TABLE civicrm_price_field ALTER expire_on SET DEFAULT NULL;
 
 -- ******************************************************
 -- END OF THE UPGRADE
