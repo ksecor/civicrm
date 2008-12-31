@@ -83,8 +83,12 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->addWysiwyg( 'footer_text', ts('Footer Message'), $attributes['footer_text'] );
 
         // is on behalf of an organization ?
-        $this->addElement('checkbox', 'is_for_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"return showHideByValue('is_for_organization',true,'for_org_text','table-row','radio',false);") );
-        $this->add('textarea', 'for_organization', ts('On behalf of label'), $attributes['for_organization'] );
+        $this->addElement('checkbox', 'is_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"showHideByValue('is_organization',true,'for_org_text','table-row','radio',false);showHideByValue('is_organization',true,'for_org_option','table-row','radio',false);") );
+        $options = array(); 
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Give option, but not required'), 1 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('On Behalf of required'), 2 );
+        $this->addGroup($options, 'is_for_organization', ts('') ); 
+        $this->add('textarea', 'for_organization', ts('On beh1alf of label'), $attributes['for_organization'] );
 
         // collect goal amount
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 12 ) ); 
@@ -133,10 +137,12 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);
-        $params['is_for_organization']   = CRM_Utils_Array::value('is_for_organization', $params, false);
+        $params['is_for_organization']   = CRM_Utils_Array::value('is_organization', $params ) 
+                                           ? CRM_Utils_Array::value('is_for_organization', $params, false) 
+                                           : 0;
         $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'  ]            = CRM_Utils_Date::format( $params['end_date'] );
-
+        
         if( !$params['honor_block_is_active'] ) {
             $params['honor_block_title'] = null;
             $params['honor_block_text'] = null;

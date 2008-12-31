@@ -99,7 +99,7 @@ function clearAmountOther() {
 	</tr>
 </table>
 
-{if $form.is_for_organization} 
+{if $is_for_organization} 
 {include file=CRM/Contact/Form/OnBehalfOf.tpl} 
 {/if} 
 {* User account registration option. Displays if enabled for one of the profiles on this page. *}

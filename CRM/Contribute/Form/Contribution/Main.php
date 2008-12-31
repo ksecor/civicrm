@@ -468,12 +468,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        $attributes = array('onclick' => 
-                            "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
-        $this->addElement( 'checkbox', 'is_for_organization', 
-                           $this->_values['for_organization'], 
-                           null, $attributes );
-
+        if ( $this->_values['is_for_organization'] != 2 ) {
+            $attributes = array('onclick' => 
+                                "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
+            $this->addElement( 'checkbox', 'is_for_organization', 
+                               $this->_values['for_organization'], 
+                               null, $attributes );
+        } else {
+            $this->addElement( 'hidden', 'is_for_organization', true );
+        }
+        $this->assign( 'is_for_organization', true);
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, 'Organization', 
                                                           'Organization Details' );
     }

@@ -20,9 +20,11 @@
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />	
             <span class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</span></td>
 	</tr>
-	<tr><td>&nbsp;</td><td>{$form.is_for_organization.html}{$form.is_for_organization.label}<br/>
+	<tr><td>&nbsp;</td><td>{$form.is_organization.html}{$form.is_organization.label}<br/>
 	     <span class="description">{ts}If you want to allow the contribution/signup to be done by individuals on behalf of an organization.{/ts}</span></td>
 	</tr>
+	<tr id="for_org_option"><td>&nbsp;</td><td>{$form.is_for_organization.html}<br />
+	<span class="description">{ts}Settings for 'on behalf of an organization' option in the contribution form.{/ts}</span></td></tr>
 	<tr id="for_org_text">
 	<td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
 	    <span class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</span></td>
@@ -86,7 +88,7 @@
 </div>
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_for_organization"
+    trigger_field_id    ="is_organization"
     trigger_value       = 1
     target_element_id   ="for_org_text" 
     target_element_type ="table-row"
@@ -94,6 +96,14 @@
     invert              = 0
 }
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_organization"
+    trigger_value       = 1
+    target_element_id   ="for_org_option" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 <script type="text/javascript">
  showHonor();
  {literal}
