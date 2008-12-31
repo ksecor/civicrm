@@ -268,7 +268,6 @@ ORDER BY weight, label
     function run()
     {
         require_once 'CRM/Core/BAO/CustomField.php';
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
 
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
@@ -284,6 +283,7 @@ ORDER BY weight, label
         if ($this->_fid) {
             $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
+            $this->assign('gid', $this->_gid);
             $this->assign('fieldTitle', $fieldTitle);
             CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));
         }
