@@ -219,7 +219,7 @@ class CRM_Contact_Form_Search_Criteria {
 
         $form->addElement('text', 'activity_subject', ts('Subject'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name'));
 
-        $form->addElement('checkbox', 'test_activities', ts('Find Test Activities?'));
+        $form->addElement('checkbox', 'activity_test', ts('Find Test Activities?'));
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

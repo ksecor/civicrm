@@ -25,7 +25,7 @@
             <td>
 		<br /><br />{$form.activity_target_name.html}<br />
                 <span class="description font-italic">{ts}Complete OR partial Contact Name.{/ts}</span><br /><br />
-   		{$form.test_activities.label} &nbsp; {$form.test_activities.html} 
+   		{$form.activity_test.label} &nbsp; {$form.activity_test.html} 
             </td>
         </tr>
         <tr>
