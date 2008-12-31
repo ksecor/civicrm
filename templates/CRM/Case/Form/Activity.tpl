@@ -82,23 +82,19 @@
            </tr> 
            <tr>
               <td class="label">{$form.due_date_time.label}</td>
-              <td class="view-value">{$form.due_date_time.html | crmDate }</br>
-                  <span class="description">
+              <td class="view-value">{$form.due_date_time.html | crmDate }
                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
                   {include file="CRM/common/calendar/body.tpl" dateVar=due_date_time startDate=currentYear 
                                  endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
-                  </span>
               </td>
            </tr> 
            <tr>
               <td class="label">{$form.activity_date_time.label}</td>
-              <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
+              <td class="view-value">{$form.activity_date_time.html | crmDate }
                   {if $action neq 4}
-                      <span class="description">
-                          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1 doTime=1}
-                          {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
-                                         endDate=endYear offset=10 doTime=1 trigger=trigger_activity_1 ampm=1}
-                      </span>
+                        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1 doTime=1}
+                        {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
+                                endDate=endYear offset=10 doTime=1 trigger=trigger_activity_1 ampm=1}
                   {/if}  
               </td>
            </tr>
