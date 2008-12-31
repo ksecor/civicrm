@@ -1,5 +1,10 @@
 
 @import url("../dijit.css");
+
+#crm-container .form-layout .tundra {
+  white-space: normal;
+}
+
 .tundra .dijitSliderDisabled *,
 .tundra .dijitDisabledClickableRegion,	
 .tundra .dijitSpinnerDisabled *,
