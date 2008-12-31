@@ -489,6 +489,14 @@ WHERE  $whereCond AND is_test=0
         
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
+        $dao->find( true );
+        //delete billing address if exists for this contribution.
+        if ( $dao->address_id ) {
+            require_once "CRM/Core/BAO/Block.php";
+            $params = array ( 'id' => $dao->address_id );
+            CRM_Core_BAO_Block::blockDelete( 'Address', $params );
+        }
+        
         $results = $dao->delete( );
         
         $transaction->commit( );
