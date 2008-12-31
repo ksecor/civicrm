@@ -397,6 +397,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Array::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
         CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'greeting_type', CRM_Core_PseudoConstant::greeting(), $reverse );
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];

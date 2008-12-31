@@ -204,9 +204,9 @@ function _civicrm_add_formatted_param(&$values, &$params)
         if ( $params['greeting_type_id'] ) {
             $greetings = array( );
             $greetings = CRM_Core_PseudoConstant::greeting( );
-            $params['greeting'] = $greetings[$params['greeting_type_id']];
+            $params['greeting_type'] = $greetings[$params['greeting_type_id']];
         } else {
-            $params['greeting'] = $values['greeting_type'];
+            $params['greeting_type'] = $values['greeting_type'];
         }
         return true;
     }
