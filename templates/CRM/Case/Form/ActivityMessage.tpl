@@ -1,6 +1,4 @@
-{if $returnContent eq 'subject'}
-    {strip}{ts}Activity Information{/ts} - {$activityTypeName}{/strip}
-{else if $returnContent eq 'textMessage'}
+{if $returnContent eq 'subject'}{strip}{ts}Activity Information{/ts} - {$activityTypeName}{/strip}{else if $returnContent eq 'textMessage'}
 ===========================================================
 {ts}Activity Summary{/ts} - {$activityTypeName}
 ===========================================================

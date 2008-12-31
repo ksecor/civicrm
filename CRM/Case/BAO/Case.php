@@ -914,7 +914,7 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
     static function sendActivityCopy( $clientId, $activityId, $contacts )
     {   
         require_once 'CRM/Utils/Mail.php';
-        require_once 'CRM/Core/BAO/Domain.php';        
+        require_once 'CRM/Contact/BAO/Contact/Location.php';        
         $template =& CRM_Core_Smarty::singleton( );
 
         $activityInfo = array( );
@@ -928,7 +928,10 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
-        list ($name, $address) = CRM_Core_BAO_Domain::getNameAndEmail();
+        $session =& CRM_Core_Session::singleton( );
+        list ($name, $address) = 
+            CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
+
         $receiptFrom = "\"$name\" <$address>";
             
         $template->assign( 'returnContent', 'subject' );
