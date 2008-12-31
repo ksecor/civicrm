@@ -13,12 +13,12 @@
         {if $element.options_per_line != 0}
             <dt>{$element.field_title}</dt>
             <dd>
-                <table class="form-layout-compressed">
+                <div class="form-item">
                     {* sort by fails for option per line. Added a variable to iterate through the element array*}
                     {foreach from=$element.field_value item=val}
-                        <tr><td class="labels font-light">{$val}</td><tr>
+                        {$val}<br/>
                     {/foreach}
-                </table>
+                </div>
             </dd>
         {else}
             <dt>{$element.field_title}</dt>
