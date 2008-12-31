@@ -71,7 +71,7 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_activities' => array(
                     'title'  => ts('Activities'),
-                    'tables' => array('civicrm_activity' ),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_target', 'civicrm_activity_assignment'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=activity'),
                 ),
                 'rel_table_relationships' => array(
@@ -96,7 +96,7 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_cases' => array(
                     'title'  => ts('Cases'),
-                    'tables' => array('civicrm_activity_target', 'civicrm_activity_assignment', 'civicrm_case_contact'),
+                    'tables' => array('civicrm_case_contact'),
                     // note civicrm_activity is automatically included
                     // when cases is checked on
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=case'),

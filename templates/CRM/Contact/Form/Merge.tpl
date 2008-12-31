@@ -30,7 +30,7 @@
 {if $row.title|substr:-7 == "address"}
 {assign var=locType value="address"}
 {/if}
-{$form.location.$locType.$locId.html}<br/>{/if}<span id="{$field}_main_label">{$row.main}</span></td>
+{$form.location.$locType.$locId.html}&nbsp;<span id="{$field}_overwrite_label">{if $locType eq 'address' and $row.main}(overwrite){else}(add){/if}</span><br/>{/if}<span id="{$field}_main_label">{$row.main}</span></td>
   </tr>
   {/foreach}
   {foreach from=$rel_tables item=params key=paramName}
@@ -55,8 +55,14 @@
           var label = eval("rows." + 'main_' + element.value + "." + fldType);
           if ( label ) {
               document.getElementById( 'move_' + element.id + '_main_label').innerHTML = label;
+              if ( fldType == 'address' ) {
+                  document.getElementById( 'move_' + element.id + '_overwrite_label').innerHTML = '(overwrite)';
+              }
           } else {
               document.getElementById( 'move_' + element.id + '_main_label').innerHTML = "";
+              if ( fldType == 'address' ) {
+                  document.getElementById( 'move_' + element.id + '_overwrite_label').innerHTML = '(add)';
+              }
           }   
      }
 </script>
