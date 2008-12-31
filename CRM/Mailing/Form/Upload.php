@@ -303,21 +303,27 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set($key, $formValues[$key]);
             }          
            
-            if ( $composeParams['saveTemplate'] || $composeParams['updateTemplate'] ) {
+            if ( $composeParams['updateTemplate'] ) {
                 $templateParams = array( 'msg_text'    => $text_message,
                                          'msg_html'    => $html_message,
                                          'msg_subject' => $params['subject'],
                                          'is_active'   => true
                                          );
                 
-                if ( $composeParams['saveTemplate'] ) {
-                    $templateParams['msg_title'] = $composeParams['saveTemplateName'];
-                }
+                $templateParams['id'] = $formValues['template'];
                 
-                if ( $composeParams['updateTemplate'] ) {
-                    $templateParams['id'] = $formValues['template'];
-                }
-
+                $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
+            } 
+            
+            if ( $composeParams['saveTemplate'] ) {
+                $templateParams = array( 'msg_text'    => $text_message,
+                                         'msg_html'    => $html_message,
+                                         'msg_subject' => $params['subject'],
+                                         'is_active'   => true
+                                         );
+                
+                $templateParams['msg_title'] = $composeParams['saveTemplateName'];
+                
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
             } 
             
