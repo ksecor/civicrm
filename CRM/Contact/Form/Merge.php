@@ -223,16 +223,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $rows["custom_group_$gid"]['title'] = $group['title'];
                         $foundField = true;
                     }
-
-                    foreach ( $mainTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
-                        $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                    if ( is_array( $mainTree[$gid]['fields'][$fid]['customValue'] ) ) {
+                        foreach ( $mainTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                            $rows["move_custom_$fid"]['main']  = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                        }
                     }
-
-                    foreach ( $otherTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
-                        $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
-                        $value = $values['data'] ? $values['data'] : $this->_qfZeroBug;
+                    if ( is_array( $otherTree[$gid]['fields'][$fid]['customValue'] ) ) {
+                        foreach ( $otherTree[$gid]['fields'][$fid]['customValue'] as $valueId => $values ) {
+                            $rows["move_custom_$fid"]['other'] = CRM_Core_BAO_CustomGroup::formatCustomValues( $values, $field['html_type'], $field['data_type'], $field['option_group_id'], $field['date_parts']);
+                            $value = $values['data'] ? $values['data'] : $this->_qfZeroBug;
+                        }
                     }
-
                     $rows["move_custom_$fid"]['title'] = $field['label'];
                     
                     $this->addElement('advcheckbox', "move_custom_$fid", null, null, null, $value);
