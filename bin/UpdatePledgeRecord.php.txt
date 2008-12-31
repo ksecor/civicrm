@@ -174,18 +174,18 @@ class CRM_UpdatePledgeRecord
                     continue;
                 }
                 
-                $scheduledDate = new DateTime($details['scheduled_date']);
-                $reminderDate  = new DateTime($details['reminder_date']);
+                $firstReminderDate = new DateTime($details['scheduled_date']);
+                $nextReminderDate  = new DateTime($details['reminder_date']);
                 
-                $scheduledDate->modify("-". $details['initial_reminder_day'] ."day");
-                $reminderDate->modify("+". $details['additional_reminder_day']."day");
+                $firstReminderDate->modify("-". $details['initial_reminder_day'] ."day");
+                $nextReminderDate->modify("+". $details['additional_reminder_day']."day");
                 
-                $scheduledDate = $scheduledDate->format("Ymd");
-                $reminderDate  = $reminderDate->format("Ymd");
+                $firstReminderDate = $firstReminderDate->format("Ymd");
+                $nextReminderDate  = $nextReminderDate->format("Ymd");
                 
-                if ( $details['reminder_count'] < $details['max_reminders'] 
-                     && ( empty ( $details['reminder_date'] ) && $scheduledDate <= $now )
-                     || $reminderDate <= $now ) {            
+                if ( ( $details['reminder_count'] < $details['max_reminders'] ) 
+                     && ( ( empty( $details['reminder_date'] ) && $firstReminderDate <= $now ) 
+                          || $nextReminderDate <= $now  ) ) {
                     
                     $toEmail = $doNotEmail = $onHold = null;
                     
