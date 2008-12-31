@@ -562,6 +562,25 @@ class CRM_Core_Payment_BaseIPN {
         if ( $input['component'] == 'contribute' ) {
             $template->assign( 'title', $values['title']);
             $template->assign( 'amount' , $input['amount'] );
+
+            //PCP Info
+            require_once 'CRM/Contribute/DAO/ContributionSoft.php';
+            $softDAO = & new CRM_Contribute_DAO_ContributionSoft();
+            $softDAO->contribution_id =  $contribution->id;
+            if ( $softDAO->find(true) ) {
+                $template->assign( 'pcpBlock'           , true );
+                $template->assign( 'pcp_display_in_roll', $softDAO->pcp_display_in_roll );
+                $template->assign( 'pcp_roll_nickname'  , $softDAO->pcp_roll_nickname );
+                $template->assign( 'pcp_personal_note'  , $softDAO->pcp_personal_note );
+                
+                //assign the pcp page title for email subject
+                require_once 'CRM/Contribute/DAO/PCP.php';
+                $pcpDAO = & new CRM_Contribute_DAO_PCP();
+                $pcpDAO->id = $softDAO->pcp_id;
+                if ( $pcpDAO->find(true) ) {
+                    $template->assign( 'title', $pcpDAO->title );
+                }
+            }
         } else {
             $template->assign( 'title', $values['event']['title']);
             $template->assign( 'totalAmount' , $input['amount'] );
