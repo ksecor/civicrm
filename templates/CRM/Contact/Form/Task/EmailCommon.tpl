@@ -48,9 +48,15 @@
 
 {literal}
 <script type="text/javascript" >
+{/literal}
+{if $templateSelected}
+{literal}
 if ( document.getElementsByName("saveTemplate")[0].checked ) {
    document.getElementById('template').selectedIndex = {/literal}{$templateSelected}{literal};  	
 }
+{/literal}
+{/if}
+{literal}
 var editor = {/literal}"{$editor}"{literal};
 function loadEditor()
 {
