@@ -18,9 +18,7 @@
     <th>{ts}Status{/ts}</th>
     <th>{ts}Type{/ts}</th>
     <th>{ts}My Role{/ts}</th>
-
-    <th class="right">{if $list EQ 'upcoming'}{ts}Due Date{/ts}{else}{ts}Activity Date{/ts}{/if}&nbsp;</th>
-    <th>Activity Type</th>
+    <th>{if $list EQ 'upcoming'}{ts}Next Scheduled Activity{/ts}{else}{ts}Most Recent Activity{/ts}{/if}</th>
 
     <th></th>
   </tr>
@@ -54,11 +52,14 @@
     <td>{if $row.case_role}{$row.case_role}{else}---{/if}</td>
 
     {if $list eq 'upcoming'}
-    <td class="right">{$row.case_scheduled_activity_date|crmDate}</td>
-    <td>{$row.case_scheduled_activity_type}</td>
+        <td><a href="javascript:viewActivity({$row.case_scheduled_activity_id}, {$row.contact_id});" title="{ts}View this activity.{/ts}">{$row.case_scheduled_activity_type}</a>&nbsp;&nbsp;<a href="{crmURL p="civicrm/case/activity" q="reset=1&cid=`$row.contact_id`&caseid=`$row.case_id`&action=update&id=`$row.case_scheduled_activity_id`"}" title="{ts}Edit this activity.{/ts}"><img src="{$config->resourceBase}i/edit.png" border="0"></a><br />
+            {$row.case_scheduled_activity_date|crmDate}
+        </td>
     {elseif $list eq 'recent'}
-    <td class="right">{$row.case_recent_activity_date|crmDate}</td>
-    <td>{$row.case_recent_activity_type}</td>
+        <td>
+            <a href="javascript:viewActivity({$row.case_recent_activity_id}, {$row.contact_id});" title="{ts}View this activity.{/ts}">{$row.case_recent_activity_type}</a>&nbsp;&nbsp;<a href="{crmURL p="civicrm/case/activity" q="reset=1&cid=`$row.contact_id`&caseid=`$row.case_id`&action=update&id=`$row.case_recent_activity_id`"}" title="{ts}Edit this activity.{/ts}"><img src="{$config->resourceBase}i/edit.png" border="0"></a><br />
+            {$row.case_recent_activity_date|crmDate}
+        </td>
     {/if}
 
     <td>{$row.action}</td>

@@ -425,9 +425,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                   case_relation_type.name_b_a as case_role, ";
         if ( $type == 'upcoming' ) {
             $query .=  " civicrm_activity.due_date_time as case_scheduled_activity_date,
+                         civicrm_activity.id as case_scheduled_activity_id,
                          aov.label as case_scheduled_activity_type ";       
         } else if ( $type == 'recent' ) {
             $query .=  " civicrm_activity.activity_date_time as case_recent_activity_date,
+                         civicrm_activity.id as case_recent_activity_id,
                          aov.label as case_recent_activity_type ";
         } 
         
@@ -557,9 +559,11 @@ AND civicrm_case.is_deleted     = 0";
         if ( $type == 'upcoming' ) {
             $resultFields[] = 'case_scheduled_activity_date';
             $resultFields[] = 'case_scheduled_activity_type';
+            $resultFields[] = 'case_scheduled_activity_id';
         } else if ( $type == 'recent' ) {
             $resultFields[] = 'case_recent_activity_date';
             $resultFields[] = 'case_recent_activity_type';
+            $resultFields[] = 'case_recent_activity_id';
         }
 
         // we're going to use the usual actions, so doesn't make sense to duplicate definitions
