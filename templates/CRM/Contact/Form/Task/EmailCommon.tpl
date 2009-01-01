@@ -125,14 +125,25 @@ function selectValue( val ) {
             cj("#text_message").val("");
         }
 
-        if ( editor == "fckeditor" ) {
-            oEditor = FCKeditorAPI.GetInstance('html_message');
-            oEditor.SetHTML( data.msg_html );
-        } else if ( editor == "tinymce" ) {
-            tinyMCE.get('html_message').setContent( data.msg_html );
-        } else {	
-            cj("#html_message").val( data.msg_html );
-        }
+        if (  data.msg_html ) {
+          if ( editor == "fckeditor" ) {
+              oEditor = FCKeditorAPI.GetInstance('html_message');
+              oEditor.SetHTML( data.msg_html );
+          } else if ( editor == "tinymce" ) {
+              tinyMCE.get('html_message').setContent( data.msg_html );
+          } else {	
+              cj("#html_message").val( data.msg_html );
+          }
+        } else {
+          if ( editor == "fckeditor" ) {
+              oEditor = FCKeditorAPI.GetInstance('html_message');
+              oEditor.SetHTML("");
+          } else if ( editor == "tinymce" ) {
+              tinyMCE.get('html_message').setContent("");
+          } else {	
+              cj("#html_message").val("");
+          }   
+        } 
 
     }, 'json');    
 }
