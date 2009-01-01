@@ -118,7 +118,12 @@ function selectValue( val ) {
 
     cj.post( dataUrl, {tid: val}, function( data ) {
         cj("#subject").val( data.subject );
-        cj("#text_message").val( data.msg_text );
+
+        if ( data.msg_text ) {      
+            cj("#text_message").val( data.msg_text );
+        } else {
+            cj("#text_message").val("");
+        }
 
         if ( editor == "fckeditor" ) {
             oEditor = FCKeditorAPI.GetInstance('html_message');
