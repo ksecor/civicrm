@@ -5,7 +5,7 @@
     <a href="#" onclick="hide('{$cd_edit.name}_show_{$index}'); show('{$cd_edit.name}_{$index}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
 
-    <div id="{$cd_edit.name}_{$index}" class="form-item">
+    <div id="{$cd_edit.name}_{$index}" class="section-shown form-item">
     <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}_{$index}'); show('{$cd_edit.name}_show_{$index}'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
     <dl>
@@ -13,12 +13,10 @@
         {if $element.options_per_line != 0}
             <dt>{$element.field_title}</dt>
             <dd>
-                <div class="form-item">
                     {* sort by fails for option per line. Added a variable to iterate through the element array*}
                     {foreach from=$element.field_value item=val}
                         {$val}<br/>
                     {/foreach}
-                </div>
             </dd>
         {else}
             <dt>{$element.field_title}</dt>

@@ -17,7 +17,7 @@
 			<dt>{$form.$element_name.label}</dt>
 			<dd class="html-adjust">
 				{assign var="count" value="1"}
-				<table class="form-layout-compressed">
+				<table class="form-layout-compressed" style="margin-top: -0.5em;">
 					<tr>
 						{* sort by fails for option per line. Added a variable to iterate through the element array*}
 						{assign var="index" value="1"}
@@ -53,30 +53,29 @@
 				&nbsp;&nbsp;(&nbsp;<a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;" >{ts}unselect{/ts}</a>&nbsp;) 
 				{/if}
 				{if $element.data_type eq 'File'}
-				{if $element.element_value.data}
-				<span class="html-adjust"><br />
-					&nbsp;{ts}Attached File{/ts}: &nbsp;
-					{if $element.element_value.displayURL }
-					<a href="javascript:popUp('{$element.element_value.displayURL}')" ><img src="{$element.element_value.displayURL}" height = "100" width="100"></a>
-					{else}
-					<a href="{$element.element_value.fileURL}">{$element.element_value.fileName}</a>
-					{/if}
-					{if $element.element_value.deleteURL }
-					<br />
-					{$element.element_value.deleteURL}
-					{/if}	
-				</span>  
-				{/if} 
+                    {if $element.element_value.data}
+                    <span class="html-adjust"><br />
+                        &nbsp;{ts}Attached File{/ts}: &nbsp;
+                        {if $element.element_value.displayURL }
+                        <a href="javascript:popUp('{$element.element_value.displayURL}')" ><img src="{$element.element_value.displayURL}" height = "100" width="100"></a>
+                        {else}
+                        <a href="{$element.element_value.fileURL}">{$element.element_value.fileName}</a>
+                        {/if}
+                        {if $element.element_value.deleteURL }
+                        <br />
+                        {$element.element_value.deleteURL}
+                        {/if}	
+                    </span>  
+                    {/if} 
 				{/if}
 				{if $element.data_type eq 'Date' && $element.skip_calendar NEQ true } 
-				<br />
-				{if $element.skip_ampm NEQ true }
-				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name doTime=1}
-				{include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name}
-				{else}
-				{include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
-				{include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
-				{/if} 
+                    {if $element.skip_ampm NEQ true }
+                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name doTime=1}
+                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name}
+                    {else}
+                    {include file="CRM/common/calendar/desc.tpl" trigger=trigger_$element_name}
+                    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_$element_name ampm=1}
+                    {/if} 
 				{/if}
 			</dd>                
 			{if $element.help_post}
