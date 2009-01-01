@@ -142,7 +142,7 @@ class CRM_Import_ImportJob {
                 $this->_mapperLocTypes[$key] = null;
             }
             
-            if (!is_numeric($mapper[$key][2])) {
+            if ( is_numeric($mapper[$key][2] ) ) {
                 $this->_mapperPhoneTypes[$key] = $mapper[$key][2];
             } else {
                 $this->_mapperPhoneTypes[$key] = null;
