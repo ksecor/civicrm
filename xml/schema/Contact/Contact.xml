@@ -12,7 +12,7 @@
       <type>int unsigned</type>
       <title>Internal Contact ID</title>
       <import>true</import>
-      <headerPattern>/internal|contact?|id/i</headerPattern>
+      <headerPattern>/internal|contact?|id$/i</headerPattern>
       <required>true</required>
       <comment>Unique Contact ID</comment>
       <add>1.1</add>
