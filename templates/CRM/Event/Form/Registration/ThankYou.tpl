@@ -172,6 +172,11 @@
             <p>{$event.thankyou_footer_text}</p>
         </div>
     {/if}
+    
+    <p>
+    <a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.id`"}">Back to "{$event.event_title}" information page</a>
+    </p>
+
     {if $event.is_public }
       <div class="action-link">
         {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
