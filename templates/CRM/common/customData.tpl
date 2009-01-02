@@ -46,7 +46,7 @@ function buildCustomData( type, subType, subName, cgCount, groupID, isMultiple )
 		var fname = '#custom_group_' + groupID + '_' + prevCount;
 		cj("#add-more-link-"+prevCount).hide();
 	} else {
-		if ( subName ) {		
+		if ( subName && subName != 'null' ) {		
 			var fname = '#customData' + subName ;
 		} else {
 			var fname = '#customData';

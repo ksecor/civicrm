@@ -43,55 +43,49 @@ class CRM_Custom_Form_CustomData
     static function preProcess( &$form, $subName = null, $subType = null, $groupCount = null, $type = null, $entityID = null )
     {
         if ( $type ) {
-        	$form->_type = $type;
-	    } else {
-			$form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
-		}
-		
-		if ( $subType ) {
-			if ( $subType == 'null' ) {
-				$form->_subType = null;
-			} else {
-				$form->_subType = $subType;
-			}
-		} else {
-			$form->_subType = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
-			if ( $form->_subType == 'null' ) $form->_subType = null;	
-		}
-		
-        if ( $subName ) {
-			if ( $subName == 'null' ) {
-				$form->_subName = null;
-			} else {
-				$form->_subName = $subName;
-			}
-		} else {
-			$form->_subName = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
-			if ( $form->_subName == 'null' ) $form->_subName = null;	
-		}
-        
-		if ( $groupCount ) {
-			$form->_groupCount = $groupCount;
-		} else {
-			$form->_groupCount = CRM_Utils_Request::retrieve( 'cgcount', 'Positive', $form );	
-		}
-		
-		$form->assign('cgCount', $form->_groupCount);
-		
-		if ( $entityID ) {
-			$form->_entityId = $entityID;
-		} else {
-			$form->_entityId = CRM_Utils_Request::retrieve( 'entityID', 'Positive', $form );	
-		}
+            $form->_type = $type;
+        } else {
+            $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
+        }
+
+        if ( isset( $subType ) ) {
+            $form->_subType = $subType;
+        } else {
+            $form->_subType = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
+        }
+
+        if ( $form->_subType == 'null' ) $form->_subType = null;	
+
+        if ( isset( $subName ) ) {
+            $form->_subName = $subName;
+        } else {
+            $form->_subName = CRM_Utils_Request::retrieve( 'subName', 'String', $form );
+        }
+
+        if ( $form->_subName == 'null' ) $form->_subName = null;	
+
+        if ( $groupCount ) {
+            $form->_groupCount = $groupCount;
+        } else {
+            $form->_groupCount = CRM_Utils_Request::retrieve( 'cgcount', 'Positive', $form );	
+        }
+
+        $form->assign('cgCount', $form->_groupCount);
+
+        if ( $entityID ) {
+            $form->_entityId = $entityID;
+        } else {
+            $form->_entityId = CRM_Utils_Request::retrieve( 'entityID', 'Positive', $form );	
+        }
 
         $form->_groupID  = CRM_Utils_Request::retrieve( 'groupID', 'Positive', $form );
 
-		$groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
-														 $form,
-														 $form->_entityId,
-														 $form->_groupID,
-														 $form->_subType,
-														 $form->_subName );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type,
+                                                         $form,
+                                                         $form->_entityId,
+                                                         $form->_groupID,
+                                                         $form->_subType,
+                                                         $form->_subName );
 
         // we should use simplified formatted groupTree
         $form->_groupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, $form->_groupCount, $form );
