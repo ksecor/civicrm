@@ -928,7 +928,10 @@ WHERE cr.case_id =  %1 AND ce.is_primary= 1';
         $xmlProcessor = new CRM_Case_XMLProcessor_Report( );
         $activityInfo = $xmlProcessor->getActivityInfo($clientId, $activityId);
         $template->assign('activity', $activityInfo );
-       
+
+        $subject = CRM_Core_DAO::getFieldValue( 'CRM_Activity_DAO_Activity', $activityId, 'subject' );
+        $template->assign('activitySubject', $subject);
+
         $emailTemplate  = 'CRM/Case/Form/ActivityMessage.tpl';
         $result         = array();
 
