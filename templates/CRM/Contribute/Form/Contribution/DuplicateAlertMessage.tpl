@@ -1,6 +1,4 @@
-{if $returnContent eq 'subject'}
-    {ts}CiviContribute Alert: Possible Duplicate Contact Record{/ts}
-{else if $returnContent eq 'textMessage'}
+{if $returnContent eq 'subject'}{ts}CiviContribute Alert: Possible Duplicate Contact Record{/ts}{else if $returnContent eq 'textMessage'}
 A contribution / membership signup was made on behalf of the organization listed below.
 The information provided matched multiple existing database records based on the configured
 Duplicate Matching Rules for your site.
