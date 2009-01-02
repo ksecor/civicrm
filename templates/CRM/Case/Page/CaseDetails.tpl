@@ -1,24 +1,3 @@
-{literal}
-<style>
-  #crm-container table.nestedSelector
-  {
-    margin: 0px;
-    width: 100%;
-    border: 2px solid #5A8FDB;
-  }
-
-  #crm-container table.nestedSelector tr.columnheader
-  {
-    background-color: #4D94E3;
-  }
-
-  #crm-container table.nestedSelector tr.columnheader th
-  {
-    border: 0px;
-  }
-</style>
-{/literal}
-
 {strip}
 {if $rows}
   <table class="nestedSelector">

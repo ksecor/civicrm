@@ -1,12 +1,3 @@
-{literal}
-<style>
-  #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
-  {
-    white-space:normal;
-  }
-</style>
-{/literal}
-
 {capture assign=expandIconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
 {ts 1=$expandIconURL}Click %1 to view case details.{/ts}
 

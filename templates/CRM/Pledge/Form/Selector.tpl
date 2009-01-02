@@ -67,9 +67,9 @@
      <td style="border-right: none;">
      </td>
 {if $context EQ 'Search'}
-     <td colspan="10">
+     <td colspan="10" class="enclosingNested">
 {else}
-     <td colspan="9">
+     <td colspan="9" class="enclosingNested">
 {/if}
         <div id="paymentDetails{$row.pledge_id}"></div>
      </td>

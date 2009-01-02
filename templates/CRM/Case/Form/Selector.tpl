@@ -1,12 +1,3 @@
-{literal}
-<style>
-  #crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none 
-  {
-    white-space:normal;
-  }
-</style>
-{/literal}
-
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
