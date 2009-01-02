@@ -84,6 +84,9 @@ WHERE contact_a.id = %1 AND $permission";
         $session   =& CRM_Core_Session::singleton( );
         if ( ! $contactID ) {
             $contactID =  $session->get( 'userID' );
+            if ( ! $contactID ) {
+                return false;
+            }
         }
         if (  $contactID == $selectedContactID ) {
             return true;
