@@ -214,7 +214,7 @@ implements CRM_Contact_Form_Search_Interface {
         
         $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'] );
         if ( $endDate ) {
-            $clauses[] = "civicrm_contribution.receive_date <= $endDate";
+            $clauses[] = "civicrm_contribution.receive_date <= {$endDate}235959";
         }
         
         if ( !empty( $this->_formValues['event_id'] ) ) { 
