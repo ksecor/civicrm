@@ -430,8 +430,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
 		//assign event and role id, this is needed for Custom data building
+		if ( isset( $_POST['role_id'] ) ) {
+		    $roleID = $_POST['role_id'];
+		}
+		
 		if ( isset( $roleID ) ) {
 		    $this->assign( 'roleID',  $roleID );
+		}
+
+		if ( isset( $_POST['event_id'] ) ) {
+		    $eventID = $_POST['event_id'];
 		}
 		
 		if (  isset( $eventID ) ) {
