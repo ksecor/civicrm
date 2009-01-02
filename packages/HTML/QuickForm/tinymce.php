@@ -138,28 +138,35 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             if ( !defined('HTML_QUICKFORM_TINYMCEEDITOR_LOADED' ) ) {                
                 // load tinyMCEeditor
                 $config = CRM_Core_Config::singleton( );
-                $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
-                                   $config->resourceBase . $this->BasePath . 'tiny_mce.js'
-                                   );
+                // $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
+                //                    $config->resourceBase . $this->BasePath . 'tiny_mce.js'
+                //                    );
                 
                 $html .= sprintf( '<script type="text/javascript">
-tinyMCE.init({
-mode : "textareas",
-theme : "advanced",
-editor_selector : "form-TinyMCE",
-plugins : "safari,spellchecker,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,pagebreak,imagemanager,filemanager",
-theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontselect,fontsizeselect",
-theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,separator,forecolor,backcolor",
-theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
-theme_advanced_buttons3_add_before : "tablecontrols,separator",
-theme_advanced_buttons3_add : "emotions,iespell,media,advhr,separator,print,separator,ltr,rtl,separator,fullscreen",
-theme_advanced_toolbar_location : "top",
-theme_advanced_toolbar_align : "left",
-theme_advanced_statusbar_location : "bottom",
-theme_advanced_resize_horizontal : false,
-theme_advanced_resizing : true,
-apply_source_formatting : true,
-spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv"
+
+cj(document).ready( function() {
+
+cj.getScript( "'.$config->resourceBase . $this->BasePath . 'tiny_mce.js", function() { 
+    tinyMCE.init({
+    mode : "textareas",
+    theme : "advanced",
+    editor_selector : "form-TinyMCE",
+    plugins : "safari,spellchecker,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,pagebreak,imagemanager,filemanager",
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontselect,fontsizeselect",
+    theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,separator,forecolor,backcolor",
+    theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
+    theme_advanced_buttons3_add_before : "tablecontrols,separator",
+    theme_advanced_buttons3_add : "emotions,iespell,media,advhr,separator,print,separator,ltr,rtl,separator,fullscreen",
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    theme_advanced_statusbar_location : "bottom",
+    theme_advanced_resize_horizontal : false,
+    theme_advanced_resizing : true,
+    apply_source_formatting : true,
+    spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv"
+    });    
+} );    
+
 });
 </script>' );
 

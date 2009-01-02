@@ -224,7 +224,6 @@ class CRM_Event_Form_EventFees
                 }
             }
 
-
             if ( ($form->_action == CRM_Core_Action::UPDATE ) && 
                  CRM_Utils_Array::value( 'event_id', $defaults[$form->_pId] ) ) {
                 if ( ! empty($form->_feeBlock) ) {

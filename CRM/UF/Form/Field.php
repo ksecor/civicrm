@@ -667,21 +667,24 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             } 
             break;
         case 'Participant' :
-            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution'); 
+                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution or Household or Organization'); 
             } 
             break;
         case 'Contribution' :
-            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) ) {
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) 
+                 || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant'); 
+                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant or Household or Organization'); 
             }  
             break;
         case 'Membership' :
-            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType )
+                || in_array( 'Organization', $groupType ) || in_array( 'Household', $groupType ) ) {
                 $errors['field_name'] = 
-                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution'); 
+                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution or Household or Organization'); 
             }  
             break;
         }
