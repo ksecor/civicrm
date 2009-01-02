@@ -217,8 +217,10 @@ class CRM_Utils_Rule
      */
     static function currentDate( $date, $monthRequired = true ) 
     {
+        $config =& CRM_Core_Config::singleton( );
+        
         $d = CRM_Utils_Array::value( 'd', $date );
-        $m = CRM_Utils_Array::value( 'M', $date );
+        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
 
         if ( ! $d && ! $m && ! $y ) {

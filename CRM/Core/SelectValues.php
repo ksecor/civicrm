@@ -430,7 +430,7 @@ class CRM_Core_SelectValues
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
             $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                             array( 'M', 'Y' ) );
+                                                             array( $config->dateformatMonthVar, 'Y' ) );
         } elseif ($type == 'mailing') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;

@@ -146,10 +146,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $defaults =& parent::setDefaultValues( );
         $this->_memType = $defaults["membership_type_id"] ;
 
-        $renewalDate = getDate();
-        $defaults['renewal_date']['M'] = $renewalDate['mon'];
-        $defaults['renewal_date']['d'] = $renewalDate['mday'];
-        $defaults['renewal_date']['Y'] = $renewalDate['year'];
+        CRM_Utils_Date::getAllDefaultValues( $defaults['renewal_date'] );
 
         if ($defaults['id']) {
             $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
