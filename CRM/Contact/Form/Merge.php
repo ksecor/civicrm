@@ -68,6 +68,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
+        $rgid  = CRM_Utils_Request::retrieve('rgid','Positive', $this, false);
 
         // ensure that oid is not the current user, if so refuse to do the merge
         $session =& CRM_Core_Session::singleton( );
@@ -98,6 +99,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         $this->_cid         = $cid;
         $this->_oid         = $oid;
+        $this->_rgid        = $rgid;
         $this->_contactType = $main['contact_type'];
         $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this.form);"));
 
@@ -437,5 +439,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Contact_BAO_Contact::createProfileContact($submitted, CRM_Core_DAO::$_nullArray, $this->_cid);
         }
         CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
+        $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->_rgid}" );
+        CRM_Utils_System::redirect($url);
     }
 }

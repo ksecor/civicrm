@@ -73,11 +73,13 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         asort($groupList);
         
         $this->add('select'  , 'group_id', ts('Select Group'), $groupList );
-        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Continue'),
                                          'isDefault' => true   ),
+                                 //hack to support cancel button functionality
+                                 array ( 'type'      => 'submit', 
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }
@@ -96,7 +98,11 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     public function postProcess() 
     {
         $values = $this->exportValues();
-
+        if ( CRM_Utils_Array::value( '_qf_DedupeFind_submit', $_POST ) ) {
+            //used for cancel button
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/deduperules','reset=1') );
+            return;
+        }
         if ( $values['group_id'] ) {
             $url = CRM_Utils_System::url( 'civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->rgid}&gid={$values['group_id']}" );
         } else {

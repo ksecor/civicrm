@@ -1,13 +1,11 @@
-{if $action neq 2}
-{include file="CRM/Admin/Form/DedupeFind.tpl"}
-{else}
+{if $action eq 2 || $action eq 16}
 <div class="form-item">
   <table>
     <tr class="columnheader"><th>{ts}Contact{/ts} 1</th><th>{ts}Contact{/ts} 2 ({ts}Duplicate{/ts})</th><th>{ts}Threshold{/ts}</th><th>&nbsp;</th></tr>
     {foreach from=$main_contacts item=main key=main_id}
         {capture assign=srcLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.srcID`"}">{$main.srcName}</a>{/capture}
         {capture assign=dstLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.dstID`"}">{$main.dstName}</a>{/capture}
-        {capture assign=merge}<a href="{crmURL p='civicrm/contact/merge' q="reset=1&cid=`$main.srcID`&oid=`$main.dstID`"}">{ts}merge{/ts}</a>{/capture}
+        {capture assign=merge}<a href="{crmURL p='civicrm/contact/merge' q="reset=1&cid=`$main.srcID`&oid=`$main.dstID`&action=update&rgid=`$rgid`"}">{ts}merge{/ts}</a>{/capture}
         <tr class="{cycle values="odd-row,even-row"}">
           <td>{$srcLink}</td>
           <td>{$dstLink}</td>
@@ -29,6 +27,9 @@
     </table>
   {/if}
 </div>
+{capture assign=backURL}{crmURL p="civicrm/admin/dedupefind" q="reset=1&rgid=`$rgid`&action=preview" a=1}{/capture}
+<a href="{$backURL}" class="button"><span>&raquo; {ts}Done{/ts}</span></a></td>
 <div style="clear: both;"></div>
-
+{else}
+{include file="CRM/Admin/Form/DedupeFind.tpl"}
 {/if}
