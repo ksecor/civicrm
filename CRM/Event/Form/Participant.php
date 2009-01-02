@@ -422,6 +422,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'participant_status_id', $defaults[$this->_participantId]['participant_status_id'] );
 			$roleID  = $defaults[$this->_participantId]['participant_role_id'];
 			$eventID = $defaults[$this->_participantId]['event_id'];
+
+            $this->_discountId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $this->_participantId , 'discount_id' );
+            if ( $this->_discountId ) {
+                $this->set( 'discountId', $this->_discountId );
+            }
         }
         
 		//assign event and role id, this is needed for Custom data building
