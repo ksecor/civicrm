@@ -42,7 +42,7 @@
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Select the format that is used for date fields in your import data.{/ts}</dd>
 
-        {if $form.doGeocodeAddress.html}
+        {if $geoCode}
           <dt>&nbsp;</dt><dd>{$form.doGeocodeAddress.html} {$form.doGeocodeAddress.label}</dd>
           <dt>&nbsp;</dt>
           <dd class="description">

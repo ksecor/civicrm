@@ -170,7 +170,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
      */
     public function preProcess()
     {
-        $this->_mapperFields = $this->get( 'fields' );
+        $dataSource             = $this->get( 'dataSource' );
+        $skipColumnHeader       = $this->get( 'skipColumnHeader' );
+        $this->_mapperFields    = $this->get( 'fields' );
+        $this->_importTableName = $this->get( 'importTableName' );        
+        
         //CRM-2676, replacing the conflict for same custom field name from different custom group.
         foreach ( $this->_mapperFields as $key => $value ) {
             require_once 'CRM/Core/BAO/CustomField.php';
@@ -184,18 +188,23 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
         }
         
-        // get the field names from the temp. DB table
-        $this->_importTableName = $this->get( 'importTableName' );
-        $dao = new CRM_Core_DAO();
-        $db = $dao->getDatabaseConnection();
-        
         $columnNames = array();
-        $columnsQuery = "SHOW FIELDS FROM $this->_importTableName
+        //get original col headers from csv if present.
+        if ( $dataSource == 'CRM_Import_DataSource_CSV' && $skipColumnHeader ) {
+            $columnNames = $this->get( 'originalColHeader' );
+        } else {
+            // get the field names from the temp. DB table
+            $dao = new CRM_Core_DAO();
+            $db = $dao->getDatabaseConnection();
+            
+            $columnsQuery = "SHOW FIELDS FROM $this->_importTableName
                          WHERE Field NOT LIKE '\_%'";
-        $columnsResult = $db->query($columnsQuery);
-        while ( $row = $columnsResult->fetchRow( DB_FETCHMODE_ASSOC ) ) {
-            $columnNames[] = $row['Field'];
+            $columnsResult = $db->query($columnsQuery);
+            while ( $row = $columnsResult->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+                $columnNames[] = $row['Field'];
+            }
         }
+        
         $this->_columnCount = count( $columnNames );
         $this->_columnNames = $columnNames;
         $this->assign( 'columnNames', $columnNames );
@@ -707,8 +716,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $parser->run( $this->_importTableName, $mapper,
                       CRM_Import_Parser::MODE_PREVIEW,
                       $this->get('contactType'),
-                      $primaryKeyName, $statusFieldName
-                    );
+                      $primaryKeyName, $statusFieldName );
         
         // add all the necessary variables to the form
         $parser->set( $this );        

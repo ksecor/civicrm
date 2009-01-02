@@ -152,10 +152,13 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         CRM_Core_Form_Date::buildAllowedDateFormats($this);
         
         $config = CRM_Core_Config::singleton();
+        $geoCode = false;
         if (!empty($config->geocodeMethod)) {
+            $geoCode = true;
             $this->addElement('checkbox', 'doGeocodeAddress', ts('Lookup mapping info during import?'));
         }
-
+        $this->assign( 'geoCode',$geoCode );
+        
         $this->addButtons( array( 
                                  array ( 'type'         => 'upload',
                                          'name'         => ts('Continue >>'),
@@ -205,7 +208,7 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
         if ($this->_dataSourceIsValid) {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );
-
+            
             $onDuplicate  = $this->exportValue('onDuplicate');
             $contactType  = $this->exportValue('contactType');
             $dateFormats  = $this->exportValue('dateFormats');
@@ -215,7 +218,9 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
             $this->set('contactType', $contactType);
             $this->set('dateFormats', $dateFormats);
             $this->set('savedMapping', $savedMapping);
-
+            $this->set('dataSource', $this->_params['dataSource'] );
+            $this->set('skipColumnHeader', CRM_Utils_Array::value( 'skipColumnHeader', $this->_params ) );
+            
             $session =& CRM_Core_Session::singleton();
             $session->set('dateTypes', $dateFormats);
 

@@ -72,9 +72,12 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
     {
         $file = $params['uploadFile']['name'];
         
-        $table = self::_CsvToTable( $db, $file, $params['skipColumnHeader'],
-                                    CRM_Utils_Array::value( 'import_table_name', $params ) );
+        $result = self::_CsvToTable( $db, $file, $params['skipColumnHeader'],
+                                     CRM_Utils_Array::value( 'import_table_name', $params ) );
         
+        $this->set('originalColHeader', CRM_Utils_Array::value( 'original_col_header', $result ) );
+        
+        $table = $result['import_table_name'];
         require_once 'CRM/Import/ImportJob.php';
         $importJob = new CRM_Import_ImportJob($table);
         $this->set('importTableName', $importJob->getTableName());
@@ -92,14 +95,18 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
      */
     private static function _CsvToTable(&$db, $file, $headers = false, $table = null )
     {
+        $result = array( );
         $fd = fopen($file, 'r');
         if (!$fd) CRM_Core_Error::fatal("Could not read $file");
-
+        
         $config =& CRM_Core_Config::singleton();
         $firstrow = fgetcsv($fd, 0, $config->fieldSeparator);
         
         // create the column names from the CSV header or as col_0, col_1, etc.
         if ($headers) {
+            //need to get original headers.
+            $result['original_col_header'] = $firstrow;
+            
             $columns = array_map('strtolower', $firstrow);
             $columns = str_replace(' ', '_', $columns);
             $columns = preg_replace('/[^a-z_]/', '', $columns);
@@ -179,8 +186,11 @@ class CRM_Import_DataSource_CSV extends CRM_Import_DataSource
         }
 
         fclose($fd);
-
-        return $table;
+        
+        //get the import tmp table name.
+        $result['import_table_name'] = $table;
+        
+        return $result;
     }
 }
 

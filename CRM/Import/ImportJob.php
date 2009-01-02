@@ -241,7 +241,7 @@ class CRM_Import_ImportJob {
             if ($form) $form->set('groupAdditions', $groupAdditions);
         }
         
-        if ( $this->_newTagName ) {
+        if ( $this->_newTagName || count($this->_tag) ) {
             $tagAdditions = $this->_tagImportedContactsWithNewTag($contactIds,
                                                                   $this->_newTagName,
                                                                   $this->_newTagDesc);
