@@ -44,14 +44,14 @@
 
 {ts}Event Contacts:{/ts}
 {foreach from=$location.1.phone item=phone}
-{if $phone.phone}{if $phone.phone_type}
+{if $phone.phone}
 
-  {$phone.phone_type_display}:{/if} {$phone.phone}{/if}
+{if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}{/if}
 {/foreach}
 {foreach from=$location.1.email item=eventEmail}
 {if $eventEmail.email}
 
-  {ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
+{ts}Email{/ts}: {$eventEmail.email}{/if}{/foreach}
 {/if}
 
 {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`" h=0 a=1}{/capture}
@@ -106,7 +106,7 @@ Participant {$priceset+1}
 {/if}
 
 {if $register_date}
-{ts}Registration Date{/ts} : {$register_date|crmDate}
+{ts}Registration Date{/ts}: {$register_date|crmDate}
 {/if}
 {if $receive_date}
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
@@ -146,7 +146,7 @@ Participant {$priceset+1}
 
 ===========================================================
 {foreach from=$customPre item=value key=customName}
- {$customName} : {$value}
+{$customName} : {$value}
 {/foreach}
 {/if}
 
@@ -156,7 +156,7 @@ Participant {$priceset+1}
 
 ===========================================================
 {foreach from=$customPost item=value key=customName}
- {$customName} : {$value}
+{$customName} : {$value}
 {/foreach}
 {/if}
 {if $customProfile}
@@ -180,7 +180,7 @@ Participant {$priceset+1}
 ----------------------------------------------------------
 {/if}
 {foreach from=$val item=v key=f}
- {$f} : {$v}
+{$f} : {$v}
 {/foreach}
 {/if}
 {/foreach}
@@ -192,7 +192,7 @@ Participant {$priceset+1}
 {$customName}
 ==========================================================
 {foreach from=$value item=v key=n}
- {$n} : {$v}
+{$n} : {$v}
 {/foreach}
 {/foreach}
 {/if}
