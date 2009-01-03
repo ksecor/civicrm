@@ -6,9 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
 "POT-Creation-Date: 2008-10-05 00:44+0200\n"
-"PO-Revision-Date: 2008-10-09 21:10-0700\n"
-"Last-Translator: Gabriel Mayrand Chadwick <gabrielmayrandchadwick@gmail."
-"com>\n"
+"PO-Revision-Date: 2008-12-30 06:17-0800\n"
+"Last-Translator: ebeer <webmaster@ebeer.Fr>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,9 +203,8 @@ msgstr "Trouver des participants"
 msgid "Find Pledges"
 msgstr "Trouver des promesses de don"
 
-#, fuzzy
 msgid "Find Signers"
-msgstr "Trouver des membres"
+msgstr "Trouver des signataires"
 
 msgid "From Email Address"
 msgstr "De l'adresse email"
@@ -244,9 +242,8 @@ msgstr "Importer des membres"
 msgid "Import Participants"
 msgstr "Importer des participants"
 
-#, fuzzy
 msgid "Import Signers"
-msgstr "Importer des membres"
+msgstr "Importer des signataires"
 
 msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Civilité (M., Mme, ...)"
@@ -291,9 +288,8 @@ msgid "Manage Groups"
 msgstr "Gestion des groupes"
 
 # Trouver remplacent pour pledges
-#, fuzzy
 msgid "Manage Pledges"
-msgstr "Gestion des pledges"
+msgstr "Gérer les promesses de don"
 
 msgid "Manage Premiums"
 msgstr "Gestion des cadeaux"
@@ -337,7 +333,6 @@ msgstr "Nouvelle activité"
 msgid "New Contact"
 msgstr "Nouveau contact"
 
-#, fuzzy
 msgid "New Contact Dialog"
 msgstr "Nouveau dialogue de contact"
 
@@ -347,9 +342,8 @@ msgstr "Nouvel évènement"
 msgid "New Mailing"
 msgstr "Nouveau mailing"
 
-#, fuzzy
 msgid "New Pledge"
-msgstr "Nouveau pledge"
+msgstr "Nouvelle promesse de don"
 
 msgid "Notes"
 msgstr "Notes"
@@ -379,7 +373,7 @@ msgid "Payment Processor Type"
 msgstr "Type de processus de paiement"
 
 msgid "PledgeBank"
-msgstr ""
+msgstr "Banque pour les promesses de don"
 
 msgid "Pledge Payments"
 msgstr "Règlements des promesses de don"
