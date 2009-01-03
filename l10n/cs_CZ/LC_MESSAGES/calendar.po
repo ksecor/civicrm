@@ -1,0 +1,119 @@
+# Copyright CiviCRM LLC (c) 2004-2008
+# This file is distributed under the same license as the CiviCRM package.
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: l 10n\n"
+"POT-Creation-Date: 2007-04-18 07:33+0200\n"
+"PO-Revision-Date: 2007-04-18 07:33+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: js/lang/calendar-lang.php
+msgid "About the calendar"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "For latest version visit: %1"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Distributed under GNU LGPL. See %1 for details."
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Date selection:"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\xab, \\xbb buttons to select year,"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\u2039, \\u203a buttons to select month,"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- hold mouse button on any of the above buttons for faster selection."
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Time selection:"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- click on any of the time parts to increase it"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- or Shift-click to decrease it"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "- or click and drag for faster selection."
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "hold for menu"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Prev. year"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Prev. month"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Go Today"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Next month"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Next year"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Select date"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Drag to move"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "today"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Display %s first"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Close"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Today"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "(Shift-)Click or drag to change value"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "wk"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Time:"
+msgstr ""
