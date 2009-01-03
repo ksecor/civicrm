@@ -88,6 +88,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $eventId = $this->_id;
         $params   = array( );
         $defaults = array( );
+        if ( isset( $eventId ) ) {
+            $params = array( 'id' => $eventId );
+        }
         
         CRM_Event_BAO_Event::retrieve( $params, $defaults );
                
