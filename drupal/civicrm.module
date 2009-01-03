@@ -227,7 +227,7 @@ function civicrm_initialize( )
         $error = include_once( $settingsFile );
         if ( $error == false ) {
             $failure = true;
-            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence//x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
+            drupal_set_message( "<strong><p class='error'>Oops! - The CiviCRM settings file (civicrm.settings.php) was not found in the expected location (" . $settingsFile . "). Please review the <a href='http://wiki.civicrm.org/confluence/x/mQ8'>Installation Instructions</a>, <a href='http://wiki.civicrm.org/confluence/display/CRMDOC/FAQ#FAQ-install'>Installation FAQs</a>, and <a href='http://wiki.civicrm.org/confluence//x/7ho'>Trouble-shooting</a> documentation for assistance.</strong></p>" );
             return false;
         }
         
