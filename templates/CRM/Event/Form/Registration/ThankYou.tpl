@@ -42,7 +42,7 @@
         {ts}Event Information{/ts}
     </div>
     <div class="display-block">
-         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
+         {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl" context="ThankYou"}
     </div>
 
     {if $paidEvent}
@@ -173,16 +173,11 @@
         </div>
     {/if}
     
-    <p>
-    <a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.id`"}">Back to "{$event.event_title}" information page</a>
-    </p>
+    <div class="action-link">
+        <a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.id`"}">&raquo; {ts 1=$event.event_title}Back to "%1" event information{/ts}</a>
+    </div>
 
     {if $event.is_public }
-      <div class="action-link">
-        {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
-        {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
-
-        <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}" /></a> 
-      </div>
+        {include file="CRM/Event/Page/iCalLinks.tpl"}
     {/if} 
 </div>

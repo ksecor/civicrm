@@ -1,6 +1,14 @@
 {* Block displays key event info for Registration Confirm and Thankyou pages *}
 <table class="form-layout">
-  <tr><td colspan="2"><strong>{$event.event_title}</strong></td></tr>
+  <tr>
+    <td colspan="2">
+    {if $context EQ 'ThankYou'} {* Provide link back to event info page from Thank-you page *}
+        <a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$event.id`"}"title="{ts}View complete event information.{/ts}"><strong>{$event.event_title}</strong></a>
+    {else}
+        <strong>{$event.event_title}</strong>
+    {/if}
+    </td>
+  </tr>
   <tr><td><label>{ts}When{/ts}</label></td>
       <td width="90%">
         {$event.event_start_date|crmDate}
@@ -36,7 +44,7 @@
         {* loop on any phones and emails for this event *}
            {foreach from=$location.1.phone item=phone}
              {if $phone.phone}
-                {if $phone.phone_type}{$phone.phone_type_display}:{/if} {$phone.phone}
+                {if $phone.phone_type}{$phone.phone_type_display}{else}{ts}Phone{/ts}{/if}: {$phone.phone}
                 <br />
             {/if}
            {/foreach}
