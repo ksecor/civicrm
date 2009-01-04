@@ -656,6 +656,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         //start of code to set the default values
         foreach ($fields as $name => $field ) { 
+            // fix for CRM-3962
+            if ( $name == 'id' ) {
+                $name = 'contact_id';
+            }
+
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             $customFieldName = null;
