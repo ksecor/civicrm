@@ -56,20 +56,19 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                                                   array( 1=> $currentVersion, 2=> $upgrade->latestVersion ) ) );
             $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
                                                array( 1 => $upgrade->latestVersion ) ) );
+            $template->assign( 'upgraded', false );
             if ( $_POST['upgrade'] ) {
                 for ( $i = 1; $i <= 4; $i++ ) {
                     $this->runForm( $i );
                 }
                 // just change the ver in the db, since nothing to upgrade
                 $upgrade->setVersion( $upgrade->latestVersion );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/upgrade', 'reset=1' ) );
+                $template->assign( 'upgraded', true );
+                
+                // also cleanup the templates_c directory
+                $config =& CRM_Core_Config::singleton( );
+                $config->cleanup( 1 );
             }
-
-            // also cleanup the templates_c directory
-            $config =& CRM_Core_Config::singleton( );
-            $config->cleanup( 1 );
-            $template->assign( 'upgraded', false );
-           
         } 
         $template->assign( 'menuRebuildURL', 
                            CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1' ) );
