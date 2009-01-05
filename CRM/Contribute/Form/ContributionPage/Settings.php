@@ -85,10 +85,10 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         // is on behalf of an organization ?
         $this->addElement('checkbox', 'is_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"showHideByValue('is_organization',true,'for_org_text','table-row','radio',false);showHideByValue('is_organization',true,'for_org_option','table-row','radio',false);") );
         $options = array(); 
-        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Give option, but not required'), 1 );
-        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('On Behalf of required'), 2 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Optional'), 1 );
+        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Required'), 2 );
         $this->addGroup($options, 'is_for_organization', ts('') ); 
-        $this->add('textarea', 'for_organization', ts('On beh1alf of label'), $attributes['for_organization'] );
+        $this->add('textarea', 'for_organization', ts('On behalf of Label'), $attributes['for_organization'] );
 
         // collect goal amount
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 12 ) ); 

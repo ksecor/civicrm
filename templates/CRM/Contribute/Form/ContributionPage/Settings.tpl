@@ -20,15 +20,25 @@
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />	
             <span class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</span></td>
 	</tr>
-	<tr><td>&nbsp;</td><td>{$form.is_organization.html}{$form.is_organization.label}<br/>
-	     <span class="description">{ts}If you want to allow the contribution/signup to be done by individuals on behalf of an organization.{/ts}</span></td>
-	</tr>
-	<tr id="for_org_option"><td>&nbsp;</td><td>{$form.is_for_organization.html}<br />
-	<span class="description">{ts}Settings for 'on behalf of an organization' option in the contribution form.{/ts}</span></td></tr>
-	<tr id="for_org_text">
-	<td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
-	    <span class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</span></td>
-	</tr>
+	<tr><td>&nbsp;</td><td>{$form.is_organization.html} {$form.is_organization.label}</td></tr>
+	<tr id="for_org_option">
+        <td>&nbsp;</td>
+        <td>
+            <table class="form-layout-compressed">
+            <tr id="for_org_text">
+                <td class="label">{$form.for_organization.label}</td><td>{$form.for_organization.html}<br />
+                    <span class="description">{ts}Text displayed next to the checkbox on the contribution form.{/ts}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>{$form.is_for_organization.html}<br />
+                    <span class="description">{ts}Check 'Required' to force ALL users to contribute/signup on behalf of an organization.{/ts}</span>
+                </td>
+            </tr>
+            </table>
+        </td>
+    </tr>
 	<tr><td class ="label">{$form.intro_text.label}</td><td>{$form.intro_text.html}<br />
 	    <span class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</span></td>
 	</tr>
