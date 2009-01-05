@@ -82,4 +82,10 @@
                     {include file="CRM/common/calendar/body.tpl" dateVar=grant_due_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_grant_8}
 		   &nbsp;&nbsp;{$form.grant_due_date_notset.html}&nbsp;&nbsp;{ts}Date is not set{/ts}
                </td>          
-           </tr>
+	  </tr>
+	  {if $grantGroupTree}
+	  <tr>
+	       <td colspan="3">
+		    {include file="CRM/Custom/Form/Search.tpl" groupTree=$grantGroupTree showHideLinks=false}</td>
+	  </tr>
+	  {/if}

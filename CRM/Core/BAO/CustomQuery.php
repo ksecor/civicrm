@@ -115,7 +115,8 @@ class CRM_Core_BAO_CustomQuery
                                'Relationship' => 'civicrm_relationship',
                                'Event'        => 'civicrm_event',
                                'Activity'     => 'civicrm_activity',
-                               'Pledge'       => 'civicrm_pledge'
+                               'Pledge'       => 'civicrm_pledge',
+                               'Grant'        => 'civicrm_grant'
                                );
 
     /**
@@ -253,8 +254,10 @@ SELECT label, value
                 $joinTable = 'civicrm_activity';
             } else  if ( $field['extends'] == 'civicrm_relationship' ) {
                 $joinTable = 'civicrm_relationship';
+            } else  if ( $field['extends'] == 'civicrm_grant' ) {
+                $joinTable = 'civicrm_grant';
             }
-
+            
             if ( $joinTable ) {
                 $this->_tables[$name] = "\nLEFT JOIN $name ON $name.entity_id = $joinTable.id";
                 if ( $this->_ids[$id] ) {
