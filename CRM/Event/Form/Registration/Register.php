@@ -159,10 +159,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
                                                         $this->_values['event']['default_discount_id'],
                                                         'weight', 'id' );
-            
-            $this->_defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
+                        
+            $this->_defaults['amount'] = key( array_slice( $this->_values['discount'][$discountId], $discountKey-1, $discountKey, true) );
         }
-       
+        
         // now fix all state country selectors
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::fixAllStateSelects( $this, $this->_defaults );
