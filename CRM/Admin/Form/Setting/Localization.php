@@ -175,7 +175,12 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         // if we manipulated the language list, return to the localization admin screen
         $return = (bool) ($values['makeMultilingual'] or $values['addLanguage']);
-
+        
+        //cache contact fields retaining localized titles
+        //though we changed localization, so reseting cache.
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );         
+        
         // save all the settings
         parent::commonProcess($values);
 
