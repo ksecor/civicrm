@@ -1,6 +1,6 @@
 	<table class="form-layout">
 		<tr>
-            <td class="font-size12pt">{$form.sort_name.label}</td>
+            <td class="font-size12pt">{$form.sort_name.label} {help id='id-advanced-intro'}</td>
             <td>{$form.sort_name.html}
                 <div class="description font-italic">
                     {ts}Complete OR partial Contact Name.{/ts}
