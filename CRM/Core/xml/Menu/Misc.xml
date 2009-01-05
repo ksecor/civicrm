@@ -75,4 +75,9 @@
     <page_callback>CRM_Core_I18n_Form</page_callback>
     <access_arguments>translate CiviCRM</access_arguments>
   </item>
+  <item>
+     <path>civicrm/ajax/rest</path>
+     <page_callback>CRM_Utils_REST::ajax</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>  
 </menu>

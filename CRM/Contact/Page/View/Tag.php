@@ -51,20 +51,15 @@ class CRM_Contact_Page_View_Tag extends CRM_Contact_Page_View {
         $session =& CRM_Core_Session::singleton();
         
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=tag' ) ,false);
-       
-      
-       
         $controller->reset( );
         $controller->set( 'contactId'  , $this->_contactId );
-
         $controller->process( );
         $controller->run( );
     }
 
-
-
-   /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+    /**
+     * This function is the main function that is called when the page loads
+     * it decides the which action has to be taken for the page.
      * 
      * return null
      * @access public
