@@ -12,7 +12,7 @@
   </item>
  <item>
      <path>civicrm/contribute/chart</path>
-     <title>Contribution Chart</title>
+     <title>Contribution Summary - Chart View</title>
      <page_callback>CRM_Contribute_Form_ContributionCharts</page_callback>
      <access_arguments>access CiviContribute</access_arguments>
      <component>CiviContribute</component>

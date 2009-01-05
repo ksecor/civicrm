@@ -13,7 +13,7 @@
 {/if}
 {capture assign=chartURL}{crmURL p="civicrm/contribute/chart" q="reset=1"}{/capture}
 
-<h3>{ts}Contributions Summary{/ts} {help id="id-contribute-intro"}</h3>
+<h3>{ts}Contribution Summary{/ts} {help id="id-contribute-intro"}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Period{/ts}</th>
