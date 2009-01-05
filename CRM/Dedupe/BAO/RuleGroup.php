@@ -53,6 +53,11 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     var $params = array();
 
     /**
+     * if there are no rules in rule group
+     */
+    var $noRules = false;
+
+    /**
      * Return a structure holding the supported tables, fields and their titles
      *
      * @param string $requestedType  the requested contact type
@@ -124,8 +129,11 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
         }
 
         // if there are no rules in this rule group, add an empty query fulfilling the pattern
-        if (!$queries) $queries = array('SELECT 0 id1, 0 id2, 0 weight LIMIT 0');
-
+        if ( !$queries ) {
+            $queries = array('SELECT 0 id1, 0 id2, 0 weight LIMIT 0');
+            $this->noRules = true;
+        }
+        
         return 'CREATE TEMPORARY TABLE dedupe ' . implode(' UNION ALL ', $queries);
     }
 
@@ -133,7 +141,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
      * Return the SQL query for getting only the interesting results out of the dedupe table.
      */
     function thresholdQuery() {
-        if ($this->params) {
+        if ( $this->params && !$this->noRules ) { 
             return "SELECT id
                 FROM dedupe JOIN civicrm_contact USING (id)
                 WHERE contact_type = '{$this->contact_type}'
