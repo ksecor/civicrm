@@ -615,6 +615,13 @@ UNION (
             }
         }
         
+        // *FIXME* : hack for 2.1 -> 2.2 upgrades. The below block of code 
+        // can be safely removed for v2.3.
+        if ( $path == 'civicrm/upgrade' ) {
+            $menuPath['page_callback']         = 'CRM_Upgrade_Page_Upgrade';
+            $menuPath['access_arguments'][0][] = 'administer CiviCRM';
+        }
+
         $i18n =& CRM_Core_I18n::singleton();
         $i18n->localizeTitles($menuPath);
         return $menuPath;
