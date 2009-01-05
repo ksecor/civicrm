@@ -211,7 +211,8 @@ class CRM_Core_BAO_CMSUser
         } 
         $loginUrl =  $config->userFrameworkBaseURL;
         if ( $isJoomla ) {
-            $loginUrl = str_replace( 'administrator/', "", $loginUrl );
+            $loginUrl  = str_replace( 'administrator/', '', $loginUrl );
+            $loginUrl .= 'index.php?option=com_user&view=login';
         }
         $form->assign( 'loginUrl', $loginUrl );
         $form->assign( 'showCMS', $showCMS ); 
