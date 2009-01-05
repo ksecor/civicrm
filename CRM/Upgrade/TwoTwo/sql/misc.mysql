@@ -39,7 +39,8 @@ ALTER TABLE `civicrm_event`
    ADD `is_pay_later` tinyint(4) default '0' COMMENT 'if true - allows the user to send payment directly to the org later',
    ADD `pay_later_text` text collate utf8_unicode_ci COMMENT 'The text displayed to the user in the main form',
    ADD `pay_later_receipt` text collate utf8_unicode_ci COMMENT 'The receipt sent to the user instead of the normal receipt text',
-   ADD `is_multiple_registrations` tinyint(4) default '0' COMMENT 'if true - allows the user to register multiple participants for event';
+   ADD `is_multiple_registrations` tinyint(4) default '0' COMMENT 'if true - allows the user to register multiple participants for event',
+   ALTER `max_participants`  DROP DEFAULT;
 
 UPDATE civicrm_event ce
 LEFT JOIN civicrm_event_page cp ON ce.id=cp.event_id
@@ -283,7 +284,8 @@ ALTER TABLE civicrm_mailing
 
 ALTER TABLE civicrm_mailing_group
   ADD search_id int AFTER entity_id,
-  ADD search_args text AFTER search_id;
+  ADD search_args text AFTER search_id,
+  MODIFY `group_type` enum('Include','Exclude','Base') NULL DEFAULT NULL;
 
 
 -- CRM-3609 (used IGNORE as 2.1 post beta5 should have this already)
@@ -309,18 +311,18 @@ UPDATE civicrm_preferences set location_count='2';
 SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'case_type';
 
 -- get rid of HRD-related sample case types
-DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case_type;
+-- DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case_type;
 
 INSERT INTO
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
 VALUES
-    (@option_group_id_case_type, 'Inpatient treatment',        1, 'inpatient_treatment',       NULL, 0,  0, 4, 'Inpatient treatment case', 0, 0, 1),
-    (@option_group_id_case_type, 'Intervention',               2, 'intervention',              NULL, 0,  0, 5, 'Intervention case',      0, 0, 1),
-    (@option_group_id_case_type, 'Referral to counselor',      3, 'referral_to_counselor',     NULL, 0,  0, 1, 'Referral to counselor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to family doctor',  4, 'referral_to_family_doctor', NULL, 0,  0, 2, 'Referral to family doctor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to specialist',     5, 'referral_to_specialist',    NULL, 0,  0, 3, 'Referral to specialist case', 0, 0, 1),
-    (@option_group_id_case_type, 'Relapse prevention',         6, 'relapse_prevention',        NULL, 0,  0, 6, 'Relapse prevention case', 0, 0, 1),
-    (@option_group_id_case_type, 'Return to work',             7, 'return_to_work',            NULL, 0,  0, 7, 'Return to work case',     0, 0, 1);
+    (@option_group_id_case_type, 'Inpatient treatment',        4, 'inpatient_treatment',       NULL, 0,  0, 7, 'Inpatient treatment case', 0, 0, 1),
+    (@option_group_id_case_type, 'Intervention',               5, 'intervention',              NULL, 0,  0, 8, 'Intervention case',      0, 0, 1),
+    (@option_group_id_case_type, 'Referral to counselor',      6, 'referral_to_counselor',     NULL, 0,  0, 4, 'Referral to counselor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to family doctor',  7, 'referral_to_family_doctor', NULL, 0,  0, 5, 'Referral to family doctor case', 0, 0, 1),
+    (@option_group_id_case_type, 'Referral to specialist',     8, 'referral_to_specialist',    NULL, 0,  0, 6, 'Referral to specialist case', 0, 0, 1),
+    (@option_group_id_case_type, 'Relapse prevention',         9, 'relapse_prevention',        NULL, 0,  0, 9, 'Relapse prevention case', 0, 0, 1),
+    (@option_group_id_case_type, 'Return to work',             10, 'return_to_work',           NULL, 0,  0, 10, 'Return to work case',     0, 0, 1);
 
 -- * Case Status - Set names for Open and Closed
 
@@ -485,7 +487,8 @@ ALTER TABLE `civicrm_activity`
   ADD `relationship_id` int(10) unsigned default NULL COMMENT 'FK to Relationship ID',
   ADD `is_current_revision` tinyint   DEFAULT 1 ,
   ADD `original_id` int unsigned    COMMENT 'Activity ID of the first activity record in versioning chain.',
-  ADD `is_deleted` tinyint   DEFAULT 0,  
+  ADD `is_deleted` tinyint   DEFAULT 0,
+  ADD CONSTRAINT FK_civicrm_activity_original_id FOREIGN KEY (original_id) REFERENCES civicrm_activity(id) ON DELETE CASCADE,  
   ADD CONSTRAINT FK_civicrm_relationship_id FOREIGN KEY (relationship_id) REFERENCES civicrm_relationship(id) ON DELETE SET NULL;
 
 ALTER TABLE `civicrm_custom_group`
@@ -497,7 +500,7 @@ ALTER TABLE `civicrm_custom_group` CHANGE `extends_entity_column_name` `extends_
 -- added new column 'skipBreadcrumb' to civicrm_menu. CRM-2699.
 
 ALTER TABLE `civicrm_menu`
-  ADD `skipBreadcrumb` tinyint(4) default '0' COMMENT 'skip this url being exposed to breadcrumb';
+  ADD `skipBreadcrumb` tinyint(4) COMMENT 'skip this url being exposed to breadcrumb';
 
 -- CRM-3709  
 CREATE INDEX index_option_group_id_name ON civicrm_option_value( `option_group_id` , `name` );
@@ -513,7 +516,8 @@ ALTER TABLE `civicrm_group`
 
 -- New field for CRM-3494 (billing name and address for contributions)
 ALTER TABLE `civicrm_contribution`
-  ADD `address_id` int(10) unsigned default NULL COMMENT 'Conditional foreign key to civicrm_address.id. We insert an address record for each contribution when we have associated billing name and address data.';
+  ADD `address_id` int(10) unsigned default NULL COMMENT 'Conditional foreign key to civicrm_address.id. We insert an address record for each contribution when we have associated billing name and address data.',
+  ADD CONSTRAINT FK_civicrm_contribution_address_id FOREIGN KEY (address_id) REFERENCES civicrm_address(id) ON DELETE SET NULL;
 
 -- Removing solicitor_id as per CRM-3917
 INSERT INTO civicrm_contribution_soft (contribution_id, contact_id, amount) 
