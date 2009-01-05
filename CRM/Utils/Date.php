@@ -103,12 +103,12 @@ class CRM_Utils_Date
             CRM_Utils_Array::value( 's', $date ) != null) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
-                if ($date['A'] == 'PM') {
+                if ($date['A'] == 'PM' or $date['a'] == 'pm') {
                     if ($date['h'] != 12 ) {
                         $date['h'] = $date['h'] + 12;
                     }
                 }
-                if ( CRM_Utils_Array::value( 'A', $date ) == 'AM' &&
+                if ( (CRM_Utils_Array::value( 'A', $date ) == 'AM' or CRM_Utils_Array::value( 'a', $date ) == 'am') &&
                      CRM_Utils_Array::value( 'h', $date ) == 12 ) {
                     $date['h'] = '00';
                 }
@@ -207,13 +207,17 @@ class CRM_Utils_Date
                 $value['h'] -= 12;
                 $value['H'] = $hr;
                 $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else if( $hr == 0 ) {
                 $value['h'] = 12;
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
             } else if( $hr == 12 ) {
                 $value['A'] = 'PM';
+                $value['a'] = 'pm';
             } else {
                 $value['A'] = 'AM';
+                $value['a'] = 'am';
             }
         }
         
@@ -320,7 +324,7 @@ class CRM_Utils_Date
             return 0;
         }
         
-        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' ) {
+        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' or CRM_Utils_Array::value( 'a', $v ) == 'pm') {
             $v['h'] += 12;
         }
         

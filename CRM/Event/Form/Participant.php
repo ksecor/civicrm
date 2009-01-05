@@ -363,9 +363,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $defaults[$this->_participantId]['register_date']['Y'] = $today_date['year'];
 
             $defaults[$this->_participantId]['register_date']['A'] = 'AM';
+            $defaults[$this->_participantId]['register_date']['a'] = 'am';
             if( $today_date['hours'] > 12 ) {
                 $today_date['hours'] -= 12;
                 $defaults[$this->_participantId]['register_date']['A'] = 'PM';
+                $defaults[$this->_participantId]['register_date']['a'] = 'pm';
             }
             
             $defaults[$this->_participantId]['register_date']['h'] = $today_date['hours'];
