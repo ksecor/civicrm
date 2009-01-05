@@ -138,15 +138,12 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             if ( !defined('HTML_QUICKFORM_TINYMCEEDITOR_LOADED' ) ) {                
                 // load tinyMCEeditor
                 $config = CRM_Core_Config::singleton( );
-                // $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
-                //                    $config->resourceBase . $this->BasePath . 'tiny_mce.js'
-                //                    );
+                $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
+                                   $config->resourceBase . $this->BasePath . 'tiny_mce.js'
+                                   );
                 
                 $html .= sprintf( '<script type="text/javascript">
 
-cj(document).ready( function() {
-
-cj.getScript( "'.$config->resourceBase . $this->BasePath . 'tiny_mce.js", function() { 
     tinyMCE.init({
     mode : "textareas",
     theme : "advanced",
@@ -165,9 +162,7 @@ cj.getScript( "'.$config->resourceBase . $this->BasePath . 'tiny_mce.js", functi
     apply_source_formatting : true,
     spellchecker_languages : "+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv"
     });    
-} );    
 
-});
 </script>' );
 
                 define('HTML_QUICKFORM_TINYMCEEDITOR_LOADED', true);
