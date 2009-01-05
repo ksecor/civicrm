@@ -438,7 +438,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-size: 0.9em;
   white-space: normal;
   width: auto;
-  display: block;
+//  display: block;
 }
 
 #crm-container .form-layout-compressed td.description {
