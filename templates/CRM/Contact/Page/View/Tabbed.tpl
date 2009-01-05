@@ -25,7 +25,7 @@
     <tr>
         {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
         {if $sic_code}<td><label>{ts}SIC Code{/ts}:</label></td><td>{$sic_code}</td>{/if}
-        {if $contactTag}<td><label><a href="{crmURL p='civicrm/contact/view/tag' q="action=update"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td>{$contactTag}</td>{/if}
+        {if $contactTag}<td><label><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$contactId&selectedChild=tag"}" title="{ts}Edit Tags{/ts}">{ts}Tags{/ts}</a>:</label></td><td>{$contactTag}</td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>
