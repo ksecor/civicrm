@@ -561,6 +561,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
+        //delete billing address if exists.
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        CRM_Contribute_BAO_Contribution::deleteAddress( null, $id );
+        
         // delete the log entries since we dont have triggers enabled as yet
         require_once 'CRM/Core/DAO/Log.php';
         $logDAO =& new CRM_Core_DAO_Log(); 

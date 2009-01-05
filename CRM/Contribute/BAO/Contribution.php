@@ -487,16 +487,12 @@ WHERE  $whereCond AND is_test=0
 
         CRM_Activity_BAO_Activity::deleteActivity( $params );
         
+        //delete billing address if exists for this contribution.
+        self::deleteAddress( $id ); 
+        
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
-        $dao->find( true );
-        //delete billing address if exists for this contribution.
-        if ( $dao->address_id ) {
-            require_once "CRM/Core/BAO/Block.php";
-            $params = array ( 'id' => $dao->address_id );
-            CRM_Core_BAO_Block::blockDelete( 'Address', $params );
-        }
-        
+             
         $results = $dao->delete( );
         
         $transaction->commit( );
@@ -983,4 +979,36 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         return $result;
     }
 
+    /**                                                           
+     * Delete billing address record related contribution
+     * @param int $contact_id contact id 
+     * @param int $contribution_id contributionId 
+     * @access public 
+     * @static 
+     */ 
+    static function deleteAddress( $contributionId = null, $contactId = null ) 
+    {
+        $contributionCond = $contactCond = 'null';
+        if ( $contributionId ) {
+            $contributionCond = "cc.id = {$contributionId}";
+        }
+        if ( $contactId ) {
+            $contactCond = "cco.id = {$contactId}";
+        }
+ 
+        $query = "
+SELECT ca.id FROM 
+civicrm_address ca 
+LEFT JOIN civicrm_contribution cc ON cc.address_id = ca.id 
+LEFT JOIN civicrm_contact cco ON cc.contact_id = cco.id 
+WHERE ( $contributionCond  OR $contactCond )";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        while( $dao->fetch( ) ) {
+            require_once "CRM/Core/BAO/Block.php";
+            $params = array ( 'id' => $dao->id );
+            CRM_Core_BAO_Block::blockDelete( 'Address', $params );
+        }
+    }
 }
