@@ -205,6 +205,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
         }
         
+        $showColNames = true;
+        if ( $dataSource == 'CRM_Import_DataSource_CSV' && !$skipColumnHeader ) {
+            $showColNames = false;
+        }
+        $this->assign( 'showColNames', $showColNames );
+        
         $this->_columnCount = count( $columnNames );
         $this->_columnNames = $columnNames;
         $this->assign( 'columnNames', $columnNames );

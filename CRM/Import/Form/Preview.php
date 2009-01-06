@@ -108,13 +108,20 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
-
+        
         $statusID = $this->get( 'statusID' );
         if ( ! $statusID ) {
             $statusID = md5(uniqid(rand(), true));
             $this->set( 'statusID', $statusID );
         }
         $this->assign('statusID', $statusID );
+        
+        $showColNames = true;
+        if ( 'CRM_Import_DataSource_CSV' == $this->get( 'dataSource' ) && 
+             !$this->get( 'skipColumnHeader' ) ) {
+            $showColNames = false;
+        }
+        $this->assign( 'showColNames', $showColNames );
     }
 
     /**
