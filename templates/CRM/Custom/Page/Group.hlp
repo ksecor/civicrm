@@ -6,7 +6,7 @@
 {/htxt}
 {htxt id="id-display_style"}
     {ts}Select 'Inline' to include this group of fields in the main contact Add/Edit form and Contact Summary screens. Select 'Tab' to create a separate navigation tab for display and editing these values (generally for less frequently accessed and/or larger sets of fields).{/ts}
-    <p class="font-italic">{ts}NOTE: This setting applies only to custom groups used for Contact records (e.g. Individuals, Households, Organizations, or ALL contact types.{/ts}</p>
+    <p class="font-italic">{ts}NOTE: This setting applies only to custom groups used for Contact records (e.g. Individuals, Households, Organizations, or ALL contact types).{/ts}</p>
 {/htxt}
 
 {htxt id="id-extends"}
