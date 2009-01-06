@@ -970,27 +970,34 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     // need not check for label filed import
                     $htmlType = array('CheckBox','Multi-Select','Select','Radio','Multi-Select State/Province' ,'Multi-Select Country' );
-                    if ( ! in_array( $customFields[$customFieldID]['html_type'], $htmlType ) || $customFields[$customFieldID]['data_type'] =='Boolean' ) {
-                        
-                        $valid = CRM_Core_BAO_CustomValue::typecheck(
-                                                                     $customFields[$customFieldID]['data_type'], $value);
+                    if ( ! in_array( $customFields[$customFieldID]['html_type'], $htmlType ) ||
+                         $customFields[$customFieldID]['data_type'] =='Boolean' ) {
+                        $valid = 
+                            CRM_Core_BAO_CustomValue::typecheck($customFields[$customFieldID]['data_type'], $value);
                         if (! $valid) {
                             self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                         }
                     }
                     
                     // check for values for custom fields for checkboxes and multiselect
-                    if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' || $customFields[$customFieldID]['html_type'] =='Multi-Select' ) {
-                        $value = str_replace("|",",",$value);
+                    if ( $customFields[$customFieldID]['html_type'] == 'CheckBox' ||
+                         $customFields[$customFieldID]['html_type'] =='Multi-Select' ) {
+                        $value = trim( $value );
+                        $value = str_replace('|', ',', $value);
                         $mulValues = explode( ',' , $value );
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         foreach( $mulValues as $v1 ) {
+                            if ( strlen( $v1 ) == 0 ) {
+                                continue;
+                            }
+
                             $flag = false; 
                             foreach( $customOption as $v2 ) {
                                 if (( strtolower(trim($v2['label'])) == strtolower(trim($v1)))||( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
+
                             if (! $flag ) {
                                 self::addToErrorMsg($customFields[$customFieldID]['label'], $errorMessage);
                             }
