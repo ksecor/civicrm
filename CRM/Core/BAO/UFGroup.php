@@ -1671,7 +1671,21 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
                             if ( $name == 'custom_'. $customFieldDetails[0] ) {
                                 $fName = "{$name}_{$customFieldDetails[1]}";
-                                $defaults[$fldName] = $customValue;
+                                
+                                //hack to set default for checkbox
+                                $checkBox = false;
+                                foreach ( $formattedGroupTree as $tree ) {
+                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
+                                        $checkBox = true;
+                                        $defaults['field'][$componentId][$name] = $customValue;
+                                        break;
+                                    }
+                                }
+                                
+                                if ( !$checkBox ) {
+                                    $defaults[$fldName] = $customValue;
+                                }
+                                
                                 unset($defaults[$customKey]);
                                 break;
                             }
@@ -1716,7 +1730,21 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
                             if ( $name == 'custom_'. $customFieldDetails[0] ) {
                                 $fName = "{$name}_{$customFieldDetails[1]}";
-                                $defaults[$fldName] = $customValue;
+
+                                //hack to set default for checkbox
+                                $checkBox = false;
+                                foreach ( $formattedGroupTree as $tree ) {
+                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
+                                        $checkBox = true;
+                                        $defaults['field'][$componentId][$name] = $customValue;
+                                        break;
+                                    }
+                                }
+                                
+                                if ( !$checkBox ) {
+                                    $defaults[$fldName] = $customValue;
+                                }
+                                
                                 unset($defaults[$customKey]);
                                 break;
                             }
@@ -1754,7 +1782,21 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
                             if ( $name == 'custom_'. $customFieldDetails[0] ) {
                                 $fName = "{$name}_{$customFieldDetails[1]}";
-                                $defaults[$fldName] = $customValue;
+                                
+                                //hack to set default for checkbox
+                                $checkBox = false;
+                                foreach ( $formattedGroupTree as $tree ) {
+                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
+                                        $checkBox = true;
+                                        $defaults['field'][$componentId][$name] = $customValue;
+                                        break;
+                                    }
+                                }
+                                
+                                if ( !$checkBox ) {
+                                    $defaults[$fldName] = $customValue;
+                                }
+                                
                                 unset($defaults[$customKey]);
                                 break;
                             }
