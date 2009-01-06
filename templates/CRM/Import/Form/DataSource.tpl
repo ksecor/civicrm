@@ -31,7 +31,7 @@
     {/if}
   </div>
 
-  <div id="common-form-controls" class="form-item" style="display: none;">
+  <div id="common-form-controls" class="form-item">
     <fieldset>
       <legend>{ts}Import Options{/ts}</legend>
       <dl>
@@ -106,9 +106,6 @@
               dojo.byId('data-source-form-block').innerHTML = response;
               // this executes any javascript in the injected block
               executeInnerHTML('data-source-form-block');
-              // display common form controls now
-              var commonFormControls = document.getElementById('common-form-controls');
-              commonFormControls.style.display = '';
             }
           }
         });
