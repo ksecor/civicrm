@@ -5,8 +5,8 @@
 {htxt id="id-details"}
 {if $activityTypeFile EQ 'OpenCase'}
     <ul>
-    <li>{ts}&quot;Hello, my name is [Your Name] and I am an Assessment Physician with the Physician Health Program of BC.&quot;{/ts}</li>
-    <li>{ts}&quot;All of the information that you provide to the Physician Health Program or any of its representatives and service providers will be held in strictest confidence. It will not be used for any purpose other than to help you, and for any other purpose that you authorize in writing, or which is required by law.&quot;{/ts}</li>
+    <li>{ts}Introduce yourself and your role within our organization.{/ts}</li>
+    <li>{ts}&quot;All of the information that you provide to us or any of our representatives and service providers will be held in strictest confidence. It will not be used for any purpose other than to help you, and for any other purpose that you authorize in writing, or which is required by law.&quot;{/ts}</li>
     <li>{ts}&quot;Please tell me what you would like to discuss.&quot;{/ts}</li>
     <li>{ts}Reflect client's story back to them.{/ts}</li>
     <li>{ts}Guess client's feelings and needs.{/ts}</li>
