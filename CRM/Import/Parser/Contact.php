@@ -993,7 +993,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
                             $flag = false; 
                             foreach( $customOption as $v2 ) {
-                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1)))||( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
+                                if (( strtolower(trim($v2['label'])) == strtolower(trim($v1))) ||
+                                    ( strtolower(trim($v2['value'])) == strtolower(trim($v1)))) {
                                     $flag = true; 
                                 }
                             }
@@ -1003,11 +1004,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             }
                         }
                     } else if ( $customFields[$customFieldID]['html_type'] == 'Select' || 
-                               ( $customFields[$customFieldID]['html_type'] =='Radio' && $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
+                               ( $customFields[$customFieldID]['html_type'] =='Radio'  &&
+                                 $customFields[$customFieldID]['data_type'] !='Boolean' ) ) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption( $customFieldID, true );
                         $flag = false;
                         foreach( $customOption as $v2 ) {
-                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) )||( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
+                            if (( strtolower(trim($v2['label'])) == strtolower(trim($value)) ) ||
+                                ( strtolower(trim($v2['value'])) == strtolower(trim($value)) )) {
                                 $flag = true; 
                             }
                         }
