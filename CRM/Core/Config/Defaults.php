@@ -181,7 +181,7 @@ class CRM_Core_Config_Defaults
                 $tempURL = str_replace( "/administrator/", "/", $baseURL );
                 $defaults['imageUploadURL'] = $tempURL . "media/civicrm/persist/contribute/";
             } else {
-                $defaults['imageUploadURL'] = $baseURL . "sites/default/files/civicrm/persist/contribute/";
+                $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
             }
         }
 
