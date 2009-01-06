@@ -738,14 +738,21 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         //add contribution record
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
-        //add soft contribution
-        if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) ) { 
+        //add soft contribution due to pcp or Submit Credit / Debit Card Contribution by admin.
+        if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) || CRM_Utils_Array::value( 'soft_credit_to', $params ) ) { 
             $contribSoftParams['contribution_id'] = $contribution->id;
-            $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
+                       
             $contribSoftParams['amount']          = $params['amount'];
-            $contribSoftParams['contact_id']      = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', 
-                                                                                 $params['pcp_made_through_id'], 
-                                                                                 'contact_id' );
+
+            //if its due to pcp
+            if ( CRM_Utils_Array::value( 'pcp_made_through_id', $params ) ) {
+                $contribSoftParams['pcp_id']          = $params['pcp_made_through_id'];
+                $contribSoftParams['contact_id']      = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', 
+                                                                                     $params['pcp_made_through_id'], 
+                                                                                     'contact_id' );
+            } else {
+                $contribSoftParams['contact_id'] = CRM_Utils_Array::value( 'soft_credit_to', $params );
+            }
             
             $softContribution = CRM_Contribute_BAO_Contribution::addSoftContribution( $contribSoftParams );
         }

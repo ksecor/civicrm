@@ -746,7 +746,7 @@ WHERE  contribution_id = {$this->_id}
             
             //Get the rquire fields value only.
             $params = $this->_params = $submittedValues;
-            
+                    
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
                                                                                   $this->_mode );
@@ -807,6 +807,9 @@ WHERE  contribution_id = {$this->_id}
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
             
+            if ( CRM_Utils_Array::value('soft_credit_to', $params) ) {
+                $this->_params['soft_credit_to'] =  $params['soft_credit_to'];
+            } 
             //Add common data to formatted params
             CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
             
