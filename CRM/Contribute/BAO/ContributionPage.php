@@ -357,6 +357,9 @@ WHERE entity_table = 'civicrm_contribution_page'
         
         $copy->save( );
         
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::copy( 'ContributionPage', $copy );
+
         return $copy;
     }
 

@@ -354,4 +354,25 @@ class CRM_Utils_Hook {
                   '::invoke( 1, $page, $null, $null, $null, $null, \'civicrm_pageRun\' );' );
     }
 
+    /** 
+     * This hook is called after a copy of an object has been made. The current objects are
+     * Event, Contribution Page and UFGroup
+     * 
+     * @param string $objectName - name of the object
+     * @param object $object     - reference to the copy
+     *  
+     * @return null
+     * @access public 
+     */
+    static function copy( $objectName, &$object ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 2, $objectName, $object, $null, $null, $null, \'civicrm_copy\' );' );
+    }
+
 }

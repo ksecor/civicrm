@@ -751,6 +751,10 @@ WHERE civicrm_event.is_active = 1
             }
         }   
         $copyEvent->save( );
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::copy( 'Event', $copyEvent );
+
         return $copyEvent;
     }
     

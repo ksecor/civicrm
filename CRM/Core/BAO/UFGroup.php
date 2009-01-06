@@ -1890,6 +1890,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $p =array( 1 => array( $maxWeight + 1, 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
 
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::copy( 'UFGroup', $copy );
+
         return $copy;
     }
 
