@@ -209,7 +209,7 @@ class CRM_Event_Form_EventFees
                     }
 
                     $defaults[$form->_pId]['discount_id'] = $discountId;
-                    $defaults[$form->_pId]['amount']      = $form->_values['discount'][$discountId]['amount_id'][$discountKey];
+                    $defaults[$form->_pId]['amount'] = key(array_slice($form->_values['discount'][$discountId], $discountKey-1, $discountKey, true));
 
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                   $discountId,
