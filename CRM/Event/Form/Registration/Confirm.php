@@ -689,7 +689,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $fields["address_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
-        //$params["email-Primary"] = $params["email-{$this->_bltID}"];
+        //if its pay later or additional participant set email address as primary.
+        if( $params['is_pay_later'] || !CRM_Utils_Array::value('is_primary', $params) ) {
+            $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        }
     }
     
     /**
