@@ -276,7 +276,9 @@ class CRM_Event_Form_EventFees
         $form->add('hidden','scriptArray',null);
         if ( $form->_eventId ) {
             $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
-            $form->addElement( 'hidden', 'hidden_feeblock', 1 );
+            if ( $form->_isPaidEvent ) {
+                $form->addElement( 'hidden', 'hidden_feeblock', 1 );
+            }
         }
         
         if ( $form->_pId ) { 
