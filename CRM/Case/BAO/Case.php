@@ -821,7 +821,7 @@ WHERE civicrm_relationship.relationship_type_id = civicrm_relationship_type.id A
         $query .= $limit;
         $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
 
-        $activityTypes  = CRM_Case_PseudoConstant::activityType( false );
+        $activityTypes  = CRM_Case_PseudoConstant::activityType( false, true );
 
         require_once "CRM/Utils/Date.php";
         require_once "CRM/Core/PseudoConstant.php";
@@ -1031,6 +1031,7 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             $contactDetails = self::getRelatedContacts( $caseId );
 
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
+                $params = array( );
                 $params['subject']            = $result['subject'];
                 $params['activity_date_time'] = $result['date'];
                 $params['due_date_time']      = $result['date'];
@@ -1042,18 +1043,18 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             
                 $details = CRM_Case_PseudoConstant::activityType( );
                 $matches = array( );
-                preg_match( '/activity[ ]*type[ ]*=[ ]*\"([a-zA-Z0-9_ ]+)\"/i', 
+                preg_match( '/^\W+([a-zA-Z0-9_ ]+)(\W+)?\n/i',
                             $result['body'], $matches );
- 
+
                 if ( !empty($matches) && isset($matches[1]) ) {
                     $activityType = trim($matches[1]);
                     if ( isset($details[$activityType]) ) {
                         $params['activity_type_id'] = $details[$activityType]['id'];
                     }
-                } else {
-                    $params['activity_type_id'] = CRM_Core_OptionGroup::getValue('activity_type', 
-                                                                                 'Inbound Email', 
-                                                                                 'name' );
+                }
+                if ( ! isset($params['activity_type_id']) ) {
+                    $params['activity_type_id'] = 
+                        CRM_Core_OptionGroup::getValue( 'activity_type', 'Inbound Email', 'name' );
                 }
 
                 // create activity
