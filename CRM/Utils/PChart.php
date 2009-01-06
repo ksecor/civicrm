@@ -237,15 +237,20 @@ class CRM_Utils_PChart
             //calculate max scale for graph.
             $maxScale =  ceil( max( $values ) * 1.1 );
             
+            require_once 'CRM/Utils/Money.php';
+            $formatedMoney = CRM_Utils_Money::format( $maxScale );
+            $positions  = imageftbbox( 12, 0, $pChartPath ."tahoma.ttf", $formatedMoney );
+            $scaleTextWidth =  $positions[2]-$Positions[0];
+            
             //Initialise the co-ordinates.
-            $x1    = 60;
-            $y1    = 27;
+            $x1    = $scaleTextWidth;
+            $y1    = 35;
             $ySize = 300;
             $y2    = $ySize - 30;
             
             //calculate x axis size as per number of months.
             $divisionWidth = 44;
-            $x2    = 105 + ( count( $chartValues['values'] ) - 1 ) * $divisionWidth;
+            $x2 = $divisionWidth + $scaleTextWidth + ( count( $chartValues['values'] ) - 1 ) * $divisionWidth;
             $xSize = $x2 + 20;
             
             $dataSet = new pData;
@@ -253,22 +258,22 @@ class CRM_Utils_PChart
             $dataSet->AddPoint( $names, "Serie2" );
             $dataSet->AddSerie( "Serie1" );
             $dataSet->SetAbsciseLabelSerie( "Serie2" );
-            $dataSet->SetYAxisUnit( $currency );
             
             //Initialise the graph
             $chart = new pChart( $xSize, $ySize );
             $chart->setFontProperties( $pChartPath ."tahoma.ttf", 8 );
+            
             $chart->setGraphArea( $x1, $y1, $x2, $y2 );
             
             //set the y axis scale.
             $chart->setFixedScale( 0, $maxScale, 1 );
             
-            $chart->drawFilledRoundedRectangle( ($x1-58), ($y1-25), ($x2+20), ($y2+27), 5, 240, 240, 240 );
-            $chart->drawRoundedRectangle( ($x1-58), ($y1-25), ($x2+20), ($y2+27), 5, 230, 230, 230 );
+            $chart->drawFilledRoundedRectangle( 0, ($y1-33), ($x2+20), ($y2+27), 5, 240, 240, 240 );
+            $chart->drawRoundedRectangle( 0, ($y1-33), ($x2+20), ($y2+27), 5, 230, 230, 230 );
             
             $chart->drawGraphArea( 255, 255, 255, TRUE );
             $chart->drawScale( $dataSet->GetData( ), $dataSet->GetDataDescription( ),
-                               SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth );
+                               SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth, true );
             
             $chart->drawGrid( 4, TRUE, 230, 230, 230, 50 );
             
@@ -288,7 +293,13 @@ class CRM_Utils_PChart
             //Write the title
             if ( $legend ) {
                 $chart->setFontProperties( $pChartPath . "tahoma.ttf", 10 );
-                $chart->drawTitle( $xSize/2, $y1-7, $legend, 50, 50, 50 );
+                $positions  = imageftbbox( 12, 0, $pChartPath ."tahoma.ttf", $legend );
+                $scaleTextWidth =  $positions[2]-$Positions[0];
+                if ( $scaleTextWidth > $x2 ) {
+                    $chart->drawTitle( 5, $y1-15, $legend, 50, 50, 50 );
+                } else {
+                    $chart->drawTitle( $xSize/2, $y1-15, $legend, 50, 50, 50 );
+                }   
             }
             
             $fileName = "pChartByMonth{$chartCount}" . time( ) . '.png';

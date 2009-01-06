@@ -411,7 +411,7 @@
     }
 
    /* Compute and draw the scale */
-   function drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE, $fixDivisionWidth = null )
+   function drawScale($Data,$DataDescription,$ScaleMode,$R,$G,$B,$DrawTicks=TRUE,$Angle=0,$Decimals=1,$WithMargin=FALSE,$SkipLabels=1,$RightScale=FALSE, $fixDivisionWidth = null, $formatMoney = false )
     {
      /* Validate the Data and DataDescription array */
      $this->validateData("drawScale",$Data);
@@ -583,17 +583,24 @@
 
        $Value     = $this->VMin + ($i-1) * (( $this->VMax - $this->VMin ) / $Divisions);
        $Value     = round($Value * pow(10,$Decimals)) / pow(10,$Decimals);
-       if ( $DataDescription["Format"]["Y"] == "number" )
-        $Value = $Value.$DataDescription["Unit"]["Y"];
-       if ( $DataDescription["Format"]["Y"] == "time" )
-        $Value = $this->ToTime($Value);        
-       if ( $DataDescription["Format"]["Y"] == "date" )
-        $Value = $this->ToDate($Value);        
-       if ( $DataDescription["Format"]["Y"] == "metric" )
-        $Value = $this->ToMetric($Value);        
-       if ( $DataDescription["Format"]["Y"] == "currency" )
-        $Value = $this->ToCurrency($Value);        
-
+       
+       //format money as per crmMoney
+       if ( $formatMoney ) {
+           require_once 'CRM/Utils/Money.php';
+           $Value = CRM_Utils_Money::format( $Value );
+       } else {
+           if ( $DataDescription["Format"]["Y"] == "number" )
+               $Value = $Value.$DataDescription["Unit"]["Y"];
+           if ( $DataDescription["Format"]["Y"] == "time" )
+               $Value = $this->ToTime($Value);        
+           if ( $DataDescription["Format"]["Y"] == "date" )
+               $Value = $this->ToDate($Value);        
+           if ( $DataDescription["Format"]["Y"] == "metric" )
+               $Value = $this->ToMetric($Value);        
+           if ( $DataDescription["Format"]["Y"] == "currency" )
+               $Value = $this->ToCurrency($Value);        
+       }
+       
        $Position  = imageftbbox($this->FontSize,0,$this->FontName,$Value);
        $TextWidth = $Position[2]-$Position[0];
 
@@ -1451,9 +1458,9 @@
           {
            $Value = $Data[$Key][$Serie];
            $YPos = $this->GArea_Y2 - (($Value-$this->VMin) * $this->DivisionRatio);
-           
+
            $Positions = imagettfbbox($this->FontSize,0,$this->FontName,$Value);
-           $Width  = $Positions[2] - $Positions[6]; $XOffset = $XPos - ($Width/2); 
+           $Width  = $Positions[2] - $Positions[6]; $XOffset = $XPos - ($Width/2);
            $Height = $Positions[3] - $Positions[7]; $YOffset = $YPos - 4;
 
            $C_TextColor =$this->AllocateColor($this->Picture,$this->Palette[$ColorID]["R"],$this->Palette[$ColorID]["G"],$this->Palette[$ColorID]["B"]);

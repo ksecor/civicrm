@@ -59,12 +59,20 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => ts('Bar'), 'p3'=> ts('Pie') ) );
         
         //take available years from database to show in drop down
+        $currentYear = date('Y');
         if ( !empty( $this->_years ) ) {
+            if ( !array_key_exists( $currentYear, $this->_years ) )  {
+                $this->_years[$currentYear] = $currentYear;
+                krsort( $this->_years );
+            }
             foreach( $this->_years as  $k => $v ){
                 $years[$k] = $k;
             }
         }
+        
         $this->addElement('select', 'select_year', ts('Select Year (for monthly breakdown)'), $years );
+        $this->setDefaults( array( 'select_year' => $currentYear ) );
+        
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
                                          'name'      => ts('Reload Charts'), 
