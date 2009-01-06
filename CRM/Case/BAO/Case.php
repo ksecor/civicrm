@@ -1033,8 +1033,12 @@ WHERE ca.activity_type_id = %2 AND cca.case_id = %1";
             if ( CRM_Utils_Array::value( $result['from']['id'], $contactDetails ) ) {
                 $params['subject']            = $result['subject'];
                 $params['activity_date_time'] = $result['date'];
+                $params['due_date_time']      = $result['date'];
                 $params['details']            = $result['body'];
                 $params['source_contact_id']  = $result['from']['id'];
+                $params['status_id']          = CRM_Core_OptionGroup::getValue('activity_status',
+                                                                               'Completed',
+                                                                               'name' );
             
                 $details = CRM_Case_PseudoConstant::activityType( );
                 $matches = array( );
