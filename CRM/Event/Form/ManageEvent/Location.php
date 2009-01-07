@@ -114,16 +114,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             }
         }
         
-        //set defaults for country-state dojo widget
         if ( ! empty ( $defaults['location'] ) ) {
+            $config = CRM_Core_Config::singleton( );
             foreach ( $defaults['location'] as $key => $value ) {
-                if ( isset( $value['address'] ) ) {
-                    CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                              "location[$key][address][country_id]",
-                                                              "location[$key][address][state_province_id]",
-                                                              CRM_Utils_Array::value( 'country_id',
-                                                                                      $value['address'] ) );
-                }
+                CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                          "location[$key][address][country_id]",
+                                                          "location[$key][address][state_province_id]",
+                                                          CRM_Utils_Array::value( 'country_id',
+                                                                                  CRM_Utils_Array::value( 'address',
+                                                                                                          $value ),
+                                                                                  $config->defaultContactCountry ) );
             }
         }
         
