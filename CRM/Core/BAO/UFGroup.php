@@ -1642,169 +1642,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }  
         
-        require_once 'CRM/Core/BAO/CustomGroup.php';
         //Handling Contribution Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) && $component == 'Contribute' ) {
-            $params = $ids = $values = array();
-            $params = array( 'id' => $componentId );
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::getValues( $params, $values,  $ids );
-            
-            $formattedGroupTree = array( );
-            foreach ($fields as $name => $field ) {
-                $fldName = "field[$componentId][$name]";
-                if ( $name == 'contribution_type' ) {
-                    $defaults[$fldName] = $values['contribution_type_id'];
-                } else if ( array_key_exists($name,$values) ) {
-                    $defaults[$fldName] = $values[$name];
-                } else if ( substr( $name, 0, 7 ) == 'custom_') {
-                    if ( empty ( $formattedGroupTree ) ) {
-                        $groupTree = CRM_Core_BAO_CustomGroup::getTree( 'Contribution', CRM_Core_DAO::$_nullObject,
-                                                                        $componentId, 0, $values['contribution_type_id'] );
-                        
-                        $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
-                        CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
-                    }
-                    
-                    //FIX ME: We need to loop defaults, but once we move to custom_1_x convention this code can be simplified.
-                    foreach ( $defaults as $customKey => $customValue ) {
-                        if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
-                            if ( $name == 'custom_'. $customFieldDetails[0] ) {
-                                $fName = "{$name}_{$customFieldDetails[1]}";
-                                
-                                //hack to set default for checkbox
-                                $checkBox = false;
-                                foreach ( $formattedGroupTree as $tree ) {
-                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
-                                        $checkBox = true;
-                                        $defaults['field'][$componentId][$name] = $customValue;
-                                        break;
-                                    }
-                                }
-                                
-                                if ( !$checkBox ) {
-                                    $defaults[$fldName] = $customValue;
-                                }
-                                
-                                unset($defaults[$customKey]);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            self::setComponentDefaults( $fields, $componentId, $component, $defaults );
         }
         
         //Handling Event Participation Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) && $component == 'Event' ) {
-            $params = $ids = $values = array( );
-            $params = array( 'id' => $componentId );
-            
-            require_once "CRM/Core/BAO/Note.php";
-            require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
-            
-            $formattedGroupTree = array( );
-            foreach ($fields as $name => $field ) {
-                $fldName = "field[$componentId][$name]";
-                if ( array_key_exists($name,$values[$componentId]) ) {
-                    $defaults[$fldName] = $values[$componentId][$name];
-                } else if ( $name == 'participant_note' ) {
-                    $noteDetails = array( );
-                    $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
-                    $defaults[$fldName] = array_pop($noteDetails);
-                } else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    if ( empty ( $formattedGroupTree ) ) {
-                        $roleGroupTree = CRM_Core_BAO_CustomGroup::getTree( 'Participant', CRM_Core_DAO::$_nullObject,
-                                                                        $componentId, 0, $values[$componentId]['role_id'] );
-
-                        $eventGroupTree = CRM_Core_BAO_CustomGroup::getTree( 'Participant', CRM_Core_DAO::$_nullObject,
-                                                                        $componentId, 0, $values[$componentId]['event_id'] );
-                        $groupTree = CRM_Utils_Array::crmArrayMerge( $roleGroupTree,  $eventGroupTree );
-                        $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject );
-                        CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
-                    }
-                    
-                    //FIX ME: We need to loop defaults, but once we move to custom_1_x convention this code can be simplified.
-                    foreach ( $defaults as $customKey => $customValue ) {
-                        if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
-                            if ( $name == 'custom_'. $customFieldDetails[0] ) {
-                                $fName = "{$name}_{$customFieldDetails[1]}";
-
-                                //hack to set default for checkbox
-                                $checkBox = false;
-                                foreach ( $formattedGroupTree as $tree ) {
-                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
-                                        $checkBox = true;
-                                        $defaults['field'][$componentId][$name] = $customValue;
-                                        break;
-                                    }
-                                }
-                                
-                                if ( !$checkBox ) {
-                                    $defaults[$fldName] = $customValue;
-                                }
-                                
-                                unset($defaults[$customKey]);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            self::setComponentDefaults( $fields, $componentId, $component, $defaults );
         }
         
         //Handling membership Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviMember' ) && $component == 'Membership' ) {
-            $params = $values = array( );
-            $params = array( 'id' => $componentId );
-            
-            require_once "CRM/Core/BAO/Note.php";
-            require_once "CRM/Member/BAO/Membership.php";
-            CRM_Member_BAO_Membership::getValues( $params, $values );
-            
-            $formattedGroupTree = array( );
-            foreach ($fields as $name => $field ) {
-                $fldName = "field[$componentId][$name]";
-                if ( array_key_exists($name,$values[$componentId]) ) {
-                    $defaults[$fldName] = $values[$componentId][$name];
-                }  else if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $name, true ) ) {               
-                    if ( empty( $formattedGroupTree ) ) {
-                        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', CRM_Core_DAO::$_nullObject,
-                                                                         $componentId, 0, $values[$componentId]['membership_type_id']); 
-                        
-                        $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject ); 
-                        CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
-                    }
-                    
-                    //FIX ME: We need to loop defaults, but once we move to custom_1_x convention this code can be simplified.
-                    foreach ( $defaults as $customKey => $customValue ) {
-                        if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
-                            if ( $name == 'custom_'. $customFieldDetails[0] ) {
-                                $fName = "{$name}_{$customFieldDetails[1]}";
-                                
-                                //hack to set default for checkbox
-                                $checkBox = false;
-                                foreach ( $formattedGroupTree as $tree ) {
-                                    if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
-                                        $checkBox = true;
-                                        $defaults['field'][$componentId][$name] = $customValue;
-                                        break;
-                                    }
-                                }
-                                
-                                if ( !$checkBox ) {
-                                    $defaults[$fldName] = $customValue;
-                                }
-                                
-                                unset($defaults[$customKey]);
-                                break;
-                            }
-                        }
-                    }
-                    
-                }
-            }
+            self::setComponentDefaults( $fields, $componentId, $component, $defaults );
         }
     }
     
@@ -2170,5 +2020,106 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         return $groupType;
     }
+    
+    /**
+     * This function is used to setDefault componet specific profile fields.
+     * 
+     * @param array  $fields      profile fields.
+     * @param int    $componentId componetID
+     * @param string $component   component name
+     * @param array  $defaults    an array of default values.
+     *
+     * @return void.
+     */
+    function setComponentDefaults( &$fields, $componentId, $component, &$defaults ) 
+    {
+        if ( !$componentId || 
+             !in_array( $component, array( 'Contribute', 'Membership', 'Event' )) ) {
+            return;
+        }
+        
+        $componentBAO = $componentSubType = null;
+        switch ( $component ) {
+        case 'Membership':
+            $componentBAO = 'CRM_Member_BAO_Membership';
+            $componentBAOName = 'Membership';
+            $componentSubType = array( 'membership_type_id' );
+            break;
+            
+        case 'Contribute':
+            $componentBAO = 'CRM_Contribute_BAO_Contribution';
+            $componentBAOName = 'Contribution';
+            $componentSubType = array( 'contribution_type_id' );
+            break;
+            
+        case 'Event':    
+            $componentBAO = 'CRM_Event_BAO_Participant';
+            $componentBAOName = 'Participant';
+            $componentSubType = array( 'role_id', 'event_id' );
+            break;
+        }
+        
+        $values = array( );
+        $params = array( 'id' => $componentId );
+        
+        //get the component values.
+        CRM_Core_DAO::commonRetrieve( $componentBAO, $params, $values );
+        
+        $formattedGroupTree = array( );
+        foreach ( $fields as $name => $field ) {
+            $fldName = "field[$componentId][$name]";
+            if ( array_key_exists( $name, $values ) ) {
+                $defaults[$fldName] = $values[$name];
+            } else if ( $name == 'participant_note' ) {
+                require_once "CRM/Core/BAO/Note.php";
+                $noteDetails = array( );
+                $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
+                $defaults[$fldName] = array_pop($noteDetails);  
+            } else if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $name, true ) ) {
+                if ( empty( $formattedGroupTree ) ) {
+                    //get the groupTree as per subTypes.
+                    $groupTree = array( ); 
+                    require_once 'CRM/Core/BAO/CustomGroup.php';
+                    foreach ( $componentSubType as $subType ) {
+                        $subTree = CRM_Core_BAO_CustomGroup::getTree( $componentBAOName, CRM_Core_DAO::$_nullObject,
+                                                                      $componentId, 0, $values[$subType] );
+                        $groupTree = CRM_Utils_Array::crmArrayMerge( $groupTree, $subTree );
+                    }
+                    $formattedGroupTree = CRM_Core_BAO_CustomGroup::formatGroupTree( $groupTree, 1, CRM_Core_DAO::$_nullObject ); 
+                    CRM_Core_BAO_CustomGroup::setDefaults( $formattedGroupTree, $defaults );
+                }
+                
+                //FIX ME: We need to loop defaults, but once we move to custom_1_x convention this code can be simplified.
+                foreach ( $defaults as $customKey => $customValue ) {
+                    if ( $customFieldDetails = CRM_Core_BAO_CustomField::getKeyID( $customKey, true ) ) {
+                        if ( $name == 'custom_'. $customFieldDetails[0] ) {
+                            
+                            //hack to set default for checkbox
+                            //basically this is for weired field name like field[33][custom_19]
+                            //we are converting this field name to array structure and assign value.
+                            $checkBox = false;
+                            
+                            foreach ( $formattedGroupTree as $tree ) {
+                                if ( 'CheckBox' == CRM_Utils_Array::value( 'html_type', $tree['fields'][$customFieldDetails[0]] ) ) {
+                                    $checkBox = true;
+                                    $defaults['field'][$componentId][$name] = $customValue;
+                                    break;
+                                }
+                            }
+                            
+                            if ( !$checkBox ) {
+                                $defaults[$fldName] = $customValue;
+                            }
+                            unset($defaults[$customKey]);
+                            break;
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    
 }
 
