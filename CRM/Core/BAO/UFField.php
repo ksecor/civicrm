@@ -186,7 +186,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         // fix for CRM-316
         $oldWeight = null;
-        if ( isset( $params['field_id'] ) ) {
+        
+        if ( CRM_Utils_Array::value( 'field_id', $params ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
         $fieldValues = array('uf_group_id' => $params['group_id']);
