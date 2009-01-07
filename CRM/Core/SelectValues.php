@@ -619,6 +619,13 @@ class CRM_Core_SelectValues
                 }
             }
         }
+       
+        //FIXME:unsetting some tokens for time being
+        $unsetTokens = array( '{contact.is_bulkmail}','{contact.group}','{contact.tag}' );
+        foreach( $unsetTokens as $val ) {
+            unset($tokens[CRM_Utils_Array::key( $val, $tokens )]);
+        }
+       
         return $tokens;
     }
 }
