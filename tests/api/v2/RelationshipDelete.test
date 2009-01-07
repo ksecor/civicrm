@@ -14,6 +14,15 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
     protected $_cId_b;
     protected $_relTypeID;
     protected $_relationID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Relationship Delete',
+                     'description' => 'Test all Relationship Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp( ) 
     {
@@ -50,7 +59,6 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
                            );
         $result = & civicrm_relationship_create( $relParams );
         $this->_relationID =$result['result']['id'];
-        $this->assertEqual( $result['is_error'], 0 );
         $this->assertNotNull( $result['result']['id'] );   
     }
     
@@ -117,7 +125,6 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
         $params['id']=$this->_relationID;
         
         $result = & civicrm_relationship_delete( $params );
-        $this->assertEqual( $result['is_error'], 0 );
         $this->relationshipTypeDelete( $this->_relTypeID ); 
 
     }

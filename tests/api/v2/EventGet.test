@@ -5,7 +5,16 @@ require_once 'api/v2/Event.php';
 class TestOfEventGetAPIV2 extends CiviUnitTestCase 
 {
     private $_event;
-    
+   
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Event Get',
+                     'description' => 'Test all Event Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }  
+
     function setUp( )
     {
         $this->_event = $this->eventCreate( );
@@ -26,8 +35,6 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $params = array( 'id' => $this->_event['event_id'] );
         
         $result = civicrm_event_get( $params );
-        
-        $this->assertNotEqual( $result['is_error'], 1 );
         $this->assertEqual( $result['event_title'], 'Annual CiviCRM meet' );
     }
     
@@ -36,8 +43,6 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $params = array( 'title' => 'Annual CiviCRM meet' );
         
         $result = civicrm_event_get( $params );
-        
-        $this->assertNotEqual( $result['is_error'], 1 );
         $this->assertEqual( $result['id'], $this->_event['event_id'] );
     }
     

@@ -7,6 +7,15 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
     var $_contactId;
     var $_location;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Location Get',
+                     'description' => 'Test all Location Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setUp()
     {
         $this->_contactId = $this->individualCreate();

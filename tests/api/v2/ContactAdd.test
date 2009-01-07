@@ -15,7 +15,6 @@ class testContactAdd extends CiviUnitTestCase
     protected $contactAllParams = array(
 //                'id' => '',
                 'nick_name' => 'This is nickname',
-                'domain_id' => '1',
 //                'contact_type' => '',
                 'do_not_email' => '1',
                 'do_not_phone' => '1',
@@ -79,7 +78,15 @@ class testContactAdd extends CiviUnitTestCase
                 );
     
     // end class properties
-            
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Contact (Individual / Household / Organization )Add',
+                     'description' => 'Test all Contact Addition API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     /**
      * Prepares environment for given testcase.
      */
@@ -294,7 +301,7 @@ class testContactAdd extends CiviUnitTestCase
     function testCreateContactEmpty() {
         $params = array();
         $contact = &civicrm_contact_add( $params );
-        $this->_verifyApiCallResult( $contact, $params, 'Input Parameters empty' );
+        $this->_verifyApiCallResult( $contact, $params, 'Contact Type not specified' );
     }
 
     /**

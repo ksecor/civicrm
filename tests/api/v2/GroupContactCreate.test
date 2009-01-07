@@ -4,6 +4,19 @@ require_once 'api/v2/GroupContact.php';
 
 class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase 
 {
+   
+    protected $_contactId;
+    protected $_contactId1;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Group Contact Create',
+                     'description' => 'Test all Group Contact Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setUp() 
     {
         $this->_contactId = $this->individualCreate();
@@ -33,7 +46,7 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
     function testCreateGroupContactsWithoutGroupIdParams( ) 
     {
         $params = array(
-                        'contact_id.1' => $contactId,
+                        'contact_id.1' => $this->_contactId,
                         );
         
         $groups = civicrm_group_contact_add( $params );

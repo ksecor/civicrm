@@ -7,7 +7,16 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
     public $individualID;
     public $householdID;
     public $tagID;
-        
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'EntityTag Remove',
+                     'description' => 'Test all EntityTag Remove API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }     
+    
     function setUp( )
     {
         $this->individualID    = $this->individualCreate( );

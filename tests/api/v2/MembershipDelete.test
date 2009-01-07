@@ -8,6 +8,15 @@ class TestOfMembershipDelete extends CiviUnitTestCase {
     protected $_membershipTypeID;
     protected $_membershipStatusID;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Membership Delete',
+                     'description' => 'Test all Membership Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp() 
     {
         $this->_contactID           = $this->individualCreate( ) ;

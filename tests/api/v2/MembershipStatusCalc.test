@@ -8,7 +8,16 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
     protected $_contributionTypeID;
     protected $_membershipTypeID;
     protected $_membershipStatusID;
-    
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'MembershipStatus Calc',
+                     'description' => 'Test all MembershipStatus Calc API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setup( ) 
     {
         $this->_contactID           = $this->individualCreate( ) ;

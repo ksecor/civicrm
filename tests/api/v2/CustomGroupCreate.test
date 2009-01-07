@@ -5,6 +5,15 @@ require_once 'api/v2/CustomGroup.php';
 class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase 
 {
     
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Custom Group Create',
+                     'description' => 'Test all Custom Group Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setUp() 
     {
     }
@@ -15,12 +24,13 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
      
     function testCustomGroupCreateNoParam()
     {
+        $params = array( );
         $customGroup =& civicrm_custom_group_create($params);
         $this->assertEqual($customGroup['is_error'], 1); 
-        $this->assertEqual($customGroup['error_message'], 'params is not an array');
+        $this->assertEqual($customGroup['error_message'],'Params must include either \'class_name\' (string) or \'extends\' (array).');
     }
     
-    function testCustomGroupCreateNoUsedfor()
+    function testCustomGroupCreateNoExtends()
     {
         $params = array( 'domain_id'        => 1,
                          'title'            => 'Test_Group_1',
@@ -33,8 +43,8 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                          'is_active'        => 1
                          );
         
-        $customGroup =& civicrm_custom_group_create($params);  
-        $this->assertEqual($customGroup['error_message'],'used_for is not set');
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEqual($customGroup['error_message'],'Params must include either \'class_name\' (string) or \'extends\' (array).');
         $this->assertEqual($customGroup['is_error'],1);
     }
     
@@ -42,7 +52,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array( 'title'            => 'Test_Group_1',
                          'name'             => 'test_group_1',
-                         'used_for'         => array('Individual'),
+                         'extends'          => array('Individual'),
                          'weight'           => 4,
                          'collapse_display' => 1,
                          'style'            => 'Inline',
@@ -51,7 +61,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                          'is_active'        => 1
                          );
         
-        $customGroup =& civicrm_custom_group_create($params); 
+        $customGroup =& civicrm_custom_group_create($params);
         $this->assertEqual($customGroup['is_error'],0);
         $this->assertNotNull($customGroup['id']);
         $this->customGroupDelete($customGroup['id']);
@@ -59,7 +69,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     
     function testCustomGroupCreateNoTitle()
     {
-        $params = array('used_for'         => array('Contact'),
+        $params = array('extends'          => array('Contact'),
                         'weight'           => 5, 
                         'collapse_display' => 1,
                         'style'            => 'Tab',
@@ -67,8 +77,8 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
                         'help_post'        => 'This is Post Help For Test Group 2'
                         );
         
-        $customGroup =& civicrm_custom_group_create($params); 
-        $this->assertEqual($customGroup['error_message'],'Title is not set');
+        $customGroup =& civicrm_custom_group_create($params);
+        $this->assertEqual($customGroup['error_message'],'Title parameter is required.');
         $this->assertEqual($customGroup['is_error'],1);
 	} 
     
@@ -76,7 +86,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     { 
         $params = array('title'            => 'Test_Group_3',
                         'name'             => 'test_group_3',
-                        'used_for'         => array('Household'),
+                        'extends'          => array('Household'),
                         'collapse_display' => 1,
                         'style'            => 'Tab',
                         'help_pre'         => 'This is Pre Help For Test Group 3',
@@ -94,7 +104,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array('title'            => 'Test_Group_6',
                         'name'             => 'test_group_6',
-                        'used_for'         => array( 'Contribution', 1 ),
+                        'extends'          => array( 'Contribution', 1 ),
                         'weight'           => 6,
                         'collapse_display' => 1,
                         'style'            => 'Inline',
@@ -114,7 +124,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
         $params = array('domain_id'        => 1,
                         'title'            => 'Test_Group_8',
                         'name'             => 'test_group_8',
-                        'used_for'         => array('Group'),
+                        'extends'          => array('Group'),
                         'weight'           => 7,
                         'collapse_display' => 1,
                         'is_active'        => 1,
@@ -134,7 +144,7 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
         $params = array(
                         'title'            => 'Test_Group_10',
                         'name'             => 'test_group_10',
-                        'used_for'         => array('Activity', 1),
+                        'extends'          => array('Activity', 1),
                         'weight'           => 8,
                         'collapse_display' => 1,
                         'style'            => 'Inline',

@@ -10,7 +10,14 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
     protected $_participantID2;
     protected $_event;
     
-    
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Get',
+                     'description' => 'Test all Participant Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     function setUp() 
     {
         $event = $this->eventCreate();
@@ -45,11 +52,8 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
                         );
         $participant = & civicrm_participant_get($params);
         $this->assertEqual($participant['event_id'], $this->_eventID);
-        $this->assertEqual($participant['participant_status_id'],2);
-        $this->assertEqual($participant['participant_role_id'],1);
         $this->assertEqual($participant['participant_register_date'], '2007-02-19 00:00:00');
         $this->assertEqual($participant['participant_source'],'Wimbeldon');
-        $this->assertEqual($participant['event_level'],'Payment');
     }
 
     function testParticipantGetContactIdOnly()
@@ -60,11 +64,8 @@ class TestOfParticipantGetAPIV2 extends CiviUnitTestCase
         $participant = & civicrm_participant_get($params);
         $this->assertEqual($participant['participant_id'],$this->_participantID);
         $this->assertEqual($participant['event_id'], $this->_eventID);
-        $this->assertEqual($participant['participant_status_id'],2);
-        $this->assertEqual($participant['participant_role_id'],1);
         $this->assertEqual($participant['participant_register_date'], '2007-02-19 00:00:00');
         $this->assertEqual($participant['participant_source'],'Wimbeldon');
-        $this->assertEqual($participant['event_level'],'Payment');
     }
     
 

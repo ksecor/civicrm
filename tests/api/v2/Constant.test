@@ -27,7 +27,7 @@ class TestOfConstantAPIV2 extends CiviUnitTestCase
         $constants = array( 'tag'                       => 5,
                             'group'                     => 4,
                             'locationType'              => 5,
-                            'activityType'              => 10,
+                            'activityType'              => 12,
                             'individualPrefix'          => 4,
                             'individualSuffix'          => 8,
                             'gender'                    => 3,

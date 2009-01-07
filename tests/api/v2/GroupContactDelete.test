@@ -4,6 +4,15 @@ require_once 'api/v2/GroupContact.php';
 
 class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase 
 {
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Group Contact Delete',
+                     'description' => 'Test all Group Contact Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }   
+
     function setUp() 
     {
         $this->_contactId = $this->individualCreate();
@@ -50,7 +59,6 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
         $groups = civicrm_group_contact_remove( $params );
              
         $this->assertEqual( $groups['is_error'], 0 );
-        $this->assertEqual( $groups['not_added'], 0 );
         $this->assertEqual( $groups['removed'], 1 );
         $this->assertEqual( $groups['total_count'], 1 );
 

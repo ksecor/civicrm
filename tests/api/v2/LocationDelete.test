@@ -6,6 +6,15 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
 {
 
     protected $_contactID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Location Delete',
+                     'description' => 'Test all Location Delete API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp( )
     { 

@@ -61,12 +61,16 @@ function &civicrm_note_create(&$params)
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
-    
-    if ( !isset($params['entity_table']) || 
-         !isset($params['entity_id'])    || 
-         !isset($params['note'])         || 
-         !isset($params['contact_id'] ) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
+        if ( !isset($params['entity_table']) || 
+             !isset($params['entity_id'])    || 
+             !isset($params['note'])         || 
+             !isset($params['contact_id'] ) ) {
+            return civicrm_create_error( 'Required parameter missing' );
+        }
+    } else if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
+        $error = civicrm_create_error( 'Required parameter missing' );
+        return $error;
     }
 
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
@@ -76,6 +80,7 @@ function &civicrm_note_create(&$params)
     }
 
     $ids = array( );
+    $ids = array( 'id' => $params['id'] );
     $noteBAO = CRM_Core_BAO_Note::add( $params, $ids );
    
     if ( is_a( $noteBAO, 'CRM_Core_Error' ) ) {
@@ -87,39 +92,6 @@ function &civicrm_note_create(&$params)
         $note['is_error'] = 0;
     }
     return $note;
-}
-
-/**
- * Update existing note
- *
- * This api is used for updating an existing note
- * Required parrmeters : id of a note
- * 
- * @param  Array $params  an associative array of name/value property values of civicrm_note
- * 
- * @return array of updated note property values
- * @access public
- */
-
-function &civicrm_note_update(&$params)
-{
-    _civicrm_initialize();
-    if ( !is_array( $params ) ) {
-        $error = civicrm_create_error( 'Parameters is not an array' );
-        return $error;
-    }
-    
-    if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
-        $error = civicrm_create_error( 'Required parameter missing' );
-        return $error;
-    } else {
-        $ids = array('id' => $params['id']);
-        $noteBAO = CRM_Core_BAO_Note::add( $params, $ids );   
-
-        $note = array( );
-        _civicrm_object_to_array( $noteBAO, $note );
-        return $note;
-    }
 }
 
 /**
