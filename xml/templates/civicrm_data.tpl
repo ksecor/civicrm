@@ -141,7 +141,7 @@ VALUES
    ('recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1),
    ('activity_medium'               , '{ts escape="sql"}Activity Medium{/ts}'                    , 0, 1),
    ('greeting_type'                 , '{ts escape="sql"}Greeting Type{/ts}'                      , 0, 1), 
-   ('phone_type'  		    , '{ts escape="sql"}Phone Type{/ts}'			 , 0, 1),
+   ('phone_type'                    , '{ts escape="sql"}Phone Type{/ts}'                         , 0, 1),
    ('custom_data_type'              , '{ts escape="sql"}Custom Data Type{/ts}'                   , 0, 1),  
    ('visibility'                    , '{ts escape="sql"}Visibility{/ts}'                         , 0, 1),
    ('mail_protocol'                 , '{ts escape="sql"}Mail Protocol{/ts}'                      , 0, 1);	  
