@@ -57,7 +57,7 @@
 {/literal}
 {if !$isCMS}	
 {include file="CRM/common/showHideByFieldValue.tpl" 
-trigger_field_id    ="create_account"
+trigger_field_id    ="cms_create_account"
 trigger_value       =""
 target_element_id   ="details" 
 target_element_type ="block"
