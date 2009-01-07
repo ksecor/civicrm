@@ -9,6 +9,14 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
     protected $_participantID;
     protected $_eventID;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Create',
+                     'description' => 'Test all Participant Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp() 
     {

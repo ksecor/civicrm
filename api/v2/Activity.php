@@ -121,7 +121,7 @@ function &civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
     
-    $contactId = $params['contact_id']; 
+    $contactId = CRM_Utils_Array::value( 'contact_id', $params ); 
     if ( empty( $contactId ) ) {
         return civicrm_create_error( ts ( "Required parameter not found" ) );
     }
@@ -131,7 +131,7 @@ function &civicrm_activities_get_contact( $params )
     }
     
     $activities =  & _civicrm_activities_get( $contactId );
-    
+       
     if ( $activities ) {
         return civicrm_create_success( $activities );
     } else {
@@ -334,7 +334,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         return  civicrm_create_error( ts('Missing Source Contact') );
     } 
     
-    if ( $params['source_contact_id'] && !is_numeric( $params['source_contact_id'] ) ) {
+    if (isset( $params['source_contact_id'] ) && !is_numeric( $params['source_contact_id'] ) ) {
         return  civicrm_create_error( ts('Invalid Source Contact') );
     }
     return null;

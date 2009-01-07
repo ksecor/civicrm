@@ -6,6 +6,15 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_params;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Note Create',
+                     'description' => 'Test all Note Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setUp() 
     {

@@ -145,6 +145,7 @@ function civicrm_uf_profile_html_by_id_get ( $userID,
  * @access public  
  */  
 function civicrm_uf_create_html_get ( $reset = false ) {
+    require_once 'CRM/Core/Controller/Simple.php';
     $session =& CRM_Core_Session::singleton( ); 
     $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', '', CRM_Core_Action::ADD ); 
     if ( $reset ) { 
@@ -267,10 +268,10 @@ function civicrm_uf_field_create( $groupId , $params ) {
         return civicrm_create_error("Group Id is not set.");
     }
     
-    $field_type       = $params['field_type'];
-    $field_name       = $params['field_name'];
-    $location_type_id = $params['location_type_id'];
-    $phone_type       = $params['phone_type'];
+    $field_type       = CRM_Utils_Array::value ( 'field_type'       , $params );
+    $field_name       = CRM_Utils_Array::value ( 'field_name'       , $params );
+    $location_type_id = CRM_Utils_Array::value ( 'location_type_id' , $params );
+    $phone_type       = CRM_Utils_Array::value ( 'phone_type'       , $params );
     
     $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
     
@@ -307,7 +308,7 @@ function civicrm_uf_field_create( $groupId , $params ) {
  *
  * @access public 
  */
-function civicrm_uf_field_update( $params , $fieldId) {
+function civicrm_uf_field_update( $params , $fieldId ) {
     
     _civicrm_initialize( );
     
@@ -319,10 +320,10 @@ function civicrm_uf_field_update( $params , $fieldId) {
         return civicrm_create_error("params is not an array ");
     }   
     
-    $field_type       = $params['field_type'];
-    $field_name       = $params['field_name'];
-    $location_type_id = $params['location_type_id'];
-    $phone_type       = $params['phone_type'];
+    $field_type       = CRM_Utils_Array::value ( 'field_type'       , $params );
+    $field_name       = CRM_Utils_Array::value ( 'field_name'       , $params );
+    $location_type_id = CRM_Utils_Array::value ( 'location_type_id' , $params );
+    $phone_type       = CRM_Utils_Array::value ( 'phone_type'       , $params );
     
     $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
     

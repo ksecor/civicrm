@@ -3,7 +3,16 @@
 require_once 'api/v2/Membership.php';
 
 class TestOfMembershipStatusUpdateAPIV2 extends CiviUnitTestCase {
-    
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'MembershipStatus Update',
+                     'description' => 'Test all MembershipStatus Update API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setup( ) 
     {
     }

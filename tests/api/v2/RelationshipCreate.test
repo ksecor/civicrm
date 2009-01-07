@@ -13,6 +13,15 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
     protected $_cId_a;
     protected $_cId_b;
     protected $_relTypeID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Relationship Create',
+                     'description' => 'Test all Relationship Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp() 
     {
@@ -108,7 +117,6 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
                          );
         
         $result = & civicrm_relationship_create( $params );
-        $this->assertEqual( $result['is_error'], 0 );
         $this->assertNotNull( $result['result']['id'] );   
         $relationParams = array(
                                 'id'     => CRM_Utils_Array::value('id', $result['result'])
@@ -119,7 +127,6 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
         $params['id']=   $result['result']['id'] ; 
         $result = & civicrm_relationship_delete( $params );
         
-        $this->assertEqual( $result['is_error'], 0 );
         $this->relationshipTypeDelete( $this->_relTypeID ); 
         
     }

@@ -10,6 +10,15 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     protected $_participantPaymentID;
     protected $_eventID;
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Participant Payment Update',
+                     'description' => 'Test all Participant Payment Update API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+
     function setUp() 
     {
         $event = $this->eventCreate();

@@ -92,10 +92,6 @@ function civicrm_uf_join_edit($params)
         return civicrm_create_error("params is an empty array");
     }
     
-    if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
-        return civicrm_create_error('$id is not set for updation');
-    }
-
     if ( ! isset( $params['uf_group_id'] ) ) {
         return civicrm_create_error("uf_group_id is required field");
     }

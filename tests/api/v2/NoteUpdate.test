@@ -9,6 +9,15 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
     protected $_noteID;
     protected $_noteArray = array( );
 
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Note Update',
+                     'description' => 'Test all Note Update API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
     function setUp( ) 
     {
         $this->_contactID = $this->organizationCreate( );
@@ -19,7 +28,7 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
     function testNoteUpdateEmpty( )
     {
         $params = array();        
-        $note   = & civicrm_note_update( $params );
+        $note   = & civicrm_note_create( $params );
         $this->assertEqual( $note['is_error'], 1 );
         $this->assertEqual( $note['error_message'], 'Required parameter missing' );
     }
@@ -30,7 +39,7 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
                         'entity_id'    => $this->_contactID,
                         'entity_table' => 'civicrm_contact'                
                         );        
-        $note   = & civicrm_note_update( $params );
+        $note   = & civicrm_note_create( $params );
         $this->assertEqual( $note['is_error'], 1 );
         $this->assertEqual( $note['error_message'], 'Required parameter missing' );
     }
@@ -47,7 +56,7 @@ class TestOfNoteUpdateAPIV2 extends CiviUnitTestCase
                         );
         
         //Update Note
-        $note = & civicrm_note_update( $params );
+        $note = & civicrm_note_create( $params );
         
         $this->assertEqual( $note['id'],$this->_noteID );
         $this->assertEqual( $note['entity_id'],$this->_contactID );

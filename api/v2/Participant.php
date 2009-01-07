@@ -54,7 +54,7 @@ require_once 'api/v2/utils.php';
  * @return array participant id if participant is created/edited otherwise is_error = 1
  * @access public
  */
-function &civicrm_participant_create(&$params)
+function civicrm_participant_create(&$params)
 {
     _civicrm_initialize();
     

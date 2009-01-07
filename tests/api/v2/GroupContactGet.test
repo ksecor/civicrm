@@ -7,13 +7,22 @@ class TestOfGroupContactGetAPIV2 extends CiviUnitTestCase
     private   $_group ; 
     protected $_groupId1;
     protected $_groupId2;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Group Contact Get',
+                     'description' => 'Test all Group Contact Get API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp() 
     {
         $this->_contactId = $this->individualCreate();
         $this->_groupId1  = $this->groupCreate( );
         $params = array( 'contact_id.1' => $this->_contactId,
-                         'group_id'     =>  $this->_groupId1 );
+                         'group_id'     => $this->_groupId1 );
         
         civicrm_group_contact_add( $params );
         

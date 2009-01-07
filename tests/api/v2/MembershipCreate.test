@@ -3,6 +3,15 @@
 require_once 'api/v2/Membership.php';
 
 class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Membership Create',
+                     'description' => 'Test all Membership Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
     
     function setup( ) 
     {

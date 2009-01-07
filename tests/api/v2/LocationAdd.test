@@ -6,7 +6,16 @@ require_once 'api/v2/Location.php';
 class TestOfLocationAddAPIV2 extends CiviUnitTestCase 
 {
     protected $_contactID;
-    
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Location Add',
+                     'description' => 'Test all Location Add API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }  
+
     function setUp() 
     {
         $this->_contactID = $this->organizationCreate( ) ;

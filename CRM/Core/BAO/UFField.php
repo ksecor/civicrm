@@ -172,10 +172,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
         
         $ufField->phone_type_id   = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
-        $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title', $params );
-        $ufField->visibility      = $params['visibility'];
-        $ufField->help_post       = $params['help_post'];
-        $ufField->label           = $params['label'];
+        $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title' , $params );
+        $ufField->visibility      = CRM_Utils_Array::value( 'visibility'     , $params );
+        $ufField->help_post       = CRM_Utils_Array::value( 'help_post'      , $params );
+        $ufField->label           = CRM_Utils_Array::value( 'label'          , $params );
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
         $ufField->in_selector     = CRM_Utils_Array::value( 'in_selector'    , $params, false );
@@ -186,7 +186,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         // fix for CRM-316
         $oldWeight = null;
-        if ($params['field_id']) {
+        if ( isset( $params['field_id'] ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
         $fieldValues = array('uf_group_id' => $params['group_id']);

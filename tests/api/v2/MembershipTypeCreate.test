@@ -6,6 +6,15 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_contributionTypeID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'MembershipType Create',
+                     'description' => 'Test all Membership Type Create API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    } 
     
     function setUp() 
     {

@@ -60,7 +60,7 @@ function civicrm_event_create( &$params )
         return civicrm_create_error('Params is not an array');
     }
     
-    if (!$params["title"] || ! $params['event_type_id'] || ! $params['start_date']) {
+    if (! isset( $params['title'] ) || ! isset( $params['event_type_id'] ) || ! isset( $params['start_date'] ) ) {
         return civicrm_create_error('Missing require fields ( title, event type id,start date)');
     }
     
@@ -76,7 +76,7 @@ function civicrm_event_create( &$params )
     
     $ids['eventTypeId'] = $params['event_type_id'];
     $ids['startDate'  ] = $params['start_date'];
-    $ids['event_id']    = $params['event_id'];
+    $ids['event_id']    = CRM_Utils_Array::value( 'event_id', $params );
     
     require_once 'CRM/Event/BAO/Event.php';
     $eventBAO = CRM_Event_BAO_Event::create($params, $ids);
@@ -201,7 +201,7 @@ function civicrm_event_search( &$params )
  * @return boolean        true if success, error otherwise
  * @access public
  */
-function &civicrm_event_delete( &$params ) 
+function civicrm_event_delete( &$params ) 
 {
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
