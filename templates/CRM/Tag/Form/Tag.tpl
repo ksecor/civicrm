@@ -14,7 +14,7 @@
 #restmsg.msgnok {ldelim}display:block;background:red;color:white;{rdelim}
 </style>
 <script type="text/javascript">
-civicrm_ajaxURL="{crmURL p='civicrm/ajax/rest'}";
+civicrm_ajaxURL="{crmURL p='civicrm/ajax/rest' h=0}";
 contactID={$contactId};
 {literal}
 

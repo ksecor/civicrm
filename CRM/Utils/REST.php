@@ -88,33 +88,29 @@ class CRM_Utils_REST
         require_once 'CRM/Utils/System.php';
         require_once 'CRM/Core/DAO.php';
 
-
         $result =& CRM_Utils_System::authenticate($name, $pass);
         
         if (empty($result)) {
             return self::error( 'Could not authenticate user, invalid name / password.' );
         }
-        
-	//print_r($result);
 	
         $session =& CRM_Core_Session::singleton();
-	$api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
+	    $api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
 	
-	if ( empty($api_key) ) {
-	  // These two lines can be used to set the initial value of the key.  A better means is needed.
-	  //CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key', sha1($result[2]) );
-	  //$api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
-	  return self::error("This user does not have a valid API key in the database, and therefore cannot authenticate through this interface");
-	}
+	    if ( empty($api_key) ) {
+	        // These two lines can be used to set the initial value of the key.  A better means is needed.
+	        //CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key', sha1($result[2]) );
+	        //$api_key = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $result[0], 'api_key');
+	        return self::error("This user does not have a valid API key in the database, and therefore cannot authenticate through this interface");
+	    }
 	
-	// Test to see if I can pull the data I need, since I know I have a good value.
-	$user =& CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $api_key, 'id', $api_key);
-	//print $user;
+	    // Test to see if I can pull the data I need, since I know I have a good value.
+	    $user =& CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $api_key, 'id', $api_key);
 	
         $session->set('api_key', $api_key);
-	$session->set('key', $result[2]);
+	    $session->set('key', $result[2]);
         $session->set('rest_time', time());
-	$session->set('PHPSESSID', session_id() );
+	    $session->set('PHPSESSID', session_id() );
         
         return self::simple( array( 'api_key' => $api_key, 'PHPSESSID' => session_id(), 'key' => sha1($result[2]) ) );
     }
@@ -136,7 +132,6 @@ class CRM_Utils_REST
 
     function run( &$config ) {
         $result = self::handle( $config );
-
         return self::output( $config, $result );
     }
 
