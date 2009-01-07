@@ -176,8 +176,6 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         usort( $dashboardElements, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
         $this->assign ( 'dashboardElements', $dashboardElements );
 
-
-
         if ( $this->_userOptions['Groups'] ) {
             $this->assign( 'showGroup', true );
             //build group selector

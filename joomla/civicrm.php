@@ -96,11 +96,12 @@ function civicrm_check_permission( $args ) {
         return true;
     }
 
-    // a transaction page is valid
-    if ( in_array( 'CiviContribute', $config->enableComponents ) &&
-         $arg1 == 'contribute' &&
-         $arg2 == 'transact' ) {
-        return true;
+    // a contribution page / pcp page                                                                                                                                                                                                     
+    if ( in_array( 'CiviContribute', $config->enableComponents ) ) {
+        if ( $arg1 == 'contribute' &&
+            in_array( $arg2, array( 'transact', 'campaign', 'pcp') ) ) {
+            return true;
+        }
     }
 
     // an event registration page is valid
