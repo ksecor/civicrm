@@ -1127,7 +1127,7 @@ class CRM_GCD {
                 $activityDAO->status_id = 2;
                 $this->_insert($activityDAO);
                 
-                if ($activityTypeID == 6 ) { 
+                if ( in_array( $activityTypeID, array( 6, 9 ) ) ) { 
                     require_once 'CRM/Activity/DAO/ActivityTarget.php';
                     $activityTargetDAO =& new CRM_Activity_DAO_ActivityTarget();
                     $activityTargetDAO->activity_id = $activityDAO->id ;
@@ -1135,7 +1135,7 @@ class CRM_GCD {
                     $this->_insert($activityTargetDAO);
                 }
 
-                if ($activityTypeID == 7 ) { 
+                if ( $activityTypeID == 7 ) { 
                     require_once 'CRM/Activity/DAO/ActivityAssignment.php';
                     $activityAssignmentDAO =& new CRM_Activity_DAO_ActivityAssignment();
                     $activityAssignmentDAO->activity_id = $activityDAO->id ;
