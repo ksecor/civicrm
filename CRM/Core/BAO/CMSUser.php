@@ -477,7 +477,11 @@ SELECT count(*)
     {
         $acl         = &JFactory::getACL();
         $userParams  = JComponentHelper::getParams('com_users');
+        // get the default usertype
         $userType    = $userParams->get('new_usertype');
+        if ( !$usertype ) {
+            $usertype = 'Registered';
+        }
 
         // Prepare the values for a new Joomla! user.
         $values                 = array();
@@ -487,7 +491,19 @@ SELECT count(*)
         $values['password2']    = $params['cms_confirm_pass'];
         $values['email']        = trim($params[$mail]);
         $values['gid']          = $acl->get_group_id( '', $userType);
+        $values['sendEmail']    = 1; 
         
+        $useractivation = $userParams->get( 'useractivation' );
+        if ( $useractivation == 1 ) { 
+            jimport('joomla.user.helper');
+            // block the User
+            $values['block'] = 1; 
+            $values['activation'] =JUtility::getHash( JUserHelper::genRandomPassword() ); 
+        } else { 
+            // don't block the user
+            $values['block'] = 0; 
+        }
+
         // Get an empty JUser instance.
         $user =& JUser::getInstance( 0 );
         $user->bind( $values );
@@ -497,7 +513,8 @@ SELECT count(*)
             // Error can be accessed via $user->getError();
             return false;
         }
-
+        require_once 'joomla/com_user/controller.php';
+        UserController::_sendMail( $user, $user->password2 );
         return $user->get('id');
     }
 
