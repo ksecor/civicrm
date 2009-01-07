@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-06-01 11:28-0700\n"
 "Last-Translator: Eskil H <eskil@virvelvind.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -65,14 +65,12 @@ msgid "In Honor Of"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Undertekst"
+msgstr "Betal senere-tekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Send kvittering?"
+msgstr "Betal senere-kvittering"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -156,9 +154,8 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
-msgstr "uke(r)"
+msgstr "uke"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -252,11 +249,6 @@ msgstr "Siden du forsøkte å nå er for øyeblikket utilgjengelig."
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< Gå tilbake"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -927,9 +919,8 @@ msgid "Bcc Receipt"
 msgstr "Send kvittering?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Kvitteringsdato"
+msgstr "Kvitteringstekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -1212,9 +1203,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2675,7 +2666,7 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+msgid "Search All or by Date Range"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3509,7 +3500,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"

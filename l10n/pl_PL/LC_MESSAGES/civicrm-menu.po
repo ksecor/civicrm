@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-11-26 04:15-0800\n"
 "Last-Translator: Marek Florczyk <marek@pasikonik.pl>\n"
 "Language-Team: none\n"
@@ -33,7 +33,7 @@ msgid "Activity"
 msgstr "Zdarzenie"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Rodzaje zdarzeń"
 
 msgid "Additional Info"
 msgstr ""
@@ -78,7 +78,7 @@ msgid "CiviCRM Profile Create"
 msgstr ""
 
 msgid "CiviCRM Profile Fields"
-msgstr ""
+msgstr "Pola profilu CiviCRM"
 
 msgid "CiviEvent"
 msgstr "CiviEvent"
@@ -108,7 +108,7 @@ msgid "Contacts"
 msgstr "Kontakty"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Podsumowanie"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -117,7 +117,7 @@ msgid "Contributions"
 msgstr "Dotacje"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Rodzaje dotacji"
 
 msgid "Create New Group"
 msgstr "Stwórz nową grupę"
@@ -126,7 +126,7 @@ msgid "Custom Data"
 msgstr "Dane dodatkowe"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Pola danych dodatkowych"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -180,7 +180,7 @@ msgid "Export Contacts"
 msgstr "Eksportuj kontakty"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Ścieżki systemu plików"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -232,7 +232,7 @@ msgid "Import"
 msgstr "Importuj"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Import dotacji"
 
 msgid "Import/Export Mappings"
 msgstr ""
@@ -251,7 +251,7 @@ msgid "Individual Prefixes (Ms, Mr...)"
 msgstr "Zwrot grzecznościowy (pan, pani…)"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "Przyrostki (Jr, Sr…)"
 
 msgid "Instant Messenger Services"
 msgstr "Komunikatory"
@@ -294,13 +294,13 @@ msgid "Manage Pledges"
 msgstr "Anulowany"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Zarządzanie dodatkami"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Pokaż lokalizację wydarzenia na mapie"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -324,7 +324,7 @@ msgid "Message Templates"
 msgstr "Szablony wiadomości"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Różne"
 
 msgid "Mobile Phone Providers"
 msgstr "Sieci komórkowe"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-08-11 20:51-0700\n"
 "Last-Translator: Aplyca Tecnologia <riascos69@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -46,14 +46,14 @@ msgstr "Origen de la contribución"
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Por Favor, introduce un valor monetario válido (p.e. 9.99)."
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Por Favor, introduce un valor monetario válido (p.e. 99.99)."
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -68,14 +68,12 @@ msgid "In Honor Of"
 msgstr "Honorífico"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Texto del Pié de página"
+msgstr "Texto Pagar Más Tarde"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Agradecimiento y Recibo"
+msgstr "Texto Recibo Pagar Más Tarde"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -128,7 +126,6 @@ msgstr "ID de la factura"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "Fecha de cancelación"
 
@@ -149,19 +146,16 @@ msgstr "Unidad de la frecuencia"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Unidad de la frecuencia"
+msgstr "Intervalo de frecuencia"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
 msgstr "Instalaciones"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
 msgstr "semana"
 
@@ -259,11 +253,6 @@ msgstr "La Página que solicitas no está disponible actualmente."
 msgid "<< Go Back"
 msgstr "<< Ir Atrás"
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
-
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
 msgid "(s)"
@@ -288,11 +277,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Cantidad mínima"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Cantidad Máxima"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -620,9 +609,8 @@ msgid "Component Type"
 msgstr "Tipo del Componente"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Cuerpo Texto"
+msgstr "Cuerpo Html"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -646,7 +634,7 @@ msgstr "Razón de la despedida"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Marca horaria"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -720,7 +708,7 @@ msgstr "¿Miembro actual?"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "Cantidad mínima"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
@@ -906,7 +894,6 @@ msgid "Thank-you date not set?"
 msgstr "¿Fecha de agradecimiento no ajustada?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Receipt not sent?"
 msgstr "¿Recibo no enviado?"
 
@@ -926,9 +913,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Donaciones recientes"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "mensaje introductorio"
+msgstr "Texto de Intoducción"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -936,12 +922,10 @@ msgid "Recur Frequency Unit"
 msgstr "Unidad de la frecuencia"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Text"
-msgstr "Agradecimiento enviado"
+msgstr "Texto de Agradecimiento"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
 msgstr "Pié de página del Agradecimiento"
 
@@ -951,24 +935,20 @@ msgid "On Behalf Of Organization"
 msgstr "Nueva Organización"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
 msgstr "Destinatarios en copia"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "Destinatarios en copia"
+msgstr "Destinatarios en copia oculta"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Recibo enviado"
+msgstr "Texto de los Destinatarios"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Title"
-msgstr "¿Habilitar sección de premios?"
+msgstr "Título Bloque de Honor"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
@@ -989,24 +969,20 @@ msgid "Contribution ID"
 msgstr "ID del Contribuyente"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Solicitor ID"
-msgstr "ID Almacén"
+msgstr "ID del solicitante"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "Recibir Fecha"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
 msgstr "Razón de la cancelación"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Gracias"
+msgstr "Fecha del agradecimiento"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -1014,30 +990,25 @@ msgid "Amount Label"
 msgstr "Cantidad concedida"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Editar Opción de precio"
+msgstr "Opción del producto"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Quantity"
-msgstr "¿Introducir cantidad?"
+msgstr "Cantidad"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "Rellenado"
+msgstr "Fecha de Rellenado"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Contenido"
+msgstr "Comentario"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
-#, fuzzy
 msgid "Create Date"
-msgstr "Complete la Fecha"
+msgstr "Fecha de Creación"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -1045,101 +1016,84 @@ msgid "Recurring Contribution Status"
 msgstr "Donaciones periódicas"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Cycle Day"
-msgstr "Fecha de cancelación"
+msgstr "Día del ciclo"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Next Sched Contribution"
-msgstr "Nueva donación"
+msgstr "Próxima contribución programada"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
-msgstr "Países disponibles"
+msgstr "Número de fallos"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "Fecha de reintentos de fallos"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Autorenovar"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
-msgstr "Fecha de Entrada"
+msgstr "Fecha de Transacción"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
-msgstr "Tipo de ayuda"
+msgstr "Tipo de transacción"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Código de resultado de la transacción"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Sitio Web"
+msgstr "Débito"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Nueva Tarjeta de Crédito"
+msgstr "Crédito"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Active"
-msgstr "Productos"
+msgstr "Premio Activo"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Title for Premiums section"
-msgstr "Tu selección de Productos"
+msgstr "Título para la sección de Premios"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Intro Text"
-msgstr "Información de Producto"
+msgstr "Texto de Intoducción de Premios"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "Email del contacto"
+msgstr "Email de contacto de Premios"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "Teléfono de Contacto"
+msgstr "Teléfono de Contacto de Premios"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "¿Mostrar cantidad de donación mínima?"
+msgstr "Contribución mínima a Mostrar en los Premios"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "Nombre del Grupo"
+msgstr "Nombre del Producto"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Thumbnail"
-msgstr "URL de la miniatura"
+msgstr "Miniatura"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "Contribución mínima"
+msgstr "Contribución Mínima"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Host"
+msgstr "Coste"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
@@ -1264,9 +1218,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2241,9 +2195,8 @@ msgstr ""
 "¿Estás seguro que quieres borrar esta página de formulario de producto?"
 
 #: CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Exportar contribuciones"
+msgstr "Exportar Contribuciones"
 
 #: CRM/Contribute/Task.php
 msgid "Update Pending Contribution Status"
@@ -2825,7 +2778,7 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+msgid "Search All or by Date Range"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3221,115 +3174,96 @@ msgid "Template Title"
 msgstr "Título de la Plantilla"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Busca"
+msgstr "Patrón"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Hold Threshold"
-msgstr "Familia"
+msgstr "Umbral de ejecución"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Lejos"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "Caso inválido"
+msgstr "Inválido"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Loop"
-msgstr "Salir"
+msgstr "Bucle"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Quota"
-msgstr "Totales"
+msgstr "Quota"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Contestar"
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
-msgstr "Destinatarios"
+msgstr "Sintáxis"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Tipo del Componente"
+msgstr "Nombre del Componente"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Welcome"
-msgstr "Mensaje de Bienvenida"
+msgstr "Bienvenido"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
 msgstr "Salida Opcional"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Incluido"
+msgstr "Incluir"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Exclude"
-msgstr "Excluido"
+msgstr "Excluir"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Nombre"
+msgstr "De Nombre"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Email del remitente"
+msgstr "De Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "Contestar al Email"
+msgstr "Reenviar a Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Url Tracking"
 msgstr "Seguimiento de Url"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Forward Replies"
-msgstr "¿Reenviar Respuestas?"
+msgstr "Reenviar Réplicas"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Respuesta automática"
+msgstr "Responder Automáticamente"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Abrir Incidencia"
+msgstr "Abrir Seguimiento"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -3358,7 +3292,7 @@ msgstr "Eliminado"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3373,9 +3307,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Org Unsubscribe"
-msgstr "Desuscribir"
+msgstr "Desuscribir ORG"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -3416,7 +3349,7 @@ msgstr "Nombrar Tu Mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
-msgstr ""
+msgstr "Por favor, selecciona el grupo para el mailing."
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
@@ -3706,9 +3639,8 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Teléfono de Contacto"
+msgstr "Contacto"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3716,7 +3648,7 @@ msgstr "Tipo de Buzón"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Forwarded Email"
@@ -3803,9 +3735,8 @@ msgid "There are no status present, You cannot add membership."
 msgstr "No hay sexo introducido. Puedes <a href=\"%1\">añadir uno</a>."
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "Contribución mínima"
+msgstr "Contribución Online"
 
 #: CRM/Member/BAO/MembershipStatus.php
 #, fuzzy
@@ -6588,7 +6519,6 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
@@ -6988,7 +6918,7 @@ msgstr "Sumario de Donaciones"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Period"
-msgstr ""
+msgstr "Período"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -8288,7 +8218,7 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Completo O nombre parcial del contacto O email"
 
 #: templates/CRM/Grant/Form/Selector.tpl
 msgid "List more Grants"
@@ -9141,6 +9071,9 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
+"No hay coincidencias para <ul><li>Nombre como: %1</li><li>Tipo de Contacto: %"
+"2</li></ul><br />Comprueba la sintáxis, o prueba menos letras para el nombre "
+"de contacto a buscar."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -9727,9 +9660,8 @@ msgid "Amount Due"
 msgstr "Cantidad"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Due Date"
-msgstr "Fecha de Salida"
+msgstr "Fecha de vencimiento"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "Please mail your payment to"

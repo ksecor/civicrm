@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-06-02 02:04-0700\n"
 "Last-Translator: DOKTER_MOF <mofdok@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -63,9 +63,8 @@ msgstr "Редактировать"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Активировать"
+msgstr "Таблица едениц"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -108,7 +107,6 @@ msgid "Grant"
 msgstr "Разрешить"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
 msgstr "Дата изменена"
 
@@ -445,7 +443,6 @@ msgid "Case Activity Type"
 msgstr "Новый тип действия"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
 msgstr "- выбор -"
 
@@ -1111,9 +1108,8 @@ msgid "Legal Name"
 msgstr "Полное наименование"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Настраиваемые опции"
+msgstr "Настраиваемое приветствие"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1175,15 +1171,14 @@ msgstr "Выбор дат"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Где таблица"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
 #: CRM/Group/Form/Edit.php templates/CRM/Group/Page/Group.tpl
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Название группы"
+msgstr "Тип группы"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -1758,15 +1753,14 @@ msgstr "Значение по умолчанию"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Удалить %1 профиль?"
+msgstr "Помощь До"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Помощь После"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1831,9 +1825,8 @@ msgstr "В тексте"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Тип действия"
+msgstr "Категория Тел. Номера"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2037,9 +2030,8 @@ msgstr "Удалить поле профиля"
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Price"
-msgstr "Профиль"
+msgstr "Цена"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
@@ -2135,7 +2127,7 @@ msgstr "Фамилия"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Запретить"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -2147,9 +2139,8 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Удалить"
+msgstr "Отозвать/анулировать"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2265,34 +2256,28 @@ msgid "Activity Content %2 %1"
 msgstr "Тема активного портфеля %2 %1"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Действие"
+msgstr "ID Действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Type ID"
-msgstr "Тип действия"
+msgstr "ID Тип действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Date Time"
-msgstr "Дата действия"
+msgstr "Время действия"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Due Date Time"
-msgstr "Дата и Время"
+msgstr "Срок"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Номер линии"
+msgstr "Номер телефона"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Status Label"
-msgstr "Дата действия"
+msgstr "Название статуса действия"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2301,7 +2286,7 @@ msgstr "Текст"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Contact ID (равно контакту)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3631,11 +3616,6 @@ msgstr "Индивидуальный суффикс - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
-msgid "phone"
-msgstr "Телефон"
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Member of Group %1"
 msgstr "Участник группы -"
 
@@ -3727,9 +3707,8 @@ msgid "Invalid relationship type"
 msgstr "Активировать тип связи"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "ID контакта"
+msgstr "Внутренний Contact ID"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3737,24 +3716,20 @@ msgid "Contact Sub Type"
 msgstr "Тип контакта"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "не отправлять почту"
+msgstr "Не писать"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
-msgstr "не звонить"
+msgstr "Не звонить"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
-msgstr "не отправлять почту"
+msgstr "Не отправлять почту"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "не разглашать"
+msgstr "Не разглашать"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
@@ -3765,7 +3740,6 @@ msgid "Legal Identifier"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
 msgstr "Внешний идентификатор"
 
@@ -3774,24 +3748,20 @@ msgid "Sort Name"
 msgstr "Имя для сортировки"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
 msgstr "Отображаемое имя"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Ссылка (URL) для картинки"
+msgstr "Домашний URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Ссылка (URL) для картинки"
+msgstr "Url имиджа"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Предпочитаемый Email:"
+msgstr "Предпочитаемый почтовый формат"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3804,9 +3774,8 @@ msgid "Source of Contact Data"
 msgstr "Исходный контакт не существует!"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Приветствие"
+msgstr "Тип приглашения"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3815,12 +3784,10 @@ msgid "Job Title"
 msgstr "Должность"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Дата начала"
+msgstr "Дата рождения"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
 msgstr "умер"
 
@@ -3839,23 +3806,20 @@ msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Формат"
+msgstr "Официально"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Неформально"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Почетный"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Настройки"
+msgstr "Настраиваемо"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3873,14 +3837,12 @@ msgid "Children"
 msgstr "Ребенок"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Имя"
+msgstr "Имя A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Имя"
+msgstr "Имя B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -3889,17 +3851,15 @@ msgstr "Помощь Post-формы"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Отследить"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Веб-сайт"
+msgstr "Веб"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "URL адрес API"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4363,7 +4323,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Расстояние от"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4398,9 +4358,8 @@ msgid "Contact Role and Name"
 msgstr "Тел. контакта"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Страница Контакта"
+msgstr "Имя контакта"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4487,11 +4446,11 @@ msgstr "Закладки"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Мин сумма"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Макс сумма"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4641,9 +4600,8 @@ msgid "Distance"
 msgstr "Деактивировать"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- любая группа -"
+msgstr "- любая страна -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5075,7 +5033,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5548,51 +5506,44 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "Номер линии"
+msgstr "Номер дома"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Суффикс номера дома"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Название улицы"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Тип представления"
+msgstr "Тип улица"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Единица частоты"
+msgstr "Ед. улицы"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Почтовый адрес"
+msgstr "Доп. адрес"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
@@ -5608,7 +5559,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Временная зона"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5630,14 +5581,12 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "Классификационный код"
+msgstr "ISO - код"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Страна"
+msgstr "Код страны"
 
 #: CRM/Core/DAO/Country.php
 #, fuzzy
@@ -5655,7 +5604,6 @@ msgid "County Abbreviation"
 msgstr "Вклад"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Валюта"
 
@@ -5678,9 +5626,8 @@ msgid "Data Type"
 msgstr "Тип данных"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Вклады"
+msgstr "Аттрибуты"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5693,9 +5640,8 @@ msgid "End Date Years"
 msgstr "Дата завершения"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Формат Дат"
+msgstr "Части даты"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
@@ -5787,12 +5733,10 @@ msgid "Email Name"
 msgstr "Название местоположения"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Неверный электронный адрес"
+msgstr "Email Адрес"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
 msgstr "Обратный адрес для email"
 
@@ -5867,9 +5811,8 @@ msgid "vCard Location Type"
 msgstr "Тип действия"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Тип действия"
+msgstr "Название местоположения"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5994,9 +5937,8 @@ msgid "Msg Html"
 msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "Активно?"
+msgstr "Активен(на)"
 
 #: CRM/Core/DAO/OpenID.php
 #, fuzzy
@@ -6152,7 +6094,7 @@ msgstr "Добавить к организации"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Штаты сокращенно"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6178,9 +6120,8 @@ msgid "Field Type"
 msgstr "Тип поля"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
-msgstr "Почтовый индекс"
+msgstr "После Url"
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Add Captcha"
@@ -6197,9 +6138,8 @@ msgid "Notify"
 msgstr "Заметка"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Мобильный"
+msgstr "Модуль"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -7318,11 +7258,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Заголовок для Благодарности"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Благодарственное Сообщение"
 
 #: CRM/Friend/DAO/Friend.php
 #, fuzzy
@@ -9494,7 +9434,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11585,7 +11525,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "ИЛИ"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -11727,15 +11667,22 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
+#, fuzzy
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 msgstr[1] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 msgstr[2] ""
+"Email не отправлен контактам (не найден Email адрес или предпочтения "
+"контакта указывают НЕ ОБЩАТЬСЯ ПО Email): %1"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -12324,7 +12271,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "Картинка"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"
@@ -14659,10 +14606,3 @@ msgstr "Сообщение отобрано фильтром контента"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Ошибка в транзакции SMTP"
-
-#~ msgid "Tell A Friend"
-#~ msgstr "Сказать другу"
-
-#, fuzzy
-#~ msgid "Invalid name and password"
-#~ msgstr "Неверный электронный адрес"

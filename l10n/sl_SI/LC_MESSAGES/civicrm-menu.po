@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -127,7 +127,7 @@ msgid "Custom Data"
 msgstr "Posebni podatki"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Polja ukrojenih podatkov"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -181,7 +181,7 @@ msgid "Export Contacts"
 msgstr "Izvozi stike"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Poti datotečnega sistema"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -300,8 +300,9 @@ msgstr ""
 msgid "Manage Price Sets"
 msgstr ""
 
+# Mogoče to ni to.
 msgid "Map Event Location"
-msgstr ""
+msgstr "Mapiraj lokacijo dogodka"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -323,10 +324,10 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Predloge sporočil"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Razno"
 
 msgid "Mobile Phone Providers"
 msgstr ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-08-01 14:27+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -31,6 +31,11 @@ msgid ""
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Файлы для импорта должны быть в формате CSV. Большинство приложений "
+"позволяют выгрузить записи в этом формате. Свертесь с документацией вашего "
+"приложения если неуверены как это делается. Сохраните этот файл на локальный "
+"диск (или на доступный сетевой диск) - и вы готовы к Шагу 1 (Загрузка "
+"Данных). "
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
 msgid ""
@@ -694,7 +699,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -903,6 +908,10 @@ msgid ""
 "code>). This domain (or, more properly, the machine that this domain's MX "
 "record points to) must be configured to handle incoming CiviMail emails (so "
 "it can process the 'actions' like subscribe, optOut, etc.)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
@@ -1270,7 +1279,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Для существующий страниц"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1686,6 +1695,12 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"Можно добавить в группу контакты из результатов поиска (или во время "
+"просмотра данных контакта). Также можно разрешить контактам самим "
+"подписываться на участие в определенных группах, установив уровень "
+"доступности группы (visibility) на Общедоступные страницы пользователя' (для "
+"этого воспользуйтесь ссылкой <strong>Настройки</strong>), и включив элемент "
+"Группы в Профиле CiviCRM."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""

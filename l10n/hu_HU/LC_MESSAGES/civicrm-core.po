@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-11-13 10:04-0800\n"
 "Last-Translator: Sütő Péter <sucy@freemail.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -624,7 +624,7 @@ msgstr "Kitölt"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Térkép Opció"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
@@ -1146,7 +1146,7 @@ msgstr "Láthatóság"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Cikkely holléte"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 #, fuzzy
@@ -1155,7 +1155,7 @@ msgstr "Helyes időpont kiválasztás"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Tábla hollét"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1254,7 +1254,7 @@ msgstr "Új személy"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Household"
-msgstr ""
+msgstr "Új Háztartás"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Block.php
 msgid "New Organization"
@@ -1699,12 +1699,12 @@ msgstr "Kijelöl"
 #: CRM/Core/BAO/PriceField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Rádió"
 
 #: CRM/Core/BAO/PriceField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "CheckBox"
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Menu.php
 msgid "Path"
@@ -1747,7 +1747,7 @@ msgstr "javascript"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Options Per Line"
-msgstr ""
+msgstr "Opciók Soronként"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
@@ -1804,12 +1804,12 @@ msgstr "Telefon Típus"
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Opció Cimke"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Opció Érték"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
@@ -2244,9 +2244,8 @@ msgid "Test"
 msgstr "Teszt"
 
 #: CRM/Activity/DAO/ActivityTarget.php
-#, fuzzy
 msgid "Contact ID (match to contact)"
-msgstr "Tartalom ID "
+msgstr "Kapcsolat ID "
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3083,9 +3082,8 @@ msgid "%1 directory does not exist or cannot be written by webserver"
 msgstr "%1 könyvtár nem létezik vagy a webszerver nem tud bele írni"
 
 #: CRM/Admin/Form/Setting/Url.php
-#, fuzzy
 msgid "Settings - Resource URLs"
-msgstr "Beállítások - Erőforrás URL-ek"
+msgstr "Beállítások - Erőforrás URLS"
 
 #: CRM/Admin/Form/Setting/Url.php
 #, fuzzy
@@ -3505,10 +3503,6 @@ msgid "Individual Suffix"
 msgstr "Egyén utótag"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Csoporttag %1"
 
@@ -3647,7 +3641,7 @@ msgstr "Ajánlott levél formátum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3812,7 +3806,6 @@ msgid "Domain information for '%1' has been saved."
 msgstr "Domain információ mentése a(z) '%1'-hez sikeres."
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Greeting"
 msgstr "Üdvözlés"
 
@@ -4107,7 +4100,6 @@ msgstr "Szokásos mezők "
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Demographics"
 msgstr "Demográfia"
 
@@ -5168,7 +5160,7 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Kérem érvényes összeget adjon meg."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
@@ -5397,7 +5389,6 @@ msgid "County Abbreviation"
 msgstr "Hozzájárulás "
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Pénznem"
 
@@ -5508,7 +5499,7 @@ msgstr "Bejegyzett neve"
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Kapcsolat"
 
 #: CRM/Core/DAO/CustomGroup.php
 #, fuzzy
@@ -5605,9 +5596,8 @@ msgid "vCard Location Type"
 msgstr "Hely típusa"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Hely típusa"
+msgstr "Helyszín név"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5729,9 +5719,8 @@ msgid "Msg Html"
 msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "Aktivitás"
+msgstr "Aktív"
 
 #: CRM/Core/DAO/OpenID.php
 msgid "Openid"
@@ -5983,7 +5972,7 @@ msgstr ""
 
 #: CRM/Core/Form/Date.php
 msgid "Date Format"
-msgstr ""
+msgstr "Dátum Formátum"
 
 #: CRM/Core/Form.php
 msgid "ERROR: Title is not Set"
@@ -6069,7 +6058,7 @@ msgstr "A kapcsolat ID nem található."
 
 #: CRM/Core/Menu.php
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: CRM/Core/Page/Basic.php
 msgid "You do not have permission to make changes to the record"
@@ -6077,7 +6066,7 @@ msgstr ""
 
 #: CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Domain Információs Oldal"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "APILogin is not set for this payment processor"
@@ -6411,15 +6400,15 @@ msgstr "Mutat/Szerkeszt Felhasználó adatok"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_data.tpl
 msgid "Grants"
-msgstr ""
+msgstr "Adomány"
 
 #: CRM/Core/SelectValues.php
 msgid "User Registration"
-msgstr ""
+msgstr "Felhasználó Regisztráció"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Mutat/Szerkeszt Felhasználó adatok"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
@@ -6931,7 +6920,7 @@ msgstr "Befejezése"
 
 #: CRM/Export/BAO/Export.php
 msgid "Payment Instrument"
-msgstr ""
+msgstr "Fizetési Mód"
 
 #: CRM/Export/BAO/Export.php
 msgid "Transaction ID"
@@ -6939,7 +6928,7 @@ msgstr "Tranzakció ID"
 
 #: CRM/Export/BAO/Export.php
 msgid "CiviCRM Contribution Search"
-msgstr ""
+msgstr "CiviCRM Hozzájárulás Keresés"
 
 #: CRM/Export/BAO/Export.php
 msgid "CiviCRM Member Search"
@@ -7174,11 +7163,11 @@ msgstr "Láthatóság"
 
 #: CRM/Group/Form/Search.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Enabled"
-msgstr ""
+msgstr "Engedélyezve"
 
 #: CRM/Group/Form/Search.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Disabled"
-msgstr ""
+msgstr "Letiltva"
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
@@ -7186,7 +7175,7 @@ msgstr ""
 
 #: CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -7494,7 +7483,7 @@ msgstr "Profil választás"
 
 #: CRM/Price/Page/Field.php templates/CRM/Price/Form/Field.tpl
 msgid "Price Field"
-msgstr ""
+msgstr "Ár Mező"
 
 #: CRM/Price/Page/Field.php
 #, fuzzy
@@ -7568,7 +7557,7 @@ msgstr ""
 
 #: CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Ár Beállítás"
 
 #: CRM/Profile/Form/Edit.php
 msgid ""
@@ -7978,7 +7967,7 @@ msgstr ""
 
 #: CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM Profil Mező"
 
 #: CRM/UF/Page/Field.php
 msgid "%1 - CiviCRM Profile Fields"
@@ -9079,7 +9068,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -10585,19 +10574,19 @@ msgstr ""
 
 #: templates/CRM/common/fatal.tpl
 msgid "Error Code:"
-msgstr ""
+msgstr "Hiba kód:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Database Error Code:"
-msgstr ""
+msgstr "Adatbázis Hiba Kód:"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Main Menu"
-msgstr ""
+msgstr "Fő menü"
 
 #: templates/CRM/common/fatal.tpl
 msgid "Return to home page."
-msgstr ""
+msgstr "Vissza a kezdő oldalra."
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
@@ -11061,7 +11050,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "VAGY"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -11192,11 +11181,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -13334,7 +13323,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Adomány Típus"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Honor Type"
@@ -13870,6 +13859,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Tell A Friend"
-#~ msgstr "Mondd el egy barátodnak!"

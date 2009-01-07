@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-10-28 08:15-0700\n"
-"Last-Translator: Francesco Santini <info@internet-fundraising.it>\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
+"PO-Revision-Date: 2008-12-09 07:41-0800\n"
+"Last-Translator: Francesco Moretto <francesco.moretto@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,21 +143,18 @@ msgstr "Unità di frequenza"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Unità di frequenza"
+msgstr "Intervallo di frequenza"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
-msgstr "rate"
+msgstr "Rate"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
-msgstr "Settimana(e)"
+msgstr "Settimana"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -253,11 +250,6 @@ msgstr "La pagina richiesta non è disponibile al momento"
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "&lt;&lt; Torna indietro"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -437,9 +429,8 @@ msgid "Delete Contribution"
 msgstr "Cancella contributo"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Fee level"
-msgstr "Livello di costo"
+msgstr "Tipo di costo"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 msgid "Participant Source"
@@ -485,9 +476,8 @@ msgid "Fee Label"
 msgstr "Etichetta Diritto"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Pledge/DAO/Payment.php
-#, fuzzy
 msgid "Payment ID"
-msgstr "Chiave di Pagamento"
+msgstr "ID pagamento"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 msgid "Participant ID"
@@ -598,9 +588,8 @@ msgid "Component Type"
 msgstr "Tipo di Componente"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Body Testo"
+msgstr "Testo Html"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -622,9 +611,8 @@ msgstr "Ragione del bounce"
 #: CRM/Mailing/Event/DAO/Subscribe.php
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Time Stamp"
-msgstr "Timestamp"
+msgstr "Tempo"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -784,9 +772,8 @@ msgstr "Importo Netto"
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #: templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Status"
-msgstr "Stato del pagamento"
+msgstr "Stato impegno di pagamento"
 
 #: CRM/Pledge/DAO/PledgeBlock.php CRM/Pledge/DAO/Pledge.php
 #, fuzzy
@@ -805,23 +792,21 @@ msgid "Additional Reminder Days"
 msgstr "Giorno Promemoria Rinnovo"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Total Pledged"
-msgstr "Prezzo totale"
+msgstr "Totale impegni di pagamento"
 
 #: CRM/Pledge/DAO/Pledge.php CRM/Pledge/Form/Pledge.php
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
 msgid "Pledge Made"
-msgstr ""
+msgstr "Confermato impegno di pagamento"
 
 #: CRM/Pledge/Form/Pledge.php CRM/Pledge/Form/PledgeView.php
 msgid "%1(s)"
 msgstr ""
 
 #: CRM/Pledge/Form/Task/Delete.php CRM/Pledge/Task.php
-#, fuzzy
 msgid "Delete Pledges"
-msgstr "Elimina Membri"
+msgstr "Elimina impegni di pagamento"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
@@ -898,9 +883,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Trova contributi ricorrenti?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Testo introduttivo"
+msgstr "Testo di introduzione"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -908,12 +892,10 @@ msgid "Recur Frequency Unit"
 msgstr "Unità di frequenza"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Text"
-msgstr "Ringraziamento inviato"
+msgstr "Testo del ringraziamento"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
 msgstr "Piedipagina del ringraziamento"
 
@@ -923,246 +905,205 @@ msgid "On Behalf Of Organization"
 msgstr "Nuova Organizzazione"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
-msgstr "Ricevuta"
+msgstr "Ricevuta Cc"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "Ricevuta"
+msgstr "Ricevuta Ccn"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Ricevuta inviata"
+msgstr "Testo Ricevuta"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Title"
-msgstr "Titolo sezione ospite d'onore"
+msgstr "Titolo blocco in onore di"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Text"
-msgstr "Tipo di onoreficenza"
+msgstr "Testo blocco in onore di"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "Pagina Contributo - %1"
+msgstr "Pagina Data Inizio Contributo"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page End Date"
-msgstr "Pagina Contributo - %1"
+msgstr "Pagina Data Fine Contributo"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID"
 msgstr "ID Contributo"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Solicitor ID"
-msgstr "ID negozio"
+msgstr "ID procuratore legale"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
-msgstr "Data di ricezione"
+msgstr "Data Ricevimento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "Motivo cancellazione"
+msgstr "Motivo Annullamento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Titolo ringraziamento"
+msgstr "Data Ringraziamento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Amount Label"
-msgstr "Importo fornito"
+msgstr "Etichetta Importo"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Opzione prezzi"
+msgstr "Opzione Prodotto"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Quantity"
-msgstr "Inserire quantità?"
+msgstr "Quantità"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "Data inviato"
+msgstr "Data Compilazione"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Contenuto"
+msgstr "Commento"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
-#, fuzzy
 msgid "Create Date"
-msgstr "Data Completa"
+msgstr "Data Creazione"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Recurring Contribution Status"
-msgstr "Contributi ricorrenti"
+msgstr "Stato Contributo Ricorrente"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Cycle Day"
-msgstr "Data Cancellazione"
+msgstr "Giorno di ciclo"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Next Sched Contribution"
-msgstr "Nuovo contributo"
+msgstr "Prossima schedulazione Contributi"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
-msgstr "Nazioni Disponibili"
+msgstr "Conteggio Errori"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "Data Ripetizione Errore"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Auto Renew"
-msgstr "Rinnova"
+msgstr "Rinnova Automaticamente"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Date"
-msgstr "Data inserimento"
+msgstr "Data Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Trxn Type"
-msgstr "Tipo di finanziamento"
+msgstr "Tipo Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Result Code"
-msgstr ""
+msgstr "Codice risultato Trxn"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Debit"
-msgstr "Sito Web"
+msgstr "Debito"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Carta di credito"
+msgstr "Credito"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Active"
-msgstr "Incentivi"
+msgstr "Incentivi Attivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Title for Premiums section"
-msgstr "La tua selezione di incentivi"
+msgstr "Titolo della sezione Incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Intro Text"
-msgstr "Informazioni incentivo"
+msgstr "Testo introduttivo agli Incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "Email Contatto"
+msgstr "Email di contatto per gli incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "Contatto Telefonico"
+msgstr "Telefono di contatto per gli incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "Mostra Importo Contributo Minimo?"
+msgstr "Contributo minimo visualizzato per gli incentivi"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "Nome del gruppo"
+msgstr "Nome Prodotto"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Thumbnail"
-msgstr "URL Thumbnail"
+msgstr "Miniatura"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "Contributo min"
+msgstr "Contributo Minimo"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Ospite"
+msgstr "Costo"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "Url Logo"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Url Homepage"
-msgstr "URL della homepage"
+msgstr "Url Homepage"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Title"
-msgstr "Titolo lavorativo"
+msgstr "Colore Titolo"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Button"
-msgstr ""
+msgstr "Colore pulsante"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bar"
-msgstr ""
+msgstr "Colore Barra"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Main Text"
-msgstr "Piedipagina"
+msgstr "Colore testo principale"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main"
-msgstr ""
+msgstr "Colore principale"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Bg"
-msgstr ""
+msgstr "Colore principale sfondo"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bg"
-msgstr ""
+msgstr "Colore sfondo"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color About Link"
-msgstr "Colore del link about"
+msgstr "Colore link About"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Homepage Link"
-msgstr "Colore del link della homepage"
+msgstr "Colore link homepage"
 
 #: CRM/Contribute/Form/AdditionalInfo.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1245,11 +1186,12 @@ msgstr ""
 "del sito."
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 "Questa pagina di contributi è configurata per accettare pagamenti separati "
 "per i contributi e le iscrizioni. Il plugin PayPal Website Payments Standard "
@@ -1266,6 +1208,8 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Oops. You cannot make a payment for this pledge - pledge status is %1."
 msgstr ""
+"Spiacenti, non è possibile pagare questo impegno di pagamento: si trova "
+"nello stato %1."
 
 #: CRM/Contribute/Form/ContributionCharts.php
 #, fuzzy
@@ -1431,38 +1375,38 @@ msgid "At least one payment option needs to be checked."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid pledge installment."
-msgstr "Inserire un intero valido."
+msgstr "Inserire una rata di impegno di pagamento valida."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Pledge Installments is required field."
-msgstr "Importo è un campo obbligatorio."
+msgstr "La rata di impegno di pagamento è un campo obbligatorio."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Pledges consist of multiple scheduled payments. Select one-time contribution "
 "if you want to make your gift in a single payment."
 msgstr ""
+"Gli impegni di pagamento sono una promessa di versamento di importi "
+"ripetuti. Selezionate un contributo singolo se volete effettuare un solo "
+"pagamento."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge Installments field must be > 1."
-msgstr ""
+msgstr "Il campo rata di impegno di pagamento deve essere > 1."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Please enter a valid Pledge Frequency Interval."
-msgstr "Inserire un intero valido."
+msgstr "Inserire un intervallo di frequenza di impegno di pagamento valido."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Pledge Frequency Interval. is required field."
-msgstr "Il tipo di costo è un campo obbligatorio."
+msgstr ""
+"L'intervallo di frequenza degli impegni di pagamento è un campo obbligatorio."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Pledge frequency interval field must be > 0"
-msgstr ""
+msgstr "L'intervallo di frequenza degli impegni di pagamento deve essere > 0."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
@@ -1522,7 +1466,7 @@ msgstr "Istruzioni paga più tardi"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Supported pledge frequencies"
-msgstr ""
+msgstr "Rateizzazioni degli impegni di pagamento permesse"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow frequency intervals"
@@ -1563,15 +1507,16 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "At least one pledge frequency option needs to be checked."
 msgstr ""
+"Deve essere spuntata almeno un'opzione sulla frequenza degli impegni di "
+"pagamento."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid ""
 "You cannot enable both Recurring Contributions AND Pledges on the same "
 "online contribution page."
 msgstr ""
-"Non si può impostare un contributo periodico se non state pagando online con "
-"carta di credito."
+"Non si possono impostare sia contributi periodici che impegni di pagamento "
+"sulla stessa pagina di contributo online."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
@@ -1837,6 +1782,7 @@ msgstr ""
 #: CRM/Contribute/Form/Contribution.php
 msgid "Pledge payment status should be 'Pending' or  'Overdue'."
 msgstr ""
+"Lo stato degli impegni di pagamento deve essere 'In attesa' o 'Scaduto'."
 
 #: CRM/Contribute/Form/Contribution.php
 msgid ""
@@ -2251,99 +2197,80 @@ msgid "Find Pay Later Participants?"
 msgstr "Trova partecipanti di prova?"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirmation Title"
-msgstr "Email conferma"
+msgstr "Titolo conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirm Text"
-msgstr "Conferma"
+msgstr "Testo conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Is confirm email"
-msgstr "Conferma Da Email"
+msgstr "Invia email conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirmation Email Text"
-msgstr "Email conferma"
+msgstr "Testo email conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Cc Confirm"
-msgstr "Conferma"
+msgstr "CC Conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Bcc Confirm"
-msgstr "Conferma"
+msgstr "BCC Conferma"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "ThankYou Title"
-msgstr "Titolo ringraziamento"
+msgstr "Titolo Ringraziamento"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "ThankYou Text"
-msgstr "Ringraziamento inviato"
+msgstr "Testo Ringraziamento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Description"
-msgstr "Descrizione"
+msgstr "Descrizione evento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Type ID"
-msgstr "Tipo di evento"
+msgstr "ID tipo evento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Participant Listing ID"
-msgstr "Elenco Partecipanti"
+msgstr "ID Elenco Partecipanti"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Is Event Public"
-msgstr "Calendario pubblico di CiviEvent"
+msgstr "Evento pubblico"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Start Date"
-msgstr "Data Evento"
+msgstr "Data inizio evento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event End Date"
-msgstr "Data Evento"
+msgstr "Data fine evento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Is Online Registration"
-msgstr "Registrazione Online"
+msgstr "Registrazione online"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Registration Link Text"
-msgstr "Testo link registrazione"
+msgstr "Testo link registrazione online"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Max Participants"
-msgstr "Partecipanti"
+msgstr "Max partecipanti"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "show location"
-msgstr "Mostra recapito?"
+msgstr "mostra recapito"
 
 #: CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Register date"
-msgstr "Registrato"
+msgstr "Data registrazione"
 
 #: CRM/Event/DAO/Participant.php
 #, fuzzy
@@ -2650,7 +2577,7 @@ msgstr "Elenca Partecipanti"
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
 #, fuzzy
 msgid "Skip Participant >>|"
-msgstr "Visualizza partecipante"
+msgstr "Salta partecipante"
 
 #: CRM/Event/Form/Registration/AdditionalParticipant.php
 #, fuzzy
@@ -2724,7 +2651,7 @@ msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "How many additional people?"
-msgstr ""
+msgstr "Quante persone aggiuntive?"
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "Fee Level is a required field."
@@ -2775,7 +2702,8 @@ msgid "Show Current and Upcoming Events"
 msgstr "Mostra eventi correnti e futuri"
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+#, fuzzy
+msgid "Search All or by Date Range"
 msgstr "Cerca per intervallo date"
 
 #: CRM/Event/Form/SearchEvent.php
@@ -2793,7 +2721,7 @@ msgstr "Inserire una data valida di fine evento"
 #: CRM/Event/Form/Search.php
 #, fuzzy
 msgid "Participant Name or Email"
-msgstr "Nome Partecipante"
+msgstr "Nome o Email del Partecipante"
 
 #: CRM/Event/Form/Search.php
 msgid "Please select valid event."
@@ -3001,34 +2929,28 @@ msgid "Grant report received?"
 msgstr "Ricevuto report finanziamento?"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Application Received Date"
-msgstr "Data di ricezione richiesta"
+msgstr "Data ricezione domanda"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Decision Date"
-msgstr "Data registrazione"
+msgstr "Data decisione"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Money Transfer Date"
-msgstr "Denaro trasferito"
+msgstr "Data trasferimento denaro"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Grant Due Date"
-msgstr "Report finanziamento stabilito il"
+msgstr "Data prevista finanziamento"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Grant Report Received"
-msgstr "Report finanziamento ricevuto?"
+msgstr "Report finanziamento ricevuto"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Amount Total"
-msgstr "Totale Evento"
+msgstr "Importo totale"
 
 #: CRM/Grant/Form/Grant.php templates/CRM/Grant/Form/GrantView.tpl
 msgid "Grant Decision"
@@ -3137,95 +3059,80 @@ msgid "Template Title"
 msgstr "Titolo Modello"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Pager"
+msgstr "Schema"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Hold Threshold"
-msgstr "Famiglia"
+msgstr "Soglia di sospensione"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Via"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "Caso non valido"
+msgstr "Non valido"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Loop"
-msgstr "Logout"
+msgstr "Loop"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Quota"
-msgstr "Totale"
+msgstr "Quota"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Rispondi"
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
-msgstr "Inviato"
+msgstr "Sintassi"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Tipo di Componente"
+msgstr "Nome del Componente"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Welcome"
-msgstr "Messaggio di benvenuto"
+msgstr "Benvenuto"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
-msgstr "Opt-Out"
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Inclusi"
+msgstr "Include"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Exclude"
-msgstr "Esclusi"
+msgstr "Esclude"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Nome"
+msgstr "Da Nome"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Ricevuto da Email"
+msgstr "Da Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "Email per la risposta"
+msgstr "Rispondi a Email"
 
 #: CRM/Mailing/DAO/Mailing.php
 #, fuzzy
@@ -3233,48 +3140,40 @@ msgid "Url Tracking"
 msgstr "Tracciamento"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Forward Replies"
-msgstr "Inoltra risposte?"
+msgstr "Inoltra risposte"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Risposta automatica"
+msgstr "Auto Responder"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Open tracking"
+msgstr "Tracciamento aperto"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Recipient Email"
-msgstr "Ricevuto da Email"
+msgstr "Email destinatario"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Headers"
-msgstr "Intestazione"
+msgstr "Intestazioni"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Body"
-msgstr "Body Testo"
+msgstr "Corpo messaggio"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Added At"
-msgstr "Aggiunto"
+msgstr "Aggiunto alle"
 
 #: CRM/Mailing/DAO/Spool.php
-#, fuzzy
 msgid "Removed At"
-msgstr "Rimosso"
+msgstr "Rimosso alle"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3293,9 +3192,8 @@ msgstr ""
 "prega di contattare l'amministratore del sito."
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Org Unsubscribe"
-msgstr "Cancella sottoscrizione"
+msgstr "Deiscrivi organizzazione"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - TEXT Format"
@@ -3608,9 +3506,8 @@ msgstr "%%StatusMessage%% %1"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Contatto Telefonico"
+msgstr "Contatto"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3776,9 +3673,8 @@ msgid "Find Pay Later Memberships?"
 msgstr "Cerca iscrizioni di prova?"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Membership Type Default"
-msgstr "Tipi di iscrizione di default"
+msgstr "Tipo di iscrizione predefinito"
 
 #: CRM/Member/DAO/MembershipBlock.php
 #, fuzzy
@@ -3786,78 +3682,64 @@ msgid "Display Min Fee"
 msgstr "Visualizza Costo Iscrizione"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Title"
-msgstr "Titolo insieme"
+msgstr "Nuovo Titolo"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Text"
-msgstr "Note"
+msgstr "Nuovo Testo"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Renewal Title"
-msgstr "Titolo Evento"
+msgstr "Titolo rinnovo"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Renewal Text"
-msgstr "Messaggio rinnovo"
+msgstr "Testo rinnovo"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Is Required"
-msgstr "Richiesto"
+msgstr "Obbligatorio?"
 
 #: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
 msgid "Membership Change Date"
-msgstr "Data di termine iscrizione"
+msgstr "Data di modifica iscrizione"
 
 #: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
 msgid "Renewal Reminder Date"
-msgstr "Giorno Promemoria Rinnovo"
+msgstr "Data Promemoria Rinnovo"
 
 #: CRM/Member/DAO/Membership.php
 msgid "Membership ID"
 msgstr "ID iscrizione"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Membership Expiration Date"
-msgstr "Data di termine iscrizione"
+msgstr "Data di scadenza iscrizione"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Status Override"
-msgstr "Forza stato?"
+msgstr "Forza stato"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Reminder Date"
-msgstr "Data Promemoria"
+msgstr "Data promemoria"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Start Event Adjust Unit"
-msgstr "Aggiustamento evento di inizio"
+msgstr "Unità di aggiustamento per l'evento di inizio"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "End Event Adjust Unit"
-msgstr "Aggiustamento evento di fine"
+msgstr "Unità di aggiustamento per l'evento di fine"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Admin Assigned Only?"
-msgstr "Solo amministratore?"
+msgstr "Assegnato solo dagli Amministratori?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Default Status?"
-msgstr "Valore predefinito"
+msgstr "Stato predefinito?"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -3865,34 +3747,28 @@ msgid "Is Reserved"
 msgstr "Riservato"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "start_date"
-msgstr "data inizio"
+msgstr "start_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "end_date"
-msgstr "data fine"
+msgstr "end_date"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "join_date"
-msgstr "data di prima iscrizione"
+msgstr "join_date"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Visible"
-msgstr "Disabilita"
+msgstr "Visibile"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Receipt Text Signup"
-msgstr "Ricevuta inviata"
+msgstr "Firma Testo Ricevuta"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Receipt Text Renewal"
-msgstr "Ricevuta non inviata?"
+msgstr "Rinnovo Testo Ricevuta"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -4349,7 +4225,7 @@ msgstr ""
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 msgid "Make Pledge Payment(s):"
-msgstr ""
+msgstr "Effettua impegno/i di pagamento"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
@@ -4357,14 +4233,12 @@ msgid "I want to make a one-time contribution"
 msgstr "Voglio fare un contributo una tantum."
 
 #: CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "I pledge to contribute this amount every"
-msgstr "Voglio fare un contributo di questo importo"
+msgstr "Mi impegno a pagare questo importo ogni"
 
 #: CRM/Pledge/BAO/PledgeBlock.php
-#, fuzzy
 msgid "Pledge Frequency Interval"
-msgstr "Unità di frequenza"
+msgstr "Frequenza degli impegni di pagamento"
 
 #: CRM/Pledge/BAO/Pledge.php
 #, fuzzy
@@ -4382,14 +4256,12 @@ msgid "Paid Date"
 msgstr "Data fine"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Status %1"
-msgstr "Stato di iscrizione %1"
+msgstr "Stato dell'impegno %1"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Payment Status %1"
-msgstr "Stato del pagamento"
+msgstr "Stato del pagamento dell'ìimpegno %1"
 
 #: CRM/Pledge/BAO/Query.php
 #, fuzzy
@@ -4402,23 +4274,20 @@ msgid "Payments Ended Date - From"
 msgstr "Data fine - Da"
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Pledge Made - From"
-msgstr "Data fine - Da"
+msgstr "Impegno preso - Da"
 
 #: CRM/Pledge/BAO/Query.php
 msgid "Payment Scheduled - From"
 msgstr ""
 
 #: CRM/Pledge/BAO/Query.php
-#, fuzzy
 msgid "Find Test Pledges?"
-msgstr "Cerca iscrizioni di prova?"
+msgstr "Cerca impegni di pagamento di prova?"
 
 #: CRM/Pledge/BAO/Query.php templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Payment Status"
-msgstr "Stato del pagamento"
+msgstr "Stato dell'impegno di pagamento"
 
 #: CRM/Pledge/DAO/Payment.php templates/CRM/Pledge/Page/Payment.tpl
 #, fuzzy
@@ -4441,13 +4310,12 @@ msgid "Entity Id"
 msgstr "ID Contatto"
 
 #: CRM/Pledge/DAO/PledgeBlock.php
-#, fuzzy
 msgid "Pledge Frequency Unit"
-msgstr "Unità di frequenza"
+msgstr "Unità di frequenza dell'impegno"
 
 #: CRM/Pledge/DAO/Pledge.php
 msgid "Pledge ID"
-msgstr ""
+msgstr "ID impegno"
 
 #: CRM/Pledge/DAO/Pledge.php
 #, fuzzy
@@ -4465,15 +4333,13 @@ msgid "Select a valid Scheduled date."
 msgstr "Seleziona una data valida."
 
 #: CRM/Pledge/Form/Payment.php
-#, fuzzy
 msgid "Pledge Payment Schedule has been updated.<br />"
-msgstr "Il gestore dei pagamenti selezionato è stato eliminato."
+msgstr "Il calendario degli impegni di pagamento è stato aggiornato.<br />"
 
 #: CRM/Pledge/Form/Pledge.php templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Total Pledge Amount"
-msgstr "Importo Totale Annullato"
+msgstr "Importo Totale Impegnato"
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -4516,9 +4382,9 @@ msgid "each"
 msgstr "Scollega"
 
 #: CRM/Pledge/Form/Pledge.php
-#, fuzzy
 msgid "Select a valid date for the day the pledge was made."
-msgstr "Seleziona una data valida successiva ad oggi."
+msgstr ""
+"Seleziona una data valida per il giorno in cui è stato preso l'impegno."
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -4545,7 +4411,7 @@ msgstr "Cancella Gestore dei Pagamenti"
 
 #: CRM/Pledge/Form/Pledge.php
 msgid "Total Pledge Amount should be greater than zero."
-msgstr ""
+msgstr "L'importo dell'impegno deve essere maggiore di zero."
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -4566,11 +4432,12 @@ msgstr "Prego inserire un valore di valuta valido (es. 9.99)."
 msgid ""
 "Pledge has been recorded and the payment schedule has been created.<br />"
 msgstr ""
+"L'impegno di pagamento è stato memorizzato ed è stato creato un calendario "
+"degli impegni.<br />"
 
 #: CRM/Pledge/Form/Pledge.php
-#, fuzzy
 msgid "Pledge has been updated.<br />"
-msgstr "Il record di relazione è stato aggiornato."
+msgstr "L'impegno di pagamento è stato aggiornato.<br />"
 
 #: CRM/Pledge/Form/Pledge.php
 #, fuzzy
@@ -4582,93 +4449,86 @@ msgid ""
 "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
 "payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>."
 msgstr ""
+"Se è previsto un pagamento ora, potete <a href='%1'>inserire i dati di un "
+"assegno, EFT o pagamento in contanti</a> oppure <a href='%2'>usare la carta "
+"di credito</a>."
 
 #: CRM/Pledge/Form/Pledge.php
 msgid ""
 "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash "
 "payment for this pledge</a>."
 msgstr ""
+"Se è previsto un pagamento ora, potete <a href='%1'>inserire i dati di un "
+"assegno, EFT o pagamento in contanti</a>."
 
 #: CRM/Pledge/Form/Search.php
-#, fuzzy
 msgid "Pledger Name or Email"
-msgstr "Nome ed email"
+msgstr "Nome o email della persona che ha preso l'impegno"
 
 #: CRM/Pledge/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Pledge(s): %1"
-msgstr "Membri cancellati: %1"
+msgstr "Impegni di pagamento cancellati: %1"
 
 #: CRM/Pledge/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Pledge(s): %1"
-msgstr "Totale Iscrizioni selezionate: %1"
+msgstr "Totale impegni di pagamento selezionati: %1"
 
 #: CRM/Pledge/Form/Task/Print.php
-#, fuzzy
 msgid "Print Pledge List"
-msgstr "Stampa elenco finanziamenti"
+msgstr "Stampa elenco impegni di pagamento"
 
 #: CRM/Pledge/Info.php
-#, fuzzy
 msgid "CiviCRM Pledge Engine"
-msgstr "Motore eventi CiviCRM"
+msgstr "Motore impegni di pagamento CiviCRM"
 
 #: CRM/Pledge/Info.php
-#, fuzzy
 msgid "Your Pledge(s)"
-msgstr "I tuoi eventi"
+msgstr "I tuoi impegni di pagamento"
 
 #: CRM/Pledge/Page/Tab.php
 msgid ""
 "Pledge has been Cancelled and all scheduled (not completed) payments have "
 "been cancelled.<br />"
 msgstr ""
+"L'impegno è stato cancellato, e tutti i pagamenti non completati sono stati "
+"annullati.<br />"
 
 #: CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid ""
 "Cancelling this pledge will also cancel any scheduled (and not completed) "
 "pledge payments. This action cannot be undone. Do you want to continue?"
 msgstr ""
-"Attenzione: Cancellare questo evento cancellerà anche la Pagina di "
-"Registrazione Evento ad esso associata e le relative configurazioni di "
-"Importi Evento. Questa operazione non può essere annullata. Volete "
-"continuare?"
+"Attenzione: Cancellare questo impegno annullerà anche tutti i pagamenti in "
+"calendario ma non effettuati. Questa operazione non può essere annullata. "
+"Volete continuare?"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "View Pledge"
-msgstr "Pagina Live!"
+msgstr "Visualizza impegno"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Edit Pledge"
-msgstr "Modifica regola"
+msgstr "Modifica impegno"
 
 #: CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Cancel Pledge"
-msgstr "Annullato"
+msgstr "Annulla impegno"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Delete Pledge"
-msgstr "Cancella prezzo"
+msgstr "Cancella impegno"
 
 #: CRM/Pledge/Selector/Search.php templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Balance Due"
 msgstr ""
 
 #: CRM/Pledge/Selector/Search.php
-#, fuzzy
 msgid "Pledge Search"
-msgstr "Ricerca salvata"
+msgstr "Ricerca impegni"
 
 #: CRM/Pledge/Task.php
-#, fuzzy
 msgid "Export Pledges"
-msgstr "Esportazione Membri"
+msgstr "Esportazione impegni"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
@@ -4905,37 +4765,33 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "I pledge to contribute this amount every %1 %2s for %3 installments."
-msgstr "Voglio inviare questo importo ogni %1 %2 per %3 rate."
+msgstr "Mi impegno a inviare questo importo ogni %1 %2 per %3 rate."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "I pledge to contribute this amount every %2 for %3 installments."
-msgstr "Voglio inviare questo importo ogni %1 %2 per %3 rate."
+msgstr "Mi impegno a inviare questo importo ogni %2 per %3 rate."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#, fuzzy
 msgid ""
 "Click &quot;Make Contribution&quot; below to register your pledge. You will "
 "be able to modify or cancel future pledge payments at any time by logging in "
 "to your account or contacting us at %1."
 msgstr ""
-"Il contributo iniziale verrà inviato una volta confermato il tutto. Potrete "
-"modificare o annullare i contributi futuri in qualsiasi momento, "
-"collegandovi con il vostro account."
+"Cliccate su &quot;Contribuisci&quot; per registrare il proprio impegno di "
+"pagamento. Potrete modificare o annullare gli impegni di pagamento futuri in "
+"qualsiasi momento, collegandovi con il vostro account o contattandoci a %1."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
-#, fuzzy
 msgid ""
 "Your initial pledge payment will be processed when you click &quot;Make "
 "Contribution&quot; below. You will be able to modify or cancel future pledge "
 "payments at any time by logging in to your account or contacting us at %1."
 msgstr ""
-"Il contributo iniziale verrà inviato una volta confermato il tutto. Potrete "
-"modificare o annullare i contributi futuri in qualsiasi momento, "
-"collegandovi con il vostro account."
+"L'impegno di pagamento iniziale verrà inviato una volta confermato il tutto. "
+"Potrete modificare o annullare i contributi futuri in qualsiasi momento, "
+"collegandovi con il vostro account o contattandoci a %1."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -5225,13 +5081,13 @@ msgstr ""
 "bonifico entro 3 giorni lavorativi')."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
-#, fuzzy
 msgid ""
 "Check this box if you want to give users the option to make a Pledge (a "
 "commitment to contribute a fixed amount on a recurring basis)."
 msgstr ""
-"Spuntate la casella se volete dare agli utenti la possibilità di inviare un "
-"pagamento offline (ad es. un assegno via posta, un bonifico etc)."
+"Spuntate la casella se volete dare agli utenti la possibilità di "
+"sottoscrivere un impegno di pagamento (la promessa di dare un contributo "
+"fisso ricorrente)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -5984,26 +5840,24 @@ msgstr ""
 "annullare i contributi futuri."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid ""
 "We will record your initial pledge payment when we receive it from you. You "
 "will be able to modify or cancel future pledge payments at any time by "
 "logging in to your account or contacting us at %1."
 msgstr ""
-"Il contributo iniziale verrà inviato una volta confermato il tutto. Potrete "
-"modificare o annullare i contributi futuri in qualsiasi momento, "
-"collegandovi con il vostro account."
+"L'impegno di pagamento iniziale verrà memorizzato quando sarà ricevuto. "
+"Potrete modificare o annullare i contributi futuri in qualsiasi momento, "
+"collegandovi con il vostro account o contattandoci a %1."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid ""
 "Your initial pledge payment has been processed. You will be able to modify "
 "or cancel future pledge payments at any time by logging in to your account "
 "or contacting us at %1."
 msgstr ""
-"Il contributo iniziale verrà inviato una volta confermato il tutto. Potrete "
-"modificare o annullare i contributi futuri in qualsiasi momento, "
-"collegandovi con il vostro account."
+"L'impegno di pagamento iniziale è stato  elaborato. Potrete modificare o "
+"annullare i contributi futuri in qualsiasi momento, collegandovi con il "
+"vostro account o contattandoci a %1."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -6736,6 +6590,8 @@ msgid ""
 "Enable pledges OR recurring contributions (recurring contributions are not "
 "supported for all payment processors)."
 msgstr ""
+"Abilitare gli impegni di pagamento O i contributi ricorrenti (i contributi "
+"ricorrenti non sono supportati per tutti i gestori di pagamento)."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9735,25 +9591,22 @@ msgid "Dear %1"
 msgstr "Nuovo %1"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
-#, fuzzy
 msgid ""
 "Thank you for your generous pledge. Please print this acknowledgment for "
 "your records."
 msgstr ""
-"La transazione è stata elaborata con successo. Si prega di stampare la "
-"pagina per l'archivio."
+"Grazie per il vostro generoso impegno. Si prega di stampare la pagina per "
+"l'archivio."
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Pledge Information"
-msgstr "Informazioni incentivo"
+msgstr "Informazioni impegno"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Pledge Received"
-msgstr "Ricevuto"
+msgstr "Impegno ricevuto"
 
 #: templates/CRM/Pledge/Form/AcknowledgeMessage.tpl
 #, fuzzy
@@ -9776,19 +9629,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Pledge/Form/AcknowledgeSubject.tpl
-#, fuzzy
 msgid "Thank you for your Pledge"
-msgstr "Pagina Ringraziamento"
+msgstr "Grazie per il vostro impegno"
 
 #: templates/CRM/Pledge/Form/Payment.tpl
-#, fuzzy
 msgid "Edit Pledge Payment"
-msgstr "Pagamento Online"
+msgstr "Modifica Pagamento Impegno"
 
 #: templates/CRM/Pledge/Form/Payment.tpl
-#, fuzzy
 msgid "Scheduled Date for Pledge payment."
-msgstr "La data inserita non è valida."
+msgstr "Data prevista per il pagamento impegno"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -9797,19 +9647,22 @@ msgid ""
 "to be sent when this pledge is recorded, click Cancel and then click Edit "
 "from the Summary tab to add an email address before recording the pledge."
 msgstr ""
+"Non è possibie inviare un ringraziamento per questo impegno perché nel "
+"contatto non è memorizzato un indirizzo email. Se volete inviare un "
+"ringraziamento, cliccate su Annulla e poi Modifica dalla tab Sommario per "
+"aggiungere un indirizzo email prima di memorizzare l'impegno."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this pledge will result in the loss of the associated "
 "financial transactions (if any)."
 msgstr ""
-"ATTENZIONE: cancellando questo contributo si perderanno le transazioni "
+"ATTENZIONE: cancellando questo impegno si perderanno le transazioni "
 "finanziarie associate, se presenti."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Pledge by"
-msgstr ""
+msgstr "Impegno di"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 #: templates/CRM/Pledge/Form/PledgeView.tpl
@@ -9827,22 +9680,22 @@ msgid "This applies to weekly, monthly and yearly payments."
 msgstr ""
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Date when pledge was made by the contributor."
-msgstr "Data di invio della ricevuta al contribuente."
+msgstr "Data di sottoscrizione dell'impegno da parte del contribuente."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date of first pledge payment."
-msgstr ""
+msgstr "Data del primo pagamento dell'impegno"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid "Date when an acknowledgment of the pledge was sent."
-msgstr ""
+msgstr "Data dell'invio del ringraziamento per l'impegno"
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
-#, fuzzy
 msgid "Sets the default contribution type for payments against this pledge."
-msgstr "Impostare il tipo di contributo appropriato per questo pagamento."
+msgstr ""
+"Impostare il tipo di contributo appropriato per i pagamenti di questo "
+"impegno."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -9850,6 +9703,9 @@ msgid ""
 "service pledge payments. (Only Online Contribution pages configured to "
 "include the Pledge option are listed.)"
 msgstr ""
+"Selezionare una pagina di Contributi online che l'utente possa usare per "
+"fare pagamenti in autonomia (sono elencate solo le pagine configurate per "
+"contenere l'opzione Impegni di pagamento)."
 
 #: templates/CRM/Pledge/Form/Pledge.tpl
 msgid ""
@@ -9857,11 +9713,14 @@ msgid ""
 "is received, status is \"In Progress\" until all scheduled payments are "
 "completed. Overdue pledges are ones with payment(s) past due."
 msgstr ""
+"Gli impegni di pagamento sono \"in attesa\" finché non venga ricevuto il "
+"primo pagamento, dopo di che diventano \"attivi\" finché non siano pagati "
+"tutti gli importi promessi. Gli impegni \"scaduti\" sono quelli per cui è "
+"scaduto almeno un pagamento."
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
-#, fuzzy
 msgid "Pledge By"
-msgstr "Pagato da"
+msgstr "Impegno di"
 
 #: templates/CRM/Pledge/Form/PledgeView.tpl
 #, fuzzy
@@ -9875,6 +9734,8 @@ msgstr ""
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "This is a reminder that the next payment on your pledge is due on %1."
 msgstr ""
+"Questo è un memorandum per il prossimo pagamento dell'impegno preso, che "
+"scade il %1."
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 #, fuzzy
@@ -9887,9 +9748,8 @@ msgid "Amount Due"
 msgstr "Importo"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
-#, fuzzy
 msgid "Due Date"
-msgstr "Data rimozione"
+msgstr "Data prevista"
 
 #: templates/CRM/Pledge/Form/ReminderMessage.tpl
 msgid "Please mail your payment to"
@@ -9901,27 +9761,24 @@ msgid "Thank your for your generous support."
 msgstr "Grazie per il vostro supporto."
 
 #: templates/CRM/Pledge/Form/ReminderSubject.tpl
-#, fuzzy
 msgid "Pledge Payment Reminder"
-msgstr "Promemoria Rinnovo"
+msgstr "Promemoria Pagamento Impegno"
 
 #: templates/CRM/Pledge/Form/Search/Common.tpl
-#, fuzzy
 msgid "Pledge Amounts"
-msgstr "Importo Fee"
+msgstr "Importo impegno"
 
 #: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "No matching pledge results found."
-msgstr "Nessun risultato per"
+msgstr "Nessun impegno di pagamento trovato."
 
 #: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid ""
 "If you are searching by pledger name, check your spelling or use fewer "
 "letters."
 msgstr ""
-"Se state facendo una ricerca per nome del membro, controllate l'ortografia"
+"Se state facendo una ricerca per nome dell'utente che ha preso l'impegno, "
+"controllate l'ortografia o usate meno lettere."
 
 #: templates/CRM/Pledge/Form/Search/EmptyResults.tpl
 #, fuzzy
@@ -9933,22 +9790,21 @@ msgstr ""
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Click %1 to view pledge payments."
-msgstr "Clicca %1 per vedere i pagamenti delle promesse di donazione"
+msgstr "Clicca %1 per vedere i pagamenti degli impegni di pagamento."
 
 #: templates/CRM/Pledge/Form/Selector.tpl
 msgid "Find more pledges"
-msgstr "Trova altre promesse di donazione"
+msgstr "Trova altri impegni di pagamento"
 
 #: templates/CRM/Pledge/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected pledges? This delete operation "
 "cannot be undone and will delete all transactions associated with these "
 "pledges."
 msgstr ""
-"Vuoi davvero rimuovere i finanziamenti selezionati? L'operazione non può più "
-"essere annullata e cancellerà tutte le transazioni associate con i "
-"finanziamenti."
+"Vuoi davvero rimuovere gli impegni di pagamento selezionati? L'operazione "
+"non può più essere annullata e cancellerà tutte le transazioni associate con "
+"i detti impegni."
 
 #: templates/CRM/Pledge/Form/Task/Print.tpl
 msgid "To Be Paid"
@@ -9960,11 +9816,11 @@ msgstr "Data registrazione"
 
 #: templates/CRM/Pledge/Form/Task.tpl
 msgid "Number of selected pledges: %1"
-msgstr "Numero delle promesse di donazione selezionate: %1"
+msgstr "Numero di impegni di pagamento selezionati: %1"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Pledge Summary"
-msgstr "Sommario delle promesse di donazione"
+msgstr "Sommario impegni di pagamento"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "(current month)"
@@ -9976,7 +9832,7 @@ msgstr "(anno corrente)"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Total Pledges"
-msgstr "Totale promesse di donazione"
+msgstr "Totale impegni di pagamento"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
 msgid "Payments Received"
@@ -9988,9 +9844,8 @@ msgid "Past Due"
 msgstr "Gruppi passati"
 
 #: templates/CRM/Pledge/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Pledges"
-msgstr "Iscrizioni recenti"
+msgstr "Impegni di pagamento recenti"
 
 #: templates/CRM/Pledge/Page/Payment.tpl
 #, fuzzy
@@ -10010,23 +9865,20 @@ msgid "<a href='%1'>Edit Schedule</a>"
 msgstr ""
 
 #: templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid "Pledges received from %1 since inception."
-msgstr "Contributi ricevuti da %1 dall'inizio."
+msgstr "Impegni di pagamento ricevuti da %1 dall'inizio."
 
 #: templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid ""
 "Click <a href='%1'>New Pledge</a> to record a new pledge received from this "
 "contact."
 msgstr ""
-"Clicca su <a href='%1'>Nuovo caso</a> per aggiungere un record di caso per "
-"questo contatto."
+"Clicca su <a href='%1'>Nuovo impegno di pagamento</a> per memorizzare un "
+"nuovo impegno da parte di questo contatto."
 
 #: templates/CRM/Pledge/Page/Tab.tpl
-#, fuzzy
 msgid "No pledges have been recorded from this contact."
-msgstr "Nessun Contributo memorizzato da parte di questo contatto."
+msgstr "Nessun impegno di pagamento memorizzato da parte di questo contatto."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 #, fuzzy
@@ -10039,14 +9891,12 @@ msgid "Payments"
 msgstr "Chiave di Pagamento"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledges made in your honor."
-msgstr "Contributi fatti in tuo onore."
+msgstr "Impegni di pagamento fatti in tuo onore."
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
-#, fuzzy
 msgid "Pledger"
-msgstr "Pager"
+msgstr "Utente che ha preso un impegno di pagamento"
 
 #: templates/CRM/Pledge/Page/UserDashboard.tpl
 #, fuzzy

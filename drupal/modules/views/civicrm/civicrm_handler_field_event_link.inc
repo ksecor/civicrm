@@ -31,7 +31,7 @@ class civicrm_handler_field_event_link extends views_handler_field {
 
     // An example of field level access control.
     function access() {
-        return user_access('access CiviEvent');
+        return user_access('view event info');
     }
 
 

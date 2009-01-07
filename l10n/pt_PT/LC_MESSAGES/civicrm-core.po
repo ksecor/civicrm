@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-12-07 09:46-0800\n"
 "Last-Translator: José Gaspar <jad.gaspar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -72,7 +72,7 @@ msgstr "Operação"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Data modificada"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +432,8 @@ msgid "Case Activity Type"
 msgstr "Tipo de actividade"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- seleccionar -"
+msgstr "-seleccionar-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1151,9 +1150,8 @@ msgid "Where Clause"
 msgstr ""
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Selecione Data"
+msgstr "Selecionar Tabelas"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1716,9 +1714,8 @@ msgid "Data"
 msgstr "Data"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Tipo de Evento"
+msgstr "Tipo Html"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1799,9 +1796,8 @@ msgstr ""
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefone"
+msgstr "Tipo de Telefone"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2229,7 +2225,7 @@ msgstr "Data / Hora de Fim"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Número de telefone"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -3456,10 +3452,6 @@ msgid "Individual Suffix"
 msgstr "Indivíduo"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefone"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Membro do Grupo %1"
 
@@ -3629,9 +3621,8 @@ msgid "Job Title"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Data de início"
+msgstr "Data de Nascimento"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Is Deceased"
@@ -3941,7 +3932,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Merge.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Não tem acesso a esta página"
 
 #: CRM/Contact/Form/Merge.php
 #, fuzzy
@@ -4265,11 +4256,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Montante mínimo"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Montante máximo"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4819,7 +4810,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Acção"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5539,7 +5530,7 @@ msgstr "Tipo de Membro"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "Uri"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
@@ -5573,9 +5564,8 @@ msgid "vCard Location Type"
 msgstr "Tipo de Contribuição"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Local"
+msgstr "Nome da localização"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "Column Number"
@@ -5890,9 +5880,8 @@ msgid "Notify"
 msgstr "Nota"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Telemóvel"
+msgstr "Módulo"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -6062,7 +6051,7 @@ msgstr "Registo de evento online:"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Please set a location type of %1"
-msgstr ""
+msgstr "Por favor insira uma localização do tipo de %1"
 
 #: CRM/Core/Payment/ClickAndPledge.php
 msgid "Could not find User ID for payment processor"
@@ -6952,11 +6941,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Título de Agradecimento"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Mensagem de Agradecimento"
 
 #: CRM/Friend/DAO/Friend.php
 #, fuzzy
@@ -9034,7 +9023,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11157,11 +11146,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11711,7 +11700,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "Imagem"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"

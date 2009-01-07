@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -61,18 +61,16 @@ msgstr "Muokkaa"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Mahdollista"
+msgstr "Luo taulukko???"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Operation"
 msgstr "Toimenpide"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Kaikki"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -107,7 +105,6 @@ msgid "Grant"
 msgstr "Avustus"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
 msgstr "Muokkauspäivä"
 
@@ -445,9 +442,8 @@ msgid "Case Activity Type"
 msgstr "Uusi aktiviteetin tyyppi"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- valitse -"
+msgstr "-valitse-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -934,9 +930,8 @@ msgstr "Valuutta"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/BAO/Query.php
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "Location Type"
-msgstr "Osoitetyypit"
+msgstr "Osoitteen tyyppi"
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
@@ -1114,9 +1109,8 @@ msgid "Legal Name"
 msgstr "Virallinen"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Räätälöity valinta"
+msgstr "Räätälöity onnittelu"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1184,9 +1178,8 @@ msgstr ""
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
 #: CRM/Group/Form/Edit.php templates/CRM/Group/Page/Group.tpl
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Ryhmän nimi"
+msgstr "Ryhmän tyyppi"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -1260,7 +1253,6 @@ msgid "- type first letter(s) -"
 msgstr ""
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Domain"
 msgstr "Email Domain"
 
@@ -1754,9 +1746,8 @@ msgid "Data"
 msgstr "Päivä"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Tiedostotyyppi"
+msgstr "Html tyyppi"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1765,16 +1756,14 @@ msgstr "Oletusarvo"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Poista muistiinpanot"
+msgstr "???"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Host"
+msgstr "Auta postittamaan???"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1783,7 +1772,7 @@ msgstr "Maski"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1820,7 +1809,6 @@ msgid "Multi-Select State/Province"
 msgstr "Valitse maakunta"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
 msgstr "Collapse Display"
 
@@ -1839,9 +1827,8 @@ msgstr ""
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Palautuksen tyyppi"
+msgstr "Puhelun tyyppi"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2140,21 +2127,19 @@ msgstr "Sukunimi"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Kielto"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Valitse päivä"
+msgstr "Object Table"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Acl Table"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Siirretty"
+msgstr "Evääminen"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2291,9 +2276,8 @@ msgid "Due Date Time"
 msgstr "Päättymispäivä"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Numero"
+msgstr "Puhelinnumero"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2361,7 +2345,7 @@ msgstr "Anna kelvollinen summa"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "Valittu aktiviteetti on poistettu."
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity has been sucessfully detached from a case."
@@ -3586,7 +3570,6 @@ msgid "- Contact Fields -"
 msgstr "- Yhteys kentät -"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "IM Provider"
 msgstr "Pikabiestien (IMS) tarjoaja"
 
@@ -3638,19 +3621,12 @@ msgid "We detected a cycle which we cant handle. aborting"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Prefix"
-msgstr "Henkilökohtainen etuliite - \"%1\""
+msgstr "Yksilöllinen etuliite"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Individual Suffix"
-msgstr "Henkilökohtainen tarkenne - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "phone"
-msgstr "Puhelin"
+msgstr "Yksilöllinen tarkenne"
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
@@ -3745,9 +3721,8 @@ msgid "Invalid relationship type"
 msgstr "Ota yhteystyyppi käyttöön."
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Yhteys ID"
+msgstr "Sisäinen yhteys ID"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3755,24 +3730,20 @@ msgid "Contact Sub Type"
 msgstr "Yhteystietojen tyyppi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Älä lähetä postia"
+msgstr "Älä lähetä sähköpostia"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
 msgstr "Älä soita"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "Älä lähetä postia"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "Älä myy mitään"
+msgstr "Älä myy"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
@@ -3780,10 +3751,9 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Virallinen nimi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
 msgstr "Lisänimi"
 
@@ -3792,27 +3762,22 @@ msgid "Sort Name"
 msgstr "Järjestä nimet"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Näytä tyyli"
+msgstr "Näytä nimi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Kuvan URL"
+msgstr "Kotisivujen URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
 msgstr "Kuvan URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
 msgstr "Suositeltava postimuoto"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
 msgstr "???"
 
@@ -3822,9 +3787,8 @@ msgid "Source of Contact Data"
 msgstr "Näytä yhteyden yksityiskohdat"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Onnittelu"
+msgstr "Onnittelujen tyyppi"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3833,12 +3797,10 @@ msgid "Job Title"
 msgstr "Ammatti"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Alkamispäivä"
+msgstr "Syntymäpäivä"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
 msgstr "Edesmennyt"
 
@@ -3848,9 +3810,8 @@ msgid "Deceased Date"
 msgstr "Edesmennyt"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "SIC Code"
+msgstr "Sic Code"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3858,21 +3819,18 @@ msgid "Unique ID (OpenID)"
 msgstr "Unique Tracked Opens"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Nainen"
+msgstr "Muodollinen"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Epämuodollinen"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Kunnianimi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
 msgstr "Räätälöity"
 
@@ -3891,33 +3849,28 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Nimi"
+msgstr "Nimi A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Nimi"
+msgstr "Nimi B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
 msgstr "Submitted Form Values"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Tracking"
-msgstr "Url jäljitys"
+msgstr "Jäljitys"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Webbisivu"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4068,7 +4021,6 @@ msgid "Join a Group"
 msgstr "Yhteyden ryhmät"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
 msgstr "Lisää ryhmään"
 
@@ -4380,7 +4332,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Lähtien"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4414,9 +4366,8 @@ msgid "Contact Role and Name"
 msgstr "Yhteyssivu"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "Yhteyssivu"
+msgstr "Yhteysnimi"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4503,11 +4454,11 @@ msgstr "Tyypitetty"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "Minimisumma"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "Maksimisumma"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4656,9 +4607,8 @@ msgid "Distance"
 msgstr "Poista käytöstä"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- mikä tahansa ryhmä"
+msgstr "- mikä maa tahansa"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5091,7 +5041,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Toimenpide"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5568,67 +5518,60 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "vCard nimi"
+msgstr "Katunumero"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Katunumeron tarkene"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Street Number Predirectional"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Kadun nimi"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Komponeetin tyyppi"
+msgstr "Kadun tyyppi"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Kadun nimi postinumeroittain"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
 msgstr "Street Unit"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Katuosoite"
+msgstr "Lisäosoite1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Katuosoite"
+msgstr "Lisäosoite2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Katuosoite"
+msgstr "Lisäosoite3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Code 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Code 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Aikavyöhyke"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5650,24 +5593,20 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "SIC Code"
+msgstr "Iso Code"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Maa"
+msgstr "Country Code"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Etuliite"
+msgstr "Idd Prefix"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Etuliite"
+msgstr "Ndd Prefix"
 
 #: CRM/Core/DAO/County.php
 #, fuzzy
@@ -5675,7 +5614,6 @@ msgid "County Abbreviation"
 msgstr "Avustus"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Valuutta"
 
@@ -5698,9 +5636,8 @@ msgid "Data Type"
 msgstr "Tiedostotyyppi"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Avustukset"
+msgstr "Atribuutit"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5732,26 +5669,22 @@ msgid "Column Name"
 msgstr "Osoitteen tyyppi"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Asetukset"
+msgstr "Jono (String)"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
-msgstr "Ryhmittely???"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr ""
+msgstr "Kelluva (Float)"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Boolean"
 msgstr "Boolean"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "StateProvince"
 msgstr "Maakunta"
 
@@ -5765,7 +5698,6 @@ msgid "RichTextEditor"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
 msgstr "Laajennukset"
 
@@ -5807,9 +5739,8 @@ msgid "Email Name"
 msgstr "Osoitteen tyyppi"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Viallinen sähköpostiosoite"
+msgstr "Sähköpostiosoite"
 
 #: CRM/Core/DAO/Domain.php
 #, fuzzy
@@ -5835,14 +5766,12 @@ msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "Päättymispäivä"
+msgstr "Pidon päivä"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
-msgstr "Kuitin päivä"
+msgstr "Tyhjennä päivä"
 
 #: CRM/Core/DAO/File.php
 #, fuzzy
@@ -5863,9 +5792,8 @@ msgid "Upload Date"
 msgstr "Lataa tiedostot"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Kadun nimi"
+msgstr "Pikaviestin (IM) näytön nimi"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5882,9 +5810,8 @@ msgid "Line Total"
 msgstr "Postilla"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Osoitetyypit"
+msgstr "vCard osoitteen tyyppi"
 
 #: CRM/Core/DAO/LocBlock.php
 #, fuzzy
@@ -5892,9 +5819,8 @@ msgid "Location Name"
 msgstr "Osoitetyypit"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "vCard nimi"
+msgstr "Sarakkeen numero"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -6167,7 +6093,7 @@ msgstr "Lisää yhteisöön"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "Lyhennyksen tila"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6183,7 +6109,6 @@ msgid "Offset"
 msgstr ""
 
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "In Selector"
 msgstr "Valitsijassa"
 
@@ -6212,9 +6137,8 @@ msgid "Notify"
 msgstr "Muistio"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Matkapuhelin"
+msgstr "Moduuli"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -6456,30 +6380,28 @@ msgid "Billing Last Name"
 msgstr "Sukunimi"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Number"
-msgstr "vCard nimi"
+msgstr "Kortin numero"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Security Code"
-msgstr "Sic Code"
+msgstr "Security koodi"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Syntymäpäivä"
+msgstr "Kelpoisuusajan päättymispäivä"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Coord Type"
+msgstr "Kortin tyyppi"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Anna kortin secure koodille oikea arvo. Tämä on yleensä 3-4 numeron sarja "
+"kortin allekirjoituspuolella."
 
 #: CRM/Core/Payment/Form.php
 #, fuzzy
@@ -9500,7 +9422,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11630,7 +11552,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "TAI"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -11775,11 +11697,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -14642,7 +14564,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Invalid name and password"
-#~ msgstr "Viallinen sähköpostiosoite"

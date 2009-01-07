@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Προσαρμοσμένα Δεδομένα"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Προσαρμοσμένα Πεδία Δεδομένων"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "Εξαγωγή Επαφών"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Διαδρομές Συστήματος Αρχείων"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -320,10 +320,10 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Πρότυπα Μηνυμάτων"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Διάφορα"
 
 msgid "Mobile Phone Providers"
 msgstr ""

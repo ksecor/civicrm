@@ -275,8 +275,19 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
         }
         
-        // add activity record only during create mode
-        if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
+        // add activity record only during create mode and renew mode
+        if ( !CRM_Utils_Array::value( 'membership', $ids ) || $activityType == 'Membership Renewal' ) {
+            if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Member_DAO_Membership', 
+                                                 'id', 
+                                                 $membership->id, 
+                                                 $data, 
+                                                 array( 'contact_id', 'membership_type_id', 'source' ) );
+
+                $membership->contact_id         = $data[$membership->id]['contact_id'];
+                $membership->membership_type_id = $data[$membership->id]['membership_type_id'];
+                $membership->source             = $data[$membership->id]['source'];
+            }
             require_once 'CRM/Activity/BAO/Activity.php';
             CRM_Activity_BAO_Activity::addActivity( $membership, $activityType );
         }
@@ -1003,7 +1014,7 @@ AND civicrm_membership.is_test = %2";
         
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
-            
+            $activityType = 'Membership Renewal';
             $form->set("renewal_mode", true );
             
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
@@ -1048,7 +1059,7 @@ AND civicrm_membership.is_test = %2";
                                                                                 $currentMembership['id'],
                                                                                 'source');  
                 }
-
+                
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
                     $ids['membership'] = $currentMembership['id'];
                 }
@@ -1056,7 +1067,7 @@ AND civicrm_membership.is_test = %2";
                 
                 //set the log start date.
                 $memParams['log_start_date'] = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
-
+                
             } else {
                 // CURRENT Membership
                 $membership =& new CRM_Member_DAO_Membership();
@@ -1075,7 +1086,7 @@ AND civicrm_membership.is_test = %2";
                 
                 //set the log start date.
                 $memParams['log_start_date'] = CRM_Utils_Date::customFormat( $dates['log_start_date'], $format );
-                
+
                 if ( empty( $membership->source ) ) {
                     if ( $form ) {
                         if ( $form->_params['membership_source'] ) {
@@ -1091,6 +1102,7 @@ AND civicrm_membership.is_test = %2";
                 }
             }
         } else {
+            $activityType = 'Membership Signup';
             // NEW Membership
             $pending = false;
             if ( ($form->_contributeMode == 'notify' || $form->_params['is_pay_later']) &&
@@ -1147,7 +1159,8 @@ AND civicrm_membership.is_test = %2";
         
         // create / renew membership
         $ids['userId'] = $contactID;
-        $membership =& self::create( $memParams, $ids, false, 'Membership Renewal' );
+        
+        $membership =& self::create( $memParams, $ids, false, $activityType );
         $membership->find(true);
         
         $form->assign('mem_start_date',  

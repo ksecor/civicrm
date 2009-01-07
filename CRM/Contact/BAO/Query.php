@@ -661,7 +661,8 @@ class CRM_Contact_BAO_Query
                 $elementName = $elementFullName;
 
                 //add address table only once
-                if ( in_array( $elementName, self::$_locationSpecificFields ) && ! $addAddress ) {
+                if ( in_array( $elementName, self::$_locationSpecificFields ) && ! $addAddress 
+                     && !in_array( $elementName, array( 'email', 'phone', 'im', 'openid' ) )) {
                     $tName = "$name-address";
                     $aName = "`$name-address`";
                     $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
@@ -1429,11 +1430,7 @@ class CRM_Contact_BAO_Query
                                                                         $value );
                     }
                     $this->_whereTables[$tName] = $this->_tables[$tName];
-                    if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
-                        $this->_qill[$grouping][]  = "$field[title]-$locType[2] ({$locationType[$locType[1]]}) $op '$value'";
-                    } else {
-                        $this->_qill[$grouping][]  = "$field[title] ({$locationType[$locType[1]]}) $op '$value'";
-                    }
+                    $this->_qill[$grouping][]  = "$field[title] $op '$value'";
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     if ( $tableName == 'civicrm_contact' ) {
@@ -1480,7 +1477,7 @@ class CRM_Contact_BAO_Query
                 if ($locType[2]) {
                     $tName = "{$locationType[$locType[1]]}-{$locType[0]}-{$locType[2]}";
                 } else {
-                    $tName = "{$locationType[$locType[1]]}-{$locType[0]}-1";
+                    $tName = "{$locationType[$locType[1]]}-{$locType[0]}";
                 }
             } else if ( in_array( $locType[0], 
                                   array( 'address_name', 'street_address', 'supplemental_address_1', 'supplemental_address_2',

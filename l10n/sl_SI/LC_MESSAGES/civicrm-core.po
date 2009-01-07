@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-06-23 16:14-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -59,21 +59,22 @@ msgstr "Pogled"
 msgid "Edit"
 msgstr "Uredi"
 
+# Nisem zadovoljen s prevodom
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/Discount.php
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Omogoči"
+msgstr "Tabela entitet"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
 msgstr "Operacija"
 
+# Ali vsi.
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -107,9 +108,10 @@ msgstr "Izbriši"
 msgid "Grant"
 msgstr "Dovoli"
 
+# Obstaja še kakšna druga varianta?
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Spremenjen datum"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -434,9 +436,8 @@ msgid "Case Activity Type"
 msgstr "Tip aktivnosti"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- izberi -"
+msgstr "-izberi-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1160,18 +1161,20 @@ msgstr "Vir"
 msgid "Visibility"
 msgstr "Vidnost"
 
+# Vprašanje konteksta, bo potrebno v QA rešit ta problem
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Kjer stavek"
 
+# Lahko pa tudi "Izbrane tabele"
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Izberi datum"
+msgstr "Izberi tabele"
 
+# Oz. "kje tabele" oz. kar neki. 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Kjer tabele"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1760,26 +1763,26 @@ msgid "Data"
 msgstr "Datum"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Tip"
+msgstr "Tip Html"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
 msgstr "Privzeta vrednost"
 
+# "Pre" seveda vse zajebe...
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr ""
+msgstr "Pomoč Pre"
 
+# To ni to, to je kar nekaj.
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Gostitelj"
+msgstr "Pomoč prispevek"
 
 # Glagol? Samostalnik?
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
@@ -1789,7 +1792,7 @@ msgstr "Zakrij"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1827,10 +1830,10 @@ msgstr "Izberi državo"
 msgid "Multi-Select State/Province"
 msgstr "Izberi občino"
 
+# Najbrž ni dovolj primerno.
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Monetarni prikaz"
+msgstr "Razdelaj prikaz"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1849,9 +1852,8 @@ msgstr "V liniji"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefon"
+msgstr "Tip telefona"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -1866,7 +1868,7 @@ msgstr "Vrednost možnosti"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Pripona za PHP implementacijo razrednih imen"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -2143,9 +2145,8 @@ msgstr ""
 msgid "You do not have permission to access this page"
 msgstr ""
 
-# Kontaktna skupina?
+# Hudo pomanjkanje konteksta.
 #: CRM/ACL/BAO/ACL.php
-#, fuzzy
 msgid "Contact Group"
 msgstr "Kontaktiraj skupino"
 
@@ -2154,28 +2155,27 @@ msgid "Administer"
 msgstr "Administriraj"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Priimek"
+msgstr "Ime ACL"
 
+# Mogoče tudi kaj drugega.
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Zavrni"
 
-# "Subject" je vprašljiv
+# Tako tako.
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Oznaka predmeta"
+msgstr "Tabela objektov"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Tabela Acl"
 
+# Ne dovolj dober prevod.
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Odstranjeno"
+msgstr "Razveljavi"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2304,9 +2304,8 @@ msgid "Due Date Time"
 msgstr "Datum in čas"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Številka vrste"
+msgstr "Telefonska številka"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -3584,10 +3583,6 @@ msgid "Individual Suffix"
 msgstr "Pripona posameznika %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Član skupine %1"
 
@@ -3677,43 +3672,40 @@ msgid "Invalid relationship type"
 msgstr "Nepravilen tip razmerja"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Id stika"
+msgstr "ID zunanjega kontakta"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Tip stika"
+msgstr "Kontaktiraj podtip"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Email"
-msgstr ""
+msgstr "Ne pošiljaj e-pošte"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Ne telefoniraj"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Mail"
-msgstr ""
+msgstr "Ne pošiljaj pošte"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Ne trguj"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Brez skupinske pošte (izpisan)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Pravni identifikator"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "Zunanji Id"
+msgstr "Zunanji identifikator"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
@@ -3721,22 +3713,19 @@ msgstr "Sortiraj ime"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Display Name"
-msgstr ""
+msgstr "Prikaži ime"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Naslov spletne strani"
+msgstr "Domača stran"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Podobe"
+msgstr "Slika Url"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Oblika e-pošte"
+msgstr "Zaželjen format pošte"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3744,14 +3733,12 @@ msgid "Hash"
 msgstr "Gotovina"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "Poglej podrobnosti stika"
+msgstr "Vir podatkov o kontaktih"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Pozdravljanje"
+msgstr "Tip pozdrava"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3760,36 +3747,32 @@ msgid "Job Title"
 msgstr "Naziv dela"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Začetni datum"
+msgstr "Datum rojstva"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
-msgstr "Datum smrti"
+msgstr "Je preminul"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
 msgstr "Datum smrti"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sic Code"
-msgstr ""
+msgstr "Koda Sic"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Oblika"
+msgstr "Formalno"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Neformalno"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3816,32 +3799,28 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Ime"
+msgstr "Ime A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Ime"
+msgstr "Ime B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Vrednosti poslanega obrazca"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Sledenje"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Spletna stran"
+msgstr "Splet"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API URL"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -5738,9 +5717,8 @@ msgid "vCard Location Type"
 msgstr "Tip lokacije"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Tip lokacije"
+msgstr "Ime lokacije"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -6068,9 +6046,8 @@ msgid "Notify"
 msgstr "Opomba"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Mobilni telefon"
+msgstr "Modul"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9249,7 +9226,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11363,11 +11340,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -14084,10 +14061,3 @@ msgstr "Sporočilo je prestregel filter vsebin"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Napaka v SMTP prenosu"
-
-#~ msgid "Tell A Friend"
-#~ msgstr "Povej prijatelju"
-
-#, fuzzy
-#~ msgid "Could not interpret return values from function"
-#~ msgstr "Ni bilo moč najdi meta informacij v plačilnem procesorju"

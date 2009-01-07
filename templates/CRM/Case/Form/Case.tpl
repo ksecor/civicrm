@@ -65,9 +65,9 @@
 <script type="text/javascript">
 {/literal}
 {if $action neq 4 }
-{literal}
-   buildContact( 1, 'case_contact' );
-{/literal}   
+   dojo.addOnLoad( function( ) {ldelim}	
+      buildContact( 1, 'case_contact' );
+   {rdelim} );
 {/if}
 {literal}
 

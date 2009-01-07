@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-11-16 07:39-0800\n"
 "Last-Translator: umit dayioglu <u.dayioglu@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -62,9 +62,8 @@ msgstr "Düzenle"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "Etkinleştir"
+msgstr "Varlık Tablosu"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -107,9 +106,8 @@ msgid "Grant"
 msgstr "Bağış"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "Değiştirildiği Tarih"
+msgstr "Değişiklik Tarihi"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -435,9 +433,8 @@ msgid "Case Activity Type"
 msgstr "Yeni Etkinlik Türü"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- seç -"
+msgstr "-seç-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1091,9 +1088,8 @@ msgid "Legal Name"
 msgstr "Kanuni Adı"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Özelleştirilmiş Karşılama"
+msgstr "Custom Greeting"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1149,9 +1145,8 @@ msgid "Where Clause"
 msgstr "Yer Şartı"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Tablo Seç"
+msgstr "Tabloları Seç"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
@@ -1710,14 +1705,12 @@ msgid "Path"
 msgstr "Yol"
 
 #: CRM/Core/DAO/Cache.php CRM/Core/DAO/Log.php
-#, fuzzy
 msgid "Data"
-msgstr "Tarih"
+msgstr "Veri"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Veri Türü"
+msgstr "Html Türü"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1726,16 +1719,14 @@ msgstr "Varsayılan Değer"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Create Profile"
+msgstr "Yardım Başlangıcı"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Ev Sahibi"
+msgstr "Yardım Sonu"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1781,9 +1772,8 @@ msgid "Multi-Select State/Province"
 msgstr "İl / Eyalet Seç"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Görünüm Daralt"
+msgstr "Görüntüyü Kapat"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1800,7 +1790,6 @@ msgstr "Satır içi"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
 msgstr "Telefon türü"
 
@@ -2087,27 +2076,24 @@ msgid "Administer"
 msgstr "Yönetim"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "EKS (Erişim Kontrol Seviyesi) Adı"
+msgstr "ACL Adı"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
 msgstr "Engelle"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Etiket Seç"
+msgstr "Object Table"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
 msgstr "EKS Tablosu"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Kaldır"
+msgstr "Revoke"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2221,9 +2207,8 @@ msgid "Activity Content %2 %1"
 msgstr "Etkinlik İçeriği %2 %1"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Etkinlik"
+msgstr "Etkinlik No"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2241,9 +2226,8 @@ msgid "Due Date Time"
 msgstr "Bitiş Tarihi - Zamanı"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Telefon numarası"
+msgstr "Telefon Numarası"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2408,9 +2392,8 @@ msgid "Field"
 msgstr "Veri alanı"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "- none -"
-msgstr "- yok -"
+msgstr "- hiç -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
@@ -2452,25 +2435,21 @@ msgstr "Eşleme Türü"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Title"
 msgstr "İleti Başlığı"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Subject"
 msgstr "İleti Konusu"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "Text Message"
-msgstr "Düz metin iletisi"
+msgstr "Metin İleti"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "HTML Message"
-msgstr "HTML formatlı ileti"
+msgstr "HTML İleti"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #, fuzzy
@@ -3540,10 +3519,6 @@ msgid "Individual Suffix"
 msgstr "Bireysel Sonek %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "%1 Öbeğinin Üyesi"
 
@@ -3634,34 +3609,28 @@ msgid "Invalid relationship type"
 msgstr "Enable Relationship Type"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "İrtibat No"
+msgstr "İç İrtibat No"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "İrtibat Türü"
+msgstr "İrtibat Alt Türü"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Posta Gönderme"
+msgstr "Eposta Gönderme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
 msgstr "Telefon Etme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "Posta Gönderme"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Trade"
-msgstr "Do not trade"
+msgstr "Do Not Trade"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
@@ -3669,51 +3638,43 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Legal Identifier"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "Dış Kimlik"
+msgstr "External Identifier"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Sıralama Adı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "En düşük Ücreti Göster"
+msgstr "Görüntülenme Adı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Resim URLsi"
+msgstr "Home URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
 msgstr "Resim URLsi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Preferred Mail Format"
+msgstr "Tercih Edilen Posta Biçimi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Nakit"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "İrtibat Detaylarını Göster"
+msgstr "İrtibat Verisinin Kaynağı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Tebrik"
+msgstr "Greeting Type"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3722,24 +3683,20 @@ msgid "Job Title"
 msgstr "İş Ünvanı"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Başlangıç Tarihi"
+msgstr "Doğum Tarihi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Is Deceased"
-msgstr "Contact is Deceased"
+msgstr "Vefat Etti mi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Vefat tarihi"
+msgstr "Vefat Tarihi"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Sic Code"
-msgstr "SIC Code"
+msgstr "Sic Code"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3747,23 +3704,20 @@ msgid "Unique ID (OpenID)"
 msgstr "Unique Tracked Opens"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Biçim"
+msgstr "Resmi"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Resmi olmayan"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
 msgstr "Honorific"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Özelleştir"
+msgstr "Özel"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3781,34 +3735,28 @@ msgid "Children"
 msgstr "Çocuğu"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Ad"
+msgstr "Name A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Ad"
+msgstr "Name B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Submitted Form Values"
 msgstr "Submitted Form Values"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Tracking"
-msgstr "Url Tracking"
+msgstr "İzleme"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Web sitesi"
+msgstr "Web"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API Bağlantısı"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -3960,9 +3908,8 @@ msgid "Join a Group"
 msgstr "[ Rejoin Group ]"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
-msgstr "Öbeğe Ekle"
+msgstr "Bir öbeğee ekle"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -4266,7 +4213,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
-msgstr ""
+msgstr "Range-From"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
@@ -4301,9 +4248,8 @@ msgid "Contact Role and Name"
 msgstr "Contact Page"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "Contact Name"
-msgstr "İletişim Sayfası"
+msgstr "İrtibat Adı"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
@@ -4387,11 +4333,11 @@ msgstr "Etiketlenmiş"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Min Amount"
-msgstr ""
+msgstr "En Düşük Miktar"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Max Amount"
-msgstr ""
+msgstr "En Yüksek Miktar"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4502,11 +4448,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "Include Group(s)"
-msgstr ""
+msgstr "Öbek(ler)(ğ)i Dahil Et"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "Exclude Group(s)"
-msgstr ""
+msgstr "Öbek(ler)(ğ)i Çıkar"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
 #, fuzzy
@@ -4541,9 +4487,8 @@ msgid "Distance"
 msgstr "Geçersiz kıl"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr " - herhangi bir öbek - "
+msgstr "- herhangi bir ülke -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -4955,7 +4900,7 @@ msgstr ""
 
 #: CRM/Contact/Selector.php
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -5428,67 +5373,60 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Number"
-msgstr "Satır Sayısı"
+msgstr "Sokak Numarası"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Suffix"
-msgstr ""
+msgstr "Sokak Numarası Eki"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Predirectional"
-msgstr ""
+msgstr "Sokak Numarası"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Name"
 msgstr "Street Name"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Type"
-msgstr "Bağış Türü"
+msgstr "Street Type"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number Postdirectional"
-msgstr ""
+msgstr "Street Number Postdirectional"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
-msgstr "Frekans Birimi"
+msgstr "Sokak Birimi"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 2"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 3"
-msgstr "Sokak Adresi"
+msgstr "Tamamlayıcı Adres 3"
 
 #: CRM/Core/DAO/Address.php
 msgid "Usps Adc"
-msgstr ""
+msgstr "Usps Adc"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geo Kod 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geo Kod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "Saat Dilimi"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5510,32 +5448,26 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "SIC Code"
+msgstr "Iso Kodu"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "Ülke"
+msgstr "Ülke kodu"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Idd Prefix"
-msgstr "Önek"
+msgstr "Idd Öneki"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Ndd Prefix"
-msgstr "Önek"
+msgstr "Ndd Öneki"
 
 #: CRM/Core/DAO/County.php
-#, fuzzy
 msgid "County Abbreviation"
-msgstr "Bağış"
+msgstr "İl/Eyalet Kısaltması"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Para Birimi"
 
@@ -5558,33 +5490,28 @@ msgid "Data Type"
 msgstr "Veri Türü"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Attributes"
-msgstr "Katılımlar"
+msgstr "Özellikler"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Başlangıç Tarihi"
+msgstr "Başlangıç Tarihi Yıllar"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Bitiş Tarihi"
+msgstr "Başlangıç Tarihi Yıllar"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Tarih Biçimi"
+msgstr "Tarih Parçaları"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Note Rows"
-msgstr "Total Rows"
+msgstr "Not Satırları"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5592,29 +5519,24 @@ msgid "Column Name"
 msgstr "Yer Adı"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "String"
-msgstr "Ayarlar"
+msgstr "String"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Int"
-msgstr "Tamsayı"
+msgstr "Int"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Float"
-msgstr "Biçim"
+msgstr "Float"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Boolean"
-msgstr "Google"
+msgstr "Boolean"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "StateProvince"
-msgstr "İl / Eyalet"
+msgstr "İlEyalet"
 
 #: CRM/Core/DAO/CustomField.php
 #, fuzzy
@@ -5626,7 +5548,6 @@ msgid "RichTextEditor"
 msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Extends"
 msgstr "Uzayanlar(?)"
 
@@ -5668,12 +5589,10 @@ msgid "Email Name"
 msgstr "Yer Adı"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Invalid Email address"
+msgstr "Eposta Adresi"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
 msgstr "Eposta Dönüş Yolu"
 
@@ -5696,14 +5615,12 @@ msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Hold Date"
-msgstr "Bitiş Tarihi"
+msgstr "Hold Date"
 
 #: CRM/Core/DAO/Email.php
-#, fuzzy
 msgid "Reset Date"
-msgstr "Makbuz Tarihi"
+msgstr "Tarihi Sıfırla"
 
 #: CRM/Core/DAO/File.php
 #, fuzzy
@@ -5712,21 +5629,19 @@ msgstr "Alan Türü"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Core/DAO/File.php
 msgid "Document"
-msgstr ""
+msgstr "Belge"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Upload Date"
-msgstr "Veri Yükle"
+msgstr "Yükleme Tarihi"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Street Name"
+msgstr "IM Ekran Adı"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5743,19 +5658,16 @@ msgid "Line Total"
 msgstr "Totals"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "vCard Location Type"
-msgstr "Konum Türü"
+msgstr "vCard Location Type"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Konum Türü"
+msgstr "Yer Adı"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Column Number"
-msgstr "Satır Sayısı"
+msgstr "Sütun Sayısı"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5763,14 +5675,12 @@ msgid "Relationship Direction"
 msgstr "Relationship A to B"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Grouping"
-msgstr "Öbek"
+msgstr "Öbekleme"
 
 #: CRM/Core/DAO/MappingField.php
-#, fuzzy
 msgid "Operator"
-msgstr "İşlem"
+msgstr "İşletmen"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
@@ -5856,28 +5766,24 @@ msgid "Page Type"
 msgstr "Vaka Türü"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Title"
-msgstr "İleti"
+msgstr "İleti Başlığı"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Subject"
-msgstr "Konu"
+msgstr "İleti Konusu"
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Msg Text"
-msgstr "Metin"
+msgstr "İleti Metni"
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Msg Html"
 msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "Etkin"
+msgstr "Etkin mi"
 
 #: CRM/Core/DAO/OpenID.php
 #, fuzzy
@@ -5889,19 +5795,16 @@ msgid "Allowed To Login"
 msgstr ""
 
 #: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
 msgid "Option Group Name"
-msgstr "Seçenek Öbekleme Adı"
+msgstr "Seçenek Öbeği Adı"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Name"
-msgstr "Seçenek İsmi"
+msgstr "Seçenek Adı"
 
 #: CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Filter"
-msgstr "Dosya"
+msgstr "Süz"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -6036,7 +5939,7 @@ msgstr "Add To Organization"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
-msgstr ""
+msgstr "İl Kısaltması"
 
 #: CRM/Core/DAO/Timezone.php
 #, fuzzy
@@ -6082,9 +5985,8 @@ msgid "Notify"
 msgstr "Not"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Cep"
+msgstr "Eklenti"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -6316,24 +6218,20 @@ msgid "Billing Last Name"
 msgstr "Soyad"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Number"
-msgstr "vCard Adı"
+msgstr "Kart No"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Security Code"
-msgstr "Sic Code"
+msgstr "Güvenlik Kodu"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Doğum Tarihi"
+msgstr "Son Kullanma Tarihi"
 
 #: CRM/Core/Payment/Form.php
-#, fuzzy
 msgid "Card Type"
-msgstr "Coord Türü"
+msgstr "Kart Türü"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
@@ -7186,11 +7084,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Teşekkür Başlığı"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Teşekkür İletisi"
 
 #: CRM/Friend/DAO/Friend.php
 #, fuzzy
@@ -9398,7 +9296,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -9456,19 +9354,16 @@ msgid ""
 msgstr "Are you sure you want to delete <b>%1</b> Tag?"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "New Message Template"
 msgstr "Yeni İleti Taslağı"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Edit Message Template"
-msgstr "Update Tags"
+msgstr "İleti Taslağını Düzenle"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Delete Message Template"
-msgstr "Tarih Seç"
+msgstr "İleti Taslağını Sil"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 #, fuzzy
@@ -9502,9 +9397,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Is this template enabled."
-msgstr "Is this Field Searchable?"
+msgstr "Bu taslak etkin mi?"
 
 #: templates/CRM/Admin/Form/OptionGroup.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
@@ -11499,7 +11393,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
-msgstr ""
+msgstr "OR"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -11646,13 +11540,12 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
-msgstr[1] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -12251,7 +12144,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "Resim"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"
@@ -14625,10 +14518,3 @@ msgstr "İleti bir içerik süzgeci tarafından engellendi."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "SMTP işleminde Hata"
-
-#~ msgid "Tell A Friend"
-#~ msgstr "Arkadaşına haber ver"
-
-#, fuzzy
-#~ msgid "Invalid name and password"
-#~ msgstr "Invalid Email address"

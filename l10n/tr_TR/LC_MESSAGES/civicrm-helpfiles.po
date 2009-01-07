@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2007-08-01 14:27+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -31,6 +31,11 @@ msgid ""
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Files to be imported must be in the 'comma-separated-values' format (CSV). "
+"Most applications will allow you to export records in this format. Consult "
+"the documentation for your application if you're not sure how to do this. "
+"Save this file to your local hard drive (or an accessible drive on your "
+"network) - and you are now ready for step 1 (Upload Data)."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.hlp
 msgid ""
@@ -694,7 +699,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parametreler"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -903,6 +908,10 @@ msgid ""
 "code>). This domain (or, more properly, the machine that this domain's MX "
 "record points to) must be configured to handle incoming CiviMail emails (so "
 "it can process the 'actions' like subscribe, optOut, etc.)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
@@ -1742,6 +1751,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"If a contact in the import file appears to be a duplicate of an existing "
+"CiviCRM contact..."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""

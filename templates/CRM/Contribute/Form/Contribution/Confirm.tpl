@@ -140,7 +140,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
   
-    {if $contributeMode NEQ 'notify' and $is_monetary and $amount GT 0} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) } {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {if $is_pay_later}
@@ -152,7 +152,7 @@
     </div>
     {/if}
     
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0 and ! $is_pay_later}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and ( $amount GT 0 OR $minimum_fee GT 0 ) and ! $is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

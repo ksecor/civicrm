@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-05-01 20:12-0700\n"
 "Last-Translator: ioz <i0z@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -45,14 +45,14 @@ msgstr "Bağış Kaynağı"
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Lütfen geçerli bir para değeri giriniz (örn: 9.99)."
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Grant/BAO/Query.php
 #: CRM/Pledge/BAO/Query.php
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Lütfen geçerli bir para değeri giriniz (örn: 99.99)."
 
 #: CRM/Contribute/BAO/Query.php CRM/Pledge/BAO/Query.php
 #: templates/CRM/Contribute/Form/Preview.tpl
@@ -66,14 +66,12 @@ msgid "In Honor Of"
 msgstr "Onuruna"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Altlık Metni"
+msgstr "Vadeli Ödeme"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Makbuz Gönderilsin mi ?"
+msgstr "Vadeli Ödeme Makbuzu"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -126,7 +124,6 @@ msgstr "Fatura No"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Cancel Date"
 msgstr "İptal Tarihi"
 
@@ -147,21 +144,18 @@ msgstr "Frekans Birimi"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Frekans Birimi"
+msgstr "Frekans Aralığı"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Pledge/BAO/PledgeBlock.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "Installments"
-msgstr "vadeler"
+msgstr "Vadeler"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Pledge/DAO/Pledge.php
-#, fuzzy
 msgid "week"
-msgstr "hafta(lar)"
+msgstr "hafta"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -257,11 +251,6 @@ msgstr "Ulaşmaya çalıştığınıza sayfa yok yada bulunamıyor."
 msgid "<< Go Back"
 msgstr "<< Geri Dön"
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Form/Group.php
-#: CRM/Pledge/BAO/PledgeBlock.php
-msgid "%1"
-msgstr ""
-
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Pledge/BAO/PledgeBlock.php
 #, fuzzy
 msgid "(s)"
@@ -287,11 +276,11 @@ msgstr "Lütfen geçerli bir Güvenlik Numarası girin."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
-msgstr ""
+msgstr "En Düşük Miktar"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Grant/BAO/Query.php
 msgid "Maximum Amount"
-msgstr ""
+msgstr "En Yüksek Miktar"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -625,9 +614,8 @@ msgid "Component Type"
 msgstr "Öğe Türü"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Body Html"
-msgstr "Metin Gövde"
+msgstr "Html Gövde"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -651,7 +639,7 @@ msgstr "Bounce Reason"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Zaman Damgası"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
@@ -724,7 +712,7 @@ msgstr "Şu anki Üyeliği?"
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/Member/Page/Tab.tpl
 msgid "Minimum Fee"
-msgstr ""
+msgstr "En Düşük Ücret"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
@@ -851,7 +839,7 @@ msgstr "Üyeleri Sİl"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- Bağış Alanları -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -921,9 +909,8 @@ msgid "Find Recurring Contributions?"
 msgstr "Yalnız Süren Bağışlar"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Intro Text"
-msgstr "Tanıtım İletisi"
+msgstr "Giriş Metni"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -931,14 +918,12 @@ msgid "Recur Frequency Unit"
 msgstr "Frekans Birimi"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Text"
-msgstr "Teşekkür Gönderildi"
+msgstr "Teşekkür Metni"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Thank-you Footer"
-msgstr "Teşekkür Sayfası Altlığı"
+msgstr "Teşekkür Alt Bilgisi"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -946,28 +931,24 @@ msgid "On Behalf Of Organization"
 msgstr "Yeni Kuruluş"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Cc Receipt"
-msgstr "Recipients"
+msgstr "CC Alıcı(lar)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Bcc Receipt"
-msgstr "Recipients"
+msgstr "BCC Alıcı(lar)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Makbuz Gönderildi"
+msgstr "Makbuz Metni (?)"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Honor Block Title"
-msgstr "Onur Bölümü Etkin(leştirildi)"
+msgstr "Onur Köşesi Başlığı"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Text"
-msgstr ""
+msgstr "Onur Bloğu Metni"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -985,22 +966,19 @@ msgstr "Bağış No"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "Avukat No"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
 msgstr "Alınma Tarihi"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Cancel Reason"
-msgstr "İptal Nedeni"
+msgstr "Nedeni İptal Et"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Teşekkür Gönderildi"
+msgstr "Teşekkür Tarihi"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
@@ -1008,40 +986,33 @@ msgid "Amount Label"
 msgstr "Bağışlanan Miktar"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Seçeneği Düzenle"
+msgstr "Ürün Seçeneği"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Quantity"
-msgstr "Muafiyet"
+msgstr "Miktar"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "Tamamlandı"
+msgstr "Tamamlama Tarihi"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Bileşenler"
+msgstr "Yorum"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: templates/CRM/Pledge/Form/Task/Print.tpl
-#, fuzzy
 msgid "Create Date"
-msgstr "Tam Tarih"
+msgstr "Yaratma Tarihi"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Recurring Contribution Status"
-msgstr "Find Contacts"
+msgstr "Süren Bağış Durumu"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Cycle Day"
-msgstr "İptal Tarihi"
+msgstr "Dönüm Günü"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
@@ -1049,9 +1020,8 @@ msgid "Next Sched Contribution"
 msgstr "New Organization"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Failure Count"
-msgstr "Mevcut Ülkeler"
+msgstr "Hata sayacı"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
@@ -1059,7 +1029,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Otomatik Yenileme"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 #, fuzzy
@@ -1081,14 +1051,12 @@ msgid "Debit"
 msgstr "Web sitesi"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Kredi Kartı"
+msgstr "Kredi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Active"
-msgstr "Previous"
+msgstr "Primler(?) Etkin"
 
 #: CRM/Contribute/DAO/Premium.php
 #, fuzzy
@@ -1116,54 +1084,48 @@ msgid "Premiums Display Min Contribution"
 msgstr "Activity Date - %1"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "Group Name"
+msgstr "Ürün Adı"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Thumbnail"
-msgstr "URL Küçük Resmi"
+msgstr "Küçük Resim"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "Find Contacts"
+msgstr "En Düşük Bağış"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Cost"
-msgstr "Ev Sahibi"
+msgstr "Maliyet"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "URL Logo"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Homepage"
-msgstr ""
+msgstr "URL Anasayfa"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Title"
-msgstr "İş Ünvanı"
+msgstr "Renk Başlığı"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Button"
-msgstr ""
+msgstr "Renk Butonu"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bar"
-msgstr ""
+msgstr "Renk Çubuğu"
 
 #: CRM/Contribute/DAO/Widget.php
-#, fuzzy
 msgid "Color Main Text"
-msgstr "Altlık Metni"
+msgstr "Renk Ana Yazısı"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main"
-msgstr ""
+msgstr "Ana Renk"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Bg"
@@ -1253,9 +1215,9 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution page is configured to support separate contribution and "
-"membership payments. The PayPal Website Payments Standard plugin does not "
-"currently support multiple simultaneous payments. Please contact the site "
-"administrator and notify them of this error"
+"membership payments. This %1 plugin does not currently support multiple "
+"simultaneous payments. Please contact the site administrator and notify them "
+"of this error"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -2219,9 +2181,8 @@ msgid "Are you sure you want to remove this product form this page?"
 msgstr "Are you sure you want to delete this note?"
 
 #: CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Print Contact List"
+msgstr "Bağışları Aktar"
 
 #: CRM/Contribute/Task.php
 msgid "Update Pending Contribution Status"
@@ -2795,7 +2756,7 @@ msgid "Show Current and Upcoming Events"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
-msgid "Search by Date Range"
+msgid "Search All or by Date Range"
 msgstr ""
 
 #: CRM/Event/Form/SearchEvent.php
@@ -3193,114 +3154,96 @@ msgid "Template Title"
 msgstr "Termometre Başlığı"
 
 #: CRM/Mailing/DAO/BouncePattern.php
-#, fuzzy
 msgid "Pattern"
-msgstr "Çağrı Cihazı"
+msgstr "Pattern"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Hold Threshold"
-msgstr "Yerel"
+msgstr "Hold Threshold"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "AOL"
-msgstr ""
+msgstr "AOL"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Away"
-msgstr ""
+msgstr "Away"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "DNS"
-msgstr ""
+msgstr "DNS"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Invalid"
-msgstr "Inline"
+msgstr "Invalid"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Loop"
-msgstr ""
+msgstr "Loop"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Quota"
-msgstr "Totals"
+msgstr "Quota"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Relay"
-msgstr "Yanıtla"
+msgstr "Relay"
 
 #: CRM/Mailing/DAO/BounceType.php
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
 msgid "Syntax"
-msgstr "Alıcılar"
+msgstr "Syntax"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Component Name"
-msgstr "Öğe Türü"
+msgstr "Component Name"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "Welcome"
-msgstr "Hoşgeldiniz İletisi"
+msgstr "Welcome"
 
 #: CRM/Mailing/DAO/Component.php
-#, fuzzy
 msgid "OptOut"
-msgstr "Opt-Out"
+msgstr "OptOut"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Include"
-msgstr "Dahil"
+msgstr "Include"
 
 #: CRM/Mailing/DAO/Group.php
-#, fuzzy
 msgid "Exclude"
-msgstr "Hariç"
+msgstr "Exclude"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "İlk Ad"
+msgstr "Gönderen Adı"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Email"
-msgstr "Makbuzdaki Eposta"
+msgstr "Gönderen Eposta"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Replyto Email"
-msgstr "E-postayı Yanıtla"
+msgstr "Replyto Email"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Url Tracking"
 msgstr "Url Tracking"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Forward Replies"
 msgstr "Forward Replies"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Auto Responder"
-msgstr "Auto-responder"
+msgstr "Auto Responder"
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Takip Aç"
+msgstr "Open Tracking"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -3329,7 +3272,7 @@ msgstr "Kaldırıldı"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: CRM/Mailing/Event/BAO/Subscribe.php
 msgid ""
@@ -3344,9 +3287,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
 msgid "Org Unsubscribe"
-msgstr "Ayrıl"
+msgstr "Org Unsubscribe"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -3387,7 +3329,7 @@ msgstr "Name Your Mailing"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Please select a group to be mailed."
-msgstr ""
+msgstr "Lütfen postalanacak öbeği seçiniz."
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
@@ -3683,9 +3625,8 @@ msgstr "Contact %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Contact"
-msgstr "Contact Page"
+msgstr "İrtibat"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
@@ -3693,7 +3634,7 @@ msgstr "Bounce Type"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Forwarded Email"
@@ -3781,9 +3722,8 @@ msgstr ""
 "one</a>."
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "Find Contacts"
+msgstr "Çevrimiçi Bağış:"
 
 #: CRM/Member/BAO/MembershipStatus.php
 #, fuzzy
@@ -3851,17 +3791,14 @@ msgid "Membership Type Default"
 msgstr "Üyelik Türü"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Display Min Fee"
 msgstr "En düşük Ücreti Göster"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Title"
-msgstr "Başlık"
+msgstr "Yeni Başlık"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Text"
 msgstr "Yeni Metin"
 
@@ -3871,14 +3808,12 @@ msgid "Renewal Title"
 msgstr "Yeni Başlık"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Renewal Text"
-msgstr "Hatırlatma Gününü Yenile"
+msgstr "Yenilenen Metin"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Is Required"
-msgstr "Zorunlu"
+msgstr "Zorunlu mu"
 
 #: CRM/Member/DAO/MembershipLog.php
 #, fuzzy
@@ -3886,18 +3821,16 @@ msgid "Membership Change Date"
 msgstr "Üyelik Başlangıç Tarihi"
 
 #: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
 msgid "Renewal Reminder Date"
-msgstr "Hatırlatma Gününü Yenile"
+msgstr "Yenilenen Anımsatma Tarihi"
 
 #: CRM/Member/DAO/Membership.php
 msgid "Membership ID"
 msgstr "Üyelik No"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Membership Expiration Date"
-msgstr "Üyelik Başlangıç Tarihi"
+msgstr "Üyelik Bitiş Tarihi"
 
 #: CRM/Member/DAO/Membership.php
 #, fuzzy
@@ -3905,9 +3838,8 @@ msgid "Status Override"
 msgstr "Status?"
 
 #: CRM/Member/DAO/Membership.php
-#, fuzzy
 msgid "Reminder Date"
-msgstr "Anımsatma tarihi"
+msgstr "Anımsatma Tarihi"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -3925,9 +3857,8 @@ msgid "Admin Assigned Only?"
 msgstr "Yalnız Yönetici mi?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "Default Status?"
-msgstr "Varsayılan Değer"
+msgstr "Varsayılan Durum?"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -3935,14 +3866,12 @@ msgid "Is Reserved"
 msgstr "Reserved?"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "start_date"
-msgstr "başlangıç tarihi"
+msgstr "başlangıç_tarihi"
 
 #: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
 msgid "end_date"
-msgstr "bitiş tarihi"
+msgstr "bitiş_tarihi"
 
 #: CRM/Member/DAO/MembershipStatus.php
 #, fuzzy
@@ -3950,9 +3879,8 @@ msgid "join_date"
 msgstr "katılma tarihi"
 
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Visible"
-msgstr "Geçersiz kıl"
+msgstr "Görünür"
 
 #: CRM/Member/DAO/MembershipType.php
 #, fuzzy
@@ -6280,7 +6208,6 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/Event/Import/Form/Summary.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
@@ -8629,6 +8556,8 @@ msgid ""
 "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
 "ul>Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
+"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
+"ul>Check your spelling, or try fewer letters for the target contact name."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""

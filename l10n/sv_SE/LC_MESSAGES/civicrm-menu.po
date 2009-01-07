@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -116,7 +116,7 @@ msgid "Contributions"
 msgstr "Medverkan"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Typ av medverkande"
 
 msgid "Create New Group"
 msgstr ""
@@ -125,7 +125,7 @@ msgid "Custom Data"
 msgstr "Egen data"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Egna datafält"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -137,7 +137,7 @@ msgid "Custom Searches"
 msgstr ""
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Datumformat"
 
 msgid "Debugging"
 msgstr "Felkontroll"
@@ -179,7 +179,7 @@ msgid "Export Contacts"
 msgstr "Exportera kontakter"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "Filsystemets sökväg"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -231,13 +231,13 @@ msgid "Import"
 msgstr "Importera"
 
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importera medverkande"
 
 msgid "Import/Export Mappings"
 msgstr ""
 
 msgid "Import Members"
-msgstr ""
+msgstr "Importera medlemmar"
 
 msgid "Import Participants"
 msgstr ""
@@ -293,13 +293,13 @@ msgid "Manage Pledges"
 msgstr "Avbruten"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Hantera Premiumer"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "Placering för kartevenemang"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -320,10 +320,10 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Meddelandemallar"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Övrigt"
 
 msgid "Mobile Phone Providers"
 msgstr ""
@@ -450,7 +450,7 @@ msgid "Tags (Categories)"
 msgstr ""
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Tipsa en vän"
 
 msgid "This should never be seen"
 msgstr ""

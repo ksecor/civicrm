@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-08-13 23:03-0700\n"
 "Last-Translator: Kenzo Fujii <fujii.kenzo@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -112,9 +112,8 @@ msgid "Grant"
 msgstr ""
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "受信日"
+msgstr "更新日"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -1529,7 +1528,7 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/EventAggregate.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 msgid "Participant"
-msgstr ""
+msgstr "参加者"
 
 #: CRM/Contact/Form/Search/Custom/Group.php CRM/Core/DAO/Cache.php
 #: CRM/Custom/Form/Group.php
@@ -1840,9 +1839,8 @@ msgstr "インラインにする"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "電話"
+msgstr "電話種別"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2272,9 +2270,8 @@ msgid "Due Date Time"
 msgstr "日付と時間"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "行番号"
+msgstr "電話番号"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2283,7 +2280,7 @@ msgstr "活動日"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -3503,10 +3500,6 @@ msgid "Individual Suffix"
 msgstr "個人"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "電話"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr ""
 
@@ -3655,9 +3648,8 @@ msgid "Image Url"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "希望するEmail:"
+msgstr "希望する郵送先書式"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3736,14 +3728,12 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "名前"
+msgstr "名前 A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "名前"
+msgstr "名前 B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
@@ -5351,7 +5341,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "タイムゾーン"
 
 #: CRM/Core/DAO/Cache.php
 #, fuzzy
@@ -5373,14 +5363,12 @@ msgid "Namespace reserved for component."
 msgstr ""
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Iso Code"
-msgstr "郵便番号"
+msgstr "ISOコード"
 
 #: CRM/Core/DAO/Country.php
-#, fuzzy
 msgid "Country Code"
-msgstr "国"
+msgstr "国コード"
 
 #: CRM/Core/DAO/Country.php
 #, fuzzy
@@ -5399,20 +5387,19 @@ msgstr "寄付"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
-msgstr ""
+msgstr "通貨"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "シンボル"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Numeric Code"
 msgstr ""
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Full Name"
-msgstr "項目名"
+msgstr "氏名"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
@@ -5563,9 +5550,8 @@ msgid "Reset Date"
 msgstr "受領日"
 
 #: CRM/Core/DAO/File.php
-#, fuzzy
 msgid "Mime Type"
-msgstr "タイプ別メンバーリスト"
+msgstr "Mime 型"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
@@ -5603,9 +5589,8 @@ msgid "vCard Location Type"
 msgstr "連絡先"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "場所"
+msgstr "連絡先の呼び名"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5919,9 +5904,8 @@ msgid "Notify"
 msgstr "ノート"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "携帯電話"
+msgstr "モジュール"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -9017,7 +9001,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11130,11 +11114,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -11668,7 +11652,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Image"
-msgstr ""
+msgstr "画像"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Party"
@@ -13439,7 +13423,7 @@ msgstr "作業中"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Overdue"
-msgstr ""
+msgstr "期限切れ"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Registered"

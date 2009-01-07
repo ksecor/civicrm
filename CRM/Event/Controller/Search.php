@@ -63,9 +63,23 @@ class CRM_Event_Controller_Search extends CRM_Core_Controller
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
         
+        require_once 'CRM/Core/BAO/File.php';
+
+        $session =& CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( ! empty( $uploadNames ) ) {
+            $uploadNames = array_merge( $uploadNames,
+                                        CRM_Core_BAO_File::uploadNames( ) );
+            
+        } else {
+            $uploadNames = CRM_Core_BAO_File::uploadNames( );
+        }
+
+        $config  =& CRM_Core_Config::singleton( );
+        $uploadDir = $config->uploadDir;
+
         // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+        $this->addActions( $uploadDir, $uploadNames );
     }
 }
 

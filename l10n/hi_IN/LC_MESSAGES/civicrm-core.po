@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
-"PO-Revision-Date: 2008-10-22 08:45-0700\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
+"PO-Revision-Date: 2008-12-01 21:29-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,9 +62,8 @@ msgstr "संपादन करना"
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Entity Table"
-msgstr "समर्थ करना"
+msgstr "इकाई टेबल "
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -72,7 +71,7 @@ msgstr "परीचालन"
 
 #: CRM/ACL/DAO/ACL.php CRM/Contact/Form/Search/Criteria.php
 msgid "All"
-msgstr ""
+msgstr "सब"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -107,9 +106,8 @@ msgid "Grant"
 msgstr "अनुदान"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-#, fuzzy
 msgid "Modified Date"
-msgstr "संशोधित के बीच"
+msgstr "तारीख सुधारना"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -432,9 +430,8 @@ msgid "Case Activity Type"
 msgstr "क्रिया का प्रकार"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "-select-"
-msgstr "- चुने -"
+msgstr "-चयन-"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -1703,9 +1700,8 @@ msgid "Data"
 msgstr "तारीख"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "अनुदान प्रकार"
+msgstr "एचटीएमअल नमूना"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1715,14 +1711,13 @@ msgstr "मूल मान"
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr ""
+msgstr "पूर्व सहायता"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "मेज़बान"
+msgstr "उत्तर सहायता"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1731,7 +1726,7 @@ msgstr "आच्छद"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "जावास्क्रिप्ट"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1768,9 +1763,8 @@ msgid "Multi-Select State/Province"
 msgstr "राज्य चुने"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "मुद्रा प्रदर्शित"
+msgstr "संक्षिप्त प्रदर्शित"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1787,9 +1781,8 @@ msgstr "इनलाइन"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "आदर प्रकार"
+msgstr "फाेन का प्रकार"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2070,13 +2063,12 @@ msgid "Administer"
 msgstr "व्यवस्था करना"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "पीछ्ला नाम"
+msgstr "ACL नाम"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "नकारना"
 
 #: CRM/ACL/DAO/ACL.php
 #, fuzzy
@@ -2088,9 +2080,8 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "हटाएँ"
+msgstr "उठा देना"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2216,18 +2207,16 @@ msgid "Due Date Time"
 msgstr "समाप्ति तिथि / समय"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "रेखा अंक"
+msgstr "दूरभाष क्रमांक"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Status Label"
-msgstr "गतिविधि स्थिति"
+msgstr "गतिविधि स्थिति लेबल"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
-msgstr ""
+msgstr "परीक्षण"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -3428,10 +3417,6 @@ msgid "Individual Suffix"
 msgstr "व्यक्तिगत प्रत्यय"
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr ""
 
@@ -3526,17 +3511,14 @@ msgid "Contact Sub Type"
 msgstr "सम्पर्क प्रकार"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "मेल न करे"
+msgstr "ईमेल न करे"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Phone"
 msgstr "फोन न करे"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
 msgstr "मेल न करे"
 
@@ -3567,18 +3549,16 @@ msgid "Display Name"
 msgstr "प्रदर्शन नाम"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "घर"
+msgstr "हाेम URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "छवि"
+msgstr "तसवीर का Url"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr ""
+msgstr "अधिमान्य डाक संरूप"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3602,9 +3582,8 @@ msgid "Job Title"
 msgstr "कार्य का पद"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "प्रारंभ दिनांक"
+msgstr "जन्म दिन"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3765,7 +3744,7 @@ msgstr "अभिनन्दन"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
-msgstr ""
+msgstr "नकल संपर्क के लिऐ ढूंडे"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save Matching Contact"
@@ -5866,9 +5845,8 @@ msgid "Notify"
 msgstr "नाेट"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "सेल फ़ोन"
+msgstr "मापदंड"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -8969,7 +8947,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11071,11 +11049,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11154,7 +11132,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View User Record"
-msgstr ""
+msgstr "प्रयोक्ता रिकॉर्ड देखिऐ"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11166,25 +11144,25 @@ msgstr "(मुख्य स्थान)"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Email:"
-msgstr ""
+msgstr "पसंदीदा ईमेल:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Phone:"
-msgstr ""
+msgstr "पसंदीदा फोन:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "इन्स्टैंट मैसेन्जर:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Map this Address"
-msgstr ""
+msgstr "नक्शे पर पता देखिऐ"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11428,7 +11406,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Quick Search"
-msgstr ""
+msgstr "त्वरित खोज"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
@@ -11436,7 +11414,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
-msgstr ""
+msgstr "लघुपथ"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 msgid ""
@@ -13748,6 +13726,3 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
-
-#~ msgid "Tell A Friend"
-#~ msgstr "दाेस्त काे बतायिएे"

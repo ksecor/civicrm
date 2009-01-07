@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
-"PO-Revision-Date: 2008-09-23 14:04-0700\n"
-"Last-Translator: Alexandr <a.kolesnikov@mail.ru>\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
+"PO-Revision-Date: 2008-12-11 01:55-0800\n"
+"Last-Translator: jabax <admin@una.by>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgid "ACL"
 msgstr ""
 
 msgid "ACL Roles"
-msgstr ""
+msgstr "ACL роли"
 
 msgid "Activities"
 msgstr "Действия"
@@ -33,16 +33,16 @@ msgid "Activity"
 msgstr "Действие"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "Типы деятельности"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Дополнительная информация"
 
 msgid "AdditionalInfo Form"
-msgstr ""
+msgstr "Форма доп. информации"
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "Адресные предпочтения"
 
 msgid "Administer CiviCRM"
 msgstr "CiviCRM Настройка"
@@ -54,7 +54,7 @@ msgid "Assign Users to ACL Roles"
 msgstr ""
 
 msgid "Browse Uploaded files"
-msgstr ""
+msgstr "Просмотреть закаченые файлы"
 
 msgid "Case"
 msgstr "Портфель"
@@ -90,10 +90,10 @@ msgid "CiviMail"
 msgstr "CiviПочта"
 
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviУчасник"
 
 msgid "CiviPledge"
-msgstr ""
+msgstr "CiviЗалог"
 
 msgid "Components"
 msgstr "Компоненты"
@@ -102,13 +102,13 @@ msgid "Confirm"
 msgstr "Подтвердить"
 
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Панель контактов"
 
 msgid "Contacts"
 msgstr "Контакты"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "Краткий Обзор"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -117,7 +117,7 @@ msgid "Contributions"
 msgstr "Вложения"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "Тип взноса"
 
 msgid "Create New Group"
 msgstr "Создать новую группу"
@@ -126,7 +126,7 @@ msgid "Custom Data"
 msgstr "Настраиваемые данные"
 
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Поля настраиваемых данных"
 
 msgid "Custom Field - Move"
 msgstr ""
@@ -135,10 +135,10 @@ msgid "Custom Field - Options"
 msgstr ""
 
 msgid "Custom Searches"
-msgstr ""
+msgstr "Настраиваемые поисковые запросы"
 
 msgid "Date Formatting"
-msgstr ""
+msgstr "Форматирование даты"
 
 msgid "Debugging"
 msgstr "Отладка"
@@ -159,7 +159,7 @@ msgid "Draft and Unscheduled Mailings"
 msgstr ""
 
 msgid "Edit Related Contact"
-msgstr ""
+msgstr "Редактировать связаный контакт"
 
 msgid "Email a Contact"
 msgstr "Написать контакту"
@@ -192,10 +192,10 @@ msgid "Find Contributions"
 msgstr "Найти вложения"
 
 msgid "Find Grants"
-msgstr ""
+msgstr "Найти права"
 
 msgid "Find Members"
-msgstr ""
+msgstr "Начти участников"
 
 msgid "Find Participants"
 msgstr "Найти участников"
@@ -211,13 +211,13 @@ msgid "From Email Address"
 msgstr "Адрес отправителя"
 
 msgid "Gender Options"
-msgstr ""
+msgstr "Выбор пола"
 
 msgid "Global Settings"
 msgstr "Глобальные настройки"
 
 msgid "Grant Types"
-msgstr ""
+msgstr "Типы разрешений"
 
 msgid "Group Members"
 msgstr "Группы членов"
@@ -254,10 +254,10 @@ msgid "Individual Suffixes (Jr, Sr...)"
 msgstr "Индивидуальные суффиксы (Старший, Младший...)"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "Типы инстант мессенджеров"
 
 msgid "Localization"
-msgstr "Местоположение"
+msgstr "Локализация"
 
 msgid "Location Types (Home, Work...)"
 msgstr "Типы местоположения (Дом, Работа...)"
@@ -294,7 +294,7 @@ msgid "Manage Pledges"
 msgstr "Отменено"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "Управление вознаграждениями"
 
 msgid "Manage Price Sets"
 msgstr ""
@@ -318,13 +318,13 @@ msgid "Membership Types"
 msgstr "Типы членства"
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "Слить вместе контакт"
 
 msgid "Message Templates"
 msgstr "Шаблон сообщения"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Разное"
 
 msgid "Mobile Phone Providers"
 msgstr "Оператор мобильной связи"
@@ -382,7 +382,7 @@ msgid "Pledge Payments"
 msgstr ""
 
 msgid "Pledges"
-msgstr ""
+msgstr "Залоги"
 
 msgid "Preferred Communication Methods"
 msgstr "Предпочитаемый способ связи"
@@ -400,16 +400,16 @@ msgid "Price Sets"
 msgstr "Выборка прайсов"
 
 msgid "Registration Page"
-msgstr ""
+msgstr "Страница регистраций"
 
 msgid "Relationships"
 msgstr "Связи"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Типы связей"
 
 msgid "Resubscribe"
-msgstr ""
+msgstr "Переподписаться"
 
 msgid "Safe File Extension Options"
 msgstr ""

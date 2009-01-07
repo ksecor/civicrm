@@ -68,7 +68,12 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         $vcard =& new Contact_Vcard_Build('2.1');
 
         if ($defaults['contact_type'] == 'Individual') {
-            $vcard->setName($defaults['last_name'], $defaults['first_name'], $defaults['middle_name'], $defaults['prefix'], $defaults['suffix']);
+            $vcard->setName( CRM_Utils_Array::value( 'last_name'  , $defaults ), 
+                             CRM_Utils_Array::value( 'first_name' , $defaults ), 
+                             CRM_Utils_Array::value( 'middle_name', $defaults ), 
+                             CRM_Utils_Array::value( 'prefix'     , $defaults ), 
+                             CRM_Utils_Array::value( 'suffix'     , $defaults )
+                             );
         } elseif ($defaults['contact_type'] == 'Organization') {
             $vcard->setName($defaults['organization_name'], '', '', '', '');
         } elseif ($defaults['contact_type'] == 'Household') {
@@ -77,10 +82,10 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
         $vcard->setFormattedName($defaults['display_name']);
         $vcard->setSortString($defaults['sort_name']);
 
-        if ($defaults['nick_name'])  $vcard->addNickname($defaults['nick_name']);
-        if ($defaults['job_title'])  $vcard->setTitle($defaults['job_title']);
-        if ($defaults['birth_date']) $vcard->setBirthday($defaults['birth_date']);
-        if ($defaults['home_URL'])   $vcard->setURL($defaults['home_URL']);
+        if ( CRM_Utils_Array::value( 'nick_name' , $defaults )) $vcard->addNickname( $defaults['nick_name'] );
+        if ( CRM_Utils_Array::value( 'job_title' , $defaults )) $vcard->setTitle( $defaults['job_title'] );
+        if ( CRM_Utils_Array::value( 'birth_date', $defaults )) $vcard->setBirthday( $defaults['birth_date'] );
+        if ( CRM_Utils_Array::value( 'home_URL'  , $defaults )) $vcard->setURL($defaults['home_URL'] );
         // TODO: $vcard->setGeo($lat, $lon);
 
 
@@ -89,16 +94,19 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
             // we don't keep PO boxes in separate fields
             $pob = '';
             $extend = $location['address']['supplemental_address_1'];
-            if ($location['address']['supplemental_address_2']) $extend .= ', ' . $location['address']['supplemental_address_2'];
-            $street = $location['address']['street_address'];
-            $locality = $location['address']['city'];
-            $region = $location['address']['state_province'];
-            $postcode = $location['address']['postal_code'];
-            if ($location['address']['postal_code_suffix']) $postcode .= '-' . $location['address']['postal_code_suffix'];
-            $country = $location['address']['country'];
+            if ( CRM_Utils_Array::value( 'supplemental_address_2', $location['address'] ) ) 
+                $extend .= ', ' . $location['address']['supplemental_address_2'];
+            $street   = CRM_Utils_Array::value( 'street_address' , $location['address'] );
+            $locality = CRM_Utils_Array::value( 'city'           , $location['address'] );
+            $region   = CRM_Utils_Array::value( 'state_province' , $location['address'] );
+            $postcode = CRM_Utils_Array::value( 'postal_code'    , $location['address'] );
+            if ( CRM_Utils_Array::value( 'postal_code_suffix', $location['address'] )) 
+                $postcode .= '-' . $location['address']['postal_code_suffix'];
+            $country = CRM_Utils_Array::value( 'country', $location['address'] );
+            
             $vcard->addAddress($pob, $extend, $street, $locality, $region, $postcode, $country);
-            if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
-            if ($location['is_primary']) $vcard->addParam('TYPE', 'PREF');
+            if ( CRM_Utils_Array::value( 'vcard_name', $location ) ) $vcard->addParam('TYPE', $location['vcard_name']);
+            if ( CRM_Utils_Array::value( 'is_primary', $location ) ) $vcard->addParam('TYPE', 'PREF');
 
             if ( CRM_Utils_Array::value( 'phone', $location ) ) {
                 foreach ($location['phone'] as $phone) {

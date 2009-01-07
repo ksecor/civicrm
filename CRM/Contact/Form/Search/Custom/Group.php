@@ -51,6 +51,34 @@ class CRM_Contact_Form_Search_Custom_Group
                                  ts('Name')         => 'sort_name',
                                  ts('Group Name')   => 'gname',
                                  ts('Tag Name')     => 'tname' );
+        
+        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
+        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues ); 
+        $this->_includeTags     = CRM_Utils_Array::value( 'includeTags', $this->_formValues );
+        $this->_excludeTags     = CRM_Utils_Array::value( 'excludeTags', $this->_formValues );
+
+        //define variables
+        $this->_allSearch = false; 
+        $this->_groups    = false;
+        $this->_tags      = false;
+
+        //make easy to check conditions for groups and tags are
+        //selected or it is empty search
+        if ( empty( $this->_includeGroups ) && empty( $this->_excludeGroups ) &&
+             empty( $this->_includeTags ) && empty($this->_excludeTags) ) {
+            //empty search
+            $this->_allSearch = true;
+        }
+        
+        if ( ! empty( $this->_includeGroups ) || ! empty( $this->_excludeGroups ) ) {
+            //group(s) selected
+            $this->_groups = true;
+        }
+
+        if ( ! empty( $this->_includeTags ) ||  ! empty( $this->_excludeTags )) {
+            //tag(s) selected
+            $this->_tags = true;  
+        }
     }
 
     function __destruct( ) {
@@ -136,37 +164,6 @@ class CRM_Contact_Form_Search_Custom_Group
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false, $justIDs = false ) {
-        
-        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
-                      
-        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues ); 
-
-        $this->_includeTags     = CRM_Utils_Array::value( 'includeTags', $this->_formValues );
-               
-        $this->_excludeTags     = CRM_Utils_Array::value( 'excludeTags', $this->_formValues );
-
-        //define variables
-        $this->_allSearch = false; 
-        $this->_groups    = false;
-        $this->_tags      = false;
-
-        //make easy to check conditions for groups and tags are
-        //selected or it is empty search
-        if ( empty( $this->_includeGroups ) && empty( $this->_excludeGroups ) &&
-             empty( $this->_includeTags ) && empty($this->_excludeTags) ) {
-            //empty search
-            $this->_allSearch = true;
-        }
-        
-        if ( ! empty( $this->_includeGroups ) || ! empty( $this->_excludeGroups ) ) {
-            //group(s) selected
-            $this->_groups = true;
-        }
-        if ( ! empty( $this->_includeTags ) ||  ! empty( $this->_excludeTags )) {
-            //tag(s) selected
-            $this->_tags = true;  
-        }
-
         if ( $justIDs ) {
             $selectClause = "contact_a.id  as contact_id";
         } else {
@@ -434,6 +431,8 @@ class CRM_Contact_Form_Search_Custom_Group
             $from .= " INNER JOIN Ig_{$this->_tableName} temptable1 ON (contact_a.id = temptable1.contact_id)";
             $from .= " INNER JOIN It_{$this->_tableName} temptable2 ON (contact_a.id = temptable2.contact_id)";
         }
+
+        $from .= " LEFT JOIN civicrm_email ON ( contact_a.id = civicrm_email.contact_id AND ( civicrm_email.is_primary = 1 OR civicrm_email.is_bulkmail = 1 ) )";
 
         return $from;
     }

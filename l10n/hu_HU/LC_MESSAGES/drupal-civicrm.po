@@ -116,16 +116,16 @@ msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
-"engedélyezd a CiviCRM blokkot a <a href=\"!1\">Adminisztráció &raquo; Webhely "
-"építés &raquo; blokk</a>-nál."
+"engedélyezd a CiviCRM blokkot a <a href=\"!1\">Adminisztráció &raquo; "
+"Webhely építés &raquo; blokk</a>-nál."
 
 #: drupal/civicrm.module
 msgid ""
 "read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
-"nézd meg a <a href=\"!1\">CiviCRM hozzáférési engedélyeket</a> és állítsd be a "
-"jogosultságokat a <a href=\"!2\">CiviCRM vezérlőpult&raquo; Hozzáférés "
+"nézd meg a <a href=\"!1\">CiviCRM hozzáférési engedélyeket</a> és állítsd be "
+"a jogosultságokat a <a href=\"!2\">CiviCRM vezérlőpult&raquo; Hozzáférés "
 "szabályozás</a>-nál."
 
 #: drupal/civicrm.module
@@ -147,8 +147,8 @@ msgstr ""
 #: drupal/civicrm.module
 msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
 msgstr ""
-"hozz létre vagy módosíts csoportokat a <a href=\"!1\">Csoport "
-"kezelése</a>-nél."
+"hozz létre vagy módosíts csoportokat a <a href=\"!1\">Csoport kezelése</a>-"
+"nél."
 
 #: drupal/civicrm.module
 msgid ""
@@ -180,8 +180,8 @@ msgid ""
 "\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
 "hozz létre vagy kezelj helyszín típusokat (pl. otthon, munkahely, iskola...) "
-"a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Helyszín "
-"típusok</a>-nál."
+"a <a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Helyszín típusok</a>-"
+"nál."
 
 #: drupal/civicrm.module
 msgid ""
@@ -190,8 +190,8 @@ msgid ""
 "Types</a>."
 msgstr ""
 "hozz létre vagy kezelj tevékenység típusokat (pl. találkozó, interjú...) a "
-"<a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Tevékenység "
-"típusok</a>-nál."
+"<a href=\"!1\">CiviCRM &raquo; Vezérlőpult &raquo; Tevékenység típusok</a>-"
+"nál."
 
 #: drupal/civicrm.module
 msgid ""

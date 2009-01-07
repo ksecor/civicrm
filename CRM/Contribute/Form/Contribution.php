@@ -310,6 +310,10 @@ WHERE  contribution_id = {$this->_id}
         
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            $this->set('type',     'Contribution');
+            $this->set('subType',  $this->_contributionType );
+            $this->set('entityId', $this->_id );
+
             CRM_Custom_Form_Customdata::preProcess( $this );
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
@@ -696,6 +700,7 @@ WHERE  contribution_id = {$this->_id}
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
+        
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
         
@@ -941,7 +946,7 @@ WHERE  contribution_id = {$this->_id}
                     $formValues[$d]['i'] = '00';
                     $formValues[$d]['s'] = '00';
                     $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
-                } else{
+                } else if ( array_key_exists( $d, $formValues ) ) {
                     $params[$d] = 'null';
                 }
             }

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-18 15:00+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -32,7 +32,7 @@ msgid "Activity"
 msgstr ""
 
 msgid "Activity Types"
-msgstr ""
+msgstr "活動の種類"
 
 msgid "Additional Info"
 msgstr ""
@@ -41,7 +41,7 @@ msgid "AdditionalInfo Form"
 msgstr ""
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "連絡先設定"
 
 msgid "Administer CiviCRM"
 msgstr "CiviCRMの管理"
@@ -252,13 +252,13 @@ msgid "Individual Suffixes (Jr, Sr...)"
 msgstr ""
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "インスタントメッセンジャーの利用"
 
 msgid "Localization"
 msgstr ""
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "連絡先の種類 (自宅, 職場...)"
 
 msgid "Log out"
 msgstr ""
@@ -298,7 +298,7 @@ msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "イベント会場を地図で表示"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -316,10 +316,10 @@ msgid "Membership Types"
 msgstr ""
 
 msgid "Merge Contact"
-msgstr ""
+msgstr "連絡先のマージ"
 
 msgid "Message Templates"
-msgstr ""
+msgstr "メッセージのテンプレート"
 
 msgid "Miscellaneous"
 msgstr ""
@@ -382,7 +382,7 @@ msgid "Pledges"
 msgstr ""
 
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "希望する連絡手段"
 
 msgid "Preview Mailing"
 msgstr ""
@@ -439,13 +439,13 @@ msgid "Synchronize Users to Contacts"
 msgstr ""
 
 msgid "System Preferences"
-msgstr ""
+msgstr "システム設定"
 
 msgid "Tags"
 msgstr ""
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "タグ (カテゴリー)"
 
 msgid "Tell a Friend"
 msgstr ""

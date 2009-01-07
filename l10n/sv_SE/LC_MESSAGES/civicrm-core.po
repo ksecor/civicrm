@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-11-19 14:35+0100\n"
+"POT-Creation-Date: 2008-12-16 10:46+0100\n"
 "PO-Revision-Date: 2008-11-15 17:56-0800\n"
 "Last-Translator: Adam Ghneim <a.ghneim@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -1094,9 +1094,8 @@ msgid "Legal Name"
 msgstr "Juridiskt namn"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Custom Greeting"
-msgstr "Allmän grupp"
+msgstr "Egna hälsningar"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -1149,16 +1148,15 @@ msgstr "Visas"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Where uttryck"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
 msgid "Select Tables"
-msgstr "Välj datum"
+msgstr "Välj tabeller"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Vilka tabeller"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/DAO/UFGroup.php
@@ -1723,9 +1721,8 @@ msgid "Data"
 msgstr "Datum"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#, fuzzy
 msgid "Html Type"
-msgstr "Typ av kontakt"
+msgstr "HTML-typ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1734,16 +1731,14 @@ msgstr "Standardvärde"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Pre"
-msgstr "Välj profil"
+msgstr "Hjälp före"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Help Post"
-msgstr "Arrangör"
+msgstr "Hjälp efter"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
@@ -1751,7 +1746,6 @@ msgstr "Maskera"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
-#, fuzzy
 msgid "Javascript"
 msgstr "Javascript"
 
@@ -1790,9 +1784,8 @@ msgid "Multi-Select State/Province"
 msgstr "Välj flera Län/Landskap"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Collapse Display"
-msgstr "Valutavisning"
+msgstr "Visa komprimerad"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Page/AJAX/Mapper.php
 #: xml/templates/civicrm_data.tpl
@@ -1809,9 +1802,8 @@ msgstr "Insida"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
-#, fuzzy
 msgid "Phone Type"
-msgstr "Telefon"
+msgstr "Typ av telefon"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -2113,27 +2105,24 @@ msgid "Administer"
 msgstr "Administrera"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "ACL Name"
-msgstr "Efternamn"
+msgstr "ACL-namn"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
 msgstr "Neka"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Object Table"
-msgstr "Etikett för ämne"
+msgstr "Objekttabell"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "ACL-tabell"
 
 #: CRM/ACL/DAO/ACL.php
-#, fuzzy
 msgid "Revoke"
-msgstr "Borttaget"
+msgstr "Återkalla"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2259,9 +2248,8 @@ msgid "Due Date Time"
 msgstr "Slutdatum/tid"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Phone Number"
-msgstr "Linjenummer"
+msgstr "Telefonnummer"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2274,7 +2262,7 @@ msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Kontakt ID (matcha mot kontakt)"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -3516,10 +3504,6 @@ msgid "Individual Suffix"
 msgstr "Individuellt suffix %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "phone"
-msgstr "telefon"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Medlem av grupp %1"
 
@@ -3609,84 +3593,72 @@ msgid "Invalid relationship type"
 msgstr "Ogiltig relationstyp"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Internal Contact ID"
-msgstr "Kontakt ID"
+msgstr "Internt kontakt-ID"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Contact Sub Type"
-msgstr "Typ av kontakt"
+msgstr "Kontakt undertyp"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Email"
-msgstr "Kvitto från, epost:"
+msgstr "Skicka inte Epost"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Ring inte"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Do Not Mail"
-msgstr "Postnummer"
+msgstr "Skicka inte brev"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Ingen försäljning"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Inga mass-mail"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Juridisk Identifierare"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "External Identifier"
-msgstr "Externt ID"
+msgstr "Extern Indentifierare"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Sortera på namn"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Förnamn"
+msgstr "Visa namn"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Home URL"
-msgstr "Webbplatsens URL"
+msgstr "Hemsida"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Image Url"
-msgstr "Bilder"
+msgstr "Bild-URL"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Preferred Mail Format"
-msgstr "Epostformat"
+msgstr "Önskat epostformat"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Hash"
-msgstr "Kontanter"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Source of Contact Data"
-msgstr "Källkontakt existerar inte"
+msgstr "Källa för Kontaktdata"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Greeting Type"
-msgstr "Typ av kartläggning"
+msgstr "Hälsningstyp"
 
 #: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -3695,45 +3667,40 @@ msgid "Job Title"
 msgstr "Yrkestitel"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Birth Date"
-msgstr "Startdatum"
+msgstr "Födelsedatum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Is Deceased"
-msgstr ""
+msgstr "Är död"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Deceased Date"
-msgstr "Mottaget"
+msgstr "Dödsdatum"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sic Code"
-msgstr ""
+msgstr "SIC-kod"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Unique ID (OpenID)"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Formal"
-msgstr "Format"
+msgstr "Formell"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Informal"
-msgstr ""
+msgstr "Informell"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Honorific"
-msgstr "Hederspersons Förstavelse (Prefix)"
+msgstr "Artig"
 
 #: CRM/Contact/DAO/Contact.php
-#, fuzzy
 msgid "Custom"
-msgstr "Skräddarsy"
+msgstr "Egen"
 
 #: CRM/Contact/DAO/Group.php
 #, fuzzy
@@ -3750,32 +3717,28 @@ msgid "Children"
 msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name A B"
-msgstr "Namn"
+msgstr "Namn A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
-#, fuzzy
 msgid "Name B A"
-msgstr "Namn"
+msgstr "Namn B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Skickade formulärdata"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Spårning"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "Web"
-msgstr "Hemsida"
+msgstr "Webb"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
-#, fuzzy
 msgid "API"
-msgstr "API URL"
+msgstr "API"
 
 #: CRM/Contact/Form/AddContact.php
 #, fuzzy
@@ -4494,9 +4457,8 @@ msgid "Distance"
 msgstr "Avaktivera"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
-#, fuzzy
 msgid "- any country -"
-msgstr "- vilken grupp som helst -"
+msgstr "- vilket som land -"
 
 #: CRM/Contact/Form/Search/Custom/Proximity.php
 msgid "Radius for Proximity Search (in km)"
@@ -5399,14 +5361,12 @@ msgid "Street Unit"
 msgstr "Enhetsfrekvens"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 1"
-msgstr "Gatuadress"
+msgstr "Extra adress 1"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Supplemental Address 2"
-msgstr "Gatuadress"
+msgstr "Extra adress 2"
 
 #: CRM/Core/DAO/Address.php
 #, fuzzy
@@ -5419,11 +5379,11 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 1"
-msgstr ""
+msgstr "Geografisk kod 1"
 
 #: CRM/Core/DAO/Address.php
 msgid "Geo Code 2"
-msgstr ""
+msgstr "Geografisk kod 2"
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
@@ -5473,9 +5433,7 @@ msgstr "Förstavelse (Prefix)"
 msgid "County Abbreviation"
 msgstr "Medverkan"
 
-# eller nuvarande
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Currency"
 msgstr "Valuta"
 
@@ -5606,9 +5564,8 @@ msgid "Email Name"
 msgstr "Domännamn"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
-#, fuzzy
 msgid "Email Address"
-msgstr "Adress"
+msgstr "E-postadress"
 
 #: CRM/Core/DAO/Domain.php
 #, fuzzy
@@ -5663,9 +5620,8 @@ msgid "Upload Date"
 msgstr "Ladda upp data"
 
 #: CRM/Core/DAO/IM.php
-#, fuzzy
 msgid "IM Screen Name"
-msgstr "Sortera på namn"
+msgstr "IM skärmnamn"
 
 #: CRM/Core/DAO/LineItem.php
 msgid "Qty"
@@ -5686,9 +5642,8 @@ msgid "vCard Location Type"
 msgstr "Lägestyp"
 
 #: CRM/Core/DAO/LocBlock.php
-#, fuzzy
 msgid "Location Name"
-msgstr "Lägestyp"
+msgstr "Platsnamn"
 
 #: CRM/Core/DAO/MappingField.php
 #, fuzzy
@@ -5813,9 +5768,8 @@ msgid "Msg Html"
 msgstr ""
 
 #: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
 msgid "Is Active"
-msgstr "Aktiv?"
+msgstr "Är aktiv"
 
 #: CRM/Core/DAO/OpenID.php
 #, fuzzy
@@ -6021,9 +5975,8 @@ msgid "Notify"
 msgstr "Notering"
 
 #: CRM/Core/DAO/UFJoin.php
-#, fuzzy
 msgid "Module"
-msgstr "Mobil"
+msgstr "Modul"
 
 #: CRM/Core/DAO/UFMatch.php
 #, fuzzy
@@ -6193,7 +6146,7 @@ msgstr "Evenemangsregistrering online"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Please set a location type of %1"
-msgstr ""
+msgstr "Välj en platstyp av %1"
 
 #: CRM/Core/Payment/ClickAndPledge.php
 #, fuzzy
@@ -9215,7 +9168,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-msgid "Opens documentation in a new window."
+msgid "Opens MYSQL documentation in a new window."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
@@ -11356,11 +11309,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
-"Email will NOT be sent to %count contact - communication preferences specify "
-"DO NOT EMAIL."
+"Email will NOT be sent to %count contact - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgid_plural ""
-"Email will NOT be sent to %count contacts - communication preferences "
-"specify DO NOT EMAIL."
+"Email will NOT be sent to %count contacts - (no email address on file or "
+"communication preferences specify DO NOT EMAIL or Contact is deceased)."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -14080,10 +14033,3 @@ msgstr "Meddelandet stoppat av ett innehållsfilter"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fel i SMTP-överföring"
-
-#~ msgid "Tell A Friend"
-#~ msgstr "Tipsa en vän"
-
-#, fuzzy
-#~ msgid "Could not interpret return values from function"
-#~ msgstr "Kunde inte hitta metainformationen för betalningsmotorn"

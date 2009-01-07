@@ -175,9 +175,6 @@ class CRM_Contact_Form_Search_Criteria {
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::activityType( );
 
-        // we need to remove some activity types
-        CRM_Utils_Array::crmArraySplice( $form->_activityType, 4, 9);
-
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,
                    false);

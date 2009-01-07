@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-10-19 20:23-0700\n"
 "Last-Translator: Oseas Matos Soares <oseasm@gmail.com>\n"
 "Language-Team: none\n"
@@ -312,7 +312,7 @@ msgid "Memberships"
 msgstr "Afiliações"
 
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Regras de Status de Afiliação"
 
 msgid "Membership Types"
 msgstr "Tipos de Afiliações"
@@ -321,16 +321,16 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "Modelos de Mensagens"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Miscelânea"
 
 msgid "Mobile Phone Providers"
 msgstr "Operadoras de Celular"
 
 msgid "New Activity"
-msgstr ""
+msgstr "Nova Atividade"
 
 msgid "New Contact"
 msgstr "Novo Contato"
@@ -406,7 +406,7 @@ msgid "Relationships"
 msgstr "Relacionamentos"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipos de Relacionamento"
 
 msgid "Resubscribe"
 msgstr ""
@@ -424,13 +424,13 @@ msgid "Sending Mail"
 msgstr ""
 
 msgid "Simple Search"
-msgstr ""
+msgstr "Busca Simples"
 
 msgid "Site URLs"
 msgstr "URLs do Site"
 
 msgid "Smtp Server"
-msgstr ""
+msgstr "Servidor Smtp"
 
 msgid "Subscribe"
 msgstr "Inscrever-se"
@@ -448,10 +448,10 @@ msgid "Tags"
 msgstr "Categorias"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "Rótulos (Categorias)"
 
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Conte aos amigos"
 
 msgid "This should never be seen"
 msgstr ""

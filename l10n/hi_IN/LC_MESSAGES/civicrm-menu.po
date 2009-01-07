@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.1\n"
-"POT-Creation-Date: 2008-10-05 00:01+0200\n"
+"POT-Creation-Date: 2008-10-05 00:44+0200\n"
 "PO-Revision-Date: 2008-09-26 00:02-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: none\n"
@@ -33,7 +33,7 @@ msgid "Activity"
 msgstr "घटना"
 
 msgid "Activity Types"
-msgstr ""
+msgstr "घटनाएँ प्रकार"
 
 msgid "Additional Info"
 msgstr ""
@@ -42,7 +42,7 @@ msgid "AdditionalInfo Form"
 msgstr ""
 
 msgid "Address Preferences"
-msgstr ""
+msgstr "पता ग्राह्यता"
 
 msgid "Administer CiviCRM"
 msgstr "CiviCRM व्यवस्थापक"
@@ -108,7 +108,7 @@ msgid "Contacts"
 msgstr "सदस्य"
 
 msgid "Contact Summary"
-msgstr ""
+msgstr "संपर्क सारांश"
 
 msgid "Contribution Chart"
 msgstr ""
@@ -117,7 +117,7 @@ msgid "Contributions"
 msgstr "योगदान"
 
 msgid "Contribution Types"
-msgstr ""
+msgstr "योगदान प्रकार"
 
 msgid "Create New Group"
 msgstr "नया समूह बनाये"
@@ -180,7 +180,7 @@ msgid "Export Contacts"
 msgstr "सदस्य बाहर भेजना"
 
 msgid "File System Paths"
-msgstr ""
+msgstr "पथ फ़ाइल प्रणाली"
 
 msgid "Find and Merge Duplicate Contacts"
 msgstr ""
@@ -211,7 +211,7 @@ msgid "From Email Address"
 msgstr ""
 
 msgid "Gender Options"
-msgstr ""
+msgstr "लिंग विक्लप"
 
 msgid "Global Settings"
 msgstr "सार्विक अनुकूलन"
@@ -235,7 +235,7 @@ msgid "Import Contributions"
 msgstr ""
 
 msgid "Import/Export Mappings"
-msgstr ""
+msgstr "आयात / निर्यात मिलान"
 
 msgid "Import Members"
 msgstr ""
@@ -248,19 +248,19 @@ msgid "Import Signers"
 msgstr "सदस्यता बनाएँ"
 
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "व्यक्तिगत उपसर्ग ( सुश्री श्री .. )"
 
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "व्यक्तिगत प्रत्यय ( जूनियर , वरिष्ठ .. )"
 
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "इन्स्टैंट मैसेन्जर सेवा"
 
 msgid "Localization"
 msgstr "स्थानीयकरण"
 
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "स्थान प्रकार ( घर, काम ... )"
 
 msgid "Log out"
 msgstr ""
@@ -294,13 +294,13 @@ msgid "Manage Pledges"
 msgstr "रद्द वचन"
 
 msgid "Manage Premiums"
-msgstr ""
+msgstr "प्रबंधित प्रीमियम"
 
 msgid "Manage Price Sets"
 msgstr ""
 
 msgid "Map Event Location"
-msgstr ""
+msgstr "कार्यक्रम जगह काे मानचित्र से देखिये"
 
 msgid "Map Location(s)"
 msgstr ""
@@ -312,7 +312,7 @@ msgid "Memberships"
 msgstr "सदस्यता"
 
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "सदस्यता स्थिति के नियम"
 
 msgid "Membership Types"
 msgstr "सदस्यता प्रकार"
@@ -321,10 +321,10 @@ msgid "Merge Contact"
 msgstr ""
 
 msgid "Message Templates"
-msgstr ""
+msgstr "पत्र नमुना"
 
 msgid "Miscellaneous"
-msgstr ""
+msgstr "मीला- जुला"
 
 msgid "Mobile Phone Providers"
 msgstr "मोबाइल फोन प्रदाता"
@@ -384,7 +384,7 @@ msgid "Pledges"
 msgstr ""
 
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "पसंदीदा संचार तरीके"
 
 msgid "Preview Mailing"
 msgstr ""
@@ -405,7 +405,7 @@ msgid "Relationships"
 msgstr "संबंध"
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "संबंध प्रकार"
 
 msgid "Resubscribe"
 msgstr ""
@@ -438,16 +438,16 @@ msgid "Sunlight"
 msgstr ""
 
 msgid "Synchronize Users to Contacts"
-msgstr ""
+msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ करे।"
 
 msgid "System Preferences"
-msgstr ""
+msgstr "सिस्टिम ग्राह्यता"
 
 msgid "Tags"
 msgstr "लेबल"
 
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "लेबल ( श्रेणी )"
 
 msgid "Tell a Friend"
 msgstr "दाेस्त काे बतायिएे"

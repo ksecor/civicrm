@@ -159,7 +159,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 
                 require_once 'CRM/Core/BAO/OptionValue.php';
                 require_once 'CRM/Utils/Rule.php';
-                $moneyField = true;
+                $moneyField = false;
                 if ( $params['data_type'] == 'Money' ) {
                     $moneyField = true;
                 }
@@ -833,10 +833,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             break;
         case 'Multi-Select State/Province':
-            if ( empty( $value ) ) {
-                $display = '';
+            if ( is_array( $value ) ) {    
+                $checkedData = $value;
             } else {
-                $display = CRM_Core_PseudoConstant::stateProvince($value);
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+            }
+
+            $states = CRM_Core_PseudoConstant::stateProvince( );
+            $display = null;
+            foreach ( $checkedData as $stateID ) {
+                if ( $display ) {
+                    $display .= ", ";
+                }
+                $display .= $states[$stateID];
             }
             break;
             
@@ -849,10 +858,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Multi-Select Country':
-            if ( empty( $value ) ) {
-                $display = '';
+            if ( is_array( $value ) ) {    
+                $checkedData = $value;
             } else {
-                $display = CRM_Core_PseudoConstant::country($value);
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+            }
+
+            $countries = CRM_Core_PseudoConstant::country( );
+            $display = null;
+            foreach ( $checkedData as $countryID ) {
+                if ( $display ) {
+                    $display .= ", ";
+                }
+                $display .= $countries[$countryID];
             }
             break;
 

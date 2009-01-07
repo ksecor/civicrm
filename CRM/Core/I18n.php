@@ -75,6 +75,7 @@ class CRM_Core_I18n
                          'af_ZA' => 'Afrikaans',
                          'bg_BG' => 'български',
                          'ca_ES' => 'Català',
+                         'cs_CZ' => 'Česky',
                          'da_DK' => 'dansk',
                          'de_DE' => 'Deutsch',
                          'el_GR' => 'Ελληνικά',
