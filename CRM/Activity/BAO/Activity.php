@@ -999,7 +999,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 if ( $dao->target_contact_id ) {
                     $activities[$activityId]['targets'][]     = $dao->target_contact_id;
                 }
-                if ( $dao->asignee_contact_id ) {
+                if ( isset( $dao->asignee_contact_id ) ) {
                     $activities[$activityId]['asignees'][]    = $dao->asignee_contact_id;
                 }
                 $activities[$activityId]['activity_type_id']  = $dao->activity_type_id;

@@ -44,7 +44,6 @@ class testContactAdd extends CiviUnitTestCase
                 'last_name' => 'TestSubject',
                 'prefix' => 'Mr',
                 'suffix' => 'VII',
-                'greeting_type' => 'Informal',
                 'custom_greeting' => 'Dear Pal',
                 'job_title' => 'President',
                 'gender' => 'Male',

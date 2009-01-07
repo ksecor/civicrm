@@ -91,7 +91,8 @@ function civicrm_custom_group_create( $params )
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
     require_once 'CRM/Utils/String.php';
-    if (! trim($params['title'] ) ) {
+    if (! isset( $params['title'] ) ||
+        ! trim($params['title'] ) ) {
         return civicrm_create_error( "Title parameter is required." );
     } 
 

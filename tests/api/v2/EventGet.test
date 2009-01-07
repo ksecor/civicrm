@@ -43,7 +43,7 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $params = array( 'title' => 'Annual CiviCRM meet' );
         
         $result = civicrm_event_get( $params );
-        $this->assertEqual( $result['id'], $this->_event['event_id'] );
+        $this->assertEqual( $result['event_id'], $this->_event['event_id'] );
     }
     
     function tearDown( )

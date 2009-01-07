@@ -28,8 +28,8 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
         $this->contactGroupDelete( $this->_contactId );
         $this->contactDelete($this->_contactId);
         if (  $this->_contactId1 ){
-            $this->contactDelete($this->_contactId1);
             $this->contactGroupDelete( $this->_contactId1 );
+            $this->contactDelete($this->_contactId1);
         }
             
     }

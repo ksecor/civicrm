@@ -848,10 +848,10 @@ class CiviUnitTestCase extends DrupalTestCase {
                              'label'     => 'option_group_label1'
                              );
         
-        $optionValue = array ('option_label'     => 'Label1',
+        $optionValue = array ('option_label'     => array('Label1', 'Label2'),
                               'option_value'     => array( 'value1', 'value2'),
                               'option_name'      => array( $name.'_1', $name.'_2'),
-                              'option_weight'    => 1
+                              'option_weight'    => array(1, 2),
                               );
         
         $params = array_merge( $fieldParams, $optionGroup, $optionValue );

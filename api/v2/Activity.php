@@ -117,7 +117,7 @@ function civicrm_activity_get_contact( $params ) {
  * @return array (reference)  array of activities / error message.
  * @access public
  */
-function &civicrm_activities_get_contact( $params )
+function civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
     
@@ -178,7 +178,7 @@ function &civicrm_activity_update( &$params )
  * @access public
  *
  */
-function &civicrm_activity_delete( &$params ) 
+function civicrm_activity_delete( &$params ) 
 {
     _civicrm_initialize( );
     

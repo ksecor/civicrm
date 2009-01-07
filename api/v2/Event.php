@@ -117,7 +117,7 @@ function civicrm_event_get( &$params )
     $event  =& civicrm_event_search( $params );
     
     if ( count( $event ) != 1 &&
-         ! $params['returnFirst'] ) {
+         ! CRM_Utils_Array::value( 'returnFirst', $params ) ) {
         return civicrm_create_error( ts( '%1 events matching input params', array( 1 => count( $event ) ) ) );
     }
     
@@ -126,6 +126,7 @@ function civicrm_event_get( &$params )
     }
     
     $event = array_values( $event );
+    $event[0]['is_error'] = 0;
     return $event[0];
 }
 /**
