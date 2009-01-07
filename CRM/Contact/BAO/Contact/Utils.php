@@ -328,11 +328,16 @@ WHERE id={$contactId}; ";
      */
     static function buildOnBehalfForm( &$form, 
                                        $contactType       = 'Individual', 
+                                       $countryID         = null,
+                                       $stateID           = null,
                                        $title             = 'Contact Information',
                                        $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )
     {
-        if ($title == 'Contact Information') $title = ts('Contact Information');
+        if ($title == 'Contact Information') {
+            $title = ts('Contact Information');
+        }
+
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
 
@@ -418,6 +423,12 @@ WHERE id={$contactId}; ";
         //build the address block
         $location   = array();
         CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
+
+        // also fix the state country selector
+        CRM_Contact_Form_Address::fixStateSelect( $form,
+                                                  "location[1][address][country_id]",
+                                                  "location[1][address][state_province_id]",
+                                                  $countryID );
     }
 
 }

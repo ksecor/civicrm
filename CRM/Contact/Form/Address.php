@@ -135,6 +135,7 @@ class CRM_Contact_Form_Address
 
         require_once 'CRM/Core/BAO/Address.php';
         CRM_Core_BAO_Address::addStateCountryMap( $stateCountryMap );
+
     }
     
     /**

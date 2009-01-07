@@ -162,7 +162,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $params['location'][1]['is_primary'] = 1;
 	    $params['contact_type']              = $this->_contactType;
         $params['contact_id']                = $this->_contactId;
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
