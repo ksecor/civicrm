@@ -1436,7 +1436,7 @@
 
 
    /* This function write the values of the specified series */
-   function writeValues($Data,$DataDescription,$Series)
+   function writeValues($Data,$DataDescription,$Series, $monetaryformatting = false )
     {
      /* Validate the Data and DataDescription array */
      $this->validateDataDescription("writeValues",$DataDescription);
@@ -1458,7 +1458,13 @@
           {
            $Value = $Data[$Key][$Serie];
            $YPos = $this->GArea_Y2 - (($Value-$this->VMin) * $this->DivisionRatio);
-
+           
+           //format money as per crmMoney.
+           if ( $monetaryformatting ) {
+               require_once 'CRM/Utils/Money.php';
+               $Value = CRM_Utils_Money::format( $Value );
+           }
+           
            $Positions = imagettfbbox($this->FontSize,0,$this->FontName,$Value);
            $Width  = $Positions[2] - $Positions[6]; $XOffset = $XPos - ($Width/2);
            $Height = $Positions[3] - $Positions[7]; $YOffset = $YPos - 4;

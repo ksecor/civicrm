@@ -237,6 +237,7 @@ class CRM_Utils_PChart
             //calculate max scale for graph.
             $maxScale =  ceil( max( $values ) * 1.1 );
             
+            $monetaryformatting = true;
             require_once 'CRM/Utils/Money.php';
             $formatedMoney = CRM_Utils_Money::format( $maxScale );
             $positions  = imageftbbox( 12, 0, $pChartPath ."tahoma.ttf", $formatedMoney );
@@ -273,7 +274,7 @@ class CRM_Utils_PChart
             
             $chart->drawGraphArea( 255, 255, 255, TRUE );
             $chart->drawScale( $dataSet->GetData( ), $dataSet->GetDataDescription( ),
-                               SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth, true );
+                               SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE, 1, FALSE, $divisionWidth, $monetaryformatting );
             
             $chart->drawGrid( 4, TRUE, 230, 230, 230, 50 );
             
@@ -288,7 +289,7 @@ class CRM_Utils_PChart
             //get the series values and write at top.
             $chart->setColorPalette( 0, 0, 0, 255 );
             $dataDesc = $dataSet->GetDataDescription( );
-            $chart->writeValues( $dataSet->GetData( ), $dataSet->GetDataDescription( ), $dataDesc['Values'] ); 
+            $chart->writeValues( $dataSet->GetData( ), $dataSet->GetDataDescription( ), $dataDesc['Values'], $monetaryformatting ); 
             
             //Write the title
             if ( $legend ) {
