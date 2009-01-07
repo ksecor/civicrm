@@ -515,13 +515,11 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * 
      * @param  int  $id id of the contact to delete
      *
-     * @userID int  $userId  the Logged-in id of the Civicrm.
-     *
      * @return boolean true if contact deleted, false otherwise
      * @access public
      * @static
      */
-    function deleteContact( $id, $userId = null ) 
+    function deleteContact( $id )
     {
         require_once 'CRM/Activity/BAO/Activity.php';
 
@@ -545,8 +543,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return false;
         }
                                                          
-        require_once 'CRM/Utils/Hook.php';
-
         $contact =& new CRM_Contact_DAO_Contact();
         $contact->id = $id;
         if (! $contact->find(true)) {
@@ -554,6 +550,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         }
         $contactType = $contact->contact_type;
 
+        require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::pre( 'delete', $contactType, $id, CRM_Core_DAO::$_nullArray );
 
         // start a new transaction
