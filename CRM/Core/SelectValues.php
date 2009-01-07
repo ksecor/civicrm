@@ -599,13 +599,15 @@ class CRM_Core_SelectValues
             $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
                                   array( 'display_name', 'checksum', 'contact_id' ) );
             unset($values[0]); 
-
-            //unset greeting type token
-            if ( $tokenKey = CRM_Utils_Array::key( 'greeting_type', $values ) ) {
-                unset( $values[$tokenKey] );
-            }
-
+            
+            //FIXME:skipping some tokens for time being.
+            $skipTokens = array( 'greeting_type', 'is_bulkmail', 'group', 'tag' );
+           
             foreach($values as $key => $val) {
+                if ( in_array($val, $skipTokens) ) {
+                    continue;
+                } 
+                
                 $tokens[$key] = "{contact.$val}";
             }
 
@@ -619,13 +621,6 @@ class CRM_Core_SelectValues
                 }
             }
         }
-       
-        //FIXME:unsetting some tokens for time being
-        $unsetTokens = array( '{contact.is_bulkmail}','{contact.group}','{contact.tag}' );
-        foreach( $unsetTokens as $val ) {
-            unset($tokens[CRM_Utils_Array::key( $val, $tokens )]);
-        }
-       
         return $tokens;
     }
 }
