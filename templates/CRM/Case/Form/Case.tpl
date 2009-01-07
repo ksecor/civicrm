@@ -77,8 +77,17 @@
 {* custom data group *}
 {if $groupTree}
     <tr>
-       <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl"}</td>
-    </tr>
+       <td colspan="2">{include file="CRM/Custom/Form/CustomData.tpl"}
+
+	    {* Open case custom groups are collapsed by default so that the details field is immediately visible when you go back to edit. But expand them here while first being created. *} 
+		<script type="text/javascript">
+		{foreach from=$groupTree item=cd_edit key=group_id}
+			hide("{$cd_edit.name}_show_{$cgCount}"); show("{$cd_edit.name}_{$cgCount}");
+		{/foreach}
+		</script>
+
+       </td>
+    </tr>    
 {/if}
 
 {if $form.activity_subject.html}
