@@ -1436,7 +1436,7 @@
 
 
    /* This function write the values of the specified series */
-   function writeValues($Data,$DataDescription,$Series, $monetaryformatting = false )
+   function writeValues($Data,$DataDescription,$Series, $monetaryformatting = false,  $angleOfIncline = null )
     {
      /* Validate the Data and DataDescription array */
      $this->validateDataDescription("writeValues",$DataDescription);
@@ -1470,7 +1470,14 @@
            $Height = $Positions[3] - $Positions[7]; $YOffset = $YPos - 4;
 
            $C_TextColor =$this->AllocateColor($this->Picture,$this->Palette[$ColorID]["R"],$this->Palette[$ColorID]["G"],$this->Palette[$ColorID]["B"]);
-           imagettftext($this->Picture,$this->FontSize,0,$XOffset,$YOffset,$C_TextColor,$this->FontName,$Value);
+           
+           //fix to incline values.
+           $angle = 0;
+           if ( $Width > $this->DivisionWidth && $angleOfIncline ) {
+               $angle = $angleOfIncline;
+               $XOffset += $this->DivisionWidth/2;
+           }
+           imagettftext( $this->Picture, $this->FontSize, $angle, $XOffset, $YOffset, $C_TextColor, $this->FontName, $Value );
           }
          $XPos = $XPos + $this->DivisionWidth;
         }
