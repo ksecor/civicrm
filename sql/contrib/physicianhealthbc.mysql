@@ -1,11 +1,9 @@
 -- /*******************************************************
 -- *
--- * Sample Data for CiviCase Component
+-- * Configuration Data for CiviCase Component
+-- * For: Physician Health Program British Columbia
 -- *
 -- *******************************************************/
-
--- Enable Case Tab in Site Preferences
-UPDATE civicrm_preferences SET `contact_view_options`= '123456789101113';
 
 -- Set 'Work' as default location type and 'Voicemail' as default phone type
 UPDATE civicrm_location_type SET `is_default` = 0 WHERE `name` = 'Home';
@@ -510,23 +508,6 @@ INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_
     VALUES( 'Family Physician is', 'Family Physician', 'Family Physician', 'Individual', 'Individual', 0 );
 SELECT @fR            := max(id) from civicrm_relationship_type where name_b_a = 'Family Physician';
 
-
--- /*******************************************************
--- *
--- * Encounter Medium Option Values
--- *
--- *******************************************************/
-INSERT INTO `civicrm_option_group` (name, label, description, is_reserved, is_active)
-    VALUES  ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
-SELECT @option_group_id_medium        := max(id) from civicrm_option_group where name = 'encounter_medium';
-INSERT INTO
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
-VALUES
-    (@option_group_id_medium, 'In Person',  1, 'in_person', NULL, 0,  0, 1, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Phone',  2, 'phone', NULL, 0,  1, 2, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Email',  3, 'email', NULL, 0,  0, 3, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Fax',  4, 'fax', NULL, 0,  0, 4, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Letter Mail',  5, 'letter_mail', NULL, 0,  0, 5, NULL, 0, 1, 1);
 
 -- ********************************************************************************
 -- * Up to here it's the same as civicase_sample_data but without the sample cases.
