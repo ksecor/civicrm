@@ -1,0 +1,223 @@
+<?php
+
+require_once 'api/v2/UFGroup.php';
+require_once 'api/v2/UFJoin.php';
+ 
+class TestOfProfileAPIV2 extends CiviUnitTestCase 
+{
+    protected $_ufGroupId;
+    protected $_ufFieldId;
+    protected $_individualID;
+
+    function get_info( )
+    {
+        return array(
+                     'name'        => 'Profile API',
+                     'description' => 'Test all Profile API methods.',
+                     'group'       => 'CiviCRM API Tests',
+                     );
+    }
+    
+    //creating profile
+    function setUp() 
+    {
+        $params = array( 
+			'group_type' => 'Contact',
+			'title'      => 'Test Profile',
+			'help_pre'   => 'Profle to Test API',
+			'is_active'  => 1
+                         );
+        
+        $ufGroup   = civicrm_uf_group_create ( $params );
+	$this->_ufGroupId = $ufGroup['id'];
+    }
+    
+    //deleting group and contact if exist
+    function tearDown() 
+    {
+	civicrm_uf_group_delete ( $this->_ufGroupId );
+	if ( $this->_individualID ) {
+	    $this->contactDelete( $this->_individualID );
+	    $this->_individualID = NULL;
+	}
+    }
+    
+    //fetch all profiles
+    function atestGetUFProfileGroups( )
+    {
+        $ufProfile = civicrm_uf_profile_groups_get( );
+        $this->assertNotNull( count( $ufProfile ) );	  
+    }
+
+    //fetch profile title by its id	
+    function testGetUFProfileTitle( )
+    {
+        $ufProfile = civicrm_uf_profile_title_get( $this->_ufGroupId );
+	$this->assertEqual( $ufProfile, 'Test Profile' );
+        $this->assertEqual( count($ufProfile), 1 ); 
+    }
+
+    //creating profile fields / fetch profile fields
+    function testGetUFProfileFields( )
+    {
+        $params = array ( 
+			 'field_name'       => 'country',
+			 'field_type'       => 'Contact',
+			 'visibility'       => 'Public User Pages and Listings',
+			 'weight'           => 1,
+			 'location_type_id' => 1,
+			 'label'            => 'Test Country',
+			 'is_searchable'    => 1,
+			 'is_active'        => 1
+                          );
+        $ufField   = civicrm_uf_field_create( $this->_ufGroupId , $params );
+        foreach ( $params as $key => $value ){
+            $this->assertEqual($ufField[$key], $params[$key] );
+        }
+	
+        $ufProfile = civicrm_uf_profile_fields_get( $this->_ufGroupId );
+        $this->assertEqual( $ufProfile['country-1']['field_type'      ] , $params['field_type'      ] );
+        $this->assertEqual( $ufProfile['country-1']['title'           ] , $params['label'           ] );
+        $this->assertEqual( $ufProfile['country-1']['visibility'      ] , $params['visibility'      ] );
+        $this->assertEqual( $ufProfile['country-1']['location_type_id'] , $params['location_type_id'] );
+        $this->assertEqual( $ufProfile['country-1']['group_id'        ] , $this->_ufGroupId           );
+        $this->assertEqual( $ufProfile['country-1']['groupTitle'      ] , 'Test Profile'              );
+        $this->assertEqual( $ufProfile['country-1']['groupHelpPre'    ] , 'Profle to Test API'        );
+    }
+
+    //fetch profile html by contact id and profile title
+    function testGetUFProfileHTML( )
+    {
+	$this->_individualID = $this->individualCreate( );
+	$profileHTML = civicrm_uf_profile_html_get( $this->_individualID, 'Test Profile' );
+	$this->assertNotNull( $profileHTML );
+    }
+
+    //fetch profile html by contact id and profile id
+    function testGetUFProfileHTMLById( )
+    {
+	$this->_individualID = $this->individualCreate( );
+	$profileHTML = civicrm_uf_profile_html_by_id_get( $this->_individualID, $this->_ufGroupId );
+	$this->assertNotNull( $profileHTML );
+    }
+
+    function atestGetUFProfileCreateHTML( )
+    {
+	// $profileHTML = civicrm_uf_create_html_get(  );
+        // $this->assertNotNull( $profileHTML );
+    }
+    
+    //fetch contact id by uf id
+    function btestGetUFMatchID( )
+    {
+		
+	$ufId      = self::UFMatch( );
+	$ufMatchId =  civicrm_uf_match_id_get( $ufId );
+	$this->assertEqual( $ufMatchId, $this->_individualID );
+    }
+
+    //fetch uf id by contact id
+    function btestGetUFID( )
+    {
+	$ufIdCreated = self::UFMatch( );
+	$ufIdFetced  = civicrm_uf_id_get( $this->_individualID );
+	$this->assertEqual( $ufIdFetced, $ufIdCreated );
+    }
+
+    //function for creating / mapping cms user and crm contact
+    function UFMatchCreate( ) 
+    {
+  	$params = array( 
+			'first_name'  => 'Peter',
+			'last_name'   => 'Parker',
+			'email'       => 'perter@spider.com',
+			'contact_type'=> 'Individual' 
+			 );
+	
+	$cmsParams['contactID'] = $this->_individualID = $this->individualCreate( $params );	
+	$cmsParams['cms_name' ] = $params['first_name'];
+	$cmsParams['email'    ] = $params['email'];
+	$cmsParams['cms_pass' ] = $cmsParams['cms_confirm_pass'] = "peter";
+	
+	require_once 'CRM/Core/BAO/CMSUser.php';
+	return CRM_Core_BAO_CMSUser::create( $cmsParams, 'email' );
+    }
+
+    //updating group
+    function testUpdateUFGroup( )
+    {
+	$params = array (
+			 'title'     => 'Edited Test Profile',
+			 'help_post' => 'Profile Pro help text.',
+			 'is_active' => 1 
+			 );
+	
+	$updatedGroup = civicrm_uf_group_update( $params , $this->_ufGroupId );
+	foreach ( $params as $key => $value ){
+            $this->assertEqual($updatedGroup[$key], $params[$key] );
+        }
+    }
+
+    //updating field
+    function testCreateUFField( ) 
+    {
+	$params = array ( 
+			 'field_name'       => 'country',
+			 'field_type'       => 'Contact',
+			 'visibility'       => 'Public User Pages and Listings',
+			 'weight'           => 1,
+			 'location_type_id' => 1,
+			 'label'            => 'Test Country',
+			 'is_searchable'    => 1,
+			 'is_active'        => 1
+                          );
+        $ufField   = civicrm_uf_field_create( $this->_ufGroupId , $params );
+	
+        foreach ( $params as $key => $value ){
+            $this->assertEqual($ufField[$key], $params[$key] );
+        }
+	
+	$params = array (
+			 'field_name'       => 'country',
+			 'label'            => 'Edited Test Country',
+			 'location_type_id' => 1,
+			 'weight'           => 1,
+			 'is_active'        => 1
+			 );
+	
+	$updatedField = civicrm_uf_field_update( $params ,$ufField['id'] );
+	foreach ( $params as $key => $value ){
+            $this->assertEqual($updatedField[$key], $params[$key] );
+	}
+    }
+    
+    //deleting field
+    function testDeleteUFField( ) 
+    {
+	$params = array ( 
+			 'field_name'       => 'country',
+			 'field_type'       => 'Contact',
+			 'visibility'       => 'Public User Pages and Listings',
+			 'weight'           => 1,
+			 'location_type_id' => 1,
+			 'label'            => 'Test Country',
+			 'is_searchable'    => 1,
+			 'is_active'        => 1
+                          );
+	$ufField   = civicrm_uf_field_create( $this->_ufGroupId , $params );
+	foreach ( $params as $key => $value ){
+            $this->assertEqual($ufField[$key], $params[$key] );
+        }
+	$result = civicrm_uf_field_delete( $ufField['id'] );
+	$this->assertEqual( $result, 1 );
+    }
+    
+    //validate profile html
+    function testValidateProfileHTML( ) 
+    {
+	$this->_individualID = $this->individualCreate( );
+	$result = civicrm_profile_html_validate( $this->_individualID, 'Test Profile' );
+	$this->assertEqual( $result, 1 );
+    }
+    
+}

@@ -97,7 +97,7 @@ class CRM_Dedupe_Finder
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[] = $dao->id;
+            $dupes[] = isset($dao->id) ? $dao->id : NULL;
         }
         $dao->query($rgBao->tableDropQuery());
 
