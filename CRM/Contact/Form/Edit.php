@@ -375,21 +375,22 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
             $this->assign( 'currentEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
-        
+
         //set defaults for country-state widget
         if ( ! empty ( $defaults['location'] ) ) {
             foreach ( $defaults['location'] as $key => $value ) {
-                if ( isset( $value['address'] ) ) {
-                    CRM_Contact_Form_Address::fixStateSelect( $this,
-                                                              "location[$key][address][country_id]",
-                                                              "location[$key][address][state_province_id]",
-                                                              CRM_Utils_Array::value( 'country_id',
-                                                                                      $value['address'] ) );
+                CRM_Contact_Form_Address::fixStateSelect( $this,
+                                                          "location[$key][address][country_id]",
+                                                          "location[$key][address][state_province_id]",
+                                                          CRM_Utils_Array::value( 'country_id',
+                                                                                  CRM_Utils_Array::value( 'address',
+                                                                                                          $value ),
+                                                                                  $config->defaultContactCountry ) );
 
-                    if ( isset( $value['address']['display']) ) {
-                        $this->assign( "location_{$key}_address_display", 
-                                       str_replace("\n", "<br/>", $value['address']['display']) );
-                    }
+                if ( isset( $value['address'] ) &&
+                     isset( $value['address']['display']) ) {
+                    $this->assign( "location_{$key}_address_display", 
+                                   str_replace("\n", "<br/>", $value['address']['display']) );
                 }
             }
         }
@@ -595,6 +596,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+
         //if greeting type is not customized, unset previously set custom greeting.
         if ( CRM_Utils_Array::value('greeting_type_id', $params) != 4 ) {
             $params['custom_greeting'] = "";
@@ -649,7 +651,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             $params['mail_to_household_id'] = 'null';
         }
-    
+
         // cleanup unwanted location types
         if ( CRM_Utils_Array::value( 'contact_id', $params ) && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             require_once 'CRM/Core/BAO/Location.php';

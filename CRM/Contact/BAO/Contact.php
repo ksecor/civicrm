@@ -250,7 +250,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $params['contact_id'] = $contact->id;
 
         //add location Block data
-        
         $location = array( );
         $location = CRM_Core_BAO_Location::create( $params, $fixAddress );
         

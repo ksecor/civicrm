@@ -215,6 +215,12 @@ function _civicrm_activity_update( $params )
     $dao->id = $params['id'];
     if ( $dao->find( true ) ) {
         $dao->copyValues( $params );
+        if ( ! isset( $params['activity_date_time'] ) &&
+             isset( $dao->activity_date_time ) ) {
+            // dont update it
+            $dao->activity_date_time = null;
+        }
+
         $dao->save( );
     }
     $activity = array();
