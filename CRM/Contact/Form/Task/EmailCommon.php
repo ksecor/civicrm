@@ -226,11 +226,18 @@ class CRM_Contact_Form_Task_EmailCommon
     {
         $toEmail = CRM_Utils_Array::value( 'to', $fields );
         $errors = array();
-        
+        $template =& CRM_Core_Smarty::singleton( );
+
         if ( CRM_Utils_Array::value($toEmail,$self->_onHold) ) {
             $errors['to'] = ts("The selected email address is On Hold because the maximum number of delivery attempts has failed. If you have been informed that the problem with this address is resolved, you can take the address off Hold by editing the contact record. Otherwise, you will need to try an different email address for this contact.");
         }
         
+        if (isset($fields['html_message'])){
+            $htmlMessage = str_replace( array("\n","\r"), ' ', $fields['html_message']);
+            $htmlMessage = str_replace( "'", "\'", $htmlMessage);
+            $template->assign('htmlContent',$htmlMessage );
+        }
+
         //Added for CRM-1393
         if( CRM_Utils_Array::value('saveTemplate',$fields) && empty($fields['saveTemplateName']) ){
             $errors['saveTemplateName'] = ts("Enter name to save message template");
