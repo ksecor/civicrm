@@ -137,14 +137,14 @@ function civicrm_uf_profile_html_by_id_get ( $userID,
  
 /**  
  * get the html for the form for profile creation
- *  
+ * @param int     $gid      group id
  * @param boolean $reset    should we reset the form?  
  *  
  * @return string       the html for the form  
  * @static  
  * @access public  
  */  
-function civicrm_uf_create_html_get ( $reset = false ) {
+function civicrm_uf_create_html_get ( $gid, $reset = false ) {
     require_once 'CRM/Core/Controller/Simple.php';
     $session =& CRM_Core_Session::singleton( ); 
     $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', '', CRM_Core_Action::ADD ); 
@@ -152,7 +152,7 @@ function civicrm_uf_create_html_get ( $reset = false ) {
         unset( $_POST['_qf_default'] ); 
         unset( $_REQUEST['_qf_default'] );
     }
-
+    $controller->set( 'gid', $gid );
     $controller->process( ); 
     $controller->setEmbedded( true ); 
     $controller->run( ); 
