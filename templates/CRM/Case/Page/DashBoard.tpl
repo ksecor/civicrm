@@ -1,4 +1,8 @@
 {* CiviCase DashBoard (launch page) *}
+{if $notConfigured} {* Case types not present. Component is not configured for use. *}
+    {include file="CRM/Case/Page/ConfigureError.tpl"}
+{else}
+
 {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="action=add&context=case&reset=1&atype=`$openCaseId`"}{/capture}
 
 <div class="float-right">
@@ -62,6 +66,7 @@
 	    {ts 1=$findCasesURL}There are no cases with activities scheduled in the next two weeks. Use %1 to expand your search.{/ts}
         </div>
     {/if}
+
 <div class="spacer"></div>
     <h3>{ts}Cases With Recently Performed Activities{/ts}</h3>
     {if $recentCases}
@@ -79,3 +84,4 @@
     <div id="view-activity">
         <div id="activity-content"></div>
     </div>
+{/if}

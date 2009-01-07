@@ -1,3 +1,6 @@
+{if $notConfigured} {* Case types not present. Component is not configured for use. *}
+    {include file="CRM/Case/Page/ConfigureError.tpl"}
+{else}
 <tr>
   <td width="25%"><label>{ts}Case Type{/ts}</label>
     <br />
@@ -8,16 +11,17 @@
         </div>
       {/foreach}
       </div><br />
-    </td>
+  </td>
   
   <td>
     {$form.case_status_id.label}<br /> 
     {$form.case_status_id.html}<br /><br />	
     {$form.case_owner.html} &nbsp;<a href="javascript:unselectRadio('case_owner', '{$form.formName}')">unselect</a><br />
     {if $form.case_deleted}	
-    {$form.case_deleted.html}	
-    {$form.case_deleted.label}	
+        {$form.case_deleted.html}	
+        {$form.case_deleted.label}	
     {/if}
   </td>
 
 </tr>     
+{/if}

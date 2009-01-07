@@ -416,6 +416,9 @@ case_relation_type.id = case_relationship.relationship_type_id )";
 
         require_once "CRM/Case/PseudoConstant.php";
         $caseTypes = CRM_Case_PseudoConstant::caseType( );
+        if ( empty( $caseTypes ) ){
+            $form->assign('notConfigured', 1);
+        }
         foreach ( $caseTypes as $id => $Name) {
             $form->addElement('checkbox', "case_type_id[$id]", null,$Name);
         }

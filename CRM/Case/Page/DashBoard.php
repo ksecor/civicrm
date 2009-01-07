@@ -54,6 +54,14 @@ class CRM_Case_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        // Make sure case types have been configured for the component
+        require_once 'CRM/Core/OptionGroup.php';        
+        $caseType = CRM_Core_OptionGroup::values('case_type');
+        if ( empty( $caseType ) ){
+            $this->assign('notConfigured', 1);
+            return;
+        }
+
         $allCases = CRM_Utils_Request::retrieve( 'all', 'Positive',
                                                    CRM_Core_DAO::$_nullObject );
         if ( $allCases ) {
