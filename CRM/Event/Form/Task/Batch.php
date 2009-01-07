@@ -102,6 +102,12 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 $fileFieldExists = true;
                 unset($this->_fields[$name]);
             }
+            
+            //fix to reduce size as we are using this field in grid
+            if ( is_array( $field['attributes'] ) && $this->_fields[$name]['attributes']['size'] > 19 ) {
+                //shrink class to "form-text-medium"
+                $this->_fields[$name]['attributes']['size'] = 19;
+            }
         }
 
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
