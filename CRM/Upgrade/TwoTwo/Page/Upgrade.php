@@ -48,6 +48,8 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                                            array( 1 => $upgrade->latestVersion ) ) );
         $template->assign( 'menuRebuildURL', 
                            CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1' ) );
+        $template->assign( 'cancelURL', 
+                          CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
 
         //check DB for is already upgraded.
         if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
@@ -57,9 +59,10 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
         } else {
             //get the current version
             $currentVersion = CRM_Core_BAO_Domain::version();
-            $message        = ts('CiviCRM upgrade successful');
+            $message        = ts('CiviCRM upgrade was successful.');
 
-            $template->assign( 'upgradeMessage', ts('To Upgrade Please press the button.') );
+            $template->assign( 'currentVersion',  $currentVersion);
+            $template->assign( 'newVersion',      $upgrade->latestVersion);
             $template->assign( 'upgradeTitle',   ts('Upgrade CiviCRM from v %1 To v %2', 
                                                     array( 1=> $currentVersion, 2=> $upgrade->latestVersion ) ) );
             $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
