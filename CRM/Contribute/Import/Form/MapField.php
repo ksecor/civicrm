@@ -95,8 +95,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      */
     protected $_fieldUsed;
     
-
-    
     /**
      * Attempt to resolve the header with our mapper fields
      *
@@ -110,9 +108,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
             
-            /* if we've already used this field, move on */
-//             if ($this->_fieldUsed[$key])
-//                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
             if (preg_match($re, $header)) {
@@ -138,9 +133,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         
         foreach ($patterns as $key => $re) {
             if (empty($re)) continue;
-
-//             if ($this->_fieldUsed[$key])
-//                 continue;
 
             /* Take a vote over the preview data set */
             $hits = 0;
@@ -279,25 +271,53 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $this->_fieldUsed[$key] = false;
         }
         $this->_location_types = & CRM_Core_PseudoConstant::locationType();
-        $sel1 = $this->_mapperFields;
+        $sel1 = $this->_mapperFields;            
         
         if ( !$this->get('onDuplicate') ) {
             unset($sel1['id']);
             unset($sel1['contribution_id']);
         }
      
-        //    soft credit section
+        // start of soft credit section
         $sel1['soft_credit'] = ts('Soft Credit');
-        $softFields = array( 'email', 'first_name', 'last_name', 'external_identifier' );
-        foreach( $softFields as $value ) {
-            if ( CRM_Utils_Array::value( $value, $this->_mapperFields ) ) {
-                $softCreditFields['contribution_soft_' .$value] = $this->_mapperFields[$value];
+        
+        // get contact type for this import 
+        $contactTypeId = $this->get('contactType');
+        $contactTypes  = array(
+                               CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                               CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                               CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                               );
+                               
+        $contactType =  $contactTypes[$contactTypeId];
+        
+        // get imporatable fields for contact type                      
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+        
+        // get the Dedupe rule for this contact type and build soft credit array
+        $ruleParams = array(
+                            'contact_type' => $contacType,
+                            'level' => 'Strict'
+                            );
+        require_once 'CRM/Dedupe/BAO/Rule.php';
+        $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields( $ruleParams );
+        $softCreditFields = array( );
+        if ( is_array($fieldsArray) ) {
+            foreach ( $fieldsArray as $value) {
+                //skip if there is no dupe rule
+                if ( $value == 'none' ) {
+                    continue;
+                }
+                $softCreditFields['contribution_soft_' .$value] = $contactFields[trim($value)]['title'];
             }
         }
-        $softCreditFields['contribution_soft_contact_id'] = $this->_mapperFields['contribution_contact_id'];
-
-        //    mapperFields
+        
+        $softCreditFields['contribution_soft_contact_id'] = ts('Contact ID');
+        
         $sel2['soft_credit'] = $softCreditFields;
+        
+        // end of soft credit section
         
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
@@ -443,7 +463,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $requiredFields = array(
                                     'contribution_contact_id' => ts('Contact ID'),
                                     'total_amount'            => ts('Total Amount'),               
-                                    'contribution_type'       => ts('Contribution Type')
+                                    'contribution_type_id'    => ts('Contribution Type')
                                     );
             
             
