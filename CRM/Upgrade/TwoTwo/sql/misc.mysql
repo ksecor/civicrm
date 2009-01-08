@@ -293,6 +293,9 @@ ALTER TABLE civicrm_mailing_group
 INSERT IGNORE INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5217, 1020, "BRU", "Brussels");
 
 -- ======== CiviCase Related Upgrade ==========
+-- Insert the CiviCase Component
+INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES ( 7,'CiviCase','CRM_Case' );
+
 -- CRM-3667 case mapping
 SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
 
@@ -301,161 +304,26 @@ INSERT INTO
 VALUES 
 (@option_group_id_mt, 'Export Case', '12', 'Export Case', NULL, 0, 0, 12, NULL, 0, 1, 1, NULL, NULL);
 
--- Enable Case Tab in Site Preferences
-UPDATE civicrm_preferences SET `contact_view_options`= '123456789101113';
-
--- Update number of allowed locations
-UPDATE civicrm_preferences set location_count='2';
-
--- Case Types
-SELECT @option_group_id_case_type        := max(id) from civicrm_option_group where name = 'case_type';
-
--- get rid of HRD-related sample case types
--- DELETE FROM `civicrm_option_value` WHERE option_group_id = @option_group_id_case_type;
-
-INSERT INTO
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
-VALUES
-    (@option_group_id_case_type, 'Inpatient treatment',        4, 'inpatient_treatment',       NULL, 0,  0, 7, 'Inpatient treatment case', 0, 0, 1),
-    (@option_group_id_case_type, 'Intervention',               5, 'intervention',              NULL, 0,  0, 8, 'Intervention case',      0, 0, 1),
-    (@option_group_id_case_type, 'Referral to counselor',      6, 'referral_to_counselor',     NULL, 0,  0, 4, 'Referral to counselor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to family doctor',  7, 'referral_to_family_doctor', NULL, 0,  0, 5, 'Referral to family doctor case', 0, 0, 1),
-    (@option_group_id_case_type, 'Referral to specialist',     8, 'referral_to_specialist',    NULL, 0,  0, 6, 'Referral to specialist case', 0, 0, 1),
-    (@option_group_id_case_type, 'Relapse prevention',         9, 'relapse_prevention',        NULL, 0,  0, 9, 'Relapse prevention case', 0, 0, 1),
-    (@option_group_id_case_type, 'Return to work',             10, 'return_to_work',           NULL, 0,  0, 10, 'Return to work case',     0, 0, 1);
-
--- * Case Status - Set names for Open and Closed
-
+-- * Case Status - Set names for Open and Closed and add Urgent status
 SELECT @csgId        := max(id) from civicrm_option_group where name = 'case_status';
 UPDATE civicrm_option_value SET name = 'Open'   where option_group_id = @csgId AND label = 'Ongoing';
 UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId AND label = 'Resolved';
-
--- Insert the CiviCase Component
-INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES ( 7,'CiviCase','CRM_Case' );
-
--- * Activity Types
-
-SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
-
-SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
-
+SELECT @option_group_id_cas            := max(id) from civicrm_option_group where name = 'case_status';
 INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id` ) 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
 VALUES
-    (@option_group_id_activity_type, 'Open Case',                       			(SELECT @max_val := @max_val+1), 'Open Case',  							NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1 , 7),
-
-    (@option_group_id_activity_type, 'Follow up', 						(SELECT @max_val := @max_val+1), 'Follow up',  							NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-
-    (@option_group_id_activity_type, 'Assign classification - skeleton', 			(SELECT @max_val := @max_val+1), 'Assign classification - skeleton',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-
-    (@option_group_id_activity_type, 'Change Case Type', 					(SELECT @max_val := @max_val+1), 'Change Case Type',  						NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Change Case Status', 					(SELECT @max_val := @max_val+1), 'Change Case Status',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Close Case', 						(SELECT @max_val := @max_val+1), 'Close Case',  						NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Plan inpatient admission', 				(SELECT @max_val := @max_val+1), 'Plan inpatient admission',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ), 
-
-    (@option_group_id_activity_type, 'Confirm expected admission date', 			(SELECT @max_val := @max_val+1), 'Confirm expected admission date',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Confirm actual admission', 				(SELECT @max_val := @max_val+1), 'Confirm actual admission',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Confirm expected discharge date', 			(SELECT @max_val := @max_val+1), 'Confirm expected discharge date',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Confirm actual discharge date', 				(SELECT @max_val := @max_val+1), 'Confirm actual discharge date',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ), 
-
-    (@option_group_id_activity_type, 'Receive report of early withdrawal from treatment', 	(SELECT @max_val := @max_val+1), 'Receive report of early withdrawal from treatment',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Plan intervention', 					(SELECT @max_val := @max_val+1), 'Plan intervention',  						NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Include in the details a list of expected attendees and their roles.', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Rehearse intervention', 					(SELECT @max_val := @max_val+1), 'Rehearse intervention',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Conduct intervention', 					(SELECT @max_val := @max_val+1), 'Conduct intervention',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),      
-
-    (@option_group_id_activity_type, 'Debrief intervention', 					(SELECT @max_val := @max_val+1), 'Debrief intervention',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Facilitate first appointment', 				(SELECT @max_val := @max_val+1), 'Facilitate first appointment',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
-    (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', 	(SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to counselor',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Determine needs and preferences (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Where does the client live\? Are there any GP\'s that the client would prefer not to see\?', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Notify selected referral target', 			(SELECT @max_val := @max_val+1), 'Notify selected referral target',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Call client and deliver names', 				(SELECT @max_val := @max_val+1), 'Call client and deliver names',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
-
-    (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', 	(SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to family doctor',  	NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Determine needs and preferences (Specialist referral)', 	(SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to specialist',  	NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Prescreen referral target', 				(SELECT @max_val := @max_val+1), 'Prescreen referral target',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Survey client satisfaction (Specialist referral)', 	(SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to specialist',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Sign case coordination agreement', 			(SELECT @max_val := @max_val+1), 'Sign case coordination agreement',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Receive comprehensive plan for assessment and treatment', (SELECT @max_val := @max_val+1), 'Receive comprehensive plan for assessment and treatment',  	NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Engage workplace supervisor', 				(SELECT @max_val := @max_val+1), 'Engage workplace supervisor',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Engage community mentor', 				(SELECT @max_val := @max_val+1), 'Engage community mentor',  					NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Develop biological monitoring plan', 			(SELECT @max_val := @max_val+1), 'Develop biological monitoring plan',  			NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Receive community mentor report', 			(SELECT @max_val := @max_val+1), 'Receive community mentor report',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Receive treating physician report', 			(SELECT @max_val := @max_val+1), 'Receive treating physician report',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Receive workplace supervisor report', 			(SELECT @max_val := @max_val+1), 'Receive workplace supervisor report',  			NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Record biological monitoring results', 			(SELECT @max_val := @max_val+1), 'Record biological monitoring results',  			NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Review prescribing privileges', 				(SELECT @max_val := @max_val+1), 'Review prescribing privileges',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Review hospital privileges', 				(SELECT @max_val := @max_val+1), 'Review hospital privileges',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Summarize case for discharge', 				(SELECT @max_val := @max_val+1), 'Summarize case for discharge',  				NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Beginning of earliest period totally absent from work', 	(SELECT @max_val := @max_val+1), 'Beginning of earliest period totally absent from work',  	NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Earliest return to any work activity', 			(SELECT @max_val := @max_val+1), 'Earliest return to any work activity',  			NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Beginning of period of restricted duties', 		(SELECT @max_val := @max_val+1), 'Beginning of period of restricted duties',  			NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-
-    (@option_group_id_activity_type, 'Beginning of period of attempted full duties', 		(SELECT @max_val := @max_val+1), 'Beginning of period of attempted full duties',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Beginning of period totally absent from work', 		(SELECT @max_val := @max_val+1), 'Beginning of period totally absent from work',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-
-    (@option_group_id_activity_type, 'Notify service provider', (SELECT @max_val := @max_val+1), 'Notify service provider',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-
-    (@option_group_id_activity_type, 'Assign classification - Presenting Problem', 		(SELECT @max_val := @max_val+1), 'Assign classification - Presenting Problem',  		NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Use when the original problems have changed. So technically this is not the Presenting Problem, but it seems to be the common way of describing this.', 0, 0, 1, 7 ),  
-
-    (@option_group_id_activity_type, 'Assign classification - Specialty Certification', 	(SELECT @max_val := @max_val+1), 'Assign classification - Specialty Certification', 		 NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
+  (@option_group_id_cas, 'Urgent' , 3, 'Urgent',    NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL);
 
 -- Relationship Types
-
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
 SELECT @cR            := max(id) from civicrm_relationship_type where name_b_a = 'Case Coordinator';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Addiction Counselor is', 'Addiction Counselor', 'Addiction Counselor', 'Individual', 'Individual', 0 );
-SELECT @aR            := max(id) from civicrm_relationship_type where name_b_a = 'Addiction Counselor';
-
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
 SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a = 'Supervisor';
 
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Intake Physician is', 'Intake Physician', 'Intake Physician', 'Individual', 'Individual', 0 );
-SELECT @iR            := max(id) from civicrm_relationship_type where name_b_a = 'Intake Physician';
-
-INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 'Family Physician is', 'Family Physician', 'Family Physician', 'Individual', 'Individual', 0 );
-SELECT @fR            := max(id) from civicrm_relationship_type where name_b_a = 'Family Physician';
-
-
--- Encounter Medium Option Values
-
+-- Encounter Medium Option Values for Case Activities
 INSERT INTO `civicrm_option_group` (name, label, description, is_reserved, is_active)
     VALUES  ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
 SELECT @option_group_id_medium        := max(id) from civicrm_option_group where name = 'encounter_medium';
