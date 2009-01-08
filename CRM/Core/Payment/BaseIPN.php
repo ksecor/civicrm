@@ -414,21 +414,24 @@ class CRM_Core_Payment_BaseIPN {
         } else {
             $paymentProcessor = '';
         }
-        $trxnParams = array(
-                            'contribution_id'   => $contribution->id,
-                            'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $input['amount'],
-                            'fee_amount'        => $contribution->fee_amount,
-                            'net_amount'        => $contribution->net_amount,
-                            'currency'          => $contribution->currency,
-                            'payment_processor' => $paymentProcessor,
-                            'trxn_id'           => $contribution->trxn_id,
-                            );
+        if ( $contribution->trxn_id ) {
+            
+            $trxnParams = array(
+                                'contribution_id'   => $contribution->id,
+                                'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
+                                'trxn_type'         => 'Debit',
+                                'total_amount'      => $input['amount'],
+                                'fee_amount'        => $contribution->fee_amount,
+                                'net_amount'        => $contribution->net_amount,
+                                'currency'          => $contribution->currency,
+                                'payment_processor' => $paymentProcessor,
+                                'trxn_id'           => $contribution->trxn_id,
+                                );
+            
+            require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+            $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+        }
         
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-      
         //update corresponding pledge payment record
         require_once 'CRM/Core/DAO.php';
         $returnProperties = array( 'id', 'pledge_id' );
