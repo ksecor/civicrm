@@ -125,18 +125,33 @@ class CRM_Event_Form_EventFees
             if ( CRM_Utils_Array::value( 'fee_level', $defaults[$form->_pId] ) ) {
                 $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                        substr( $defaults[$form->_pId]['fee_level'], 1, -1 ) );
+                
+                //FIXME we need to reevaluate mapping of price set
+                //fields to option group and values.
+                //since custom fields option values may get
+                //collides with price set option value labels.
                 foreach ( $eventLevel as $id => $name ) {
                     $optionValue         = new CRM_Core_BAO_OptionValue( );
                     $optionValue->label  = $name;
                     $optionValue->find( true );
-                
-                    if ($optionValue->option_group_id ){
-                        $groupName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionValue->option_group_id, 'name' );
-                        $fieldName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
-                        $eventLevel[$id] = array( 'fieldName'   => $fieldName,
-                                                  'optionLabel' => $name );
+                    
+                    if ( $optionValue->option_group_id ) {
+                        $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                                  $optionValue->option_group_id, 'name' );
+                        
+                        //hack to avoid collision of custom fields
+                        //option labels with price set fields labels.
+                        if ( strpos( $groupName, 'civicrm_price_field.amount' ) === 0 ) {
+                            
+                            $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
+                                                                      substr( $groupName, -1, 1 ), 'label') ;
+                            
+                            $eventLevel[$id] = array( 'fieldName'   => $fieldName,
+                                                      'optionLabel' => $name ); 
+                        }
                     }
                 }
+                
                 //for the texfield default value
                 foreach ( $eventLevel as $id => $values ) {
                     if( !is_array( $values ) ){
