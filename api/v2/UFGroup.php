@@ -93,7 +93,7 @@ function civicrm_uf_profile_title_get ( $id ) {
  * @access public 
  */ 
 function civicrm_uf_profile_fields_get ( $id, $register = false, $action = null, $visibility = null ) {
-    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, null, $visibility );
+    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, null, $visibility, false, null, true );
 }
 
 /** 
