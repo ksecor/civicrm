@@ -38,7 +38,8 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_TwoOneTwo extends CRM_Upgrade_Form {
 
     function __construct( $version ) {
-        $this->_version = $version;
+        parent::__construct();
+        $this->latestVersion = $version;
     }
 
     function verifyPreDBState( &$errorMessage ) {
@@ -140,11 +141,11 @@ AND civicrm_option_value.label = civicrm_participant.fee_level
         
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
-        $this->setVersion( $this->_version );
+        $this->setVersion( $this->latestVersion );
     }
 
     function verifyPostDBState( &$errorMessage ) {
         $errorMessage = ts('Post-condition failed for upgrade to 2.1.2.');
-        return $this->checkVersion( $this->_version );
+        return $this->checkVersion( $this->latestVersion );
     }
 }
