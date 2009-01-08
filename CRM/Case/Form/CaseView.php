@@ -72,8 +72,8 @@ class CRM_Case_Form_CaseView extends CRM_Core_Form
 
         $this->_caseDetails = array( 'case_type'    => $caseType['name'],
                                      'case_status'  => $statuses[$values['case_status_id']],
-                                     'case_subject' => $values['subject']
-                              );
+                                     'case_subject' => CRM_Utils_Array::value( 'subject', $values )
+                                   );
         $this->_caseType = $caseType['name'];
         $this->assign ( 'caseDetails', $this->_caseDetails );
         
