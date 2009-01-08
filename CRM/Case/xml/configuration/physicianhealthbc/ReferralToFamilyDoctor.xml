@@ -6,9 +6,6 @@
     <ActivityType>
       <name>Open Case</name>
       <max_instances>1</max_instances>
-     </ActivityType>
-    <ActivityType>
-      <name>Determine needs and preferences Referral to family doctor</name>
     </ActivityType>
     <ActivityType>
       <name>Notify selected referral target</name>
@@ -38,12 +35,6 @@
         <ActivityType>
           <name>Open Case</name>
           <status>Closed</status>
-        </ActivityType>
-        <ActivityType>
-          <name>Determine needs and preferences Referral to family doctor</name>
-          <reference_activity>Open Case</reference_activity>
-          <reference_offset>0</reference_offset>
-          <reference_select>newest</reference_select>
         </ActivityType>
         <ActivityType>
           <name>Notify selected referral target</name>
@@ -76,15 +67,6 @@
     <RelationshipType>
         <name>Intake Physician</name>
         <creator>1</creator>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Case Coordinator</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Addiction Counselor</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Supervisor</name>
     </RelationshipType>
     <RelationshipType>
         <name>Family Physician</name>

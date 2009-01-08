@@ -66,11 +66,10 @@ VALUES
     (@option_group_id_activity_type, 'Debrief intervention', (SELECT @max_val := @max_val+1), 'Debrief intervention',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Facilitate first appointment', (SELECT @max_val := @max_val+1), 'Facilitate first appointment',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
     (@option_group_id_activity_type, 'Survey client satisfaction (Counselor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to counselor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Determine needs and preferences (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'Where does the client live? Are there any GP\'s that the client would prefer not to see?', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Notify selected referral target', (SELECT @max_val := @max_val+1), 'Notify selected referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Call client and deliver names', (SELECT @max_val := @max_val+1), 'Call client and deliver names',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),     
     (@option_group_id_activity_type, 'Survey client satisfaction (Family doctor referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to family doctor',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
-    (@option_group_id_activity_type, 'Determine needs and preferences (Specialist referral)', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'What is the type of specialist? Where does the caller live? Any restrictions like travel, schedule? Put some of these details into the subject field so it\'s visible from Manage Case.', 0, 0, 1, 7 ),    
+    (@option_group_id_activity_type, 'Determine needs and preferences', (SELECT @max_val := @max_val+1), 'Determine needs and preferences Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), 'What is the type of specialist? Where does the caller live? Any restrictions like travel, schedule? Put some of these details into the subject field so it\'s visible from Manage Case.', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Prescreen referral target', (SELECT @max_val := @max_val+1), 'Prescreen referral target',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Survey client satisfaction (Specialist referral)', (SELECT @max_val := @max_val+1), 'Survey client satisfaction Referral to specialist',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
     (@option_group_id_activity_type, 'Sign case coordination agreement', (SELECT @max_val := @max_val+1), 'Sign case coordination agreement',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),    
@@ -548,3 +547,17 @@ SELECT @maxval := max(value) from civicrm_option_value where option_group_id=@ac
 SELECT @maxweight := max(weight) from civicrm_option_value where option_group_id=@actId;
 INSERT INTO civicrm_option_value (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
  VALUES (@actId,'Correspondence',@maxval+1,'Correspondence',NULL,0,0,@maxweight+1,'Correspondence',0,0,1,NULL,NULL);
+
+-- Set up the organization contact
+DELETE FROM civicrm_address;
+DELETE FROM civicrm_email;
+DELETE FROM civicrm_phone;
+DELETE FROM civicrm_contact;
+INSERT INTO `civicrm_contact` (`id`, `contact_type`, `contact_sub_type`, `do_not_email`, `do_not_phone`, `do_not_mail`, `do_not_trade`, `is_opt_out`, `legal_identifier`, `external_identifier`, `sort_name`, `display_name`, `nick_name`, `legal_name`, `home_URL`, `image_URL`, `preferred_communication_method`, `preferred_mail_format`, `hash`, `api_key`, `source`, `first_name`, `middle_name`, `last_name`, `prefix_id`, `suffix_id`, `greeting_type_id`, `custom_greeting`, `job_title`, `gender_id`, `birth_date`, `is_deceased`, `deceased_date`, `mail_to_household_id`, `household_name`, `primary_contact_id`, `organization_name`, `sic_code`, `user_unique_id`, `employer_id`)
+ VALUES (1, 'Organization',NULL,0,0,0,0,0,NULL,NULL,'Physician Health Program of BC','Physician Health Program of BC','PHP / PHPBC','Physician Health Program of British Columbia','http://www.physicianhealth.com',NULL,'','Both','09ff520e64dea7b4ce184471af4a0037',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'Physician Health Program of BC',NULL,NULL,NULL);
+INSERT INTO `civicrm_address` (`contact_id`, `location_type_id`, `is_primary`, `is_billing`, `street_address`, `street_number`, `street_number_suffix`, `street_number_predirectional`, `street_name`, `street_type`, `street_number_postdirectional`, `street_unit`, `supplemental_address_1`, `supplemental_address_2`, `supplemental_address_3`, `city`, `county_id`, `state_province_id`, `postal_code_suffix`, `postal_code`, `usps_adc`, `country_id`, `geo_code_1`, `geo_code_2`, `timezone`, `name`)
+ VALUES (1,2,1,0,'980 - 1125 Howe St.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Vancouver',NULL,1101,NULL,'V6Z 2K8',NULL,1039,NULL,NULL,NULL,NULL);
+INSERT INTO `civicrm_email` (`contact_id`, `location_type_id`, `email`, `is_primary`, `is_billing`, `on_hold`, `is_bulkmail`, `hold_date`, `reset_date`)
+ VALUES (1,2,'info@physicianhealth.com',1,0,0,0,NULL,NULL);
+INSERT INTO `civicrm_phone` (`contact_id`, `location_type_id`, `is_primary`, `is_billing`, `mobile_provider_id`, `phone`, `phone_type_id`)
+  VALUES (1,2,1,0,NULL,'604-742-0747',5);
