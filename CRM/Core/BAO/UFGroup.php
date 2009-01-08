@@ -2085,6 +2085,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $noteDetails = array( );
                 $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
                 $defaults[$fldName] = array_pop($noteDetails);  
+            } else if ( in_array( $name, array( 'contribution_type', 'payment_instrument') ) )  {
+                $defaults[$fldName] = $values["{$name}_id"];
             } else if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $name, true ) ) {
                 if ( empty( $formattedGroupTree ) ) {
                     //get the groupTree as per subTypes.
