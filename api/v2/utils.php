@@ -895,16 +895,22 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
         case 'payment_instrument': 
             require_once 'CRM/Core/OptionGroup.php';
             $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
+            if ( !CRM_Utils_Array::value( 'payment_instrument_id', $values ) ) {
+                return civicrm_create_error("Payment Instrument is not valid: $value");
+            }
             break;
         case 'contribution_status_id':  
             require_once 'CRM/Core/OptionGroup.php';
-            if (!$values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value )) {
+            if ( !$values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value )) {
                 return civicrm_create_error("Contribution Status is not valid: $value");
             }
             break;
         case 'honor_type_id': 
             require_once 'CRM/Core/OptionGroup.php';
             $values['honor_type_id'] = CRM_Core_OptionGroup::getValue( 'honor_type', $value );
+            if ( !CRM_Utils_Array::value( 'honor_type_id', $values ) ) {
+                return civicrm_create_error("Honor Type is not valid: $value");
+            }
             break;
         default:
             break;

@@ -1391,11 +1391,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( in_array($fieldName, array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             $form->addRule($name, ts('Select a valid date.'), 'qfDate');
-        } else if ($fieldName == 'payment_instrument' ) {
+        } else if ($fieldName == 'payment_instrument_id' ) {
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, $title,
                        array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
-        } else if ($fieldName == 'contribution_type' ) {
+        } else if ($fieldName == 'contribution_type_id' ) {
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, $title,
                        array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
