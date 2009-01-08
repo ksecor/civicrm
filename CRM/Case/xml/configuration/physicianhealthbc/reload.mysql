@@ -1,0 +1,6 @@
+drop database civicrmdata;
+create database civicrmdata;
+use civicrmdata;
+source ../../../../../sql/civicrm.mysql;
+source ../../../../../sql/civicrm_data.mysql;
+source physicianhealthbc.mysql;
