@@ -341,7 +341,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         CRM_Core_BAO_Note::add($noteParams, $noteID);
                         unset($formatted['note']);
                     }
-                    
+                                           
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
                     return CRM_Contribute_Import_Parser::VALID;
