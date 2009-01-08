@@ -571,7 +571,14 @@ AND civicrm_case.is_deleted     = 0";
         $actions = CRM_Case_Selector_Search::links();
 
         require_once "CRM/Contact/BAO/Contact/Utils.php";
-        $casesList = array();
+        $casesList = array( );
+        // check is the user has view/edit signer permission
+        $permission = CRM_Core_Permission::VIEW;
+        if ( CRM_Core_Permission::check( 'edit cases' ) ) {
+            $permission = CRM_Core_Permission::EDIT;
+        }
+        
+        $mask = CRM_Core_Action::mask( $permission );
         while ( $result->fetch() ) {
             foreach( $resultFields as $donCare => $field ) {
                 $casesList[$result->case_id][$field] = $result->$field;
@@ -607,8 +614,8 @@ AND civicrm_case.is_deleted     = 0";
 
         // build rows with actual data
         $rows = array();
-        $myCaseFrom  = '';
-        $myCaseWhere = '';
+        $myCaseFrom  = $myCaseWhere = $myCaseFromClause = $myCaseWhereClause = '';
+        
         if ( !$allCases ) {
             $myCaseFromClause = " 
  LEFT JOIN civicrm_relationship case_relationship 
