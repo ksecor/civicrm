@@ -68,7 +68,10 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         if ( $this->_context ) {
             $this->assign( 'context', $this->_context );
         }
-        
+
+        if ( $this->get( 'skipPermission' ) ) {
+            $this->_skipPermission = true;
+        }
 
         if ( $this->get( 'edit' ) ) {
             // make sure we have right permission to edit this user
