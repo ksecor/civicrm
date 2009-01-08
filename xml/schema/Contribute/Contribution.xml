@@ -85,7 +85,8 @@
       <name>payment_instrument_id</name>
       <title>Payment Instrument</title>   
       <type>int unsigned</type>
-      <import>true</import>   
+      <import>true</import>
+      <headerPattern>/^payment|(p(ayment\s)?instrument)$/i</headerPattern> 
       <comment>FK to Payment Instrument</comment>   
       <add>1.3</add>   
   </field>  
