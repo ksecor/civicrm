@@ -31,7 +31,7 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
         $result =& civicrm_location_get(array('location_type' => 'Main'));
         $this->assertEqual($result['is_error'], 1);
         // location_type an empty array
-        $result =& civicrm_location_get(array('contact_id' => $this->contact_Id, 'location_type' => array()));
+        $result =& civicrm_location_get(array('contact_id' => $this->_contactId, 'location_type' => array()));
         $this->assertEqual($result['is_error'], 1);
     }
 
@@ -46,7 +46,7 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
         );
         $result = civicrm_location_get(array('contact_id' => $this->_contactId));
         foreach ($result as $location) {
-            if ($location['is_primary']) {
+            if ( CRM_Utils_Array::value( 'is_primary', $location ) ) {
                 $this->assertEqual($location['name'], 'Saint Helier St');
                 foreach ($proper as $field => $value) {
                     $this->assertEqual($location['address'][$field], $value);

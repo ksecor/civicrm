@@ -215,20 +215,24 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         //special check to ignore non numeric values if they are not
         //detected by formRule(sometimes happens due to internet latency), also allow user to unselect state/country
-        if ( isset( $params['state_province_id'] ) && ! trim( $params['state_province_id'] ) ) {
-            $params['state_province_id'] = 'null'; 
-        } else if ( ! is_numeric( $params['state_province_id'] ) ||
-                    ( (int ) $params['state_province_id'] < 1000 ) ) {
-            // CRM-3393 ( the hacky 1000 check)
-            $params['state_province_id'] = 'null'; 
+        if ( isset( $params['state_province_id'] ) ) {
+            if ( ! trim( $params['state_province_id'] ) ) {
+                $params['state_province_id'] = 'null'; 
+            } else if ( ! is_numeric( $params['state_province_id'] ) ||
+                        ( (int ) $params['state_province_id'] < 1000 ) ) {
+                // CRM-3393 ( the hacky 1000 check)
+                $params['state_province_id'] = 'null'; 
+            }
         }
 
-        if ( isset( $params['country_id'] ) && ! trim( $params['country_id'] ) ) {
-            $params['country_id'] = 'null'; 
-        } else if ( ! is_numeric( $params['country_id'] ) ||
-                    ( (int ) $params['country_id'] < 1000 ) ) {
-            // CRM-3393 ( the hacky 1000 check)
-            $params['country_id'] = 'null';
+        if ( isset( $params['country_id'] ) ) {
+            if ( ! trim( $params['country_id'] ) ) {
+                $params['country_id'] = 'null'; 
+            } else if ( ! is_numeric( $params['country_id'] ) ||
+                        ( (int ) $params['country_id'] < 1000 ) ) {
+                // CRM-3393 ( the hacky 1000 check)
+                $params['country_id'] = 'null';
+            }
         }
 
         // add state and country names from the ids

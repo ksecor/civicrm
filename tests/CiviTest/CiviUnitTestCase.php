@@ -41,7 +41,7 @@ class CiviUnitTestCase extends DrupalTestCase {
             }
             return;
         }
-        
+
         // Otherwise check matches of DAO field values against expected values in $match.
         if ( $object->find( true ) ) {
             $fields =& $object->fields( );

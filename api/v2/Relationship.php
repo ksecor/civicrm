@@ -48,7 +48,7 @@ require_once 'CRM/Contact/BAO/RelationshipType.php';
  * @static void
  * @access public
  */
-function &civicrm_relationship_create( &$params ) {
+function civicrm_relationship_create( &$params ) {
     _civicrm_initialize( );
 
     if ( empty( $params ) ) { 
@@ -67,8 +67,8 @@ function &civicrm_relationship_create( &$params ) {
     }
     
     require_once 'CRM/Utils/Rule.php';
-    if( !CRM_Utils_Rule::integer( $params['relationship_type_id'] ) ) {
-       
+    if ( ! CRM_Utils_Rule::integer( CRM_Utils_Array::value( 'relationship_type_id',
+                                                            $params ) ) ) {
         return civicrm_create_error( 'Invalid value for relationship type ID' );
     }
 

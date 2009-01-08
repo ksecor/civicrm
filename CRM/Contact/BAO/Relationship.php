@@ -162,8 +162,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = $params['is_active'] ? 1 : 0;
-        $relationship->is_permission_a_b    = $params['is_permission_a_b'] ? 1 : 0;
-        $relationship->is_permission_b_a    = $params['is_permission_b_a'] ? 1 : 0;
+        $relationship->is_permission_a_b    = CRM_Utils_Array::value( 'is_permission_a_b', $params, 0 );
+        $relationship->is_permission_b_a    = CRM_Utils_Array::value( 'is_permission_b_a', $params, 0 );
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         $relationship->case_id              = CRM_Utils_Array::value( 'case_id', $params );  
@@ -924,7 +924,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 require_once 'CRM/Contact/BAO/RelationshipType.php';
                 CRM_Contact_BAO_RelationshipType::retrieve( $relTypeParams, $relTypeValues );
                 
-                if ( $relTypeValues['name_a_b'] == $relTypeValues['name_b_a'] ) {
+                if ( CRM_Utils_Array::value( 'name_a_b',
+                                             $relTypeValues ) ==
+                     CRM_Utils_Array::value( 'name_b_a',
+                                             $relTypeValues ) ) {
                     $values[$cid]['relationshipTypeDirection'] = '_a_b';
                 } else {
                     $values[$cid]['relationshipTypeDirection'] = ($relDirection == '_a_b') ? '_b_a' : '_a_b';

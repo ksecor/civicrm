@@ -135,7 +135,13 @@ class TestOfRelationshipUpdateAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $result['result']['id'] );   
         
         // assertDBState compares expected values in $result to actual values in the DB          
-        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $relationParams ); 
+        // fix params
+        $v = explode( '_', $params['relationship_type_id'] );
+        $params['relationship_type_id']  = $v[0];
+        $params['start_date'] = '2005-01-11';
+        $params['end_date'  ] = '2006-01-11';
+        unset( $params['contact_check'] );
+        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $params ); 
         
         //delete created relationship
         $params['id']=$this->_relationID;
