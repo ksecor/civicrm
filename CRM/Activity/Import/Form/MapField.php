@@ -435,7 +435,8 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity')){
+                $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', 'Import Activity', 'name' );
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField, $mappingTypeId ) ) {
                      $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
