@@ -37,6 +37,7 @@ require_once 'CRM/Core/Page.php';
 require_once 'CRM/Upgrade/Form.php';
 require_once 'CRM/Core/BAO/Domain.php';
 require_once 'CRM/Utils/System.php';
+require_once 'CRM/Upgrade/TwoOne/Page/Upgrade.php';
 class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
@@ -58,6 +59,15 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                                                array( 1 => $upgrade->latestVersion ) ) );
             $template->assign( 'upgraded', false );
             if ( $_POST['upgrade'] ) {
+                if ( $upgrade->checkVersion( '2.1.0' ) ||
+                     $upgrade->checkVersion( '2.1' )   || 
+                     $upgrade->checkVersion( '2.1.1' ) ) {
+                    $twoOne = new CRM_Upgrade_TwoOne_Page_Upgrade();
+                    // 2.1 to 2.1.2
+                    $twoOne->runTwoOneTwo( );
+                }
+                //if version is 2.1.2 OR 2.1.3 OR 2.1.4 do normal
+                //upgrade, no changes in DB schema
                 for ( $i = 1; $i <= 4; $i++ ) {
                     $this->runForm( $i );
                 }
