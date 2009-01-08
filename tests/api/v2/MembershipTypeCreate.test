@@ -85,7 +85,9 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
     function testMembershipTypeCreateWithoutName()
     {
         $params = array(
-                        'description'          => 'people above 50 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
+                        'name'                 => '50+ Membership',
+                        'description'          => 'people above 50 are given health instructions',
+                        'member_of_contact_id' => $this->_contactID,
                         'contribution_type_id' => $this->_contributionTypeID,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -96,15 +98,18 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
         
         $membershiptype = & civicrm_membership_type_create($params);  
         $this->assertEqual( $membershiptype['is_error'], 0 );
-        $this->assertNotNull( $membershiptype['id'] );   
-        $this->membershipTypeDelete( $membershiptype['id'] );
+        if ( ! $membershiptype['is_error'] ) {
+            $this->assertNotNull( $membershiptype['id'] );   
+            $this->membershipTypeDelete( $membershiptype['id'] );
+        }
     }
     
     function testMembershipTypeCreate()
     {
         $params = array(
                         'name'                 => '40+ Membership',
-                        'description'          => 'people above 40 are given health instructions',                        'member_of_contact_id' => $this->_contactID,
+                        'description'          => 'people above 40 are given health instructions', 
+                        'member_of_contact_id' => $this->_contactID,
                         'contribution_type_id' => $this->_contributionTypeID,
                         'minimum_fee'          => '200',
                         'duration_unit'        => 'month',
@@ -115,8 +120,10 @@ class TestOfMembershipTypeCreateAPIV2 extends CiviUnitTestCase
 	
         $membershiptype = & civicrm_membership_type_create($params);  
         $this->assertEqual( $membershiptype['is_error'], 0 );
-        $this->assertNotNull( $membershiptype['id'] );   
-        $this->membershipTypeDelete( $membershiptype['id'] );
+        if ( ! $membershiptype['is_error'] ) {
+            $this->assertNotNull( $membershiptype['id'] );   
+            $this->membershipTypeDelete( $membershiptype['id'] );
+        }
     }
     
     function tearDown() 

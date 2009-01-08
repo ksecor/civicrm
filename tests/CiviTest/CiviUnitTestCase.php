@@ -62,6 +62,8 @@ class CiviUnitTestCase extends DrupalTestCase {
         $object->free( );
         $matchSize = count( $match );
         if ( $verifiedCount != $matchSize ) {
+            CRM_Core_Error::debug( 'm', $match );
+            CRM_Core_Error::debug( 'o', $object );
             $this->fail("Did not verify all fields in match array: $daoName, $id. Verified count = $verifiedCount. Match array size = $matchSize");
         }
     }
@@ -170,7 +172,7 @@ class CiviUnitTestCase extends DrupalTestCase {
                      'end_date'    => '2007-12-21',
                      'source'      => 'Payment'  );
         foreach ( $pre as $key => $val ) {
-            if ( !$params[$key] ) {
+            if ( ! isset( $params[$key] ) ) {
                 $params[$key] = $val;
             }
         }
@@ -788,17 +790,14 @@ class CiviUnitTestCase extends DrupalTestCase {
     function noteCreate( $cId )
     {
         require_once 'api/v2/Note.php';
-        if ( $params === null ) {
-            $params = array(
-                            'entity_table'  => 'civicrm_contact',
-                            'entity_id'     => $cId,
-                            'note'          => 'hello I am testing Note',
-                            'contact_id'    => $cId,
-                            'modified_date' => date('Ymd'),
-                            'subject'       =>'Test Note', 
-                            );
-        }
-        
+        $params = array(
+                        'entity_table'  => 'civicrm_contact',
+                        'entity_id'     => $cId,
+                        'note'          => 'hello I am testing Note',
+                        'contact_id'    => $cId,
+                        'modified_date' => date('Ymd'),
+                        'subject'       =>'Test Note', 
+                        );
         $note =& civicrm_note_create( $params );
         return $note;
     }

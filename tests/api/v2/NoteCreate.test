@@ -50,16 +50,6 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $result['error_message'], 'Required parameter missing' );
     }
     
-    function testCreateNoteParamsWithoutTitle( )
-    {
-        unset( $this->_params['subject'] );
-        $result = civicrm_note_create( $this->_params );
-
-        $this->assertNotEqual( $result['is_error'], 1 );
-        $this->assertNotEqual( $result['error_message'], 'Required parameter missing' );
-        civicrm_note_delete( $result );
-    }
-    
     function testCreateNoteParamsWithoutEntityId( )
     {
         unset($this->_params['entity_id']);

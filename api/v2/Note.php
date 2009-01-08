@@ -61,6 +61,7 @@ function &civicrm_note_create(&$params)
     if ( !is_array( $params ) ) {
         return civicrm_create_error( 'Params is not an array' );
     }
+
     if ( ! CRM_Utils_Array::value( 'id', $params ) ) {
         if ( !isset($params['entity_table']) || 
              !isset($params['entity_id'])    || 
@@ -69,8 +70,7 @@ function &civicrm_note_create(&$params)
             return civicrm_create_error( 'Required parameter missing' );
         }
     } else if ( !isset( $params['id'] ) && !isset( $params['contact_id'] ) ) {
-        $error = civicrm_create_error( 'Required parameter missing' );
-        return $error;
+        return civicrm_create_error( 'Required parameter missing' );
     }
 
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
@@ -80,7 +80,7 @@ function &civicrm_note_create(&$params)
     }
 
     $ids = array( );
-    $ids = array( 'id' => $params['id'] );
+    $ids = array( 'id' => CRM_Utils_Array::value( 'id', $params ) );
     $noteBAO = CRM_Core_BAO_Note::add( $params, $ids );
    
     if ( is_a( $noteBAO, 'CRM_Core_Error' ) ) {
@@ -104,7 +104,7 @@ function &civicrm_note_create(&$params)
  * @return null
  * @access public
  */
-function &civicrm_note_delete( &$params )
+function civicrm_note_delete( &$params )
 {
     _civicrm_initialize();
     
