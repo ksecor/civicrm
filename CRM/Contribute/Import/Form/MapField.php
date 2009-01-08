@@ -285,9 +285,20 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             unset($sel1['id']);
             unset($sel1['contribution_id']);
         }
-        
-        $sel2[''] = null;
+     
+        //    soft credit section
+        $sel1['soft_credit'] = ts('Soft Credit');
+        $softFields = array( 'email', 'first_name', 'last_name', 'external_identifier' );
+        foreach( $softFields as $value ) {
+            if ( CRM_Utils_Array::value( $value, $this->_mapperFields ) ) {
+                $softCreditFields['contribution_soft_' .$value] = $this->_mapperFields[$value];
+            }
+        }
+        $softCreditFields['contribution_soft_contact_id'] = $this->_mapperFields['contribution_contact_id'];
 
+        //    mapperFields
+        $sel2['soft_credit'] = $softCreditFields;
+        
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
         
@@ -506,6 +517,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     public function postProcess()
     {
         $params = $this->controller->exportValues( 'MapField' );
+      
         //reload the mapfield if load mapping is pressed
         if( !empty($params['savedMapping']) ) {            
             $this->set('savedMapping', $params['savedMapping']);
@@ -519,19 +531,22 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton( );
         $seperator = $config->fieldSeparator;
 
-        $mapperKeys = array( );
-        $mapper     = array( );
+        $mapper = $mapperKeys = $mapperKeysMain = $mapperLocType = $mapperPhoneType = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        $mapperKeysMain     = array();
-        $mapperLocType      = array();
-        $mapperPhoneType    = array();
         
-        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
-            $mapperKeysMain[$i] = $mapperKeys[$i][0];
+        for ( $i = 0; $i < $this->_columnCount; $i++ ) {            
+            if( isset( $mapperKeys[$i][0] ) && $mapperKeys[$i][0] == 'soft_credit') {
+                list( $first, $second ) = explode('_', substr( $mapperKeys[$i][1],18) );
+                $mapper[$i]     = ts('Soft Credit: '). ucwords($first . " " .  $second );
+                $mapperKeysMain[$i] = $mapperKeys[$i][1];
+            } else {
+                $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
+                $mapperKeysMain[$i] = $mapperKeys[$i][0];
+            }
             
             if (is_numeric($mapperKeys[$i][1])) {
                 $mapperLocType[$i] = $mapperKeys[$i][1];
+
             } else {
                 $mapperLocType[$i] = null;
             }
@@ -542,9 +557,9 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $mapperPhoneType[$i] = null;
             }
         }
-
+             
         $this->set( 'mapper'    , $mapper     );
-               
+
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         
@@ -566,8 +581,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
                 $updateMappingFields->column_number = $i;
-
-                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
                 $updateMappingFields->name = $mapper[$i];
                 $updateMappingFields->save();                
             }
@@ -586,8 +599,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
                 $saveMappingFields->column_number = $i;                             
-                
-                list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
                 $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
