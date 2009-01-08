@@ -153,6 +153,7 @@ function civicrm_uf_create_html_get ( $gid, $reset = false ) {
         unset( $_REQUEST['_qf_default'] );
     }
     $controller->set( 'gid', $gid );
+    $controller->set( 'skipPermission', 1 );
     $controller->process( ); 
     $controller->setEmbedded( true ); 
     $controller->run( ); 
