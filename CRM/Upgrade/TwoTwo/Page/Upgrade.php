@@ -41,37 +41,47 @@ require_once 'CRM/Upgrade/TwoOne/Page/Upgrade.php';
 class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        $upgrade =& new CRM_Upgrade_Form( );
+        $upgrade  =& new CRM_Upgrade_Form( );
         $template =& CRM_Core_Smarty::singleton( );
+
+        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1', 
+                                           array( 1 => $upgrade->latestVersion ) ) );
+        $template->assign( 'menuRebuildURL', 
+                           CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1' ) );
+
         //check DB for is already upgraded.
         if ( $upgrade->checkVersion( $upgrade->latestVersion ) ) {
-                $message = ts('Your database has already been upgraded to CiviCRM %1',
-                              array( 1 => $upgrade->latestVersion ) );
-                $template->assign( 'upgraded', true );
+            $message = ts( 'Your database has already been upgraded to CiviCRM %1',
+                           array( 1 => $upgrade->latestVersion ) );
+            $template->assign( 'upgraded', true );
         } else {
             //get the current version
             $currentVersion = CRM_Core_BAO_Domain::version();
             $message        = ts('CiviCRM upgrade successful');
+
             $template->assign( 'upgradeMessage', ts('To Upgrade Please press the button.') );
-            $template->assign( 'upgradeTitle', ts('Upgrade CiviCRM from v %1 To v %2', 
-                                                  array( 1=> $currentVersion, 2=> $upgrade->latestVersion ) ) );
+            $template->assign( 'upgradeTitle',   ts('Upgrade CiviCRM from v %1 To v %2', 
+                                                    array( 1=> $currentVersion, 2=> $upgrade->latestVersion ) ) );
             $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1',
                                                array( 1 => $upgrade->latestVersion ) ) );
             $template->assign( 'upgraded', false );
+
             if ( $_POST['upgrade'] ) {
                 if ( $upgrade->checkVersion( '2.1.0' ) ||
                      $upgrade->checkVersion( '2.1' )   || 
                      $upgrade->checkVersion( '2.1.1' ) ) {
-                    $twoOne = new CRM_Upgrade_TwoOne_Page_Upgrade();
                     // 2.1 to 2.1.2
+                    $twoOne = new CRM_Upgrade_TwoOne_Page_Upgrade();
                     $twoOne->runTwoOneTwo( );
                 }
-                //if version is 2.1.2 OR 2.1.3 OR 2.1.4 do normal
-                //upgrade, no changes in DB schema
+
+                // if version is 2.1.2 OR 2.1.3 OR 2.1.4 do normal
+                // upgrade, no changes in DB schema
                 for ( $i = 1; $i <= 4; $i++ ) {
                     $this->runForm( $i );
                 }
-                // just change the ver in the db, since nothing to upgrade
+
+                // update the ver in the db
                 $upgrade->setVersion( $upgrade->latestVersion );
                 $template->assign( 'upgraded', true );
                 
@@ -80,13 +90,10 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                 $config->cleanup( 1 );
             }
         } 
-        $template->assign( 'menuRebuildURL', 
-                           CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1' ) );
-        $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1', array( 1 => $upgrade->latestVersion ) ) );
+
         $template->assign( 'message', $message );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
         echo $contents; 
-        
     }
 
     function runForm( $stepID ) {

@@ -20,10 +20,7 @@
 <div style="padding: 1em; background-color: #0C0; border: 1px #070 solid; color: white; font-weight: bold">
 <form method="post">
 <fieldset><legend>{$upgradeTitle}</legend>
-    <dl>
-    <dd>{$upgradeMessage}</dd>
-    <dd><input type="submit" value="Upgrade" name="upgrade" onclick="return confirm('Are you sure you want to Upgrade the CiviCRM?');"/></dd>
-    </dl>
+    <p>{$upgradeMessage}&nbsp;<input type="submit" value="Upgrade Now" name="upgrade" onclick="return confirm('Are you sure you have taken complete backup of current database and ready to Upgrade CiviCRM?');"/></p>
 </fieldset>
 </form>
 </div>
