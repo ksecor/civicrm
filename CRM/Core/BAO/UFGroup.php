@@ -1268,7 +1268,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     {
         require_once "CRM/Profile/Form.php";
         require_once "CRM/Core/OptionGroup.php";
-
+        
         $fieldName  = $field['name'];
         $title      = $field['title'];
         $attributes = $field['attributes'];
@@ -1354,6 +1354,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->addGroup($communicationOptions, $name, $title, '<br/>' );
         } else if ($fieldName === 'preferred_mail_format') {
             $form->add('select', $name, $title, CRM_Core_SelectValues::pmf());
+        } else if ( $fieldName == 'external_identifier' ) { 
+            $form->add('text', $name, $title, $attributes, $required );
+            $contID = $contactId;
+            if ( !$contID ) {
+                $contID = $form->get('id');
+            }
+            $form->addRule( $name,
+                            ts('External ID already exists in Database.'), 
+                            'objectExists', 
+                            array( 'CRM_Contact_DAO_Contact', $contID, 'external_identifier' ) );
         } else if ( $fieldName === 'group' ) {
             require_once 'CRM/Contact/Form/GroupTag.php';
             CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,

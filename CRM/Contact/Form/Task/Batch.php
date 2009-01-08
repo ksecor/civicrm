@@ -144,8 +144,9 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
         }
 
         $this->addDefaultButtons( ts( 'Update Contacts' ) );
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_Batch', 'formRule' ) );
     }
-
+    
     /**
      * This function sets the default values for the form.
      * 
@@ -173,10 +174,35 @@ class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task
 
         return $defaults;
     }
-
-
-
-
+    
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields ) 
+    {
+        $errors = array( );
+        $externalIdentifiers = array( );
+        foreach ( $fields['field'] as $componentId => $field ) {
+            foreach ( $field as $fieldName => $fieldValue ) {
+                if ( $fieldName == 'external_identifier' ) {
+                    if ( in_array( $fieldValue, $externalIdentifiers ) ) {
+                        $errors["field[$componentId][external_identifier]"] = ts( 'Duplicate value for External Identifier.' ); 
+                    } else {
+                        $externalIdentifiers[$componentId] = $fieldValue;
+                    }
+                }
+            }
+        }
+        
+        return $errors;
+    }
+    
     /**
      * process the form after the input has been submitted and validated
      *
