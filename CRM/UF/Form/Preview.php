@@ -162,7 +162,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
 
         foreach ($this->_fields as $name => $field ) {
             $required = $field['is_required'];
-           
+            
             if ( substr($field['name'],0,14) === 'state_province' ) {
                 $this->add('select', $name, $field['title'],
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -176,6 +176,8 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 }
             } else if ( $field['name'] === 'birth_date' ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
+            } else if ( $field['name'] === 'is_deceased' ) {  
+                $this->add('checkbox', $field['name'], $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'deceased_date' ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
             } else if ( $field['name'] === 'gender' ) {  
