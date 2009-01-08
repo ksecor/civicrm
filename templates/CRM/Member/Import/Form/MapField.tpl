@@ -14,8 +14,16 @@
  {* Table for mapping data to CRM fields *}
  {include file="CRM/Member/Import/Form/MapTable.tpl}
  
-
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
  {$initHideBoxes}
+
+{literal}
+<script type="text/javascript" >
+if ( document.getElementsByName("saveMapping")[0].checked ) {
+    document.getElementsByName("updateMapping")[0].checked = true;
+    document.getElementsByName("saveMapping")[0].checked = false;
+} 
+</script>
+{/literal}

@@ -573,6 +573,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                 $saveMappingFields->name = $mapper[$i];
                 $saveMappingFields->save();
             }
+            $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
 
         $parser =& new CRM_Member_Import_Parser_Membership( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );

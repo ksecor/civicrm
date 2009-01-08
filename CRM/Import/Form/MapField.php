@@ -711,6 +711,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 }
                 $saveMappingFields->save();
             }
+            $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
 
         $parser =& new CRM_Import_Parser_Contact(  $mapperKeysMain, $mapperLocType, $mapperPhoneType, 
