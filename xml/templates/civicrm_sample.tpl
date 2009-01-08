@@ -65,9 +65,10 @@ INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 
 -- Add sample activity type
 
-SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @option_group_id_act  := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @option_value_max_val := max(value) from civicrm_option_value where option_group_id = @option_group_id_act;
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-   (@option_group_id_act, 'Interview', 13, 'Interview',  NULL, 0, NULL, 13, 'Conduct a phone or in person interview.', 0, 0, 1);
+   (@option_group_id_act, 'Interview', (SELECT @option_value_max_val := @option_value_max_val + 1), 'Interview',  NULL, 0, NULL, @option_value_max_val, 'Conduct a phone or in person interview.', 0, 0, 1);
