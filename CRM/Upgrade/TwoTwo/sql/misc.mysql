@@ -314,14 +314,25 @@ INSERT INTO
 VALUES
   (@option_group_id_cas, 'Urgent' , 3, 'Urgent',    NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL);
 
--- Relationship Types
+-- Relationship Types for cases
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 'Case Coordinator is', 'Case Coordinator', 'Case Coordinator', 'Individual', 'Individual', 0 );
-SELECT @cR            := max(id) from civicrm_relationship_type where name_b_a = 'Case Coordinator';
 
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 'Supervised by', 'Supervisor', 'Immediate workplace supervisor', 'Individual', 'Individual', 0 );
-SELECT @sR            := max(id) from civicrm_relationship_type where name_b_a = 'Supervisor';
+
+-- Activity Types for cases
+SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id` ) 
+VALUES
+    (@option_group_id_activity_type, 'Open Case', (SELECT @max_val := @max_val+1), 'Open Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1 , 7),
+    (@option_group_id_activity_type, 'Follow up', (SELECT @max_val := @max_val+1), 'Follow up',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
+    (@option_group_id_activity_type, 'Change Case Type', (SELECT @max_val := @max_val+1), 'Change Case Type',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
+    (@option_group_id_activity_type, 'Close Case', (SELECT @max_val := @max_val+1), 'Close Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
 
 -- Encounter Medium Option Values for Case Activities
 INSERT INTO `civicrm_option_group` (name, label, description, is_reserved, is_active)
