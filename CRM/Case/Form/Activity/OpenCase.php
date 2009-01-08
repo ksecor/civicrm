@@ -124,17 +124,15 @@ class CRM_Case_Form_Activity_OpenCase
             $form->addElement('text',   'last_name',   ts('Last Name'),   
                               $attributes['last_name'] );
             //Primary Phone 
-            if ( ! $locType ) {
-                $locType = CRM_Core_PseudoConstant::locationType( );
-            }
+            $locType = CRM_Core_PseudoConstant::locationType( );
             $form->addElement('select',
                               "location[1][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
-            if ( ! $phoneType ) {
-                $phoneType = CRM_Core_PseudoConstant::phoneType( );
-            }
+            
+            $phoneType = CRM_Core_PseudoConstant::phoneType( );
+            
             $form->addElement('select',
                               "location[1][phone][1][phone_type_id]",
-                              $label,
+                              null,
                               array('' =>  ts('- type -'))+$phoneType,
                               null
                               );
@@ -147,7 +145,7 @@ class CRM_Case_Form_Activity_OpenCase
             $form->addElement('select'  , "location[2][location_type_id]", null,  array( '' => ts( '- location -' ) ) + $locType );
             $form->addElement('select',
                               "location[2][phone][1][phone_type_id]",
-                              $label,
+                              null,
                               array('' =>  ts('- type -'))+$phoneType,
                               null
                               );
