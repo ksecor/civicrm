@@ -396,7 +396,16 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->fee_amount   = $input['fee_amount'];
         $contribution->net_amount   = $input['net_amount'];
         $contribution->trxn_id      = $input['trxn_id'];
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date);
+        
+        if ( CRM_Utils_Array::value('check_number', $input) ) {
+            $contribution->check_number = $input['check_number'];
+        }
+       
+        if ( CRM_Utils_Array::value('payment_instrument_id', $input) ) {
+            $contribution->payment_instrument_id = $input['payment_instrument_id'];
+        }
+        
         $contribution->save( );
 
         // next create the transaction record

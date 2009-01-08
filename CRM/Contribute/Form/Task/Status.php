@@ -126,7 +126,8 @@ SELECT c.id            as contact_id,
        c.display_name  as display_name,
        co.total_amount as amount,
        co.receive_date as receive_date,
-       co.source       as source
+       co.source       as source,
+       co.check_number as check_no
 FROM   civicrm_contact c,
        civicrm_contribution co
 WHERE  co.contact_id = c.id
@@ -161,6 +162,9 @@ AND    co.id IN ( $contribIDs )";
                                                    ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
             $this->addRule("trxn_date_{$row['contribution_id']}", ts('Select a valid date.'), 'qfDate');
             $defaults["trxn_date_{$row['contribution_id']}"] = $now;
+
+            $this->add( "text", "check_number_{$row['contribution_id']}", ts('Check Number') );
+            $defaults["check_number_{$row['contribution_id']}"] = $dao->check_no;
 
             $this->_rows[] = $row;
         }
@@ -264,9 +268,15 @@ AND    co.id IN ( $contribIDs )";
             }
 
             // set some fake input values so we can reuse IPN code
-            $input['amount']     = $contribution->total_amount;
-            $input['is_test']    = $contribution->is_test;
-            $input['fee_amount'] = $params["fee_amount_{$row['contribution_id']}"];
+            $input['amount']       = $contribution->total_amount;
+            $input['is_test']      = $contribution->is_test;
+            $input['fee_amount']   = $params["fee_amount_{$row['contribution_id']}"];
+            $input['check_number'] = $params["check_number_{$row['contribution_id']}"];
+
+            if ( CRM_Utils_Array::value("check_number_{$row['contribution_id']}", $params ) && !$contribution->payment_instrument_id ) {
+                $input['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' );
+            }
+            
             $input['net_amount'] = $contribution->total_amount - $input['fee_amount'];
             if ( ! empty( $params["trxn_id_{$row['contribution_id']}"] ) ) {
                 $input['trxn_id'] = trim( $params["trxn_id_{$row['contribution_id']}"] );

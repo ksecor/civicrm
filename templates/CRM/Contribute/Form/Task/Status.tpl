@@ -14,6 +14,7 @@
     <th class="right">{ts}Amount{/ts}&nbsp;&nbsp;</th>
     <th>{ts}Source{/ts}</th>
     <th>{ts}Fee Amount{/ts}</th>
+    <th>{ts}Check{/ts} #</th>
     <th>{ts}Transaction ID{/ts}</th>
     <th>{ts}Transaction Date{/ts}</th>
 </tr>
@@ -25,6 +26,8 @@
     <td>{$row.source}</td>
     {assign var="element_name" value="fee_amount_"|cat:$row.contribution_id}
     <td>{$form.$element_name.html}</td>
+    {assign var="element_name" value="check_number_"|cat:$row.contribution_id}
+    <td class="form-text four">{$form.$element_name.html}</td>
     {assign var="element_name" value="trxn_id_"|cat:$row.contribution_id}
     <td>{$form.$element_name.html|crmReplace:class:eight}</td>
     {assign var="element_name" value="trxn_date_"|cat:$row.contribution_id}
