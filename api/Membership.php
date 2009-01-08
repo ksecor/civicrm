@@ -60,7 +60,9 @@ function crm_create_membership_type($params)
         return _crm_error('Params is not an array.');
     }
     
-    if (!$params["name"] && ! $params['duration_unit'] && ! $params['duration_interval']) {
+    if ( ! isset( $params['name'] ) ||
+         ! isset( $params['duration_unit'] ) ||
+         ! isset( $params['duration_interval'] ) ) {
         return _crm_error('Missing require fileds ( name, duration unit,duration interval)');
     }
     
@@ -69,9 +71,9 @@ function crm_create_membership_type($params)
         return $error;
     }
     
-    $ids['membershipType']   = $params['id'];
-    $ids['memberOfContact']  = $params['member_of_contact_id'];
-    $ids['contributionType'] = $params['contribution_type_id'];
+    $ids['membershipType']   = CRM_Utils_Array::value( 'id', $params );
+    $ids['memberOfContact']  = CRM_Utils_Array::value( 'member_of_contact_id', $params );
+    $ids['contributionType'] = CRM_Utils_Array::value( 'contribution_type_id', $params );
     
     require_once 'CRM/Member/BAO/MembershipType.php';
     $membershipTypeBAO = CRM_Member_BAO_MembershipType::add($params, $ids);

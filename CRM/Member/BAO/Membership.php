@@ -82,10 +82,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         if ( $params['join_date'] ) {
             $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
         }
-        if ( $params['start_date'] ) {
+        if ( isset( $params['start_date'] ) ) {
             $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
         }
-        if ( $params['end_date'] ) {
+        if ( isset( $params['end_date'] ) ) {
             $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
         }
         if ( CRM_Utils_Array::value( 'reminder_date', $params ) ) { 
@@ -188,9 +188,16 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     { 
         if ( ! isset( $params['is_override'] ) ) {
             require_once 'CRM/Utils/Date.php';
-            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
-            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y%m%d');
-            $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
+            $startDate = $endDate = $joinDate = null;
+            if ( isset( $params['start_date'] ) ) {
+                $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
+            }
+            if ( isset( $params['end_date'] ) ) {
+                $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y%m%d');
+            }
+            if ( isset( $params['join_date'] ) ) {
+                $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
+            }
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             //fix for CRM-3570, during import exclude the statuses those having is_admin = 1

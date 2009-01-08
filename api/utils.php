@@ -481,14 +481,15 @@ function _crm_update_contribution($contribution, $values, $overwrite = true)
  */
 function _crm_check_required_fields(&$params, $daoName)
 {
-    if ( ( $params['extends'] == 'Activity' || 
-           $params['extends'] == 'Phonecall'  || 
-           $params['extends'] == 'Meeting'    || 
-           $params['extends'] == 'Group'      || 
-           $params['extends'] == 'Contribution' 
+    $extends = CRM_Utils_Array::value( 'extends', $params );
+    if ( ( $extends == 'Activity' || 
+           $extends == 'Phonecall'  || 
+           $extends == 'Meeting'    || 
+           $extends == 'Group'      || 
+           $extends == 'Contribution' 
            ) && 
          ( $params['style'] == 'Tab' ) ) {
-        return _crm_error(ts("Can not create Custom Group in Tab for ". $params['extends']));
+        return _crm_error(ts("Can not create Custom Group in Tab for ". $extends));
     }
        
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
@@ -504,7 +505,7 @@ function _crm_check_required_fields(&$params, $daoName)
             continue;
         }
         
-        if ($v['required'] && !(isset($params[$k]))) {
+        if (CRM_Utils_Array::value( 'required', $v ) && !(isset($params[$k]))) {
             $missing[] = $k;
         }
     }
