@@ -64,7 +64,9 @@ class CRM_Upgrade_TwoTwo_Form_Step1 extends CRM_Upgrade_Form {
         }
         
         // check if 2.1 version
-        if ( ! $this->checkVersion( '2.1.4' ) ) {
+        if ( ! $this->checkVersion( '2.1.2' )  || 
+             ! $this->checkVersion( '2.1.3' )  || 
+             ! $this->checkVersion( '2.1.4' ) ) {
             $is21db = false;
         }
 

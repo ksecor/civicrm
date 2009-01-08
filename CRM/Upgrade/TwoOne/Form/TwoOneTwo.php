@@ -37,24 +37,30 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoOne_Form_TwoOneTwo extends CRM_Upgrade_Form {
 
+    function __construct( $version ) {
+        $this->_version = $version;
+    }
+
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Pre-condition failed for upgrade to 2.1.2.');
-
         // check if the db is 2.2
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_event_page' ) &&
-             CRM_Core_DAO::checkFieldExists( 'civicrm_participant', 'registered_by_id' ) &&
+             CRM_Core_DAO::checkTableExists( 'civicrm_pcp_block' ) &&
+             CRM_Core_DAO::checkTableExists( 'civicrm_pcp' ) &&
+             CRM_Core_DAO::checkTableExists( 'civicrm_contribution_soft' ) ) {
+            $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v2.2) of the database.');
+            return false;
+        } 
+        // check if the db is 2.2
+        if ( CRM_Core_DAO::checkFieldExists( 'civicrm_participant', 'registered_by_id' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'intro_text' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'is_multiple_registrations' ) &&
-             CRM_Core_DAO::checkTableExists( 'civicrm_pcp_block' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'tellfriend_limit' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_pcp_block', 'supporter_profile_id' ) &&
-             CRM_Core_DAO::checkTableExists( 'civicrm_pcp' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_pcp', 'status_id' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_pcp', 'goal_amount' ) &&
-             CRM_Core_DAO::checkTableExists( 'civicrm_contribution_soft' ) &&
              CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_soft', 'pcp_display_in_roll' ) &&
-             CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_soft', 'amount' )
-             ) {
+             CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_soft', 'amount' ) ) {
             
             $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v2.2) of the database.');
             return false;
@@ -134,11 +140,11 @@ AND civicrm_option_value.label = civicrm_participant.fee_level
         
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
-        $this->setVersion( $this->latestVersion );
+        $this->setVersion( $this->_version );
     }
 
     function verifyPostDBState( &$errorMessage ) {
         $errorMessage = ts('Post-condition failed for upgrade to 2.1.2.');
-        return $this->checkVersion( $this->latestVersion );
+        return $this->checkVersion( $this->_version );
     }
 }
