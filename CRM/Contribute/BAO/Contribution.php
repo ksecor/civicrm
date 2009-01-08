@@ -359,8 +359,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $note          = CRM_Core_DAO_Note::import( );
             $tmpFields     = CRM_Contribute_DAO_Contribution::import( );
             unset($tmpFields['option_value']);
-            // require_once 'CRM/Core/OptionValue.php';
-            // $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
+            require_once 'CRM/Core/OptionValue.php';
+            $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
             require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
             
@@ -396,7 +396,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);
-            //$fields = array_merge($fields, $optionFields);
+            $fields = array_merge($fields, $optionFields);
+            require_once 'CRM/Contribute/DAO/ContributionType.php';
+            $fields = array_merge($fields, CRM_Contribute_DAO_ContributionType::export( ) );
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             self::$_importableFields = $fields;
         }
@@ -417,11 +419,11 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $expFieldProduct = CRM_Contribute_DAO_Product::export( );
             $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
             $typeField = CRM_Contribute_DAO_ContributionType::export( );
-            //$optionField = CRM_Core_OptionValue::getFields($mode ='contribute' );
+            $optionField = CRM_Core_OptionValue::getFields($mode ='contribute' );
             $fields = array_merge($impFields, $typeField);
             $fields = array_merge($fields, $expFieldProduct );
             $fields = array_merge($fields, $expFieldsContrib );
-            //$fields = array_merge($fields, $optionField );
+            $fields = array_merge($fields, $optionField );
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             
             self::$_exportableFields = $fields;
@@ -589,7 +591,11 @@ WHERE  $whereCond AND is_test=0
     static function getContributionFields( ) 
     {
         $contributionFields =& CRM_Contribute_DAO_Contribution::export( );
-
+        require_once 'CRM/Core/OptionValue.php';
+        $contributionFields = array_merge( $contributionFields, CRM_Core_OptionValue::getFields($mode ='contribute' ) );
+        require_once 'CRM/Contribute/DAO/ContributionType.php';
+        $contributionFields = array_merge( $contributionFields, CRM_Contribute_DAO_ContributionType::export( ) );
+        
         foreach ($contributionFields as $key => $var) {
             if ($key == 'contribution_contact_id') {
                 continue;

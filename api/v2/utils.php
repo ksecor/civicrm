@@ -883,7 +883,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 return civicrm_create_error("currency not a valid code: $value");
             }
             break;
-        case 'contribution_type_id':            
+        case 'contribution_type':            
             require_once 'CRM/Contribute/PseudoConstant.php';
             $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
                                                                     CRM_Contribute_PseudoConstant::contributionType( )
@@ -892,7 +892,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 return civicrm_create_error("Contribution Type is not valid: $value");
             }
             break;
-        case 'payment_instrument_id': 
+        case 'payment_instrument': 
             require_once 'CRM/Core/OptionGroup.php';
             $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
             if ( !CRM_Utils_Array::value( 'payment_instrument_id', $values ) ) {

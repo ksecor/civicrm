@@ -630,9 +630,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                      'total_amount'           => 1,
                                      'amount_level'           => 1,
                                      'contribution_status_id' => 1,
-                                     'payment_instrument_id'  => 1,
+                                     'payment_instrument'     => 1,
                                      'check_number'           => 1,
-                                     'contribution_type_id' => 1
+                                     'contribution_type'      => 1
                                      );
 
             $fields = null;

@@ -221,6 +221,10 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                 if ($value['contribution_type']) {
                     $value['contribution_type_id'] = $value['contribution_type'];
                 }
+
+                if ($value['payment_instrument']) {
+                    $value['payment_instrument_id'] = $value['payment_instrument'];
+                }
                 
                 if ($value['contribution_source']) {
                     $value['source'] = $value['contribution_source'];
