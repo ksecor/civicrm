@@ -45,18 +45,6 @@ class CRM_Upgrade_Page_Upgrade extends CRM_Core_Page {
         
         $realUpgrade = new CRM_Upgrade_TwoTwo_Page_Upgrade( );
         $realUpgrade->run( );
-
-        // rebuild menus
-        //require_once 'CRM/Core/Menu.php';
-        //CRM_Core_Menu::store( );
-
-        // also cleanup the templates_c directory
-        $config =& CRM_Core_Config::singleton( );
-        $config->cleanup( 1 );
-
-        // clean the session
-        $session =& CRM_Core_Session::singleton( );
-        $session->reset( 2 );
     }
 }
 

@@ -91,8 +91,15 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                 // also cleanup the templates_c directory
                 $config =& CRM_Core_Config::singleton( );
                 $config->cleanup( 1 );
+                
+                // clean the session. Note: In case of standalone this makes the user logout. 
+                // So skip this step for standalone. 
+                if ( $config->userFramework !== 'Standalone' ) {
+                    $session =& CRM_Core_Session::singleton( );
+                    $session->reset( 2 );
+                }
             }
-        } 
+        }
 
         $template->assign( 'message', $message );
         $contents = $template->fetch( 'CRM/common/success.tpl' );
