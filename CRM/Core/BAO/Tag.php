@@ -69,9 +69,10 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
     }
 
     function getTree () {
-	if (!isset ($this->tree))
-		$this->buildTree();
-	return $this->tree;
+        if (!isset ($this->tree)) {
+            $this->buildTree();
+        }
+        return $this->tree;
     }
 	
     function buildTree() {

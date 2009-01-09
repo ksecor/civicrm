@@ -84,8 +84,8 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
 
         $this->addGroup($tagChk, 'tagList', null, null, true);
         
-	$tags = new CRM_Core_BAO_Tag ();
-	$tree =$tags->getTree();
+        $tags = new CRM_Core_BAO_Tag ();
+        $tree =$tags->getTree();
         $this->assign       ( 'tree'  , $tags->getTree() );
       
         $this->assign('tag', $allTag);
@@ -93,7 +93,6 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::BROWSE ) {
             $this->freeze();
         } else {
-
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Update Tags'),
