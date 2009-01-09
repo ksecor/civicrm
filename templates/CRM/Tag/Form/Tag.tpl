@@ -24,25 +24,48 @@ contactID={$contactId};
 initTagTree();
 jQuery(document).ready(function(){initTagTree()});
 function initTagTree() {
-        //unobsctructive elements are there to provide the function to those not having javascript, no need for the others
-	$(".unobstructive").hide();
-	$("#tagtree").treeview({
-		animated: "fast",
-		collapsed: true,
-		unique: true
-          });
-        $("#tagtree ul input:checked").each (function(){
-          $(this).parents("li").children(".hit").addClass('highlighted');
-        });
-	$("#tagtree input").change(function(){
-		tagid=this.id.replace("check_", "");
-		if (this.checked) {
-		  civiREST ('entity_tag','add',{contact_id:contactID,tag_id:tagid});
-		} else {
-		  civiREST ('entity_tag','remove',{contact_id:contactID,tag_id:tagid});
-		}
-//?how do we indicate that the summary tab has to be reloaded ? (or how do we update the tags list directly ?)
-        });
+    //unobsctructive elements are there to provide the function to those not having javascript, no need for the others
+    $(".unobstructive").hide();
+    $("#tagtree").treeview({
+        animated: "fast",
+        collapsed: true,
+        unique: true
+    });
+    $("#tagtree ul input:checked").each (function(){
+        $(this).parents("li").children(".hit").addClass('highlighted');
+    });
+    $("#tagtree input").change(function(){
+        tagid = this.id.replace("check_", "");
+
+        //get current tags from Summary and convert to array
+        var tagLabels = cj.trim( cj("#tags").text( ) );
+        
+        if ( tagLabels ) {
+            var tagsArray = tagLabels.split(',');
+        } else{
+            var tagsArray = new Array();
+        }
+        
+        //get current tag label
+        var currentTagLabel = cj("#tagLabel_" + tagid ).text( );
+        if (this.checked) {
+            civiREST ('entity_tag','add',{contact_id:contactID,tag_id:tagid});
+            // add check to tab label array
+            tagsArray.push( currentTagLabel );
+        } else {
+            civiREST ('entity_tag','remove',{contact_id:contactID,tag_id:tagid});
+            // build array of tag labels
+            tagsArray = cj.map(tagsArray, function (a) { 
+                 if ( cj.trim( a ) != currentTagLabel ) {
+                     return cj.trim( a );
+                 }
+             });
+        }
+
+        //update summary tab 
+        tagLabels = tagsArray.join(', ');
+        cj("#tags").html( tagLabels );
+    });
 };
 {/literal}
 </script>
@@ -61,28 +84,36 @@ function initTagTree() {
         {ts}Mark or unmark the checkboxes, <span class="unobstructive">and click 'Update Tags' to modify tags.<span>{/ts}
     {/if}
     </p>
-<ul id="tagtree" class="tree">
-      {foreach from=$tree item="node" key="id"}
-   <li id="tag_{$id}">
-{if ! $node.children}<input name="tagList[{$id}]" id="check_{$id}" type="checkbox" {if $tagged[$id]}checked="checked"{/if}/>{/if}
-{if $node.children}<input name="tagList[{$id}]" id="check_{$id}" type="checkbox" {if $tagged[$id]}checked="checked"{/if}/>{/if}
-<span {if $node.children}class="hit"{/if}>{$node.name}</span>
-      {if $node.children}<ul>
-      {foreach from=$node.children item="subnode" key="subid"}
-	 <li id="tag_{$subid}">
-            <input id="check_{$subid}" name="tagList[{$subid}]" type="checkbox" {if $tagged[$subid]}checked="checked"{/if}/>
-            <span {if $subnode.children}class="hit"{/if}>{$subnode.name}</span>
-            {if $subnode.children}<ul>
-	       {foreach from=$subnode.children item="subsubnode" key="subsubid"}
-		  <li id="tag_{$subsubid}"><span><input id="check_{$subsubid}" name="tagList[{$subsubid}]" type="checkbox" {if $tagged[$subsubid]}checked="checked"{/if}/>{$subsubnode.name}</span></li>
-	       {/foreach} 
-	    </ul>{/if}
-	 </li>	 
-      {/foreach} 
-      </ul>{/if}
-   </li>	 
-   {/foreach} 
-</ul>
+    <ul id="tagtree" class="tree">
+        {foreach from=$tree item="node" key="id"}
+        <li id="tag_{$id}">
+            {if ! $node.children}<input name="tagList[{$id}]" id="check_{$id}" type="checkbox" {if $tagged[$id]}checked="checked"{/if}/>{/if}
+            {if $node.children}<input name="tagList[{$id}]" id="check_{$id}" type="checkbox" {if $tagged[$id]}checked="checked"{/if}/>{/if}
+            <span {if $node.children}class="hit"{/if} id="tagLabel_{$id}">{$node.name}</span>
+            {if $node.children}
+            <ul>
+                {foreach from=$node.children item="subnode" key="subid"}
+                    <li id="tag_{$subid}">
+                        <input id="check_{$subid}" name="tagList[{$subid}]" type="checkbox" {if $tagged[$subid]}checked="checked"{/if}/>
+                        <span {if $subnode.children}class="hit"{/if} id="tagLabel_{$subid}">{$subnode.name}</span>
+                        {if $subnode.children}
+                        <ul>
+                            {foreach from=$subnode.children item="subsubnode" key="subsubid"}
+                                <li id="tag_{$subsubid}">
+                                    <input id="check_{$subsubid}" name="tagList[{$subsubid}]" type="checkbox" {if $tagged[$subsubid]}checked="checked"{/if}/>
+                                    <span id="tagLabel_{$subsubid}">{$subsubnode.name}</span>
+                                </li>
+                            {/foreach} 
+                        </ul>
+                        {/if}
+                    </li>	 
+                {/foreach} 
+            </ul>
+            {/if}
+        </li>	 
+        {/foreach} 
+    </ul>
+   
       {*foreach from=$tag item="row" key="id"}
 
         <div class="form-item" id="rowidtag_{$id}">
