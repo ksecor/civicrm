@@ -101,12 +101,12 @@ class BAO_Core_Location extends CiviTestCase
                                                              ),
                                          'phone'   => array (
                                                              '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
+                                                                           'phone_type_id' => 1,
+                                                                           'phone'         => '303443689',
                                                                            ),
                                                              '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
+                                                                           'phone_type_id' => 2,
+                                                                           'phone'         => '9833910234',
                                                                            ),
                                                              ),
                                          'openid'  => array (
@@ -152,13 +152,13 @@ class BAO_Core_Location extends CiviTestCase
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1,
-                               'phone_type'              => 'Phone' );
+                               'phone_type_id'           => 1 );
         $compareParams = array( 'phone'                  => '303443689' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
-                               'phone_type'              => 'Mobile' );
+                               'phone_type_id'              => 2 );
         $compareParams = array( 'phone'                  => '9833910234' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
@@ -194,12 +194,12 @@ class BAO_Core_Location extends CiviTestCase
                                                              ),
                                          'phone'   => array (
                                                              '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
+                                                                           'phone_type_id' => 1,
+                                                                           'phone'         => '303443689',
                                                                            ),
                                                              '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
+                                                                           'phone_type_id' => 2,
+                                                                           'phone'         => '9833910234',
                                                                            ),
                                                              ),
                                          'im'      => array (
@@ -260,13 +260,13 @@ class BAO_Core_Location extends CiviTestCase
         $searchParams = array( 'id'                      => CRM_Utils_Array::value( 'phone_id', $locElementIds ), 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1,
-                               'phone_type'              => 'Phone' );
+                               'phone_type_id'           => 1 );
         $compareParams = array( 'phone'                  => '303443689' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
         $searchParams = array( 'id'                      => CRM_Utils_Array::value( 'phone_2_id', $locElementIds ), 
                                'location_type_id'        => 1, 
-                               'phone_type'              => 'Mobile' );
+                               'phone_type_id'           => 2 );
         $compareParams = array( 'phone'                  => '9833910234' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         
@@ -310,12 +310,12 @@ class BAO_Core_Location extends CiviTestCase
                                                              ),
                                          'phone'   => array (
                                                              '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
+                                                                           'phone_type_id' => 1,
+                                                                           'phone'         => '303443689',
                                                                            ),
                                                              '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
+                                                                           'phone_type_id' => 2,
+                                                                           'phone'         => '9833910234',
                                                                            ),
                                                              ),
                                          'im'      => array (
@@ -390,12 +390,12 @@ class BAO_Core_Location extends CiviTestCase
                                                              ),
                                          'phone'   => array (
                                                              '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
+                                                                           'phone_type_id' => 1,
+                                                                           'phone'         => '303443689',
                                                                            ),
                                                              '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
+                                                                           'phone_type_id' => 2,
+                                                                           'phone'         => '9833910234',
                                                                            ),
                                                              ),
                                          'openid'  => array (
