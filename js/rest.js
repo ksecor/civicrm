@@ -14,7 +14,7 @@ it also should use closure so we can properly interface the result of the call t
 
     this.loadData = function() {
         var obj = this;
-        $.getJSON( url, function( data ) {
+        cj.getJSON( url, function( data ) {
             obj.gotData( data );  // instead of this.gotData( data );
         });
     }; 
@@ -23,13 +23,13 @@ it also should use closure so we can properly interface the result of the call t
 function civiREST (entity,action,params) {
   params ['fnName']="civicrm/"+entity+"/"+action;
   params ['json'] = 1;
-  jQuery('#restmsg').removeClass('msgok').removeClass('msgnok').html("");
-  $.getJSON(civicrm_ajaxURL,params,function(result){
+  cj('#restmsg').removeClass('msgok').removeClass('msgnok').html("");
+  cj.getJSON(civicrm_ajaxURL,params,function(result){
   if (result.is_error == 1) {
-    jQuery('#restmsg').addClass('msgnok').html(result.error_message);
+    cj('#restmsg').addClass('msgnok').html(result.error_message);
     return false;
   }
-  jQuery('#restmsg').addClass('msgok').html('Saved');
+  cj('#restmsg').addClass('msgok').html('Saved');
   return true;
   });
 }
