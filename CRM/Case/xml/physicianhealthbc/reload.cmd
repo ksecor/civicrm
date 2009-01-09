@@ -10,6 +10,8 @@ php physicianhealthbc.php %2 %3 %4
 goto end
 
 :bad
-echo Usage: reload [url of civicrm homepage] [username] [password] [civicrm database name]
+echo.
+echo Usage: reload [url of civicrm homepage] [database username with drop/create privilege] [database password] [civicrm database name]
+echo.
 
 :end

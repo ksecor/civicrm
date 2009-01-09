@@ -43,7 +43,7 @@ $cbarr['provinceLimit'] =
     0 => '1228',
     1 => '1039',
   );
-$cbarr['defaultContactCountry'] = '1228';
+$cbarr['defaultContactCountry'] = '1039';
 $cbarr['enableComponents'] = 
   array (
     0 => 'CiviCase',
