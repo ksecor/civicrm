@@ -127,6 +127,7 @@ SELECT c.id            as contact_id,
        co.total_amount as amount,
        co.receive_date as receive_date,
        co.source       as source,
+       co.payment_instrument_id as paid_by,
        co.check_number as check_no
 FROM   civicrm_contact c,
        civicrm_contribution co
@@ -136,10 +137,12 @@ AND    co.id IN ( $contribIDs )";
                                            CRM_Core_DAO::$_nullArray );
         
         // build a row for each contribution id
-        $this->_rows = array( );
-        $attributes  = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
-        $defaults    = array( );
-        $now         = date( "Y-m-d" );
+        $this->_rows   = array( );
+        $attributes    = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
+        $defaults      = array( );
+        $now           = date( "Y-m-d" );
+        $paidByOptions = array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( );
+        
         while ( $dao->fetch( ) ) {
             $row['contact_id']      =  $dao->contact_id;
             $row['contribution_id'] =  $dao->contribution_id;
@@ -165,6 +168,9 @@ AND    co.id IN ( $contribIDs )";
 
             $this->add( "text", "check_number_{$row['contribution_id']}", ts('Check Number') );
             $defaults["check_number_{$row['contribution_id']}"] = $dao->check_no;
+            
+            $this->add( "select", "payment_instrument_id_{$row['contribution_id']}", ts( 'Paid By' ), $paidByOptions );  
+            $defaults["payment_instrument_id_{$row['contribution_id']}"] = $dao->paid_by;
 
             $this->_rows[] = $row;
         }
@@ -205,7 +211,15 @@ AND    co.id IN ( $contribIDs )";
                     $seen[$value] = 1;
                 }
             }
-        }
+            
+            if ( (strpos($name, 'check_number_') !== false) && $value ) {
+                $contribID = substr( $name, 13 );
+                
+                if ( $fields["payment_instrument_id_{$contribID}"] != CRM_Core_OptionGroup::getValue('payment_instrument', 'Check', 'name') ) {
+                    $errors["payment_instrument_id_{$contribID}"] = ts("Paid By should be Check when a check number is entered for a contribution.");
+                }
+            }
+        } 
         return empty( $errors ) ? true : $errors;
     }
 
@@ -268,16 +282,13 @@ AND    co.id IN ( $contribIDs )";
             }
 
             // set some fake input values so we can reuse IPN code
-            $input['amount']       = $contribution->total_amount;
-            $input['is_test']      = $contribution->is_test;
-            $input['fee_amount']   = $params["fee_amount_{$row['contribution_id']}"];
-            $input['check_number'] = $params["check_number_{$row['contribution_id']}"];
-
-            if ( CRM_Utils_Array::value("check_number_{$row['contribution_id']}", $params ) && !$contribution->payment_instrument_id ) {
-                $input['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' );
-            }
+            $input['amount']                = $contribution->total_amount;
+            $input['is_test']               = $contribution->is_test;
+            $input['fee_amount']            = $params["fee_amount_{$row['contribution_id']}"];
+            $input['check_number']          = $params["check_number_{$row['contribution_id']}"];
+            $input['payment_instrument_id'] = $params["payment_instrument_id_{$row['contribution_id']}"];
+            $input['net_amount']            = $contribution->total_amount - $input['fee_amount'];
             
-            $input['net_amount'] = $contribution->total_amount - $input['fee_amount'];
             if ( ! empty( $params["trxn_id_{$row['contribution_id']}"] ) ) {
                 $input['trxn_id'] = trim( $params["trxn_id_{$row['contribution_id']}"] );
             } else {

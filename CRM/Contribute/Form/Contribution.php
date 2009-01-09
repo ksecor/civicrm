@@ -187,6 +187,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
         
+        $this->assign( 'showCheckNumber', false );
+        
         //ensure that processor has a valid config
         //only valid processors get display to user  
         if ( $this->_mode ) {
@@ -274,6 +276,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_id ) {
             $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
                                                           $this->_id, 'id', 'contribution_id' );
+            if ( $this->_online ) {
+                $this->assign('isOnline', true );
+            }
             
             //to get Premium id
             $sql = "
@@ -317,6 +322,12 @@ WHERE  contribution_id = {$this->_id}
             if ( $softCredit ) {
                 $this->_values['soft_credit_to'] = $softCredit['soft_credit_to'];
                 $this->_values['softID'        ] = $softCredit['soft_credit_id'];
+            }
+            
+            //display check number field only if its having value or its offline mode.
+            if ( $this->_values['payment_instrument_id'] == CRM_Core_OptionGroup::getValue( 'payment_instrument', 'Check', 'name' ) 
+                 || CRM_Utils_Array::value( 'check_number', $this->_values ) ) {
+                $this->assign( 'showCheckNumber', true );  
             }
         }
         
@@ -616,8 +627,11 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
         }
-        $this->add( 'text', 'check_number', ts('Check Number'), $attributes['check_number'] );
-       
+        $element = $this->add( 'text', 'check_number', ts('Check Number'), $attributes['check_number'] );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+        
         $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
         
