@@ -28,6 +28,7 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
            
        $this->_activityId         = $activity['id'];
        $this->_individualSourceID = $activity['source_contact_id'];
+       $this->_individualTargetID = $activity['target_contact_id'];
     }
 
     /**
@@ -89,6 +90,7 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
     function tearDown( ) 
     {
       $this->contactDelete( $this->_individualSourceID );
+      $this->contactDelete( $this->_individualTargetID );
     }
 }
 
