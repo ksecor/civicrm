@@ -524,7 +524,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 }
             }
         }
-
+        $template =& CRM_Core_Smarty::singleton( );
+        if ( CRM_Utils_Array::value('saveMapping', $fields) ) {
+            $template->assign('isCheked', true ); 
+        }
+        
         if ( !empty($errors) ) {
             $_flag = 1;
             require_once 'CRM/Core/Page.php';

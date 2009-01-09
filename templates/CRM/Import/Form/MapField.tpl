@@ -19,6 +19,14 @@ if ( document.getElementsByName("saveMapping")[0].checked ) {
     document.getElementsByName("updateMapping")[0].checked = true;
     document.getElementsByName("saveMapping")[0].checked = false;	
 } 
+{/literal}
+{if $isCheked}
+{literal}  
+    document.getElementsByName("saveMapping")[0].checked = true;           
+{/literal}
+{/if}
+{literal}  
+}
 </script>
 {/literal}
  <div id="crm-submit-buttons">
