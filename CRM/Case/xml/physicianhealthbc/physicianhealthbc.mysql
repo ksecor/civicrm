@@ -360,7 +360,7 @@ INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `ht
 			(@cg_fam_phys, '(If NO.) Would you like a referral?','Boolean','Radio',NULL,0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'hcp_want_find_16', NULL),
 			(@cg_fam_phys, 'Referral Preferences','Memo','TextArea',NULL,0,0,0,4,NULL,'Where does the client live? Are there any GP\'s that the client would prefer not to see?',NULL,'rows=4, cols=60',NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'hcp_prefs_17', NULL),
 			(@cg_pres_prob, 'Principal Presenting Problem','String','Select',NULL,1,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_presenting_problem_46',@og8),
-			(@cg_pres_prob, 'Other Presenting Problems<br /><br />Addictive Disorders','String','CheckBox','',0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_pp_1',@og8_1),
+			(@cg_pres_prob, 'Other Presenting Problems - Addictive Disorders','String','CheckBox','',0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_pp_1',@og8_1),
 			(@cg_pres_prob, 'Psychiatric Disorders (DSM criteria met)','String','CheckBox','',0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_pp_2',@og8_2),
 			(@cg_pres_prob, 'Mental Health (no formal Dx)','String','CheckBox','',0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_pp_3',@og8_3),
 			(@cg_pres_prob, 'Occupational Issues','String','CheckBox','',0,0,0,5,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_pp_4',@og8_4),
