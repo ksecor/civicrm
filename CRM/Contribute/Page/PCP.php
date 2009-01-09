@@ -171,15 +171,16 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
                 $action -= CRM_Core_Action::DISABLE;
                 break;
             }
-            $pcpSummary[$dao->id]['id']                   = $dao->id;
-            $pcpSummary[$dao->id]['start_date']           = $dao->start_date;
-            $pcpSummary[$dao->id]['end_date']             = $dao->end_date;
-            $pcpSummary[$dao->id]['supporter']            = $contact['0'];
-            $pcpSummary[$dao->id]['supporter_id']         = $dao->contact_id;
-            $pcpSummary[$dao->id]['status_id']            = $status[$dao->status_id];
-            $pcpSummary[$dao->id]['contribution_page_id'] = $contribution_page[$dao->contribution_page_id];
-            $pcpSummary[$dao->id]['action']               = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                      array('id' => $dao->id));
+            $pcpSummary[$dao->id]['id']                      = $dao->id;
+            $pcpSummary[$dao->id]['start_date']              = $dao->start_date;
+            $pcpSummary[$dao->id]['end_date']                = $dao->end_date;
+            $pcpSummary[$dao->id]['supporter']               = $contact['0'];
+            $pcpSummary[$dao->id]['supporter_id']            = $dao->contact_id;
+            $pcpSummary[$dao->id]['status_id']               = $status[$dao->status_id];
+            $pcpSummary[$dao->id]['contribution_page_id']    = $dao->contribution_page_id;
+            $pcpSummary[$dao->id]['contribution_page_title'] = $contribution_page[$dao->contribution_page_id];
+            $pcpSummary[$dao->id]['action']                  = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                                         array('id' => $dao->id));
         }
 
         $this->search( );   
@@ -187,7 +188,12 @@ class CRM_Contribute_Page_PCP extends CRM_Core_Page_Basic
         if ( $pcpSummary ){ 
             $this->assign('rows', $pcpSummary);
         }
-        
+        // Let template know if user has run a search or not
+        if ( $this->get('whereClause') ) {
+            $this->assign('isSearch', 1);
+        } else {
+            $this->assign('isSearch', 0);
+        }
     }
 
     function search( ) {

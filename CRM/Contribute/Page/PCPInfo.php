@@ -71,16 +71,27 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
 
         if ( ! $pcpInfo['is_active'] ) {
-            // form is inactive, die a fatal death
-            CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+            // form is inactive, forward to main contribution page
+            CRM_Core_Error::statusBounce( ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ),
+                                          CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                 "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                 false, null, false, true ) );
         } else if ( $pcpInfo['status_id'] != 2 && ! CRM_Core_Permission::check('administer CiviCRM') ) {
             if ( $pcpInfo['contact_id'] != $session->get( 'userID' ) ) {
-                CRM_Core_Error::fatal( ts('This Personal Campaign Page %1.', array( 1=> $pcpStatus[$pcpInfo['status_id']] )) );
+                // PCP not approved. Forward everyone except admin and owner to main contribution page
+                CRM_Core_Error::statusBounce( ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ),
+                                             CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                   "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                   false, null, false, true ) );
             }
         } else {
             $getStatus = CRM_Contribute_BAO_PCP::getStatus( $this->_id );
             if ( ! $getStatus ) {
-                CRM_Core_Error::fatal( ts('Personal Campaign Pages Block not Active.') );
+                // PCP not enabled for this contribution page. Forward everyone to main contribution page
+                CRM_Core_Error::statusBounce( ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ),
+                                             CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                                   "reset=1&id={$pcpInfo['contribution_page_id']}",
+                                                                   false, null, false, true ) );
             }
         }
         $default = array();

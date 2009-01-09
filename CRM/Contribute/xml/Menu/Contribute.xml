@@ -36,6 +36,15 @@
      <weight>360</weight>
   </item>
   <item>
+     <path>civicrm/admin/pcp</path>
+     <title>Personal Campaign Pages</title>
+     <page_callback>CRM_Contribute_Page_PCP</page_callback>
+     <desc>View and manage existing personal campaign pages.</desc>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/contribution_types.png</icon>
+     <weight>362</weight>
+  </item>
+  <item>
      <path>civicrm/admin/contribute/managePremiums</path>
      <title>Manage Premiums</title>
      <page_callback>CRM_Contribute_Page_ManagePremiums</page_callback>
@@ -117,20 +126,11 @@
   </item>
   <item>
      <path>civicrm/contribute/campaign</path>
-     <title>Setup a Personal Campaign Page - Step 1</title>
+     <title>Setup a Personal Campaign Page - Account Information</title>
      <page_callback>CRM_Contribute_Controller_PCP</page_callback>
      <access_arguments>make online contributions</access_arguments>
      <is_public>true</is_public>
      <weight>0</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/pcp</path>
-     <title>Personal Campaign Pages</title>
-     <page_callback>CRM_Contribute_Page_PCP</page_callback>
-     <desc>View and manage existing personal campaign pages.</desc>
-     <adminGroup>CiviContribute</adminGroup>
-     <icon>admin/small/contribution_types.png</icon>
-     <weight>370</weight>
   </item>
   <item>
      <path>civicrm/contribute/pcp/info</path>
