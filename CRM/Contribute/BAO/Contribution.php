@@ -102,7 +102,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $params[$field] = CRM_Utils_Rule::cleanMoney( $params[$field] );
             }
         }
-
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
         if ( CRM_Utils_Array::value( 'payment_instrument_id', $params ) ) {
             $params['check_number'] = $params['payment_instrument_id'] == array_search( 'Check', CRM_Contribute_PseudoConstant::paymentInstrument( ) ) ?  $params['check_number'] : 'null';
         }
