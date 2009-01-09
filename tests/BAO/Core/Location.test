@@ -228,7 +228,7 @@ class BAO_Core_Location extends CiviTestCase
 						       ));
 
         //Now check DB for location block
-	echo "check now";
+
         $this->assertDBCompareValue('CRM_Event_DAO_Event', 
                                     $eventId,
                                     'loc_block_id',
