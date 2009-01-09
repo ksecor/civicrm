@@ -1,8 +1,5 @@
 {* this template is used for adding/editing tags  *}
-
-<script type="text/javascript" src="{$config->resourceBase}packages/jquery/jquery.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/rest.js"></script>
-<script type="text/javascript" src="{$config->resourceBase}packages/jquery/plugins/jquery.treeview.min.js"></script>
 <style>
 .hit {ldelim}padding-left:10px;{rdelim}
 .tree li {ldelim}padding-left:10px;{rdelim}
@@ -18,34 +15,30 @@ civicrm_ajaxURL="{crmURL p='civicrm/ajax/rest' h=0}";
 contactID={$contactId};
 {literal}
 
+cj(document).ready(function(){initTagTree()});
 
-
-//for some unknown reason, the document.ready isn't called after the load of the tab, so it's called by "hand"
-initTagTree();
-jQuery(document).ready(function(){initTagTree()});
 function initTagTree() {
     //unobsctructive elements are there to provide the function to those not having javascript, no need for the others
-    $(".unobstructive").hide();
-    $("#tagtree").treeview({
+    cj(".unobstructive").hide();
+    cj("#tagtree").treeview({
         animated: "fast",
         collapsed: true,
         unique: true
     });
-    $("#tagtree ul input:checked").each (function(){
-        $(this).parents("li").children(".hit").addClass('highlighted');
+    cj("#tagtree ul input:checked").each (function(){
+        cj(this).parents("li").children(".hit").addClass('highlighted');
     });
-    $("#tagtree input").change(function(){
+    cj("#tagtree input").change(function(){
         tagid = this.id.replace("check_", "");
 
         //get current tags from Summary and convert to array
         var tagLabels = cj.trim( cj("#tags").text( ) );
-        
         if ( tagLabels ) {
             var tagsArray = tagLabels.split(',');
         } else{
             var tagsArray = new Array();
         }
-        
+
         //get current tag label
         var currentTagLabel = cj("#tagLabel_" + tagid ).text( );
         if (this.checked) {
