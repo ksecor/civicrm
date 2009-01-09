@@ -1045,6 +1045,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $amount[$params['amount_level']] =  $params['fee_amount'];
                 $this->assign( 'amount', $amount );
                 $this->assign( 'isPrimary', 1 );
+                $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             }
             if( $this->_mode ) {
                 if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
@@ -1087,7 +1088,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'isAmountzero' , 0);
                 $this->assign( 'is_pay_later',0);
                 $this->assign( 'isPrimary', 1 );
-                $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             }
             
             $this->assign( 'register_date', $params['register_date'] );
