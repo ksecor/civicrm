@@ -278,6 +278,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
   
         $elements = array( );
+        $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
