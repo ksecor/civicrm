@@ -112,37 +112,13 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
     static function getPcpDashboardInfo( $contactId ) 
     {
         $links = self::pcpLinks();
-        $mask  = 0;
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $query = "
-        SELECT pg.id as pageId, pg.title as pageTitle, pg.start_date , 
-                  pg.end_date 
-        FROM civicrm_contribution_page pg 
-        LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
-        WHERE pcpblock.is_active = 1
-        ORDER BY pageTitle ASC";
-
-        $pcpBlockDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $pcpBlock    = array();
-        while ( $pcpBlockDao->fetch( ) ) {
-            if ( $links ) {
-                $replace = array( 'pageId' => $pcpBlockDao->pageId );
-            }      
-            $pcpLink = $links['add'];
-            $action = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
-            $pcpBlock[] = array ( 'pageId'     => $pcpBlockDao->pageId,
-                                  'pageTitle'  => $pcpBlockDao->pageTitle,
-                                  'start_date' => $pcpBlockDao->start_date,
-                                  'end_date'   => $pcpBlockDao->end_date,
-                                  'action'     => $action
-                                  );
-        }
 
         $query = "
         SELECT pg.start_date, pg.end_date, pg.title as pageTitle, pcp.id as pcpId, 
                pcp.title as pcpTitle, pcp.status_id as pcpStatusId, cov_status.label as pcpStatus,
                pcpblock.is_tellfriend_enabled as tellfriend, 
-               pcpblock.id as blockId, pcp.is_active as pcpActive
+               pcpblock.id as blockId, pcp.is_active as pcpActive, pg.id as pageId
         FROM civicrm_contribution_page pg 
         LEFT JOIN civicrm_pcp pcp ON  (pg.id= pcp.contribution_page_id)
         LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
@@ -152,14 +128,15 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                ON (pcp.status_id = cov_status.value
                AND cog_status.id = cov_status.option_group_id )
         
-        INNER JOIN civicrm_contact as ct ON (ct.id = pcp.contact_id  AND pcp.contact_id = {$contactId})
+        INNER JOIN civicrm_contact as ct ON (ct.id = pcp.contact_id  AND pcp.contact_id = %1 )
         WHERE pcpblock.is_active = 1
         ORDER BY pcpStatus, pageTitle";
 
-        $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $params = array( 1 => array( $contactId, 'Integer' ) );
+        $pcpInfoDao = CRM_Core_DAO::executeQuery( $query, $params );
         $pcpInfo = array();
         $hide = $mask = array_sum( array_keys( $links['all'] ) );
-        
+        $contactPCPPages = array( );
         while ( $pcpInfoDao->fetch( ) ) {
 
             $mask = $hide;
@@ -187,7 +164,40 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                  'pcpStatusId' => $pcpInfoDao->pcpStatusId,
                                  'action'      => $action
                                   );
+            $contactPCPPages[] = $pcpInfoDao->pageId;
         }
+
+        $excludePageClause = null;
+        if ( !empty( $contactPCPPages ) ) {
+            $excludePageClause = " AND pg.id NOT IN ( " .implode( ',', $contactPCPPages ) . ") ";            
+        }
+        
+        $query = "
+        SELECT pg.id as pageId, pg.title as pageTitle, pg.start_date , 
+                  pg.end_date 
+        FROM civicrm_contribution_page pg 
+        LEFT JOIN civicrm_pcp_block as pcpblock ON ( pg.id = pcpblock.entity_id )
+        WHERE pcpblock.is_active = 1 {$excludePageClause}
+        ORDER BY pageTitle ASC";
+
+        $pcpBlockDao = CRM_Core_DAO::executeQuery( $query );
+        $pcpBlock    = array();
+        $mask  = 0;
+        
+        while ( $pcpBlockDao->fetch( ) ) {
+            if ( $links ) {
+                $replace = array( 'pageId' => $pcpBlockDao->pageId );
+            }      
+            $pcpLink = $links['add'];
+            $action = CRM_Core_Action::formLink( $pcpLink , $mask, $replace );
+            $pcpBlock[] = array ( 'pageId'     => $pcpBlockDao->pageId,
+                                  'pageTitle'  => $pcpBlockDao->pageTitle,
+                                  'start_date' => $pcpBlockDao->start_date,
+                                  'end_date'   => $pcpBlockDao->end_date,
+                                  'action'     => $action
+                                  );
+        }
+
         return  array( $pcpBlock, $pcpInfo );
     } 
     
@@ -207,9 +217,10 @@ SELECT SUM(cc.total_amount) as total
 FROM civicrm_pcp pcp 
 LEFT JOIN civicrm_contribution_soft cs ON ( pcp.id = cs.pcp_id ) 
 LEFT JOIN civicrm_contribution cc ON ( cs.contribution_id = cc.id)
-WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
-
-        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
+        
+        $params = array( 1 => array( $pcpId, 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
     
     /**
@@ -346,9 +357,10 @@ WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
      FROM civicrm_pcp pcp 
           LEFT JOIN civicrm_pcp_block pb ON ( pcp.contribution_page_id = pb.entity_id )
           LEFT JOIN civicrm_contribution_page as cp ON ( cp.id =  pcp.contribution_page_id )
-     WHERE pcp.id = {$pcpId}";
+     WHERE pcp.id = %1";
         
-        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        $params = array( 1 => array( $pcpId, 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
     /**
@@ -367,8 +379,10 @@ WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
      SELECT pb.link_text as linkText
      FROM civicrm_contribution_page cp 
           LEFT JOIN civicrm_pcp_block pb ON ( cp.id = pb.entity_id AND pb.entity_table = 'civicrm_contribution_page' )
-     WHERE pb.is_active = 1 AND cp.id = {$pageId}";
-        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+     WHERE pb.is_active = 1 AND cp.id = %1";
+        
+        $params = array( 1 => array( $pageId, 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
     /**
@@ -384,11 +398,13 @@ WHERE pcp.id = {$pcpId} AND cc.contribution_status_id =1 AND cc.is_test = 0";
     static function checkEmailProfile( $profileId ) 
     {
         $query="
-Select field_name
-From civicrm_uf_field
-Where field_name like 'email%' And is_active = 1 And uf_group_id = {$profileId};";
-        $dao = CRM_Core_DAO::executeQuery( $query );
-        if( ! $dao->fetch() ){
+SELECT field_name
+FROM civicrm_uf_field
+WHERE field_name like 'email%' And is_active = 1 And uf_group_id = %1";
+
+        $params = array( 1 => array( $profileId, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( ! $dao->fetch() ){
             return true;
         }
         return false;
