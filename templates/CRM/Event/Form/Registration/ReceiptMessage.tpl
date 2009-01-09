@@ -117,6 +117,9 @@ Participant {$priceset+1}
 {if $paidBy}
 {ts}Paid By{/ts}: {$paidBy}
 {/if}
+{if $checkNumber}
+{ts}Check Number{/ts}: {$checkNumber} 
+{/if}
 {if $isPrimary }
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 

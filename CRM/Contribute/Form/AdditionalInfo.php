@@ -295,7 +295,7 @@ class CRM_Contribute_Form_AdditionalInfo
     {
         // Retrieve Contribution Type Name from contribution_type_id
         $params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                        $params['contribution_type_id'] );         
+                                                                        $params['contribution_type_id'] );
         
         // retrieve payment instrument name
         $paymentInstrumentGroup = array();
@@ -375,10 +375,11 @@ class CRM_Contribute_Form_AdditionalInfo
             $params['receipt_from_name'] = $form->userDisplayName;
             $params['receipt_from_email']= $form->userEmail;
             // assigned various dates to the templates
-            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
-            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
-            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
-            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receive_date'])) );
+            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'])) );
+            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['thankyou_date'])));
+            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format(  $params['cancel_date']))  );
+            $form->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
         }
         
         //handle custom data

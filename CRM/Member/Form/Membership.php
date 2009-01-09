@@ -822,6 +822,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $this->assign( 'isAmountzero' , 0);
                 $this->assign( 'is_pay_later',0);
                 $this->assign( 'isPrimary', 1 );
+                $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             }
             $this->assign( 'module', 'Membership' );
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
