@@ -49,6 +49,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     private $_activityTypeIndex;
     private $_activityNameIndex;
     private $_activityDateIndex;
+    private $_activitySubjectIndex;
 
     /**
      * Array of succesfully imported activity id's
@@ -92,6 +93,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $this->_activityTypeIndex     = -1;
         $this->_activityNameIndex     = -1;
         $this->_activityDateIndex     = -1;
+        $this->_activitySubjectIndex  = -1;
         
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
@@ -108,6 +110,11 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             case 'activity_date_time':
                 $this->_activityDateIndex     = $index;
                 break;
+
+            // fix added for subject problem, CRM-3983
+            case 'subject':
+                $this->_activitySubjectIndex  = $index;
+                break;//end of fix
             }
             $index++;
         }
@@ -170,7 +177,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
                 ! CRM_Utils_Array::value($this->_activityDateIndex, $values);
         }
-        
+        // fix added for subject problem
+        if ( $index < 0 or $this->_activitySubjectIndex < 0 ) {
+            $errorRequired = true;
+        } else {
+            $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
+                ! CRM_Utils_Array::value($this->_activitySubjectIndex, $values);
+        }//end of fix
+
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Activity_Import_Parser::ERROR;
