@@ -138,10 +138,8 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             if ( !defined('HTML_QUICKFORM_TINYMCEEDITOR_LOADED' ) ) {                
                 // load tinyMCEeditor
                 $config = CRM_Core_Config::singleton( );
-                $html   = sprintf( '<script type="text/javascript" src="%s"></script>',
-                                   $config->resourceBase . $this->BasePath . 'tiny_mce.js'
-                                   );
-                
+                // tinymce is wierd, it needs to be loaded initially along with jquery
+                $html = null;
                 $html .= sprintf( '<script type="text/javascript">
 
     tinyMCE.init({
