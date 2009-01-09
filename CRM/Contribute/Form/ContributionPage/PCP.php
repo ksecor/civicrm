@@ -57,6 +57,8 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
      */
     function setDefaultValues( ) 
     {
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+        CRM_Utils_System::setTitle(ts('Personal Campaign Page Settings (%1)', array(1 => $title)));
         $defaults = array();
         if ( isset($this->_id ) ) {
             $params = array( 'entity_id' => $this->_id, 'entity_table' => 'civicrm_contribution_page' );
@@ -67,7 +69,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             $defaults['is_approval_needed']    = 1;
             $defaults['is_tellfriend_enabled'] = 1;
             $defaults['tellfriend_limit']      = 5;
-            $defaults['link_text']             = ts('Create your own Personal Campaign Page!');
+            $defaults['link_text']             = ts('Create your own fundraising page');
         } 
         return $defaults;
     }
@@ -80,7 +82,7 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
      */
     function buildQuickForm( ) 
     {
-        $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages?'), null, array('onclick' => "pcpBlock(this)") );
+        $this->addElement( 'checkbox', 'is_active', ts('Enable Personal Campaign Pages (for this contribution page)?'), null, array('onclick' => "pcpBlock(this)") );
 	
         $this->addElement( 'checkbox', 'is_approval_needed', ts('Approval required') );
         

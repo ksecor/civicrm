@@ -2,7 +2,7 @@ INSERT INTO civicrm_uf_group
     (id, is_active, group_type, title, is_cms_user, help_post)
 VALUES
     (1, 1, 'Individual,Contact', 'Name and Address', 0, null),
-    (2, 1, 'Individual,Contact', 'Supporter Profile', 2, '<p><strong>None of the information you are providing will not be made available to any third party organisations.</strong></p><p>Thank you for getting involved in our campaign!</p>');
+    (2, 1, 'Individual,Contact', 'Supporter Profile', 2, '<p><strong>The information you provide will NOT be shared with any third party organisations.</strong></p><p>Thank you for getting involved in our campaign!</p>');
 
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)

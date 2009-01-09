@@ -4,16 +4,16 @@
   <dl>
 	<dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}PCPInfo{/ts}"/></dt>
 	<dd><p><strong>Personal Campaign Page</strong></p></dd>
- <dd><p>This is your Personal Campaign Page (PCP), created in support of <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id="}{$pcp.contribution_page_id}"><strong>"{$pageName}"</strong></a> campaign{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
+    <dd><p>This is a preview of your Personal Campaign Page (PCP) in support of <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id="}{$pcp.contribution_page_id}"><strong>"{$pageName}"</strong></a> campaign{if $owner.start_date}, which is active from <strong>{$owner.start_date|truncate:10:''|crmDate}</strong> until <strong>{$owner.end_date|truncate:10:''|crmDate}</strong>.{else}.<br />{/if} Current status of your PCP is: <strong {if $owner.status ne 'Approved' }class=disabled {/if}>{$owner.status}</strong>.</p><p><strong>You can perform following actions on your page:</strong></p></dd>
 	 <dd> <table class="form-layout-compressed"> 
 		{foreach from = $links key = k item = v}
-	         <tr>
-		   <td style="padding:0px;">
-			<a href="{crmURL p=$v.url q=$v.qs|replace:'%%pcpId%%':$replace.id|replace:'%%pcpBlock%%':$replace.block}" title="{$v.title}"{if $v.extra}{$v.extra}{/if}>{$v.name}</a>
+          <tr>
+            <td style="padding:0px 5px 0px 0px;">
+                <a href="{crmURL p=$v.url q=$v.qs|replace:'%%pcpId%%':$replace.id|replace:'%%pcpBlock%%':$replace.block}" title="{$v.title}"{if $v.extra}{$v.extra}{/if}><strong>&raquo; {$v.name}</strong></a>
 		   </td>
   		   <td style="padding:0px;">&nbsp;<cite>{$hints.$k}</cite></td>
 	 	 </tr>
-        	{/foreach}
+        {/foreach}
   	   </table>
 	</dd>
  </dl>
@@ -85,9 +85,14 @@
 	</table>
       </td>
     </tr>
-    <tr><td></td><td>
-        <a href={$linkTextUrl} class="button"><span>&raquo; <strong>{$linkText}</strong></span></a><br/><br/>
-    </td></tr>
+    <tr>
+        <td></td>
+        <td>
+            <div class="action-link">
+                <br /><a href={$linkTextUrl}>&raquo; <strong>{$linkText}</strong></a>
+            </div>
+        </td>
+    </tr>
   </table>
 
 </div>

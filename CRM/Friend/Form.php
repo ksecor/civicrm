@@ -96,6 +96,8 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->_mailLimit = $pcpBlock[$this->_pcpBlockId]['tellfriend_limit'];
             $this->_entityTable = 'civicrm_pcp';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_entityId, 'title');
+            $this->assign('context', 'pcp');
+            $this->assign('pcpTitle', $this->_title);
         } else {
             CRM_Core_Error::fatal( ts( 'page argument missing or invalid' ) );
         }
@@ -261,8 +263,8 @@ class CRM_Friend_Form extends CRM_Core_Form
         
         CRM_Friend_BAO_Friend::getValues($defaults);
         if ( $this->_entityTable == 'civicrm_pcp' ) {
-            $defaults['thankyou_text'] = $defaults['thankyou_title'] = 
-                ts( 'Thanks for Spreading this Personal Page information.' );
+            $defaults['thankyou_text'] = $defaults['thankyou_title'] = ts( 'Thanks for your Support' );
+            $defaults['thankyou_text'] = ts( 'Thanks for supporting our campaign by spreading the word to your friends.' );
         }
         CRM_Utils_System::setTitle($defaults['thankyou_title']);
         $this->assign( 'thankYouText'  , $defaults['thankyou_text'] );

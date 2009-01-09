@@ -56,6 +56,11 @@
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Friend"}" id="idFriend">&raquo; {ts}Tell a Friend{/ts}</a></td>
     <td>{ts}Make it easy for contributors to spread the word to friends and colleagues.{/ts}</td>
 </tr>
+{capture assign=pcpAdminURL}{crmURL p="civicrm/admin/pcp" q="reset=1"}{/capture}
+<tr>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=PCP"}" id="idPcp">&raquo; {ts}Personal Campaign Pages{/ts}</a></td>
+    <td>{ts 1=$pcpAdminURL}Allow constituents to create their own personal fundraising pages and drive traffic to this contribution page. (<a href="%1">Or you can view and manage existing Personal Campaign Pages.</a>){/ts}</td>
+</tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Contribution Widget{/ts}</a></td>
     <td>{ts}Create a contribution widget which you and your supporters can embed in websites and blogs.{/ts}</td>
@@ -63,10 +68,6 @@
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Premium"}" id="idPremiums">&raquo; {ts}Premiums{/ts}</a></td>
     <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>
-</tr>
-<tr>
-    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=PCP"}" id="idPcp">&raquo; {ts}Personal Campaign Pages{/ts}</a></td>
-    <td>{ts}Enable and configure default behaviour of Personal Campaign Pages. This feature allows your supporters to create their own pages and drive traffic to your Contribution Page.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>

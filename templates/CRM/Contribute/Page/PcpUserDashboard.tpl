@@ -6,20 +6,16 @@
 
 <table class="selector">
 	<tr class="columnheader">
-		<th>{ts}Title{/ts}</th>
-		<th>{ts}Contribution Page{/ts}</th>
-		<th>{ts}Active From{/ts}</th>
-		<th>{ts}Active Until{/ts}</th>
+		<th>{ts}Your Title{/ts}</th>
+		<th>{ts}In Support of{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Action{/ts}</th>
 	</tr>
 
 	{foreach from=$pcpInfo item=row}
 	<tr class="{cycle values="odd-row,even-row"}">
-	       <td class="bold"><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.pcpId`" a=1}">{$row.pcpTitle}</a></td>
+	       <td class="bold"><a href="{crmURL p='civicrm/contribute/pcp/info' q="reset=1&id=`$row.pcpId`" a=1}" title="{ts}Preview your Personal Campaign Page{/ts}">{$row.pcpTitle}</a></td>
 	       <td>{$row.pageTitle}</td>
-	       <td>{$row.start_date|truncate:10:''|crmDate}</td>
-	       <td>{$row.end_date|truncate:10:''|crmDate}</td>
 	       <td>{$row.pcpStatus}</td>
 	       <td class="nowrap">{$row.action}</td>
 	</tr>

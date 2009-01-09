@@ -1,7 +1,8 @@
-{* Displays Test-drive mode header for Contribution pages. *}
-
-{ts 1=$campaignName}This wizard allows you to create you own Personal Campaign Page. It's a simple page with a link to Contribution Page, where you can present your motivation and convice other to support "%1" campaign.{/ts}
-
+{* Displays account creation and supporter profile form (step 1 in creating a personal campaign page. *}
+<div id="help">
+    {ts}Creating your own fundraising page is simple. Fill in some basic information below, which will allow you to manage your page and invite friends to make a contribution.
+    Then click 'Continue' to personalize and announce your page.{/ts}
+</div>
 {if $profileDisplay}
 <div class="messages status">
 <dl>

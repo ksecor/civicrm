@@ -62,6 +62,8 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $this->set( 'action'              , $this->_action );
         $this->set( 'page_id'             , $this->_id );
         $this->set( 'contribution_page_id', $this->_pageId );
+        // we do not want to display recently viewed items, so turn off
+        $this->assign('displayRecent' , false );
     }
 
     function setDefaultValues( ) 

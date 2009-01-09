@@ -5,7 +5,13 @@
 <table class="form-layout-compressed">
 	<tr>
 		<td colspan=2>
-		<p>{$intro}</p>
+            <p>
+                {if $context EQ 'pcp'}
+                    {ts 1=$pcpTitle}Use this form to spread the word about your fundraising page (%1). Add your personal message below. The emails will automatically include a link to your page.{/ts}
+                {else}
+                    {$intro}
+                {/if}
+            </p>
 		</td>
 	</tr>
 

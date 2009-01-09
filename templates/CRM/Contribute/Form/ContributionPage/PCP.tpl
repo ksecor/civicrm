@@ -1,19 +1,18 @@
 {include file="CRM/common/WizardHeader.tpl"}
-<div id="form" class="form-item">
-	<fieldset><legend>{ts}Configure Personal Campaign Pages{/ts}</legend> 
+<div id="pcp-form" class="form-item">
+	<fieldset> 
 	{if !$profile} 
 	{capture assign=pUrl}{crmURL p='civicrm/admin/uf/group' q="reset=1"}{/capture}
 	<div class="status message">
-		{ts 1=$pUrl}No Profile with user account registration option has been configured / enabled for your site.You need to <a href='%1'>configure Supporter profile</a> first. It will be used for gathering information about users, who would like to create Personal Contribution Pages.{/ts}
+		{ts 1=$pUrl}No Profile with a user account registration option has been configured / enabled for your site. You need to <a href='%1'>configure a Supporter profile</a> first. It will be used to collect or update basic information from users while they are creating a Personal Campaign Page.{/ts}
 	</div>
 	{/if}
 	<div id="help">
-		{ts}Use this form to configure Personal Campaign Pages. {/ts}
+		{ts 1=$title}Allow constituents to create their own personal fundraising pages linked to this contribution page (%1).{/ts}
 	</div>
-       <dl>
-         <dt></dt><dd>{$form.is_active.html} &nbsp;{$form.is_active.label}</dd>
-         <dt>&nbsp;</dt><dd class="description">{ts}Enable Personal Campaign Pages in this Contribution Page?{/ts}</dd>
-       </dl>
+    <dl>
+        <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+    </dl>
 	<div class="spacer"></div>
 
 	<div id="pcpFields">
@@ -22,16 +21,16 @@
 			<dt>&nbsp;</dt><dd class="description">{ts}Administrator will need to approve new Personal Campaign Pages before they are available publically.{/ts}</dd>
 
 			<dt>{$form.supporter_profile_id.label} <span class="marker"> *</span></dt><dd>{$form.supporter_profile_id.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}The profile required to be filled in by Personal Campaign Page creator, before they can create the page.{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}This profile is used to collect or update basic information (e.g. name and email address) from users while they are creating a Personal Campaign Page. The profile will include creating a user account if they don't already have one.{/ts}</dd>
 
 			<dt>{$form.is_tellfriend_enabled.label}</dt><dd>{$form.is_tellfriend_enabled.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Can Personal Campaign Page creator send emails using Tell-a-Friend function?{/ts}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Can the "owner" of a Personal Campaign Page use the Tell-a-Friend function to invite people to visit their page and make a contribution?{/ts}</dd>
 
-			<dt>{$form.tellfriend_limit.label}</dt><dd>{$form.tellfriend_limit.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}How many recipients can Tell-a-Friend email have?{/ts}</dd>
+			<dt>{$form.tellfriend_limit.label}</dt><dd>{$form.tellfriend_limit.html|crmReplace:class:four}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}How many recipients can they send emails to at one time? You may want to limit this to prevent large mail blasts from being sent.{/ts}</dd>
 
-			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html}</dd>
-			<dt>&nbsp;</dt><dd class="description">{ts}Text of the link on Contribution Page allowing Supporters to get to Personal Contribution Page creation wizard.{/ts}</dd>
+			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html|crmReplace:class:huge}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Text of the link inviting constituents to create a Personal Contribution Page. This link will appear on the Contribution Thank-you page as well as on each Personal Campaign Page.{/ts}</dd>
 		</dl>
 	</div>
 	<div class="spacer"></div>
