@@ -122,8 +122,8 @@ class BAO_Core_Location extends CiviTestCase
         $params['contact_id'] = $contactId;
         
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::create( $params );
-        
+        $location   = CRM_Core_BAO_Location::create( $params );
+	$locBlockId = CRM_Utils_Array::value( 'id', $location ); 
         //Now check DB for contact
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
@@ -161,7 +161,10 @@ class BAO_Core_Location extends CiviTestCase
                                'phone_type_id'              => 2 );
         $compareParams = array( 'phone'                  => '9833910234' );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
-        
+
+        //delete the location block
+        CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
     }
@@ -220,10 +223,12 @@ class BAO_Core_Location extends CiviTestCase
         //update event record with location block id
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add(
-                                 $eventParams = array( 'loc_block_id' => $locBlockId ), 
-                                 $eventIds    = array( 'event_id'     => $eventId )
-                                 );
+                                 $eventParams = array( 'loc_block_id' => $locBlockId , 
+						       'id'           => $eventId 
+						       ));
+
         //Now check DB for location block
+	echo "check now";
         $this->assertDBCompareValue('CRM_Event_DAO_Event', 
                                     $eventId,
                                     'loc_block_id',
@@ -277,6 +282,9 @@ class BAO_Core_Location extends CiviTestCase
                                 'provider_id'            => 1 );
         $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
         
+	//delete the location block
+        CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+	
         //cleanup DB by deleting the record.
         Event::delete ( $eventId );
     }
@@ -357,6 +365,10 @@ class BAO_Core_Location extends CiviTestCase
         //Now check DB for IM
         $this->assertDBNull( 'CRM_Core_DAO_IM', 'jane.doe', 'id', 'name', 
                              'Database check, IM deleted successfully.' );
+	
+	//cleanup DB by deleting the record.
+        Event::delete ( $eventId );
+	
         //Now check DB for Event
         $this->assertDBNull( 'CRM_Event_DAO_Event', $eventId, 'id', 'id', 
                              'Database check, Event deleted successfully.' );
