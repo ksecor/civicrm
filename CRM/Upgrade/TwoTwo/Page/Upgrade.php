@@ -42,6 +42,8 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
         $upgrade  =& new CRM_Upgrade_Form( );
+        CRM_Utils_System::setTitle(ts('Upgrade CiviCRM to Version %1', 
+                                         array( 1 => $upgrade->latestVersion ) ) );
         $template =& CRM_Core_Smarty::singleton( );
 
         $template->assign( 'pageTitle', ts('Upgrade CiviCRM to Version %1', 
@@ -69,7 +71,7 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
                                                array( 1 => $upgrade->latestVersion ) ) );
             $template->assign( 'upgraded', false );
 
-            if ( $_POST['upgrade'] ) {
+            if ( CRM_Utils_Array::value('upgrade', $_POST) ) {
                 if ( $upgrade->checkVersion( '2.1.0' ) ||
                      $upgrade->checkVersion( '2.1' )   || 
                      $upgrade->checkVersion( '2.1.1' ) ) {
@@ -102,8 +104,8 @@ class CRM_Upgrade_TwoTwo_Page_Upgrade extends CRM_Core_Page {
         }
 
         $template->assign( 'message', $message );
-        $contents = $template->fetch( 'CRM/common/success.tpl' );
-        echo $contents; 
+        $content = $template->fetch( 'CRM/common/success.tpl' );
+        echo CRM_Utils_System::theme( 'page', $content, true, $this->_print );
     }
 
     function runForm( $stepID ) {
