@@ -158,9 +158,9 @@
 <script type="text/javascript">
 var totalfee=0;
 var symbol = '{/literal}{$currencySymbol}{literal}';
-if ('{/literal}{$defaultScriptFee}{literal}'!= '' ) {
-  document.Participant.scriptFee.value = parseFloat('{/literal}{$defaultScriptFee}{literal}');
-  document.Participant.scriptArray.value = ',{/literal}{$defaultScriptArray}{literal}';
+if ('{/literal}{$totalAmount}{literal}'!= '' ) {
+  document.Participant.scriptFee.value = parseFloat('{/literal}{$totalAmount}{literal}');
+  document.Participant.scriptArray.value = ',{/literal}{$feeString}{literal}';
 }
 if(document.Participant.scriptFee.value){
   totalfee = parseFloat(document.Participant.scriptFee.value);

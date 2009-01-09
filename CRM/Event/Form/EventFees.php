@@ -120,7 +120,7 @@ class CRM_Event_Form_EventFees
         
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event', $form->_eventId ) ) {
-            $fields = array( );
+            $fields = $priceOptionValues = array( );
             
             if ( CRM_Utils_Array::value( 'fee_level', $defaults[$form->_pId] ) ) {
                 $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
@@ -134,7 +134,6 @@ class CRM_Event_Form_EventFees
                     $optionValue         = new CRM_Core_BAO_OptionValue( );
                     $optionValue->label  = $name;
                     $optionValue->find( true );
-                    
                     if ( $optionValue->option_group_id ) {
                         $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
                                                                   $optionValue->option_group_id, 'name' );
@@ -142,12 +141,10 @@ class CRM_Event_Form_EventFees
                         //hack to avoid collision of custom fields
                         //option labels with price set fields labels.
                         if ( strpos( $groupName, 'civicrm_price_field.amount' ) === 0 ) {
-                            
                             $fieldName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
-                                                                      substr( $groupName, -1, 1 ), 'label') ;
-                            
+                                                                      substr( $groupName, 27 ), 'label') ;
                             $eventLevel[$id] = array( 'fieldName'   => $fieldName,
-                                                      'optionLabel' => $name ); 
+                                                      'optionLabel' => $name );
                         }
                     }
                 }
@@ -160,24 +157,42 @@ class CRM_Event_Form_EventFees
                                                   'optionLabel' => $textLevel[1] );
                     }       
                 }
-            
+                
                 require_once 'CRM/Core/BAO/PriceField.php';
                 foreach ( $eventLevel as $values ) {
                     $priceField        = new CRM_Core_BAO_PriceField( );
                     $priceField->label = $values['fieldName'];
-                
+                    
                     $priceField->find( true );
-                
+                    
                     // FIXME: we are not storing qty for text type (for
                     // offline mode). Hence cannot set defaults for Text
                     // type price field
                     if ( $priceField->html_type == 'Text' ) {
                         $defaults[$form->_pId]["price_{$priceField->id}"] = $values['optionLabel'];
+                        
+                        require_once 'CRM/Core/BAO/PriceField.php';
+                        $priceOptions = CRM_Core_BAO_PriceField::getOptions( $priceField->id );
+                        foreach ( $priceOptions as $id => $val ) {
+                            $textValue = $val['value'];
+                            break;
+                        }
+                        $priceOptionValues[$priceField->id] = $values['optionLabel'] * $textValue;
                         continue;
                     }
-                
+                    
                     $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
-                
+                    
+                    //get the checked optioned values.
+                    $optionValue = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $optionId, 'value');
+                    
+                    //get the total as per fields.
+                    if ( CRM_Utils_Array::value( $priceField->id, $priceOptionValues ) === null ) {
+                        $priceOptionValues[$priceField->id] = $optionValue;
+                    } else {
+                        $priceOptionValues[$priceField->id] += $optionValue;
+                    }
+                    
                     if ( $priceField->html_type == 'CheckBox' ) {
                         $defaults[$form->_pId]["price_{$priceField->id}"][$optionId] = 1;
                         continue;
@@ -185,6 +200,16 @@ class CRM_Event_Form_EventFees
                     $defaults[$form->_pId]["price_{$priceField->id}"] = $optionId;
                 }
             }
+            
+            //need to build all price set field amount string where price set ids <= current price set
+            $query = "select `id` from civicrm_price_field where `price_set_id` = $priceSetId  ORDER BY `id` desc limit 0, 1"; 
+            $maxFieldId = CRM_Core_DAO::singleValueQuery( $query );
+            $allFieldValues = array( );
+            for ( $count = 1; $count <= $maxFieldId; $count++ ) {
+                $allFieldValues[$count] = CRM_Utils_Array::value( $count, $priceOptionValues );
+            }
+            $form->assign( 'feeString', implode( ',', $allFieldValues ) );
+            $form->assign( 'totalAmount', CRM_Utils_Array::value( 'fee_amount', $defaults[$form->_pId] ) );
         } else {
             $optionGroupId = null;
 
