@@ -295,7 +295,7 @@ WHERE civicrm_custom_group.is_active = 1
         $params = array( );
         if ( $groupID > 0 ) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = %1";
+            $strWhere .= " AND civicrm_custom_group.id = %1";
             $params[1] = array( $groupID, 'Integer' );
         } else if ( ! $groupID ){
             // since groupID is false we need to show all Inline groups
