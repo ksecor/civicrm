@@ -39,6 +39,8 @@ class TestOfRelationshipTypeCreateAPIV2 extends CiviUnitTestCase
     
     function tearDown( ) 
     {
+	$this->contactDelete( $this->_cId_a );
+        $this->contactDelete( $this->_cId_b );
     }
     /**
      * check with empty array
