@@ -46,9 +46,9 @@ class BAO_Core_CustomGroup extends CiviTestCase
                               );
         
         $customField = Custom::createField( $params, $fields );
-        
+        $formParams = NULL;
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $getTree = CRM_Core_BAO_CustomGroup::getTree('Individual', null, $customGroupId );
+        $getTree = CRM_Core_BAO_CustomGroup::getTree('Individual', $formParams, $customGroupId );
               
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
                                                       'Database check for custom group record.' );

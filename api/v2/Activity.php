@@ -86,6 +86,10 @@ function &civicrm_activity_create( &$params )
     if ( ! empty($values['custom']) ) {
         $params['custom'] = $values['custom'];
     }
+
+    if ( ! CRM_Utils_Array::value( 'activity_type_id', $params ) ) {
+        $params['activity_type_id'] = CRM_Core_OptionGroup::getValue( 'activity_type', $params['activity_name'] , 'name' );
+    }
     
     // create activity
     $activity = CRM_Activity_BAO_Activity::create( $params );
