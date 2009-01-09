@@ -158,6 +158,10 @@
 <script type="text/javascript">
 var totalfee=0;
 var symbol = '{/literal}{$currencySymbol}{literal}';
+if ('{/literal}{$defaultScriptFee}{literal}'!= '' ) {
+  document.Participant.scriptFee.value = parseFloat('{/literal}{$defaultScriptFee}{literal}');
+  document.Participant.scriptArray.value = ',{/literal}{$defaultScriptArray}{literal}';
+}
 if(document.Participant.scriptFee.value){
   totalfee = parseFloat(document.Participant.scriptFee.value);
   document.getElementById('pricelabel').style.display = "block";
@@ -182,10 +186,15 @@ function addPrice(priceVal, priceId) {
   var priceset = 0;
   if(op != 'select-one') {
     priceset = priceVal.split(symbol);
-  }
   
+    var priceArray = priceset[1].split(',');
+    var Actualprice= "";
+    for( i=0 ;i<priceArray.length ; i++ ){
+      Actualprice =Actualprice+priceArray[i]; 
+    }
+  }
   if (priceset != 0) {
-    var addprice = parseFloat(priceset[1]);
+    var addprice = parseFloat(Actualprice);
   }
   switch(op)
     {
