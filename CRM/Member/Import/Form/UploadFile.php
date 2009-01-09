@@ -101,6 +101,11 @@ class CRM_Member_Import_Form_UploadFile extends CRM_Core_Form
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
         
+        if ( $loadeMapping = $this->get('loadedMapping') ) {
+            $this->assign('loadedMapping', $loadeMapping );
+            $this->setDefaults(array('savedMapping' => $loadeMapping));
+        }
+        
         //contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',
@@ -139,6 +144,8 @@ class CRM_Member_Import_Form_UploadFile extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
+        $this->controller->resetPage( 'MapField' );
+        
         $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name, 'onDuplicate' );

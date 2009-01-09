@@ -104,7 +104,12 @@ class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
                                                                                            'name' ) );
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
-        
+
+        if ( $loadeMapping = $this->get('loadedMapping') ) {
+            $this->assign('loadedMapping', $loadeMapping );
+            $this->setDefaults(array('savedMapping' => $loadeMapping));
+        }
+
         $this->setDefaults(array('onDuplicate' =>
                                  CRM_Event_Import_Parser::DUPLICATE_SKIP));
         
@@ -146,6 +151,8 @@ class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
      */
     public function postProcess( )
     {
+        $this->controller->resetPage( 'MapField' );
+        
         $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name, 'onDuplicate' );

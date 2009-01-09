@@ -128,7 +128,12 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
                                                                                                            'name' ) );
 
         $this->assign('savedMapping',$mappingArray);
-        $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
+        $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
+       
+        if ( $loadeMapping = $this->get('loadedMapping') ) {
+            $this->assign('loadedMapping', $loadeMapping );
+            $this->setDefaults(array('savedMapping' => $loadeMapping));
+        }
 
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Import_Parser::DUPLICATE_SKIP));
@@ -205,6 +210,8 @@ class CRM_Import_Form_DataSource extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+        $this->controller->resetPage( 'MapField' );
+        
         if ($this->_dataSourceIsValid) {
             // Setup the params array 
             $this->_params = $this->controller->exportValues( $this->_name );

@@ -221,9 +221,10 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             $mappingLocation    = CRM_Utils_Array::value( '1', $mappingLocation    );
             $mappingPhoneType   = CRM_Utils_Array::value( '1', $mappingPhoneType   );
             $mappingRelation    = CRM_Utils_Array::value( '1', $mappingRelation    );
-           
+            
             $this->assign('loadedMapping', $savedMapping);
-
+            $this->set('loadedMapping', $savedMapping);
+            
             $params = array('id' => $savedMapping);
             $temp   = array ();
             $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
