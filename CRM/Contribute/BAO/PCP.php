@@ -137,15 +137,21 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
         $pcpInfo = array();
         $hide = $mask = array_sum( array_keys( $links['all'] ) );
         $contactPCPPages = array( );
+        
+        $approvedId = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
         while ( $pcpInfoDao->fetch( ) ) {
-
             $mask = $hide;
             if ( $links ) {
                 $replace = array( 'pcpId'    => $pcpInfoDao->pcpId, 
                                   'pcpBlock'  => $pcpInfoDao->blockId);
             }
             $pcpLink = $links['all'];
-            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatusId != 2 ||  $pcpInfoDao->pcpActive != 1 ) {
+            $class = '';
+
+            if ( $pcpInfoDao->pcpStatusId != $approvedId || $pcpInfoDao->pcpActive != 1 ) {
+                $class = "disabled";
+            }
+            if ( ! $pcpInfoDao->tellfriend || $pcpInfoDao->pcpStatusId != $approvedId ||  $pcpInfoDao->pcpActive != 1 ) {
                 $mask -= CRM_Core_Action::DETACH;
             }
             if ( $pcpInfoDao->pcpActive == 1 ) {
@@ -161,8 +167,8 @@ WHERE  civicrm_pcp.contact_id = civicrm_contact.id
                                  'pcpId'       => $pcpInfoDao->pcpId,
                                  'pcpTitle'    => $pcpInfoDao->pcpTitle,
                                  'pcpStatus'   => $pcpInfoDao->pcpStatus,
-                                 'pcpStatusId' => $pcpInfoDao->pcpStatusId,
-                                 'action'      => $action
+                                 'action'      => $action,
+                                 'class'       => $class
                                   );
             $contactPCPPages[] = $pcpInfoDao->pageId;
         }
