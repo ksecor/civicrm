@@ -81,8 +81,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     public function buildQuickForm( )  
     {
         $this->add('text', 'title', ts('Title'), null, true );
-        $this->add('textarea', 'intro_text', ts('Introduction'), null, true );
-        $this->add('text', 'goal_amount', ts('Goal Amount'), null, true );
+        $this->add('textarea', 'intro_text', ts('Welcome'), null, true );
+        $this->add('text', 'goal_amount', ts('Your Goal'), null, true );
         $attributes = array( );
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $attributes = array('value' => ts('Donate Now'), 'onClick' => 'select();');
@@ -90,13 +90,14 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
         $this->add('text', 'donate_link_text', ts('Donation Button'), $attributes); 
         $attrib = Array ('rows' => 8, 'cols' => 60 );
-        $this->addWysiwyg( 'page_text', ts('Your Message'), $attrib ); 
+//        $this->addWysiwyg( 'page_text', ts('Your Message'), $attrib ); 
+        $this->add('textarea', 'page_text', ts('Your Message'), null, false );
         
         $maxAttachments = 2; 
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->get('page_id'), $maxAttachments );
         
-        $this->addElement( 'checkbox', 'is_thermometer', ts('Progress Thermometer') );
+        $this->addElement( 'checkbox', 'is_thermometer', ts('Progress Bar') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Honour Roll'), null);
         $this->addElement( 'checkbox', 'is_active', ts('Active') );
 
@@ -125,8 +126,8 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     static function formRule( &$fields, &$files, $self ) 
     {
         $errors = array();
-        if ( $fields['goal_amount'] <= 0 ) {
-            $errors['goal_amount'] = ts('Goal Amount should be greater than zero.');
+        if ( $fields['goal_amount'] <= 0 || ! is_numeric($fields['goal_amount']) ) {
+            $errors['goal_amount'] = ts('Goal Amount should be a numeric value greater than zero.');
         }
         if ( strlen($fields['donate_link_text']) >= 64 ){
             $errors['donate_link_text'] = ts('Button Text cannot be greater than 64 Characters.');

@@ -69,6 +69,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $pcpStatus = CRM_Contribute_PseudoConstant::pcpStatus( );
+        $approvedId = CRM_Core_OptionGroup::getValue( 'pcp_status', 'Approved', 'name' );
 
         if ( ! $pcpInfo['is_active'] ) {
             // form is inactive, forward to main contribution page
@@ -76,7 +77,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
                                           CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                                  "reset=1&id={$pcpInfo['contribution_page_id']}",
                                                                  false, null, false, true ) );
-        } else if ( $pcpInfo['status_id'] != 2 && ! CRM_Core_Permission::check('administer CiviCRM') ) {
+        } else if ( $pcpInfo['status_id'] != $approvedId && ! CRM_Core_Permission::check('administer CiviCRM') ) {
             if ( $pcpInfo['contact_id'] != $session->get( 'userID' ) ) {
                 // PCP not approved. Forward everyone except admin and owner to main contribution page
                 CRM_Core_Error::statusBounce( ts( 'The personal campaign page you requested is currently unavailable. However you can still support the campaign by making a contribution here.' ),
@@ -147,8 +148,8 @@ AND is_test = 0";
         }
            
         if( $file_id = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_EntityFile', $this->_id , 'file_id', 'entity_id') ) {
-            $image = '<img align="middle" src="'.CRM_Utils_System::url( 'civicrm/file', 
-                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=350 height=350/>';
+            $image = '<img align="right" style="margin: 10px;" src="'.CRM_Utils_System::url( 'civicrm/file', 
+                                                         "reset=1&id=$file_id&eid=$this->_id" ).'"width=150 height=150/>';
             $this->assign('image', $image);
         }
 
