@@ -368,7 +368,7 @@ AND    cg.extends_entity_column_value = %1
                                          'Integer' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
 
-            $result = $options = $sql = array( );
+            $result = $options = $sql = $groupTitle = array( );
             while ( $dao->fetch( ) ) {
                 if ( ! array_key_exists( $dao->tableName, $result ) ) {
                     $result [$dao->tableName] = array( );
@@ -406,13 +406,14 @@ SELECT label, value
                 }
 
                 $sql[$dao->tableName][] = $dao->columnName;
+                $groupTitle[$dao->tableName] = $dao->groupTitle;
             }
             
             foreach ( $sql as $tableName => $values ) {
                 $columnNames = implode( ',', $values );
-                $sql[$dao->tableName] = "
-SELECT '{$dao->groupTitle}' as groupTitle, $columnNames
-FROM   {$dao->tableName}
+                $sql[$tableName] = "
+SELECT '{$groupTitle[$tableName]}' as groupTitle, $columnNames
+FROM   $tableName
 WHERE  entity_id = %1
 ";
             }
