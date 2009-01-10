@@ -10,17 +10,25 @@
     </fieldset>
 
 {elseif $action NEQ 4}
+    {if $context EQ 'pcpCampaign'}
+        {capture assign=attachTitle}{ts}Include a Picture or an Image{/ts}{/capture}
+    {else}
+        {capture assign=attachTitle}{ts}Attachment(s){/ts}{/capture}
+    {/if}
     <div id="attachments_show" class="section-hidden section-hidden-border">
-      <a href="#" onclick="hide('attachments_show'); show('attachments'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Attachment(s){/ts}</label><br />
+      <a href="#" onclick="hide('attachments_show'); show('attachments'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{$attachTitle}</label><br />
     </div>
 
     <div id="attachments" class="section-shown">
-    <fieldset><legend><a href="#" onclick="hide('attachments'); show('attachments_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Attachment(s){/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('attachments'); show('attachments_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{$attachTitle}</legend>
+        {if $context EQ 'pcpCampaign'}
+            <div class="description">{ts}You can upload a picture or image to include on your page. Your file should be in .jpg, .gif, or .png format.{/ts}</div>
+        {/if}
         <table class="form-layout-compressed">
             <tr>
                 <td class="label">{$form.attachFile_1.label}</td>
                 <td>{$form.attachFile_1.html}<br />
-                    <span class="description">{ts 1=$numAttachments}Browse to the <strong>file</strong> you want attached. You can have a maximum of %1 attachment(s).{/ts}</span>
+                    <span class="description">{ts}Browse to the <strong>file</strong> you want to upload.{/ts}{if $numAttachments GT 1} {ts 1=$numAttachments}You can have a maximum of %1 attachment(s).{/ts}{/if}</span>
                 </td>
             </tr>
     {section name=attachLoop start=2 loop=$numAttachments+1}

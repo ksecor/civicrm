@@ -36,12 +36,12 @@
 	<tr>
 		<td class="label" width="15%">{$form.page_text.label}</td>
 		<td width="85%">
-            <span class="description">{ts}Tell visitors to your page why this campaign is important to you.{/ts}</span><br />        
+            <span class="description">{ts}Tell people why this campaign is important to you.{/ts}</span><br />        
             {$form.page_text.html|crmReplace:class:huge}
         </td>
 	</tr>
 </table>
-{include file="CRM/Form/attachment.tpl"}
+{include file="CRM/Form/attachment.tpl" context="pcpCampaign"}
 <table class="form-layout-compressed">
 	<tr>
 		<td class="label">{$form.is_honor_roll.label}</td>

@@ -93,7 +93,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 //        $this->addWysiwyg( 'page_text', ts('Your Message'), $attrib ); 
         $this->add('textarea', 'page_text', ts('Your Message'), null, false );
         
-        $maxAttachments = 2; 
+        $maxAttachments = 1; 
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->get('page_id'), $maxAttachments );
         
