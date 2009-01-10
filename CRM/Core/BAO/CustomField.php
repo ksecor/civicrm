@@ -1131,6 +1131,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @param string $customFieldExtend   custom field extends
      * @param int    $customValueId custom option value id
      * @param int    $entityId            entity id (contribution, membership...)
+     * @param array  $ignoreCustomValues  array of custom field value id that need to ignored while retrieving
+     *                                    custom value for a particular field, mostly used for multi-value custom data
      *
      * @return array $customFormatted formatted custom field array
      * @static
@@ -1138,7 +1140,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
                                        $customFieldExtend, $customValueId = null,
                                        $entityId = null, 
-                                       $inline = false ) 
+                                       $inline = false,
+                                       &$ignoreCustomValues = array( )  ) 
     {
         //get the custom fields for the entity
         $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
@@ -1153,10 +1156,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         list( $tableName, $columnName, $groupID ) = self::getTableColumnGroup( $customFieldId );
-        
+            
         if ( ! $customValueId &&
-             ! $customFields[$customFieldId]['is_multiple'] && // we always create new entites for is_multiple unless specified
-             $entityId ) {
+               $entityId &&    
+             ! $customFields[$customFieldId]['is_multiple'] // we always create new entites for is_multiple unless specified
+             || ( in_array ( $customFields[$customFieldId]['html_type'], // special case for multi-select and radio
+                         array ('Multi-Select', 'Radio') ) && !$value ) ) {
+            
+            // build ignoreCustomValue clause
+            $ignoreCustomValueClause = '';                 
+            if ( !empty( $ignoreCustomValues ) ) {
+                $ignoreCustomValueClause = " AND id NOT IN ( ".implode( ',', $ignoreCustomValues) . " ) ";
+            }                 
             //get the entity table for the custom field
             require_once "CRM/Core/BAO/CustomQuery.php";
             $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$customFieldExtend];
@@ -1164,11 +1175,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $query = "
 SELECT id 
   FROM $tableName
- WHERE entity_id={$entityId}";
+ WHERE entity_id={$entityId}
+ {$ignoreCustomValueClause} ";
 
             $customValueId = CRM_Core_DAO::singleValueQuery( $query );
+            
+            // we need to add customValues to ignore array for multi-value custom data
+            if ( !in_array( $customValueId, $ignoreCustomValues ) ) {
+                $ignoreCustomValues[] = $customValueId;
+            }
         }
-
+        
         //fix checkbox, now check box always submits values
         if ( $customFields[$customFieldId]['html_type'] == 'CheckBox' ) {                
             if ( $value ) {
@@ -1539,6 +1556,7 @@ ORDER BY html_type";
                           $customFieldExtends,
                           $inline = false ) {
         $customData = array( );
+        $fieldCountArray = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldInfo = CRM_Core_BAO_CustomField::getKeyID( $key, true ) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldInfo[0],
@@ -1548,20 +1566,67 @@ ORDER BY html_type";
                                                              $customFieldInfo[1],
                                                              $entityID,
                                                              $inline );
+                
+                // build an array of custom fields and their values that are already process,
+                // only for multi values custom data                                               
+                if ( $customData[$customFieldInfo[0]][$customFieldInfo[1]]['is_multiple'] ) {                                         
+                    $fieldCountArray[$customFieldInfo[0]][] = $customFieldInfo[1];
+                }
             }
         }
+        
+        // Note that QF Radio and Multi-Select don't submit any values, when they are not selected,
+        // Hence we need to process them seperatly.      
+        // 1. Get the groupcount, this will tell us how many times same field was build in form.
+        
+        $groupCount = array_values( $params['hidden_custom_group_count'] );    
+        $groupCount = $groupCount[0];
 
+        //crm_core_error::debug( '$fieldCountArray', $fieldCountArray );
+        
         if ( ! empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
-                if ( ! CRM_Utils_Array::value( $k, $customData ) &&
-                     in_array ( $val['html_type'],
-                                array ('Multi-Select', 'Radio') ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k,
-                                                                 $customData,
-                                                                 '',
-                                                                 $customFieldExtends,
-                                                                 null,
-                                                                 $entityID );
+                if ( in_array ( $val['html_type'],
+                            array ('Multi-Select', 'Radio') ) ) {
+                    
+                    // we need to iterate n ( groupCount) times so that we process all form elements
+                    if ( $groupCount > 1 ) {
+                        // get the count of fields that are already processed.
+                        $fieldCount = count( $fieldCountArray[$k] );
+                            
+                        if ( $fieldCount <  $groupCount ) {
+                            if ( !empty( $fieldCountArray[$k] ) ) {     
+                                $ignoreCustomValues = $fieldCountArray[$k];
+                            } else {
+                                $ignoreCustomValues = array( );
+                            }
+                                
+                            // iterate till all fields are processed. Basically we need to set null values
+                            // to fields that were not selected / unselected.
+                            while ( $fieldCount < $groupCount ) {
+                                CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                             $customData,
+                                                                             '',
+                                                                             $customFieldExtends,
+                                                                             null,
+                                                                             $entityID,
+                                                                             $inline,
+                                                                             $ignoreCustomValues );
+                                $fieldCount++;
+                            }
+                        }
+                    } else {
+                        // process for non-multivalue custom data or single multi-value instance 
+                        if ( ! CRM_Utils_Array::value( $k, $customData ) ) {
+                            CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                         $customData,
+                                                                         '',
+                                                                         $customFieldExtends,
+                                                                         null,
+                                                                         $entityID,
+                                                                         $inline );
+                        }
+                    }
                 }
             }
         }	
