@@ -1,11 +1,10 @@
 {* success.tpl: Display page for Upgrades. Provides complete HTML doc.*}
-{if $config->userFramework EQ 'Joomla'}
+{if $config->userFramework neq 'Drupal'}
     <h2>{$pageTitle}</h2>
 {/if}
 {if !$upgraded}
     <div style="margin-top: 2em; padding: 1em; background-color: #0C0; border: 1px #070 solid; color: white; font-weight: normal">
     <form method="post">
-    <fieldset>
         <p>{ts 1=$currentVersion 2=$newVersion}Use this utility to upgrade your CiviCRM database from %1 to %2.{/ts}</p>
         <p><strong>{ts}Back up your database before continuing.{/ts}</strong>
             {ts 1="http://wiki.civicrm.org/confluence/x/mQ8"}This process may change your database structure and values.
@@ -13,7 +12,6 @@
         <p>{ts}Click 'Upgrade Now' if you are ready to proceed. Otherwise click 'Cancel' to return to the CiviCRM home page.{/ts}</p>
         <input type="submit" value="{ts}Upgrade Now{/ts}" name="upgrade" onclick="return confirm('{ts}Are you sure you are ready to upgrade now?{/ts}');" /> &nbsp;&nbsp;
         <input type="button" value="{ts}Cancel{/ts}" onclick="window.location='{$cancelURL}';" />
-    </fieldset>
     </form>
     </div>
 
