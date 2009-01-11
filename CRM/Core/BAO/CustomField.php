@@ -1550,21 +1550,6 @@ ORDER BY html_type";
                                                              $inline );
             }
         }
-
-        if ( ! empty( $customFields ) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( ! CRM_Utils_Array::value( $k, $customData ) &&
-                     in_array ( $val['html_type'],
-                                array ('Multi-Select', 'Radio') ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k,
-                                                                 $customData,
-                                                                 '',
-                                                                 $customFieldExtends,
-                                                                 null,
-                                                                 $entityID );
-                }
-            }
-        }	
         return $customData;
     }
 
