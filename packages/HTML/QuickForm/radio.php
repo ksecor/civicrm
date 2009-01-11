@@ -239,9 +239,8 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         $value = $this->_findValue($submitValues);
         if (null === $value) {
-            // commenting this since this kinda messes up when
-            // all radio buttons are unchecked - Lobo 10/08/05
-            // $value = $this->getChecked()? $this->getValue(): null;
+            //fix to return blank value when all radio's are unselected / not selected - kurund
+            $value = $this->getChecked()? $this->getValue(): '';
         } elseif ($value != $this->getValue()) {
             $value = null;
         }
