@@ -635,10 +635,7 @@ class CRM_Contribute_BAO_Query
         $form->addElement('text', 'contribution_check_number', ts('Check Number') );
         
         //add field for pcp display in roll search
-        $options = array(); 
-        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('Yes'), 1 );
-        $options[] = HTML_QuickForm::createElement('radio', null, null, ts('No'), 0 );
-        $form->addGroup($options, 'contribution_pcp_display_in_roll', ts('Display In Roll ?') );
+        $form->addYesNo( 'contribution_pcp_display_in_roll', ts('Display In Roll ?') );
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
