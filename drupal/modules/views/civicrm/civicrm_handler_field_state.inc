@@ -5,7 +5,7 @@
  *
  * @ingroup civicrm_field_handlers
  */
-class civicrm_handler_field_state extends civicrm_handler_field {
+class civicrm_handler_field_state extends views_handler_field {
     static $_states;
 
     function construct( ) {

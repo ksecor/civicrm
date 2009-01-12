@@ -1,21 +1,19 @@
 <?php
-
 /*
  * Heavily based on anonymous code contribution. No claim.
  *
- * civicrm_handler_field_country.inc
- * Displays Country after grabbing the label from the database
+ * civicrm_handler_field_gender.inc
+ * Displays Gender after grabbing the label from the database
  *
  */
-
-class civicrm_handler_field_country extends views_handler_field {
-    static $_countries;
+class civicrm_handler_field_gender extends views_handler_field {
+    static $_gender;
 
     function construct( ) {
-        if ( ! self::$_countries ) {
+        if ( ! self::$_gender ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_countries = CRM_Core_PseudoConstant::countryIsoCode( );
+            self::$_gender = CRM_Core_PseudoConstant::gender( );
         }
     }
 
@@ -26,7 +24,7 @@ class civicrm_handler_field_country extends views_handler_field {
             return null;
         }
 
-        return self::$_countries[$values->{$this->field_alias}];
+        return self::$_gender[$values->{$this->field_alias}];
     }
 }
-?>
+

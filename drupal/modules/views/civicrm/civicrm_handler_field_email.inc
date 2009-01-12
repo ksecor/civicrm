@@ -1,11 +1,17 @@
 <?php
-
+/*
+ * Unchanged anonymous code contribution. No claim.
+ *
+ * civicrm_handler_field_email.inc
+ * Displays Email and links to email address.
+ *
+ */
 /**
  * Field handler to provide acess control for the email field
  *
  * @ingroup civicrm_field_handlers
  */
-class civicrm_handler_field_email extends civicrm_handler_field {
+class civicrm_handler_field_email extends views_handler_field {
   function option_definition() {
     $options = parent::option_definition();
     $options['link_to_user'] = array('default' => 'mailto');
@@ -19,7 +25,6 @@ class civicrm_handler_field_email extends civicrm_handler_field {
       '#type' => 'radios',
       '#options' => array(
         0 => t('No link'),
-        'user' => t('To the user'),
         'mailto' => t("With a mailto:"),
       ),
       '#default_value' => $this->options['link_to_user'],

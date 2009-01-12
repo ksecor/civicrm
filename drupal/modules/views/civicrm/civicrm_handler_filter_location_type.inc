@@ -3,28 +3,28 @@
  * Heavily based on anonymous code contribution. No claim.
  * CiviCRM Views Integration
  *
- * civicrm_handler_filter_state.inc
- * Filters States, and is configured using the labels from the database
+ * civicrm_handler_filter_location_type.inc
+ * Filters Location Types, and is configured using the labels from the database
  *
  */
 
 
-class civicrm_handler_filter_state extends views_handler_filter_in_operator {
-    static $_states;
+class civicrm_handler_filter_location_type extends views_handler_filter_in_operator {
+    static $_locationTypes;
 
     function construct( ) {
-        if ( ! self::$_states ) {
+        if ( ! self::$_locationTypes ) {
             civicrm_initialize( );
             require_once 'CRM/Core/PseudoConstant.php';
-            self::$_states = CRM_Core_PseudoConstant::stateProvinceAbbreviation( );
+            self::$_locationTypes = CRM_Core_PseudoConstant::locationType( );
         }
     }
 
     function get_value_options() {
         if (!isset($this->value_options)) {
-            $this->value_title = t('State province');
+            $this->value_title = t('Location type');
             $options = array( );
-            foreach (self::$_states as $id => $name ) {
+            foreach (self::$_locationTypes as $id => $name ) {
                 $options[$id] = $name;
             }
             $this->value_options = $options;

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Heavily based on anonymous code contribution. No claim.
+ * CiviCRM Views Integration
+ *
+ * civicrm_handler_filter_contact_type.inc
+ * Filters Contact Types, and is configured using the labels from the database
+ *
+ */
+
 class civicrm_handler_filter_contact_type extends views_handler_filter_in_operator {
     static $_contactTypes;
 
