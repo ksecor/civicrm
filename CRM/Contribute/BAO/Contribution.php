@@ -943,17 +943,17 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
      */
     static function getSoftContributionList( $contact_id, $isTest = 0 )
     { 
-        $query = "select ccs.id, ccs.amount as amount, 
-                         cc.receive_date,
-                         cc.contact_id as contributor_id,
-                         cc.contribution_type_id as contribution_type_id,
-                         cc.contribution_status_id as contribution_status_id,
-                         ccs.pcp_id,
-                         cp.title as pcp_title
-                  from civicrm_contribution_soft ccs
-                  left join civicrm_contribution cc on ccs.contribution_id = cc.id
-                  left join civicrm_pcp cp on ccs.pcp_id = cp.id
-                  where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
+        $query =    "select ccs.id, ccs.amount as amount,
+                    ccs.contribution_id, ccs.pcp_id,
+                    cc.receive_date,
+                    cc.contact_id as contributor_id,
+                    cc.contribution_type_id as contribution_type_id,
+                    cc.contribution_status_id as contribution_status_id,
+                    cp.title as pcp_title
+                    from civicrm_contribution_soft ccs
+                    left join civicrm_contribution cc on ccs.contribution_id = cc.id
+                    left join civicrm_pcp cp on ccs.pcp_id = cp.id
+                    where cc.is_test = {$isTest} and ccs.contact_id = " . $contact_id;
        
         $cs = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -961,6 +961,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         while( $cs->fetch( ) ) {
             $result[$cs->id]['amount'] = $cs->amount;
             $result[$cs->id]['contributor_id'] = $cs->contributor_id;
+            $result[$cs->id]['contribution_id'] = $cs->contribution_id;
             $result[$cs->id]['contributor_display_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cs->contributor_id, 'display_name' );
             $result[$cs->id]['contribution_type']        = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', $cs->contribution_type_id, 'name' );
             $result[$cs->id]['receive_date'] = $cs->receive_date;

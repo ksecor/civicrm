@@ -627,7 +627,7 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
         }
-        $element = $this->add( 'text', 'check_number', ts('Check Number'), $attributes['check_number'] );
+        $element =& $this->add( 'text', 'check_number', ts('Check Number'), $attributes['check_number'] );
         if ( $this->_online ) {
             $element->freeze( );
         }
