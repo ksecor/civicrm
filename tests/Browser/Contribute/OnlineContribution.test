@@ -43,6 +43,9 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     protected $_contributionPageId;
     protected $_paymentProcessorId;
 
+    //the email should not be in the database.
+    protected $_userEmail = 'amiteshwar.prasad@webaccess.co.in';
+	
     function get_info() 
     {
         return array(
@@ -85,8 +88,8 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
      */
     function testOnlineContributionwithoutOtherAmount( ) 
     {
-        $params = array ( 'email-5' => 'shailesh.lende@webaccess.co.in' ); 
-        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $params = array ( 'email-5' => 'sunil.pawar@webaccess.co.in' ); 
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertText('Please correct the following errors in the form fields below:');
         $this->assertText( 'Contribution Amount is a required field.');
         ContributionPage::delete($this->_contributionPageId);
@@ -100,7 +103,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     function testOnlineContributionwithoutEmail( ) 
     {
         $params = array ( 'amount_other' => '1000','email-5' => ''); 
-        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertText( 'Email Address is a required field.' );
         ContributionPage::delete($this->_contributionPageId);
         PaypalPro::delete($this->_paymentProcessorId);
@@ -114,9 +117,9 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     {
         $params = array ( 
                          'amount_other' => '1000',
-                         'email-5'      => 'shailesh.lende@webaccess.co.in' 
+                         'email-5'      => $this->_userEmail
                          ); 
-        $this->drupalPost(NULL, $params, '_qf_Main_next' );
+        $this->drupalPost(NULL, $params, '_qf_Main_upload' );
         $this->assertText( 'Card Number is a required field.' );
         $this->assertText( 'Security Code is a required field.' );
         $this->assertText( 'Expiration Date is a required field.' );
@@ -131,7 +134,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     function testOnlineContributionwithoutBillingAddress( ) 
     {
         $params = array ( 'amount_other'             => '1000',
-                          'email-5'                  => 'shailesh.lende@webaccess.co.in',
+                          'email-5'                  => $this->_userEmail,
                           'credit_card_type'         => 'Visa',
                           'credit_card_number'       => '4731463054139660',
                           'cvv2'                     => '111',
@@ -139,7 +142,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
                           'credit_card_exp_date[Y]'  => '2010', 
                           );
         
-        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertWantedRaw( 'Billing First Name is a required field.', 'Billing Address, validations.' );
         $this->assertWantedRaw( 'Street Address is a required field.', 'Billing Address, validations.' );
         $this->assertWantedRaw( 'State / Province is a required field.', 'Billing Address, validations.' );
@@ -153,7 +156,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     function testOnlineContributionwithBadCardNumber( ) 
     {
         $params = array ( 'amount_other'             => '1000',
-                          'email-5'                  => 'shailesh.lende@webaccess.co.in',
+                          'email-5'                  => $this->_userEmail,
                           'credit_card_type'         => 'Visa',
                           'credit_card_number'       => '123455554321',
                           'cvv2'                     => '111',
@@ -168,7 +171,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
                           'country_id-5'             => 'United States'
                           );
         
-        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertWantedRaw( 'Please enter a valid Credit Card Number', 'Credit Card Information, validations.' );
         ContributionPage::delete($this->_contributionPageId);
         PaypalPro::delete($this->_paymentProcessorId);
@@ -181,7 +184,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
     function testOnlineContribution( ) 
     {
         $params = array ( 'amount_other'             => '1000',
-                          'email-5'                  => 'shailesh.lende@webaccess.co.in',
+                          'email-5'                  => $this->_userEmail,
                           'credit_card_type'         => 'Visa',
                           'credit_card_number'       => '4731463054139660',
                           'billing_first_name'       => 'John',
@@ -197,7 +200,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
                           );
 
         
-        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->drupalPost(NULL, $params, '_qf_Main_upload');
         $this->assertText( 'Please verify the information below carefully. Click Go Back if you need to make changes. To complete your contribution, click the Make Contribution button below.' );
         $this->assertText( 'Your contribution will not be completed until you click the Make Contribution button. Please click the button one time only.' );
         $this->assertText( '************9660' );
@@ -206,17 +209,16 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
         $this->drupalPost(NULL, array(), '_qf_Confirm_next');
         $this->assertText( 'Thank you for your support.' );
         $this->assertText( 'Your transaction has been processed successfully. Please print this page for your records.' );
-        $this->assertText( 'An email receipt has also been sent to shailesh.lende@webaccess.co.in');
+        $this->assertText( 'An email receipt has also been sent to '. $this->_userEmail);
         $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', $this->_contributionPageId , 'id', 'contribution_page_id', 'Database check for Contribution Page ID.' );
         $ContributionId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution','Online Contribution: Help Test CiviCRM!' , 'id', 'source',  'Database check Contribution source.' );
-        $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, $ContributionId, 'is_test', 'Database check for Contribution ID.');
-
+	$this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, 'id', 'is_test', 'Database check for Contribution ID.');
         $ContactId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution',$ContributionId,'contact_id', 'id', 'Database check for contact id.' );
                
         ContributionPage::delete($this->_contributionPageId);
         PaypalPro::delete($this->_paymentProcessorId);
     }
-  
+ 
 }
 
 ?>
