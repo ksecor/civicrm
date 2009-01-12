@@ -76,7 +76,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
 
         $params = array( 'first_name' => $first_name,     
                          'last_name'  => $last_name );
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         $this->assertText('Your Individual contact record has been saved.');
 
         // webuser email should be a link on the page - as the contact name of "Last changed by" link
@@ -100,7 +100,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $params = array( 'first_name' => $first_name,     
                          'last_name'  => $last_name );
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         $this->assertWantedRaw( 'First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.',
                                 'New Individual, validations.' );
         $this->assertText('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.');
@@ -132,7 +132,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
                           'location[1][address][state_province_id]'      => 1029,
                           );
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         $this->assertText('Your Individual contact record has been saved.');
 
         // webuser email should be a link on the page - as the contact name of "Last changed by" link
@@ -158,22 +158,21 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->civiGet('civicrm/dashboard', 'reset=1' );
         $this->clickLink('New Individual', '0');
         
-        $params = array ( 'first_name' => $first_name,     
-                          'last_name'  => $last_name                      
-			  );
-	$params['location'][1] = array( 'location_type_id'    => 1,
-					'is_primary'          => 1,
-					'phone' => array( '1' => array( 'phone_type_id' => 1,
-									'phone'         => '303443689'  ),
-							  '2' => array( 'phone_type_id' => 2,
-									'phone'         => '9833910234'),
-							  '3' => array( 'phone_type_id' => 3,
-									'phone'         => '674563788' ),
-							  '4' => array( 'phone_type_id' => 4,
-									'phone'         => '785443785' )
-							  ));
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][phone][1][phone_type_id]'         => 1,
+                          'location[1][phone][1][phone]'                 => '303443689',
+                          'location[1][phone][2][phone_type_id]'         => 2,
+                          'location[1][phone][2][phone]'                 => '9833910234',
+                          'location[1][phone][3][phone_type_id]'         => 3,
+                          'location[1][phone][3][phone]'                 => '674563788',
+                          'location[1][phone][4][phone_type_id]'         => 4,
+                          'location[1][phone][4][phone]'                 => '785443785',
+                          );
 
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         
         $this->assertText('Your Individual contact record has been saved.');
         
@@ -207,7 +206,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->civiGet('civicrm/dashboard', 'reset=1' );
         $this->clickLink('New Individual', '0');
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         
         $this->assertText('Your Individual contact record has been saved.');
         $this->assertLink( $this->webUser->mail );
@@ -238,7 +237,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->civiGet('civicrm/dashboard', 'reset=1' );
         $this->clickLink('New Individual', '0');
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         
         $this->assertText('Email is not valid.');
         $this->assertLink( $this->webUser->mail );
@@ -269,7 +268,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->civiGet('civicrm/dashboard', 'reset=1' );
         $this->clickLink('New Individual', '0');
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         
         $this->assertText('Your Individual contact record has been saved.');
         $this->assertLink( $this->webUser->mail );
@@ -288,8 +287,8 @@ class Browser_Contact_NewIndividual extends CiviTestCase
      */
     function testCreateIndividualWithInvalidOpenId( ) 
     { 
-        $first_name  = 'Alaan';
-        $last_name   = 'Maxwel';
+        $first_name  = 'Peter';
+        $last_name   = 'Parker';
         $openid      = 'civicrm';
 
         $params = array ( 'first_name'                     => $first_name,     
@@ -301,7 +300,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->civiGet('civicrm/dashboard', 'reset=1' );
         $this->clickLink('New Individual', '0');
         
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->drupalPost( NULL, $params, '_qf_Edit_upload_view');
         $this->assertText('OpenID is not a valid URL.');
         $this->assertLink( $this->webUser->mail );
         
