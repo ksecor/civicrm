@@ -98,23 +98,5 @@
     <RelationshipType>
         <name>Case Coordinator</name>
     </RelationshipType>
-    <RelationshipType>
-        <name>Addiction Counselor</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Supervisor</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Family Physician</name>
-    </RelationshipType>
-	<RelationshipType>
-        <name>Sibling of</name>
-    </RelationshipType>
-	<RelationshipType>
-        <name>Spouse of</name>
-    </RelationshipType> 
-	<RelationshipType>
-        <name>Child of</name>
-    </RelationshipType> 
   </CaseRoles>
 </CaseType>

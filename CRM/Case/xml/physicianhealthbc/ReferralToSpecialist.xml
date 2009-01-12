@@ -77,17 +77,5 @@
         <name>Intake Physician</name>
         <creator>1</creator>
     </RelationshipType>
-    <RelationshipType>
-        <name>Case Coordinator</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Addiction Counselor</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Supervisor</name>
-    </RelationshipType>
-    <RelationshipType>
-        <name>Family Physician</name>
-    </RelationshipType>
   </CaseRoles>
 </CaseType>
