@@ -18,8 +18,8 @@
 {/if}
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
-{if $checkNumber}
-{ts}Check Number{/ts}: {$checkNumber}
+{if $formValues.check_number}
+{ts}Check Number{/ts}: {$formValues.check_number}
 {/if}
 {/if}
 {if $formValues.trxn_id}

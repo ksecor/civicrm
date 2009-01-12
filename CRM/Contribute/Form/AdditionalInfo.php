@@ -379,7 +379,6 @@ class CRM_Contribute_Form_AdditionalInfo
             $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format( $params['receipt_date'])) );
             $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['thankyou_date'])));
             $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format(  $params['cancel_date']))  );
-            $form->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
         }
         
         //handle custom data

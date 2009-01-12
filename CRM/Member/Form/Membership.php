@@ -831,7 +831,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->assign( 'mem_end_date', CRM_Utils_Date::customFormat($calcDates['end_date']) );
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                                            $formValues['membership_type_id'][1] ) );
-            $this->assign('checkNumber', CRM_Utils_Array::value( 'check_number', $params )); 
             $this->assign( 'customValues', $customValues );
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
