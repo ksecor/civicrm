@@ -254,7 +254,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
             break;
             
         case 'contribution':
-            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $form, false );
+            $honorId = CRM_Utils_Request::retrieve( 'honorId', 'Positive', $this, false );
             
             if ($honorId) {
                 $cid = $honorId;

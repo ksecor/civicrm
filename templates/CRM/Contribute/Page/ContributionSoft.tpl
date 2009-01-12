@@ -25,7 +25,7 @@
         <td>{$row.receive_date|truncate:10:''|crmDate}</td>
         <td>{$row.contribution_status}</td>
         <td>{if $row.pcp_id}<a href="{crmURL p="civicrm/contribute/pcp/info" q="reset=1&id=`$row.pcp_id`"}" title="{ts}View Personal Campaign Page{/ts}">{$row.pcp_title}</a>{else}{ts}( n/a ){/ts}{/if}</td>
-        <td><a href="{crmURL p="civicrm/contact/view/contribution" q="reset=1&id=`$row.contribution_id`&cid=`$row.contributor_id`&action=view&context=contribution&selectedChild=contribute"}" title="{ts}View related contribution{/ts}">{ts}View{/ts}</a></td>
+        <td><a href="{crmURL p="civicrm/contact/view/contribution" q="reset=1&id=`$row.contribution_id`&cid=`$contactId`&action=view&context=contribution&selectedChild=contribute"}" title="{ts}View related contribution{/ts}">{ts}View{/ts}</a></td>
      </tr>
      {/foreach}
 </table>

@@ -99,8 +99,15 @@
 	<dt>{ts}Fulfilled{/ts}</dt><dd>{$fulfilled|truncate:10:''|crmDate}&nbsp;</dd>
 </dl>
 </fieldset>
-{/if} 
-
+{/if}
+ 
+{if $softCreditToName}
+<dl>
+	<dt>{ts}Soft Credit To{/ts}</dt>
+    <dd><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$soft_credit_to`"}" id="view_contact" title="{ts}View contact record{/ts}">{$softCreditToName}</a>&nbsp;</dd>
+</dl>
+{/if}
+       
 {if $pcp_id}
 <fieldset><legend>{ts}Personal Campaign Page{/ts}</legend>
 <dl>
