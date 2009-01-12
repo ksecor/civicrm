@@ -59,5 +59,5 @@
 	<dt></dt>
 	<dd class="html-adjust">{$form.buttons.html}</dd>
 </dl>
-</fieldset>
 </div>
+</fieldset>
