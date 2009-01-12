@@ -49,7 +49,7 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
                                                        false, null, 'REQUEST' );
 
         require_once 'CRM/Utils/Rule.php';
-        $this->_redirect = CRM_Utils_Request::retrieve( 'url', 'String', $this,
+        $this->_redirect = CRM_Utils_Request::retrieve( 'redirectURL', 'String', $this,
                                                         false, null, 'REQUEST' );
 
         if ( ! $this->_redirect ||
