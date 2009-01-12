@@ -44,11 +44,15 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
     }
 
     function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
+        $sqlFile = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'sql', 'misc.mysql'));
+        $tplFile = "$sqlFile.tpl";
 
-        // 1. remove domain_ids from the entire db
-        $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                               array( $currentDir, '../sql', 'misc.mysql' ) );
+        $config =& CRM_Core_Config::singleton();
+        $smarty = new Smarty;
+        $smarty->compile_dir = $config->templateCompileDir;
+
+        file_put_contents($sqlFile, $smarty->fetch($tplFile));
+
         $this->source( $sqlFile );
 
         $this->setVersion( '2.12' );
