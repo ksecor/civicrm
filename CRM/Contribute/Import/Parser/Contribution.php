@@ -230,13 +230,29 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         if ( $response != CRM_Contribute_Import_Parser::VALID ) {
             return $response;
         }
-        
+        $noSoftCredit = false;
         $params =& $this->getActiveFieldParams( );
-                       
+
+        //params for soft credit contact
+        if ( !empty ( $params['soft_credit'] ) ) {
+            $softParams = $params['soft_credit'];
+        }
+        $formatted = array();
+        //find the contact to which the contribution is soft-credited
+        if ( !empty ( $softParams ) ) {
+            if ( isset( $softParams['contact_id'] ) ) {
+                $softParams['id'] = $softParams['contact_id'];
+                unset($softParams['contact_id']);
+            }
+            $softParams['contact_type'] = $this->_contactType;
+            $formatted['soft_credit_to'] = $this->getSoftCredit($softParams);
+            $noSoftCredit = true;
+        }
+      
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
-        $formatted = array();
+     
         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
         
         foreach ($params as $key => $val) {
@@ -484,10 +500,28 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
+            if ( $noSoftCredit ) {
+                array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
+                return CRM_Contribute_Import_Parser::NO_MATCH;
+            }
             return CRM_Contribute_Import_Parser::VALID;
         }
+        
     }
-   
+    
+    /**
+     * Get the array of succesfully imported contribution id's
+     *
+     * @return array
+     * @access public
+     */
+    function &getSoftCredit( $params ) 
+    {
+        $error = _civicrm_duplicate_formatted_contact($params);
+        $matchedIDs = explode(',',$error['error_message']['params'][0]);
+        return $matchedIDs[0] ? $matchedIDs[0] : false;
+    }
+    
     /**
      * Get the array of succesfully imported contribution id's
      *

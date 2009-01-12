@@ -50,7 +50,6 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
      */
     public function preProcess( ) 
     {
-
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
@@ -60,6 +59,7 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         $this->set('totalRowCount', $totalRowCount);
 
         $invalidRowCount = $this->get('invalidRowCount');
+        $invalidSoftCreditRowCount = $this->get('invalidSoftCreditRowCount');
         $conflictRowCount = $this->get('conflictRowCount');
         $duplicateRowCount = $this->get('duplicateRowCount');
         $onDuplicate = $this->get('onDuplicate');
@@ -94,7 +94,7 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'invalidSoftCreditRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'unMatchCount');
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

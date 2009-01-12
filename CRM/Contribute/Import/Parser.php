@@ -49,7 +49,8 @@ abstract class CRM_Contribute_Import_Parser {
         CONFLICT        =  8,
         STOP            = 16,
         DUPLICATE       = 32,
-        MULTIPLE_DUPE   = 64;
+        MULTIPLE_DUPE   = 64,
+        NO_MATCH        = 128;
 
     /**
      * various parser modes
@@ -114,6 +115,11 @@ abstract class CRM_Contribute_Import_Parser {
      * running total number of invalid rows
      */
     protected $_invalidRowCount;
+
+    /**
+     * running total number of invalid soft credit rows
+     */
+    protected $_invalidSoftCreditRowCount;
 
     /**
      * maximum number of invalid rows to store
@@ -278,7 +284,7 @@ abstract class CRM_Contribute_Import_Parser {
         }
 
         $this->_lineCount  = $this->_warningCount   = 0;
-        $this->_invalidRowCount = $this->_validCount     = 0;
+        $this->_invalidRowCount = $this->_validCount = $this->_invalidSoftCreditRowCount = 0;
         $this->_totalCount = $this->_conflictCount = 0;
     
         $this->_errors   = array();
@@ -358,7 +364,11 @@ abstract class CRM_Contribute_Import_Parser {
                     $this->_errors[] = $values;
                 }
             } 
-
+            
+            if ( $returnCode & self::NO_MATCH ) {
+                $this->_invalidSoftCreditRowCount++;
+            } 
+            
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
                 $recordNumber = $this->_lineCount;
@@ -620,6 +630,7 @@ abstract class CRM_Contribute_Import_Parser {
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
+        $store->set( 'invalidSoftCreditRowCount'  , $this->_invalidSoftCreditRowCount     );
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
         switch ($this->_contactType) {
