@@ -48,7 +48,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     private $_totalAmountIndex;
     private $_contributionTypeIndex;
 
-    //protected $_mapperLocType;
+    protected $_mapperSoftCredit;
     //protected $_mapperPhoneType;
     /**
      * Array of succesfully imported contribution id's
@@ -60,10 +60,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) 
+    function __construct( &$mapperKeys, $mapperSoftCredit = null, $mapperPhoneType = null) 
     {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
+        $this->_mapperSoftCredit =& $mapperSoftCredit;
     }
 
     /**
@@ -76,14 +77,19 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     {
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType , false );
+        
+        $fields = array_merge( $fields,
+                               array( 'soft_credit' => array( 'title'      => ts('Soft Credit'),
+                                                              'softCredit' => true ) ) );
 
         foreach ($fields as $name => $field) {
-            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
+            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
         }
 
         $this->_newContributions = array();
-
+       
         $this->setActiveFields( $this->_mapperKeys );
+        $this->setActiveFieldSoftCredit( $this->_mapperSoftCredit ); 
 
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;

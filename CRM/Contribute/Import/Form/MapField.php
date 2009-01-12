@@ -280,8 +280,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         }
      
         // start of soft credit section
-        $sel1['soft_credit'] = ts('Soft Credit');
-        
         // get contact type for this import 
         $contactTypeId = $this->get('contactType');
         $contactTypes  = array(
@@ -310,11 +308,12 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                 if ( $value == 'none' ) {
                     continue;
                 }
-                $softCreditFields['contribution_soft_' .$value] = $contactFields[trim($value)]['title'];
+                $softCreditFields[$value] = $contactFields[trim($value)]['title'];
             }
         }
         
-        $softCreditFields['contribution_soft_contact_id'] = ts('Contact ID');
+        $softCreditFields['contact_id'] = ts('Contact ID');
+        $softCreditFields['external_identifier'] = ts('External Identifier');
         
         $sel2['soft_credit'] = $softCreditFields;
         
@@ -552,34 +551,22 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton( );
         $seperator = $config->fieldSeparator;
 
-        $mapper = $mapperKeys = $mapperKeysMain = $mapperLocType = $mapperPhoneType = array( );
+        $mapper = $mapperKeys = $mapperKeysMain = $mapperSoftCredit = $mapperPhoneType = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         
-        for ( $i = 0; $i < $this->_columnCount; $i++ ) {            
-            if( isset( $mapperKeys[$i][0] ) && $mapperKeys[$i][0] == 'soft_credit') {
-                list( $first, $second ) = explode('_', substr( $mapperKeys[$i][1],18) );
-                $mapper[$i]     = ts('Soft Credit: '). ucwords($first . " " .  $second );
-                $mapperKeysMain[$i] = $mapperKeys[$i][1];
+        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
+            $mapperKeysMain[$i] = $mapperKeys[$i][0];
+                       
+            if ( isset( $mapperKeys[$i][0] ) && $mapperKeys[$i][0] == 'soft_credit') {
+                $mapperSoftCredit[$i] = $mapperKeys[$i][1];
             } else {
-                $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
-                $mapperKeysMain[$i] = $mapperKeys[$i][0];
-            }
-            
-            if (is_numeric($mapperKeys[$i][1])) {
-                $mapperLocType[$i] = $mapperKeys[$i][1];
-
-            } else {
-                $mapperLocType[$i] = null;
-            }
-
-            if ( !is_numeric($mapperKeys[$i][2])) {
-                $mapperPhoneType[$i] = $mapperKeys[$i][2];
-            } else {
-                $mapperPhoneType[$i] = null;
+                $mapperSoftCredit[$i] = null;
             }
         }
              
-        $this->set( 'mapper'    , $mapper     );
+        $this->set( 'mapper'    , $mapper );
+        $this->set( 'softCreditFields', $mapperSoftCredit );
 
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
@@ -626,7 +613,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $this->set( 'savedMapping', $saveMappingFields->mapping_id );
         }
 
-        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain, $mapperSoftCredit ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Contribute_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         

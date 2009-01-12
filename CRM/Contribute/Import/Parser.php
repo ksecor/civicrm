@@ -472,18 +472,11 @@ abstract class CRM_Contribute_Import_Parser {
         }
     }
     
-    /*function setActiveFieldLocationTypes( $elements ) {
+    function setActiveFieldSoftCredit( $elements ) {
         for ($i = 0; $i < count( $elements ); $i++) {
-            $this->_activeFields[$i]->_hasLocationType = $elements[$i];
+            $this->_activeFields[$i]->_softCreditField = $elements[$i];
         }
     }
-    
-    function setActiveFieldPhoneTypes( $elements ) {
-        for ($i = 0; $i < count( $elements ); $i++) {
-            $this->_activeFields[$i]->_phoneType = $elements[$i];
-        }
-    }*/
-    
 
     function setActiveFieldValues( $elements, &$erroneousField ) {    
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
@@ -519,26 +512,15 @@ abstract class CRM_Contribute_Import_Parser {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
-                if (isset( $this->_activeFields[$i]->_hasLocationType)) {
+                if ( isset( $this->_activeFields[$i]->_softCreditField ) ) {
                     if (! isset($params[$this->_activeFields[$i]->_name])) {
                         $params[$this->_activeFields[$i]->_name] = array();
                     }
-                    
-                    $value = array(
-                        $this->_activeFields[$i]->_name => 
-                                $this->_activeFields[$i]->_value,
-                        'location_type_id' => 
-                                $this->_activeFields[$i]->_hasLocationType);
-                    
-                    if (isset( $this->_activeFields[$i]->_phoneType)) {
-                        $value['phone_type'] =
-                            $this->_activeFields[$i]->_phoneType;
-                    }
-                    
-                    $params[$this->_activeFields[$i]->_name][] = $value;
+                    $params[$this->_activeFields[$i]->_name][$this->_activeFields[$i]->_softCreditField] = $this->_activeFields[$i]->_value;
                 }
+                
                 if (!isset($params[$this->_activeFields[$i]->_name])) {
-                    if ( !isset($this->_activeFields[$i]->_related) ) {
+                    if ( !isset($this->_activeFields[$i]->_softCreditField ) ) {
                         $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
                     }
                 }
@@ -583,8 +565,6 @@ abstract class CRM_Contribute_Import_Parser {
         if ( empty( $name ) ) {
             $this->_fields['doNotImport'] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
         } else {
-            
-            //$tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             $tempField = CRM_Contact_BAO_Contact::importableFields('All', null );
             if (! array_key_exists ($name,$tempField) ) {
                 $this->_fields[$name] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
