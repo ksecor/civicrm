@@ -40,10 +40,25 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 {
     protected $_groupID = null;
 
+    protected $_redirect = null;
+
     function preProcess( ) 
     { 
         parent::preProcess( );
-        $this->_groupID = CRM_Utils_Request::retrieve( 'gid', 'Integer', $this );
+        $this->_groupID = CRM_Utils_Request::retrieve( 'gid', 'Integer', $this,
+                                                       false, null, 'REQUEST' );
+
+        require_once 'CRM/Utils/Rule.php';
+        $this->_redirect = CRM_Utils_Request::retrieve( 'url', 'String', $this,
+                                                        false, null, 'REQUEST' );
+
+        if ( ! $this->_redirect ||
+             ! CRM_Utils_Rule::url( $this->_redirect ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            $this->_redirect = $config->userFrameworkBaseURL;
+        }
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( $this->_redirect );
         
         require_once 'CRM/Contact/BAO/Group.php';
 
@@ -123,10 +138,22 @@ ORDER BY title";
             $this->addFormRule( array( 'CRM_Mailing_Form_Subscribe', 'formRule' ) );
         }
 
-        // add captcha
-        require_once 'CRM/Utils/ReCAPTCHA.php';
-        $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
-        $captcha->add( $this );
+        $addCaptcha = true;
+
+        // if this is POST request and came from a block,
+        // lets add recaptcha only if already present
+        // gross hack for now
+        if ( ! empty( $_POST ) &&
+             ! array_key_exists( 'recaptcha_challenge_field', $_POST ) ) {
+            $addCaptcha = false;
+        }
+
+        if ( $addCaptcha ) {
+            // add captcha
+            require_once 'CRM/Utils/ReCAPTCHA.php';
+            $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+            $captcha->add( $this );
+        }
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
