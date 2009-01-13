@@ -986,9 +986,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
         //update the weight
-        $query = "UPDATE civicrm_uf_join SET weight = %1
-                       WHERE  uf_group_id = {$ufGroupId}";
-        $p =array( 1 => array( $params['weight'], 'Integer' ) ); 
+        $query = "
+UPDATE civicrm_uf_join 
+SET    weight = %1
+WHERE  uf_group_id = %2
+AND    ( entity_id IS NULL OR entity_id <= 0 )
+";
+        $p = array( 1 => array( $params['weight'], 'Integer' ),
+                    2 => array( $ufGroupId       , 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
 
         // do a menu rebuild if we are on drupal, so it gets all the new menu entries
@@ -1739,9 +1744,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $maxWeight = CRM_Utils_Weight::getMax('CRM_Core_DAO_UFJoin', null, 'weight');
 
         //update the weight
-        $query = "UPDATE civicrm_uf_join SET weight = %1
-                       WHERE  uf_group_id = {$copy->id}";
-        $p =array( 1 => array( $maxWeight + 1, 'Integer' ) ); 
+        $query = "
+UPDATE civicrm_uf_join 
+SET    weight = %1
+WHERE  uf_group_id = %2
+AND    ( entity_id IS NULL OR entity_id <= 0 )
+";
+        $p = array( 1 => array( $maxWeight + 1, 'Integer' ),
+                    2 => array( $copy->id     , 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
 
         return $copy;
