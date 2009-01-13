@@ -20,49 +20,84 @@ ALTER TABLE `civicrm_participant`
 -- merge civicrm_event_page to civicrm_event
 
 ALTER TABLE `civicrm_event`
-   ADD `intro_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
-   ADD `footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
-   ADD `confirm_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for Confirmation page.',
-   ADD `confirm_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
-   ADD `confirm_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+  {if $multilingual}
+    {foreach from=$locales item=locale}
+      ADD `intro_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `footer_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `confirm_title_{$locale}` varchar(255) collate utf8_unicode_ci default NULL,
+      ADD `confirm_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `confirm_footer_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `confirm_email_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `confirm_from_name_{$locale}` varchar(255) collate utf8_unicode_ci default NULL,
+      ADD `thankyou_title_{$locale}` varchar(255) collate utf8_unicode_ci default NULL,
+      ADD `thankyou_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `thankyou_footer_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `pay_later_text_{$locale}` text collate utf8_unicode_ci,
+      ADD `pay_later_receipt_{$locale}` text collate utf8_unicode_ci,
+    {/foreach}
+  {else}
+    ADD `intro_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+    ADD `footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+    ADD `confirm_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for Confirmation page.',
+    ADD `confirm_text` text collate utf8_unicode_ci COMMENT 'Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.',
+    ADD `confirm_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.',
+    ADD `confirm_email_text` text collate utf8_unicode_ci COMMENT 'text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now',
+    ADD `confirm_from_name` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email name used for confirmation emails.',
+    ADD `thankyou_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for ThankYou page.',
+    ADD `thankyou_text` text collate utf8_unicode_ci COMMENT 'ThankYou Text.',
+    ADD `thankyou_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message.',
+    ADD `pay_later_text` text collate utf8_unicode_ci COMMENT 'The text displayed to the user in the main form',
+    ADD `pay_later_receipt` text collate utf8_unicode_ci COMMENT 'The receipt sent to the user instead of the normal receipt text',
+  {/if}
    ADD `is_email_confirm` tinyint(4) default '0' COMMENT 'If true, confirmation is automatically emailed to contact on successful registration.',
-   ADD `confirm_email_text` text collate utf8_unicode_ci COMMENT 'text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now',
-   ADD `confirm_from_name` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email name used for confirmation emails.',
    ADD `confirm_from_email` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'FROM email address used for confirmation emails.',
    ADD `cc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to cc each time a confirmation is sent',
    ADD `bcc_confirm` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'comma-separated list of email addresses to bcc each time a confirmation is sent',
    ADD `default_fee_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
    ADD `default_discount_id` int(10) unsigned default NULL COMMENT 'FK to civicrm_option_value.',
-   ADD `thankyou_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Title for ThankYou page.',
-   ADD `thankyou_text` text collate utf8_unicode_ci COMMENT 'ThankYou Text.',
-   ADD `thankyou_footer_text` text collate utf8_unicode_ci COMMENT 'Footer message.',
    ADD `is_pay_later` tinyint(4) default '0' COMMENT 'if true - allows the user to send payment directly to the org later',
-   ADD `pay_later_text` text collate utf8_unicode_ci COMMENT 'The text displayed to the user in the main form',
-   ADD `pay_later_receipt` text collate utf8_unicode_ci COMMENT 'The receipt sent to the user instead of the normal receipt text',
    ADD `is_multiple_registrations` tinyint(4) default '0' COMMENT 'if true - allows the user to register multiple participants for event',
    ALTER `max_participants`  DROP DEFAULT;
 
 UPDATE civicrm_event ce
 LEFT JOIN civicrm_event_page cp ON ce.id=cp.event_id
-SET ce.intro_text = cp.intro_text,
+SET
+  {if $multilingual}
+    {foreach from=$locales item=locale}
+      ce.intro_text_{$locale} = cp.intro_text_{$locale},
+      ce.footer_text_{$locale} = cp.footer_text_{$locale},
+      ce.confirm_title_{$locale} = cp.confirm_title_{$locale},	
+      ce.confirm_text_{$locale} = cp.confirm_text_{$locale},
+      ce.confirm_footer_text_{$locale} = cp.confirm_footer_text_{$locale},
+      ce.confirm_email_text_{$locale} = cp.confirm_email_text_{$locale},
+      ce.confirm_from_name_{$locale} = cp.confirm_from_name_{$locale},
+      ce.thankyou_title_{$locale} = cp.thankyou_title_{$locale},
+      ce.thankyou_text_{$locale} = cp.thankyou_text_{$locale},
+      ce.thankyou_footer_text_{$locale} = cp.thankyou_footer_text_{$locale},
+      ce.pay_later_text_{$locale} = cp.pay_later_text_{$locale},
+      ce.pay_later_receipt_{$locale} = cp.pay_later_receipt_{$locale},
+    {/foreach}
+  {else}
+    ce.intro_text = cp.intro_text,
     ce.footer_text = cp.footer_text,
     ce.confirm_title = cp.confirm_title,	
     ce.confirm_text = cp.confirm_text,
     ce.confirm_footer_text = cp.confirm_footer_text,
-    ce.is_email_confirm = cp.is_email_confirm,
     ce.confirm_email_text = cp.confirm_email_text,
     ce.confirm_from_name = cp.confirm_from_name,
+    ce.thankyou_title = cp.thankyou_title,
+    ce.thankyou_text = cp.thankyou_text,
+    ce.thankyou_footer_text = cp.thankyou_footer_text,
+    ce.pay_later_text = cp.pay_later_text,
+    ce.pay_later_receipt = cp.pay_later_receipt,
+  {/if}
+    ce.is_email_confirm = cp.is_email_confirm,
     ce.confirm_from_email = cp.confirm_from_email,
     ce.cc_confirm = cp.cc_confirm,
     ce.bcc_confirm = cp.bcc_confirm,
     ce.default_fee_id = cp.default_fee_id,
     ce.default_discount_id = cp.default_discount_id,
-    ce.thankyou_title = cp.thankyou_title,
-    ce.thankyou_text = cp.thankyou_text,
-    ce.thankyou_footer_text = cp.thankyou_footer_text,
     ce.is_pay_later = cp.is_pay_later,
-    ce.pay_later_text = cp.pay_later_text,
-    ce.pay_later_receipt = cp.pay_later_receipt,
     ce.is_multiple_registrations = cp.is_multiple_registrations;
 
 -- /*******************************************************
@@ -74,15 +109,25 @@ SET ce.intro_text = cp.intro_text,
 DROP TABLE civicrm_event_page;
 
 -- CRM-3546
-INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES
-('visibility', 'Visibility', 0, 1);
+{if $multilingual}
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('visibility' {foreach from=$locales item=locale}, 'Visibility'{/foreach});
+{else}
+  INSERT INTO civicrm_option_group (name, description) VALUES ('visibility', 'Visibility');
+{/if}
 
 SELECT @option_group_id_vis := max(id) from civicrm_option_group where name = 'visibility';
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active` ) 
-VALUES
-  (@option_group_id_vis, 'Public', 1, 'public', NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_vis, 'Admin', 2, 'admin', NULL, 0, NULL, 2, NULL, 0, 0, 1 );
+
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,      {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,     weight) VALUES
+    (@option_group_id_vis, {foreach from=$locales item=locale}'Public',{/foreach}        1,     'public', 1),
+    (@option_group_id_vis, {foreach from=$locales item=locale}'Admin',{/foreach}         2,     'admin',  2);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,      label,    value, name,     weight) VALUES
+    (@option_group_id_vis, 'Public', 1,     'public', 1),
+    (@option_group_id_vis, 'Admin',  2,     'admin',  2);
+{/if}
 
 ALTER TABLE civicrm_option_value
   ADD visibility_id int unsigned default NULL;
@@ -91,7 +136,6 @@ ALTER TABLE civicrm_option_value
 -- * A Personal Campaign Page Block stores admin configurable status options and rules
 
 CREATE TABLE civicrm_pcp_block (
-
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'PCP block Id',
      entity_table varchar(64)    ,
      entity_id int unsigned NOT NULL   COMMENT 'FK to civicrm_contribution_page.id',
@@ -129,7 +173,6 @@ CREATE TABLE civicrm_pcp (
 -- * civicrm_contribution_soft
 
 CREATE TABLE civicrm_contribution_soft (
-
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Soft Contribution ID',
      contribution_id int unsigned NOT NULL   COMMENT 'FK to contribution table.',
      contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
@@ -146,17 +189,29 @@ CREATE TABLE civicrm_contribution_soft (
 
 
 -- fixed for CRM-2105 Greeting Type
-INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('greeting_type', 'Greeting Type', 0, 1);
+{if $multilingual}
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('greeting_type' {foreach from=$locales item=locale}, 'Greeting Type'{/foreach});
+{else}
+  INSERT INTO civicrm_option_group (name, description) VALUES ('greeting_type', 'Greeting Type');
+{/if}
 
 SELECT @option_group_id_gr  := max(id) from civicrm_option_group where name = 'greeting_type';
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES
-  (@option_group_id_gr, 'Dear [first]',                 1, 'Dear [first]',                 NULL, 0, 1,    1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, 'Dear [prefix] [first] [last]', 2, 'Dear [prefix] [first] [last]', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, 'Dear [prefix] [last]',         3, 'Dear [prefix] [last]',         NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_gr, 'Customized',                   4, 'Customized',                   NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL, NULL);
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     {foreach from=$locales item=locale}label_{$locale},{/foreach}                value, name,                           is_default, weight, is_reserved) VALUES
+    (@option_group_id_gr, {foreach from=$locales item=locale}'Dear [first]',{/foreach}                 1,     'Dear [first]',                 1,          1,      0),
+    (@option_group_id_gr, {foreach from=$locales item=locale}'Dear [prefix] [first] [last]',{/foreach} 2,     'Dear [prefix] [first] [last]', 0,          2,      0),
+    (@option_group_id_gr, {foreach from=$locales item=locale}'Dear [prefix] [last]',{/foreach}         3,     'Dear [prefix] [last]',         0,          3,      0),
+    (@option_group_id_gr, {foreach from=$locales item=locale}'Customized',{/foreach}                   4,     'Customized',                   0,          4,      1);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     label,                          value, name,                           is_default, weight, is_reserved) VALUES
+    (@option_group_id_gr, 'Dear [first]',                 1,     'Dear [first]',                 1,          1,      0),
+    (@option_group_id_gr, 'Dear [prefix] [first] [last]', 2,     'Dear [prefix] [first] [last]', 0,          2,      0),
+    (@option_group_id_gr, 'Dear [prefix] [last]',         3,     'Dear [prefix] [last]',         0,          3,      0),
+    (@option_group_id_gr, 'Customized',                   4,     'Customized',                   0,          4,      1);
+{/if}
 
 ALTER TABLE `civicrm_contact` ADD `greeting_type_id` int(10) unsigned NULL DEFAULT NULL AFTER greeting_type;
 
@@ -185,28 +240,47 @@ ALTER TABLE `civicrm_contact` DROP `greeting_type`;
 
 SELECT @option_group_id_ao := max(id) from civicrm_option_group where name = 'address_options';
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES
-  (@option_group_id_ao, 'Instant Messenger',  13, 'im',     NULL, 0, 0,    13, NULL, 0, 1, 1, NULL, NULL),
-  (@option_group_id_ao, 'OpenID',             14, 'openid', NULL, 0, 0,    14, NULL, 0, 1, 1, NULL, NULL);
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     {foreach from=$locales item=locale}label_{$locale},{/foreach}      value, name,     weight, is_reserved) VALUES
+    (@option_group_id_ao, {foreach from=$locales item=locale}'Instant Messenger',{/foreach}  13,    'im',     13,     1),
+    (@option_group_id_ao, {foreach from=$locales item=locale}'OpenID',{/foreach}             14,    'openid', 14,     1);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     label,                value, name,     weight, is_reserved) VALUES
+    (@option_group_id_ao, 'Instant Messenger',  13,    'im',     13,     1),
+    (@option_group_id_ao, 'OpenID',             14,    'openid', 14,     1);
+{/if}
 
 UPDATE civicrm_preferences SET address_options  = CONCAT(address_options, '1314'); 
 
 
 -- * Fix for CRM-3248
-INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('phone_type', 'Phone Type', 0, 1);
+{if $multilingual}
+  INSERT INTO civicrm_option_group (name {foreach from=$locales item=locale}, description_{$locale}{/foreach}) VALUES ('phone_type' {foreach from=$locales item=locale}, 'Phone Type'{/foreach});
+{else}
+  INSERT INTO civicrm_option_group (name, description) VALUES ('phone_type', 'Phone Type');
+{/if}
 
 SELECT @option_group_id_pt := max(id) from civicrm_option_group where name = 'phone_type';
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES
-  (@option_group_id_pt, 'Phone' ,        1, 'Phone'      , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_pt, 'Mobile',        2, 'Mobile'     , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_pt, 'Fax'   ,        3, 'Fax'        , NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_pt, 'Pager' ,        4, 'Pager'      , NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_pt, 'Voicemail' ,    5, 'Voicemail'  , NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL, NULL);
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,        weight) VALUES
+    (@option_group_id_pt, {foreach from=$locales item=locale}'Phone',{/foreach}         1,     'Phone',     1),
+    (@option_group_id_pt, {foreach from=$locales item=locale}'Mobile',{/foreach}        2,     'Mobile',    2),
+    (@option_group_id_pt, {foreach from=$locales item=locale}'Fax',{/foreach}           3,     'Fax',       3),
+    (@option_group_id_pt, {foreach from=$locales item=locale}'Pager',{/foreach}         4,     'Pager',     4),
+    (@option_group_id_pt, {foreach from=$locales item=locale}'Voicemail',{/foreach}     5,     'Voicemail', 5);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     label,       value, name,        weight) VALUES
+    (@option_group_id_pt, 'Phone' ,    1,     'Phone',     1),
+    (@option_group_id_pt, 'Mobile',    2,     'Mobile',    2),
+    (@option_group_id_pt, 'Fax'   ,    3,     'Fax',       3),
+    (@option_group_id_pt, 'Pager' ,    4,     'Pager',     4),
+    (@option_group_id_pt, 'Voicemail', 5,     'Voicemail', 5);
+{/if}
 
 
 ALTER TABLE `civicrm_phone`         ADD `phone_type_id` int(10) unsigned NULL DEFAULT NULL AFTER phone_type;
@@ -254,12 +328,19 @@ ALTER TABLE civicrm_custom_field
 
 SELECT @option_group_id_aso  := max(id) from civicrm_option_group where name = 'advanced_search_options';
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES
-  (@option_group_id_aso, 'Contact Type', 16, 'contactType', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aso, 'Groups',       17, 'groups',      NULL, 0, NULL, 17, NULL, 0, 0, 1, NULL, NULL),
-  (@option_group_id_aso, 'Tags',         18, 'tags',        NULL, 0, NULL, 18, NULL, 0, 0, 1, NULL, NULL);
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,      {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,          weight) VALUES
+    (@option_group_id_aso, {foreach from=$locales item=locale}'Contact Type',{/foreach}  16,    'contactType', 16),
+    (@option_group_id_aso, {foreach from=$locales item=locale}'Groups',{/foreach}        17,    'groups',      17),
+    (@option_group_id_aso, {foreach from=$locales item=locale}'Tags',{/foreach}          18,    'tags',        18);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,      label,          value, name,          weight) VALUES
+    (@option_group_id_aso, 'Contact Type', 16,    'contactType', 16),
+    (@option_group_id_aso, 'Groups',       17,    'groups',      17),
+    (@option_group_id_aso, 'Tags',         18,    'tags',        18);
+{/if}
 
 
 UPDATE civicrm_preferences SET advanced_search_options = CONCAT(advanced_search_options, '161718');
@@ -299,20 +380,34 @@ INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES ( 7,'CiviCase
 -- CRM-3667 case mapping
 SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES 
-(@option_group_id_mt, 'Export Case', '12', 'Export Case', NULL, 0, 0, 12, NULL, 0, 1, 1, NULL, NULL);
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,          weight, is_reserved) VALUES
+    (@option_group_id_mt, {foreach from=$locales item=locale}'Export Case',{/foreach}   12,    'Export Case', 12,     1);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,     label,         value, name,          weight, is_reserved) VALUES
+    (@option_group_id_mt, 'Export Case', 12,    'Export Case', 12,     1);
+{/if}
 
 -- * Case Status - Set names for Open and Closed and add Urgent status
-SELECT @csgId        := max(id) from civicrm_option_group where name = 'case_status';
-UPDATE civicrm_option_value SET name = 'Open'   where option_group_id = @csgId AND label = 'Ongoing';
-UPDATE civicrm_option_value SET name = 'Closed' where option_group_id = @csgId AND label = 'Resolved';
-SELECT @option_group_id_cas            := max(id) from civicrm_option_group where name = 'case_status';
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
-VALUES
-  (@option_group_id_cas, 'Urgent' , 3, 'Urgent',    NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL, NULL);
+SELECT @csgId := max(id) FROM civicrm_option_group WHERE name = 'case_status';
+
+{if $multilingual}
+  {foreach from=$locales item=locale}
+    UPDATE civicrm_option_value SET name = 'Open'   WHERE option_group_id = @csgId AND label_{$locale} = 'Ongoing';
+    UPDATE civicrm_option_value SET name = 'Closed' WHERE option_group_id = @csgId AND label_{$locale} = 'Resolved';
+  {/foreach}
+  INSERT INTO civicrm_option_value
+    (option_group_id, {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,     weight, is_reserved) VALUES
+    (@csgId,          {foreach from=$locales item=locale}'Urgent',{/foreach}        3,     'Urgent', 3,      1);
+{else}
+  UPDATE civicrm_option_value SET name = 'Open'   WHERE option_group_id = @csgId AND label = 'Ongoing';
+  UPDATE civicrm_option_value SET name = 'Closed' WHERE option_group_id = @csgId AND label = 'Resolved';
+  INSERT INTO civicrm_option_value
+    (option_group_id, label,    value, name,     weight, is_reserved) VALUES
+    (@csgId,          'Urgent', 3,     'Urgent', 3,      1);
+{/if}
 
 -- Relationship Types for cases
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
@@ -325,28 +420,50 @@ INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_
 SELECT @option_group_id_activity_type        := max(id) from civicrm_option_group where name = 'activity_type';
 SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @option_group_id_activity_type;
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id` ) 
-VALUES
-    (@option_group_id_activity_type, 'Open Case', (SELECT @max_val := @max_val+1), 'Open Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1 , 7),
-    (@option_group_id_activity_type, 'Follow up', (SELECT @max_val := @max_val+1), 'Follow up',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),
-    (@option_group_id_activity_type, 'Change Case Type', (SELECT @max_val := @max_val+1), 'Change Case Type',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 ),  
-    (@option_group_id_activity_type, 'Close Case', (SELECT @max_val := @max_val+1), 'Close Case',  NULL, 0,  0, (SELECT @max_val := @max_val+1), '', 0, 0, 1, 7 );
+{if $multilingual}
+  INSERT INTO civicrm_option_value
+    (option_group_id,                {foreach from=$locales item=locale}label_{$locale},{/foreach}      value,                           name,                 weight,                          component_id) VALUES
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Open Case',{/foreach}          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), 7),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Follow up',{/foreach}          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), 7),
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Type',{/foreach}   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), 7),  
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Change Case Status',{/foreach} (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), 7),  
+    (@option_group_id_activity_type, {foreach from=$locales item=locale}'Close Case',{/foreach}         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), 7);
+{else}
+  INSERT INTO civicrm_option_value
+    (option_group_id,                label,                value,                           name,                 weight,                          component_id) VALUES
+    (@option_group_id_activity_type, 'Open Case',          (SELECT @max_val := @max_val+1), 'Open Case',          (SELECT @max_val := @max_val+1), 7),
+    (@option_group_id_activity_type, 'Follow up',          (SELECT @max_val := @max_val+1), 'Follow up',          (SELECT @max_val := @max_val+1), 7),
+    (@option_group_id_activity_type, 'Change Case Type',   (SELECT @max_val := @max_val+1), 'Change Case Type',   (SELECT @max_val := @max_val+1), 7),  
+    (@option_group_id_activity_type, 'Change Case Status', (SELECT @max_val := @max_val+1), 'Change Case Status', (SELECT @max_val := @max_val+1), 7),  
+    (@option_group_id_activity_type, 'Close Case',         (SELECT @max_val := @max_val+1), 'Close Case',         (SELECT @max_val := @max_val+1), 7);
+{/if}
 
 -- Encounter Medium Option Values for Case Activities
-INSERT INTO `civicrm_option_group` (name, label, description, is_reserved, is_active)
-    VALUES  ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1, 1);
-SELECT @option_group_id_medium        := max(id) from civicrm_option_group where name = 'encounter_medium';
-INSERT INTO
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`)
-VALUES
-    (@option_group_id_medium, 'In Person',    1, 'in_person', 	NULL, 0,  0, 1, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Phone',        2, 'phone', 	NULL, 0,  1, 2, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Email',        3, 'email', 	NULL, 0,  0, 3, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Fax',          4, 'fax', 	NULL, 0,  0, 4, NULL, 0, 1, 1),
-    (@option_group_id_medium, 'Letter Mail',  5, 'letter_mail', NULL, 0,  0, 5, NULL, 0, 1, 1);
-
+{if $multilingual}
+  INSERT INTO civicrm_option_group
+    (name,               {foreach from=$locales item=locale}label_{$locale},    description_{$locale},{/foreach}                                                   is_reserved) VALUES
+    ('encounter_medium', {foreach from=$locales item=locale}'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)',{/foreach} 1);
+  SELECT @option_group_id_medium := max(id) FROM civicrm_option_group WHERE name = 'encounter_medium';
+  INSERT INTO civicrm_option_value
+    (option_group_id,         {foreach from=$locales item=locale}label_{$locale},{/foreach} value, name,          is_default, weight, is_reserved) VALUES
+    (@option_group_id_medium, {foreach from=$locales item=locale}'In Person',{/foreach}     1,     'in_person',   0,          1,      1),
+    (@option_group_id_medium, {foreach from=$locales item=locale}'Phone',{/foreach}         2,     'phone',       1,          2,      1),
+    (@option_group_id_medium, {foreach from=$locales item=locale}'Email',{/foreach}         3,     'email',       0,          3,      1),
+    (@option_group_id_medium, {foreach from=$locales item=locale}'Fax',{/foreach}           4,     'fax',         0,          4,      1),
+    (@option_group_id_medium, {foreach from=$locales item=locale}'Letter Mail',{/foreach}   5,     'letter_mail', 0,          5,      1);
+{else}
+  INSERT INTO civicrm_option_group
+    (name,               label,              description,                                                             is_reserved) VALUES
+    ('encounter_medium', 'Encounter Medium', 'Encounter medium for case activities (e.g. In Person, By Phone, etc.)', 1);
+  SELECT @option_group_id_medium := max(id) FROM civicrm_option_group WHERE name = 'encounter_medium';
+  INSERT INTO civicrm_option_value
+    (option_group_id,         label,         value, name,          is_default, weight, is_reserved) VALUES
+    (@option_group_id_medium, 'In Person',   1,     'in_person',   0,          1,      1),
+    (@option_group_id_medium, 'Phone',       2,     'phone',       1,          2,      1),
+    (@option_group_id_medium, 'Email',       3,     'email',       0,          3,      1),
+    (@option_group_id_medium, 'Fax',         4,     'fax',         0,          4,      1),
+    (@option_group_id_medium, 'Letter Mail', 5,     'letter_mail', 0,          5,      1);
+{/if}
 
 -- CRM-3573 
 -- added column case_id in civicrm_relationship table.

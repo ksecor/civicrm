@@ -51,6 +51,11 @@ class CRM_Upgrade_TwoTwo_Form_Step2 extends CRM_Upgrade_Form {
         $smarty = new Smarty;
         $smarty->compile_dir = $config->templateCompileDir;
 
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        $smarty->assign('multilingual', (bool) $domain->locales);
+        $smarty->assign('locales', explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales));
+
         file_put_contents($sqlFile, $smarty->fetch($tplFile));
 
         $this->source( $sqlFile );
