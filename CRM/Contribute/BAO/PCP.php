@@ -334,7 +334,77 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
             $is_active = 2;
             break;
         }
-        return CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
+        CRM_Core_DAO::setFieldValue( 'CRM_Contribute_DAO_PCP', $id, 'status_id', $is_active );
+        
+        // send status change mail
+        self::sendStatusUpdate( $id, $is_active );
+    }
+
+    /**
+     * Function to send status change mail to campaign page supporter.
+     * 
+     * @param int $pcpId     campaign page id
+     * @param int $newStatus pcp status id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function sendStatusUpdate( $pcpId, $newStatus ) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $pcpStatus = CRM_Core_OptionGroup::values( 'pcp_status' );
+
+        if ( ! isset($pcpStatus[$newStatus]) ) {
+            return false;
+        }
+
+        require_once 'CRM/Utils/Mail.php';
+        require_once 'Mail/mime.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';        
+        $emailTemplate = 'CRM/Contribute/Form/PCP/PCPStatusChange.tpl';
+        $template      =& CRM_Core_Smarty::singleton( );
+
+        // set appropriate subject
+        $contribPageTitle = self::getPcpContributionPageTitle( $pcpId );
+        $subject  = "Your Personal Campaign Page for $contribPageTitle";
+
+        // get sender's name and email
+        $session     =& CRM_Core_Session::singleton( );
+        list ($name, $address) = 
+            CRM_Contact_BAO_Contact_Location::getEmailDetails( $session->get( 'userID' ) );
+        $receiptFrom = "\"$name\" <$address>";
+        unset($name, $address);
+
+        // get recipient (supporter) name and email
+        $supporterId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcpId, 'contact_id' );
+        list ($name, $address) = 
+            CRM_Contact_BAO_Contact_Location::getEmailDetails( $supporterId );
+
+        if ( $pcpStatus[$newStatus] == 'Approved' ) {
+            list($blockId, $eid) = self::getPcpBlockEntityId( $pcpId );
+            $pcpTellFriendURL    = CRM_Utils_System::url('civicrm/friend', 
+                                                         "reset=1&eid=$eid&blockId=$blockId&page=pcp", true);
+            $template->assign( 'pcpTellFriendURL', $pcpTellFriendURL );
+            
+            $pcpInfoURL = CRM_Utils_System::url('civicrm/contribute/pcp/info', 
+                                                "reset=1&id=$pcpId", true);
+            $template->assign( 'pcpInfoURL', $pcpInfoURL );
+
+        }
+        $pcpNotifyEmailAddress = self::getPcpNotifyEmail( $pcpId );
+        $template->assign( 'pcpNotifyEmailAddress', 'mailto:' . $pcpNotifyEmailAddress );
+
+        // get appropriate message
+        $template->assign( 'returnContent', $pcpStatus[$newStatus] );
+        $message       = $template->fetch( $emailTemplate );
+        
+        return CRM_Utils_Mail::send( $receiptFrom,
+                                     $name,
+                                     $address,
+                                     $subject,
+                                     $message
+                                     );
     }
 
     /**
@@ -421,5 +491,75 @@ WHERE field_name like 'email%' And is_active = 1 And uf_group_id = %1";
         return false;
     }
 
+    /**
+     * Function to obtain the title of contribution page associated with a pcp
+     * 
+     * @param int $id campaign page id
+     *
+     * @return int
+     * @access public
+     * @static
+     *
+     */
+    static function getPcpContributionPageTitle( $pcpId ) 
+    {
+        $query = "
+SELECT cp.title 
+FROM civicrm_pcp pcp 
+LEFT JOIN civicrm_contribution_page as cp ON ( cp.id =  pcp.contribution_page_id )
+WHERE pcp.id = %1";
+        
+        $params = array( 1 => array( $pcpId, 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
+    /**
+     * Function to get pcp notify email
+     * 
+     * @param int $id campaign page id
+     *
+     * @return String
+     * @access public
+     * @static
+     *
+     */
+    static function getPcpNotifyEmail( $pcpId ) 
+    {
+        $query = "
+SELECT pb.notify_email as notifyEmail
+FROM civicrm_pcp pcp 
+LEFT JOIN civicrm_pcp_block pb ON ( pb.entity_id = pcp.contribution_page_id AND pb.entity_table = 'civicrm_contribution_page' )
+WHERE pcp.id = %1";
+
+        $params = array( 1 => array( $pcpId, 'Integer' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
+    /**
+     * Function to get pcp block & entity id given pcp id
+     * 
+     * @param int $id campaign page id
+     *
+     * @return String
+     * @access public
+     * @static
+     *
+     */
+    static function getPcpBlockEntityId( $pcpId ) 
+    {
+        $query = "
+SELECT pb.id as pcpBlockId, pb.entity_id
+FROM civicrm_pcp pcp 
+LEFT JOIN civicrm_pcp_block pb ON ( pb.entity_id = pcp.contribution_page_id AND pb.entity_table = 'civicrm_contribution_page' )
+WHERE pcp.id = %1";
+
+        $params = array( 1 => array( $pcpId, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch() ){
+            return array($dao->pcpBlockId, $dao->entity_id);
+        }
+
+        return array( );
+    }
 }
 ?>
