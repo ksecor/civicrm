@@ -81,7 +81,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         $fields = array_merge( $fields,
                                array( 'soft_credit' => array( 'title'      => ts('Soft Credit'),
                                                               'softCredit' => true ) ) );
-
+                                                          
+        // add pledge fields only if its is enabled
+        if ( CRM_Core_Permission::access( 'CiviPledge' ) ) {
+            $pledgeFields = array( 'pledge_payment' => array( 'title' => ts('Pledge Payment') ),
+                                   'pledge_id'      => array( 'title' => ts('Pledge ID') )
+                                 );
+            
+            $fields = array_merge( $fields, $pledgeFields );
+        }
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
         }
