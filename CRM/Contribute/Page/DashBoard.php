@@ -61,7 +61,10 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         $startDate = null;
         $config =& CRM_Core_Config::singleton( );
         $currentMonth = date('m');
-        if ( (int ) $config->fiscalYearStart['M']  >= $currentMonth ) {
+        $currentDay   = date('d');
+        if ( (int ) $config->fiscalYearStart['M']  > $currentMonth ||
+             ( (int ) $config->fiscalYearStart['M'] == $currentMonth &&
+               (int ) $config->fiscalYearStart['d'] > $currentDay ) ) {
             $year     = date( 'Y' ) - 1;
         } else {
             $year     = date( 'Y' );

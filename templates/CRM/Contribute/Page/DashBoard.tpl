@@ -26,7 +26,7 @@
     <td><a href="{$monthToDate.Valid.url}">{ts}view details{/ts}...</a></td>
 </tr>
 <tr>
-    <td><strong>{ts}Current Year-To-Date{/ts}</strong></td>
+    <td><strong>{ts}Current Fiscal Year-To-Date{/ts}</strong></td>
     <td class="label">{if NOT $yearToDate.Valid.amount}{ts}(n/a){/ts}{else}{$yearToDate.Valid.amount|crmMoney}{/if}</td>
     <td class="label">{$yearToDate.Valid.count}</td>
     <td><a href="{$yearToDate.Valid.url}">{ts}view details{/ts}...</a></td>

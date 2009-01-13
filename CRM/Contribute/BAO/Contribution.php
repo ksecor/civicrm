@@ -727,7 +727,10 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
         $startDate = $endDate = null;
 
         $currentMonth = date( 'm' );
-        if ( (int ) $config->fiscalYearStart['M']  >= $currentMonth ) {
+        $currentDay   = date( 'd' );
+        if ( (int ) $config->fiscalYearStart['M']  > $currentMonth ||
+             ( (int ) $config->fiscalYearStart['M'] == $currentMonth &&
+               (int ) $config->fiscalYearStart['d'] > $currentDay ) ) {
             $year     = date( 'Y' ) - 1;
         } else {
             $year     = date( 'Y' );
