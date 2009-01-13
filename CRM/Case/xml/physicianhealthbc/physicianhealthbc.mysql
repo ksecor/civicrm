@@ -557,27 +557,104 @@ INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `extends_entity_
 SELECT @cg_sc := max(id) from civicrm_custom_group where name = 'Classifications_SC';
 
 INSERT INTO `civicrm_option_group` (`name`, `label`, `description`, `is_reserved`, `is_active`)
- VALUES ('sc_classifications_20081217000000','Specialty Certification Classifications','Specialty Certification',NULL,1);
+ VALUES ('sc_classifications_20081217000000','Specialty Certification Classifications','Specialty Certification',NULL,1),
+        ('sc_1','Specialty Certifications 1','Specialty Certifications 1',NULL,1),
+        ('sc_2','Specialty Certifications 2','Specialty Certifications 2',NULL,1),
+        ('sc_3','Specialty Certifications 3','Specialty Certifications 3',NULL,1),
+        ('sc_4','Specialty Certifications 4','Specialty Certifications 4',NULL,1),
+        ('sc_5','Specialty Certifications 5','Specialty Certifications 5',NULL,1);
+ 
 SELECT @og_sc := max(id) from civicrm_option_group where name = 'sc_classifications_20081217000000';
+SELECT @og_sc_1 := max(id) from civicrm_option_group where name = 'sc_1';
+SELECT @og_sc_2 := max(id) from civicrm_option_group where name = 'sc_2';
+SELECT @og_sc_3 := max(id) from civicrm_option_group where name = 'sc_3';
+SELECT @og_sc_4 := max(id) from civicrm_option_group where name = 'sc_4';
+SELECT @og_sc_5 := max(id) from civicrm_option_group where name = 'sc_5';
 
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`, `visibility_id`) 
  VALUES
- (@og_sc,'List of things to enter here TBD','1',NULL,NULL,NULL,0,1,NULL,0,0,1,NULL,NULL),
- (@og_sc,'Option 2','2',NULL,NULL,NULL,0,2,NULL,0,0,1,NULL,NULL),
- (@og_sc,'Option 3','3',NULL,NULL,NULL,0,3,NULL,0,0,1,NULL,NULL);
-
+ (@og_sc,'General','1',NULL,NULL,NULL,0,1,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'1.1 General Practice','1.1',NULL,NULL,NULL,0,2,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'1.2 Family Practice','1.2',NULL,NULL,NULL,0,3,NULL,0,0,1,NULL,NULL),
+ (@og_sc_1,'1.1 General Practice','1.1',NULL,NULL,NULL,0,2,NULL,0,0,1,NULL,NULL),
+ (@og_sc_1,'1.2 Family Practice','1.2',NULL,NULL,NULL,0,3,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Clinical Specialists','2',NULL,NULL,NULL,0,4,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.1 Anaesthesia','2.1',NULL,NULL,NULL,0,5,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.2 Community Medicine','2.2',NULL,NULL,NULL,0,6,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.3 Dermatology','2.3',NULL,NULL,NULL,0,7,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.4 Diagnostic Radiology','2.4',NULL,NULL,NULL,0,8,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.5 Emergency Medicine','2.5',NULL,NULL,NULL,0,9,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.6 Internal Medicine','2.6',NULL,NULL,NULL,0,10,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.7 Medical Genetics','2.7',NULL,NULL,NULL,0,11,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.8 Neurology','2.8',NULL,NULL,NULL,0,12,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.9 Nuclear Medicine','2.9',NULL,NULL,NULL,0,13,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.10 Occupational Medicine','2.10',NULL,NULL,NULL,0,14,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.11 Paediatrics','2.11',NULL,NULL,NULL,0,15,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.12 Physical Medicine / Rehabilitation','2.12',NULL,NULL,NULL,0,16,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.13 Psychiatry','2.13',NULL,NULL,NULL,0,17,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'2.14 Radiation Oncology','2.14',NULL,NULL,NULL,0,18,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.1 Anaesthesia','2.1',NULL,NULL,NULL,0,5,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.2 Community Medicine','2.2',NULL,NULL,NULL,0,6,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.3 Dermatology','2.3',NULL,NULL,NULL,0,7,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.4 Diagnostic Radiology','2.4',NULL,NULL,NULL,0,8,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.5 Emergency Medicine','2.5',NULL,NULL,NULL,0,9,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.6 Internal Medicine','2.6',NULL,NULL,NULL,0,10,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.7 Medical Genetics','2.7',NULL,NULL,NULL,0,11,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.8 Neurology','2.8',NULL,NULL,NULL,0,12,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.9 Nuclear Medicine','2.9',NULL,NULL,NULL,0,13,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.10 Occupational Medicine','2.10',NULL,NULL,NULL,0,14,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.11 Paediatrics','2.11',NULL,NULL,NULL,0,15,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.12 Physical Medicine / Rehabilitation','2.12',NULL,NULL,NULL,0,16,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.13 Psychiatry','2.13',NULL,NULL,NULL,0,17,NULL,0,0,1,NULL,NULL),
+ (@og_sc_2,'2.14 Radiation Oncology','2.14',NULL,NULL,NULL,0,18,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Laboratory Specialists','3',NULL,NULL,NULL,0,19,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'3.1 Pathology','3.1',NULL,NULL,NULL,0,20,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'3.2 Laboratory Medicine','3.2',NULL,NULL,NULL,0,21,NULL,0,0,1,NULL,NULL),
+ (@og_sc_3,'3.1 Pathology','3.1',NULL,NULL,NULL,0,20,NULL,0,0,1,NULL,NULL),
+ (@og_sc_3,'3.2 Laboratory Medicine','3.2',NULL,NULL,NULL,0,21,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Surgical Specialists','4',NULL,NULL,NULL,0,22,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.1 Cardiovascular / Thoracic surgery','4.1',NULL,NULL,NULL,0,23,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.2 General surgery','4.2',NULL,NULL,NULL,0,24,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.3 Neurosurgery','4.3',NULL,NULL,NULL,0,25,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.4 Obstetrics / gynaecology','4.4',NULL,NULL,NULL,0,26,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.5 Ophthalmology','4.5',NULL,NULL,NULL,0,27,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.6 Otolaryngology','4.6',NULL,NULL,NULL,0,28,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.7 Orthopaedic surgery','4.7',NULL,NULL,NULL,0,29,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.8 Plastic surgery','4.8',NULL,NULL,NULL,0,30,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'4.9 Urology','4.9',NULL,NULL,NULL,0,31,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.1 Cardiovascular / Thoracic surgery','4.1',NULL,NULL,NULL,0,23,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.2 General surgery','4.2',NULL,NULL,NULL,0,24,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.3 Neurosurgery','4.3',NULL,NULL,NULL,0,25,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.4 Obstetrics / gynaecology','4.4',NULL,NULL,NULL,0,26,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.5 Ophthalmology','4.5',NULL,NULL,NULL,0,27,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.6 Otolaryngology','4.6',NULL,NULL,NULL,0,28,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.7 Orthopaedic surgery','4.7',NULL,NULL,NULL,0,29,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.8 Plastic surgery','4.8',NULL,NULL,NULL,0,30,NULL,0,0,1,NULL,NULL),
+ (@og_sc_4,'4.9 Urology','4.9',NULL,NULL,NULL,0,31,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'Other','5',NULL,NULL,NULL,0,32,NULL,0,0,1,NULL,NULL),
+ (@og_sc,'5.1 Other','5.1',NULL,NULL,NULL,0,33,NULL,0,0,1,NULL,NULL),
+ (@og_sc_5,'5.1 Other','5.1',NULL,NULL,NULL,0,33,NULL,0,0,1,NULL,NULL);
+ 
 INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `is_view`, `options_per_line`, `text_length`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`)
 VALUES
  (@cg_sc,'Principal Classification','String','Select',NULL,1,0,0,1,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'principal_classification_6',@og_sc),
- (@cg_sc,'Other Classifications','String','CheckBox','',0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_classifications_7',@og_sc),
+ (@cg_sc,'Classification dilemma','Boolean','Radio',0,0,0,0,2,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL),
  (@cg_sc,'Classification version','String','Text','1.0',0,0,0,3,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_version_8',NULL),
- (@cg_sc,'Classification dilemma','Boolean','Radio',0,0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,NULL,255,NULL,NULL,'MdY',60,4,'classification_dilemma_9',NULL);
+ (@cg_sc,'Other Certifications - General','String','CheckBox','',0,0,0,4,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_sc_1',@og_sc_1),
+ (@cg_sc,'Clinical Specialists','String','CheckBox','',0,0,0,5,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_sc_2',@og_sc_2),
+ (@cg_sc,'Laboratory Specialists','String','CheckBox','',0,0,0,6,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_sc_3',@og_sc_3),
+ (@cg_sc,'Surgical Specialists','String','CheckBox','',0,0,0,7,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_sc_4',@og_sc_4),
+ (@cg_sc,'Other','String','CheckBox','',0,0,0,8,NULL,NULL,NULL,NULL,NULL,1,0,1,255,NULL,NULL,'MdY',60,4,'other_sc_5',@og_sc_5);
 
 CREATE TABLE `civicrm_value_classifications_sc_3` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Default MySQL primary key',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Table that this extends',
   `principal_classification_6` varchar(255) collate utf8_unicode_ci default NULL,
-  `other_classifications_7` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_sc_1` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_sc_2` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_sc_3` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_sc_4` varchar(255) collate utf8_unicode_ci default NULL,
+  `other_sc_5` varchar(255) collate utf8_unicode_ci default NULL,
   `classification_version_8` varchar(255) collate utf8_unicode_ci default NULL,
   `classification_dilemma_9` tinyint(4) default NULL,
   PRIMARY KEY  (`id`),
@@ -635,7 +712,7 @@ UPDATE civicrm_preferences set mailing_backend='a:9:{s:5:\"qfKey\";s:32:\"fd260b
 
 -- Set FROM email address
 SELECT @fromEmailId := max(id) from civicrm_option_group where name = 'from_email_address';
-UPDATE civicrm_option_value SET label='\"Physician Health Program\"<info@physicianhealth.com>' WHERE option_group_id=@fromEmailId AND is_default=1;
+UPDATE civicrm_option_value SET label='\"Physician Health Program\" <info@physicianhealth.com>' WHERE option_group_id=@fromEmailId AND is_default=1;
 
 -- Put Dr at the top of the prefix list
 SELECT @prefixId := max(id) from civicrm_option_group where name = 'individual_prefix';
