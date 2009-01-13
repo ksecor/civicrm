@@ -516,6 +516,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if ( $noSoftCredit === false ) {
                 array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
                 return CRM_Contribute_Import_Parser::NO_MATCH;
+            } elseif ( is_numeric ( $noSoftCredit ) ) {
+                return CRM_Contribute_Import_Parser::SOFT_MATCH;
             }
             return CRM_Contribute_Import_Parser::VALID;
         }

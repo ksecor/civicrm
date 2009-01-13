@@ -64,6 +64,13 @@
     </tr>
     {/if}
     
+    {if $validSoftCreditRowCount }
+    <tr><td class="label">{ts}Soft Credit Rows Imported{/ts}</td>
+        <td class="data">{$validSoftCreditRowCount}</td>
+        <td class="explanation">{ts}Rows with soft credits assigned.{/ts}</td>
+    </tr>
+    {/if}
+
     {if $invalidSoftCreditRowCount }
     <tr class="error"><td class="label">{ts}Invalid Soft Credit Rows (skipped){/ts}</td>
         <td class="data">{$invalidSoftCreditRowCount}</td>

@@ -38,7 +38,8 @@ require_once 'CRM/Utils/Type.php';
 
 require_once 'CRM/Contribute/Import/Field.php';
 
-abstract class CRM_Contribute_Import_Parser {
+abstract class CRM_Contribute_Import_Parser 
+{
 
     const
         MAX_ERRORS      = 250,
@@ -50,7 +51,8 @@ abstract class CRM_Contribute_Import_Parser {
         STOP            = 16,
         DUPLICATE       = 32,
         MULTIPLE_DUPE   = 64,
-        NO_MATCH        = 128;
+        NO_MATCH        = 128,
+        SOFT_MATCH      = 256;
 
     /**
      * various parser modes
@@ -111,10 +113,16 @@ abstract class CRM_Contribute_Import_Parser {
      */
     protected $_validCount;
 
+
     /**
      * running total number of invalid rows
      */
     protected $_invalidRowCount;
+    
+    /**
+     * running total number of valid soft credit rows
+     */
+    protected $_validSoftCreditRowCount;
 
     /**
      * running total number of invalid soft credit rows
@@ -283,8 +291,8 @@ abstract class CRM_Contribute_Import_Parser {
             return false;
         }
 
-        $this->_lineCount  = $this->_warningCount   = 0;
-        $this->_invalidRowCount = $this->_validCount = $this->_invalidSoftCreditRowCount = 0;
+        $this->_lineCount       = $this->_warningCount = $this->_validSoftCreditRowCount = 0;
+        $this->_invalidRowCount = $this->_validCount   = $this->_invalidSoftCreditRowCount = 0;
         $this->_totalCount = $this->_conflictCount = 0;
     
         $this->_errors   = array();
@@ -348,6 +356,15 @@ abstract class CRM_Contribute_Import_Parser {
                 }
             }
 
+            if ( $returnCode & self::SOFT_MATCH ) {
+                $this->_validSoftCreditRowCount++;
+                $this->_validCount++;
+                if ( $mode == self::MODE_MAPFIELD ) {
+                    $this->_rows[]           = $values;
+                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $values ) );
+                }
+            }
+    
             if ( $returnCode & self::WARNING ) {
                 $this->_warningCount++;
                 if ( $this->_warningCount < $this->_maxWarningCount ) {
@@ -611,6 +628,7 @@ abstract class CRM_Contribute_Import_Parser {
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
         $store->set( 'invalidSoftCreditRowCount'  , $this->_invalidSoftCreditRowCount     );
+        $store->set( 'validSoftCreditRowCount'  , $this->_validSoftCreditRowCount     );
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
         switch ($this->_contactType) {
