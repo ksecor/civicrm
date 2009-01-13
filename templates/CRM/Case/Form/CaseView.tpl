@@ -26,13 +26,20 @@
 </fieldset>
 
 <div id="caseRole_show" class="section-hidden section-hidden-border">
-  <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>Case Roles</label><br />
+  <a href="#" onclick="hide('caseRole_show'); show('caseRole'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Case Roles{/ts}</label><br />
 </div>
 
 <div id="caseRole" class="section-shown">
  <fieldset>
   <legend><a href="#" onclick="hide('caseRole'); show('caseRole_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Case Roles{/ts}</legend>
     <table class="report">
+    	<tr class="columnheader">
+    		<th>{ts}Role{/ts}</th>
+    		<th>{ts}Name{/ts}</th>
+    		<th>{ts}Phone{/ts}</th>
+    		<th>{ts}Email{/ts}</th>
+    		<th>{ts}Actions{/ts}</th>
+    	</tr>
 		{assign var=rowNumber value = 1}
         {foreach from=$caseRelationships item=row key=relId}
         <tr>
@@ -171,6 +178,58 @@ cj(document).ready(function(){
    cj("#searchOptions").hide( );
    cj("#view-activity").hide( );
 });
+</script>
+{/literal}
+
+<div id="otherRel_show" class="section-hidden section-hidden-border">
+  <a href="#" onclick="hide('otherRel_show'); show('otherRel'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"/></a><label>{ts}Other Relationships{/ts}</label><br />
+</div>
+
+<div id="otherRel" class="section-shown">
+ <fieldset>
+  <legend><a href="#" onclick="hide('otherRel'); show('otherRel_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"/></a>{ts}Other Relationships{/ts}</legend>
+
+    <div><a href="{crmURL p='civicrm/contact/view/rel' q="action=add&reset=1&cid=`$contactId`"}" title="{ts}Add client relationship{/ts}">{ts}Add client relationship{/ts}</a></div>
+	
+    <table class="report">
+    	<tr class="columnheader">
+    		<th>{ts}Client Relationship{/ts}</th>
+    		<th>{ts}Name{/ts}</th>
+    		<th>{ts}Phone{/ts}</th>
+    		<th>{ts}Email{/ts}</th>
+    	</tr>
+        {foreach from=$clientRelationships item=row key=relId}
+        <tr>
+            <td class="label">{$row.relation}</td>
+            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
+            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.cid`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+        </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
+        {/foreach}
+    </table>
+
+    <table class="report">
+    	<tr class="columnheader">
+    		<th>{ts}My Relationship{/ts}</th>
+    		<th>{ts}Name{/ts}</th>
+    		<th>{ts}Phone{/ts}</th>
+    		<th>{ts}Email{/ts}</th>
+    	</tr>
+        {foreach from=$userRelationships item=row key=relId}
+        <tr>
+            <td class="label">{$row.relation}</td>
+            <td id="relName_{$rowNumber}"><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.cid`"}" title="view contact record">{$row.name}</a></td>
+            <td id="phone_{$rowNumber}">{$row.phone}</td><td id="email_{$rowNumber}">{if $row.email}<a href="{crmURL p='civicrm/contact/view/activity' q="reset=1&action=add&atype=3&cid=`$row.cid`&caseid=`$caseID`"}" title="{ts}compose and send an email{/ts}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}compose and send an email{/ts}"/></a>&nbsp;{/if}</td>
+        </tr>
+		{assign var=rowNumber value = `$rowNumber+1`}
+        {/foreach}
+    </table>
+ </fieldset>
+</div>
+{literal}
+<script type="text/javascript">
+show('otherRel_show');
+hide('otherRel');
 </script>
 {/literal}
 
