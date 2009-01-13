@@ -533,9 +533,12 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     function &getSoftCredit( $params ) 
     {
         $error = _civicrm_duplicate_formatted_contact($params);
-        $matchedIDs = explode(',',$error['error_message']['params'][0]);
-        return $matchedIDs[0] ? $matchedIDs[0] : false;
-    }
+        if ( isset( $error['error_message']['params'][0] )) {
+            $matchedIDs = explode(',',$error['error_message']['params'][0]);
+            return $matchedIDs[0] ? $matchedIDs[0] : false;
+        }
+        return false;   
+     }
     
     /**
      * Get the array of succesfully imported contribution id's

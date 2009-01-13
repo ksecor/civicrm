@@ -678,10 +678,10 @@ abstract class CRM_Contribute_Import_Parser
             $header[$key] = "\"$value\"";
         }
         $output[] = implode(',', $header);
-
+        
         foreach ($data as $datum) {
             foreach ($datum as $key => $value) {
-                if ( is_array($value) ) {
+                if ( is_array($value[0]) ) {
                     foreach($value[0] as $k1=>$v1) {
                         if ($k1 == 'location_type_id') {
                             continue;
