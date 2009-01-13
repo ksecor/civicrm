@@ -27,9 +27,9 @@
     <tr>
       <td width="60%">{$image} {$pcp.page_text}</td>
       <td width="*">
-      {if $validDate} 
+      {if $validDate && $contributeURL} 
         {* Show link to PCP contribution if configured for online contribution *}
-        <div class="action-link" style="width: 200px; margin-bottom: 4em;">
+        <div class="action-link" style="margin-bottom: 4em;">
             <a href={$contributeURL} class="button" style="font-size: 20px;"><span>&raquo; <strong>{$contributionText}</strong></span></a>
         </div>
       {/if}
