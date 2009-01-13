@@ -60,9 +60,15 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
         
         $startDate = null;
         $config =& CRM_Core_Config::singleton( );
+        $currentMonth = date('m');
+        if ( (int ) $config->fiscalYearStart['M']  >= $currentMonth ) {
+            $year     = date( 'Y' ) - 1;
+        } else {
+            $year     = date( 'Y' );
+        }
+        $year  = array('Y' => $year );
         $yearDate = $config->fiscalYearStart;
-        $year  = array('Y' => date('Y'));
-        $yearDate = array_merge($year,$yearDate);
+        $yearDate = array_merge( $year, $yearDate);
         $yearDate = CRM_Utils_Date::format( $yearDate );
   
         $monthDate = date('Ym') . '01000000';
@@ -85,8 +91,8 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
             if ( $prefix == 'year') {
                 $now  = $yearNow;
             }
-            foreach ( $status as $s ) {
 
+            foreach ( $status as $s ) {
                 ${$aName}[$s]        = CRM_Contribute_BAO_Contribution::getTotalAmountAndCount( $s, $$dName, $now );
                 ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/contribute/search',
                                                               "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");

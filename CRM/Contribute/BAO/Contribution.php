@@ -717,7 +717,6 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
     }
 
     static function annual( $contactID ) {
-        
         if ( is_array( $contactID ) ) {
             $contactIDs = implode( ',', $contactID );
         } else {
@@ -734,6 +733,7 @@ WHERE  civicrm_contribution.contact_id = civicrm_contact.id
             $year     = date( 'Y' );
         }
         $nextYear = $year + 1;
+
         if ( $config->fiscalYearStart ) {
             if ( $config->fiscalYearStart['M'] < 10 ) {
                 $config->fiscalYearStart['M'] = '0' . $config->fiscalYearStart['M'];
