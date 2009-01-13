@@ -560,14 +560,16 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                        
             if ( isset( $mapperKeys[$i][0] ) && $mapperKeys[$i][0] == 'soft_credit') {
                 $mapperSoftCredit[$i] = $mapperKeys[$i][1];
+                list( $first, $second ) = explode('_', $mapperSoftCredit[$i] );
+                $softCreditFields[$i] = ucwords( $first . " " .  $second );
             } else {
-                $mapperSoftCredit[$i] = null;
+                $mapperSoftCredit[$i] = $softCreditFields[$i] = null;
             }
         }
              
         $this->set( 'mapper'    , $mapper );
-        $this->set( 'softCreditFields', $mapperSoftCredit );
-
+        $this->set( 'softCreditFields', $softCreditFields );
+        
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         

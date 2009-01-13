@@ -55,10 +55,11 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         //get the data from the session             
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
+        $softCreditFields   = $this->get('softCreditFields');
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $mismatchCount      = $this->get('unMatchCount');
-        
+
         //get the mapping name displayed if the mappingId is set
         $mappingId = $this->get('loadMappingId');
         if ( $mappingId ) {
@@ -90,7 +91,7 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
         }
 
         
-        $properties = array( 'mapper',
+        $properties = array( 'mapper', 'softCreditFields',
                              'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
