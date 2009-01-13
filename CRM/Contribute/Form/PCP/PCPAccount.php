@@ -47,6 +47,14 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
     public  $_pageId = null;
     public  $_id     = null;
 
+    /** 
+     * are we in single form mode or wizard mode?
+     * 
+     * @var boolean
+     * @access protected 
+     */ 
+    public $_single;
+
     public function preProcess()  
     {
         $session =& CRM_Core_Session::singleton( );
@@ -58,12 +66,24 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         if ( ! $this->_pageId ) {
             $this->_pageId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $this->_id, 'contribution_page_id' );
         }
+
+        $this->_single = $this->get( 'single' );
         
+        if ( !$this->_single ) {
+            $this->_single = $session->get('singleForm');
+        }
+
         $this->set( 'action'              , $this->_action );
         $this->set( 'page_id'             , $this->_id );
         $this->set( 'contribution_page_id', $this->_pageId );
+
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
+
+        if( $this->_single ) {
+            $title = 'Update Contact Information';
+            CRM_Utils_System::setTitle(ts($title));
+        }
     }
 
     function setDefaultValues( ) 
@@ -147,13 +167,22 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         require_once "CRM/Contribute/PseudoConstant.php";
         $this->assign( 'campaignName', CRM_Contribute_PseudoConstant::contributionPage( $this->_pageId ) );
         
-        $this->addButtons( array( 
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Continue >>'), 
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                         'isDefault' => true   ), 
-                                 )
-                           );
+        if ( $this->_single ) {
+            $button = array ( array ( 'type'      => 'next',
+                                      'name'      => ts('Save'), 
+                                      'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                      'isDefault' => true   ),
+                              array ( 'type' => 'cancel',
+                                      'name' => ts('Cancel'))
+                              );
+        }else {
+            $button[] = array ( 'type'      => 'next',
+                                'name'      => ts('Continue >>'), 
+                                'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                'isDefault' => true   );
+        }
+        
+        $this->addButtons( $button );
     }
     
     /**  

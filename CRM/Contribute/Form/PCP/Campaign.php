@@ -46,8 +46,14 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
     {
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
+        $this->_pageId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );        
+        $title = 'Setup a Personal Campaign Page - Step 2';
 
-        CRM_Utils_System::setTitle(ts('Setup a Personal Campaign Page - Step 2'));
+        if( $this->_pageId ) {
+            $title = 'Edit Your Personal Campaign Page';
+        }
+
+        CRM_Utils_System::setTitle(ts($title));
         parent::preProcess( );
     }
 
@@ -56,18 +62,20 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         require_once 'CRM/Contribute/DAO/PCP.php';
         $dafaults = array( );
         $dao =& new CRM_Contribute_DAO_PCP( );
-
-        if( $this->get('page_id') ) {
-            $dao->id = $this->get('page_id');
+        
+        if( $this->_pageId ) {
+            $dao->id = $this->_pageId;
             if ( $dao->find(true) ) {
                 CRM_Core_DAO::storeValues( $dao, $defaults );
             }
         }
-
+        
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $defaults['is_active'] = 1;
         }
-        
+     
+        $this->_contactID = $defaults['contact_id'];
+        $this->_contriPageId = $defaults['contribution_page_id'];
         return $defaults;
     }
     
@@ -95,7 +103,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         
         $maxAttachments = 1; 
         require_once 'CRM/Core/BAO/File.php';
-        CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->get('page_id'), $maxAttachments );
+        CRM_Core_BAO_File::buildAttachment( $this, 'civicrm_pcp', $this->_pageId, $maxAttachments );
         
         $this->addElement( 'checkbox', 'is_thermometer', ts('Progress Bar') );
         $this->addElement( 'checkbox', 'is_honor_roll', ts('Honour Roll'), null);
@@ -151,10 +159,10 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                 $params[$key] = 0;
             }
         }
-        $contactID = $this->get('contactID');
         $session =& CRM_Core_Session::singleton( );
+        $contactID = isset( $this->_contactID ) ? $this->_contactID : $session->get('userID');
         $params['contact_id']           = $contactID;
-        $params['contribution_page_id'] = $this->get('contribution_page_id');
+        $params['contribution_page_id'] = $this->get('contribution_page_id') ? $this->get('contribution_page_id') : $this->_contriPageId;
         
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
                                                         $params['contribution_page_id'], 'is_approval_needed', 'entity_id' );
@@ -164,7 +172,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             $approvalMessage     = $approval_needed ? "but requires Admin Approval" : "and Ready to Use";
         }
         
-        $params['id'] = $this->get('page_id');
+        $params['id'] = $this->_pageId;
         
         require_once 'CRM/Contribute/BAO/PCP.php';
         $pcp = CRM_Contribute_BAO_PCP::add( $params );

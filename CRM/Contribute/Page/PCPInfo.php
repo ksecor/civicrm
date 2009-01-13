@@ -37,7 +37,7 @@ require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contribute/BAO/PCP.php';
 
 /**
- * PCP Info Page - Summmary about the PCP
+ * PCP Info Page - Summary about the PCP
  */
 class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
 {
@@ -216,6 +216,32 @@ AND is_test = 0";
         
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
+
+        $single = false;
+        switch ( $action ) {
+        case CRM_Core_Action::BROWSE:
+            $subForm = 'PCPAccount';
+            $form    = "CRM_Contribute_Form_PCP_$subForm";
+            $single  = true;
+            break;
+            
+        case CRM_Core_Action::UPDATE:
+            $subForm = 'Campaign';
+            $form    = "CRM_Contribute_Form_PCP_$subForm";
+            $single  = true;
+            break;
+        }
+        
+        if ( $single ){
+            require_once 'CRM/Core/Controller/Simple.php'; 
+            $controller =& new CRM_Core_Controller_Simple( $form, $subForm, $action); 
+            $session =& CRM_Core_Session::singleton(); 
+            $session->pushUserContext( CRM_Utils_System::url(CRM_Utils_System::currentPath( ),'reset=1&id='.$this->_id ));
+            $controller->set('id', $this->_id); 
+            $controller->set('single', true );
+            $controller->process(); 
+            return $controller->run();
+        }
         parent::run();
     }
     

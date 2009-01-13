@@ -250,9 +250,14 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
             
             self::$_pcpLinks['all'] = array (
                                              CRM_Core_Action::UPDATE => array ( 'name'  => ts('Edit Your Page'),
-                                                                                'url'   => 'civicrm/contribute/campaign',
+                                                                                'url'   => 'civicrm/contribute/pcp/info',
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
+                                                                                ),
+                                             CRM_Core_Action::BROWSE => array ( 'name'  => ts('Edit Contact Info'),
+                                                                                'url'   => 'civicrm/contribute/pcp/info',
+                                                                                'qs'    => 'action=browse&reset=1&id=%%pcpId%%',
+                                                                                'title' => ts('Update Contact Information')
                                                                                 ),
                                              CRM_Core_Action::DETACH => array ( 'name'  => ts('Tell a Friend'),
                                                                                'url'   => 'civicrm/friend',
