@@ -47,13 +47,13 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
         $this->_pageId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false );        
-        $title = 'Setup a Personal Campaign Page - Step 2';
-
+        $title = ts('Setup a Personal Campaign Page - Step 2');
+        
         if( $this->_pageId ) {
-            $title = 'Edit Your Personal Campaign Page';
+            $title = ts('Edit Your Personal Campaign Page');
         }
 
-        CRM_Utils_System::setTitle(ts($title));
+        CRM_Utils_System::setTitle( $title );
         parent::preProcess( );
     }
 
