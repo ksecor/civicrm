@@ -258,11 +258,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 $softParams['id'] = $softParams['contact_id'];
                 unset($softParams['contact_id']);
             }
-            $softParams['contact_type'] = $this->_contactType;
-            $formatted['soft_credit_to'] = $this->getSoftCredit($softParams);
-            $noSoftCredit = true;
+            $softParams['contact_type']  = $this->_contactType;
+            $formatted['soft_credit_to'] = $noSoftCredit = $this->getSoftCredit($softParams);
         }
-      
+
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -514,7 +513,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             
             $this->_newContributions[] = $newContribution['id'];
-            if ( $noSoftCredit ) {
+            if ( $noSoftCredit === false ) {
                 array_unshift($values, "No match found for specified Soft Credit contact data. Row was skipped.");
                 return CRM_Contribute_Import_Parser::NO_MATCH;
             }
