@@ -254,7 +254,7 @@ WHERE pcp.id = %1 AND cc.contribution_status_id =1 AND cc.is_test = 0";
                                                                                 'qs'    => 'action=update&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Configure')
                                                                                 ),
-                                             CRM_Core_Action::BROWSE => array ( 'name'  => ts('Edit Contact Info'),
+                                             CRM_Core_Action::BROWSE => array ( 'name'  => ts('Update Contact Information'),
                                                                                 'url'   => 'civicrm/contribute/pcp/info',
                                                                                 'qs'    => 'action=browse&reset=1&id=%%pcpId%%',
                                                                                 'title' => ts('Update Contact Information')

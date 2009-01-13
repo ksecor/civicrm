@@ -231,6 +231,12 @@ class CRM_Contribute_Form_PCP_PCPAccount extends CRM_Core_Form
         $this->set('contactID', $contactID);
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
         CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID, 'email' );
+        if ( $this->_single ) {
+            $session =& CRM_Core_Session::singleton( );
+            CRM_Core_Session::setStatus( ts( "Your Conact Information has been updated.") );
+            $url = CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$this->_id );
+            $session->pushUserContext( $url );
+        }
     }
 }
 ?>

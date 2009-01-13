@@ -74,7 +74,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
             $defaults['is_active'] = 1;
         }
      
-        $this->_contactID = $defaults['contact_id'];
+        $this->_contactID    = $defaults['contact_id'];
         $this->_contriPageId = $defaults['contribution_page_id'];
         return $defaults;
     }
@@ -159,10 +159,10 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                 $params[$key] = 0;
             }
         }
-        
         $session =& CRM_Core_Session::singleton( );
-        $params['contact_id']           = isset( $this->_contactID ) ? $this->_contactID : $session->get('userID');
-        
+        $contactID = isset( $this->_contactID ) ? $this->_contactID : $session->get('userID');
+        $conatctID = isset( $contactID ) ? $contactID : $this->get('contactID');
+        $params['contact_id']           = $contactID;
         $params['contribution_page_id'] = $this->get('contribution_page_id') ? $this->get('contribution_page_id') : $this->_contriPageId;
         
         $approval_needed = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCPBlock', 
@@ -170,7 +170,7 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
 
         if ( $this->get('action') & CRM_Core_Action::ADD ) {
             $params['status_id'] = $approval_needed ? 1 : 2;
-            $approvalMessage     = $approval_needed ? ts ('but requires Admin Approval') : ts('and Ready to Use');
+            $approvalMessage     = $approval_needed ? ts('but requires Admin Approval') : ts('and Ready to Use');
         }
         
         $params['id'] = $this->_pageId;
@@ -184,23 +184,14 @@ class CRM_Contribute_Form_PCP_Campaign extends CRM_Core_Form
                                              'civicrm_pcp',
                                              $pcp->id );
 
-
-        CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
-        CRM_Core_Session::setStatus( ts( 'Your Personal Contribution Page has been updated %1.', array(1 => $approvalMessage)) );
+        $pageStatus = isset( $this->_pageId ) ? 'updated' : 'created';
         $statusId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PCP', $pcp->id, 'status_id' );
-        
-        if ( $session->get('userID') ) {
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/user', 'reset=1') );
-        } else {
-            $config =& CRM_Core_Config::singleton( );
-            if ( $statusId != 2 ) {
-                $url = CRM_Utils_System::url( 'civicrm/contribute/transact', 
-                                              'id='. $params['contribution_page_id'] .'&pcpId='. $params['id'] .'&reset=1' );
-            } else {
-                $url = CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id );
-            }
-            $session->pushUserContext( $url );
-        }
+        CRM_Core_BAO_File::processAttachment( $params, 'civicrm_pcp', $pcp->id );
+        CRM_Core_Session::setStatus( ts( "Your Personal Contribution Page has been %1 %2.", array(1 => $pageStatus, 2 => $approvalMessage)) );
+        if ( ! $this->_pageId ) {
+            $url = CRM_Utils_System::url( 'civicrm/contribute/pcp/info', 'reset=1&id='.$pcp->id );
+        } 
+        $session->pushUserContext( $url );
     }
 }
 

@@ -113,6 +113,7 @@ class CRM_Contribute_Page_PCPInfo extends CRM_Core_Page
             unset($link['all'][CRM_Core_Action::ENABLE]);
             $hints = array(
                            CRM_Core_Action::UPDATE  => ts('Allows you to change the contents and appearance of your page as well as your personal information'),
+                           CRM_Core_Action::BROWSE  => ts('Allows you to update your contact information'),
                            CRM_Core_Action::DETACH  => ts('Inform your friends about your Personal Campaign!'),
                            CRM_Core_Action::DISABLE => ts('De-activates the page'),
                            CRM_Core_Action::DELETE  => ts('Removes the page (this cannot be undone!)'),
