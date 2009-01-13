@@ -31,6 +31,10 @@
 
 			<dt>{$form.link_text.label}</dt><dd>{$form.link_text.html|crmReplace:class:huge}</dd>
 			<dt>&nbsp;</dt><dd class="description">{ts}Text of the link inviting constituents to create a Personal Contribution Page. This link will appear on the Contribution Thank-you page as well as on each Personal Campaign Page.{/ts}</dd>
+           
+           	<dt>{$form.notify_email.label}</dt><dd>{$form.notify_email.html}</dd>
+			<dt>&nbsp;</dt><dd class="description">{ts}Notification will be sent to this email address whenever a Personal Campaign Page linked to this contribution page is either created or updated.{/ts}</dd>   
+
 		</dl>
 	</div>
 	<div class="spacer"></div>

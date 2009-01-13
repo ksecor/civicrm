@@ -79,4 +79,12 @@
       <default>1</default>
       <add>2.2</add>  
   </field>
+  <field>  
+      <name>notify_email</name>  
+      <type>varchar</type>
+      <length>255</length>            
+      <comment>If set, notification is automatically emailed to this email-address on create/update Personal Campaign Page</comment>
+      <default>NULL</default>
+      <add>2.2</add>  
+  </field>
 </table>

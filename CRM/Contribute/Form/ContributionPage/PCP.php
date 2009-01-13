@@ -70,6 +70,10 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
             $defaults['is_tellfriend_enabled'] = 1;
             $defaults['tellfriend_limit']      = 5;
             $defaults['link_text']             = ts('Create your own fundraising page');
+            
+            if ( $ccReceipt = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'cc_receipt' ) ) {
+                $defaults['notify_email']  = $ccReceipt;
+            }
         } 
         return $defaults;
     }
@@ -108,8 +112,10 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
         $this->add( 'text', 
                     'link_text', 
                     ts("'Create Personal Campaign Page' link text"), 
-                    CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage' , 'pcp_link_text') );
+                    CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PCPBlock' , 'pcp_link_text') );
         
+        $this->add('text', 'notify_email', ts('Notify Email'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PCPBlock', 'notify_email') );
+       
         parent::buildQuickForm( );
         $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_PCP', 'formRule') , $this );
     }
@@ -139,7 +145,13 @@ class CRM_Contribute_Form_ContributionPage_PCP extends CRM_Contribute_Form_Contr
                 if ( CRM_Contribute_BAO_PCP::checkEmailProfile( $params['supporter_profile_id'] ) ){
                     $errors['supporter_profile_id'] = ts('Profile is not configured with Email address.');
                 }
-            } 
+            }
+            
+            if ( $email = CRM_Utils_Array::value( 'notify_email', $params ) ) {
+                if ( !CRM_Utils_Rule::email($email) ) {
+                    $errors['notify_email'] = ts( 'A valid Notify Email address must be specified' );
+                }    
+            }
         }
         return empty($errors) ? true : $errors;
     }
