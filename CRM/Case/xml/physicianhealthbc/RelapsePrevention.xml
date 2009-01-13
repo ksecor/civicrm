@@ -110,5 +110,8 @@
     <RelationshipType>
         <name>Case Coordinator</name>
     </RelationshipType>
+    <RelationshipType>
+        <name>Community Mentor</name>
+    </RelationshipType>
   </CaseRoles>
 </CaseType>
